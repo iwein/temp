@@ -3,6 +3,14 @@ winascotty
 
 
 
+Deployment to Demo Environment
+-----------------------------------
+
+
+	git push heroku master
+	heroku run scotty/scripts/initializedb.py configs/production.ini
+
+
 
 Setup local development environment on windows:
 -------------------------------------------------
