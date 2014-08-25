@@ -46,7 +46,5 @@ setup(name='scotty',
       entry_points="""\
       [paste.app_factory]
       main = scotty:main
-      [console_scripts]
-      initialize_scotty_db = scotty.scripts.initializedb:main
       """,
       )

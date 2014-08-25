@@ -1,6 +1,6 @@
-gunicorn==19.1.1
 PasteDeploy==1.5.2
 WebOb==1.4
+alembic==0.6.6
 chameleon==2.16
 mako==1.0.0
 markupsafe==0.23
@@ -15,6 +15,7 @@ pyramid-mako==1.0.2
 pyramid-tm==0.7
 repoze.lru==0.6
 requests==2.3.0
+-e git+git@github.com:HarryMcCarney/winascotty.git@bb14b3cb823c57fec86c16b5453b1a66d534e9a6#egg=scotty-master
 sqlalchemy==0.9.7
 static3==0.5.1
 tempita==0.5.3dev
