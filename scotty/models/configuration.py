@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Index, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Index, UniqueConstraint, Numeric, func
 from scotty.models.meta import Base
+from sqlalchemy.orm import relationship
 
 
 class Title(Base):
@@ -58,14 +59,20 @@ class JobTitle(Base):
 
 class Country(Base):
     __tablename__ = 'country'
-    id = Column(Integer, primary_key=True)
-    iso = Column(String(2), nullable=False, unique=True)
+    iso = Column(String(2), primary_key=True)
     name = Column(String(128), nullable=False, unique=True)
+    cities = relationship("City", backref="country")
 
 
 class City(Base):
     __tablename__ = 'city'
-    __table_args__ = (UniqueConstraint("country_id", "name"), )
+    __table_args__ = (UniqueConstraint("country_iso", "name"), )
     id = Column(Integer, primary_key=True)
-    country_id = Column(Integer, ForeignKey(Country.id), nullable=False)
+    country_iso = Column(String(2), ForeignKey(Country.iso), nullable=False)
     name = Column(String(255), nullable=False)
+    longitude = Column(Numeric)
+    latitude = Column(Numeric)
+
+
+Index('city_names_lower', func.lower(City.name))
+Index('country_names_lower', func.lower(Country.name))
