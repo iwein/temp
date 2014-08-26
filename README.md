@@ -3,8 +3,8 @@ winascotty
 
 
 
-Deployment to Demo Environment
------------------------------------
+###Deployment to Demo Environment
+
 
 
 	git push heroku master
@@ -12,10 +12,9 @@ Deployment to Demo Environment
 
 
 
-Setup local development environment on windows:
--------------------------------------------------
+###Setup local development environment on windows:
 
 
-__install psycopg2__
+####Install psycopg2
 See:
 http://stackoverflow.com/questions/3030984/installing-psycopg2-postgresql-in-virtualenv-on-windows
