@@ -1,6 +1,7 @@
 from datetime import datetime, date
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
+from scotty.models import json_encoder
 from sqlalchemy import engine_from_config
 
 import logging
@@ -8,7 +9,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-from .models import (DBSession, Base, json_encoder)
+from scotty.models.meta import (DBSession, Base)
 
 
 def format_date(val, request):
