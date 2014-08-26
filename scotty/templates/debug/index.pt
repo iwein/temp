@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="${request.locale_name}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="web application">
+  <meta name="author" content="HackandCraft">
+  <link rel="shortcut icon" href="${request.static_url('scotty:static/pyramid-16x16.png')}">
+  <title>Scotty</title>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1 class="text-center"><a href="/debug">Scotty</a></h1>
+    </div>
+    <div class="col-sm-6" style="margin-top:30px;">
+      <b>Debug Pages:</b> <a href="/debug/config">Configs</a> | <a href="/debug/candidate">Candidate</a> | <a href="/debug/employer">Employer</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <hr/>
+      <div metal:define-slot="content"></div>
+    </div>
+  </div>
+</div>
+<script src="//cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>
