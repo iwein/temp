@@ -26,6 +26,10 @@ def notfound(request):
 
 def includeme(config):
     config.add_route('home', '/')
+
     config.include("scotty.views.debug", route_prefix='/debug')
+    config.include("scotty.views.api", route_prefix='/api/v1')
+
+
     config.add_notfound_view(notfound, append_slash=True)
     config.scan()

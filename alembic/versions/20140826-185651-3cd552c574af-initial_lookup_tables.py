@@ -22,7 +22,7 @@ def bulk_insert_names(tablename, fname):
     file_location = os.path.normpath(os.path.join(base, '..', 'lookups', fname))
     with open(file_location, 'r') as names:
         t = table(tablename, column("name", sa.String))
-        op.bulk_insert(t, [{"name": name} for name in names])
+        op.bulk_insert(t, [{"name": name.strip()} for name in names])
 
 
 def upgrade():

@@ -20,28 +20,28 @@ class SkillLevel(Base):
     name = Column(String(20), nullable=False, unique=True)
 
 
-class Skill(Base):
-    __tablename__ = 'skill'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
-
-
 class Proficiency(Base):
     __tablename__ = 'proficiency'
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False, unique=True)
 
 
-class Language(Base):
-    __tablename__ = 'language'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128), nullable=False, unique=True)
-
-
 class EducationDegree(Base):
     __tablename__ = 'education_degree'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
+
+
+class Skill(Base):
+    __tablename__ = 'skill'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+
+
+class Language(Base):
+    __tablename__ = 'language'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128), nullable=False, unique=True)
 
 
 class Role(Base):
