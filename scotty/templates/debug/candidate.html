@@ -1,0 +1,17 @@
+<%inherit file="layout.html"/>
+
+
+<%def name="title()">Candidate</%def>
+<%def name="tests()">
+  <script>
+    var tests = [
+      {'url':'/api/v1/candidates/', 'title': 'create-candidate',
+        data: {first_name: 'Bob', last_name: "Bayley", "email": guid()+"@hackandcraft.com", pwd:"welcomepwd"},
+        extract:   function(r, extr){return {candidateId: r.id}}},
+      {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId},
+        'title': 'delete-candidate', method:"DELETE"}
+    ];
+
+    $(function(){getTestRunner(tests)(0, {});})
+  </script>
+</%def>

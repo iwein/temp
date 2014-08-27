@@ -19,7 +19,7 @@ requires = [
     'static3',
     'wsgiref',
     'requests',
-    'paste', 'pastescript', 'pastedeploy'
+    'paste', 'pastescript', 'pastedeploy', 'simplejson'
     ]
 
 setup(name='scotty',

@@ -16,7 +16,7 @@ class DebugController(RootController):
     def debug_employer(self):
         return {}
 
-    @view_config(route_name='debug_candidate', renderer='scotty:templates/debug/candidate.pt')
+    @view_config(route_name='debug_candidate', renderer='scotty:templates/debug/candidate.html')
     def debug_candidate(self):
         return {}
 

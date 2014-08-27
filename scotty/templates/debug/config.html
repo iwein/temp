@@ -1,203 +1,31 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title></title>
-    <style>
-      .nav {
-        position:static;
-        top:0;
-        left:0;
-        width:100%;
-        min-height:30px;
-        background-color:#f3f3f3;
-        border-bottom: 1px solid #eee;
-        margin:0;
-        padding:0 0 0 30px;
-      }
-      .nav > li span {
-        width:30%;
-        min-width: 300px;
-        display: inline-block;
-        vertical-align: top;
-      }
-      .nav > li > a {
-        padding:0 20px;
-        line-height:24px;
-        display: block;
-        color:black;
-        text-decoration: none;
-      }
-      .nav > li:nth-child(2n+1) {
-        background-color: rgba(255,255,255,.8);
-      }
-      .nav > li:hover {
-        background-color: rgba(0,0,0,.2);
-      }
-
-      .nav > li.loaded span {
-        font-weight:900;
-        text-transform: uppercase;
-      }
-      .nav > li.error {
-        color:white;
-        background-color: red;
-      }
-      .heading {
-        text-align:center;
-        border-bottom:1px solid gray;
-        clear:both;
-        margin-top: 60px;
-      }
-      #results a:nth-child(2) {
-        float:right;
-      }
-      iframe {
-        border:none;
-        width:100%;
-        height: 1200px;
-      }
-    </style>
-  </head>
-  <body>
-<!DOCTYPE html>
-<html>
-  <head>
-    <title></title>
-    <style>
-      .nav {
-        position:static;
-        top:0;
-        left:0;
-        width:100%;
-        min-height:30px;
-        background-color:#f3f3f3;
-        border-bottom: 1px solid #eee;
-        margin:0;
-        padding:0 0 0 30px;
-      }
-      .nav > li span {
-        width:30%;
-        min-width: 300px;
-        display: inline-block;
-        vertical-align: top;
-      }
-      .nav > li > a {
-        padding:0 20px;
-        line-height:24px;
-        display: block;
-        color:black;
-        text-decoration: none;
-      }
-      .nav > li:nth-child(2n+1) {
-        background-color: rgba(255,255,255,.8);
-      }
-      .nav > li:hover {
-        background-color: rgba(0,0,0,.2);
-      }
-
-      .nav > li.loaded span {
-        font-weight:900;
-        text-transform: uppercase;
-      }
-      .nav > li.error {
-        color:white;
-        background-color: red;
-      }
-      .heading {
-        text-align:center;
-        border-bottom:1px solid gray;
-        clear:both;
-        margin-top: 60px;
-      }
-      #results a:nth-child(2) {
-        float:right;
-      }
-      iframe {
-        border:none;
-        width:100%;
-        height: 1200px;
-      }
-    </style>
-  </head>
-  <body>
-    <ol class="nav" id="nav"></ol>
-    <div id="results"></div>
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script>
-      $(function(){
-
-        var data = [
-          {title:'Config Endpoints'},
-          {'url':'/api/v1/config/titles', 'elId': 'titles'},
-          {'url':'/api/v1/config/company_types', 'elId': 'company_types'},
-          {'url':'/api/v1/config/skill_levels', 'elId': 'skill_levels'},
-          {'url':'/api/v1/config/proficiencies', 'elId': 'proficiencies'},
-          {'url':'/api/v1/config/education_degrees', 'elId': 'education_degrees'},
-          {'url':'/api/v1/config/languages', 'elId': 'languages'},
-          {'url':'/api/v1/config/languages?q=an', 'elId': 'language-search'},
-          {'url':'/api/v1/config/skills', 'elId': 'skills'},
-          {'url':'/api/v1/config/skills?q=en', 'elId': 'skills-search'},
-          {'url':'/api/v1/config/roles', 'elId': 'roles'},
-          {'url':'/api/v1/config/roles?q=an', 'elId': 'roles-search'},
-          {'url':'/api/v1/config/job_titles', 'elId': 'job_titles'},
-          {'url':'/api/v1/config/job_titles?q=an', 'elId': 'job_titles-search'},
-          {'url':'/api/v1/config/locations', 'elId': 'locations-list'},
-          {'url':'/api/v1/config/locations?q=Berl', 'elId': 'locations-search'}
-        ];
+<%inherit file="layout.html"/>
 
 
-        data.forEach(function(p){
-          if(p.title){
-            $("#nav").append('<h3>'+ p.title+'</h3>');
-          } else {
-            p.$el = $('<div id="'+p.elId+'"><h1 class="heading">'+p.elId+'</h1><a href="#">to top</a><div class="result"></div></div>');
-            $("#results").append(p.$el);
-            p.$link = $('<li><a href="#'+ p.elId+'"><span>'+ p.elId +'</span>('+ p.url +')</a></li>');
-            $("#nav").append(p.$link);
-            p.$el.append('<a href="'+p.url+'">'+p.url+'</a>');
+<%def name="title()">Config</%def>
+<%def name="tests()">
+  <script>
+    var tests = [
+      {'url':'/api/v1/config/titles', 'title': 'titles'},
+      {'url':'/api/v1/config/company_types', 'title': 'company_types'},
+      {'url':'/api/v1/config/skill_levels', 'title': 'skill_levels'},
+      {'url':'/api/v1/config/proficiencies', 'title': 'proficiencies'},
+      {'url':'/api/v1/config/traffic_sources', 'title': 'traffic_sources'},
+      {'url':'/api/v1/config/education_degrees', 'title': 'education_degrees'},
+      {'url':'/api/v1/config/languages', 'title': 'languages'},
+      {'url':'/api/v1/config/languages?q=an', 'title': 'language-search'},
+      {'url':'/api/v1/config/skills', 'title': 'skills'},
+      {'url':'/api/v1/config/skills?q=en', 'title': 'skills-search'},
+      {'url':'/api/v1/config/roles', 'title': 'roles'},
+      {'url':'/api/v1/config/roles?q=an', 'title': 'roles-search'},
+      {'url':'/api/v1/config/job_titles', 'title': 'job_titles'},
+      {'url':'/api/v1/config/job_titles?q=an', 'title': 'job_titles-search'},
+      {'url':'/api/v1/config/countries?limit=5', 'title': 'countries-list'},
+      {'url':'/api/v1/config/countries?q=ger&limit=5', 'title': 'countries-search'},
 
-            $.ajax({
-              url: p.url,
-              method: (p.post? 'POST': 'GET'),
-              data: p.post,
-              type: 'json'
-            }).done(function(resp) {
-              if(!resp.data)return;
-              $("<pre></pre>").appendTo(p.$el).text(JSON.stringify(resp, undefined, 2));
-              p.$link.addClass('loaded');
-              }).fail(function(resp, status, msg) {
-              var fullContent = resp.responseText.replace(/\n/g, '').replace(/\>\s+\</g, '><');
-              var head = (fullContent.match(/\<head[^\>]*\>(.*)\<\/head\>/) || ['',''])[1];
-              var body = (fullContent.match(/\<body[^\>]*\>(.*)\<\/body\>/) || ['',''])[1];
-              var _bodyAttr = (fullContent.match(/\<body([^\>]*)\>/) || ['',''])[1];
-              var bodyAttr = {};
-              var iframe = $("<iframe>");
+      {'url':'/api/v1/config/locations?limit=5', 'title': 'locations-list'},
+      {'url':'/api/v1/config/locations?q=Berl&limit=5', 'title': 'locations-search'}
+    ];
 
-              p.$link.addClass('error');
-
-              // debug mode is not turned on
-              if (body === '') {
-                $('<h3></h3>').appendTo(p.$el).text(status + ": " + msg);
-                $("<pre></pre>").appendTo(p.$el).text(resp.responseText);
-                return
-              }
-
-              $(_bodyAttr.split(' ')).each(function(counter, x) {
-                if (x === "") return;
-                var part = x.split('=');
-                var key = part[0];
-                var value = part[1];
-                bodyAttr[key] = value.slice(1, value.length-1);
-              });
-
-              $('<h3></h3>').appendTo(p.$el).text(status + ": " + msg);
-              p.$el.append(iframe);
-              iframe.contents().find('head').html(head);
-              iframe.contents().find('body').attr(bodyAttr).html(body);
-            });
-          }
-        });
-      });
-    </script>
-  </body>
-</html>
+    $(function(){getTestRunner(tests)(0, {});})
+  </script>
+</%def>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+      ${self.title()}
+  </title>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <style>
+    .nav {
+      position:static;
+      top:0;
+      left:0;
+      width:100%;
+      min-height:30px;
+      background-color:#f3f3f3;
+      border-bottom: 1px solid #eee;
+      margin:0;
+      padding: 10px 0 0 0;
+    }
+    .nav > li span {
+      width:30%;
+      min-width: 300px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .nav > li > a {
+      padding:0 20px;
+      line-height:24px;
+      display: block;
+      color:black;
+      text-decoration: none;
+    }
+    .nav > li:nth-child(2n+1) {
+      background-color: rgba(255,255,255,.8);
+    }
+    .nav > li:hover {
+      background-color: rgba(0,0,0,.2);
+    }
+
+    .nav > li.loaded span {
+      font-weight:900;
+      text-transform: uppercase;
+    }
+    .nav > li.error {
+      color:white;
+      background-color: red;
+    }
+    .heading {
+      text-align:center;
+      border-bottom:1px solid gray;
+      clear:both;
+      margin-top: 60px;
+    }
+    #results a:nth-child(2) {
+      float:right;
+    }
+    iframe {
+      border:none;
+      width:100%;
+      height: 1200px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>${self.title()}</h1>
+  <ol class="nav" id="nav"></ol>
+  <div id="results"></div>
+</div>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script>
+
+  var guid = (function() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+                 .toString(16)
+                 .substring(1);
+    }
+    return function() {
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+             s4() + '-' + s4() + s4() + s4();
+    };
+  })();
+
+  var getTestRunner = function(testExecutionList) {
+    var runTests = function (idx, extracted, resp) {
+      var conf = testExecutionList[idx];
+      if (!conf){
+        $("#nav").append('<h3 style="color:green">DONE</h3>');
+        return;
+      }
+
+      if(!conf.url){
+        $("#nav").append('<h3>'+ conf.title+'</h3>');
+      } else {
+
+        var root = $('#results'),
+                url = $.isFunction(conf.url) ? conf.url(resp, extracted) : conf.url;
+
+        conf.elId = conf.title?conf.title.replace(/ /g, '_'):Math.ceil(Math.random()*10000000);
+        conf.$link = $('<li><a href="#'+ conf.elId+'"><span>'+ conf.elId +'</span>('+ url +')</a></li>');
+        $("#nav").append(conf.$link);
+
+        root.append('<hr/>').append('<h2 id="'+conf.elId+'"> ' + (idx + 1) + ') ' + conf.title + '</h2>');
+
+
+        if (conf.execute) {
+          conf.execute(root, extracted);
+          runTests(idx + 1, extracted, resp);
+        } else {
+          var cb = function (post_data) {
+                    return function (resp) {
+                      conf.$link.addClass('loaded');
+                      if (post_data != null)
+                        root.append('<div>' + (conf.method || 'POST') + '</b>&nbsp;<code>' + JSON.stringify(post_data) + '</code></div>');
+                      root.append('<a href="' + url + '">' + url + '</a>');
+                      if (conf.appendResult) {
+                        conf.appendResult(root, resp);
+                      } else {
+                        root.append('<pre>' + JSON.stringify(resp, undefined, 2) + '</pre>');
+                      }
+                      if (conf.extract) {
+                        runTests(idx + 1, $.extend(extracted, conf.extract(resp)), resp);
+                      } else {
+                        runTests(idx + 1, extracted, resp);
+                      }
+                    }
+                  },
+                  error = function(resp, status, msg) {
+                    conf.$link.addClass('error');
+                  };
+          if (!conf.data) {
+            $.ajax({
+              url: url,
+              method: conf.method || 'GET',
+              dataType: "json"
+            }).done(cb()).fail(error);
+          } else {
+            var params = $.isFunction(conf.data) ? conf.data(resp, extracted) : conf.data;
+            $.ajax({
+              url: url,
+              data: JSON.stringify(params),
+              method: conf.method || 'POST',
+              contentType: "application/json; charset=utf-8",
+              dataType: "json"
+            }).done(cb(params)).fail(error);
+          }
+        }
+      }
+    };
+    return runTests;
+  };
+</script>
+${self.tests()}
+
+</body>
+</html>
