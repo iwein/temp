@@ -1,6 +1,7 @@
 from uuid import uuid4
 
-from scotty.models.configuration import Title, Country, City, TrafficSource
+from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel
+
 from scotty.models.tools import json_encoder
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean
 from scotty.models.meta import Base, NamedModel, GUID
@@ -11,6 +12,22 @@ class CandidateStatus(Base, NamedModel):
     __tablename__ = 'candidate_status'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
+
+
+
+class CandidateSkill(Base):
+    __tablename__ = 'candidate_skill'
+    id = Column(Integer, primary_key=True)
+    candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
+
+    skill_id = Column(Integer, ForeignKey(Skill.id), nullable=False)
+    skill = relationship(Skill)
+
+    skill_level_id = Column(Integer, ForeignKey(SkillLevel.id), nullable=False)
+    level = relationship(SkillLevel)
+
+    def __json__(self, request):
+        return {'name': self.skill, "level": self.level, "id": self.id}
 
 
 class Candidate(Base):
@@ -50,7 +67,12 @@ class Candidate(Base):
 
     willing_to_travel = Column(Boolean)
 
+
+    skills = relationship(CandidateSkill, backref="candidate",
+                          cascade="all, delete, delete-orphan")
+
     def __json__(self, request):
         result = json_encoder(self, request)
         result['status'] = self.status
+        result['skills'] = self.skills
         return result

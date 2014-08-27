@@ -10,14 +10,25 @@
                 data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd"},
                 extract:   function(r, extr){return {candidateId: r.id}}},
 
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-get'},
-
               {'url': function(r, extr){return '/api/v1/candidates/login'}, 'title': 'candidate-login',
                 data: {"email": email, pwd:"welcomepwd"}
               },
 
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId},
-                'title': 'candidate-delete', method:"DELETE"}
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-get'},
+
+
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-list-skills'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-create-skill',
+                data: {"name": "PHP", "level":"advanced"},
+                extract:   function(r, extr){return {skillId: r.id}}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-create-skill-2',
+                data: {"name": "Apache httpd", "level":"expert"}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-list-skills-2'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills/'+extr.skillId}, 'title': 'candidate-delete-skill', method:"DELETE"},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-list-skills-3'},
+
+
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-delete', method:"DELETE"}
             ];
 
     $(function(){getTestRunner(tests)(0, {});})

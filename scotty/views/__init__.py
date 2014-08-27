@@ -20,8 +20,8 @@ def home(request):
     return {}
 
 
-def notfound(request):
-    return HTTPNotFound('Really.')
+def notfound(exc, request):
+    return HTTPNotFound(exc.message)
 
 
 def includeme(config):
