@@ -63,6 +63,18 @@ class JobTitle(Base, NamedModel):
     name = Column(String(255), nullable=False, unique=True)
 
 
+class Institution(Base, NamedModel):
+    __tablename__ = 'institution'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False, unique=True)
+
+
+class Company(Base, NamedModel):
+    __tablename__ = 'company'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False, unique=True)
+
+
 class Country(Base):
     __tablename__ = 'country'
     iso = Column(String(2), primary_key=True)
@@ -83,9 +95,4 @@ class City(Base):
     latitude = Column(Numeric)
 
     def __json__(self, request):
-        return {'name': self.name, 'country': self.country}
-
-
-# Had to be done on sql level
-#Index('city_names_lower', func.lower(City.name))
-#Index('country_names_lower', func.lower(Country.name))
+        return {'city': self.name, 'country_iso': self.country_iso}

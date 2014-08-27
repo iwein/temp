@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Title, CompanyType, SkillLevel, Proficiency, EducationDegree, Language, Skill, JobTitle, \
-    Country, City, TrafficSource
+    Country, City, TrafficSource, Institution, Company
 from scotty.views import RootController
 from sqlalchemy import or_, func
 from sqlalchemy.orm import joinedload
@@ -63,6 +63,14 @@ class ConfigurationController(RootController):
     def roles(self):
         return listing_request(self.request, JobTitle, self.request.params.get("q"))
 
+    @view_config(route_name='configuration_list_institutions')
+    def institutions(self):
+        return listing_request(self.request, Institution, self.request.params.get("q"))
+
+    @view_config(route_name='configuration_list_companies')
+    def companies(self):
+        return listing_request(self.request, Company, self.request.params.get("q"))
+
     @view_config(route_name='configuration_list_countries')
     def countries(self):
         return listing_request(self.request, Country, self.request.params.get("q"))
@@ -90,5 +98,7 @@ def includeme(config):
     config.add_route('configuration_list_skills', 'skills')
     config.add_route('configuration_list_job_titles', 'job_titles')
     config.add_route('configuration_list_roles', 'roles')
+    config.add_route('configuration_list_institutions', 'institutions')
+    config.add_route('configuration_list_companies', 'companies')
     config.add_route('configuration_list_countries', 'countries')
     config.add_route('configuration_list_locations', 'locations')

@@ -16,18 +16,45 @@
 
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-get'},
 
-
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-list-skills'},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-create-skill',
+              {'title': 'Skills'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'list-skills'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'create-skill',
                 data: {"name": "PHP", "level":"advanced"},
                 extract:   function(r, extr){return {skillId: r.id}}},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-create-skill-2',
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'create-skill-2',
                 data: {"name": "Apache httpd", "level":"expert"}},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-list-skills-2'},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills/'+extr.skillId}, 'title': 'candidate-delete-skill', method:"DELETE"},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'candidate-list-skills-3'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'list-skills-2'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills/'+extr.skillId}, 'title': 'delete-skill', method:"DELETE"},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'list-skills-3'},
+
+              {'title': 'Education'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'create-education',
+                data: {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland", "degree":"Bachelor",
+                  "start":"1999-01-01", "end": "2002-03-31", course:"Design of Intelligent Protoplasma"},
+                extract:   function(r, extr){return {educationId: r.id}}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'create-education-2',
+                data: {"institution": "Peking University, China", "degree":"Master",
+                  "start":"2005-01-01", "end": "2006-02-28", course:"Cleanup of Intelligent Protoplasma"}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education-2'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education/'+extr.educationId}, 'title': 'delete-education', method:"DELETE"},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education-3'},
+
+              {'title': 'Work Experience'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'create-work_experience',
+                data: {"company": "Intel Corp.", "roles":["Project Architect", "Java Developer"], 'job_titles': ['Dev Lead', "Junior Designer"],
+                  location: {"city": "Überlingen", country_iso: 'DE'}, "start":"2004-01-01", "end": "2004-03-31", summary:"Design of Intelligent Protoplasma"},
+                extract:   function(r, extr){return {work_experienceId: r.id}}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'create-work_experience-2',
+                data: {"company": "Intel Corp.", "roles":[], 'job_titles': ['Dev Lead'],
+                  location: {"city": "Berlin", country_iso: 'DE'}, "start":"2004-04-01", "end": "2004-05-01", summary:"Design of Intelligent Protoplasma"}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience-2'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience/'+extr.work_experienceId}, 'title': 'delete-work_experience', method:"DELETE"},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience-3'},
 
 
+              {'title': 'Cleanup'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-delete', method:"DELETE"}
             ];
 
