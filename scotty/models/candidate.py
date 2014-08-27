@@ -17,7 +17,7 @@ class Candidate(Base):
     __tablename__ = 'candidate'
     id = Column(GUID, primary_key=True, default=uuid4)
     email = Column(String(512), nullable=False, unique=True)
-    password = Column(String(128), nullable=False)
+    pwd = Column(String(128), nullable=False)
 
     first_name = Column(String(512), nullable=False)
     last_name = Column(String(512), nullable=False)
@@ -52,5 +52,5 @@ class Candidate(Base):
 
     def __json__(self, request):
         result = json_encoder(self, request)
-        result['status'] = self.status.name
+        result['status'] = self.status
         return result
