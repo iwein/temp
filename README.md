@@ -4,7 +4,7 @@ winascotty
 
 
 ###Deployment to Demo Environment
-
+Demo Environment is at [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
 
 
 	git push heroku master
