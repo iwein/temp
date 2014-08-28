@@ -4,15 +4,24 @@ from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Candidate, CandidateSkill, CandidateEducation, WorkExperience
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_skill, \
-    add_candidate_education, add_candidate_work_experience
+    add_candidate_education, add_candidate_work_experience, add_candidate_target_position
 from scotty.views import RootController
 from sqlalchemy.orm import joinedload_all, joinedload
 
+PUT = dict(request_method="PUT", content_type='application/json', renderer="json")
 POST = dict(request_method="POST", content_type='application/json', renderer="json")
 DELETE = dict(request_method="DELETE", renderer="json")
 GET = dict(request_method="GET", renderer="json")
 
 class CandidateController(RootController):
+
+    @reify
+    def candidate(self):
+        id = self.request.matchdict["id"]
+        candidate = DBSession.query(Candidate).get(id)
+        if not candidate:
+            raise HTTPNotFound("Unknown Candidate ID")
+        return candidate
 
     @view_config(route_name='candidates', **POST)
     def create(self):
@@ -30,20 +39,17 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate', **GET)
     def get(self):
-        id = self.request.matchdict["id"]
-        candidate = DBSession.query(Candidate).get(id)
-        if not candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
-        return candidate
+        return self.candidate
 
     @view_config(route_name='candidate', **DELETE)
     def delete(self):
-        id = self.request.matchdict["id"]
-        candidate = DBSession.query(Candidate).get(id)
-        if not candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
-        DBSession.delete(candidate)
+        DBSession.delete(self.candidate)
         return {"status": "success"}
+
+    def set_languages(self):
+        self.candidate.languages = []
+        return self.candidate
+
 
 
 class CandidateSkillsController(RootController):
@@ -132,6 +138,36 @@ class CandidateWorkExperienceController(RootController):
         return {"status": "success"}
 
 
+class CandidateTargetPositionController(RootController):
+
+    def __init__(self, request):
+        candidate_id = request.matchdict["candidate_id"]
+        self.candidate = DBSession.query(Candidate).options(joinedload("target_positions").joinedload("roles"),
+                                                            joinedload("target_positions").joinedload("skills"),
+                                                            joinedload("target_positions").joinedload("company"),
+                                                            joinedload("target_positions").joinedload("level")).get(candidate_id)
+        if not self.candidate:
+            raise HTTPNotFound("Unknown Candidate ID")
+        super(CandidateTargetPositionController, self).__init__(request)
+
+    @view_config(route_name='candidate_target_positions', **GET)
+    def list(self):
+        return self.candidate.target_positions
+
+    @view_config(route_name='candidate_target_positions', **POST)
+    def create(self):
+        return add_candidate_target_position(self.candidate, self.request.json)
+
+    @view_config(route_name='candidate_target_position', **DELETE)
+    def delete(self):
+        id = self.request.matchdict["id"]
+        we = DBSession.query(WorkExperience).get(id)
+        if not we:
+            raise HTTPNotFound("Unknown WorkExperience ID.")
+        DBSession.delete(we)
+        return {"status": "success"}
+
+
 
 def includeme(config):
     config.add_route('candidates', '')
@@ -146,3 +182,6 @@ def includeme(config):
 
     config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
+
+    config.add_route('candidate_target_positions', '{candidate_id}/target_positions')
+    config.add_route('candidate_target_position', '{candidate_id}/target_positions/{id}')

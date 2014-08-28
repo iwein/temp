@@ -2,9 +2,22 @@ import hashlib
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, EducationDegree, Institution, \
-    CandidateEducation, Company, JobTitle, WorkExperience, Role, City
+    CandidateEducation, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType
 
 __author__ = 'Martin'
+def get_by_name_or_raise(cls, name):
+    obj = DBSession.query(cls).filter(cls.name == name).first()
+    if not obj:
+        raise HTTPBadRequest("Unknown %s" % cls.__name__)
+    return obj
+
+
+def get_by_name_or_create(cls, name):
+    obj = DBSession.query(cls).filter(cls.name == name).first()
+    if not obj:
+        obj = cls(name=name)
+        DBSession.add(obj)
+    return obj
 
 
 def candidate_from_signup(params):
@@ -26,15 +39,8 @@ def candidate_from_login(params):
 def add_candidate_skill(candidate, params):
 
     level_name = params['level']
-    level = DBSession.query(SkillLevel).filter(SkillLevel.name == level_name).first()
-    if not level:
-        raise HTTPBadRequest("Unknown Skill Level")
-
-    skill_name = params['name']
-    skill = DBSession.query(Skill).filter(Skill.name == skill_name).first()
-    if not skill:
-        skill = Skill(name=skill_name)
-        DBSession.add(skill)
+    level = get_by_name_or_raise(SkillLevel, level_name)
+    skill = get_by_name_or_create(Skill, params['name'])
 
     cskill = CandidateSkill(skill=skill, level=level, candidate=candidate)
 
@@ -45,15 +51,9 @@ def add_candidate_skill(candidate, params):
 def add_candidate_education(candidate, params):
 
     degree_name = params['degree']
-    degree = DBSession.query(EducationDegree).filter(EducationDegree.name == degree_name).first()
-    if not degree:
-        raise HTTPBadRequest("Unknown Education Degree")
 
-    institution_name = params['institution']
-    institution = DBSession.query(Institution).filter(Institution.name == institution_name).first()
-    if not institution:
-        institution = Institution(name=institution_name)
-        DBSession.add(institution)
+    degree = get_by_name_or_raise(EducationDegree, degree_name)
+    institution = get_by_name_or_create(Institution, params['institution'])
 
     start = params['start']
     end = params['end']
@@ -63,7 +63,6 @@ def add_candidate_education(candidate, params):
                                    start=start, end=end, course=course)
     DBSession.flush()
     return education
-
 
 
 def get_list_or_raise(params, name):
@@ -100,11 +99,7 @@ def add_candidate_work_experience(candidate, params):
         city = City(name=location['city'], country_iso=location['city'])
         DBSession.add(city)
 
-    company_name = params['company']
-    company = DBSession.query(Company).filter(Company.name == company_name).first()
-    if not company:
-        company = Company(name=company_name)
-        DBSession.add(company)
+    company = get_by_name_or_create(Company, params['company'])
 
     wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city,
                           company=company)
@@ -114,3 +109,26 @@ def add_candidate_work_experience(candidate, params):
     wexp.job_titles = job_titles
     DBSession.flush()
     return wexp
+
+
+def add_candidate_target_position(candidate, params):
+    minimum_salary = params['minimum_salary']
+    benefits = params.get('benefits')
+
+    company_type_name = params.get('company_type')
+    company_type = get_by_name_or_raise(CompanyType, company_type_name)
+
+    level_name = params.get('level')
+    level = get_by_name_or_raise(SkillLevel, level_name)
+
+    role_names = get_list_or_raise(params, "roles")
+    roles = get_or_create_named_collection(Role, role_names)
+
+    skill_names = get_list_or_raise(params, "skills")
+    skills = get_or_create_named_collection(Skill, skill_names)
+
+    tp = TargetPosition(candidate=candidate, minimum_salary=minimum_salary, benefits=benefits,
+                        company_type=company_type, level=level, roles=roles, skills=skills)
+    DBSession.add(tp)
+    DBSession.flush()
+    return tp
