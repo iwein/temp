@@ -115,6 +115,9 @@ class TargetPosition(Base):
     minimum_salary = Column(Integer, nullable=False)
     benefits = Column(Text)
 
+    def __json__(self, request):
+        return {'level': self.level, "skills": self.skills, "roles": self.roles, "minimum_salary": self.minimum_salary,
+                "benefits": self.benefits, "company_type": self.company_type, "id": self.id}
 
 
 class CandidateLanguage(Base):
