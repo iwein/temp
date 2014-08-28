@@ -101,8 +101,7 @@ def add_candidate_work_experience(candidate, params):
 
     company = get_by_name_or_create(Company, params['company'])
 
-    wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city,
-                          company=company)
+    wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company)
     DBSession.add(wexp)
     DBSession.flush()
     wexp.roles = roles

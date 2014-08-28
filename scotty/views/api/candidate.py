@@ -2,7 +2,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, CandidateSkill, CandidateEducation, WorkExperience
+from scotty.models import Candidate, CandidateSkill, CandidateEducation, WorkExperience, TargetPosition
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_skill, \
     add_candidate_education, add_candidate_work_experience, add_candidate_target_position
 from scotty.views import RootController
@@ -144,7 +144,7 @@ class CandidateTargetPositionController(RootController):
         candidate_id = request.matchdict["candidate_id"]
         self.candidate = DBSession.query(Candidate).options(joinedload("target_positions").joinedload("roles"),
                                                             joinedload("target_positions").joinedload("skills"),
-                                                            joinedload("target_positions").joinedload("company"),
+                                                            joinedload("target_positions").joinedload("company_type"),
                                                             joinedload("target_positions").joinedload("level")).get(candidate_id)
         if not self.candidate:
             raise HTTPNotFound("Unknown Candidate ID")
@@ -161,9 +161,9 @@ class CandidateTargetPositionController(RootController):
     @view_config(route_name='candidate_target_position', **DELETE)
     def delete(self):
         id = self.request.matchdict["id"]
-        we = DBSession.query(WorkExperience).get(id)
+        we = DBSession.query(TargetPosition).get(id)
         if not we:
-            raise HTTPNotFound("Unknown WorkExperience ID.")
+            raise HTTPNotFound("Unknown TargetPosition ID.")
         DBSession.delete(we)
         return {"status": "success"}
 

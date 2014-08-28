@@ -55,18 +55,9 @@ candidate_work_experience_role = Table('candidate_work_experience_role', Base.me
                                        Column('work_experience_id', Integer, ForeignKey('candidate_work_experience.id')),
                                        Column('role_id', Integer, ForeignKey('role.id')))
 
-target_position_role_table = Table('target_position_role_table', Base.metadata,
-                                   Column('target_position_id', Integer, ForeignKey('candidate_work_experience.id')),
-                                   Column('role_id', Integer, ForeignKey('role.id')))
-
-
-target_position_skills_table = Table('target_position_skills_table', Base.metadata,
-                                     Column('target_position_id', Integer, ForeignKey('candidate_work_experience.id')),
-                                     Column('skill_id', Integer, ForeignKey('skill.id')))
-
 
 candidate_work_experience_job_title = Table('candidate_work_experience_job_title', Base.metadata,
-                                            Column('work_experience_id', Integer, ForeignKey('candidate_target_position.id')),
+                                            Column('work_experience_id', Integer, ForeignKey('candidate_work_experience.id')),
                                             Column('job_title_id', Integer, ForeignKey('job_title.id')))
 
 
@@ -98,6 +89,15 @@ class WorkExperience(Base):
                 "location": self.location}
 
 
+target_position_skills_table = Table('target_position_skills_table', Base.metadata,
+                                     Column('target_position_id', Integer, ForeignKey('candidate_target_position.id')),
+                                     Column('skill_id', Integer, ForeignKey('skill.id')))
+
+
+target_position_role_table = Table('target_position_role_table', Base.metadata,
+                                   Column('target_position_id', Integer, ForeignKey('candidate_target_position.id')),
+                                   Column('role_id', Integer, ForeignKey('role.id')))
+
 class TargetPosition(Base):
     __tablename__ = 'candidate_target_position'
     id = Column(Integer, primary_key=True)
@@ -117,7 +117,7 @@ class TargetPosition(Base):
 
 
 
-class CandidateLanguage(object):
+class CandidateLanguage(Base):
     __tablename__ = 'candidate_language'
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
@@ -161,7 +161,7 @@ class Candidate(Base):
     available_date = Column(Date)
     notice_period_number = Column(Integer)
     notice_period_measure = Column(String(1), CheckConstraint("notice_period_measure in ['w', 'm']"), default='w',
-                                   nullable=False)
+                                   server_default='w', nullable=False)
 
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
     status = relationship(CandidateStatus)
@@ -172,6 +172,7 @@ class Candidate(Base):
     education = relationship(CandidateEducation, backref="candidate", cascade="all, delete, delete-orphan")
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
     preferred_cities = relationship(City, secondary="candidate_preferred_cities")
+    work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
     def __json__(self, request):
