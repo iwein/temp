@@ -117,6 +117,7 @@
                       conf.$link.addClass('loaded');
                       if (post_data != null)
                         root.append('<div>' + (conf.method || 'POST') + '</b>&nbsp;<code>' + JSON.stringify(post_data) + '</code></div>');
+                      else root.append((conf.method || 'GET') + ' ');
                       root.append('<a href="' + url + '">' + url + '</a>');
                       if (conf.appendResult) {
                         conf.appendResult(root, resp);

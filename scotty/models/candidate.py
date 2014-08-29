@@ -189,5 +189,6 @@ class Candidate(Base):
         result = json_encoder(self, request)
         result['status'] = self.status
         result['languages'] = self.languages
+        result['skills'] = self.skills
         result['preferred_cities'] = self.preferred_cities
         return result
