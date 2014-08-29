@@ -7,7 +7,7 @@ from sqlalchemy import or_, func
 from sqlalchemy.orm import joinedload
 
 
-def run_paginated_quer(request, basequery, serializer=list):
+def run_paginated_query(request, basequery, serializer=list):
     offset = request.params.get('offset', 0)
     limit = request.params.get('limit', 100)
     query = basequery.offset(int(offset)).limit(int(limit))
@@ -25,7 +25,7 @@ def listing_request(request, DbCls, searchterm=None, ignorecase=False):
             filter_by = DbCls.name.contains(searchterm)
         basequery = basequery.filter(filter_by)
 
-    return run_paginated_quer(request, basequery)
+    return run_paginated_query(request, basequery)
 
 
 class ConfigurationController(RootController):
@@ -95,7 +95,7 @@ class ConfigurationController(RootController):
             filter = func.lower(City.name).contains(func.lower(searchterm))
             basequery = basequery.filter(filter)
 
-        return run_paginated_quer(self.request, basequery)
+        return run_paginated_query(self.request, basequery)
 
 
 def includeme(config):

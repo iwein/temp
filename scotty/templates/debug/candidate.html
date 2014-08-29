@@ -14,17 +14,55 @@
                 data: {"email": email, pwd:"welcomepwd"}
               },
 
-//              {'title': 'Skills'},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-get'},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'list-skills'},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'create-skill',
-//                data: {"name": "PHP", "level":"advanced"},
-//                extract:   function(r, extr){return {skillId: r.id}}},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'create-skill-2',
-//                data: {"name": "Apache httpd", "level":"expert"}},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'list-skills-2'},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills/'+extr.skillId}, 'title': 'delete-skill', method:"DELETE"},
-//              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'list-skills-3'},
+
+              {'sectionTitle': 'Set Based Endpoints'},
+
+              {'title': 'Languages'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
+                'title': 'set-languages-1', method:'PUT', data: [
+                {'language':'english', 'proficiency': 'advanced'},
+                {'language':'german', 'proficiency': 'native'},
+                {'language':'french', 'proficiency': 'basic'}
+              ]},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
+                'title': 'set-languages-2', method:'PUT', data: [
+                {'language':'chinese', 'proficiency': 'native'},
+                {'language':'english', 'proficiency': 'basic'}
+              ]},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-languages'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
+                'title': 'set-languages-empty', method:'PUT', data: []},
+
+              {'title': 'Preferred Cities'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
+                'title': 'set-candidate-preferred_cities-1', method:'PUT', data: [
+                {'city':'Berlin', 'country_iso': 'DE'},
+                {'city':'Leipzig', 'country_iso': 'DE'},
+                {'city':'Hamburg', 'country_iso': 'DE'},
+                {'city':'Uberlândia', 'country_iso': 'BR'}]},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
+                'title': 'set-candidate-preferred_cities-2', method:'PUT', data: [{'city':'Berlin Schöneberg', 'country_iso': 'DE'}]},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-preferred_cities'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
+                'title': 'set-preferred_cities-empty', method:'PUT', data: []},
+
+              {'title': 'Skills'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'},
+                'title': 'set-skills', method:'PUT', data: [
+                {"skill": "PHP", "level":"advanced"},
+                {"skill": "Java", "level":"advanced"},
+                {"skill": "Python", "level":"basic"},
+                {"skill": "Spring", "level":"expert"}],
+                extract:   function(r, extr){return {skillId: r.id}}},
+
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'},
+                'title': 'set-skills-2', method:'PUT', data: [
+                {"skill": "PHP", "level":"basic"}],
+                extract:   function(r, extr){return {skillId: r.id}}},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'get-candidate-skills'},
+              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'set-empty-skill', method:"PUT", data: []},
+
+              {'sectionTitle': 'Restful Endpoints'},
 
               {'title': 'Education'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education'},
@@ -64,7 +102,7 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions/'+extr.target_positionId}, 'title': 'delete-target_position', method:"DELETE"},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position-3'},
 
-              {'title': 'Cleanup'},
+              {'sectionTitle': 'Cleanup'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-delete', method:"DELETE"}
             ];
 

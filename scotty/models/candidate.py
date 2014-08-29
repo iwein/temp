@@ -7,7 +7,7 @@ from scotty.models.configuration import Title, Country, City, TrafficSource, Ski
 from scotty.models.tools import json_encoder
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, func, Table, CheckConstraint, Index, \
     UniqueConstraint
-from scotty.models.meta import Base, NamedModel, GUID
+from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.orm import relationship
 
 
@@ -49,7 +49,7 @@ class CandidateSkill(Base):
     level = relationship(SkillLevel)
 
     def __json__(self, request):
-        return {'name': self.skill, "level": self.level}
+        return {'skill': self.skill, "level": self.level}
 
 
 candidate_work_experience_role = Table('candidate_work_experience_role', Base.metadata,
@@ -132,8 +132,12 @@ class CandidateLanguage(Base):
     __tablename__ = 'candidate_language'
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False, primary_key=True)
     language_id = Column(Integer, ForeignKey(Language.id), nullable=False, primary_key=True)
+    language = relationship(Language)
     proficiency_id = Column(Integer, ForeignKey(Proficiency.id), nullable=False)
+    proficiency = relationship(Proficiency)
 
+    def __json__(self, request):
+        return {"language": self.language, "proficiency": self.proficiency}
 
 class Candidate(Base):
     __tablename__ = 'candidate'
@@ -181,7 +185,7 @@ class Candidate(Base):
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(CandidateEducation, backref="candidate", cascade="all, delete, delete-orphan")
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
-    preferred_cities = relationship(City, secondary="candidate_preferred_cities")
+    preferred_cities = relationship(City, secondary=candidate_preferred_cities)
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
@@ -190,5 +194,6 @@ class Candidate(Base):
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills
-        result['preferred_cities'] = self.preferred_cities
+        # TODO: fix, why is it not auto loaded?
+        result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() if self.preferred_cities else []
         return result

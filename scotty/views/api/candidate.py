@@ -3,9 +3,9 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Candidate, CandidateSkill, CandidateEducation, WorkExperience, TargetPosition
-from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_skill, \
-    add_candidate_education, add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, \
-    set_skills_on_candidate, set_preferredcities_on_candidate
+from scotty.services.candidateservice import candidate_from_signup, candidate_from_login,  add_candidate_education, \
+    add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, set_skills_on_candidate, \
+    set_preferredcities_on_candidate
 from scotty.views import RootController
 from sqlalchemy.orm import joinedload_all, joinedload
 
@@ -47,17 +47,30 @@ class CandidateController(RootController):
         DBSession.delete(self.candidate)
         return {"status": "success"}
 
-    @view_config(route_name='candidate_set_languages', **POST)
+    @view_config(route_name='candidate_languages', **PUT)
     def set_languages(self):
         return set_languages_on_candidate(self.candidate, self.request.json)
 
-    @view_config(route_name='candidate_set_preferred_cities', **POST)
+    @view_config(route_name='candidate_languages', **GET)
+    def list_languages(self):
+        return self.candidate.languages
+
+    @view_config(route_name='candidate_preferred_cities', **PUT)
     def set_preferred_cities(self):
         return set_preferredcities_on_candidate(self.candidate, self.request.json)
 
-    @view_config(route_name='candidate_set_skills', **POST)
+    @view_config(route_name='candidate_preferred_cities', **GET)
+    def list_preferred_cities(self):
+        return self.candidate.preferred_cities
+
+    @view_config(route_name='candidate_skills', **PUT)
     def set_skills(self):
         return set_skills_on_candidate(self.candidate, self.request.json)
+
+    @view_config(route_name='candidate_skills', **GET)
+    def list_skills(self):
+        return self.candidate.skills
+
 
 
 class CandidateEducationController(RootController):
@@ -153,12 +166,9 @@ def includeme(config):
     config.add_route('candidate_login', 'login')
     config.add_route('candidate', '{id}')
 
-    config.add_route('candidate_set_skills', '{id}/set_skills')
-    config.add_route('candidate_set_preferred_cities', '{id}/set_preferred_cities')
-    config.add_route('candidate_set_languages', '{id}/set_languages')
-
-    config.add_route('candidate_skills', '{candidate_id}/skills')
-    config.add_route('candidate_skill', '{candidate_id}/skills/{id}')
+    config.add_route('candidate_skills', '{id}/skills')
+    config.add_route('candidate_preferred_cities', '{id}/preferred_cities')
+    config.add_route('candidate_languages', '{id}/languages')
 
     config.add_route('candidate_educations', '{candidate_id}/education')
     config.add_route('candidate_education', '{candidate_id}/education/{id}')
