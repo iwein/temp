@@ -1,0 +1,52 @@
+<%inherit file="debug.html"/>
+
+
+<%def name="title()">Employer</%def>
+<%def name="tests()">
+  <script>
+    var email = guid()+"@hackandcraft.com",
+            tests = [
+              {'url':'/api/v1/employers/', 'title': 'employer-signup',
+                data: {company_name: 'Bob Corp', "email": email, pwd:"welcomepwd",
+                  "website": "Super Corp Ltd.", address: {line1:"Rosenburger Street", line2:"Vorderhaus 6OG",
+                    zipcode: "10247", city: "Berlin", country_iso:"DE"}},
+                extract:   function(r, extr){return {employerId: r.id}}},
+
+              {'url': function(r, extr){return '/api/v1/employers/login'}, 'title': 'employer-login',
+                data: {"email": email, pwd:"welcomepwd"}
+              },
+
+              {'title': "Offices"},
+
+              {'url': function(r, extr){return '/api/v1/employers/'+extr.employerId+'/offices'}, 'title': 'employer-add-office',
+                data: {
+                  address: {line1:"Gruenwald Strasse 104", zipcode: "08712", city: "Dresden", country_iso:"DE"},
+                  contact_name: 'Martha Stweard',
+                  contact_phone:"+800-43543-2154",
+                  contact_email: 'matha@stewardhome.com'
+                },
+                extract:   function(r, extr){return {officeId: r.id}}},
+
+              {'url': function(r, extr){return '/api/v1/employers/'+extr.employerId}, 'title': 'employer-get'},
+
+              {'url': function(r, extr){return '/api/v1/employers/'+extr.employerId+'/offices'}, 'title': 'employer-add-office-2',
+                data: {
+                  address: {line1:"Schoenhausener Allee 104", zipcode: "08712", city: "Hamburg", country_iso:"DE"},
+                  contact_name: 'Harald Klockner',
+                  contact_phone:"+49 232314 2435",
+                  contact_email: 'harald@kliockner.com'
+                },
+                extract:   function(r, extr){return {officeId: r.id}}},
+
+              {'url': function(r, extr){return '/api/v1/employers/'+extr.employerId+'/offices'}, 'title': 'employer-offices-list'},
+
+              {'url': function(r, extr){return '/api/v1/employers/'+extr.employerId+'/offices/'+extr.officeId}, 'title': 'office-delete', method:"DELETE"},
+
+
+              {'sectionTitle': 'Cleanup'},
+              {'url': function(r, extr){return '/api/v1/employers/'+extr.employerId}, 'title': 'employer-delete', method:"DELETE"}
+            ];
+
+    $(function(){getTestRunner(tests)(0, {});})
+  </script>
+</%def>
