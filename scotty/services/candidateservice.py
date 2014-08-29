@@ -2,7 +2,8 @@ import hashlib
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, EducationDegree, Institution, \
-    CandidateEducation, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType
+    CandidateEducation, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
+    Language, Seniority
 
 __author__ = 'Martin'
 def get_by_name_or_raise(cls, name):
@@ -23,8 +24,7 @@ def get_by_name_or_create(cls, name):
 def candidate_from_signup(params):
     pwd = hashlib.sha256(params['pwd']).hexdigest()
 
-    status = DBSession.query(CandidateStatus).filter(CandidateStatus.name == "ACTIVE").first()
-
+    status = get_by_name_or_raise(CandidateStatus, "active")
     return Candidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
                      status=status)
 
@@ -117,8 +117,8 @@ def add_candidate_target_position(candidate, params):
     company_type_name = params.get('company_type')
     company_type = get_by_name_or_raise(CompanyType, company_type_name)
 
-    level_name = params.get('level')
-    level = get_by_name_or_raise(SkillLevel, level_name)
+    seniority_name = params['seniority']
+    seniority = get_by_name_or_raise(Seniority, seniority_name)
 
     role_names = get_list_or_raise(params, "roles")
     roles = get_or_create_named_collection(Role, role_names)
@@ -127,7 +127,24 @@ def add_candidate_target_position(candidate, params):
     skills = get_or_create_named_collection(Skill, skill_names)
 
     tp = TargetPosition(candidate=candidate, minimum_salary=minimum_salary, benefits=benefits,
-                        company_type=company_type, level=level, roles=roles, skills=skills)
+                        company_type=company_type, seniority=seniority, roles=roles, skills=skills)
     DBSession.add(tp)
     DBSession.flush()
     return tp
+
+
+def set_languages_on_candidate(candidate, params):
+    languages = DBSession.query(Language).filter(Language.name.in_([p['language'] for p in params])).all()
+    proficiencies = DBSession.query(Proficiency).filter(Proficiency.name.in_([p['proficiency'] for p in params])).all()
+
+    language_lookup = {l.name: l for l in languages}
+    prof_lookup = {p.name: p for p in proficiencies}
+
+    return candidate
+
+
+def set_preferredcities_on_candidate(candidate, params):
+    return candidate
+
+def set_skills_on_candidate(candidate, params):
+    return candidate

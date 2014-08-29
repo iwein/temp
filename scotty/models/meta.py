@@ -1,8 +1,10 @@
 import uuid
-from sqlalchemy import TypeDecorator, CHAR
+from sqlalchemy import TypeDecorator, CHAR, VARCHAR, collate, func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.sql.functions import FunctionElement
 from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
@@ -52,3 +54,21 @@ class GUID(TypeDecorator):
             return value
         else:
             return uuid.UUID(value)
+
+
+class CaseInsensitive(FunctionElement):
+    __visit_name__ = 'notacolumn'
+    name = 'CaseInsensitive'
+    type = VARCHAR()
+
+
+@compiles(CaseInsensitive, 'sqlite')
+def case_insensitive_sqlite(element, compiler, **kw):
+    arg1, = list(element.clauses)
+    return compiler.process(collate(arg1, 'nocase'), **kw)
+
+
+@compiles(CaseInsensitive, 'postgresql')
+def case_insensitive_postgresql(element, compiler, **kw):
+    arg1, = list(element.clauses)
+    return compiler.process(func.lower(arg1), **kw)

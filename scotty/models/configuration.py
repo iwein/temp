@@ -3,6 +3,12 @@ from scotty.models.meta import Base, NamedModel
 from sqlalchemy.orm import relationship
 
 
+class Seniority(Base, NamedModel):
+    __tablename__ = 'seniority'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(20), nullable=False, unique=True)
+
+
 class Title(Base, NamedModel):
     __tablename__ = 'title'
     id = Column(Integer, primary_key=True)
