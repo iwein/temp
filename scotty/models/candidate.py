@@ -19,11 +19,12 @@ class CandidateStatus(Base, NamedModel):
 
 class CandidateEducation(Base):
     __tablename__ = 'candidate_education'
+    __table_args__ = (UniqueConstraint('candidate_id', 'institution_id', 'start', name='candidate_education_unique'),)
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
     start = Column(Date, nullable=False)
-    end = Column(Date, nullable=False)
+    end = Column(Date)
     course = Column(String(512), nullable=False)
 
     institution_id = Column(Integer, ForeignKey(Institution.id), nullable=False)
@@ -39,8 +40,6 @@ class CandidateEducation(Base):
 
 class CandidateSkill(Base):
     __tablename__ = 'candidate_skill'
-    __table_args__ = (UniqueConstraint('candidate_id', 'skill_id', name='candidate_skill_unique'),)
-
     candidate_id = Column(GUID, ForeignKey("candidate.id"), primary_key=True)
     skill_id = Column(Integer, ForeignKey(Skill.id), primary_key=True)
     skill = relationship(Skill)
@@ -71,13 +70,16 @@ candidate_preferred_cities = Table('candidate_preferred_cities', Base.metadata,
                                    Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                    Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
 
+
 class WorkExperience(Base):
     __tablename__ = 'candidate_work_experience'
+    __table_args__ = (UniqueConstraint('candidate_id', 'company_id', 'start', name='candidate_work_experience_unique'),)
+
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
 
     start = Column(Date, nullable=False)
-    end = Column(Date, nullable=False)
+    end = Column(Date)
     summary = Column(Text, nullable=False)
 
     company_id = Column(Integer, ForeignKey(Company.id), nullable=False)
@@ -108,6 +110,7 @@ target_position_role_table = Table('target_position_role_table', Base.metadata,
 
 class TargetPosition(Base):
     __tablename__ = 'candidate_target_position'
+
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
 
@@ -195,5 +198,6 @@ class Candidate(Base):
         result['languages'] = self.languages
         result['skills'] = self.skills
         # TODO: fix, why is it not auto loaded?
-        result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() if self.preferred_cities else []
+        result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() \
+            if self.preferred_cities else []
         return result

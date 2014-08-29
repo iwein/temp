@@ -1,4 +1,4 @@
-<%inherit file="layout.html"/>
+<%inherit file="debug.html"/>
 
 
 <%def name="title()">Candidate</%def>
@@ -14,8 +14,7 @@
                 data: {"email": email, pwd:"welcomepwd"}
               },
 
-
-              {'sectionTitle': 'Set Based Endpoints'},
+              //{'sectionTitle': 'Set Based Endpoints'},
 
               {'title': 'Languages'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
@@ -62,7 +61,7 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'get-candidate-skills'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'set-empty-skill', method:"PUT", data: []},
 
-              {'sectionTitle': 'Restful Endpoints'},
+              //{'sectionTitle': 'Restful Endpoints'},
 
               {'title': 'Education'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education'},

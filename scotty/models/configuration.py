@@ -48,7 +48,7 @@ class EducationDegree(Base, NamedModel):
 class Skill(Base, NamedModel):
     __tablename__ = 'skill'
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False, unique=True)
 
 
 class Language(Base, NamedModel):
@@ -93,7 +93,7 @@ class Country(Base):
 
 class City(Base):
     __tablename__ = 'city'
-    __table_args__ = (UniqueConstraint("country_iso", "name"), )
+    __table_args__ = (UniqueConstraint("country_iso", "name", name="city_name_country_unique"), )
     id = Column(Integer, primary_key=True)
     country_iso = Column(String(2), ForeignKey(Country.iso), nullable=False)
     name = Column(String(255), nullable=False)

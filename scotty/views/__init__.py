@@ -15,7 +15,7 @@ class RootController(object):
         self.request = request
 
 
-@view_config(route_name='home', renderer='scotty:templates/index.pt')
+@view_config(route_name='home', renderer='scotty:templates/index.html')
 def home(request):
     return {}
 

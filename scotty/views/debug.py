@@ -4,7 +4,7 @@ from scotty.views import RootController
 
 
 class DebugController(RootController):
-    @view_config(route_name='debug_home', renderer='scotty:templates/debug/index.pt')
+    @view_config(route_name='debug_home', renderer='scotty:templates/debug/index.html')
     def debug_home(self):
         return {}
 
