@@ -3,29 +3,10 @@ from scotty import DBSession
 from scotty.models import Title, CompanyType, SkillLevel, Proficiency, EducationDegree, Language, Skill, JobTitle, \
     Country, City, TrafficSource, Institution, Company, Seniority
 from scotty.views import RootController
+from scotty.views.common import listing_request, run_paginated_query
 from sqlalchemy import or_, func
 from sqlalchemy.orm import joinedload
 
-
-def run_paginated_query(request, basequery, serializer=list):
-    offset = request.params.get('offset', 0)
-    limit = request.params.get('limit', 100)
-    query = basequery.offset(int(offset)).limit(int(limit))
-    return {"pagination": {"total": basequery.count(), "offset": offset, "count": query.count()},
-            "data": serializer(query)}
-
-
-def listing_request(request, DbCls, searchterm=None, ignorecase=False):
-    basequery = DBSession.query(DbCls)
-
-    if searchterm is not None:
-        if ignorecase:
-            filter_by = func.lower(DbCls.name).contains(func.lower(searchterm))
-        else:
-            filter_by = DbCls.name.contains(searchterm)
-        basequery = basequery.filter(filter_by)
-
-    return run_paginated_query(request, basequery)
 
 
 class ConfigurationController(RootController):

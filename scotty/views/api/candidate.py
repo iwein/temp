@@ -2,17 +2,13 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, CandidateSkill, CandidateEducation, WorkExperience, TargetPosition
+from scotty.models import Candidate, CandidateEducation, WorkExperience, TargetPosition
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login,  add_candidate_education, \
     add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate
 from scotty.views import RootController
-from sqlalchemy.orm import joinedload_all, joinedload
-
-PUT = dict(request_method="PUT", content_type='application/json', renderer="json")
-POST = dict(request_method="POST", content_type='application/json', renderer="json")
-DELETE = dict(request_method="DELETE", renderer="json")
-GET = dict(request_method="GET", renderer="json")
+from scotty.views.common import POST, GET, DELETE, PUT
+from sqlalchemy.orm import joinedload
 
 class CandidateController(RootController):
 
@@ -25,7 +21,7 @@ class CandidateController(RootController):
         return candidate
 
     @view_config(route_name='candidates', **POST)
-    def create(self):
+    def signup(self):
         candidate = candidate_from_signup(self.request.json)
         DBSession.add(candidate)
         DBSession.flush()

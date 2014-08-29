@@ -20,6 +20,7 @@ class CandidateStatus(Base, NamedModel):
 class CandidateEducation(Base):
     __tablename__ = 'candidate_education'
     __table_args__ = (UniqueConstraint('candidate_id', 'institution_id', 'start', name='candidate_education_unique'),)
+    created = Column(Date, nullable=False, default=datetime.now)
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
@@ -41,6 +42,8 @@ class CandidateEducation(Base):
 class CandidateSkill(Base):
     __tablename__ = 'candidate_skill'
     candidate_id = Column(GUID, ForeignKey("candidate.id"), primary_key=True)
+    created = Column(Date, nullable=False, default=datetime.now)
+
     skill_id = Column(Integer, ForeignKey(Skill.id), primary_key=True)
     skill = relationship(Skill)
 
@@ -77,6 +80,7 @@ class WorkExperience(Base):
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
+    created = Column(Date, nullable=False, default=datetime.now)
 
     start = Column(Date, nullable=False)
     end = Column(Date)
@@ -113,6 +117,7 @@ class TargetPosition(Base):
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
+    created = Column(Date, nullable=False, default=datetime.now)
 
     roles = relationship(Role, secondary="target_position_role_table")
     skills = relationship(Skill, secondary="target_position_skills_table")
@@ -145,9 +150,10 @@ class CandidateLanguage(Base):
 class Candidate(Base):
     __tablename__ = 'candidate'
     id = Column(GUID, primary_key=True, default=uuid4)
+    created = Column(Date, nullable=False, default=datetime.now)
+
     email = Column(String(512), nullable=False, unique=True)
     pwd = Column(String(128), nullable=False)
-    created = Column(Date, nullable=False, default=datetime.now)
 
     first_name = Column(String(512), nullable=False)
     last_name = Column(String(512), nullable=False)

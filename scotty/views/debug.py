@@ -12,7 +12,7 @@ class DebugController(RootController):
     def debug_config(self):
         return {}
 
-    @view_config(route_name='debug_employer', renderer='scotty:templates/debug/employer.pt')
+    @view_config(route_name='debug_employer', renderer='scotty:templates/debug/employer.html')
     def debug_employer(self):
         return {}
 
