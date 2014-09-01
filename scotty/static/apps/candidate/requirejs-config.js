@@ -6,6 +6,7 @@ requirejs.config({
 
   paths: {
     // vendors
+    'text': 'bower_components/text/text',
     'angular-core': 'bower_components/angular/angular',
     'angular': 'bower_components/angular-ui-router/release/angular-ui-router',
 

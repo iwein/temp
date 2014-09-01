@@ -1,7 +1,8 @@
 define(function(require) {
   'use strict';
   require('components/home/home');
-  var module = require('app-module')
+  var module = require('app-module');
+  var angular = require('angular');
 
   module.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -9,7 +10,7 @@ define(function(require) {
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: '../components/home/home.html',
+        template: require('text!components/home/home.html'),
         controller: 'HomeCtrl',
       });
   });

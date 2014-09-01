@@ -24,8 +24,6 @@ module.exports = function(grunt) {
       },
 
       components: {
-        templates: 'components/**/*.html',
-        css: 'components/**/*.less',
         js: 'components/**/*.js',
         test: [
           'components/**/*.e2e.js',
@@ -36,7 +34,6 @@ module.exports = function(grunt) {
       admin: {
         html: 'public/admin.html',
         less: 'apps/admin/styles.less',
-        templates: '<%= files.components.templates %>',
         test: [
           '<%= files.tools.test %>',
           '<%= files.components.test %>',
@@ -55,7 +52,6 @@ module.exports = function(grunt) {
       candidate: {
         html: 'public/candidate.html',
         less: 'apps/candidate/styles.less',
-        templates: '<%= files.components.templates %>',
         test: [
           '<%= files.tools.test %>',
           '<%= files.components.test %>',
@@ -74,7 +70,6 @@ module.exports = function(grunt) {
       employer: {
         html: 'public/employer.html',
         less: 'apps/employer/styles.less',
-        templates: '<%= files.components.templates %>',
         test: [
           '<%= files.tools.test %>',
           '<%= files.components.test %>',
@@ -93,7 +88,6 @@ module.exports = function(grunt) {
       index: {
         html: 'public/index.html',
         less: 'apps/index/styles.less',
-        templates: '<%= files.components.templates %>',
         test: [
           '<%= files.tools.test %>',
           '<%= files.components.test %>',
@@ -110,9 +104,7 @@ module.exports = function(grunt) {
       },
 
       build: {
-        templates: 'tmp/templates-build.js',
         amd: 'tmp/amd-build.js',
-        concat: 'tmp/concat-build.js',
         ngannotate: 'tmp/ngannotate-build.js',
       },
 
@@ -198,55 +190,11 @@ module.exports = function(grunt) {
       }
     },
 
-    ngtemplates: {
-      options: {
-        standalone: true,
-        module: 'app-templates',
-        htmlmin: {
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          removeComments: true,
-          removeOptionalTags: true,
-          removeRedundantAttributes: true,
-        },
-      },
-
-      admin: {
-        src: '<%= files.admin.templates %>',
-        dest: '<%= files.build.templates %>',
-      },
-      candidate: {
-        src: '<%= files.candidate.templates %>',
-        dest: '<%= files.build.templates %>',
-      },
-      employer: {
-        src: '<%= files.employer.templates %>',
-        dest: '<%= files.build.templates %>',
-      },
-      index: {
-        src: '<%= files.index.templates %>',
-        dest: '<%= files.build.templates %>',
-      },
-    },
-
-    concat: {
-      options: {
-        separator: ';',
-      },
-      amd_html: {
-        src: [
-          '<%= files.build.amd %>',
-          '<%= files.build.templates %>',
-        ],
-        dest: '<%= files.build.concat %>',
-      },
-    },
-
     ngAnnotate: {
       // Will be supported soon
       //options: { regexp: 'require(\'app-module\')', },
-      concat_output: {
-        src: '<%= files.build.concat %>',
+      amd: {
+        src: '<%= files.build.amd %>',
         dest: '<%= files.build.ngannotate %>'
       },
     },
@@ -341,10 +289,8 @@ module.exports = function(grunt) {
   apps.forEach(function(app) {
     grunt.registerTask('build-' + app + '-css', [ 'less:' + app ]);
     grunt.registerTask('build-' + app + '-js', [
-      'ngtemplates:' + app,
       'requirejs:' + app,
-      'concat:amd_html',
-      'ngAnnotate:concat_output',
+      'ngAnnotate:amd',
       'uglify:' + app,
       'clean:tmp',
     ]);
