@@ -17,7 +17,7 @@ Demo Environment is at [http://guarded-inlet-9319.herokuapp.com/debug](http://gu
 * install postgres (9.3 recommended)
 * install python 2.7, setuptools, virtualenv
 * create a virtual environment for this project, activate it
-* run <code>easy_install setup.py develop</code> for this project
+* run <code>python setup.py develop</code> for this project
 * copy a local.ini config file with proper Postgres Connection Strings, <code>sqlalchemy.url</code>
   * note this is mentioned twice in the config file
 * run <code>alembic -c [CONFIG] upgrade head</code>
