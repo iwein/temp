@@ -4,6 +4,7 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('MODULE_NAMECtrl', function($scope) {
+    console.log($scope);
     // ...
   });
 });

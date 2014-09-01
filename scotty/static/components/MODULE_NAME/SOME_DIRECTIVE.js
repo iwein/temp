@@ -1,6 +1,6 @@
 define(function(require) {
   'use strict';
-  var module = require('app-module')
+  var module = require('app-module');
 
   module.directive('SOME_DIRECTIVE', function() {
     return {
@@ -13,9 +13,11 @@ define(function(require) {
       },
 
       compile: function(elem, attr) {
+        console.log(elem, attr);
         // ...
 
         return function postLink(scope) {
+          console.log(scope);
           // ...
         };
       },
