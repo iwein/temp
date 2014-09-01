@@ -2,12 +2,14 @@
   "name": "scotty",
   "version": "0.0.0",
   "private": true,
-  "authors": [ "Hack&Craft" ],
+  "authors": [
+    "Hack&Craft"
+  ],
   "dependencies": {
     "requirejs": "~2.1.11",
     "angular": "~1.2.16",
-    "angular-route": "~1.2.16",
     "less": "~1.7.0",
-    "almond": "~0.2.9"
+    "almond": "~0.2.9",
+    "angular-ui-router": "~0.2.11"
   }
 }

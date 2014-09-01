@@ -3,7 +3,7 @@ define(function(require) {
   var angular = require('angular');
 
   var deps = [
-    'ngRoute',
+    'ui.router',
   ];
 
   if (!DEBUG) {

@@ -7,7 +7,7 @@ requirejs.config({
   paths: {
     // vendors
     'angular-core': 'bower_components/angular/angular',
-    'angular': 'bower_components/angular-route/angular-route',
+    'angular': 'bower_components/angular-ui-router/release/angular-ui-router',
 
     // aliases
     'app-module': 'apps/employer/employer-module',
