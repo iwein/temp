@@ -108,7 +108,7 @@ module.exports = function(grunt) {
         ngannotate: 'tmp/ngannotate-build.js',
       },
 
-      all: {
+      apps: {
         js: [
           '<%= files.admin.js %>',
           '<%= files.candidate.js %>',
@@ -309,9 +309,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build-js', [ 'jshint:apps' ].concat(apps.map(function(app) {
     return 'build-' + app + '-js';
   })));
-  grunt.registerTask('build', apps.map(function(app) {
+  grunt.registerTask('build', [ 'jshint:apps' ].concat(apps.map(function(app) {
     return 'build-' + app;
-  }));
+  })));
 
   grunt.registerTask('default', [ 'build' ]);
 };
