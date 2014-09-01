@@ -156,7 +156,7 @@ module.exports = function(grunt) {
         out: '<%= files.build.amd %>',
         paths: {
           'angular-core': 'bower_components/angular/angular.min',
-          'angular': 'bower_components/angular-route/angular-route.min',
+          'angular': 'bower_components/angular-ui-router/release/angular-ui-router.min',
         },
       },
 
