@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="web application">
+    <meta name="author" content="HackandCraft">
+    <title>Scotty</title>
+
+    <!-- build:css index.css -->
+    <link rel="stylesheet/less" href="../apps/index/styles.less">
+    <script>less = { logLevel: 1 };</script>
+    <script src="../bower_components/less/dist/less-1.7.0.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <ng-view></ng-view>
+
+    <!-- build:js index.js -->
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="../apps/index/requirejs-config.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>
