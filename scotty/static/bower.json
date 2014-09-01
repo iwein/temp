@@ -11,6 +11,7 @@
     "less": "~1.7.0",
     "almond": "~0.2.9",
     "angular-ui-router": "~0.2.11",
-    "text": "~2.0.12"
+    "text": "~2.0.12",
+    "bootstrap": "~3.2.0"
   }
 }
