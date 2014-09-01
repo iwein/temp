@@ -35,11 +35,14 @@ If you see unexpect errors in the API, make sure to run the script.
 If this script fails with "Unknown revision .....", you will need to empty out the DB and run the command again.
 This will destroy all test data, and thats ok.
 
-Reset the db by running the following in the relevant database:
+Reset the db by running the following in postgres on the relevant database:
 
     drop schema public cascade;
     create schema public;
+
+and then
  
+* run <code>alembic -c [CONFIG] upgrade head</code>
 
 #####Install psycopg2 on windows
 
