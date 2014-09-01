@@ -50,7 +50,8 @@
                 },
                 extract: function (r, extr) {
                   return {officeId: r.id}
-                }},
+                }
+              },
 
               {'url': function (r, extr) {
                 return '/api/v1/employers/' + extr.employerId + '/offices'
