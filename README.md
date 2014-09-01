@@ -28,3 +28,13 @@ Demo Environment is at [http://guarded-inlet-9319.herokuapp.com/debug](http://gu
 ####Install psycopg2
 See:
 http://stackoverflow.com/questions/3030984/installing-psycopg2-postgresql-in-virtualenv-on-windows
+
+### Setup frontend environment
+* Enter into `/scotty/static`
+* Execute `bower install`
+
+The main file is at `/scotty/static/public/index.html`
+
+No build process required for development.
+For production dependencies should be installed with `npm install`.
+Build process is executed with `grunt build`
