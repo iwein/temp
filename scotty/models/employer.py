@@ -11,7 +11,7 @@ employer_address_mapping = {'line1': 'address_line1', 'line2': 'address_line2', 
 
 
 class EmployerStatus(Base, NamedModel):
-    __tablename__ = 'employer_status'
+    __tablename__ = 'employerstatus'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 

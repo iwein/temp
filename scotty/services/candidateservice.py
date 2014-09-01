@@ -2,8 +2,8 @@ import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
-from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, EducationDegree, Institution, \
-    CandidateEducation, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
+from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
+    Education, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
     Language, Seniority, CandidateLanguage
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, params_get_list_or_raise, \
     get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create
@@ -39,14 +39,14 @@ def add_candidate_skill(candidate, params):
 def add_candidate_education(candidate, params):
     degree_name = params['degree']
 
-    degree = get_by_name_or_raise(EducationDegree, degree_name)
+    degree = get_by_name_or_raise(Degree, degree_name)
     institution = get_by_name_or_create(Institution, params['institution'])
 
     start = params['start']
     end = params['end']
     course = params['course']
 
-    education = CandidateEducation(institution=institution, degree=degree, candidate=candidate, start=start, end=end,
+    education = Education(institution=institution, degree=degree, candidate=candidate, start=start, end=end,
                                    course=course)
     DBSession.flush()
     return education
@@ -57,19 +57,14 @@ def add_candidate_work_experience(candidate, params):
     end = params['end']
     summary = params['summary']
 
-    title_names = params_get_list_or_raise(params, "job_titles")
-    job_titles = get_or_create_named_collection(JobTitle, title_names)
-    role_names = params_get_list_or_raise(params, "roles")
-    roles = get_or_create_named_collection(Role, role_names)
+    job_title = get_by_name_or_create(JobTitle, params["job_title"])
+    role = get_by_name_or_create(Role, params["role"])
     city = get_location_by_name_or_create(params['location'])
-
     company = get_by_name_or_create(Company, params['company'])
 
-    wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company)
+    wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company,
+                          job_title=job_title, role=role)
     DBSession.add(wexp)
-    DBSession.flush()
-    wexp.roles = roles
-    wexp.job_titles = job_titles
     DBSession.flush()
     return wexp
 
@@ -84,14 +79,11 @@ def add_candidate_target_position(candidate, params):
     seniority_name = params['seniority']
     seniority = get_by_name_or_raise(Seniority, seniority_name)
 
-    role_names = params_get_list_or_raise(params, "roles")
-    roles = get_or_create_named_collection(Role, role_names)
-
-    skill_names = params_get_list_or_raise(params, "skills")
-    skills = get_or_create_named_collection(Skill, skill_names)
+    role = get_by_name_or_create(Role, params["role"])
+    skill = get_by_name_or_create(Skill, params["skill"])
 
     tp = TargetPosition(candidate=candidate, minimum_salary=minimum_salary, benefits=benefits,
-                        company_type=company_type, seniority=seniority, roles=roles, skills=skills)
+                        company_type=company_type, seniority=seniority, role=role, skill=skill)
     DBSession.add(tp)
     DBSession.flush()
     return tp

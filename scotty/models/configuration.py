@@ -39,8 +39,8 @@ class TrafficSource(Base, NamedModel):
     name = Column(String(255), nullable=False, unique=True)
 
 
-class EducationDegree(Base, NamedModel):
-    __tablename__ = 'education_degree'
+class Degree(Base, NamedModel):
+    __tablename__ = 'degree'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 

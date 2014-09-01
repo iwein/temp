@@ -2,7 +2,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, CandidateEducation, WorkExperience, TargetPosition
+from scotty.models import Candidate, Education, WorkExperience, TargetPosition
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login,  add_candidate_education, \
     add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate
@@ -90,7 +90,7 @@ class CandidateEducationController(RootController):
     @view_config(route_name='candidate_education', **DELETE)
     def delete(self):
         id = self.request.matchdict["id"]
-        education = DBSession.query(CandidateEducation).get(id)
+        education = DBSession.query(Education).get(id)
         if not education:
             raise HTTPNotFound("Unknown Education ID.")
         DBSession.delete(education)
@@ -102,8 +102,8 @@ class CandidateWorkExperienceController(RootController):
     def __init__(self, request):
         candidate_id = request.matchdict["candidate_id"]
         self.candidate = DBSession.query(Candidate).options(joinedload("work_experience").joinedload("location"),
-                                                            joinedload("work_experience").joinedload("roles"),
-                                                            joinedload("work_experience").joinedload("job_titles"),
+                                                            joinedload("work_experience").joinedload("role"),
+                                                            joinedload("work_experience").joinedload("job_title"),
                                                             joinedload("work_experience").joinedload("company")).get(candidate_id)
         if not self.candidate:
             raise HTTPNotFound("Unknown Candidate ID")
@@ -131,8 +131,8 @@ class CandidateTargetPositionController(RootController):
 
     def __init__(self, request):
         candidate_id = request.matchdict["candidate_id"]
-        self.candidate = DBSession.query(Candidate).options(joinedload("target_positions").joinedload("roles"),
-                                                            joinedload("target_positions").joinedload("skills"),
+        self.candidate = DBSession.query(Candidate).options(joinedload("target_positions").joinedload("role"),
+                                                            joinedload("target_positions").joinedload("skill"),
                                                             joinedload("target_positions").joinedload("company_type"),
                                                             joinedload("target_positions").joinedload("seniority")).get(candidate_id)
         if not self.candidate:

@@ -1,24 +1,23 @@
 from uuid import uuid4
 from datetime import datetime
 
-from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, EducationDegree, \
+from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, \
     Institution, Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority
-
 from scotty.models.tools import json_encoder
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, func, Table, CheckConstraint, Index, \
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.orm import relationship
 
 
 class CandidateStatus(Base, NamedModel):
-    __tablename__ = 'candidate_status'
+    __tablename__ = 'candidatestatus'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
 
-class CandidateEducation(Base):
-    __tablename__ = 'candidate_education'
+class Education(Base):
+    __tablename__ = 'education'
     __table_args__ = (UniqueConstraint('candidate_id', 'institution_id', 'start', name='candidate_education_unique'),)
     created = Column(Date, nullable=False, default=datetime.now)
 
@@ -31,8 +30,8 @@ class CandidateEducation(Base):
     institution_id = Column(Integer, ForeignKey(Institution.id), nullable=False)
     institution = relationship(Institution)
 
-    degree_id = Column(Integer, ForeignKey(EducationDegree.id), nullable=False)
-    degree = relationship(EducationDegree)
+    degree_id = Column(Integer, ForeignKey(Degree.id), nullable=False)
+    degree = relationship(Degree)
 
     def __json__(self, request):
         return {'institution': self.institution, "degree": self.degree, "id": self.id,
@@ -54,28 +53,14 @@ class CandidateSkill(Base):
         return {'skill': self.skill, "level": self.level}
 
 
-candidate_work_experience_role = Table('candidate_work_experience_role', Base.metadata,
-                                       Column('work_experience_id', Integer, ForeignKey('candidate_work_experience.id'),
-                                              primary_key=True),
-                                       Column('role_id', Integer, ForeignKey('role.id'),
-                                              primary_key=True))
 
-
-candidate_work_experience_job_title = Table('candidate_work_experience_job_title', Base.metadata,
-                                            Column('work_experience_id', Integer,
-                                                   ForeignKey('candidate_work_experience.id'),
-                                                   primary_key=True),
-                                            Column('job_title_id', Integer, ForeignKey('job_title.id'),
-                                                   primary_key=True))
-
-
-candidate_preferred_cities = Table('candidate_preferred_cities', Base.metadata,
-                                   Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
-                                   Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
+candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
+                                 Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
+                                 Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
 
 
 class WorkExperience(Base):
-    __tablename__ = 'candidate_work_experience'
+    __tablename__ = 'work_experience'
     __table_args__ = (UniqueConstraint('candidate_id', 'company_id', 'start', name='candidate_work_experience_unique'),)
 
     id = Column(Integer, primary_key=True)
@@ -92,25 +77,16 @@ class WorkExperience(Base):
     city_id = Column(Integer, ForeignKey(City.id), nullable=False)
     location = relationship(City)
 
-    roles = relationship(Role, secondary="candidate_work_experience_role")
-    job_titles = relationship(JobTitle, secondary="candidate_work_experience_job_title")
+    role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
+    role = relationship(Role)
+    job_title_id = Column(Integer, ForeignKey("job_title.id"), nullable=False)
+    job_title = relationship(JobTitle)
 
     def __json__(self, request):
         return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary,
-                "roles": self.roles, "job_titles": self.job_titles, "company": self.company,
+                "role": self.role, "job_title": self.job_title, "company": self.company,
                 "location": self.location}
 
-
-target_position_skills_table = Table('target_position_skills_table', Base.metadata,
-                                     Column('target_position_id', Integer, ForeignKey('candidate_target_position.id'),
-                                            primary_key=True),
-                                     Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
-
-
-target_position_role_table = Table('target_position_role_table', Base.metadata,
-                                   Column('target_position_id', Integer, ForeignKey('candidate_target_position.id'),
-                                          primary_key=True),
-                                   Column('role_id', Integer, ForeignKey('role.id'), primary_key=True))
 
 class TargetPosition(Base):
     __tablename__ = 'candidate_target_position'
@@ -119,8 +95,11 @@ class TargetPosition(Base):
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
     created = Column(Date, nullable=False, default=datetime.now)
 
-    roles = relationship(Role, secondary="target_position_role_table")
-    skills = relationship(Skill, secondary="target_position_skills_table")
+    role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
+    role = relationship(Role)
+
+    skill_id = Column(Integer, ForeignKey("skill.id"), nullable=False)
+    skill = relationship(Skill)
 
     seniority_id = Column(Integer, ForeignKey(Seniority.id))
     seniority = relationship(Seniority)
@@ -132,7 +111,7 @@ class TargetPosition(Base):
     benefits = Column(Text)
 
     def __json__(self, request):
-        return {"id": self.id, 'seniority': self.seniority, "skills": self.skills, "roles": self.roles,
+        return {"id": self.id, 'seniority': self.seniority, "skill": self.skill, "role": self.role,
                 "minimum_salary": self.minimum_salary, "benefits": self.benefits, "company_type": self.company_type}
 
 
@@ -192,9 +171,9 @@ class Candidate(Base):
     willing_to_travel = Column(Boolean)
 
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
-    education = relationship(CandidateEducation, backref="candidate", cascade="all, delete, delete-orphan")
+    education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
-    preferred_cities = relationship(City, secondary=candidate_preferred_cities)
+    preferred_cities = relationship(City, secondary=candidate_preferred_city)
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
