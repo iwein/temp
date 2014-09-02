@@ -14,7 +14,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-protractor-webdriver');
 
   grunt.initConfig({
-
     pkg: grunt.file.readJSON('package.json'),
     files: grunt.file.readJSON('config/grunt-files.json'),
 
