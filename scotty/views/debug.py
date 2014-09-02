@@ -1,3 +1,4 @@
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 import pyramid_mako
 from scotty.views import RootController

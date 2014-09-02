@@ -1,5 +1,6 @@
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Candidate, Education, WorkExperience, TargetPosition
@@ -12,26 +13,39 @@ from sqlalchemy.orm import joinedload
 
 class CandidateController(RootController):
 
-    @reify
-    def candidate(self):
-        id = self.request.matchdict["id"]
-        candidate = DBSession.query(Candidate).get(id)
+    def get_candidate(self, candidate_id):
+        candidate = DBSession.query(Candidate).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
 
-    @view_config(route_name='candidates', **POST)
+    @reify
+    def candidate(self):
+        return self.get_candidate(self.request.matchdict["id"])
+
+    @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup(self):
         candidate = candidate_from_signup(self.request.json)
         DBSession.add(candidate)
         DBSession.flush()
         return candidate
 
-    @view_config(route_name='candidate_login', **POST)
+    @view_config(route_name='candidate_login', permission=NO_PERMISSION_REQUIRED, **POST)
     def login(self):
         candidate = candidate_from_login(self.request.json)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate Email or Password.")
+        self.request.session['candidate_id'] = candidate.id
+        return candidate
+
+    @view_config(route_name='candidate_me', **GET)
+    def me(self):
+        candidate_id = self.request.session.get('candidate_id')
+        if not not candidate_id:
+            raise HTTPForbidden("Not logged in.")
+        candidate = self.get_candidate(candidate_id)
+        if not candidate:
+            raise HTTPForbidden("Not logged in.")
         return candidate
 
     @view_config(route_name='candidate', **GET)
@@ -160,6 +174,7 @@ class CandidateTargetPositionController(RootController):
 def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
+    config.add_route('candidate_me', 'me')
     config.add_route('candidate', '{id}')
 
     config.add_route('candidate_skills', '{id}/skills')
