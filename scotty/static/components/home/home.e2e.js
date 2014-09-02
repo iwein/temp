@@ -1,3 +1,0 @@
-describe('Home component', function() {
-	// ...
-});

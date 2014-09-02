@@ -1,0 +1,23 @@
+{
+  "options": {
+    "cleancss": true,
+    "relativeUrls": true
+  },
+
+  "admin": {
+    "src": "<%= files.admin.less %>",
+    "dest": "<%= files.admin.out.css %>"
+  },
+  "candidate": {
+    "src": "<%= files.candidate.less %>",
+    "dest": "<%= files.candidate.out.css %>"
+  },
+  "employer": {
+    "src": "<%= files.employer.less %>",
+    "dest": "<%= files.employer.out.css %>"
+  },
+  "index": {
+    "src": "<%= files.index.less %>",
+    "dest": "<%= files.index.out.css %>"
+  }
+}

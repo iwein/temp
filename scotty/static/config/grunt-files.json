@@ -1,0 +1,120 @@
+{
+
+  "tools": {
+    "js": "components/**/*.js",
+    "test": "components/**/*.unit.js"
+  },
+
+  "components": {
+    "js": "components/**/*.js",
+    "test": {
+      "e2e": "components/**/*.e2e.js",
+      "unit": "components/**/*.unit.js",
+      "all": [
+        "<%= files.components.test.e2e %>",
+        "<%= files.components.test.unit %>"
+      ]
+    }
+  },
+
+  "admin": {
+    "html": "public/admin.html",
+    "less": "apps/admin/styles.less",
+    "test": [
+      "<%= files.tools.test %>",
+      "<%= files.components.test.all %>"
+    ],
+    "js": [
+      "apps/admin/**/*.js",
+      "<%= files.tools.js %>",
+      "<%= files.components.js %>"
+    ],
+    "out": {
+      "js": "public/admin.js",
+      "css": "public/admin.css"
+    }
+  },
+
+  "candidate": {
+    "html": "public/candidate.html",
+    "less": "apps/candidate/styles.less",
+    "test": [
+      "<%= files.tools.test %>",
+      "<%= files.components.test.all %>"
+    ],
+    "js": [
+      "apps/candidate/**/*.js",
+      "<%= files.tools.js %>",
+      "<%= files.components.js %>"
+    ],
+    "out": {
+      "js": "public/candidate.js",
+      "css": "public/candidate.css"
+    }
+  },
+
+  "employer": {
+    "html": "public/employer.html",
+    "less": "apps/employer/styles.less",
+    "test": [
+      "<%= files.tools.test %>",
+      "<%= files.components.test.all %>"
+    ],
+    "js": [
+      "apps/employer/**/*.js",
+      "<%= files.tools.js %>",
+      "<%= files.components.js %>"
+    ],
+    "out": {
+      "js": "public/employer.js",
+      "css": "public/employer.css"
+    }
+  },
+
+  "index": {
+    "html": "public/index.html",
+    "less": "apps/index/styles.less",
+    "test": [
+      "<%= files.tools.test %>",
+      "<%= files.components.test.all %>"
+    ],
+    "js": [
+      "apps/index/**/*.js",
+      "<%= files.tools.js %>",
+      "<%= files.components.js %>"
+    ],
+    "out": {
+      "js": "public/index.js",
+      "css": "public/index.css"
+    }
+  },
+
+  "build": {
+    "amd": "tmp/amd-build.js",
+    "ngannotate": "tmp/ngannotate-build.js"
+  },
+
+  "apps": {
+    "js": [
+      "<%= files.admin.js %>",
+      "<%= files.candidate.js %>",
+      "<%= files.employer.js %>",
+      "<%= files.index.js %>"
+    ],
+    "test": [
+      "<%= files.admin.test %>",
+      "<%= files.candidate.test %>",
+      "<%= files.employer.test %>",
+      "<%= files.index.test %>"
+    ]
+  },
+
+  "config": [
+    "config/**/*.json",
+    "config/**/*.js",
+    ".jshintrc",
+    "bower.json",
+    "gruntfile.js",
+    "package.json"
+  ]
+}

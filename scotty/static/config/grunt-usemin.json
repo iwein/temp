@@ -1,0 +1,18 @@
+{
+  "options": {
+  	"type": "html"
+  },
+
+  "admin": {
+  	"src": "<%= files.admin.html %>"
+  },
+  "candidate": {
+  	"src": "<%= files.candidate.html %>"
+  },
+  "employer": {
+  	"src": "<%= files.employer.html %>"
+  },
+  "index": {
+  	"src": "<%= files.index.html %>"
+  }
+}

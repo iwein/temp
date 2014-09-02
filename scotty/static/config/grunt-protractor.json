@@ -1,0 +1,10 @@
+{
+  "apps": {
+    "options": {
+      "configFile": "config/protractor.conf.js",
+      "args": {
+        "specs": [ "<%= files.components.test.e2e %>" ]
+      }
+    }
+  }
+}

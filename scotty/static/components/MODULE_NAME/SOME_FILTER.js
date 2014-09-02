@@ -4,7 +4,7 @@ define(function(require) {
 
   module.filter('SOME_FILTER', function() {
     return function(value) {
-    	console.log(value);
+      console.log(value);
       // ...
     };
   });

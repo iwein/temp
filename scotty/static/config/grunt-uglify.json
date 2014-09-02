@@ -1,0 +1,26 @@
+{
+  "options": {
+    "compress": {
+      "global_defs": { "DEBUG": false },
+      "pure_getters": true,
+      "drop_console": true
+    }
+  },
+
+  "admin": {
+    "src": "<%= files.build.ngannotate %>",
+    "dest": "<%= files.admin.out.js %>"
+  },
+  "candidate": {
+    "src": "<%= files.build.ngannotate %>",
+    "dest": "<%= files.candidate.out.js %>"
+  },
+  "employer": {
+    "src": "<%= files.build.ngannotate %>",
+    "dest": "<%= files.employer.out.js %>"
+  },
+  "index": {
+    "src": "<%= files.build.ngannotate %>",
+    "dest": "<%= files.index.out.js %>"
+  }
+}

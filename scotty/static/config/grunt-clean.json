@@ -1,0 +1,19 @@
+{
+  "tmp": [ "tmp/" ],
+
+  "test-results": [ "test-results/*.xml" ],
+
+  "buildjs": [
+    "<%= files.admin.out.js %>",
+    "<%= files.candidate.out.js %>",
+    "<%= files.employer.out.js %>",
+    "<%= files.index.out.js %>"
+  ],
+
+  "buildcss": [
+    "<%= files.admin.out.css %>",
+    "<%= files.candidate.out.css %>",
+    "<%= files.employer.out.css %>",
+    "<%= files.index.out.css %>"
+  ]
+}
