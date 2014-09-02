@@ -1,5 +1,6 @@
 from functools import wraps
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 
 

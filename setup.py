@@ -12,6 +12,7 @@ requires = [
     'pyramid_debugtoolbar',
     'pyramid_tm',
     'SQLAlchemy',
+    'alembic',
     'transaction',
     'zope.sqlalchemy',
     'waitress',
@@ -19,7 +20,8 @@ requires = [
     'static3',
     'wsgiref',
     'requests',
-    'paste', 'pastescript', 'pastedeploy', 'simplejson'
+    'paste', 'pastescript', 'pastedeploy', 'simplejson',
+    'beaker', 'pyramid_beaker'
     ]
 
 setup(name='scotty',

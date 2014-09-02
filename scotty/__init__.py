@@ -1,7 +1,10 @@
 from datetime import datetime, date
 from uuid import UUID
+from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
+from pyramid_beaker import session_factory_from_settings
+from scotty.auth.provider import AuthProvider, RootResource
 from scotty.models.tools import json_encoder
 from scotty.predicates import ContentTypePredicate
 from sqlalchemy import engine_from_config
@@ -41,7 +44,11 @@ def main(global_config, **settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
 
-    config = Configurator(settings=settings)
+    config = Configurator(settings=settings,
+                          authentication_policy=AuthProvider(settings),
+                          authorization_policy=ACLAuthorizationPolicy(),
+                          session_factory=session_factory_from_settings(settings),
+                          root_factory=RootResource)
 
     config.include('pyramid_chameleon')
     config.add_renderer('json', jsonRenderer)

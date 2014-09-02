@@ -53,7 +53,6 @@ class CandidateSkill(Base):
         return {'skill': self.skill, "level": self.level}
 
 
-
 candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
