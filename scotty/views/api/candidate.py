@@ -41,7 +41,7 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_me', **GET)
     def me(self):
         candidate_id = self.request.session.get('candidate_id')
-        if not not candidate_id:
+        if not candidate_id:
             raise HTTPForbidden("Not logged in.")
         candidate = self.get_candidate(candidate_id)
         if not candidate:
