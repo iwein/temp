@@ -1,3 +1,5 @@
+/*globals jasmine */
+'use strict';
 
 var baseUrl = 'http://' + (process.env.HTTP_HOST || 'localhost') +
 							':' + (process.env.HTTP_PORT || '8081');
@@ -17,7 +19,7 @@ exports.config = {
     // needs jasmine to be in the global and protractor does not guarantee
     // this until inside the onPrepare function.
     require('jasmine-reporters');
-    var reporter = new jasmine.JUnitXmlReporter('xmloutput', true, true);
+    var reporter = new jasmine.JUnitXmlReporter('test-results', true, true);
     jasmine.getEnv().addReporter(reporter);
   },
 };

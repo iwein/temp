@@ -2,8 +2,9 @@
 
 module.exports = function(grunt) {
   'use strict';
-  grunt.loadNpmTasks('grunt-ng-annotate');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-usemin');
+  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -29,8 +30,8 @@ module.exports = function(grunt) {
           e2e: 'components/**/*.e2e.js',
           unit: 'components/**/*.unit.js',
           all: [
-            '<%= components.test.e2e %>',
-            '<%= components.test.unit %>',
+            '<%= files.components.test.e2e %>',
+            '<%= files.components.test.unit %>',
           ]
         }
       },
@@ -135,6 +136,7 @@ module.exports = function(grunt) {
       },
       config: [
         '*.json',
+        '*.conf.js',
         '.jshintrc',
         'gruntfile.js',
       ],
@@ -301,6 +303,23 @@ module.exports = function(grunt) {
         }
       },
     },
+
+    karma: {
+      apps: {
+        configFile: 'karma.conf.js',
+        browsers: [ 'PhantomJS' ],
+        runnerPort: 9101,
+        singleRun: true,
+        autoWatch: false,
+      },
+      tdd: {
+        configFile: 'karma.conf.js',
+        browsers: [ 'Chrome' ],
+        runnerPort: 9101,
+        singleRun: false,
+        autoWatch: true,
+      },
+    },
   });
 
 
@@ -340,9 +359,15 @@ module.exports = function(grunt) {
     return 'build-' + app;
   })));
 
+  grunt.registerTask('test:unit', [ 'karma:apps' ]);
   grunt.registerTask('test:e2e', [
     'protractor_webdriver',
     'protractor',
+  ]);
+  grunt.registerTask('test', [
+    'jshint:apps',
+    'test:unit',
+    'test:e2e',
   ]);
 
   grunt.registerTask('default', [ 'build' ]);
