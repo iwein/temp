@@ -6,11 +6,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-protractor-webdriver');
 
   grunt.initConfig({
 
@@ -25,10 +25,14 @@ module.exports = function(grunt) {
 
       components: {
         js: 'components/**/*.js',
-        test: [
-          'components/**/*.e2e.js',
-          'components/**/*.unit.js',
-        ]
+        test: {
+          e2e: 'components/**/*.e2e.js',
+          unit: 'components/**/*.unit.js',
+          all: [
+            '<%= components.test.e2e %>',
+            '<%= components.test.unit %>',
+          ]
+        }
       },
 
       admin: {
@@ -36,7 +40,7 @@ module.exports = function(grunt) {
         less: 'apps/admin/styles.less',
         test: [
           '<%= files.tools.test %>',
-          '<%= files.components.test %>',
+          '<%= files.components.test.all %>',
         ],
         js: [
           'apps/admin/**/*.js',
@@ -54,7 +58,7 @@ module.exports = function(grunt) {
         less: 'apps/candidate/styles.less',
         test: [
           '<%= files.tools.test %>',
-          '<%= files.components.test %>',
+          '<%= files.components.test.all %>',
         ],
         js: [
           'apps/candidate/**/*.js',
@@ -72,7 +76,7 @@ module.exports = function(grunt) {
         less: 'apps/employer/styles.less',
         test: [
           '<%= files.tools.test %>',
-          '<%= files.components.test %>',
+          '<%= files.components.test.all %>',
         ],
         js: [
           'apps/employer/**/*.js',
@@ -90,7 +94,7 @@ module.exports = function(grunt) {
         less: 'apps/index/styles.less',
         test: [
           '<%= files.tools.test %>',
-          '<%= files.components.test %>',
+          '<%= files.components.test.all %>',
         ],
         js: [
           'apps/index/**/*.js',
@@ -274,6 +278,29 @@ module.exports = function(grunt) {
         '<%= files.index.out.css %>',
       ],
     },
+
+    protractor_webdriver: {
+      apps: {
+        options: {
+          path: 'node_modules/protractor/bin/',
+          command: 'webdriver-manager start'
+        }
+      }
+    },
+
+    protractor: {
+      apps: {
+        options: {
+          //keepAlive: true, // If false, the grunt process stops when the test fails.
+          //noColor: false, // If true, protractor will not use colors in its output.
+          configFile: 'protractor.conf.js',
+          args: {
+            specs: [ 'components/home/home.e2e.js' ],
+            //specs: [ '<%= files.components.test.e2e %>' ],
+          }
+        }
+      },
+    },
   });
 
 
@@ -312,6 +339,11 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [ 'jshint:apps' ].concat(apps.map(function(app) {
     return 'build-' + app;
   })));
+
+  grunt.registerTask('test:e2e', [
+    'protractor_webdriver',
+    'protractor',
+  ]);
 
   grunt.registerTask('default', [ 'build' ]);
 };
