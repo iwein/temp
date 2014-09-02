@@ -1,0 +1,8 @@
+{
+  "apps": {
+    "options": {
+      "path": "node_modules/protractor/bin/",
+      "command": "webdriver-manager start"
+    }
+  }
+}

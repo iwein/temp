@@ -1,0 +1,17 @@
+{
+  "apps": {
+    "configFile": "config/karma.conf.js",
+    "browsers": [ "PhantomJS" ],
+    "runnerPort": 9101,
+    "singleRun": true,
+    "autoWatch": false
+  },
+
+  "tdd": {
+    "configFile": "config/karma.conf.js",
+    "browsers": [ "Chrome" ],
+    "runnerPort": 9101,
+    "singleRun": false,
+    "autoWatch": true
+  }
+}

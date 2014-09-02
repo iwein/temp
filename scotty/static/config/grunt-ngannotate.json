@@ -1,0 +1,6 @@
+{
+  "amd": {
+    "src": "<%= files.build.amd %>",
+    "dest": "<%= files.build.ngannotate %>"
+  }
+}

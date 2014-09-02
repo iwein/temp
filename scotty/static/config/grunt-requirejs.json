@@ -1,0 +1,41 @@
+{
+  "options": {
+    "baseUrl": "",
+    "optimize": "none",
+    "name": "bower_components/almond/almond",
+    "out": "<%= files.build.amd %>",
+    "paths": {
+      "angular-core": "bower_components/angular/angular.min",
+      "angular": "bower_components/angular-ui-router/release/angular-ui-router.min"
+    }
+  },
+
+  "admin": {
+    "options": {
+      "mainConfigFile": "apps/admin/requirejs-config.js",
+      "include": "apps/admin/app",
+      "insertRequire": [ "apps/admin/app" ]
+    }
+  },
+  "candidate": {
+    "options": {
+      "mainConfigFile": "apps/candidate/requirejs-config.js",
+      "include": "apps/candidate/app",
+      "insertRequire": [ "apps/candidate/app" ]
+    }
+  },
+  "employer": {
+    "options": {
+      "mainConfigFile": "apps/employer/requirejs-config.js",
+      "include": "apps/employer/app",
+      "insertRequire": [ "apps/employer/app" ]
+    }
+  },
+  "index": {
+    "options": {
+      "mainConfigFile": "apps/index/requirejs-config.js",
+      "include": "apps/index/app",
+      "insertRequire": [ "apps/index/app" ]
+    }
+  }
+}

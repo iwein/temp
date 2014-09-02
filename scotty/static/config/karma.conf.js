@@ -8,7 +8,7 @@ module.exports = function(config) {
 	config.set({
 
 		// base path, that will be used to resolve files and exclude
-		basePath: '',
+		basePath: '../',
 
 
 		// frameworks to use
@@ -22,7 +22,7 @@ module.exports = function(config) {
 			{ pattern: 'apps/**/*.js', included: false },
 			{ pattern: 'tools/**/*.js', included: false },
 			{ pattern: 'components/**/*.js', included: false },
-			'test_runner.js',
+			'config/test_runner.js',
 		],
 
 		// list of files to exclude

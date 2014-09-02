@@ -25,7 +25,7 @@ requirejs.config({
 });
 
 define('app-module', function() {
-  return angular.module('test', [ 'ui.router' ]);
+  return require('angular').module('test', [ 'ui.router' ]);
 });
 
 require(tests, window.__karma__.start);
