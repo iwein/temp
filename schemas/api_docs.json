@@ -1,0 +1,9 @@
+{
+  "swaggerVersion": "1.2",
+  "apis": [
+    {
+      "path": "/api/v1/seniority",
+      "description": "Sample valid api declaration."
+    }
+  ]
+}

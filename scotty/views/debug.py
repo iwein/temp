@@ -1,6 +1,4 @@
-from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
-import pyramid_mako
 from scotty.views import RootController
 
 
@@ -23,10 +21,6 @@ class DebugController(RootController):
 
 
 def includeme(config):
-    config.add_directive('add_mako_renderer', pyramid_mako.add_mako_renderer)
-    config.add_mako_renderer(".html")
-
-
     config.add_route('debug_home', '')
     config.add_route('debug_config', '/config')
     config.add_route('debug_candidate', '/candidate')

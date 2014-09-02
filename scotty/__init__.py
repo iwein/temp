@@ -4,6 +4,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
 from pyramid_beaker import session_factory_from_settings
+import pyramid_mako
 from scotty.auth.provider import AuthProvider, RootResource
 from scotty.models.tools import json_encoder
 from scotty.predicates import ContentTypePredicate
@@ -50,7 +51,9 @@ def main(global_config, **settings):
                           session_factory=session_factory_from_settings(settings),
                           root_factory=RootResource)
 
-    config.include('pyramid_chameleon')
+    config.add_directive('add_mako_renderer', pyramid_mako.add_mako_renderer)
+    config.add_mako_renderer(".html")
+
     config.add_renderer('json', jsonRenderer)
     config.add_renderer(None, jsonRenderer)
     config.add_view_predicate('content_type', ContentTypePredicate)
