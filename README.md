@@ -61,6 +61,15 @@ No build process required for development.
 For production dependencies should be installed with `npm install`.
 Build process is executed with `grunt build`
 
+#### Unbuild
+
+To return to development mode after build two commands are required:
+
+* `grunt clean`
+* `git checkout public`
+
+If you know a simpler way to do this please let me know.
+
 #### Tests
 
 To run the test `npm install` is required. Grunt tasks are:
