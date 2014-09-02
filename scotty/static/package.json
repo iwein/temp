@@ -4,7 +4,8 @@
   "description": "",
   "author": "Hack&Craft",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "install": "node_modules/protractor/bin/webdriver-manager update --standalone"
   },
   "dependencies": {
     "grunt": "^0.4.5",
