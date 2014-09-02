@@ -21,15 +21,15 @@ Demo Environment is at [http://guarded-inlet-9319.herokuapp.com/debug](http://gu
 * copy a local.ini config file with proper Postgres Connection Strings, <code>sqlalchemy.url</code>
   * note this is mentioned twice in the config file
 * run <code>alembic -c [CONFIG] upgrade head</code>
-* start the server with <code>paste serve --reload configs/[CONFIG]</code> 
+* start the server with <code>paste serve --reload configs/[CONFIG]</code>
 * open a browser on [http://localhost:8080](http://localhost:8080)
 
 ### Pulling Code and Upgrading API
 
 After each pull it is advised you
 * run <code>alembic -c [CONFIG] upgrade head</code>
-  
-All data model changes get set up through this cmd. 
+
+All data model changes get set up through this cmd.
 If you see unexpect errors in the API, make sure to run the script.
 
 If this script fails with "Unknown revision .....", you will need to empty out the DB and run the command again.
@@ -41,7 +41,7 @@ Reset the db by running the following in postgres on the relevant database:
     create schema public;
 
 and then
- 
+
 * run <code>alembic -c [CONFIG] upgrade head</code>
 
 #####Install psycopg2 on windows
@@ -55,6 +55,16 @@ http://stackoverflow.com/questions/3030984/installing-psycopg2-postgresql-in-vir
 
 The main file is at `/scotty/static/public/index.html`
 
+#### Build
+
 No build process required for development.
 For production dependencies should be installed with `npm install`.
 Build process is executed with `grunt build`
+
+#### Tests
+
+To run the test `npm install` is required. Grunt tasks are:
+
+* `grunt test:unit`: To run unit tests
+* `grunt test:e2e`: To execute end to end tests
+* `grunt test`: All tests with linting
