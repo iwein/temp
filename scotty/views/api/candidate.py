@@ -38,6 +38,12 @@ class CandidateController(RootController):
         self.request.session['candidate_id'] = candidate.id
         return candidate
 
+    @view_config(route_name='candidate_logout', **GET)
+    def logout(self):
+        if 'candidate_id' in self.request.session:
+            del self.request.session['candidate_id']
+        return {'success': True}
+
     @view_config(route_name='candidate_me', **GET)
     def me(self):
         candidate_id = self.request.session.get('candidate_id')
@@ -174,6 +180,7 @@ class CandidateTargetPositionController(RootController):
 def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
+    config.add_route('candidate_logout', 'logout')
     config.add_route('candidate_me', 'me')
     config.add_route('candidate', '{id}')
 
