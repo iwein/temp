@@ -8,7 +8,6 @@ with open(os.path.join(here, 'README.md')) as f:
 
 requires = [
     'pyramid',
-    'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_tm',
     'SQLAlchemy',
@@ -16,12 +15,13 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'psycopg2',
     'static3',
     'wsgiref',
     'requests',
     'paste', 'pastescript', 'pastedeploy', 'simplejson',
-    'beaker', 'pyramid_beaker'
+    'beaker', 'pyramid_beaker',
+
+    'psycopg2'
     ]
 
 setup(name='scotty',
