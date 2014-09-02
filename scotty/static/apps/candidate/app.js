@@ -1,6 +1,9 @@
 define(function(require) {
   'use strict';
-  require('components/MODULE_NAME/MODULE_NAME');
+  require('components/candidate-home/candidate-home');
+  require('components/candidate-login/candidate-login');
+  require('components/candidate-register/candidate-register');
+
   var module = require('app-module');
   var angular = require('angular');
 
@@ -10,8 +13,18 @@ define(function(require) {
     $stateProvider
       .state('home', {
         url: '/',
-        template: require('text!components/MODULE_NAME/MODULE_NAME.html'),
-        controller: 'MODULE_NAMECtrl',
+        template: require('text!components/candidate-home/candidate-home.html'),
+        controller: 'CandidateHomeCtrl',
+      })
+      .state('login', {
+        url: '/login',
+        template: require('text!components/candidate-login/candidate-login.html'),
+        controller: 'CandidateLoginCtrl',
+      })
+      .state('register', {
+        url: '/register',
+        template: require('text!components/candidate-register/candidate-register.html'),
+        controller: 'CandidateRegisterCtrl',
       });
   });
 
