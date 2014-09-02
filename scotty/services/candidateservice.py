@@ -110,10 +110,13 @@ def set_preferredcities_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of locations as root level.")
 
-    cities = DBSession.query(City).options(joinedload("country")).filter(
-        City.name.in_(p['city'] for p in params),
-        City.country_iso.in_(p['country_iso'] for p in params)
-    ).all()
+    if not params:
+        cities = []
+    else:
+        cities = DBSession.query(City).options(joinedload("country")).filter(
+            City.name.in_(p['city'] for p in params),
+            City.country_iso.in_(p['country_iso'] for p in params)
+        ).all()
 
     if len(cities) < len(params):
         cities = [(c.name, c.country_iso) for c in cities]

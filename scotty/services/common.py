@@ -42,6 +42,8 @@ def params_get_list_or_raise(params, name):
 
 
 def get_or_create_named_collection(cls, names, field_name='name'):
+    if not names:
+        return []
     objs = DBSession.query(cls).filter(getattr(cls, field_name).in_(names)).all()
     if len(objs) < len(names):
         missings = set(names).difference(getattr(t, field_name) for t in objs)
@@ -52,6 +54,8 @@ def get_or_create_named_collection(cls, names, field_name='name'):
 
 
 def get_or_raise_named_collection(cls, names, field_name='name', require_uniqueness=True):
+    if not names:
+        return []
     name_set = set(names)
     if require_uniqueness:
         if len(name_set) < len(names):
