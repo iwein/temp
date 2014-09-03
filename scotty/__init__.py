@@ -1,4 +1,5 @@
 from datetime import datetime, date
+import os
 from uuid import UUID
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
@@ -40,6 +41,13 @@ jsonRenderer.add_adapter(Base, json_encoder)
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
+
+    # respect Heroku Environment VAR
+    url = settings['sqlalchemy.url']
+    if url.startswith('__env__'):
+        name, value = url.split(':', 1)
+        settings['sqlalchemy.url'] = os.environ[value.strip()]
+
     engine = engine_from_config(settings, 'sqlalchemy.')
     log.info("DB Connected at: %s" % settings['sqlalchemy.url'])
     DBSession.configure(bind=engine)
