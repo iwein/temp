@@ -2,7 +2,7 @@
 
 define(function(require) {
   'use strict';
-  require('tools/API');
+  require('tools/api');
   var extend = require('angular').extend;
   var module = require('app-module');
 
