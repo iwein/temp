@@ -76,14 +76,17 @@ def add_candidate_target_position(candidate, params):
     company_type_name = params.get('company_type')
     company_type = get_by_name_or_raise(CompanyType, company_type_name)
 
-    seniority_name = params['seniority']
-    seniority = get_by_name_or_raise(Seniority, seniority_name)
+    seniority_name = params.get('seniority')
 
     role = get_by_name_or_create(Role, params["role"])
     skill = get_by_name_or_create(Skill, params["skill"])
 
     tp = TargetPosition(candidate=candidate, minimum_salary=minimum_salary, benefits=benefits,
-                        company_type=company_type, seniority=seniority, role=role, skill=skill)
+                        company_type=company_type, role=role, skill=skill)
+    if seniority_name:
+        seniority = get_by_name_or_raise(Seniority, seniority_name)
+        tp.seniority = seniority
+
     DBSession.add(tp)
     DBSession.flush()
     return tp

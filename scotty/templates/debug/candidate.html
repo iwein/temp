@@ -95,7 +95,7 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'create-target_position',
                 data: {"company_type": "startup", "role":"Java Developer", 'skill': "PHP",
-                  benefits:"Free Breakfasts", minimum_salary: 100000, seniority: "expert"},
+                  benefits:"Free Breakfasts", minimum_salary: 100000},
                 extract:   function(r, extr){return {target_positionId: r.id}}},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'create-target_position-2',
                 data: {"company_type": "top500", "role":"Senior Designer", 'skill': "Java", benefits:"Free Breakfasts", minimum_salary: 40000, seniority: "senior"}},
