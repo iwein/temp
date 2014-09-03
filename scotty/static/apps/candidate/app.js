@@ -1,33 +1,20 @@
 define(function(require) {
   'use strict';
-  require('tools/candidate-session');
-  require('components/candidate-home/candidate-home');
-  require('components/candidate-login/candidate-login');
-  require('components/candidate-signup/candidate-signup');
-
   var angular = require('angular');
   var module = require('app-module');
 
   module.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider
-      .state('home', {
-        url: '/',
-        template: require('text!components/candidate-home/candidate-home.html'),
-        controller: 'CandidateHomeCtrl',
-      })
-      .state('login', {
-        url: '/login',
-        template: require('text!components/candidate-login/candidate-login.html'),
-        controller: 'CandidateLoginCtrl',
-      })
-      .state('signup', {
-        url: '/signup',
-        template: require('text!components/candidate-signup/candidate-signup.html'),
-        controller: 'CandidateSignupCtrl',
-      });
+      .state('home', require('components/candidate-home/candidate-home'))
+      .state('login', require('components/candidate-login/candidate-login'))
+      .state('signup', require('components/candidate-signup/candidate-signup'))
+      .state('signup.target1', require('components/candidate-signup-target1/candidate-signup-target1'))
+      .state('signup.target2', require('components/candidate-signup-target2/candidate-signup-target2'));
   });
 
+
+  require('tools/candidate-session');
   module.run(function($rootScope, CandidateSession) {
     $rootScope.session = CandidateSession;
   });

@@ -1,0 +1,28 @@
+  <form class="component-candidate-signup-target1">
+
+    <input type="text"
+      placeholder="Skill"
+      ng-model="skill"
+      typeahead="skill for skill in signupTarget1.searchSkills($viewValue)"
+      typeahead-loading="loadingSkills">
+
+    <input type="text"
+      placeholder="Role"
+      ng-model="role"
+      typeahead="role for role in signupTarget1.searchRoles($viewValue)"
+      typeahead-loading="loadingRoles">
+
+    <div class="btn-group" dropdown ng-model="companyType">
+      <button type="button" class="btn btn-primary dropdown-toggle">
+        Company Type
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="type in companyTypes">
+          <a dropdown-toggle ng-click="signupTarget1.setCompanyType(type)">{{ type }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <a class="btn" ui-sref="signup.target2">Next</a>
+  </form>

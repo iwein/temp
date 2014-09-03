@@ -1,0 +1,21 @@
+  <form class="candidate-signup-target2">
+    <input type="number" placeholder="Salary" ng-model="salary">
+
+    <input type="text"
+      placeholder="Cities"
+      ng-model="currentCity"
+      typeahead="city for city in signup.searchCities($viewValue)"
+      typeahead-loading="loadingRoles">
+
+    <div class="btn-group" dropdown ng-model="companyType">
+      <button type="button" class="btn btn-primary dropdown-toggle">
+        Company Type
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="type in companyTypes">
+          <a dropdown-toggle ng-click="setCompanyType(type)">{{ type }}</a>
+        </li>
+      </ul>
+    </div>
+  </form>
