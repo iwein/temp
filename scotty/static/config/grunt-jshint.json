@@ -4,6 +4,17 @@
     "jshintrc": ".jshintrc"
   },
 
+  "pre-commit": {
+    "options": {
+      "jshintrc": "config/jshintrc-pre-commit.json"
+    },
+    "src": [
+      "<%= files.config %>",
+      "<%= files.apps.js %>",
+      "<%= files.apps.test %>"
+    ]
+  },
+
   "config": [ "<%= files.config %>" ],
 
   "apps": [ "<%= files.apps.js %>" ],
@@ -12,7 +23,7 @@
   "employer": [ "<%= files.employer.js %>" ],
   "index": [ "<%= files.index.js %>" ],
 
-  "apps_test": [ "<%= files.apps.test" ],
+  "apps_test": [ "<%= files.apps.test %>" ],
   "admin_test": [ "<%= files.admin.test %>" ],
   "candidate_test": [ "<%= files.candidate.test %>" ],
   "employer_test": [ "<%= files.employer.test %>" ],

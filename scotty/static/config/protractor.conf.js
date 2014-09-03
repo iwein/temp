@@ -1,4 +1,5 @@
 /*globals jasmine */
+// jshint node:true
 'use strict';
 
 var baseUrl = 'http://' + (process.env.HTTP_HOST || 'localhost') +

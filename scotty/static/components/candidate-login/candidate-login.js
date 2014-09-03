@@ -8,9 +8,9 @@ define(function(require) {
     $location,
     CandidateSession
   ) {
+    this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
-    $scope.submit = submit;
 
     function submit(email, password) {
       $scope.error = false;
@@ -25,4 +25,12 @@ define(function(require) {
       });
     }
   });
+
+
+  return {
+    url: '/login',
+    template: require('text!./candidate-login.html'),
+    controller: 'CandidateLoginCtrl',
+    controllerAs: 'login',
+  };
 });
