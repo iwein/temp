@@ -4,6 +4,6 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateHomeCtrl', function($scope, CandidateSession) {
-    $scope.logout = CandidateSession.logout;
+    $scope.logout = CandidateSession.logout.bind(CandidateSession);
   });
 });

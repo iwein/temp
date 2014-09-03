@@ -1,42 +1,61 @@
 define(function(require) {
   'use strict';
-  var module = require('app-module');
-  module.factory('CandidateSession', function($http) {
+  require('tools/api');
 
-    var CandidateSession = {
-      user: null,
-      login: login,
-      logout: logout,
-      register: register,
-      checkSession: checkSession,
-    };
+  function CandidateSession(api) {
+    this._api = api;
+  }
 
-    function login(email, password) {
-      return $http.post('/api/v1/candidates/login', {
+  CandidateSession.prototype = {
+    constructor: CandidateSession,
+
+    signup: function() {
+      // TODO
+    },
+
+    login: function(email, password) {
+      return this._api.post('/candidates/login', {
         email: email,
         pwd: password
       }).then(function(response) {
-        CandidateSession.user = response.data;
-        return response.data;
-      });
-    }
+        this.user = response;
+        return response;
+      }.bind(this));
+    },
 
-    function logout() {
-      CandidateSession.user = null;
+    logout: function() {
+      this.user = null;
       document.cookie = false;
-    }
+      return this._api.get('/candidates/logout').then(function() {
+        this.user = null;
+        return null;
+      }.bind(this));
+    },
 
-    function register() {
-      // TODO
-    }
-
-    function checkSession() {
-      return $http.get('/api/v1/candidates/me').then(function(response) {
-        CandidateSession.user = response.data;
-        return response.data;
+    checkSession: function() {
+      return this._api.get('/candidates/me').then(function(response) {
+        this.user = response;
+        return response;
+      }.bind(this), function(request) {
+        if (request.status === 403)
+          return null;
+        throw request;
       });
-    }
+    },
 
-    return CandidateSession;
+    hasSession: function() {
+      return !!this.user;
+    },
+  };
+
+
+  var module = require('app-module');
+  module.factory('CandidateSession', function(API) {
+    var session = new CandidateSession(API);
+    session.checkSession();
+    return session;
   });
+
+
+  return CandidateSession;
 });

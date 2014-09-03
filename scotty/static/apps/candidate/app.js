@@ -29,7 +29,6 @@ define(function(require) {
   });
 
   module.run(function($rootScope, CandidateSession) {
-    CandidateSession.checkSession();
     $rootScope.session = CandidateSession;
   });
 
