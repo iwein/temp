@@ -15,8 +15,10 @@ define(function(require) {
       return this._root + '/' + this._version + '/';
     },
 
-    get: function(url) {
-      return this._ajax.get(this.root() + url).then(function(response) {
+    get: function(url, params) {
+      return this._ajax.get(this.root() + url, {
+        params: params,
+      }).then(function(response) {
         return response.data;
       });
     },

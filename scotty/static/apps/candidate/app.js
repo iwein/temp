@@ -3,7 +3,7 @@ define(function(require) {
   require('tools/candidate-session');
   require('components/candidate-home/candidate-home');
   require('components/candidate-login/candidate-login');
-  require('components/candidate-register/candidate-register');
+  require('components/candidate-signup/candidate-signup');
 
   var angular = require('angular');
   var module = require('app-module');
@@ -21,10 +21,10 @@ define(function(require) {
         template: require('text!components/candidate-login/candidate-login.html'),
         controller: 'CandidateLoginCtrl',
       })
-      .state('register', {
-        url: '/register',
-        template: require('text!components/candidate-register/candidate-register.html'),
-        controller: 'CandidateRegisterCtrl',
+      .state('signup', {
+        url: '/signup',
+        template: require('text!components/candidate-signup/candidate-signup.html'),
+        controller: 'CandidateSignupCtrl',
       });
   });
 
