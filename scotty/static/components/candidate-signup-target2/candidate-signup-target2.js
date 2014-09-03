@@ -7,17 +7,20 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, API) {
+    var citiesData = null;
     this.searchCities = searchCities;
     this.addCity = addCity;
     this.removeCity = removeCity;
+    this.cityText = cityText;
     this.submit = submit;
     $scope.cities = [];
-    var citiesData = null;
+    $scope.salary = $scope.signup.data.target.minimum_salary;
+    $scope.cities = $scope.signup.data.cities;
 
     function addCity() {
       var city = $scope.currentCity;
       var data = citiesData.filter(function(entry) {
-        return entry.city + ', ' + entry.country_iso === city;
+        return cityText(entry) === city;
       })[0];
 
       $scope.cities.push(data);
@@ -30,13 +33,17 @@ define(function(require) {
       });
     }
 
+    function cityText(entry) {
+      return entry.city + ', ' + entry.country_iso;
+    }
+
     function searchCities(term) {
       return API.get('/config/locations', {
         limit: 10,
         q: term,
       }).then(function(response) {
         citiesData = response.data;
-        return citiesData;
+        return citiesData.map(cityText);
       });
     }
 
@@ -46,10 +53,10 @@ define(function(require) {
 
       $scope.signup.data.cities = $scope.cities;
       extend($scope.signup.data.target, {
-        salary: $scope.salary,
+        minimum_salary: $scope.salary,
       });
 
-      $state.go('^.target2');
+      $state.go('^.user');
     }
   });
 

@@ -1,10 +1,15 @@
 define(function(require) {
   'use strict';
+  var devAPI = 'http://sheltered-meadow-1359.herokuapp.com/api/';
+
+  if (DEBUG) {
+    devAPI = 'http://localhost/api/';
+  }
 
   function API(ajax, options) {
     options = options || {};
     this._ajax = ajax;
-    this._root = options.root || 'http://localhost/api/'
+    this._root = options.root || devAPI;
     this._version = options.version || 'v1';
   }
 

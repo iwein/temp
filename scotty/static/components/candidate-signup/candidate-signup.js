@@ -10,6 +10,20 @@ define(function(require) {
       target: {},
     };
 
+    if (DEBUG) {
+      // jshint camelcase:false
+      this.data.target = {
+        company_type: 'large',
+        role: 'Developer',
+        minimum_salaryg: 10000,
+        skill: 'Javascript',
+      };
+      this.data.cities = [{
+        city: 'Barcelona',
+        country_iso: 'ES',
+      }];
+    }
+
     switch ($state.current.name) {
       case 'signup':
         $state.go('signup.target1');
@@ -19,8 +33,8 @@ define(function(require) {
         break;
 
       case 'signup.target2':
-        //if (!this.data.target.skill)
-        //  $state.go('signup.target1');
+        if (!this.data.target.skill)
+          $state.go('signup.target1');
         break;
     }
   });

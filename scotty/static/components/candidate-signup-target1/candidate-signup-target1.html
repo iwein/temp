@@ -2,7 +2,7 @@
     class="component-candidate-signup-target1"
     ng-submit="signupTarget1.submit()">
 
-    <div>
+    <div class="form-group">
       <input type="text"
         class="form-control"
         name="skill"
@@ -13,11 +13,11 @@
         typeahead-loading="loadingSkills">
     </div>
 
-    <div class="custom-error" ng-show="formTarget1.skill.$dirty && formTarget1.skill.$invalid">
+    <div class="form-error" ng-show="formTarget1.skill.$dirty && formTarget1.skill.$invalid">
       <span ng-show="formTarget1.skill.$error.required">Please insert your skill.</span>
     </div>
 
-    <div>
+    <div class="form-group">
       <input type="text"
         class="form-control"
         name="role"
@@ -28,11 +28,11 @@
         typeahead-loading="loadingRoles">
     </div>
 
-    <div class="custom-error" ng-show="formTarget1.role.$dirty && formTarget1.role.$invalid">
+    <div class="form-error" ng-show="formTarget1.role.$dirty && formTarget1.role.$invalid">
       <span ng-show="formTarget1.role.$error.required">Please insert your role.</span>
     </div>
 
-    <div>
+    <div class="form-group">
       <div class="btn-group"
         dropdown
         required
@@ -51,11 +51,11 @@
       </div>
     </div>
 
-    <div class="custom-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
+    <div class="form-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
       Please select your's company type.
     </div>
 
-    <div>
-      <button type="submit" class="btn-group">Next</button>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Next</button>
     </div>
   </form>

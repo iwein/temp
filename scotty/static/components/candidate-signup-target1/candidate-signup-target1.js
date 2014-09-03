@@ -12,6 +12,8 @@ define(function(require) {
     this.setCompanyType = setCompanyType;
     this.submit = submit;
 
+    extend($scope, $scope.signup.data.target);
+
     API.get('/config/company_types').then(function(response) {
       $scope.companyTypes = response.data;
     });
@@ -38,7 +40,7 @@ define(function(require) {
       extend($scope.signup.data.target, {
         skill: $scope.skill,
         role: $scope.role,
-        company_type: $scope.companyType,
+        companyType: $scope.companyType,
       });
 
       $state.go('^.target2');

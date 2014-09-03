@@ -10,7 +10,9 @@ define(function(require) {
       .state('login', require('components/candidate-login/candidate-login'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
       .state('signup.target1', require('components/candidate-signup-target1/candidate-signup-target1'))
-      .state('signup.target2', require('components/candidate-signup-target2/candidate-signup-target2'));
+      .state('signup.target2', require('components/candidate-signup-target2/candidate-signup-target2'))
+      .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))
+      ;
   });
 
 
