@@ -9,7 +9,7 @@ requirejs.config({
     'text': 'bower_components/text/text',
     'angular-core': 'bower_components/angular/angular',
     'angular': 'bower_components/angular-ui-router/release/angular-ui-router',
-    'ui.bootstrap': 'vendor/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0',
+    'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
 
     // aliases
     'app-module': 'apps/candidate/candidate-module',
