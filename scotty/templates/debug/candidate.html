@@ -104,7 +104,10 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position-3'},
 
               {'sectionTitle': 'Cleanup'},
+              {'url': function(r, extr){return '/api/v1/candidates/logout'}, 'title': 'candidate-logout'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-delete', method:"DELETE"}
+
+
             ];
 
     $(function(){getTestRunner(tests)(0, {});})
