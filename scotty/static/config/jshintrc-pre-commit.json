@@ -37,7 +37,7 @@
   // Relaxing
   "asi"           : false,     // true: Tolerate Automatic Semicolon Insertion (no semicolons)
   "boss"          : false,     // true: Tolerate assignments where comparisons would be expected
-  "debug"         : true,      // true: Allow debugger statements e.g. browser breakpoints.
+  "debug"         : false,      // true: Allow debugger statements e.g. browser breakpoints.
   "eqnull"        : true,      // true: Tolerate use of `== null`
   //"es5"           : true,      // true: Allow ES5 syntax (ex: getters and setters)
   "esnext"        : false,     // true: Allow ES.next (ES6) syntax (ex: `const`)
@@ -64,7 +64,7 @@
   "browser"       : true,     // Web Browser (window, document, etc)
   "browserify"    : false,    // Browserify (node.js code in the browser)
   "couch"         : false,    // CouchDB
-  "devel"         : true,     // Development/debugging (alert, confirm, etc)
+  "devel"         : false,     // Development/debugging (alert, confirm, etc)
   "dojo"          : false,    // Dojo Toolkit
   "jquery"        : false,    // jQuery
   "mootools"      : false,    // MooTools

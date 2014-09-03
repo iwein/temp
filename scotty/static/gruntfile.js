@@ -1,4 +1,4 @@
-//jshint maxlen:120, camelcase:false
+// jshint node:true, camelcase:false
 
 module.exports = function(grunt) {
   'use strict';
@@ -34,6 +34,8 @@ module.exports = function(grunt) {
     protractor: grunt.file.readJSON('config/grunt-protractor.json'),
     protractor_webdriver: grunt.file.readJSON('config/grunt-protractor_webdriver.json'),
   });
+
+  grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
 
 
 

@@ -1,3 +1,4 @@
+/*globals require */
 'use strict';
 
 var tests = Object.keys(window.__karma__.files).filter(function(file) {
