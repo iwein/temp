@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   'use strict';
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-usemin');
+  grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -20,6 +21,7 @@ module.exports = function(grunt) {
     jshint: grunt.file.readJSON('config/grunt-jshint.json'),
     less: grunt.file.readJSON('config/grunt-less.json'),
     clean: grunt.file.readJSON('config/grunt-clean.json'),
+    githooks: grunt.file.readJSON('config/grunt-githooks.json'),
 
     // build
     requirejs: grunt.file.readJSON('config/grunt-requirejs.json'),
