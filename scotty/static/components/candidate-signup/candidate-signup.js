@@ -4,9 +4,27 @@ define(function(require) {
   require('components/candidate-signup-target2/candidate-signup-target2');
   var module = require('app-module');
 
+
   module.controller('CandidateSignupCtrl', function($state) {
-    $state.go('.target1');
+    this.data = {
+      target: {},
+    };
+
+    switch ($state.current.name) {
+      case 'signup':
+        $state.go('signup.target1');
+        break;
+
+      case 'signup.target1':
+        break;
+
+      case 'signup.target2':
+        //if (!this.data.target.skill)
+        //  $state.go('signup.target1');
+        break;
+    }
   });
+
 
   return {
     url: '/signup',

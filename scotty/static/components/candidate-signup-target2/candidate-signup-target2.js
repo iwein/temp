@@ -1,36 +1,62 @@
+// jshint camelcase:false
+
 define(function(require) {
   'use strict';
   require('tools/API');
+  var extend = require('angular').extend;
   var module = require('app-module');
 
-  module.controller('CandidateSignupCtrl', function($scope, API) {
-    this.searchSkills = typeaheadSearch.bind('skills');
-    this.searchRoles = typeaheadSearch.bind('roles');
-    this.searchCities = typeaheadSearch.bind('locations');
-    this.setCompanyType = setCompanyType;
+  module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, API) {
+    this.searchCities = searchCities;
+    this.addCity = addCity;
+    this.removeCity = removeCity;
+    this.submit = submit;
+    $scope.cities = [];
+    var citiesData = null;
 
-    API.get('/config/company_types').then(function(response) {
-      $scope.companyTypes = response.data;
-    });
+    function addCity() {
+      var city = $scope.currentCity;
+      var data = citiesData.filter(function(entry) {
+        return entry.city + ', ' + entry.country_iso === city;
+      })[0];
 
-    function setCompanyType(type) {
-      $scope.companyType = type;
+      $scope.cities.push(data);
+      $scope.currentCity = '';
     }
 
-    function typeaheadSearch(key, term) {
-      return API.get('/config/' + key, {
+    function removeCity(city) {
+      $scope.cities = $scope.cities.filter(function(item) {
+        return item !== city;
+      });
+    }
+
+    function searchCities(term) {
+      return API.get('/config/locations', {
         limit: 10,
         q: term,
       }).then(function(response) {
-        return response.data;
+        citiesData = response.data;
+        return citiesData;
       });
+    }
+
+    function submit() {
+      if (!$scope.cities.length)
+        return;
+
+      $scope.signup.data.cities = $scope.cities;
+      extend($scope.signup.data.target, {
+        salary: $scope.salary,
+      });
+
+      $state.go('^.target2');
     }
   });
 
   return {
     url: '/target-position-2',
     template: require('text!./candidate-signup-target2.html'),
-    controller: 'CandidateSignupCtrl',
-    controllerAs: 'signup',
+    controller: 'CandidateSignupTarget2Ctrl',
+    controllerAs: 'signupTarget2',
   };
 });

@@ -1,12 +1,16 @@
+// jshint camelcase:false
+
 define(function(require) {
   'use strict';
   require('tools/API');
+  var extend = require('angular').extend;
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget1Ctrl', function($scope, API) {
-    this.searchSkills = typeaheadSearch.bind('skills');
-    this.searchRoles = typeaheadSearch.bind('roles');
+  module.controller('CandidateSignupTarget1Ctrl', function($scope, $state, API) {
+    this.searchSkills = typeaheadSearch.bind(null, 'skills');
+    this.searchRoles = typeaheadSearch.bind(null, 'roles');
     this.setCompanyType = setCompanyType;
+    this.submit = submit;
 
     API.get('/config/company_types').then(function(response) {
       $scope.companyTypes = response.data;
@@ -23,6 +27,21 @@ define(function(require) {
       }).then(function(response) {
         return response.data;
       });
+    }
+
+    function submit() {
+      if (!$scope.companyType) {
+        $scope.formTarget1.companyType.$dirty = true;
+        return;
+      }
+
+      extend($scope.signup.data.target, {
+        skill: $scope.skill,
+        role: $scope.role,
+        company_type: $scope.companyType,
+      });
+
+      $state.go('^.target2');
     }
   });
 
