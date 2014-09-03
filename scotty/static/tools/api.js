@@ -1,10 +1,7 @@
 define(function(require) {
   'use strict';
   var devAPI = 'http://sheltered-meadow-1359.herokuapp.com/api/';
-
-  if (DEBUG) {
-    devAPI = 'http://localhost/api/';
-  }
+  //var devAPI = 'http://guarded-inlet-9319.herokuapp.com/';
 
   function API(ajax, options) {
     options = options || {};
@@ -17,7 +14,7 @@ define(function(require) {
     constructor: API,
 
     root: function() {
-      return this._root + '/' + this._version + '/';
+      return this._root + this._version;
     },
 
     get: function(url, params) {

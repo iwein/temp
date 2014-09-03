@@ -36,6 +36,11 @@ define(function(require) {
         if (!this.data.target.skill)
           $state.go('signup.target1');
         break;
+
+      case 'signup.user':
+        if (!this.data.target.minimum_salary)
+          $state.go('signup.target2');
+        break;
     }
   });
 

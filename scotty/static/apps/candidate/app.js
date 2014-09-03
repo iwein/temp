@@ -3,8 +3,11 @@ define(function(require) {
   var angular = require('angular');
   var module = require('app-module');
 
-  module.config(function($stateProvider, $urlRouterProvider) {
+  module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+
     $urlRouterProvider.otherwise('/');
+
     $stateProvider
       .state('home', require('components/candidate-home/candidate-home'))
       .state('login', require('components/candidate-login/candidate-login'))
