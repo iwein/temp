@@ -1,6 +1,10 @@
 define(function(require) {
   'use strict';
-  return require('angular').module('scotty-candidate', [
+  require('ui.bootstrap');
+  var angular = require('angular');
+
+  return angular.module('scotty-candidate', [
     'ui.router',
+    'ui.bootstrap',
   ]);
 });

@@ -6,7 +6,8 @@
     "out": "<%= files.build.amd %>",
     "paths": {
       "angular-core": "bower_components/angular/angular.min",
-      "angular": "bower_components/angular-ui-router/release/angular-ui-router.min"
+      "angular": "bower_components/angular-ui-router/release/angular-ui-router.min",
+      "ui.bootstrap": "vendor/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.min",
     }
   },
 

@@ -1,8 +1,13 @@
-<form class="component-candidate-register">
+<div class="component-candidate-register">
 
-  <div>
-    <label>Email</label>
-    <input type="email">
-  </div>
+	<form class="signup-part1">
+		<input type="text"
+			placeholder="Skill"
+			ng-model="skill"
+			typeahead="skill for skill in getSkills($viewValue)"
+			typeahead-loading="loadingSkills">
 
-</form>
+	</form>
+
+
+</div>
