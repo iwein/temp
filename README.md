@@ -3,7 +3,6 @@ winascotty
 
 ### Available Environment
 
-
 DEV Environment is deployed at:
 
 * Frontend: [http://scotty-dev.s3-website-eu-west-1.amazonaws.com/](http://scotty-dev.s3-website-eu-west-1.amazonaws.com/)
@@ -13,6 +12,7 @@ Demo Environment is
 
 * Frontend: ----
 * API: [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
+
 
 
 ### Setup local development environment:
