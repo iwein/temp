@@ -1,4 +1,8 @@
 {
+  "options": {
+    "dest": "../../.git/hooks"
+  },
+
   "all": {
     "pre-commit": "jshint:pre-commit"
   }
