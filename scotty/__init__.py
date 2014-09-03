@@ -51,22 +51,25 @@ class CORS(object):
     def __call__(self, environ, start_response):
         if 'OPTIONS' == environ['REQUEST_METHOD']:
             headers = []
-            self.attach_headers(headers)
+            self.attach_headers(environ, headers)
 
             status = '204 OK'
             start_response(status, headers)
             return []
 
         def attach_cors_headers(status, headers, exc_info=None):
-            self.attach_headers(headers)
+            self.attach_headers(environ, headers)
             return start_response(status, headers, exc_info)
 
         return self.app(environ, attach_cors_headers)
 
-    def attach_headers(self, headers):
-        headers.append(('Access-Control-Allow-Origin', self.origin))
+    def attach_headers(self, environ, headers):
+        origin = environ.get('HTTP_ORIGIN', self.origin)
+        headers.append(('Access-Control-Allow-Origin', origin))
         headers.append(('Access-Control-Allow-Methods', self.methods))
         headers.append(('Access-Control-Allow-Headers', self.headers))
+        headers.append(("Access-Control-Max-Age", "30758400"))
+        headers.append(('Access-Control-Allow-Credentials', 'true'))
         return headers
 
 
