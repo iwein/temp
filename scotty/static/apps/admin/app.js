@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('components/MODULE_NAME/MODULE_NAME');
   var module = require('app-module');
   var angular = require('angular');
 
@@ -8,11 +7,7 @@ define(function(require) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-      .state('home', {
-        url: '/',
-        template: require('text!components/MODULE_NAME/MODULE_NAME.html'),
-        controller: 'MODULE_NAMECtrl',
-      });
+      .state('home', {});
   });
 
   angular.bootstrap(document, [ 'scotty-admin' ]);
