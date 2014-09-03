@@ -1,4 +1,5 @@
 from datetime import datetime, date
+import os
 from uuid import UUID
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
@@ -37,9 +38,48 @@ jsonRenderer.add_adapter(UUID, format_uuid)
 jsonRenderer.add_adapter(Base, json_encoder)
 
 
+
+class CORS(object):
+    "WSGI middleware allowing CORS requests to succeed"
+    origin = '*'
+    methods = 'GET, POST, PUT, DELETE, OPTIONS'
+    headers = 'accept, origin, content-type, x-requested-with, x-requested-by'
+
+    def __init__(self, application, cfg=None, **kw):
+        self.app = application
+
+    def __call__(self, environ, start_response):
+        if 'OPTIONS' == environ['REQUEST_METHOD']:
+            headers = []
+            self.attach_headers(headers)
+
+            status = '204 OK'
+            start_response(status, headers)
+            return []
+
+        def attach_cors_headers(status, headers, exc_info=None):
+            self.attach_headers(headers)
+            return start_response(status, headers, exc_info)
+
+        return self.app(environ, attach_cors_headers)
+
+    def attach_headers(self, headers):
+        headers.append(('Access-Control-Allow-Origin', self.origin))
+        headers.append(('Access-Control-Allow-Methods', self.methods))
+        headers.append(('Access-Control-Allow-Headers', self.headers))
+        return headers
+
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
+
+    # respect Heroku Environment VAR
+    url = settings['sqlalchemy.url']
+    if url.startswith('__env__'):
+        name, value = url.split(':', 1)
+        settings['sqlalchemy.url'] = os.environ[value.strip()]
+
     engine = engine_from_config(settings, 'sqlalchemy.')
     log.info("DB Connected at: %s" % settings['sqlalchemy.url'])
     DBSession.configure(bind=engine)
@@ -61,4 +101,5 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.include('scotty.views')
 
-    return config.make_wsgi_app()
+    app = config.make_wsgi_app()
+    return CORS(app)

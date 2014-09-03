@@ -1,15 +1,18 @@
 winascotty
 ==========
 
+### Available Environment
 
 
-###Deployment to Demo Environment
-Demo Environment is at [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
+DEV Environment is deployed at:
 
+* Frontend: [http://scotty-dev.s3-website-eu-west-1.amazonaws.com/](http://scotty-dev.s3-website-eu-west-1.amazonaws.com/)
+* API: [http://sheltered-meadow-1359.herokuapp.com/debug/](http://sheltered-meadow-1359.herokuapp.com/debug/)
 
-	git push heroku master
-	heroku run scotty/scripts/initializedb.py configs/production.ini
+Demo Environment is
 
+* Frontend: ----
+* API: [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
 
 
 ### Setup local development environment:
