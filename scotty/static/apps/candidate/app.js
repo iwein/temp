@@ -15,6 +15,7 @@ define(function(require) {
       .state('signup.target2', require('components/candidate-signup-target2/candidate-signup-target2'))
       .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))
       .state('signup.experience1', require('components/candidate-signup-experience1/candidate-signup-experience1'))
+      .state('signup.experience2', require('components/candidate-signup-experience2/candidate-signup-experience2'))
       ;
   });
 

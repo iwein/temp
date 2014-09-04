@@ -67,13 +67,21 @@ define(function(require) {
       return this.user && this.user.id;
     },
 
+    url: function() {
+      return '/candidates/' + this.id();
+    },
+
     setTargetPosition: function(position) {
-      return this._api.post('/candidates/' + this.id() + '/target_positions', position);
+      return this._api.post(this.url() + '/target_positions', position);
     },
 
     setPreferredCities: function(cities) {
-      return this._api.put('/candidates/' + this.id() + '/preferred_cities', cities);
+      return this._api.put(this.url() + '/preferred_cities', cities);
     },
+
+    addExperience: function(experience) {
+      return this._api.post(this.url() + '/work_experience', experience);
+    }
   };
 
 

@@ -35,6 +35,10 @@ define(function(require) {
         company: 'Intel Corp.',
         job_title: 'Developer',
         location: barcelona,
+        level: 'basic',
+        role: 'Developer',
+        start: '1999-04-01',
+        end: '2001-09-01',
       };
     }
 

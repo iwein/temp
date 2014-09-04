@@ -32,22 +32,14 @@
 
     <div class="form-group">
       <label class="required">Company Type</label>
-      <div class="btn-group"
-        dropdown
+      <select
+        class="form-control"
+        name="companyType"
         required
         ng-model="signup.target.company_type"
-        name="companyType">
-
-        <button type="button" class="btn btn-primary dropdown-toggle">
-          {{ signup.target.company_type || "Select one" }}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <li ng-repeat="type in companyTypes">
-            <a dropdown-toggle ng-click="signup.target.company_type = type">{{ type }}</a>
-          </li>
-        </ul>
-      </div>
+        ng-options="type for type in companyTypes">
+        <option value="">Select one</option>
+      </select>
     </div>
 
     <div class="form-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
