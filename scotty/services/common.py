@@ -49,8 +49,15 @@ def get_or_create_named_collection(cls, names, field_name='name'):
         missings = set(names).difference(getattr(t, field_name) for t in objs)
         new_objs = [cls(**{field_name: m}) for m in missings]
         DBSession.add_all(new_objs)
-        objs = objs.append(new_objs)
+        DBSession.flush()
+        objs.extend(new_objs)
+
     return objs or []
+
+def get_or_create_named_lookup(cls, names, field_name='name'):
+    objs = get_or_create_named_collection(cls, names, field_name)
+    return {o.name: o for o in objs}
+
 
 
 def get_or_raise_named_collection(cls, names, field_name='name', require_uniqueness=True):

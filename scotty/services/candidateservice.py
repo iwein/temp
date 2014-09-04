@@ -6,7 +6,8 @@ from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, Candida
     Education, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
     Language, Seniority, CandidateLanguage
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, params_get_list_or_raise, \
-    get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create
+    get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
+    get_or_create_named_lookup
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
@@ -66,10 +67,7 @@ def add_candidate_work_experience(candidate, params):
     wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company,
                           job_title=job_title, role=role)
     DBSession.add(wexp)
-    try:
-        DBSession.flush()
-    except IntegrityError, e:
-        raise HTTPBadRequest("Word Experience already exists.")
+    DBSession.flush()
     return wexp
 
 
@@ -137,7 +135,7 @@ def set_preferredcities_on_candidate(candidate, params):
 def set_skills_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of skills as root level.")
-    skill_lookup = get_or_raise_named_collection(Skill, [p['skill'] for p in params])
+    skill_lookup = get_or_create_named_lookup(Skill, [p['skill'] for p in params])
     level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params],
                                                  require_uniqueness=False)
 
