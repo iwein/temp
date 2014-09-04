@@ -2,60 +2,60 @@
     class="component-candidate-signup-target1"
     ng-submit="signupTarget1.submit()">
 
-    <div>
+    <div class="form-group">
       <input type="text"
         class="form-control"
         name="skill"
         placeholder="Skill"
         required
-        ng-model="skill"
+        ng-model="signup.target.skill"
         typeahead="skill for skill in signupTarget1.searchSkills($viewValue)"
         typeahead-loading="loadingSkills">
     </div>
 
-    <div class="custom-error" ng-show="formTarget1.skill.$dirty && formTarget1.skill.$invalid">
+    <div class="form-error" ng-show="formTarget1.skill.$dirty && formTarget1.skill.$invalid">
       <span ng-show="formTarget1.skill.$error.required">Please insert your skill.</span>
     </div>
 
-    <div>
+    <div class="form-group">
       <input type="text"
         class="form-control"
         name="role"
         placeholder="Role"
         required
-        ng-model="role"
+        ng-model="signup.target.role"
         typeahead="role for role in signupTarget1.searchRoles($viewValue)"
         typeahead-loading="loadingRoles">
     </div>
 
-    <div class="custom-error" ng-show="formTarget1.role.$dirty && formTarget1.role.$invalid">
+    <div class="form-error" ng-show="formTarget1.role.$dirty && formTarget1.role.$invalid">
       <span ng-show="formTarget1.role.$error.required">Please insert your role.</span>
     </div>
 
-    <div>
+    <div class="form-group">
       <div class="btn-group"
         dropdown
         required
-        ng-model="companyType"
+        ng-model="signup.target.company_type"
         name="companyType">
 
         <button type="button" class="btn btn-primary dropdown-toggle">
-          {{ companyType || "Company Type" }}
+          {{ signup.target.company_type || "Company Type" }}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="type in companyTypes">
-            <a dropdown-toggle ng-click="signupTarget1.setCompanyType(type)">{{ type }}</a>
+            <a dropdown-toggle ng-click="signup.target.company_type = type">{{ type }}</a>
           </li>
         </ul>
       </div>
     </div>
 
-    <div class="custom-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
+    <div class="form-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
       Please select your's company type.
     </div>
 
-    <div>
-      <button type="submit" class="btn-group">Next</button>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Next</button>
     </div>
   </form>

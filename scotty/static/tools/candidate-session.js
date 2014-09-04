@@ -9,8 +9,11 @@ define(function(require) {
   CandidateSession.prototype = {
     constructor: CandidateSession,
 
-    signup: function() {
-      // TODO
+    signup: function(data) {
+      return this._api.post('/candidates/', data).then(function(response) {
+        this.user = response;
+        return response.id;
+      }.bind(this));
     },
 
     login: function(email, password) {
@@ -45,6 +48,20 @@ define(function(require) {
 
     hasSession: function() {
       return !!this.user;
+    },
+
+    id: function() {
+      return this.user && this.user.id;
+    },
+
+    setTargetPosition: function(position) {
+      console.log('POSITION', position);
+      return this._api.post('/candidates/' + this.id() + '/target_positions', position);
+    },
+
+    setPreferredCities: function(cities) {
+      console.log('CITIES');
+      return this._api.post('/candidates/' + this.id() + '/preferred_cities', cities);
     },
   };
 

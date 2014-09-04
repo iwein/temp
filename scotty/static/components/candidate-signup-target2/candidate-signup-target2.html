@@ -8,18 +8,18 @@
         class="form-control"
         name="salary"
         placeholder="Salary"
-        ng-model="salary"
+        ng-model="signup.target.minimum_salary"
         ng-pattern="/^[0-9]+$/">
       <span class="input-group-addon">.00</span>
     </div>
 
-    <div class="custom-error" ng-show="formTarget2.salary.$dirty && formTarget2.salary.$invalid">
+    <div class="form-error" ng-show="formTarget2.salary.$dirty && formTarget2.salary.$invalid">
       <span ng-show="formTarget2.salary.$error.required">Please insert your expected salary.</span>
       <span ng-show="formTarget2.salary.$error.number">Please insert a number.</span>
       <span ng-show="formTarget2.salary.$error.pattern">Decimals are not allowed.</span>
     </div>
 
-    <div>
+    <div class="form-group">
       <input type="text"
         name="cities"
         class="form-control"
@@ -27,18 +27,18 @@
         ng-model="currentCity"
         ng-blur="currentCity = ''"
         typeahead-on-select="signupTarget2.addCity()"
-        typeahead="entry.city + ', ' + entry.country_iso for entry in signupTarget2.searchCities($viewValue)"
+        typeahead="city for city in signupTarget2.searchCities($viewValue)"
         typeahead-loading="loadingRoles">
     </div>
 
-    <div class="custom-error"
-      ng-show="formTarget2.cities.$dirty && !currentCity.length && !cities.length">
+    <div class="form-error"
+      ng-show="formTarget2.cities.$dirty && !currentCity.length && !signup.cities.length">
       Please type a city you would like to work at and press enter key.
     </div>
 
-    <div>
+    <div class="form-group">
       <ul>
-        <li ng-repeat="entry in cities" class="label label-default" role="label">
+        <li ng-repeat="entry in signup.cities" class="label label-default" role="label">
           {{ entry.city }}, {{ entry.country_iso }}
           <button type="button" class="close" data-dismiss="label"
             ng-click="signupTarget2.removeCity(entry)">
@@ -49,7 +49,7 @@
       </ul>
     </div>
 
-    <div>
-      <button type="submit" class="btn-group">Next</button>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Next</button>
     </div>
   </form>
