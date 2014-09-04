@@ -54,8 +54,8 @@ def add_candidate_education(candidate, params):
 
 def add_candidate_work_experience(candidate, params):
     start = params['start']
-    end = params['end']
-    summary = params['summary']
+    end = params.get('end')
+    summary = params.get('summary')
 
     job_title = get_by_name_or_create(JobTitle, params["job_title"])
     role = get_by_name_or_create(Role, params["role"])
