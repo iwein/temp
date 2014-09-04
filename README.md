@@ -3,14 +3,14 @@ winascotty
 
 ### Available Environment
 
-DEV Environment is deployed at:
+DEV/CI Environment (continuously deployed):
 
 * Frontend: [http://scotty-dev.s3-website-eu-west-1.amazonaws.com/](http://scotty-dev.s3-website-eu-west-1.amazonaws.com/)
 * API: [http://sheltered-meadow-1359.herokuapp.com/debug/](http://sheltered-meadow-1359.herokuapp.com/debug/)
 
-Demo Environment is
+Demo Environment (updated weekly)
 
-* Frontend: ----
+* Frontend: [http://scotty-demo.s3-website-eu-west-1.amazonaws.com/](http://scotty-demo.s3-website-eu-west-1.amazonaws.com/)
 * API: [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
 
 
