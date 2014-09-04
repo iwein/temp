@@ -88,6 +88,7 @@
     "afterEach": true,
     "describe": true,
     "it": true,
+    "expect": true,
     "module": true,
     "inject": true
   },

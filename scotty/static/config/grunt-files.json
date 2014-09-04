@@ -1,8 +1,8 @@
 {
 
   "tools": {
-    "js": "components/**/*.js",
-    "test": "components/**/*.unit.js"
+    "js": "tools/**/*.js",
+    "test": "tools/**/*.unit.js"
   },
 
   "components": {
