@@ -28,6 +28,7 @@ define(function(require) {
     CandidateSession
   ) {
     this.searchRoles = SearchAPI.roles;
+    this.addAnother = addAnother;
     this.submit = submit;
     $scope.months = months;
 
@@ -38,10 +39,25 @@ define(function(require) {
       $scope.levels = response.data;
     });
 
+    function saveExperience() {
+      return CandidateSession.addExperience($scope.signup.experience)
+        .then(function(result) {
+          $scope.signup.experience = {};
+          return result;
+        });
+    }
+
+    function addAnother() {
+      saveExperience().then(function() {
+        $state.go('^.experience1');
+      });
+    }
+
     function submit() {
-      CandidateSession.addExperience($scope.signup.experience);
-      $scope.signup.experience = {};
-      $state.go('^.experience1');
+      saveExperience().then(function() {
+        //$state.go('^.experience1');
+        //console.log('Go next step')
+      });
     }
 
 

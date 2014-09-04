@@ -1,0 +1,34 @@
+  <form name="formSkills"
+    class="component-candidate-signup-skills container col-sm-6 col-sm-offset-3">
+
+    <h3>Sign up - Skills</h3>
+
+    <div class="form-group" ng-repeat="entry in signup.skills">
+      <div class="form-inline">
+        <input type="text"
+          class="form-control"
+          name="skill{{ $index }}"
+          required
+          ng-model="entry.skill"
+          typeahead="skill for skill in signupSkills.searchSkills($viewValue)">
+
+        <select
+          class="form-control"
+          name="level{{ $index }}"
+          required
+          ng-model="entry.level"
+          ng-options="level for level in levels">
+          <option value="">Select level</option>
+        </select>
+      </div>
+
+      <div class="form-error" ng-show="
+        formSkills['skill' + $index].$dirty &&
+        formSkills['skill' + $index].$invalid">
+        <span ng-show="formSkills['skill' + $index].$error.required">
+          Please insert the skill name.
+        </span>
+      </div>
+    </div>
+
+  </form>
