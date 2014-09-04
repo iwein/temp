@@ -66,10 +66,7 @@ def add_candidate_work_experience(candidate, params):
     wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company,
                           job_title=job_title, role=role)
     DBSession.add(wexp)
-    try:
-        DBSession.flush()
-    except IntegrityError, e:
-        raise HTTPBadRequest("Word Experience already exists.")
+    DBSession.flush()
     return wexp
 
 
@@ -137,7 +134,7 @@ def set_preferredcities_on_candidate(candidate, params):
 def set_skills_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of skills as root level.")
-    skill_lookup = get_or_raise_named_collection(Skill, [p['skill'] for p in params])
+    skill_lookup = get_or_create_named_collection(Skill, [p['skill'] for p in params])
     level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params],
                                                  require_uniqueness=False)
 
