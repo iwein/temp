@@ -8,7 +8,7 @@
         name="skill"
         placeholder="Skill"
         required
-        ng-model="skill"
+        ng-model="signup.target.skill"
         typeahead="skill for skill in signupTarget1.searchSkills($viewValue)"
         typeahead-loading="loadingSkills">
     </div>
@@ -23,7 +23,7 @@
         name="role"
         placeholder="Role"
         required
-        ng-model="role"
+        ng-model="signup.target.role"
         typeahead="role for role in signupTarget1.searchRoles($viewValue)"
         typeahead-loading="loadingRoles">
     </div>
@@ -36,16 +36,16 @@
       <div class="btn-group"
         dropdown
         required
-        ng-model="companyType"
+        ng-model="signup.target.company_type"
         name="companyType">
 
         <button type="button" class="btn btn-primary dropdown-toggle">
-          {{ companyType || "Company Type" }}
+          {{ signup.target.company_type || "Company Type" }}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="type in companyTypes">
-            <a dropdown-toggle ng-click="signupTarget1.setCompanyType(type)">{{ type }}</a>
+            <a dropdown-toggle ng-click="signup.target.company_type = type">{{ type }}</a>
           </li>
         </ul>
       </div>

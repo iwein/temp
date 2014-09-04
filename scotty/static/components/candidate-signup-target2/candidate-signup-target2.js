@@ -1,9 +1,6 @@
-// jshint camelcase:false
-
 define(function(require) {
   'use strict';
   require('tools/api');
-  var extend = require('angular').extend;
   var module = require('app-module');
 
   module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, API) {
@@ -13,24 +10,25 @@ define(function(require) {
     this.removeCity = removeCity;
     this.cityText = cityText;
     this.submit = submit;
-    $scope.cities = [];
-    $scope.salary = $scope.signup.data.target.minimum_salary;
-    $scope.cities = $scope.signup.data.cities;
 
     function addCity() {
+      var cities = $scope.signup.cities;
       var city = $scope.currentCity;
+      $scope.currentCity = '';
+
+      if (cities.map(cityText).indexOf(city) !== -1)
+        return;
+
       var data = citiesData.filter(function(entry) {
         return cityText(entry) === city;
-      })[0];
+      });
 
-      $scope.cities.push(data);
-      $scope.currentCity = '';
+      cities.push(data[0]);
     }
 
     function removeCity(city) {
-      $scope.cities = $scope.cities.filter(function(item) {
-        return item !== city;
-      });
+      var cities = $scope.signup.cities;
+      cities.splice(cities.indexOf(city), 1);
     }
 
     function cityText(entry) {
@@ -48,15 +46,8 @@ define(function(require) {
     }
 
     function submit() {
-      if (!$scope.cities.length)
-        return;
-
-      $scope.signup.data.cities = $scope.cities;
-      extend($scope.signup.data.target, {
-        minimum_salary: $scope.salary,
-      });
-
-      $state.go('^.user');
+      if ($scope.signup.cities.length)
+        $state.go('^.user');
     }
   });
 
