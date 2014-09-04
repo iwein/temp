@@ -1,25 +1,17 @@
 define(function(require) {
   'use strict';
   require('tools/api');
+  require('tools/search-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget1Ctrl', function($scope, $state, API) {
-    this.searchSkills = typeaheadSearch.bind(null, 'skills');
-    this.searchRoles = typeaheadSearch.bind(null, 'roles');
+  module.controller('CandidateSignupTarget1Ctrl', function($scope, $state, API, SearchAPI) {
+    this.searchSkills = SearchAPI.skills;
+    this.searchRoles = SearchAPI.roles;
     this.submit = submit;
 
     API.get('/config/company_types').then(function(response) {
       $scope.companyTypes = response.data;
     });
-
-    function typeaheadSearch(key, term) {
-      return API.get('/config/' + key, {
-        limit: 10,
-        q: term,
-      }).then(function(response) {
-        return response.data;
-      });
-    }
 
     function submit() {
       if (!$scope.signup.target.company_type) {

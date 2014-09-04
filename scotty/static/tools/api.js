@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   var devAPI = 'http://sheltered-meadow-1359.herokuapp.com/api/';
-  //var devAPI = 'http://guarded-inlet-9319.herokuapp.com/';
+  //var devAPI = 'http://guarded-inlet-9319.herokuapp.com/api/';
 
   function API(ajax, options) {
     options = options || {};
@@ -27,6 +27,12 @@ define(function(require) {
 
     post: function(url, data) {
       return this._ajax.post(this.root() + url, data).then(function(response) {
+        return response.data;
+      });
+    },
+
+    put: function(url, data) {
+      return this._ajax.put(this.root() + url, data).then(function(response) {
         return response.data;
       });
     }

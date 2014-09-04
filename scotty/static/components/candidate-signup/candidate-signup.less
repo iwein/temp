@@ -1,4 +1,23 @@
 //@import '../candidate-signup-target1/candidate-signup-target1.less';
 @import '../candidate-signup-target2/candidate-signup-target2.less';
 
-.component-candidate-signup {}
+.component-candidate-signup {
+  .form-group {
+    [dropdown] {
+      display: block;
+
+      .btn {
+        float: none;
+      }
+    }
+  }
+
+  form.container {
+    margin-top: 50px;
+
+    .form-group {
+      margin-top: 20px;
+      clear: both;
+    }
+  }
+}

@@ -6,22 +6,23 @@ define(function(require) {
   module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/login');
 
     $stateProvider
-      .state('home', require('components/candidate-home/candidate-home'))
       .state('login', require('components/candidate-login/candidate-login'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
       .state('signup.target1', require('components/candidate-signup-target1/candidate-signup-target1'))
       .state('signup.target2', require('components/candidate-signup-target2/candidate-signup-target2'))
       .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))
+      .state('signup.experience1', require('components/candidate-signup-experience1/candidate-signup-experience1'))
       ;
   });
 
 
   require('tools/candidate-session');
-  module.run(function($rootScope, CandidateSession) {
+  module.run(function($templateCache, $rootScope, CandidateSession) {
     $rootScope.session = CandidateSession;
+    $templateCache.put('navbar.html', require('text!./navbar.html'));
   });
 
   angular.bootstrap(document, [ 'scotty-candidate' ]);

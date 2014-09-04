@@ -1,17 +1,22 @@
 define(function(require) {
   'use strict';
-  require('components/candidate-signup-target1/candidate-signup-target1');
-  require('components/candidate-signup-target2/candidate-signup-target2');
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupCtrl', function($state) {
+  module.controller('CandidateSignupCtrl', function($state, CandidateSession) {
     var signup = this;
+    this.ready = false;
     this.target = {};
     this.cities = [];
     this.user = {};
+    this.experience = {};
 
-    if (DEBUG) {
+    if (true) {
+      var barcelona = {
+        city: 'Barcelona',
+        country_iso: 'ES',
+      };
+
       // jshint camelcase:false
       this.target = {
         company_type: 'large',
@@ -19,15 +24,17 @@ define(function(require) {
         minimum_salary: 10000,
         skill: 'Javascript',
       };
-      this.cities = [{
-        city: 'Barcelona',
-        country_iso: 'ES',
-      }];
+      this.cities = [ barcelona ];
       this.user = {
         first_name: 'A. Matías',
         last_name: 'Quezada',
-        email: 'amatiasq+test@gmail.com',
+        email: 'amatiasq+test' + (localStorage.foobar++) + '@gmail.com',
         pwd: '123123123',
+      };
+      this.experience = {
+        company: 'Intel Corp.',
+        job_title: 'Developer',
+        location: barcelona,
       };
     }
 
@@ -46,24 +53,37 @@ define(function(require) {
       );
     }
 
-    switch ($state.current.name) {
-      case 'signup.user':
-        if (!target2Completed())
-          $state.go('signup.target2');
-
-        /* falls through */
-      case 'signup.target2':
-        if (!target1Completed())
-          $state.go('signup.target1');
-
-        /* falls through */
-      case 'signup.target1':
-        break;
-
-      case 'signup':
-        $state.go('signup.target1');
-        break;
+    function userCompleted() {
+      return CandidateSession.hasSession();
     }
+
+    CandidateSession.whenReady(function() {
+      signup.ready = true;
+
+      switch ($state.current.name) {
+        case 'signup.experience1':
+          if (!userCompleted())
+            $state.go('signup.user');
+
+          /* falls through */
+        case 'signup.user':
+          if (!target2Completed())
+            $state.go('signup.target2');
+
+          /* falls through */
+        case 'signup.target2':
+          if (!target1Completed())
+            $state.go('signup.target1');
+
+          /* falls through */
+        case 'signup.target1':
+          break;
+
+        case 'signup':
+          $state.go('signup.target1');
+          break;
+      }
+    });
   });
 
 
