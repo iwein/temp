@@ -68,7 +68,7 @@ class WorkExperience(Base):
 
     start = Column(Date, nullable=False)
     end = Column(Date)
-    summary = Column(Text, nullable=False)
+    summary = Column(Text)
 
     company_id = Column(Integer, ForeignKey(Company.id), nullable=False)
     company = relationship(Company)
