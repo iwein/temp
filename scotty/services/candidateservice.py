@@ -39,17 +39,15 @@ def add_candidate_skill(candidate, params):
 
 
 def add_candidate_education(candidate, params):
-    degree_name = params['degree']
-
-    degree = get_by_name_or_raise(Degree, degree_name)
+    degree = get_by_name_or_raise(Degree, params['degree'])
     institution = get_by_name_or_create(Institution, params['institution'])
+    course = get_by_name_or_create(Institution, params['course'])
 
     start = params['start']
-    end = params['end']
-    course = params['course']
+    end = params.get('end')
 
     education = Education(institution=institution, degree=degree, candidate=candidate, start=start, end=end,
-                                   course=course)
+                          course=course)
     DBSession.flush()
     return education
 

@@ -2,7 +2,7 @@ from uuid import uuid4
 from datetime import datetime
 
 from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, \
-    Institution, Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority
+    Institution, Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority, Course
 from scotty.models.tools import json_encoder
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint
@@ -25,7 +25,9 @@ class Education(Base):
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
     start = Column(Date, nullable=False)
     end = Column(Date)
-    course = Column(String(512), nullable=False)
+
+    course_id = Column(Integer, ForeignKey(Course.id), nullable=False)
+    course = relationship(Course)
 
     institution_id = Column(Integer, ForeignKey(Institution.id), nullable=False)
     institution = relationship(Institution)
