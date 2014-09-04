@@ -10,6 +10,7 @@ define(function(require) {
     this.cities = [];
     this.user = {};
     this.experience = {};
+    this.skills = [];
 
     if (true) {
       var barcelona = {
@@ -39,6 +40,7 @@ define(function(require) {
         role: 'Developer',
         start: '1999-04-01',
         end: '2001-09-01',
+        summary: 'Foo bar quz',
       };
     }
 
