@@ -33,6 +33,7 @@ define(function(require) {
     roles: searchHelper('roles'),
     companies: searchHelper('companies'),
     jobTitles: searchHelper('job_titles'),
+    institutions: searchHelper('institutions'),
 
     locations: function(term, limit) {
       return searchLocations.call(this, term, limit).then(function(locations) {
