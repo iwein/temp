@@ -7,6 +7,7 @@ from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, Candida
     Language, Seniority, CandidateLanguage
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, params_get_list_or_raise, \
     get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 
@@ -54,7 +55,7 @@ def add_candidate_education(candidate, params):
 
 def add_candidate_work_experience(candidate, params):
     start = params['start']
-    end = params['end']
+    end = params.get('end')
     summary = params['summary']
 
     job_title = get_by_name_or_create(JobTitle, params["job_title"])
@@ -65,7 +66,10 @@ def add_candidate_work_experience(candidate, params):
     wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company,
                           job_title=job_title, role=role)
     DBSession.add(wexp)
-    DBSession.flush()
+    try:
+        DBSession.flush()
+    except IntegrityError, e:
+        raise HTTPBadRequest("Word Experience already exists.")
     return wexp
 
 
