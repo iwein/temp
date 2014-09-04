@@ -1,0 +1,102 @@
+  <form name="formExperience2"
+    class="component-candidate-signup-experience2 container col-sm-6 col-sm-offset-3"
+    ng-submit="signupExperience2.submit()">
+
+    <div class="form-group">
+      <label class="required">Period</label>
+
+      <div class="form-inline">
+        <!-- From month -->
+        <select
+          class="form-control"
+          name="startMonth"
+          required
+          ng-model="startMonth"
+          ng-options="level for level in months"
+          ng-change="startDateUpdate()">
+          <option value="">Month</option>
+        </select>
+
+        <!-- From year -->
+        <input type="text"
+          class="form-control"
+          name="startYear"
+          placeholder="Year"
+          required
+          ng-model="startYear"
+          ng-change="startDateUpdate()">
+
+        <!-- Separator -->
+        <span>–</span>
+
+        <!-- To month -->
+        <select
+          class="form-control"
+          name="endMonth"
+          required
+          ng-model="endMonth"
+          ng-options="level for level in months"
+          ng-change="endDateUpdate()">
+          <option value="">Month</option>
+        </select>
+
+        <!-- To year -->
+        <input type="text"
+          class="form-control"
+          name="endYear"
+          placeholder="Year"
+          required
+          ng-model="endYear"
+          ng-change="endDateUpdate()">
+      </div>
+    </div>
+
+    <div class="form-error" ng-show="formExperience2.startMonth.$dirty && formExperience2.startMonth.$invalid">
+      <span ng-show="formExperience2.startMonth.$error.required">Please insert the month you started at this position.</span>
+    </div>
+    <div class="form-error" ng-show="formExperience2.startYear.$dirty && formExperience2.startYear.$invalid">
+      <span ng-show="formExperience2.startYear.$error.required">Please insert the year you started at this position.</span>
+    </div>
+    <div class="form-error" ng-show="formExperience2.endMonth.$dirty && formExperience2.endMonth.$invalid">
+      <span ng-show="formExperience2.endMonth.$error.required">Please insert the month you leave this position.</span>
+    </div>
+    <div class="form-error" ng-show="formExperience2.endYear.$dirty && formExperience2.endYear.$invalid">
+      <span ng-show="formExperience2.endYear.$error.required">Please insert the year you leave this position.</span>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Role</label>
+      <input type="text"
+        class="form-control"
+        name="role"
+        required
+        ng-model="signup.experience.role"
+        typeahead="role for role in signupExperience2.searchRoles($viewValue)">
+    </div>
+
+    <div class="form-error" ng-show="formExperience2.role.$dirty && formExperience2.role.$invalid">
+      <span ng-show="formExperience2.role.$error.required">Please insert the role you had at this position.</span>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Level</label>
+      <select
+        class="form-control"
+        name="level"
+        required
+        ng-model="signup.experience.level"
+        ng-options="level for level in levels">
+        <option value="">Select level</option>
+      </select>
+    </div>
+
+    <div class="form-error" ng-show="formExperience2.level.$dirty && formExperience2.level.$invalid">
+      <span ng-show="formExperience2.level.$error.required">
+        Please insert the level of this position.
+      </span>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Next</button>
+    </div>
+  </form>

@@ -1,0 +1,58 @@
+  <form name="formExperience1"
+    class="component-candidate-signup-experience1 container col-sm-6 col-sm-offset-3">
+
+    <div class="form-group">
+      <label class="required">Company</label>
+      <input type="text"
+        class="form-control"
+        name="company"
+        required
+        ng-model="signup.experience.company"
+        typeahead="company for company in signupExperience1.searchCompanies($viewValue)">
+    </div>
+
+    <div class="form-error" ng-show="formExperience1.company.$dirty && formExperience1.company.$invalid">
+      <span ng-show="formExperience1.company.$error.required">
+        Please insert the company name.
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Location</label>
+      <input type="text"
+        name="location"
+        class="form-control"
+        ng-model="locationText"
+        ng-blur="signupExperience1.setLocation(locationText)"
+        typeahead-on-select="signupExperience1.setLocation(locationText)"
+        typeahead="location for location in signupExperience1.searchLocations($viewValue)">
+    </div>
+
+    <div class="form-error" ng-show="formExperience1.location.$dirty && formExperience1.location.$invalid">
+      <span ng-show="formExperience1.location.$error.required">
+        Please insert the city you worked on.
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Job title</label>
+      <input type="text"
+        class="form-control"
+        name="job_title"
+        required
+        ng-model="signup.experience.job_title"
+        typeahead="title for title in signupExperience1.searchJobTitles($viewValue)">
+    </div>
+
+    <div class="form-error" ng-show="formExperience1.job_title.$dirty && formExperience1.job_title.$invalid">
+      <span ng-show="formExperience1.job_title.$error.required">
+        Please insert your job title.
+      </span>
+    </div>
+
+    <div class="form-group">
+      <a type="submit" class="btn btn-primary" ui-sref="signup.experience2">
+        Next
+      </a>
+    </div>
+  </form>

@@ -1,52 +1,58 @@
   <form name="formTarget2"
-    class="component-candidate-signup-target2"
+    class="component-candidate-signup-target2 container col-sm-6 col-sm-offset-3"
     ng-submit="signupTarget2.submit()">
 
-    <div class="input-group">
-      <span class="input-group-addon">€</span>
-      <input type="number"
-        class="form-control"
-        name="salary"
-        placeholder="Salary"
-        ng-model="signup.target.minimum_salary"
-        ng-pattern="/^[0-9]+$/">
-      <span class="input-group-addon">.00</span>
+    <div class="form-group">
+      <label class="required">Minimum salary</label>
+      <div class="input-group">
+        <span class="input-group-addon">€</span>
+        <input type="number"
+          class="form-control"
+          name="salary"
+          required
+          ng-model="signup.target.minimum_salary"
+          ng-pattern="/^[0-9]+$/">
+        <span class="input-group-addon">.00</span>
+      </div>
     </div>
 
     <div class="form-error" ng-show="formTarget2.salary.$dirty && formTarget2.salary.$invalid">
-      <span ng-show="formTarget2.salary.$error.required">Please insert your expected salary.</span>
-      <span ng-show="formTarget2.salary.$error.number">Please insert a number.</span>
-      <span ng-show="formTarget2.salary.$error.pattern">Decimals are not allowed.</span>
+      <span ng-show="formTarget2.salary.$error.required">
+        Please insert your expected salary.
+      </span>
+      <span ng-show="formTarget2.salary.$error.number">
+        Please insert a number.
+      </span>
+      <span ng-show="formTarget2.salary.$error.pattern">
+        Decimals are not allowed.
+      </span>
     </div>
 
     <div class="form-group">
+      <label class="required">Cities</label>
       <input type="text"
         name="cities"
         class="form-control"
-        placeholder="Cities"
         ng-model="currentCity"
         ng-blur="currentCity = ''"
         typeahead-on-select="signupTarget2.addCity()"
-        typeahead="city for city in signupTarget2.searchCities($viewValue)"
-        typeahead-loading="loadingRoles">
+        typeahead="city for city in signupTarget2.searchCities($viewValue)">
     </div>
 
     <div class="form-error"
       ng-show="formTarget2.cities.$dirty && !currentCity.length && !signup.cities.length">
-      Please type a city you would like to work at and press enter key.
+      <span>Please type a city you would like to work at and press enter key.</span>
     </div>
 
     <div class="form-group">
-      <ul>
-        <li ng-repeat="entry in signup.cities" class="label label-default" role="label">
-          {{ entry.city }}, {{ entry.country_iso }}
-          <button type="button" class="close" data-dismiss="label"
-            ng-click="signupTarget2.removeCity(entry)">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-        </li>
-      </ul>
+      <li ng-repeat="entry in signup.cities" class="label label-default" role="label">
+        {{ entry.city }}, {{ entry.country_iso }}
+        <button type="button" class="close" data-dismiss="label"
+          ng-click="signupTarget2.removeCity(entry)">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </li>
     </div>
 
     <div class="form-group">

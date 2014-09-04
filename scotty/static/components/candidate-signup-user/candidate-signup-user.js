@@ -5,7 +5,12 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, CandidateSession) {
+  module.controller('CandidateSignupUserCtrl', function(
+    $scope,
+    $q,
+    $state,
+    CandidateSession
+  ) {
     this.submit = submit;
 
     function submit() {
@@ -18,7 +23,7 @@ define(function(require) {
           CandidateSession.setPreferredCities(cities),
         ]);
       }).then(function() {
-        // $state.go('^.company');
+        $state.go('^.experience1');
       });
     }
   });

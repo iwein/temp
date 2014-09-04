@@ -1,0 +1,78 @@
+define(function(require) {
+  'use strict';
+  require('tools/api');
+  require('tools/search-api');
+  require('tools/candidate-session');
+  var module = require('app-module');
+
+  var months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  module.controller('CandidateSignupExperience2Ctrl', function(
+    $scope,
+    $state,
+    API,
+    SearchAPI,
+    CandidateSession
+  ) {
+    this.searchRoles = SearchAPI.roles;
+    this.submit = submit;
+    $scope.months = months;
+
+    bindDate('start');
+    bindDate('end');
+
+    API.get('/config/skill_levels').then(function(response) {
+      $scope.levels = response.data;
+    });
+
+    function submit() {
+      CandidateSession.addExperience($scope.signup.experience);
+      $scope.signup.experience = {};
+      $state.go('^.experience1');
+    }
+
+
+    function bindDate(key) {
+      var month = key + 'Month';
+      var year = key + 'Year';
+      var storedValue = $scope.signup.experience[key];
+
+      if (storedValue) {
+        var date = new Date(storedValue);
+        $scope[year] = date.getFullYear();
+        $scope[month] = months[date.getMonth()];
+      }
+
+      $scope[key + 'DateUpdate'] = function() {
+        var value = null;
+
+        if ($scope[month] && $scope[year]) {
+          var date = new Date($scope[year], months.indexOf($scope[month]));
+          value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
+        }
+
+        $scope.signup.experience[key] = value;
+      };
+    }
+  });
+
+  return {
+    url: '/experience-2',
+    template: require('text!./candidate-signup-experience2.html'),
+    controller: 'CandidateSignupExperience2Ctrl',
+    controllerAs: 'signupExperience2',
+  };
+});
