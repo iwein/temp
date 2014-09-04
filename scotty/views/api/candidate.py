@@ -28,6 +28,7 @@ class CandidateController(RootController):
         candidate = candidate_from_signup(self.request.json)
         DBSession.add(candidate)
         DBSession.flush()
+        self.request.session['candidate_id'] = candidate.id
         return candidate
 
     @view_config(route_name='candidate_login', permission=NO_PERMISSION_REQUIRED, **POST)
