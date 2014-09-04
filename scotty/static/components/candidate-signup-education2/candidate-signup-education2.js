@@ -1,6 +1,6 @@
 define(function(require) {
   'use strict';
-  require('tools/list-api');
+  require('tools/api');
   require('tools/search-api');
   require('tools/candidate-session');
   var module = require('app-module');
@@ -20,7 +20,7 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupExperience2Ctrl', function(
+  module.controller('CandidateSignupEducation2Ctrl', function(
     $scope,
     $state,
     ListAPI,
@@ -39,23 +39,24 @@ define(function(require) {
       $scope.levels = data;
     });
 
-    function saveExperience() {
-      return CandidateSession.addExperience($scope.signup.experience)
+    function saveEducation() {
+      return CandidateSession.addEducation($scope.signup.education)
         .then(function(result) {
-          $scope.signup.experience = {};
+          $scope.signup.education = {};
           return result;
         });
     }
 
     function addAnother() {
-      saveExperience().then(function() {
-        $state.go('^.experience1');
+      saveEducation().then(function() {
+        $state.go('^.education1');
       });
     }
 
     function submit() {
-      saveExperience().then(function() {
-        $state.go('^.skills');
+      saveEducation().then(function() {
+        //$state.go('^.skills');
+        //console.log('Next step');
       });
     }
 
@@ -63,7 +64,7 @@ define(function(require) {
     function bindDate(key) {
       var month = key + 'Month';
       var year = key + 'Year';
-      var storedValue = $scope.signup.experience[key];
+      var storedValue = $scope.signup.education[key];
 
       if (storedValue) {
         var date = new Date(storedValue);
@@ -79,15 +80,15 @@ define(function(require) {
           value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
         }
 
-        $scope.signup.experience[key] = value;
+        $scope.signup.education[key] = value;
       };
     }
   });
 
   return {
-    url: '/experience-2',
-    template: require('text!./candidate-signup-experience2.html'),
-    controller: 'CandidateSignupExperience2Ctrl',
-    controllerAs: 'signupExperience2',
+    url: '/education-2',
+    template: require('text!./candidate-signup-education2.html'),
+    controller: 'CandidateSignupEducation2Ctrl',
+    controllerAs: 'signupEducation2',
   };
 });

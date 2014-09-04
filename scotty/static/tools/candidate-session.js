@@ -81,7 +81,15 @@ define(function(require) {
 
     addExperience: function(experience) {
       return this._api.post(this.url() + '/work_experience', experience);
-    }
+    },
+
+    addEducation: function(education) {
+      return this._api.post(this.url() + '/education', education);
+    },
+
+    setSkills: function(skills) {
+      return this._api.put(this.url() + '/skills', skills);
+    },
   };
 
 

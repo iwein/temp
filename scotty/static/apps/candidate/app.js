@@ -16,6 +16,9 @@ define(function(require) {
       .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))
       .state('signup.experience1', require('components/candidate-signup-experience1/candidate-signup-experience1'))
       .state('signup.experience2', require('components/candidate-signup-experience2/candidate-signup-experience2'))
+      .state('signup.skills', require('components/candidate-signup-skills/candidate-signup-skills'))
+      .state('signup.education1', require('components/candidate-signup-education1/candidate-signup-education1'))
+      .state('signup.education2', require('components/candidate-signup-education2/candidate-signup-education2'))
       ;
   });
 

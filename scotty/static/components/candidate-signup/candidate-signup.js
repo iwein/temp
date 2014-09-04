@@ -11,6 +11,7 @@ define(function(require) {
     this.user = {};
     this.experience = {};
     this.skills = [];
+    this.education = {};
 
     if (true) {
       var barcelona = {
@@ -18,30 +19,62 @@ define(function(require) {
         country_iso: 'ES',
       };
 
+      var guid = (function() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+      }
+      return function() {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+      };
+    })();
+
       // jshint camelcase:false
       this.target = {
         company_type: 'large',
-        role: 'Developer',
+        role: guid(),
         minimum_salary: 10000,
-        skill: 'Javascript',
+        skill: guid(),
       };
       this.cities = [ barcelona ];
       this.user = {
-        first_name: 'A. Matías',
-        last_name: 'Quezada',
+        first_name: guid(),
+        last_name: guid(),
         email: 'amatiasq+test' + (localStorage.foobar++) + '@gmail.com',
         pwd: '123123123',
       };
       this.experience = {
-        company: 'Intel Corp.',
-        job_title: 'Developer',
+        company: guid(),
+        job_title: guid(),
         location: barcelona,
         level: 'basic',
-        role: 'Developer',
+        role: guid(),
         start: '1999-04-01',
         end: '2001-09-01',
         summary: 'Foo bar quz',
       };
+      this.skills = [{
+        level: 'basic',
+        skill: guid(),
+      }, {
+        level: 'advanced',
+        skill: guid(),
+      }, {
+        level: 'expert',
+        skill: guid(),
+      }];
+      this.education = {
+        institution: 'Harvard University, United States',
+        degree: 'Master',
+        course: 'Dunno',
+        end: '1998-7-01',
+        start: '1994-3-01',
+      };
+
+      // TODO:
+      //   add redirections education2 => education1, experience2 => experience1
     }
 
     function target1Completed() {
