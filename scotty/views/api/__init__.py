@@ -1,5 +1,5 @@
 import json
-from pyramid.httpexceptions import HTTPException
+from pyramid.httpexceptions import HTTPException, HTTPError
 from pyramid.response import Response
 from scotty.views.api import configuration, candidate, employer
 from sqlalchemy.exc import IntegrityError, DBAPIError
@@ -26,5 +26,5 @@ def includeme(config):
     config.include(employer, route_prefix='/employers')
 
     config.add_view(context=DBAPIError, view=db_error)
-    config.add_view(context=Exception, view=all_error)
-    config.add_view(context=HTTPException, view=http_error)
+    #config.add_view(context=Exception, view=all_error)
+    config.add_view(context=HTTPError, view=http_error)

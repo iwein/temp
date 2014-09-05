@@ -35,7 +35,7 @@
           $("#nav").append('<hr/><h3>'+ conf.sectionTitle+'</h3>');
           runTests(idx + 1, extracted, resp);
 
-        } else if(!conf.url){
+        } else if(!conf.url && !conf.execute){
           $("#nav").append('<h4>'+ conf.title+'</h4>');
           runTests(idx + 1, extracted, resp);
         } else {

@@ -1,6 +1,6 @@
 from datetime import datetime
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -80,24 +80,25 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.session_candidate
         workflow = {'active': candidate.activated != None,
-                    'ordering': [
-                        'target_positions',
-                        'preferred_cities',
-                        'work_experience',
-                        'skills',
-                        'education',
-                        'languages',
-                        'image',
-                        'active',
-                    ],
-                    'image': False,
-                    'languages': len(candidate.languages) > 0,
-                    'preferred_cities': len(candidate.preferred_cities) > 0,
-                    'skills': len(candidate.skills) > 0,
-                    'target_positions': len(candidate.target_positions) > 0,
-                    'work_experience': len(candidate.work_experience) > 0,
-                    'education': len(candidate.education) > 0}
+                    'ordering': ['target_positions', 'preferred_cities', 'work_experience', 'skills', 'education',
+                                 'languages', 'image', 'active', ], 'image': False,
+                    'languages': len(candidate.languages) > 0, 'preferred_cities': len(candidate.preferred_cities) > 0,
+                    'skills': len(candidate.skills) > 0, 'target_positions': len(candidate.target_positions) > 0,
+                    'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
+
+    @view_config(route_name='candidate_picture', **GET)
+    def get_picture(self):
+        if self.request.params.get('redirect') == 'false':
+            return {'url': self.session_candidate.picture_url}
+        else:
+            raise HTTPFound(location=self.session_candidate.picture_url)
+
+    @view_config(route_name='candidate_picture', **POST)
+    def save_picture(self):
+        url = self.request.json["url"]
+        self.session_candidate.picture_url = url
+        return self.session_candidate
 
     @view_config(route_name='candidate', **GET)
     def get(self):
@@ -227,6 +228,7 @@ def includeme(config):
     config.add_route('candidate_logout', 'logout')
     config.add_route('candidate_activate', 'activate/{token}')
     config.add_route('candidate_me', 'me')
+    config.add_route('candidate_picture', 'me/picture')
     config.add_route('candidate_signup_stage', 'signup_stage')
     config.add_route('candidate', '{id}')
 
