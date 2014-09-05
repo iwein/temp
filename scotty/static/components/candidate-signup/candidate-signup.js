@@ -17,9 +17,7 @@ define(function(require) {
       'signup.education2',
     ],
     'languages': [ 'signup.languages' ],
-
-    // TODO: when we implement 'image' this must be fixed
-    'image': [ 'signup.activate' ], //null,
+    'image': [ 'signup.photo' ],
     'active': [ 'signup.activate' ],
   };
   var order = [
@@ -32,7 +30,7 @@ define(function(require) {
     'signup.education1',
     'signup.education2',
     'signup.languages',
-    //'signup.photo',
+    'signup.photo',
     'signup.activation',
     'profile',
   ];

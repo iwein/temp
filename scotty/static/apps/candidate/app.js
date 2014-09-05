@@ -22,6 +22,7 @@ define(function(require) {
       .state('signup.education1', require('components/candidate-signup-education1/candidate-signup-education1'))
       .state('signup.education2', require('components/candidate-signup-education2/candidate-signup-education2'))
       .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
+      .state('signup.photo', require('components/candidate-signup-photo/candidate-signup-photo'))
       .state('signup.activate', require('components/candidate-signup-activate/candidate-signup-activate'))
       ;
   });

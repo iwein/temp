@@ -92,6 +92,10 @@ define(function(require) {
       return this.user && this.user.id;
     },
 
+    setPicture: function(file) {
+      return this._api.post('/candidates/me/picture', { url: file });
+    },
+
     addTargetPosition: setHelper('target_positions', 'post'),
     getTargetPositions: getHelper('target_positions'),
 

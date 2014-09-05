@@ -10,6 +10,7 @@ requirejs.config({
     'angular-core': 'bower_components/angular/angular',
     'angular': 'bower_components/angular-ui-router/release/angular-ui-router',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
+    'b64_hmac_sha1': 'vendor/sha1',
 
     // aliases
     'app-module': 'apps/candidate/candidate-module',
@@ -21,6 +22,9 @@ requirejs.config({
       exports: 'angular',
     },
     'ui.bootstrap': [ 'angular' ],
+    'b64_hmac_sha1': {
+      exports: 'b64_hmac_sha1',
+    }
   }
 
 })([ 'apps/candidate/app' ]);
