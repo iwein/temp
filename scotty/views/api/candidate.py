@@ -42,7 +42,6 @@ class CandidateController(RootController):
         candidate = DBSession.query(Candidate).filter(Candidate.activation_token == token).first()
         if not candidate:
             raise HTTPNotFound("Invalid Token")
-        candidate.activation_token = None
         candidate.activated = datetime.now()
         DBSession.flush()
         return {'success': True}
