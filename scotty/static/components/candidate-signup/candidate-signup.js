@@ -1,11 +1,48 @@
 define(function(require) {
   'use strict';
   var module = require('app-module');
+  var validStates = {
+    'target_positions': [
+      'signup.target1',
+      'signup.target2',
+      'signup.user',
+    ],
+    'work_experience': [
+      'signup.experience1',
+      'signup.experience2',
+    ],
+    'skills': [ 'signup.skills' ],
+    'education': [
+      'signup.education1',
+      'signup.education2',
+    ],
+    'languages': [ 'signup.languages' ],
+
+    // TODO: when we implement 'image' this must be fixed
+    'image': [ 'signup.activate' ], //null,
+    'active': [ 'signup.activate' ],
+  };
+  var order = [
+    'signup.target1',
+    'signup.target2',
+    'signup.user',
+    'signup.experience1',
+    'signup.experience2',
+    'signup.skills',
+    'signup.education1',
+    'signup.education2',
+    'signup.languages',
+    //'signup.photo',
+    'signup.activation',
+    'profile',
+  ];
 
 
   module.controller('CandidateSignupCtrl', function($scope, $state, CandidateSession) {
     var signup = this;
-    this.checkRedirections = checkRedirections;
+    var validated = null;
+    this.nextStep = nextStep;
+    this.atStep = atStep;
     this.ready = false;
     this.target = {};
     this.cities = [];
@@ -15,91 +52,103 @@ define(function(require) {
     this.education = {};
     this.languages = [];
 
-    function target1Completed() {
-      return (
-        signup.target.company_type &&
-        signup.target.role &&
-        signup.target.skill
-      );
-    }
+    loadStep($state.current.name);
 
-    function target2Completed() {
-      return (
-        signup.target.minimum_salary &&
-        signup.cities.length
-      );
-    }
+    $scope.$on('$stateChangeStart', function(event, state) {
+      if (state.name.indexOf('signup') !== 0)
+        return;
 
-    function userCompleted() {
-      return CandidateSession.hasSession();
-    }
-
-    function experience1Completed() {
-      return (
-        userCompleted() &&
-        signup.experience.company &&
-        signup.experience.job_title &&
-        signup.experience.location
-      );
-    }
-
-    function education1Completed() {
-      return (
-        userCompleted() &&
-        signup.education.institution &&
-        signup.education.degree
-      );
-    }
-
-    function checkRedirections() {
-      switch ($state.current.name) {
-        case 'signup.education2':
-          if (!education1Completed())
-            $state.go('signup.education1');
-          break;
-
-        case 'signup.experience2':
-          if (experience1Completed())
-            break;
-          else
-            $state.go('signup.experience1');
-
-          /* falls through */
-        case 'signup.experience1':
-          if (userCompleted())
-            break;
-          else
-            $state.go('signup.user');
-
-          /* falls through */
-        case 'signup.user':
-          if (target2Completed())
-            break;
-          else
-            $state.go('signup.target2');
-
-          /* falls through */
-        case 'signup.target2':
-          if (target1Completed())
-            break;
-          else
-            $state.go('signup.target1');
-
-          /* falls through */
-        case 'signup.target1':
-          break;
-
-        case 'signup':
-          $state.go('signup.target1');
-          break;
+      if (validated !== state.name) {
+        event.preventDefault();
+        loadStep(state.name);
       }
+    });
+
+    function atStep(step) {
+      return $state.current.name === step;
     }
 
-    CandidateSession.whenReady(function() {
-      signup.ready = true;
-      checkRedirections();
-      $scope.$on('$stateChangeSuccess', checkRedirections);
-    });
+    function nextStep() {
+      var current = $state.current.name;
+      var index = order.indexOf(current);
+      var next = order[index + 1];
+      loadStep(next);
+    }
+
+    function loadStep(name) {
+      return getValidStates().then(function(valid) {
+        if (valid.indexOf(name) === -1)
+          name = valid[0];
+
+        name = checkPrevStates(name);
+        validated = name;
+        signup.ready = true;
+        $state.go(name);
+      });
+    }
+
+    function checkPrevStates(name) {
+      var index;
+
+      while (prevStepCompleted.hasOwnProperty(name)) {
+        if (prevStepCompleted[name]())
+          break;
+
+        index = order.indexOf(name);
+        name = order[index - 1];
+      }
+
+      return name;
+    }
+
+    function getValidStates() {
+      return CandidateSession.getSignupStage().then(function(stage) {
+        var destination = 'profile';
+        if (!stage)
+          return validStates.target_positions;
+
+        stage.ordering.some(function(item) {
+          if (!stage[item]) {
+            destination = validStates[item];
+            return true;
+          }
+        });
+
+        return destination;
+      });
+    }
+
+    var prevStepCompleted = {
+      'signup.target2': function() {
+        return (
+          signup.target.company_type &&
+          signup.target.role &&
+          signup.target.skill
+        );
+      },
+      'singup.user': function() {
+        return (
+          signup.target.minimum_salary &&
+          signup.cities.length
+        );
+      },
+      'singup.experience2': function() {
+        return (
+          signup.experience.company &&
+          signup.experience.job_title &&
+          signup.experience.location
+        );
+      },
+      'singup.education2': function() {
+        return (
+          signup.education.institution &&
+          signup.education.degree
+        );
+      },
+    };
+
+
+
 
     if (DEBUG) {
       var barcelona = {

@@ -3,8 +3,19 @@
 @import '../candidate-signup-skills/candidate-signup-skills.less';
 @import '../candidate-signup-education2/candidate-signup-education2.less';
 @import '../candidate-signup-languages/candidate-signup-languages.less';
+@import '../candidate-signup-activate/candidate-signup-activate.less';
 
 .component-candidate-signup {
+  .sidenav {
+    padding: 30px 10px 0px 60px;
+    li {
+      margin: 15px 10px;
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
+
   form.container {
     margin-top: 50px;
 

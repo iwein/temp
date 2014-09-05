@@ -24,11 +24,23 @@ define(function(require) {
   CandidateSession.prototype = {
     constructor: CandidateSession,
 
+    activate: function(token) {
+      return this._api.get('/candidates/activate/' + token);
+    },
+
     signup: function(data) {
       return this._api.post('/candidates/', data).then(function(response) {
         this.user = response;
         return response.id;
       }.bind(this));
+    },
+
+    getSignupStage: function() {
+      return this._api.get('/candidates/signup_stage').then(null, function(request) {
+        if (request.status === 403)
+          return null;
+        throw request;
+      });
     },
 
     login: function(email, password) {

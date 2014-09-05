@@ -18,7 +18,7 @@ define(function(require) {
         return;
       }
 
-      $state.go('^.target2');
+      $scope.signup.nextStep();
     }
   });
 

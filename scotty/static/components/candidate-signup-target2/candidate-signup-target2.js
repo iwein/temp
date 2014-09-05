@@ -28,7 +28,7 @@ define(function(require) {
 
     function submit() {
       if ($scope.signup.cities.length)
-        $state.go('^.user');
+        $scope.signup.nextStep();
     }
   });
 

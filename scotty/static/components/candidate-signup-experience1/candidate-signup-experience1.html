@@ -1,5 +1,6 @@
   <form name="formExperience1"
-    class="component-candidate-signup-experience1 container col-sm-6 col-sm-offset-3">
+    class="component-candidate-signup-experience1"
+    ng-submit="signup.nextStep()">
 
     <h3>Sign up - Experience</h3>
 
@@ -24,6 +25,7 @@
       <input type="text"
         name="location"
         class="form-control"
+        required
         ng-model="locationText"
         ng-blur="signupExperience1.setLocation(locationText)"
         typeahead-on-select="signupExperience1.setLocation(locationText)"
@@ -53,8 +55,6 @@
     </div>
 
     <div class="form-group">
-      <a type="submit" class="btn btn-primary" ui-sref="signup.experience2">
-        Continue
-      </a>
+      <button type="submit" class="btn btn-primary">Continue</button>
     </div>
   </form>
