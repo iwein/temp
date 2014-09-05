@@ -1,19 +1,19 @@
 define(function(require) {
   'use strict';
-  require('tools/search-api');
+  require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupExperience1Ctrl', function($scope, SearchAPI) {
-    this.searchCompanies = SearchAPI.companies;
-    this.searchLocations = SearchAPI.locations;
-    this.searchJobTitles = SearchAPI.jobTitles;
+  module.controller('CandidateSignupExperience1Ctrl', function($scope, ConfigAPI) {
+    this.searchCompanies = ConfigAPI.companies;
+    this.searchLocations = ConfigAPI.locationsText;
+    this.searchJobTitles = ConfigAPI.jobTitles;
     this.setLocation = setLocation;
 
     if ($scope.signup.experience.location)
-      $scope.locationText = SearchAPI.locationToText($scope.signup.experience.location);
+      $scope.locationText = ConfigAPI.locationToText($scope.signup.experience.location);
 
     function setLocation(location) {
-      $scope.signup.experience.location = SearchAPI.getLocationFromText(location);
+      $scope.signup.experience.location = ConfigAPI.getLocationFromText(location);
     }
   });
 

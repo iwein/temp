@@ -1,15 +1,14 @@
 define(function(require) {
   'use strict';
-  require('tools/list-api');
-  require('tools/search-api');
+  require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget1Ctrl', function($scope, $state, ListAPI, SearchAPI) {
-    this.searchSkills = SearchAPI.skills;
-    this.searchRoles = SearchAPI.roles;
+  module.controller('CandidateSignupTarget1Ctrl', function($scope, $state, ConfigAPI) {
+    this.searchSkills = ConfigAPI.skills;
+    this.searchRoles = ConfigAPI.roles;
     this.submit = submit;
 
-    ListAPI.companyTypes().then(function(data) {
+    ConfigAPI.companyTypes().then(function(data) {
       $scope.companyTypes = data;
     });
 

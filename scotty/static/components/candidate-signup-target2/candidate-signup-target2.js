@@ -1,11 +1,11 @@
 define(function(require) {
   'use strict';
-  require('tools/search-api');
+  require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, SearchAPI) {
-    this.searchCities = SearchAPI.locations;
-    this.cityText = SearchAPI.locationToText;
+  module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, ConfigAPI) {
+    this.searchCities = ConfigAPI.locationsText;
+    this.cityText = ConfigAPI.locationToText;
     this.addCity = addCity;
     this.removeCity = removeCity;
     this.submit = submit;
@@ -15,10 +15,10 @@ define(function(require) {
       var city = $scope.currentCity;
       $scope.currentCity = '';
 
-      if (cities.map(SearchAPI.locationToText).indexOf(city) !== -1)
+      if (cities.map(ConfigAPI.locationToText).indexOf(city) !== -1)
         return;
 
-      cities.push(SearchAPI.getLocationFromText(city));
+      cities.push(ConfigAPI.getLocationFromText(city));
     }
 
     function removeCity(city) {

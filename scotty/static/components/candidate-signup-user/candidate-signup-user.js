@@ -5,12 +5,7 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function(
-    $scope,
-    $q,
-    $state,
-    CandidateSession
-  ) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, CandidateSession) {
     this.submit = submit;
 
     function submit() {

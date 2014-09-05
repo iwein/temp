@@ -3,11 +3,7 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateLoginCtrl', function(
-    $scope,
-    $location,
-    CandidateSession
-  ) {
+  module.controller('CandidateLoginCtrl', function($scope, $location, CandidateSession) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;

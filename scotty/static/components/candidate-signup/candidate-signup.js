@@ -13,23 +13,23 @@ define(function(require) {
     this.skills = [];
     this.education = {};
 
-    if (true) {
+    if (DEBUG) {
       var barcelona = {
         city: 'Barcelona',
         country_iso: 'ES',
       };
 
       var guid = (function() {
-      function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-      }
-      return function() {
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
-      };
-    })();
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+                  .toString(16)
+                  .substring(1);
+        }
+        return function() {
+          return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                  s4() + '-' + s4() + s4() + s4();
+        };
+      })();
 
       // jshint camelcase:false
       this.target = {

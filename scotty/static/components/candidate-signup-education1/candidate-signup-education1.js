@@ -1,13 +1,12 @@
 define(function(require) {
   'use strict';
-  require('tools/list-api');
-  require('tools/search-api');
+  require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupEducation1Ctrl', function($scope, ListAPI, SearchAPI) {
-    this.searchInstitutions = SearchAPI.institutions;
+  module.controller('CandidateSignupEducation1Ctrl', function($scope, ConfigAPI) {
+    this.searchInstitutions = ConfigAPI.institutions;
 
-    ListAPI.degrees().then(function(data) {
+    ConfigAPI.degrees().then(function(data) {
       $scope.degrees = data;
     });
   });
