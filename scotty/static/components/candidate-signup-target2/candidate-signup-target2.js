@@ -3,7 +3,7 @@ define(function(require) {
   require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, ConfigAPI) {
+  module.controller('CandidateSignupTarget2Ctrl', function($scope, ConfigAPI) {
     this.searchCities = ConfigAPI.locationsText;
     this.cityText = ConfigAPI.locationToText;
     this.addCity = addCity;

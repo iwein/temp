@@ -20,6 +20,7 @@ define(function(require) {
   ];
 
   module.controller('CandidateSignupEducation2Ctrl', function($scope, $state, ConfigAPI, CandidateSession) {
+    this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.submit = submit;
@@ -32,23 +33,18 @@ define(function(require) {
       $scope.levels = data;
     });
 
-    function saveEducation() {
-      return CandidateSession.addEducation($scope.signup.education)
-        .then(function(result) {
-          $scope.signup.education = {};
-          return result;
-        });
-    }
-
     function addAnother() {
-      saveEducation().then(function() {
+      CandidateSession.addEducation($scope.signup.education).then(function() {
+        $scope.signup.education = {};
         $state.go('^.education1');
       });
     }
 
     function submit() {
-      saveEducation().then(function() {
-        $scope.signup.nextStep();
+      CandidateSession.addEducation($scope.signup.education).then(function() {
+        return $scope.signup.nextStep();
+      }).then(function() {
+        $scope.signup.education = {};
       });
     }
 

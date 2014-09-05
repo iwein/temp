@@ -72,8 +72,8 @@
         class="form-control"
         name="course"
         required
-        ng-model="signup.education.course">
-        <!--typeahead="course for course in signupEducation2.searchCourses($viewValue)"-->
+        ng-model="signup.education.course"
+        typeahead="course for course in signupEducation2.searchCourses($viewValue)">
     </div>
 
     <div class="form-error" ng-show="formEducation2.course.$dirty && formEducation2.course.$invalid">

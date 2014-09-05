@@ -4,7 +4,7 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupSkillsCtrl', function($scope, $state, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupSkillsCtrl', function($scope, ConfigAPI, CandidateSession) {
     this.searchSkills = ConfigAPI.skills;
     this.remove = remove;
     this.onChange = onChange;
@@ -40,8 +40,9 @@ define(function(require) {
       skills.pop();
 
       CandidateSession.setSkills(skills).then(function() {
+        return $scope.signup.nextStep();
+      }).then(function() {
         $scope.signup.skills.pop();
-        $scope.signup.nextStep();
       });
     }
   });

@@ -32,23 +32,18 @@ define(function(require) {
       $scope.levels = data;
     });
 
-    function saveExperience() {
-      return CandidateSession.addExperience($scope.signup.experience)
-        .then(function(result) {
-          $scope.signup.experience = {};
-          return result;
-        });
-    }
-
     function addAnother() {
-      saveExperience().then(function() {
+      CandidateSession.addExperience($scope.signup.experience).then(function() {
         $state.go('^.experience1');
+        $scope.signup.experience = {};
       });
     }
 
     function submit() {
-      saveExperience().then(function() {
-        $scope.signup.nextStep();
+      CandidateSession.addExperience($scope.signup.experience).then(function() {
+        return $scope.signup.nextStep();
+      }).then(function() {
+        $scope.signup.experience = {};
       });
     }
 
