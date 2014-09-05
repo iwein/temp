@@ -4,10 +4,11 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupLanguageCtrl', function($scope, $state, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, CandidateSession) {
     this.remove = remove;
     this.onChange = onChange;
     this.submit = submit;
+    $scope.loading = false;
     var languages = $scope.signup.languages;
     languages.push({});
 
@@ -38,9 +39,13 @@ define(function(require) {
       var languages = $scope.signup.languages.slice();
       languages.pop();
 
+      $scope.loading = true;
       CandidateSession.setLanguages(languages).then(function() {
-        $scope.signup.languages.pop();
-        $scope.signup.nextStep();
+        return $scope.signup.nextStep();
+      }).then(function() {
+        return $scope.signup.languages.pop();
+      }).finally(function() {
+        $scope.loading = false;
       });
     }
   });

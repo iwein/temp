@@ -47,6 +47,7 @@ define(function(require) {
     jobTitles: helper('job_titles'),
     institutions: helper('institutions'),
     languages: helper('languages'),
+    courses: helper('courses'),
     locations: helper('locations'),
 
     // custom

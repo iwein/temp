@@ -72,7 +72,7 @@ define(function(require) {
       var current = $state.current.name;
       var index = order.indexOf(current);
       var next = order[index + 1];
-      loadStep(next);
+      return loadStep(next);
     }
 
     function loadStep(name) {

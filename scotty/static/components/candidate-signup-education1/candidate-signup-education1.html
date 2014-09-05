@@ -1,6 +1,6 @@
   <form name="formEducation1"
     class="component-candidate-signup-education1"
-    ng-submit="signup.nextStep()">
+    ng-submit="signupEducation1.submit()">
 
     <h3>Sign up - Education</h3>
 
@@ -10,14 +10,15 @@
         class="form-control"
         name="institution"
         required
+        ng-disabled="loading"
         ng-model="signup.education.institution"
         typeahead="institution for institution in signupEducation1.searchInstitutions($viewValue)">
-    </div>
 
-    <div class="form-error" ng-show="formEducation1.institution.$dirty && formEducation1.institution.$invalid">
-      <span ng-show="formEducation1.institution.$error.required">
-        Please insert the institution name.
-      </span>
+      <div class="form-error" ng-show="formEducation1.institution.$dirty && formEducation1.institution.$invalid">
+        <span ng-show="formEducation1.institution.$error.required">
+          Please insert the institution name.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -26,20 +27,21 @@
         class="form-control"
         name="degree"
         required
+        ng-disabled="loading"
         ng-model="signup.education.degree"
         ng-options="degree for degree in degrees"
         ng-change="startDateUpdate()">
         <option value="">Select one...</option>
       </select>
-    </div>
 
-    <div class="form-error" ng-show="formEducation1.degree.$dirty && formEducation1.degree.$invalid">
-      <span ng-show="formEducation1.degree.$error.required">
-        Please insert the degree.
-      </span>
+      <div class="form-error" ng-show="formEducation1.degree.$dirty && formEducation1.degree.$invalid">
+        <span ng-show="formEducation1.degree.$error.required">
+          Please insert the degree.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </div>
   </form>

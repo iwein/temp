@@ -9,6 +9,7 @@
         <select
           class="form-control"
           name="language{{ $index }}"
+          ng-disabled="loading"
           ng-required="$index === 0"
           ng-model="entry.language"
           ng-change="signupLanguages.onChange(entry, $index)"
@@ -19,6 +20,7 @@
         <select
           class="form-control"
           name="proficiency{{ $index }}"
+          ng-disabled="loading"
           ng-required="entry.language"
           ng-model="entry.proficiency"
           ng-options="proficiency for proficiency in proficiencies">
@@ -30,19 +32,19 @@
           ng-click="signupLanguages.remove($index)">
           &times;
         </span>
-      </div>
 
-      <!-- TODO: This doesn't work yet -->
-      <div class="form-error" ng-show="
-        formLanguages['language' + $index].$dirty &&
-        formLanguages['language' + $index].$invalid">
-        <span ng-show="formLanguages['language' + $index].$error.required">
-          Please insert the language proficiency.
-        </span>
+        <!-- TODO: This doesn't work yet -->
+        <div class="form-error" ng-show="
+          formLanguages['language' + $index].$dirty &&
+          formLanguages['language' + $index].$invalid">
+          <span ng-show="formLanguages['language' + $index].$error.required">
+            Please insert the language proficiency.
+          </span>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </div>
   </form>

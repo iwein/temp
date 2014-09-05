@@ -4,12 +4,13 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupSkillsCtrl', function($scope, $state, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupSkillsCtrl', function($scope, ConfigAPI, CandidateSession) {
     this.searchSkills = ConfigAPI.skills;
     this.remove = remove;
     this.onChange = onChange;
     this.onBlur = onBlur;
     this.submit = submit;
+    $scope.loading = false;
     var skills = $scope.signup.skills;
     skills.push({});
 
@@ -39,9 +40,13 @@ define(function(require) {
       var skills = $scope.signup.skills.slice();
       skills.pop();
 
+      $scope.loading = true;
       CandidateSession.setSkills(skills).then(function() {
-        $scope.signup.skills.pop();
-        $scope.signup.nextStep();
+        return $scope.signup.nextStep();
+      }).then(function() {
+        return $scope.signup.skills.pop();
+      }).finally(function() {
+        this.loading = false;
       });
     }
   });

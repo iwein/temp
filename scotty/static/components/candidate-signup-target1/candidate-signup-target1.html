@@ -10,12 +10,13 @@
         class="form-control"
         name="skill"
         required
+        ng-disabled="loading"
         ng-model="signup.target.skill"
         typeahead="skill for skill in signupTarget1.searchSkills($viewValue)">
-    </div>
 
-    <div class="form-error" ng-show="formTarget1.skill.$dirty && formTarget1.skill.$invalid">
-      <span ng-show="formTarget1.skill.$error.required">Please insert your skill.</span>
+      <div class="form-error" ng-show="formTarget1.skill.$dirty && formTarget1.skill.$invalid">
+        <span ng-show="formTarget1.skill.$error.required">Please insert your skill.</span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -24,12 +25,13 @@
         class="form-control"
         name="role"
         required
+        ng-disabled="loading"
         ng-model="signup.target.role"
         typeahead="role for role in signupTarget1.searchRoles($viewValue)">
-    </div>
 
-    <div class="form-error" ng-show="formTarget1.role.$dirty && formTarget1.role.$invalid">
-      <span ng-show="formTarget1.role.$error.required">Please insert your role.</span>
+      <div class="form-error" ng-show="formTarget1.role.$dirty && formTarget1.role.$invalid">
+        <span ng-show="formTarget1.role.$error.required">Please insert your role.</span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -38,17 +40,18 @@
         class="form-control"
         name="companyType"
         required
+        ng-disabled="loading"
         ng-model="signup.target.company_type"
         ng-options="type for type in companyTypes">
         <option value="">Select one</option>
       </select>
-    </div>
 
-    <div class="form-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
-      <span>Please select your's company type.</span>
+      <div class="form-error"ng-show="formTarget1.companyType.$dirty && formTarget1.companyType.$invalid">
+        <span>Please select your's company type.</span>
+      </div>
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </div>
   </form>

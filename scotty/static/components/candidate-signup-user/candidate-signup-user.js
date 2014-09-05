@@ -7,8 +7,12 @@ define(function(require) {
 
   module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, CandidateSession) {
     this.submit = submit;
+    this.loading = false;
+    $scope.loading = false;
 
     function submit() {
+      $scope.loading = true;
+
       CandidateSession.signup($scope.signup.user).then(function() {
         var position = $scope.signup.target;
         var cities = $scope.signup.cities;
@@ -18,7 +22,9 @@ define(function(require) {
           CandidateSession.setPreferredCities(cities),
         ]);
       }).then(function() {
-        $scope.signup.nextStep();
+        return $scope.signup.nextStep();
+      }).finally(function() {
+        $scope.loading = false;
       });
     }
   });

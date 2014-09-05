@@ -13,6 +13,7 @@
         <input type="text"
           class="form-control"
           name="skill{{ $index }}"
+          ng-disabled="loading"
           ng-required="$index === 0"
           ng-model="entry.skill"
           ng-blur="signupSkills.onBlur(entry, $index)"
@@ -22,6 +23,7 @@
         <select
           class="form-control"
           name="level{{ $index }}"
+          ng-disabled="loading"
           ng-required="entry.skill"
           ng-model="entry.level"
           ng-options="level for level in levels">
@@ -33,19 +35,19 @@
           ng-click="signupSkills.remove($index)">
           &times;
         </span>
-      </div>
 
-      <!-- TODO: This doesn't work yet -->
-      <div class="form-error" ng-show="
-        formSkills['skill' + $index].$dirty &&
-        formSkills['skill' + $index].$invalid">
-        <span ng-show="formSkills['skill' + $index].$error.required">
-          Please insert the skill level.
-        </span>
+        <!-- TODO: This doesn't work yet -->
+        <div class="form-error" ng-show="
+          formSkills['skill' + $index].$dirty &&
+          formSkills['skill' + $index].$invalid">
+          <span ng-show="formSkills['skill' + $index].$error.required">
+            Please insert the skill level.
+          </span>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </div>
   </form>

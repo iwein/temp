@@ -28,9 +28,15 @@ define(function(require) {
 
 
   require('tools/candidate-session');
-  module.run(function($templateCache, $rootScope, CandidateSession) {
+  module.run(function($state, $templateCache, $rootScope, CandidateSession) {
     $rootScope.session = CandidateSession;
     $templateCache.put('navbar.html', require('text!./navbar.html'));
+
+    $rootScope.logout = function() {
+      CandidateSession.logout().then(function() {
+        $state.go('login');
+      });
+    };
   });
 
   angular.bootstrap(document, [ 'scotty-candidate' ]);

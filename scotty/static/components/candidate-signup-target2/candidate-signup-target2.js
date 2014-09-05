@@ -3,12 +3,13 @@ define(function(require) {
   require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget2Ctrl', function($scope, $state, ConfigAPI) {
+  module.controller('CandidateSignupTarget2Ctrl', function($scope, ConfigAPI) {
     this.searchCities = ConfigAPI.locationsText;
     this.cityText = ConfigAPI.locationToText;
     this.addCity = addCity;
     this.removeCity = removeCity;
     this.submit = submit;
+    $scope.loading = false;
 
     function addCity() {
       var cities = $scope.signup.cities;
@@ -27,8 +28,13 @@ define(function(require) {
     }
 
     function submit() {
-      if ($scope.signup.cities.length)
-        $scope.signup.nextStep();
+      if (!$scope.signup.cities.length)
+        return;
+
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
   });
 

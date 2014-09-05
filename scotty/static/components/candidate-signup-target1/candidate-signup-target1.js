@@ -3,10 +3,11 @@ define(function(require) {
   require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget1Ctrl', function($scope, $state, ConfigAPI) {
+  module.controller('CandidateSignupTarget1Ctrl', function($scope, ConfigAPI) {
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
     this.submit = submit;
+    $scope.loading = false;
 
     ConfigAPI.companyTypes().then(function(data) {
       $scope.companyTypes = data;
@@ -18,7 +19,10 @@ define(function(require) {
         return;
       }
 
-      $scope.signup.nextStep();
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
   });
 
