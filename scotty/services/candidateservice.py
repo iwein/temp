@@ -4,7 +4,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
     Education, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
-    Language, Seniority, CandidateLanguage
+    Language, Seniority, CandidateLanguage, Course
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, params_get_list_or_raise, \
     get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
     get_or_create_named_lookup
@@ -41,7 +41,7 @@ def add_candidate_skill(candidate, params):
 def add_candidate_education(candidate, params):
     degree = get_by_name_or_raise(Degree, params['degree'])
     institution = get_by_name_or_create(Institution, params['institution'])
-    course = get_by_name_or_create(Institution, params['course'])
+    course = get_by_name_or_create(Course, params['course'])
 
     start = params['start']
     end = params.get('end')
