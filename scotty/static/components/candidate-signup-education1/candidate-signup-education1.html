@@ -1,5 +1,6 @@
   <form name="formEducation1"
-    class="component-candidate-signup-education1">
+    class="component-candidate-signup-education1"
+    ng-submit="signup.nextStep()">
 
     <h3>Sign up - Education</h3>
 
@@ -39,8 +40,6 @@
     </div>
 
     <div class="form-group">
-      <a type="submit" class="btn btn-primary" ui-sref="signup.education2">
-        Continue
-      </a>
+      <button type="submit" class="btn btn-primary">Continue</button>
     </div>
   </form>

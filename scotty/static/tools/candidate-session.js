@@ -35,6 +35,14 @@ define(function(require) {
       }.bind(this));
     },
 
+    getSignupStage: function() {
+      return this._api.get('/candidates/signup_stage').then(null, function(request) {
+        if (request.status === 403)
+          return null;
+        throw request;
+      });
+    },
+
     login: function(email, password) {
       return this._api.post('/candidates/login', {
         email: email,

@@ -41,7 +41,7 @@ define(function(require) {
 
       CandidateSession.setSkills(skills).then(function() {
         $scope.signup.skills.pop();
-        $state.go('^.education1');
+        $scope.signup.nextStep();
       });
     }
   });

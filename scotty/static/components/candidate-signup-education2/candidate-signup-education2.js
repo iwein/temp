@@ -48,7 +48,7 @@ define(function(require) {
 
     function submit() {
       saveEducation().then(function() {
-        $state.go('^.languages');
+        $scope.signup.nextStep();
       });
     }
 

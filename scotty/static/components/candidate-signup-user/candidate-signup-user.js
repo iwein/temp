@@ -18,7 +18,7 @@ define(function(require) {
           CandidateSession.setPreferredCities(cities),
         ]);
       }).then(function() {
-        $state.go('^.experience1');
+        $scope.signup.nextStep();
       });
     }
   });

@@ -48,7 +48,7 @@ define(function(require) {
 
     function submit() {
       saveExperience().then(function() {
-        $state.go('^.skills');
+        $scope.signup.nextStep();
       });
     }
 

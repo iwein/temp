@@ -40,7 +40,7 @@ define(function(require) {
 
       CandidateSession.setLanguages(languages).then(function() {
         $scope.signup.languages.pop();
-        $state.go('profile');
+        $scope.signup.nextStep();
       });
     }
   });
