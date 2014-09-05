@@ -84,6 +84,11 @@ def main(global_config, **settings):
         name, value = url.split(':', 1)
         settings['sqlalchemy.url'] = os.environ[value.strip()]
 
+    frontend = settings['frontend.domain']
+    if frontend.startswith('__env__'):
+        name, value = frontend.split(':', 1)
+        settings['frontend.domain'] = os.environ[value.strip()]
+
     engine = engine_from_config(settings, 'sqlalchemy.')
     log.info("DB Connected at: %s" % settings['sqlalchemy.url'])
     DBSession.configure(bind=engine)

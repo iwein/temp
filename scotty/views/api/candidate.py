@@ -32,7 +32,7 @@ class CandidateController(RootController):
         self.request.session['candidate_id'] = candidate.id
         self.request.emailer.send_welcome(candidate.email,
                                           candidate.first_name,
-                                          'ACTIVATION TOKEN')
+                                          candidate.activation_token)
         candidate.activation_sent = datetime.now()
         return candidate
 
