@@ -9,7 +9,7 @@
         <select
           class="form-control"
           name="language{{ $index }}"
-          ng-required="entry.skill"
+          ng-required="$index === 0"
           ng-model="entry.language"
           ng-change="signupLanguages.onChange(entry, $index)"
           ng-options="language for language in languages">
