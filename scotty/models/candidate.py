@@ -131,6 +131,9 @@ class Candidate(Base):
     __tablename__ = 'candidate'
     id = Column(GUID, primary_key=True, default=uuid4)
     created = Column(Date, nullable=False, default=datetime.now)
+    activation_token = Column(GUID, unique=True, default=uuid4)
+    activation_sent = Column(Date)
+    activated = Column(Date)
 
     email = Column(String(512), nullable=False, unique=True)
     pwd = Column(String(128), nullable=False)
@@ -180,9 +183,19 @@ class Candidate(Base):
 
     def __json__(self, request):
         result = json_encoder(self, request)
+
+        result.pop('status_id', None)
+        result.pop('title_id', None)
+        result.pop('traffic_source_id', None)
+        result.pop('contact_city_id', None)
+
+        result['title'] = self.title
+        result['contact_city'] = self.contact_city
         result['status'] = self.status
         result['languages'] = self.languages
+        result['traffic_source'] = self.traffic_source
         result['skills'] = self.skills
+
         # TODO: fix, why is it not auto loaded?
         result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() \
             if self.preferred_cities else []

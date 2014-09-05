@@ -28,6 +28,9 @@ def upgrade():
     op.create_table('candidate',
                     sa.Column('id', GUID(), nullable=False),
                     sa.Column('created', sa.Date(), nullable=False),
+                    sa.Column('activated', sa.Date(), nullable=True),
+                    sa.Column('activation_sent', sa.Date(), nullable=True),
+                    sa.Column('activation_token', GUID(), nullable=True),
                     sa.Column('email', sa.String(length=512), nullable=False),
                     sa.Column('pwd', sa.String(length=128), nullable=False),
                     sa.Column('first_name', sa.String(length=512), nullable=False),
@@ -57,7 +60,8 @@ def upgrade():
                     sa.ForeignKeyConstraint(['title_id'], [u'title.id'], ),
                     sa.ForeignKeyConstraint(['traffic_source_id'], [u'traffic_source.id'], ),
                     sa.PrimaryKeyConstraint('id'),
-                    sa.UniqueConstraint('email')
+                    sa.UniqueConstraint('email'),
+                    sa.UniqueConstraint('activation_token')
     )
     op.create_table('education',
                     sa.Column('created', sa.Date(), nullable=False),

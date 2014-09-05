@@ -8,13 +8,16 @@
             tests = [
               {'url':'/api/v1/candidates/', 'title': 'candidate-signup',
                 data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd"},
-                extract:   function(r, extr){return {candidateId: r.id}}},
+                extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
+
+              {'url':function(r, extr){ return '/api/v1/candidates/activate/'+extr.actToken;}, 'title': 'candidate-activation'},
 
               {'url': function(r, extr){return '/api/v1/candidates/login'}, 'title': 'candidate-login',
                 data: {"email": email, pwd:"welcomepwd"}
               },
 
-              {'url': function(r, extr){return '/api/v1/candidates/me'}, 'title': 'candidate-me'},
+              {'url': '/api/v1/candidates/me', 'title': 'candidate-me'},
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-base'},
 
               //{'sectionTitle': 'Set Based Endpoints'},
 
@@ -31,8 +34,8 @@
                 {'language':'english', 'proficiency': 'basic'}
               ]},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-languages'},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
-                'title': 'set-languages-empty', method:'PUT', data: []},
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-languages'},
+
 
               {'title': 'Preferred Cities'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
@@ -44,8 +47,7 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
                 'title': 'set-candidate-preferred_cities-2', method:'PUT', data: [{'city':'Berlin Schöneberg', 'country_iso': 'DE'}]},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-preferred_cities'},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
-                'title': 'set-preferred_cities-empty', method:'PUT', data: []},
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-3'},
 
               {'title': 'Skills'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'},
@@ -61,9 +63,10 @@
                 {"skill": "PHP", "level":"basic"}],
                 extract:   function(r, extr){return {skillId: r.id}}},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'get-candidate-skills'},
-              {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'}, 'title': 'set-empty-skill', method:"PUT", data: []},
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-skills'},
 
               //{'sectionTitle': 'Restful Endpoints'},
+
 
               {'title': 'Education'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education'},
@@ -78,6 +81,8 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education/'+extr.educationId}, 'title': 'delete-education', method:"DELETE"},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education-3'},
 
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-Education'},
+
               {'title': 'Work Experience'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'create-work_experience',
@@ -91,6 +96,9 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience/'+extr.work_experienceId}, 'title': 'delete-work_experience', method:"DELETE"},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience-3'},
 
+
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-WorkExperience'},
+
               {'title': 'Target Position'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'create-target_position',
@@ -103,11 +111,11 @@
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions/'+extr.target_positionId}, 'title': 'delete-target_position', method:"DELETE"},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position-3'},
 
+              {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-TargetPosition'},
+
               {'sectionTitle': 'Cleanup'},
               {'url': function(r, extr){return '/api/v1/candidates/logout'}, 'title': 'candidate-logout'},
               {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'candidate-delete', method:"DELETE"}
-
-
             ];
 
     $(function(){getTestRunner(tests)(0, {});})

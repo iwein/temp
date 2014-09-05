@@ -1,18 +1,19 @@
+from datetime import datetime
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Candidate, Education, WorkExperience, TargetPosition
-from scotty.services.candidateservice import candidate_from_signup, candidate_from_login,  add_candidate_education, \
+from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.orm import joinedload
 
-class CandidateController(RootController):
 
+class CandidateController(RootController):
     def get_candidate(self, candidate_id):
         candidate = DBSession.query(Candidate).get(candidate_id)
         if not candidate:
@@ -23,13 +24,35 @@ class CandidateController(RootController):
     def candidate(self):
         return self.get_candidate(self.request.matchdict["id"])
 
+    @reify
+    def session_candidate(self):
+        candidate_id = self.request.session.get('candidate_id')
+        if not candidate_id:
+            raise HTTPForbidden("Not logged in.")
+        candidate = self.get_candidate(candidate_id)
+        if not candidate:
+            raise HTTPForbidden("Not logged in.")
+        return candidate
+
     @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup(self):
         candidate = candidate_from_signup(self.request.json)
         DBSession.add(candidate)
         DBSession.flush()
         self.request.session['candidate_id'] = candidate.id
+        self.request.emailer.send_welcome(candidate.email, candidate.first_name, candidate.activation_token)
+        candidate.activation_sent = datetime.now()
         return candidate
+
+    @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
+    def activate(self):
+        token = self.request.matchdict['token']
+        candidate = DBSession.query(Candidate).filter(Candidate.activation_token == token).first()
+        if not candidate:
+            raise HTTPNotFound("Invalid Token")
+        candidate.activated = datetime.now()
+        DBSession.flush()
+        return {'success': True}
 
     @view_config(route_name='candidate_login', permission=NO_PERMISSION_REQUIRED, **POST)
     def login(self):
@@ -47,13 +70,30 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_me', **GET)
     def me(self):
-        candidate_id = self.request.session.get('candidate_id')
-        if not candidate_id:
-            raise HTTPForbidden("Not logged in.")
-        candidate = self.get_candidate(candidate_id)
-        if not candidate:
-            raise HTTPForbidden("Not logged in.")
-        return candidate
+        return self.session_candidate
+
+    @view_config(route_name='candidate_signup_stage', **GET)
+    def signup_stage(self):
+        candidate = self.session_candidate
+        workflow = {'active': candidate.activated != None,
+                    'ordering': [
+                        'target_positions',
+                        'preferred_cities',
+                        'work_experience',
+                        'skills',
+                        'education',
+                        'languages',
+                        'image',
+                        'active',
+                    ],
+                    'image': False,
+                    'languages': len(candidate.languages) > 0,
+                    'preferred_cities': len(candidate.preferred_cities) > 0,
+                    'skills': len(candidate.skills) > 0,
+                    'target_positions': len(candidate.target_positions) > 0,
+                    'work_experience': len(candidate.work_experience) > 0,
+                    'education': len(candidate.education) > 0}
+        return workflow
 
     @view_config(route_name='candidate', **GET)
     def get(self):
@@ -89,13 +129,12 @@ class CandidateController(RootController):
         return self.candidate.skills
 
 
-
 class CandidateEducationController(RootController):
-
     def __init__(self, request):
         candidate_id = request.matchdict["candidate_id"]
         self.candidate = DBSession.query(Candidate).options(joinedload("education").joinedload("institution"),
-                                                            joinedload("education").joinedload("degree")).get(candidate_id)
+                                                            joinedload("education").joinedload("degree")).get(
+            candidate_id)
         if not self.candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         super(CandidateEducationController, self).__init__(request)
@@ -119,13 +158,13 @@ class CandidateEducationController(RootController):
 
 
 class CandidateWorkExperienceController(RootController):
-
     def __init__(self, request):
         candidate_id = request.matchdict["candidate_id"]
         self.candidate = DBSession.query(Candidate).options(joinedload("work_experience").joinedload("location"),
                                                             joinedload("work_experience").joinedload("role"),
                                                             joinedload("work_experience").joinedload("job_title"),
-                                                            joinedload("work_experience").joinedload("company")).get(candidate_id)
+                                                            joinedload("work_experience").joinedload("company")).get(
+            candidate_id)
         if not self.candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         super(CandidateWorkExperienceController, self).__init__(request)
@@ -149,13 +188,13 @@ class CandidateWorkExperienceController(RootController):
 
 
 class CandidateTargetPositionController(RootController):
-
     def __init__(self, request):
         candidate_id = request.matchdict["candidate_id"]
         self.candidate = DBSession.query(Candidate).options(joinedload("target_positions").joinedload("role"),
                                                             joinedload("target_positions").joinedload("skill"),
                                                             joinedload("target_positions").joinedload("company_type"),
-                                                            joinedload("target_positions").joinedload("seniority")).get(candidate_id)
+                                                            joinedload("target_positions").joinedload("seniority")).get(
+            candidate_id)
         if not self.candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         super(CandidateTargetPositionController, self).__init__(request)
@@ -182,7 +221,9 @@ def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
     config.add_route('candidate_logout', 'logout')
+    config.add_route('candidate_activate', 'activate/{token}')
     config.add_route('candidate_me', 'me')
+    config.add_route('candidate_signup_stage', 'signup_stage')
     config.add_route('candidate', '{id}')
 
     config.add_route('candidate_skills', '{id}/skills')

@@ -1,6 +1,8 @@
 from datetime import datetime, date
-import os
 from uuid import UUID
+import logging
+
+import os
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
@@ -9,9 +11,9 @@ import pyramid_mako
 from scotty.auth.provider import AuthProvider, RootResource
 from scotty.models.tools import json_encoder
 from scotty.predicates import ContentTypePredicate
+from scotty.services.emailer import emailer_factory
 from sqlalchemy import engine_from_config
 
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -36,7 +38,6 @@ jsonRenderer.add_adapter(datetime, format_datetime)
 jsonRenderer.add_adapter(date, format_date)
 jsonRenderer.add_adapter(UUID, format_uuid)
 jsonRenderer.add_adapter(Base, json_encoder)
-
 
 
 class CORS(object):
@@ -83,6 +84,11 @@ def main(global_config, **settings):
         name, value = url.split(':', 1)
         settings['sqlalchemy.url'] = os.environ[value.strip()]
 
+    frontend = settings['frontend.domain']
+    if frontend.startswith('__env__'):
+        name, value = frontend.split(':', 1)
+        settings['frontend.domain'] = os.environ[value.strip()]
+
     engine = engine_from_config(settings, 'sqlalchemy.')
     log.info("DB Connected at: %s" % settings['sqlalchemy.url'])
     DBSession.configure(bind=engine)
@@ -100,6 +106,8 @@ def main(global_config, **settings):
     config.add_renderer('json', jsonRenderer)
     config.add_renderer(None, jsonRenderer)
     config.add_view_predicate('content_type', ContentTypePredicate)
+
+    config.add_request_method(emailer_factory(settings), 'emailer', reify=True)
 
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.include('scotty.views')

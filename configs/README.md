@@ -1,4 +1,4 @@
-Database URL's as refercne:
+#### Database URL's as reference:
 
 
 * Local: postgres://scotty_local_user:password@localhost:5432/scotty_local
