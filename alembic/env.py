@@ -55,8 +55,6 @@ def run_migrations_online():
         name, value = url.split(':', 1)
         settings['sqlalchemy.url'] = os.environ[value.strip()]
 
-    print settings
-
     engine = engine_from_config(
                 settings,
                 prefix='sqlalchemy.',

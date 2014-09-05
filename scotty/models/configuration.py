@@ -45,6 +45,12 @@ class Degree(Base, NamedModel):
     name = Column(String(20), nullable=False, unique=True)
 
 
+class Course(Base, NamedModel):
+    __tablename__ = 'course'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False, unique=True)
+
+
 class Skill(Base, NamedModel):
     __tablename__ = 'skill'
     id = Column(Integer, primary_key=True)
