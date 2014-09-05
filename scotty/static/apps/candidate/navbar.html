@@ -22,7 +22,7 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li ng-show="session.user"><a>{{ session.user.first_name }}</a></li>
+          <li ng-show="session.user"><a ui-sref="profile">{{ session.user.first_name }}</a></li>
           <li ng-show="session.user"><a ng-click="session.logout()">Log out</a></li>
         </ul>
       </div>

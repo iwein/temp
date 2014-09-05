@@ -3,7 +3,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupCtrl', function($state, CandidateSession) {
+  module.controller('CandidateSignupCtrl', function($scope, $state, CandidateSession) {
     var signup = this;
     this.checkRedirections = checkRedirections;
     this.ready = false;
@@ -98,6 +98,7 @@ define(function(require) {
     CandidateSession.whenReady(function() {
       signup.ready = true;
       checkRedirections();
+      $scope.$on('$stateChangeSuccess', checkRedirections);
     });
 
     if (DEBUG) {
