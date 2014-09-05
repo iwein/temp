@@ -1,8 +1,3 @@
-@import '../candidate-signup-target2/candidate-signup-target2.less';
-@import '../candidate-signup-experience2/candidate-signup-experience2.less';
-@import '../candidate-signup-skills/candidate-signup-skills.less';
-@import '../candidate-signup-education2/candidate-signup-education2.less';
-@import '../candidate-signup-languages/candidate-signup-languages.less';
 @import '../candidate-signup-activate/candidate-signup-activate.less';
 
 .component-candidate-signup {
@@ -16,12 +11,16 @@
     }
   }
 
-  form.container {
+  .signup-container {
     margin-top: 50px;
+  }
 
-    .form-group {
-      margin-top: 20px;
-      clear: both;
-    }
+  .close {
+    float: none;
+  }
+
+  .form-inline input.form-control {
+    min-width: 114.9px;
+    width: 15%
   }
 }
