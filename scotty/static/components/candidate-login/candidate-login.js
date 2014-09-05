@@ -3,18 +3,31 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateLoginCtrl', function($scope, $location, CandidateSession) {
+  module.controller('CandidateLoginCtrl', function($scope, $state, CandidateSession) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
+
+    function isSignupComplete() {
+      return CandidateSession.getSignupStage().then(function(stage) {
+        return stage.ordering.every(function(item) {
+          // TODO: remove this conditional when 'image' is implemented
+          if (item === 'image')
+            return true;
+          return stage[item];
+        });
+      });
+    }
 
     function submit(email, password) {
       $scope.error = false;
       $scope.loading = true;
 
       CandidateSession.login(email, password).then(function() {
-        $scope.loading = false;
-        $location.path('/');
+        isSignupComplete().then(function(isComplete) {
+          $scope.loading = false;
+          $state.go(isComplete ? 'profile' : 'signup');
+        });
       }, function() {
         $scope.error = true;
         $scope.loading = false;

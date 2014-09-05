@@ -19,8 +19,8 @@ define(function(require) {
     'languages': [ 'signup.languages' ],
 
     // TODO: when we implement 'image' this must be fixed
-    'image': [ 'profile' ], //null,
-    'active': null,
+    'image': [ 'signup.activate' ], //null,
+    'active': [ 'signup.activate' ],
   };
   var order = [
     'signup.target1',
@@ -32,7 +32,8 @@ define(function(require) {
     'signup.education1',
     'signup.education2',
     'signup.languages',
-    //'signup.activation',
+    //'signup.photo',
+    'signup.activation',
     'profile',
   ];
 
@@ -54,6 +55,9 @@ define(function(require) {
     loadStep($state.current.name);
 
     $scope.$on('$stateChangeStart', function(event, state) {
+      if (state.name.indexOf('signup') !== 0)
+        return;
+
       if (validated !== state.name) {
         event.preventDefault();
         loadStep(state.name);
@@ -99,16 +103,16 @@ define(function(require) {
 
     function getValidStates() {
       return CandidateSession.getSignupStage().then(function(stage) {
-        var destination = validStates.target_positions;
+        var destination = 'profile';
+        if (!stage)
+          return validStates.target_positions;
 
-        if (stage) {
-          stage.ordering.some(function(item) {
-            if (!stage[item]) {
-              destination = validStates[item];
-              return true;
-            }
-          });
-        }
+        stage.ordering.some(function(item) {
+          if (!stage[item]) {
+            destination = validStates[item];
+            return true;
+          }
+        });
 
         return destination;
       });
@@ -146,7 +150,7 @@ define(function(require) {
 
 
 
-    if (false) {
+    if (DEBUG) {
       var barcelona = {
         city: 'Barcelona',
         country_iso: 'ES',
