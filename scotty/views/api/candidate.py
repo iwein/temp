@@ -1,6 +1,6 @@
 from datetime import datetime
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -10,6 +10,7 @@ from scotty.services.candidateservice import candidate_from_signup, candidate_fr
     set_preferredcities_on_candidate
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 
@@ -38,7 +39,10 @@ class CandidateController(RootController):
     def signup(self):
         candidate = candidate_from_signup(self.request.json)
         DBSession.add(candidate)
-        DBSession.flush()
+        try:
+            DBSession.flush()
+        except IntegrityError:
+            raise HTTPConflict("User already signed up!")
         self.request.session['candidate_id'] = candidate.id
         self.request.emailer.send_welcome(candidate.email, candidate.first_name, candidate.activation_token)
         candidate.activation_sent = datetime.now()
