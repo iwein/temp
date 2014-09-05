@@ -24,6 +24,10 @@ define(function(require) {
   CandidateSession.prototype = {
     constructor: CandidateSession,
 
+    activate: function(token) {
+      return this._api.get('/candidates/activate/' + token);
+    },
+
     signup: function(data) {
       return this._api.post('/candidates/', data).then(function(response) {
         this.user = response;

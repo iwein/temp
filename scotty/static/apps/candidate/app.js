@@ -10,6 +10,7 @@ define(function(require) {
 
     $stateProvider
       .state('login', require('components/candidate-login/candidate-login'))
+      .state('activate', require('components/candidate-activate/candidate-activate'))
       .state('profile', require('components/candidate-profile-basic/candidate-profile-basic'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
       .state('signup.target1', require('components/candidate-signup-target1/candidate-signup-target1'))
