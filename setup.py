@@ -21,7 +21,8 @@ requires = [
     'paste', 'pastescript', 'pastedeploy', 'simplejson',
     'beaker', 'pyramid_beaker',
 
-    'psycopg2'
+    'psycopg2',
+    'mandrill'
     ]
 
 setup(name='scotty',

@@ -1,3 +1,4 @@
+from datetime import datetime
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
 from pyramid.security import NO_PERMISSION_REQUIRED
@@ -29,7 +30,22 @@ class CandidateController(RootController):
         DBSession.add(candidate)
         DBSession.flush()
         self.request.session['candidate_id'] = candidate.id
+        self.request.emailer.send_welcome(candidate.email,
+                                          candidate.first_name,
+                                          'ACTIVATION TOKEN')
+        candidate.activation_sent = datetime.now()
         return candidate
+
+    @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
+    def activate(self):
+        token = self.request.matchdict['token']
+        candidate = DBSession.query(Candidate).filter(Candidate.activation_token == token).first()
+        if not candidate:
+            raise HTTPNotFound("Invalid Token")
+        candidate.activation_token = None
+        candidate.activated = datetime.now()
+        DBSession.flush()
+        return {'success': True}
 
     @view_config(route_name='candidate_login', permission=NO_PERMISSION_REQUIRED, **POST)
     def login(self):
@@ -182,6 +198,7 @@ def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
     config.add_route('candidate_logout', 'logout')
+    config.add_route('candidate_activate', 'activate/{token}')
     config.add_route('candidate_me', 'me')
     config.add_route('candidate', '{id}')
 

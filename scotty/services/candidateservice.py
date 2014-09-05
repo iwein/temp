@@ -16,8 +16,9 @@ def candidate_from_signup(params):
     pwd = hashlib.sha256(params['pwd']).hexdigest()
 
     status = get_by_name_or_raise(CandidateStatus, "active")
-    return Candidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
-                     status=status)
+    candidate = Candidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
+                          status=status)
+    return candidate
 
 
 def candidate_from_login(params):
