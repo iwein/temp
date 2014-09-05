@@ -33,15 +33,15 @@
           ng-click="signupSkills.remove($index)">
           &times;
         </span>
-      </div>
 
-      <!-- TODO: This doesn't work yet -->
-      <div class="form-error" ng-show="
-        formSkills['skill' + $index].$dirty &&
-        formSkills['skill' + $index].$invalid">
-        <span ng-show="formSkills['skill' + $index].$error.required">
-          Please insert the skill level.
-        </span>
+        <!-- TODO: This doesn't work yet -->
+        <div class="form-error" ng-show="
+          formSkills['skill' + $index].$dirty &&
+          formSkills['skill' + $index].$invalid">
+          <span ng-show="formSkills['skill' + $index].$error.required">
+            Please insert the skill level.
+          </span>
+        </div>
       </div>
     </div>
 

@@ -51,19 +51,19 @@
           ng-model="endYear"
           ng-change="endDateUpdate()">
       </div>
-    </div>
 
-    <div class="form-error" ng-show="formEducation2.startMonth.$dirty && formEducation2.startMonth.$invalid">
-      <span ng-show="formEducation2.startMonth.$error.required">Please insert the month you started at this position.</span>
-    </div>
-    <div class="form-error" ng-show="formEducation2.startYear.$dirty && formEducation2.startYear.$invalid">
-      <span ng-show="formEducation2.startYear.$error.required">Please insert the year you started at this position.</span>
-    </div>
-    <div class="form-error" ng-show="formEducation2.endMonth.$dirty && formEducation2.endMonth.$invalid">
-      <span ng-show="formEducation2.endMonth.$error.required">Please insert the month you leave this position.</span>
-    </div>
-    <div class="form-error" ng-show="formEducation2.endYear.$dirty && formEducation2.endYear.$invalid">
-      <span ng-show="formEducation2.endYear.$error.required">Please insert the year you leave this position.</span>
+      <div class="form-error" ng-show="formEducation2.startMonth.$dirty && formEducation2.startMonth.$invalid">
+        <span ng-show="formEducation2.startMonth.$error.required">Please insert the month you started at this position.</span>
+      </div>
+      <div class="form-error" ng-show="formEducation2.startYear.$dirty && formEducation2.startYear.$invalid">
+        <span ng-show="formEducation2.startYear.$error.required">Please insert the year you started at this position.</span>
+      </div>
+      <div class="form-error" ng-show="formEducation2.endMonth.$dirty && formEducation2.endMonth.$invalid">
+        <span ng-show="formEducation2.endMonth.$error.required">Please insert the month you leave this position.</span>
+      </div>
+      <div class="form-error" ng-show="formEducation2.endYear.$dirty && formEducation2.endYear.$invalid">
+        <span ng-show="formEducation2.endYear.$error.required">Please insert the year you leave this position.</span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -74,10 +74,10 @@
         required
         ng-model="signup.education.course"
         typeahead="course for course in signupEducation2.searchCourses($viewValue)">
-    </div>
 
-    <div class="form-error" ng-show="formEducation2.course.$dirty && formEducation2.course.$invalid">
-      <span ng-show="formEducation2.course.$error.required">Please insert the course.</span>
+      <div class="form-error" ng-show="formEducation2.course.$dirty && formEducation2.course.$invalid">
+        <span ng-show="formEducation2.course.$error.required">Please insert the course.</span>
+      </div>
     </div>
 
     <div class="form-group">

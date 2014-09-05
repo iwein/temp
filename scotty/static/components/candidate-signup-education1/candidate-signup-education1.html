@@ -12,12 +12,12 @@
         required
         ng-model="signup.education.institution"
         typeahead="institution for institution in signupEducation1.searchInstitutions($viewValue)">
-    </div>
 
-    <div class="form-error" ng-show="formEducation1.institution.$dirty && formEducation1.institution.$invalid">
-      <span ng-show="formEducation1.institution.$error.required">
-        Please insert the institution name.
-      </span>
+      <div class="form-error" ng-show="formEducation1.institution.$dirty && formEducation1.institution.$invalid">
+        <span ng-show="formEducation1.institution.$error.required">
+          Please insert the institution name.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -31,12 +31,12 @@
         ng-change="startDateUpdate()">
         <option value="">Select one...</option>
       </select>
-    </div>
 
-    <div class="form-error" ng-show="formEducation1.degree.$dirty && formEducation1.degree.$invalid">
-      <span ng-show="formEducation1.degree.$error.required">
-        Please insert the degree.
-      </span>
+      <div class="form-error" ng-show="formEducation1.degree.$dirty && formEducation1.degree.$invalid">
+        <span ng-show="formEducation1.degree.$error.required">
+          Please insert the degree.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">

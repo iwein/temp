@@ -11,6 +11,12 @@
         name="firstName"
         required
         ng-model="signup.user.first_name">
+
+      <div class="form-error" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
+        <span ng-show="formSignupUser.firstName.$error.required">
+          Please insert your first name.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -20,17 +26,12 @@
         name="lastName"
         required
         ng-model="signup.user.last_name"
-    </div>
 
-    <div class="form-error row" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
-      <span ng-show="formSignupUser.firstName.$error.required">
-        Please insert your first name.
-      </span>
-    </div>
-    <div class="form-error row" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
-      <span ng-show="formSignupUser.lastName.$error.required">
-        Please insert your last name.
-      </span>
+      <div class="form-error" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
+        <span ng-show="formSignupUser.lastName.$error.required">
+          Please insert your last name.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -40,15 +41,15 @@
         name="email"
         required
         ng-model="signup.user.email">
-    </div>
 
-    <div class="form-error row" ng-show="formSignupUser.email.$dirty && formSignupUser.email.$invalid">
-      <span ng-show="formSignupUser.email.$error.required">
-        Please insert your email.
-      </span>
-      <span ng-show="formSignupUser.email.$error.email">
-        Please insert a valid email.
-      </span>
+      <div class="form-error" ng-show="formSignupUser.email.$dirty && formSignupUser.email.$invalid">
+        <span ng-show="formSignupUser.email.$error.required">
+          Please insert your email.
+        </span>
+        <span ng-show="formSignupUser.email.$error.email">
+          Please insert a valid email.
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -60,11 +61,11 @@
         required
         ng-minlength="8"
         ng-model="signup.user.pwd">
-    </div>
 
-    <div class="form-error row"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
-      <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
-      <span ng-show="formSignupUser.password.$error.minlength">Password must have at least 8 characters.</span>
+      <div class="form-error"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
+        <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
+        <span ng-show="formSignupUser.password.$error.minlength">Password must have at least 8 characters.</span>
+      </div>
     </div>
 
     <div class="form-group">

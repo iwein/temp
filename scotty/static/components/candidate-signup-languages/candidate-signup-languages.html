@@ -30,15 +30,15 @@
           ng-click="signupLanguages.remove($index)">
           &times;
         </span>
-      </div>
 
-      <!-- TODO: This doesn't work yet -->
-      <div class="form-error" ng-show="
-        formLanguages['language' + $index].$dirty &&
-        formLanguages['language' + $index].$invalid">
-        <span ng-show="formLanguages['language' + $index].$error.required">
-          Please insert the language proficiency.
-        </span>
+        <!-- TODO: This doesn't work yet -->
+        <div class="form-error" ng-show="
+          formLanguages['language' + $index].$dirty &&
+          formLanguages['language' + $index].$invalid">
+          <span ng-show="formLanguages['language' + $index].$error.required">
+            Please insert the language proficiency.
+          </span>
+        </div>
       </div>
     </div>
 
