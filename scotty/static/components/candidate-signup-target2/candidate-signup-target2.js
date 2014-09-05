@@ -9,6 +9,7 @@ define(function(require) {
     this.addCity = addCity;
     this.removeCity = removeCity;
     this.submit = submit;
+    $scope.loading = false;
 
     function addCity() {
       var cities = $scope.signup.cities;
@@ -27,8 +28,13 @@ define(function(require) {
     }
 
     function submit() {
-      if ($scope.signup.cities.length)
-        $scope.signup.nextStep();
+      if (!$scope.signup.cities.length)
+        return;
+
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
   });
 

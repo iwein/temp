@@ -81,9 +81,9 @@
     </div>
 
     <div class="form-group">
-      <button type="button" class="btn btn-primary" ng-click="signupEducation2.addAnother()">
+      <button type="button" class="btn btn-primary" ng-click="signupEducation2.addAnother()" ng-disabled="loading">
         Save &amp; add another
       </button>
-      <button type="submit" class="btn btn-primary">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </div>
   </form>

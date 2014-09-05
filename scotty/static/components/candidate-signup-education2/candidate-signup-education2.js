@@ -25,6 +25,7 @@ define(function(require) {
     this.addAnother = addAnother;
     this.submit = submit;
     $scope.months = months;
+    $scope.loading = false;
 
     bindDate('start');
     bindDate('end');
@@ -41,10 +42,12 @@ define(function(require) {
     }
 
     function submit() {
+      $scope.loading = true;
       CandidateSession.addEducation($scope.signup.education).then(function() {
         return $scope.signup.nextStep();
       }).then(function() {
         $scope.signup.education = {};
+        $scope.loading = false;
       });
     }
 

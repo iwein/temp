@@ -7,6 +7,7 @@ define(function(require) {
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
     this.submit = submit;
+    $scope.loading = false;
 
     ConfigAPI.companyTypes().then(function(data) {
       $scope.companyTypes = data;
@@ -18,7 +19,10 @@ define(function(require) {
         return;
       }
 
-      $scope.signup.nextStep();
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
   });
 

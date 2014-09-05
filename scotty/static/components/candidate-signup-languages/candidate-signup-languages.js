@@ -8,6 +8,7 @@ define(function(require) {
     this.remove = remove;
     this.onChange = onChange;
     this.submit = submit;
+    $scope.loading = false;
     var languages = $scope.signup.languages;
     languages.push({});
 
@@ -38,10 +39,13 @@ define(function(require) {
       var languages = $scope.signup.languages.slice();
       languages.pop();
 
+      $scope.loading = true;
       CandidateSession.setLanguages(languages).then(function() {
         return $scope.signup.nextStep();
       }).then(function() {
-        $scope.signup.languages.pop();
+        return $scope.signup.languages.pop();
+      }).finally(function() {
+        $scope.loading = false;
       });
     }
   });

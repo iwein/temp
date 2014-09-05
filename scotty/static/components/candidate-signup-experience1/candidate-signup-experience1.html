@@ -1,6 +1,6 @@
   <form name="formExperience1"
     class="component-candidate-signup-experience1"
-    ng-submit="signup.nextStep()">
+    ng-submit="signupExperience1.submit()">
 
     <h3>Sign up - Experience</h3>
 
@@ -55,6 +55,6 @@
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </div>
   </form>

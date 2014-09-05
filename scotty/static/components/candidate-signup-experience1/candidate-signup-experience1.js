@@ -8,12 +8,21 @@ define(function(require) {
     this.searchLocations = ConfigAPI.locationsText;
     this.searchJobTitles = ConfigAPI.jobTitles;
     this.setLocation = setLocation;
+    this.submit = submit;
+    $scope.loading = false;
 
     if ($scope.signup.experience.location)
       $scope.locationText = ConfigAPI.locationToText($scope.signup.experience.location);
 
     function setLocation(location) {
       $scope.signup.experience.location = ConfigAPI.getLocationFromText(location);
+    }
+
+    function submit() {
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
   });
 

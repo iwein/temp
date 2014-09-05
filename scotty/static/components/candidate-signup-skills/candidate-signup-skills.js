@@ -10,6 +10,7 @@ define(function(require) {
     this.onChange = onChange;
     this.onBlur = onBlur;
     this.submit = submit;
+    $scope.loading = false;
     var skills = $scope.signup.skills;
     skills.push({});
 
@@ -39,10 +40,13 @@ define(function(require) {
       var skills = $scope.signup.skills.slice();
       skills.pop();
 
+      $scope.loading = true;
       CandidateSession.setSkills(skills).then(function() {
         return $scope.signup.nextStep();
       }).then(function() {
-        $scope.signup.skills.pop();
+        return $scope.signup.skills.pop();
+      }).finally(function() {
+        this.loading = false;
       });
     }
   });
