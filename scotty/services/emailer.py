@@ -22,7 +22,7 @@ class MandrillEmailer(object):
 
         send(string key, struct message, boolean async, string ip_pool, string send_at)
         """
-        url = 'http://%s/#/activate/%s' % (self.frontend, activation_token)
+        url = 'http://%s/candidate.html#/activate/%s' % (self.frontend, activation_token)
         try:
             self.mandrill.messages.send_template('signup-welcome',
                                                  template_content=[],
