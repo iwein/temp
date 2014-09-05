@@ -13,6 +13,7 @@ define(function(require) {
     this.experience = {};
     this.skills = [];
     this.education = {};
+    this.languages = [];
 
     function target1Completed() {
       return (
@@ -35,6 +36,7 @@ define(function(require) {
 
     function experience1Completed() {
       return (
+        userCompleted() &&
         signup.experience.company &&
         signup.experience.job_title &&
         signup.experience.location
@@ -43,6 +45,7 @@ define(function(require) {
 
     function education1Completed() {
       return (
+        userCompleted() &&
         signup.education.institution &&
         signup.education.degree
       );
@@ -150,12 +153,22 @@ define(function(require) {
         skill: guid(),
       }];
       this.education = {
-        institution: 'Harvard University, United States',
+        institution: guid(),
         degree: 'Master',
-        course: 'Dunno',
+        course: guid(),
         end: '1998-7-01',
         start: '1994-3-01',
       };
+      this.languages = [{
+        language: 'spanish',
+        proficiency: 'basic',
+      }, {
+        language: 'english',
+        proficiency: 'advanced',
+      }, {
+        language: 'polish',
+        proficiency: 'native',
+      }];
     }
   });
 

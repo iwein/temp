@@ -2,6 +2,14 @@ define(function(require) {
   'use strict';
   require('tools/api');
 
+
+  function setHelper(method, key) {
+    return function(data) {
+      return this._api[method]('/candidates/' + this.id() + '/' + key, data);
+    };
+  }
+
+
   function CandidateSession(api) {
     this._api = api;
     this.ready = false;
@@ -67,31 +75,13 @@ define(function(require) {
       return this.user && this.user.id;
     },
 
-    url: function() {
-      return '/candidates/' + this.id();
-    },
-
-    setTargetPosition: function(position) {
-      return this._api.post(this.url() + '/target_positions', position);
-    },
-
-    setPreferredCities: function(cities) {
-      return this._api.put(this.url() + '/preferred_cities', cities);
-    },
-
-    addExperience: function(experience) {
-      return this._api.post(this.url() + '/work_experience', experience);
-    },
-
-    addEducation: function(education) {
-      return this._api.post(this.url() + '/education', education);
-    },
-
-    setSkills: function(skills) {
-      return this._api.put(this.url() + '/skills', skills);
-    },
+    addTargetPosition: setHelper('post', 'target_positions'),
+    setPreferredCities: setHelper('put', 'preferred_cities'),
+    addExperience: setHelper('post', 'work_experience'),
+    addEducation: setHelper('post', 'education'),
+    setSkills: setHelper('put', 'skills'),
+    setLanguages: setHelper('put', 'languages'),
   };
-
 
   var module = require('app-module');
   module.factory('CandidateSession', function(API) {

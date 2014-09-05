@@ -19,6 +19,7 @@ define(function(require) {
       .state('signup.skills', require('components/candidate-signup-skills/candidate-signup-skills'))
       .state('signup.education1', require('components/candidate-signup-education1/candidate-signup-education1'))
       .state('signup.education2', require('components/candidate-signup-education2/candidate-signup-education2'))
+      .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
       ;
   });
 

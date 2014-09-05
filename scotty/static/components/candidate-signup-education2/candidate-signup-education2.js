@@ -48,8 +48,7 @@ define(function(require) {
 
     function submit() {
       saveEducation().then(function() {
-        //$state.go('^.skills');
-        //console.log('Next step');
+        $state.go('^.languages');
       });
     }
 

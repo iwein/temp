@@ -14,7 +14,7 @@ define(function(require) {
         var cities = $scope.signup.cities;
 
         return $q.all([
-          CandidateSession.setTargetPosition(position),
+          CandidateSession.addTargetPosition(position),
           CandidateSession.setPreferredCities(cities),
         ]);
       }).then(function() {

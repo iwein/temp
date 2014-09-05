@@ -38,6 +38,7 @@ define(function(require) {
     degrees: helper('degrees'),
     companyTypes: helper('company_types'),
     skillLevels: helper('skill_levels'),
+    proficiencies: helper('proficiencies'),
 
     // search
     skills: helper('skills'),
@@ -45,6 +46,7 @@ define(function(require) {
     companies: helper('companies'),
     jobTitles: helper('job_titles'),
     institutions: helper('institutions'),
+    languages: helper('languages'),
     locations: helper('locations'),
 
     // custom

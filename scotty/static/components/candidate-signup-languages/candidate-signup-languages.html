@@ -1,0 +1,48 @@
+  <form name="formLanguages"
+    class="component-candidate-signup-languages container col-sm-6 col-sm-offset-3"
+    ng-submit="signupLanguages.submit()">
+
+    <h3>Sign up - Languages</h3>
+
+    <div class="form-group" ng-repeat="entry in signup.languages">
+      <div class="form-inline">
+        <select
+          class="form-control"
+          name="language{{ $index }}"
+          ng-required="entry.skill"
+          ng-model="entry.language"
+          ng-change="signupLanguages.onChange(entry, $index)"
+          ng-options="language for language in languages">
+          <option value="">Language</option>
+        </select>
+
+        <select
+          class="form-control"
+          name="proficiency{{ $index }}"
+          ng-required="entry.language"
+          ng-model="entry.proficiency"
+          ng-options="proficiency for proficiency in proficiencies">
+          <option value="">Proficiency</option>
+        </select>
+
+        <span class="close"
+          ng-if="$index !== signup.languages.length - 1"
+          ng-click="signupLanguages.remove($index)">
+          &times;
+        </span>
+      </div>
+
+      <!-- TODO: This doesn't work yet -->
+      <div class="form-error" ng-show="
+        formLanguages['language' + $index].$dirty &&
+        formLanguages['language' + $index].$invalid">
+        <span ng-show="formLanguages['language' + $index].$error.required">
+          Please insert the language proficiency.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Continue</button>
+    </div>
+  </form>
