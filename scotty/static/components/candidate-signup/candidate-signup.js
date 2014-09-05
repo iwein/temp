@@ -5,7 +5,7 @@ define(function(require) {
 
   module.controller('CandidateSignupCtrl', function($scope, $state, CandidateSession) {
     var signup = this;
-    this.checkRedirections = checkRedirections;
+    this.atStep = atStep;
     this.ready = false;
     this.target = {};
     this.cities = [];
@@ -14,6 +14,10 @@ define(function(require) {
     this.skills = [];
     this.education = {};
     this.languages = [];
+
+    function atStep(step) {
+      return $state.current.name === step;
+    }
 
     function target1Completed() {
       return (
