@@ -12,6 +12,7 @@
           class="form-control"
           name="salary"
           required
+          ng-disabled="loading"
           ng-model="signup.target.minimum_salary"
           ng-pattern="/^[0-9]+$/">
         <span class="input-group-addon">.00</span>
@@ -35,6 +36,7 @@
       <input type="text"
         name="cities"
         class="form-control"
+        ng-disabled="loading"
         ng-model="currentCity"
         ng-blur="currentCity = ''"
         typeahead-on-select="signupTarget2.addCity()"

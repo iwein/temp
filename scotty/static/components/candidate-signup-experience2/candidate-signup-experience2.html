@@ -13,6 +13,7 @@
           class="form-control"
           name="startMonth"
           required
+          ng-disabled="loading"
           ng-model="startMonth"
           ng-options="month for month in months"
           ng-change="startDateUpdate()">
@@ -25,6 +26,7 @@
           name="startYear"
           placeholder="Year"
           required
+          ng-disabled="loading"
           ng-model="startYear"
           ng-change="startDateUpdate()">
 
@@ -35,6 +37,7 @@
         <select
           class="form-control"
           name="endMonth"
+          ng-disabled="loading"
           ng-required="endYear !== ''"
           ng-model="endMonth"
           ng-options="month for month in months"
@@ -47,6 +50,7 @@
           class="form-control"
           name="endYear"
           placeholder="Year"
+          ng-disabled="loading"
           ng-required="endMonth !== ''"
           ng-model="endYear"
           ng-change="endDateUpdate()">
@@ -72,6 +76,7 @@
         class="form-control"
         name="role"
         required
+        ng-disabled="loading"
         ng-model="signup.experience.role"
         typeahead="role for role in signupExperience2.searchRoles($viewValue)">
 
@@ -86,6 +91,7 @@
         class="form-control"
         name="level"
         required
+        ng-disabled="loading"
         ng-model="signup.experience.level"
         ng-options="level for level in levels">
         <option value="">Select level</option>
@@ -104,6 +110,7 @@
         class="form-control"
         name="summary"
         required
+        ng-disabled="loading"
         ng-model="signup.experience.summary">
       </textarea>
 

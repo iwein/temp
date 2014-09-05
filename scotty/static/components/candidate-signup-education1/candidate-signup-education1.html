@@ -10,6 +10,7 @@
         class="form-control"
         name="institution"
         required
+        ng-disabled="loading"
         ng-model="signup.education.institution"
         typeahead="institution for institution in signupEducation1.searchInstitutions($viewValue)">
 
@@ -26,6 +27,7 @@
         class="form-control"
         name="degree"
         required
+        ng-disabled="loading"
         ng-model="signup.education.degree"
         ng-options="degree for degree in degrees"
         ng-change="startDateUpdate()">

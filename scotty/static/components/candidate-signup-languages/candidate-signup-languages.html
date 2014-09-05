@@ -9,6 +9,7 @@
         <select
           class="form-control"
           name="language{{ $index }}"
+          ng-disabled="loading"
           ng-required="$index === 0"
           ng-model="entry.language"
           ng-change="signupLanguages.onChange(entry, $index)"
@@ -19,6 +20,7 @@
         <select
           class="form-control"
           name="proficiency{{ $index }}"
+          ng-disabled="loading"
           ng-required="entry.language"
           ng-model="entry.proficiency"
           ng-options="proficiency for proficiency in proficiencies">

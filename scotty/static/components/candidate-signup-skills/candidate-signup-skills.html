@@ -13,6 +13,7 @@
         <input type="text"
           class="form-control"
           name="skill{{ $index }}"
+          ng-disabled="loading"
           ng-required="$index === 0"
           ng-model="entry.skill"
           ng-blur="signupSkills.onBlur(entry, $index)"
@@ -22,6 +23,7 @@
         <select
           class="form-control"
           name="level{{ $index }}"
+          ng-disabled="loading"
           ng-required="entry.skill"
           ng-model="entry.level"
           ng-options="level for level in levels">

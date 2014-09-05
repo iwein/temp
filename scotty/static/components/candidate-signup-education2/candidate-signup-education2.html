@@ -13,6 +13,7 @@
           class="form-control"
           name="startMonth"
           required
+          ng-disabled="loading"
           ng-model="startMonth"
           ng-options="month for month in months"
           ng-change="startDateUpdate()">
@@ -25,6 +26,7 @@
           name="startYear"
           placeholder="Year"
           required
+          ng-disabled="loading"
           ng-model="startYear"
           ng-change="startDateUpdate()">
 
@@ -36,6 +38,7 @@
           class="form-control"
           name="endMonth"
           required
+          ng-disabled="loading"
           ng-model="endMonth"
           ng-options="month for month in months"
           ng-change="endDateUpdate()">
@@ -48,6 +51,7 @@
           name="endYear"
           placeholder="Year"
           required
+          ng-disabled="loading"
           ng-model="endYear"
           ng-change="endDateUpdate()">
       </div>
@@ -72,6 +76,7 @@
         class="form-control"
         name="course"
         required
+        ng-disabled="loading"
         ng-model="signup.education.course"
         typeahead="course for course in signupEducation2.searchCourses($viewValue)">
 

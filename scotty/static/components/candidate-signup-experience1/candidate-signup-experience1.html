@@ -10,6 +10,7 @@
         class="form-control"
         name="company"
         required
+        ng-disabled="loading"
         ng-model="signup.experience.company"
         typeahead="company for company in signupExperience1.searchCompanies($viewValue)">
 
@@ -26,6 +27,7 @@
         name="location"
         class="form-control"
         required
+        ng-disabled="loading"
         ng-model="locationText"
         ng-blur="signupExperience1.setLocation(locationText)"
         typeahead-on-select="signupExperience1.setLocation(locationText)"
@@ -44,6 +46,7 @@
         class="form-control"
         name="job_title"
         required
+        ng-disabled="loading"
         ng-model="signup.experience.job_title"
         typeahead="title for title in signupExperience1.searchJobTitles($viewValue)">
 
