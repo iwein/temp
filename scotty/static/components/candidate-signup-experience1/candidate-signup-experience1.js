@@ -15,10 +15,15 @@ define(function(require) {
       $scope.locationText = ConfigAPI.locationToText($scope.signup.experience.location);
 
     function setLocation(location) {
-      $scope.signup.experience.location = ConfigAPI.getLocationFromText(location);
+      var city = ConfigAPI.getLocationFromText(location);
+      $scope.errorInvalidCity = city === null;
+      $scope.signup.experience.location = city;
     }
 
     function submit() {
+      if ($scope.errorInvalidCity)
+        return;
+
       $scope.loading = true;
       $scope.signup.nextStep().finally(function() {
         $scope.loading = false;

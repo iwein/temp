@@ -33,9 +33,12 @@
         typeahead-on-select="signupExperience1.setLocation(locationText)"
         typeahead="location for location in signupExperience1.searchLocations($viewValue)">
 
-      <div class="form-error" ng-show="formExperience1.location.$dirty && formExperience1.location.$invalid">
+      <div class="form-error" ng-show="errorInvalidCity || (formExperience1.location.$dirty && formExperience1.location.$invalid)">
         <span ng-show="formExperience1.location.$error.required">
           Please insert the city you worked on.
+        </span>
+        <span ng-show="errorInvalidCity">
+          Please choose a city from the menu.
         </span>
       </div>
     </div>
