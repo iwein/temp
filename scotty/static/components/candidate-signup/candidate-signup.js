@@ -5,6 +5,7 @@ define(function(require) {
 
   module.controller('CandidateSignupCtrl', function($state, CandidateSession) {
     var signup = this;
+    this.checkRedirections = checkRedirections;
     this.ready = false;
     this.target = {};
     this.cities = [];
@@ -12,6 +13,89 @@ define(function(require) {
     this.experience = {};
     this.skills = [];
     this.education = {};
+
+    function target1Completed() {
+      return (
+        signup.target.company_type &&
+        signup.target.role &&
+        signup.target.skill
+      );
+    }
+
+    function target2Completed() {
+      return (
+        signup.target.minimum_salary &&
+        signup.cities.length
+      );
+    }
+
+    function userCompleted() {
+      return CandidateSession.hasSession();
+    }
+
+    function experience1Completed() {
+      return (
+        signup.experience.company &&
+        signup.experience.job_title &&
+        signup.experience.location
+      );
+    }
+
+    function education1Completed() {
+      return (
+        signup.education.institution &&
+        signup.education.degree
+      );
+    }
+
+    function checkRedirections() {
+      switch ($state.current.name) {
+        case 'signup.education2':
+          if (!education1Completed())
+            $state.go('signup.education1');
+          break;
+
+        case 'signup.experience2':
+          if (experience1Completed())
+            break;
+          else
+            $state.go('signup.experience1');
+
+          /* falls through */
+        case 'signup.experience1':
+          if (userCompleted())
+            break;
+          else
+            $state.go('signup.user');
+
+          /* falls through */
+        case 'signup.user':
+          if (target2Completed())
+            break;
+          else
+            $state.go('signup.target2');
+
+          /* falls through */
+        case 'signup.target2':
+          if (target1Completed())
+            break;
+          else
+            $state.go('signup.target1');
+
+          /* falls through */
+        case 'signup.target1':
+          break;
+
+        case 'signup':
+          $state.go('signup.target1');
+          break;
+      }
+    }
+
+    CandidateSession.whenReady(function() {
+      signup.ready = true;
+      checkRedirections();
+    });
 
     if (DEBUG) {
       var barcelona = {
@@ -72,57 +156,7 @@ define(function(require) {
         end: '1998-7-01',
         start: '1994-3-01',
       };
-
-      // TODO:
-      //   add redirections education2 => education1, experience2 => experience1
     }
-
-    function target1Completed() {
-      return (
-        signup.target.company_type &&
-        signup.target.role &&
-        signup.target.skill
-      );
-    }
-
-    function target2Completed() {
-      return (
-        signup.target.minimum_salary &&
-        signup.cities.length
-      );
-    }
-
-    function userCompleted() {
-      return CandidateSession.hasSession();
-    }
-
-    CandidateSession.whenReady(function() {
-      signup.ready = true;
-
-      switch ($state.current.name) {
-        case 'signup.experience1':
-          if (!userCompleted())
-            $state.go('signup.user');
-
-          /* falls through */
-        case 'signup.user':
-          if (!target2Completed())
-            $state.go('signup.target2');
-
-          /* falls through */
-        case 'signup.target2':
-          if (!target1Completed())
-            $state.go('signup.target1');
-
-          /* falls through */
-        case 'signup.target1':
-          break;
-
-        case 'signup':
-          $state.go('signup.target1');
-          break;
-      }
-    });
   });
 
 
