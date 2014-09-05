@@ -1,18 +1,11 @@
 define(function(require) {
   'use strict';
-  require('tools/list-api');
-  require('tools/search-api');
+  require('tools/config-api');
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupSkillsCtrl', function(
-    $scope,
-    $state,
-    ListAPI,
-    SearchAPI,
-    CandidateSession
-  ) {
-    this.searchSkills = SearchAPI.skills;
+  module.controller('CandidateSignupSkillsCtrl', function($scope, $state, ConfigAPI, CandidateSession) {
+    this.searchSkills = ConfigAPI.skills;
     this.remove = remove;
     this.onChange = onChange;
     this.onBlur = onBlur;
@@ -20,7 +13,7 @@ define(function(require) {
     var skills = $scope.signup.skills;
     skills.push({});
 
-    ListAPI.skillLevels().then(function(data) {
+    ConfigAPI.skillLevels().then(function(data) {
       $scope.levels = data;
     });
 

@@ -5,12 +5,7 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function(
-    $scope,
-    $q,
-    $state,
-    CandidateSession
-  ) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, CandidateSession) {
     this.submit = submit;
 
     function submit() {
@@ -19,7 +14,7 @@ define(function(require) {
         var cities = $scope.signup.cities;
 
         return $q.all([
-          CandidateSession.setTargetPosition(position),
+          CandidateSession.addTargetPosition(position),
           CandidateSession.setPreferredCities(cities),
         ]);
       }).then(function() {

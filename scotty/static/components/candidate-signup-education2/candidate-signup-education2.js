@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
-  require('tools/api');
-  require('tools/search-api');
+  require('tools/config-api');
   require('tools/candidate-session');
   var module = require('app-module');
 
@@ -20,14 +19,8 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupEducation2Ctrl', function(
-    $scope,
-    $state,
-    ListAPI,
-    SearchAPI,
-    CandidateSession
-  ) {
-    this.searchRoles = SearchAPI.roles;
+  module.controller('CandidateSignupEducation2Ctrl', function($scope, $state, ConfigAPI, CandidateSession) {
+    this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.submit = submit;
     $scope.months = months;
@@ -35,7 +28,7 @@ define(function(require) {
     bindDate('start');
     bindDate('end');
 
-    ListAPI.skillLevels().then(function(data) {
+    ConfigAPI.skillLevels().then(function(data) {
       $scope.levels = data;
     });
 
@@ -55,8 +48,7 @@ define(function(require) {
 
     function submit() {
       saveEducation().then(function() {
-        //$state.go('^.skills');
-        //console.log('Next step');
+        $state.go('^.languages');
       });
     }
 

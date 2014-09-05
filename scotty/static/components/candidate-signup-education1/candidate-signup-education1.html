@@ -21,12 +21,15 @@
 
     <div class="form-group">
       <label class="required">Degree</label>
-      <input type="text"
+      <select
         class="form-control"
         name="degree"
         required
         ng-model="signup.education.degree"
-        typeahead="degree for degree in degrees | filter:$viewValue | limitTo:10">
+        ng-options="degree for degree in degrees"
+        ng-change="startDateUpdate()">
+        <option value="">Select one...</option>
+      </select>
     </div>
 
     <div class="form-error" ng-show="formEducation1.degree.$dirty && formEducation1.degree.$invalid">

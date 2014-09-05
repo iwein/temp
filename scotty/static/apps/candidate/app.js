@@ -10,6 +10,7 @@ define(function(require) {
 
     $stateProvider
       .state('login', require('components/candidate-login/candidate-login'))
+      .state('profile', require('components/candidate-profile-basic/candidate-profile-basic'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
       .state('signup.target1', require('components/candidate-signup-target1/candidate-signup-target1'))
       .state('signup.target2', require('components/candidate-signup-target2/candidate-signup-target2'))
@@ -19,6 +20,7 @@ define(function(require) {
       .state('signup.skills', require('components/candidate-signup-skills/candidate-signup-skills'))
       .state('signup.education1', require('components/candidate-signup-education1/candidate-signup-education1'))
       .state('signup.education2', require('components/candidate-signup-education2/candidate-signup-education2'))
+      .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
       ;
   });
 

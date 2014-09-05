@@ -1,0 +1,161 @@
+  <div class="component-candidate-profile-basic col-sm-6 col-sm-offset-3"
+    ng-show="ready">
+
+    <div class="page-header">
+      <h1><small>{{ user.first_name }} {{ user.last_name }}</small></h1>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Personal data</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <span class="key">Email:</span>
+          <span class="value">{{ user.email }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Skills</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in skills">
+          <span class="value">{{ entry.skill }} ({{ entry.level }})</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Languages</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in languages">
+          <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Preferred cities</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in cities">
+          <span class="value">{{ entry.city }}, {{ entry.country_iso }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Target positions</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="position in targetPositions">
+          <div class="panel panel-default">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="key">role:</span>
+                <span class="value">{{ position.role }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">skill:</span>
+                <span class="value">{{ position.skill }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">company type:</span>
+                <span class="value">{{ position.company_type }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">minimum salary:</span>
+                <span class="value">{{ position.minimum_salary }}</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Experience</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in experience">
+          <div class="panel panel-default">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="key">company:</span>
+                <span class="value">{{ entry.company }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">location:</span>
+                <span class="value">
+                  {{ entry.location.city }}, {{ entry.location.country_iso }}
+                </span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">start:</span>
+                <span class="value">{{ entry.start }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">end:</span>
+                <span class="value">{{ entry.end }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">job title:</span>
+                <span class="value">{{ entry.job_title }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">role:</span>
+                <span class="value">{{ entry.role }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">summary:</span>
+                <span class="value">{{ entry.summary }}</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Education</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in education">
+          <div class="panel panel-default">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="key">institution:</span>
+                <span class="value">{{ entry.institution }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">degree:</span>
+                <span class="value">{{ entry.degree }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">course:</span>
+                <span class="value">{{ entry.course }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">start:</span>
+                <span class="value">{{ entry.start }}</span>
+              </li>
+              <li class="list-group-item">
+                <span class="key">end:</span>
+                <span class="value">{{ entry.end }}</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </form>

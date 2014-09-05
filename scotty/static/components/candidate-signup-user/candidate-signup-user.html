@@ -58,11 +58,13 @@
         name="password"
         placeholder="Password"
         required
+        ng-minlength="8"
         ng-model="signup.user.pwd">
     </div>
 
     <div class="form-error row"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
-      <span>Please choose a password.</span>
+      <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
+      <span ng-show="formSignupUser.password.$error.minlength">Password must have at least 8 characters.</span>
     </div>
 
     <div class="form-group">
