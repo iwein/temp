@@ -17,8 +17,8 @@ define(function(require) {
       'signup.education2',
     ],
     'languages': [ 'signup.languages' ],
-    'image': [ 'signup.photo' ],
-    'active': [ 'signup.activate' ],
+    //'image': [ 'signup.photo' ],
+    'active': [ 'signup.activate' ]
   };
   var order = [
     'signup.target1',
@@ -30,7 +30,7 @@ define(function(require) {
     'signup.education1',
     'signup.education2',
     'signup.languages',
-    'signup.photo',
+    //'signup.photo',
     'signup.activation',
     'profile',
   ];
