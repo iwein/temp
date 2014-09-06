@@ -42,7 +42,7 @@ define(function(require) {
       fd.append('acl', this._acl);
       fd.append('Policy', policy);
       fd.append('Signature', signature);
-      fd.append('Content-Type', "multipart/form-data");
+      fd.append('Content-Type', 'multipart/form-data');
       fd.append('x-amz-meta-filename', filename);
       fd.append('key', key);
       fd.append('file', file);
