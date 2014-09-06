@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
-  var devAPI = 'http://sheltered-meadow-1359.herokuapp.com/api/';
-  //var devAPI = 'http://guarded-inlet-9319.herokuapp.com/api/';
+  //var devAPI = 'http://sheltered-meadow-1359.herokuapp.com/api/';
+  var devAPI = 'http://guarded-inlet-9319.herokuapp.com/api/';
 
   function API(ajax, options) {
     options = options || {};
