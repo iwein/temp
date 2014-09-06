@@ -17,7 +17,8 @@ define(function(require) {
       'signup.education2',
     ],
     'languages': [ 'signup.languages' ],
-    //'image': [ 'signup.photo' ],
+    // TODO: when we implement 'image' this must be fixed
+    'image': [ 'signup.activate' ], //null,
     'active': [ 'signup.activate' ]
   };
   var order = [
