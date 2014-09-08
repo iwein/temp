@@ -36,7 +36,7 @@ define(function(require) {
 
     $rootScope.logout = function() {
       CandidateSession.logout().then(function() {
-        $state.go('login');
+        $state.go('home');
       });
     };
   });
