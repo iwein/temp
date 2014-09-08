@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 
   grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
 
-  var configFile = grunt.option('js-config-file');
+  var configFile = grunt.option('config-file');
   if (configFile)
     grunt.config.set('requirejs.options.paths.conf', configFile.replace(/\.js$/, ''));
 
