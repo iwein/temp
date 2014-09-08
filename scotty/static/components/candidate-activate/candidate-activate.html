@@ -2,7 +2,9 @@
   <div class="col-sm-6 col-sm-offset-3">
 
     <div ng-if="success">
-      Thanks for activating your account, now you can <a ui-sref="profile">to go to your profile</a>
+      Thanks for activating your account, now you can
+      <a ng-if="signupComplete" ui-sref="profile">go to your profile.</a>
+      <a ng-if="!signupComplete" ui-sref="signup">continue signup process.</a>
     </div>
 
     <div ng-if="error">

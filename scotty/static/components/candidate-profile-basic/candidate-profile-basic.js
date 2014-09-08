@@ -5,6 +5,10 @@ define(function(require) {
 
   module.controller('ProfileBasicCtrl', function($scope, CandidateSession) {
     CandidateSession.whenReady(function() {
+      CandidateSession.isSignupComplete().then(function(result) {
+        $scope.isSignupComplete = result;
+      });
+
       CandidateSession.getUserData().then(function(data) {
         $scope.ready = true;
         $scope.cities = data.preferred_cities;

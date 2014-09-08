@@ -1,6 +1,10 @@
 <div class="component-candidate-profile-basic row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
+    <div class="alert alert-warning" role="alert" ng-if="!isSignupComplete">
+      This is an incomplete profile, to fulfill it please complete the <a ui-sref="signup">signup process</a>
+    </div>
+
     <div class="page-header">
       <h1><small>{{ user.first_name }} {{ user.last_name }}</small></h1>
     </div>

@@ -8,23 +8,12 @@ define(function(require) {
     $scope.error = false;
     $scope.loading = false;
 
-    function isSignupComplete() {
-      return CandidateSession.getSignupStage().then(function(stage) {
-        return stage.ordering.every(function(item) {
-          // TODO: remove this conditional when 'image' is implemented
-          if (item === 'image')
-            return true;
-          return stage[item];
-        });
-      });
-    }
-
     function submit(email, password) {
       $scope.error = false;
       $scope.loading = true;
 
       CandidateSession.login(email, password).then(function() {
-        isSignupComplete().then(function(isComplete) {
+        CandidateSession.isSignupComplete().then(function(isComplete) {
           $scope.loading = false;
           $state.go(isComplete ? 'profile' : 'signup');
         });
