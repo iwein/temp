@@ -30,6 +30,7 @@
       "<%= files.components.js %>"
     ],
     "out": {
+      "html": "dist/admin/index.html",
       "js": "dist/admin/build.js",
       "css": "dist/admin/build.css"
     }
@@ -48,6 +49,7 @@
       "<%= files.components.js %>"
     ],
     "out": {
+      "html": "dist/candidate/index.html",
       "js": "dist/candidate/build.js",
       "css": "dist/candidate/build.css"
     }
@@ -66,6 +68,7 @@
       "<%= files.components.js %>"
     ],
     "out": {
+      "html": "dist/employer/index.html",
       "js": "dist/employer/build.js",
       "css": "dist/employer/build.css"
     }
@@ -84,6 +87,7 @@
       "<%= files.components.js %>"
     ],
     "out": {
+      "html": "dist/index.html",
       "js": "dist/build.js",
       "css": "dist/build.css"
     }
