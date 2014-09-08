@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <form name="formInviteEmployer"
+      class="component-employer-invite-employer"
+      ng-submit="inviteEmployer.submit()">
+
+      <h3>Invite employer</h3>
+
+      <div class="error" role="alert" ng-hide="!error">
+        Wow! this is not ready yet!
+      </div>
+
+      <div class="form-group">
+        <label class="required">Contact name</label>
+        <input type="text"
+          class="form-control"
+          name="contactName"
+          required
+          ng-disabled="loading"
+          ng-model="model.contact_name">
+
+        <div class="form-error" ng-show="formInviteEmployer.contactName.$dirty && formInviteEmployer.contactName.$invalid">
+          <span ng-show="formInviteEmployer.contactName.$error.required">
+            Please insert your the name of the contact person..
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Company name</label>
+        <input type="text"
+          class="form-control"
+          name="companyName"
+          required
+          ng-disabled="loading"
+          ng-model="model.company_name">
+
+        <div class="form-error" ng-show="formInviteEmployer.companyName.$dirty && formInviteEmployer.companyName.$invalid">
+          <span ng-show="formInviteEmployer.companyName.$error.required">
+            Please insert the name of the company.
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Email</label>
+        <input type="email"
+          class="form-control"
+          name="email"
+          required
+          ng-disabled="loading"
+          ng-model="model.email">
+
+        <div class="form-error" ng-show="formInviteEmployer.email.$dirty && formInviteEmployer.email.$invalid">
+          <span ng-show="formInviteEmployer.email.$error.required">
+            Please insert their's email.
+          </span>
+          <span ng-show="formInviteEmployer.email.$error.email">
+            Please insert a valid email.
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Password</label>
+        <input type="password"
+          class="form-control"
+          name="password"
+          placeholder="Password"
+          required
+          ng-minlength="8"
+          ng-disabled="loading"
+          ng-model="model.pwd">
+
+        <div class="form-error"ng-show="formInviteEmployer.password.$dirty && formInviteEmployer.password.$invalid">
+          <span ng-show="formInviteEmployer.password.$error.required">Please choose a password.</span>
+          <span ng-show="formInviteEmployer.password.$error.minlength">Password must have at least 8 characters.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      </div>
+    </form>
+  </div>
+</div>
