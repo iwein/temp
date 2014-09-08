@@ -2,7 +2,7 @@ window.DEBUG = true;
 
 requirejs.config({
 
-  baseUrl: '../',
+  baseUrl: '../../',
 
   paths: {
     // vendors
