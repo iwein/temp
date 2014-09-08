@@ -103,11 +103,13 @@ define(function(require) {
 
     function getValidStates() {
       return CandidateSession.getSignupStage().then(function(stage) {
-        var destination = 'profile';
+        var destination = [ 'profile' ];
         if (!stage)
           return validStates.target_positions;
 
         stage.ordering.some(function(item) {
+          if (item === 'image') return;
+
           if (!stage[item]) {
             destination = validStates[item];
             return true;

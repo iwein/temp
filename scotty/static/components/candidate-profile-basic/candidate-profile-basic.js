@@ -3,8 +3,14 @@ define(function(require) {
   require('tools/candidate-session');
   var module = require('app-module');
 
-  module.controller('ProfileBasicCtrl', function($scope, CandidateSession) {
+  module.controller('ProfileBasicCtrl', function($scope, $state, CandidateSession) {
     CandidateSession.whenReady(function() {
+      if (!CandidateSession.hasSession()) {
+        $state.go('login');
+        return;
+      }
+
+
       CandidateSession.isSignupComplete().then(function(result) {
         $scope.isSignupComplete = result;
       });

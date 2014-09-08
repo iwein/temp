@@ -6,9 +6,10 @@ define(function(require) {
   module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/home');
 
     $stateProvider
+      .state('home', require('components/candidate-home/candidate-home'))
       .state('login', require('components/candidate-login/candidate-login'))
       .state('activate', require('components/candidate-activate/candidate-activate'))
       .state('profile', require('components/candidate-profile-basic/candidate-profile-basic'))

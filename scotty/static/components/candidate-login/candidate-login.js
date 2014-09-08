@@ -15,7 +15,7 @@ define(function(require) {
       CandidateSession.login(email, password).then(function() {
         CandidateSession.isSignupComplete().then(function(isComplete) {
           $scope.loading = false;
-          $state.go(isComplete ? 'profile' : 'signup');
+          $state.go(isComplete ? 'home' : 'signup');
         });
       }, function() {
         $scope.error = true;
