@@ -1,5 +1,3 @@
-// jshint camelcase:false
-
 define(function(require) {
   'use strict';
   require('session');

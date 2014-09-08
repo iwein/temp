@@ -6,10 +6,11 @@ define(function(require) {
   module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/home');
 
     $stateProvider
-      .state('home', {});
+      .state('home', require('components/admin-home/admin-home'))
+      ;
   });
 
   module.run(function($templateCache) {
