@@ -14,6 +14,7 @@ requirejs.config({
     // aliases
     'conf': 'config/app-conf-dev',
     'app-module': 'apps/admin/admin-module',
+    'session': 'apps/admin/session',
   },
 
   shim: {
@@ -24,4 +25,4 @@ requirejs.config({
     'ui.bootstrap': [ 'angular' ],
   }
 
-})([ 'apps/common/mock-data.js', 'apps/admin/app' ]);
+})([ 'apps/common/mock-data', 'apps/admin/app' ]);
