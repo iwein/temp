@@ -17,7 +17,15 @@ define(function(require) {
       return this._promise(function(resolve, reject) {
         reject('NOT_IMPLEMENTED');
       });
-    }
+    },
+
+    approveEmployer: function() { // (employer) {
+      // return this._api.post('/admin-approve-employer', model);
+
+      return this._promise(function(resolve, reject) {
+        reject('NOT_IMPLEMENTED');
+      });
+    },
   };
 
   var module = require('app-module');

@@ -11,6 +11,7 @@ define(function(require) {
     $stateProvider
       .state('home', require('components/admin-home/admin-home'))
       .state('invite-employer', require('components/admin-invite-employer/admin-invite-employer'))
+      .state('approve-employers', require('components/admin-approve-employers/admin-approve-employers'))
       ;
   });
 
