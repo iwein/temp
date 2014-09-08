@@ -59,7 +59,7 @@ define(function(require) {
       ajax: $http,
       AWSSecretKeyId: 'xWdmpQ8bVSRyDkJ6BLD8i9EUnYWkt8CJ0QjREcD5',
       AWSAccessKeyId: 'AKIAI72PUNP77JJ4YMFA',
-      bucket: 'scotty-demo',
+      bucket: 'scotty-dev',
       acl: 'public'
     });
   });

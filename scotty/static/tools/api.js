@@ -1,12 +1,15 @@
 define(function(require) {
   'use strict';
-  //var devAPI = 'http://sheltered-meadow-1359.herokuapp.com/api/';
-  var devAPI = 'http://guarded-inlet-9319.herokuapp.com/api/';
+  var apiURL = 'http://guarded-inlet-9319.herokuapp.com/api/';
+
+  if (DEBUG) {
+    apiURL = 'http://sheltered-meadow-1359.herokuapp.com/api/';
+  }
 
   function API(ajax, options) {
     options = options || {};
     this._ajax = ajax;
-    this._root = options.root || devAPI;
+    this._root = options.root || apiURL;
     this._version = options.version || 'v1';
   }
 
