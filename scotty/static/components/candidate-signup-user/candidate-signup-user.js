@@ -9,11 +9,12 @@ define(function(require) {
     this.submit = submit;
     this.loading = false;
     $scope.loading = false;
+    $scope.model = {};
 
     function submit() {
       $scope.loading = true;
 
-      CandidateSession.signup($scope.signup.user).then(function() {
+      CandidateSession.signup($scope.model).then(function() {
         var position = $scope.signup.target;
         var cities = $scope.signup.cities;
 

@@ -11,8 +11,7 @@ define(function(require) {
     this.onBlur = onBlur;
     this.submit = submit;
     $scope.loading = false;
-    var skills = $scope.signup.skills;
-    skills.push({});
+    var skills = $scope.model = [{}];
 
     ConfigAPI.skillLevels().then(function(data) {
       $scope.levels = data;
@@ -37,14 +36,12 @@ define(function(require) {
     }
 
     function submit() {
-      var skills = $scope.signup.skills.slice();
-      skills.pop();
+      var data = skills.slice();
+      data.pop();
 
       $scope.loading = true;
-      CandidateSession.setSkills(skills).then(function() {
+      CandidateSession.setSkills(data).then(function() {
         return $scope.signup.nextStep();
-      }).then(function() {
-        return $scope.signup.skills.pop();
       }).finally(function() {
         this.loading = false;
       });

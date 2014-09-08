@@ -1,0 +1,112 @@
+  <form role="form" name="formTarget"
+    class="component-candidate-signup-target"
+    ng-submit="signupTarget.submit()">
+
+    <h3>Sign up - Target position</h3>
+
+    <div class="form-group">
+      <label class="required">Skill</label>
+      <input type="text"
+        class="form-control"
+        name="skill"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.skill"
+        typeahead="skill for skill in signupTarget.searchSkills($viewValue)">
+
+      <div class="form-error" ng-show="formTarget.skill.$dirty && formTarget.skill.$invalid">
+        <span ng-show="formTarget.skill.$error.required">Please insert your skill.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Role</label>
+      <input type="text"
+        class="form-control"
+        name="role"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.role"
+        typeahead="role for role in signupTarget.searchRoles($viewValue)">
+
+      <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
+        <span ng-show="formTarget.role.$error.required">Please insert your role.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Company Type</label>
+      <select
+        class="form-control"
+        name="companyType"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.company_type"
+        ng-options="type for type in companyTypes">
+        <option value="">Select one</option>
+      </select>
+
+      <div class="form-error"ng-show="formTarget.companyType.$dirty && formTarget.companyType.$invalid">
+        <span>Please select your's company type.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Minimum salary</label>
+      <div class="input-group">
+        <span class="input-group-addon">€</span>
+        <input type="number"
+          class="form-control"
+          name="salary"
+          required
+          ng-disabled="loading"
+          ng-model="signup.target.minimum_salary"
+          ng-pattern="/^[0-9]+$/">
+        <span class="input-group-addon">.00</span>
+      </div>
+
+      <div class="form-error" ng-show="formTarget.salary.$dirty && formTarget.salary.$invalid">
+        <span ng-show="formTarget.salary.$error.required">
+          Please insert your expected salary.
+        </span>
+        <span ng-show="formTarget.salary.$error.number">
+          Please insert a number.
+        </span>
+        <span ng-show="formTarget.salary.$error.pattern">
+          Decimals are not allowed.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Cities</label>
+      <input type="text"
+        name="cities"
+        class="form-control"
+        ng-disabled="loading"
+        ng-model="currentCity"
+        ng-blur="currentCity = ''"
+        typeahead-on-select="signupTarget.addCity()"
+        typeahead="city for city in signupTarget.searchCities($viewValue)">
+
+      <div class="form-error"
+        ng-show="formTarget.cities.$dirty && !currentCity.length && !signup.cities.length">
+        <span>Please type a city you would like to work at and press enter key.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <li ng-repeat="entry in signup.cities" class="label label-default" role="label">
+        {{ entry.city }}, {{ entry.country_iso }}
+        <button type="button" class="close" data-dismiss="label"
+          ng-click="signupTarget.removeCity(entry)">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </li>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+    </div>
+  </form>

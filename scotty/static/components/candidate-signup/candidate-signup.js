@@ -3,26 +3,17 @@ define(function(require) {
   var module = require('app-module');
   var validStates = {
     'target_positions': [
-      'signup.target1',
-      'signup.target2',
+      'signup.target',
       'signup.user',
     ],
-    'work_experience': [
-      'signup.experience1',
-      'signup.experience2',
-    ],
+    'work_experience': [ 'signup.experience' ],
     'skills': [
-      'signup.experience1',
-      'signup.experience2',
+      'signup.experience',
       'signup.skills',
     ],
-    'education': [
-      'signup.education1',
-      'signup.education2',
-    ],
+    'education': [ 'signup.education' ],
     'languages': [
-      'signup.education1',
-      'signup.education2',
+      'signup.education',
       'signup.languages',
     ],
     // TODO: when we implement 'image' this must be fixed
@@ -31,14 +22,11 @@ define(function(require) {
     'active': [ 'signup.activate' ]
   };
   var order = [
-    'signup.target1',
-    'signup.target2',
+    'signup.target',
     'signup.user',
-    'signup.experience1',
-    'signup.experience2',
+    'signup.experience',
     'signup.skills',
-    'signup.education1',
-    'signup.education2',
+    'signup.education',
     'signup.languages',
     //'signup.photo',
     'signup.activate',
@@ -54,11 +42,6 @@ define(function(require) {
     this.ready = false;
     this.target = {};
     this.cities = [];
-    this.user = {};
-    this.experience = {};
-    this.skills = [];
-    this.education = {};
-    this.languages = [];
 
     loadStep($state.current.name);
 
@@ -88,25 +71,13 @@ define(function(require) {
         if (valid.indexOf(name) === -1)
           name = valid[0];
 
-        name = checkPrevStates(name);
+        if (name === 'signup.user' && !targetPositionCompleted())
+          name = 'signup.target';
+
         validated = name;
         signup.ready = true;
         $state.go(name);
       });
-    }
-
-    function checkPrevStates(name) {
-      var index;
-
-      while (prevStepCompleted.hasOwnProperty(name)) {
-        if (prevStepCompleted[name]())
-          break;
-
-        index = order.indexOf(name);
-        name = order[index - 1];
-      }
-
-      return name;
     }
 
     function getValidStates() {
@@ -128,107 +99,11 @@ define(function(require) {
       });
     }
 
-    var prevStepCompleted = {
-      'signup.target2': function() {
-        return (
-          signup.target.company_type &&
-          signup.target.role &&
-          signup.target.skill
-        );
-      },
-      'singup.user': function() {
-        return (
-          signup.target.minimum_salary &&
-          signup.cities.length
-        );
-      },
-      'singup.experience2': function() {
-        return (
-          signup.experience.company &&
-          signup.experience.job_title &&
-          signup.experience.location
-        );
-      },
-      'singup.education2': function() {
-        return (
-          signup.education.institution &&
-          signup.education.degree
-        );
-      },
-    };
-
-
-
-
-    if (DEBUG) {
-      var barcelona = {
-        city: 'Barcelona',
-        country_iso: 'ES',
-      };
-
-      var guid = (function() {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-                  .toString(16)
-                  .substring(1);
-        }
-        return function() {
-          return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                  s4() + '-' + s4() + s4() + s4();
-        };
-      })();
-
-      // jshint camelcase:false
-      this.target = {
-        company_type: 'large',
-        role: guid(),
-        minimum_salary: 10000,
-        skill: guid(),
-      };
-      this.cities = [ barcelona ];
-      this.user = {
-        first_name: guid(),
-        last_name: guid(),
-        email: 'amatiasq+test' + (localStorage.foobar++) + '@gmail.com',
-        pwd: '123123123',
-      };
-      this.experience = {
-        company: guid(),
-        job_title: guid(),
-        location: barcelona,
-        level: 'basic',
-        role: guid(),
-        start: '1999-04-01',
-        end: '2001-09-01',
-        summary: 'Foo bar quz',
-      };
-      this.skills = [{
-        level: 'basic',
-        skill: guid(),
-      }, {
-        level: 'advanced',
-        skill: guid(),
-      }, {
-        level: 'expert',
-        skill: guid(),
-      }];
-      this.education = {
-        institution: guid(),
-        degree: 'Master',
-        course: guid(),
-        end: '1998-7-01',
-        start: '1994-3-01',
-      };
-      this.languages = [{
-        language: 'spanish',
-        proficiency: 'basic',
-      }, {
-        language: 'english',
-        proficiency: 'advanced',
-      }, {
-        language: 'polish',
-        proficiency: 'native',
-      }];
+    function targetPositionCompleted() {
+      return (
+        signup.target.minimum_salary &&
+        signup.cities.length
+      );
     }
   });
 

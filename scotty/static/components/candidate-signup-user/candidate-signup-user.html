@@ -11,7 +11,7 @@
         name="firstName"
         required
         ng-disabled="loading"
-        ng-model="signup.user.first_name">
+        ng-model="model.first_name">
 
       <div class="form-error" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
         <span ng-show="formSignupUser.firstName.$error.required">
@@ -27,7 +27,7 @@
         name="lastName"
         required
         ng-disabled="loading"
-        ng-model="signup.user.last_name">
+        ng-model="model.last_name">
 
       <div class="form-error" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
         <span ng-show="formSignupUser.lastName.$error.required">
@@ -43,7 +43,7 @@
         name="email"
         required
         ng-disabled="loading"
-        ng-model="signup.user.email">
+        ng-model="model.email">
 
       <div class="form-error" ng-show="formSignupUser.email.$dirty && formSignupUser.email.$invalid">
         <span ng-show="formSignupUser.email.$error.required">
@@ -64,7 +64,7 @@
         required
         ng-minlength="8"
         ng-disabled="loading"
-        ng-model="signup.user.pwd">
+        ng-model="model.pwd">
 
       <div class="form-error"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
         <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>

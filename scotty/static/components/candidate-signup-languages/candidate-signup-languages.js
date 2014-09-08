@@ -9,8 +9,7 @@ define(function(require) {
     this.onChange = onChange;
     this.submit = submit;
     $scope.loading = false;
-    var languages = $scope.signup.languages;
-    languages.push({});
+    var languages = $scope.model = [{}];
 
     ConfigAPI.languages().then(function(data) {
       $scope.languages = data;
@@ -36,14 +35,12 @@ define(function(require) {
     }
 
     function submit() {
-      var languages = $scope.signup.languages.slice();
-      languages.pop();
+      var data = languages.slice();
+      data.pop();
 
       $scope.loading = true;
-      CandidateSession.setLanguages(languages).then(function() {
+      CandidateSession.setLanguages(data).then(function() {
         return $scope.signup.nextStep();
-      }).then(function() {
-        return $scope.signup.languages.pop();
       }).finally(function() {
         $scope.loading = false;
       });

@@ -19,12 +19,16 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupEducation2Ctrl', function($scope, $state, ConfigAPI, CandidateSession) {
-    this.searchCourses = ConfigAPI.courses;
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, CandidateSession) {
+    this.searchCompanies = ConfigAPI.companies;
+    this.searchLocations = ConfigAPI.locationsText;
+    this.searchJobTitles = ConfigAPI.jobTitles;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
+    this.setLocation = setLocation;
     this.submit = submit;
     $scope.months = months;
+    $scope.model = {};
     $scope.loading = false;
 
     bindDate('start');
@@ -34,28 +38,47 @@ define(function(require) {
       $scope.levels = data;
     });
 
-    function addAnother() {
-      CandidateSession.addEducation($scope.signup.education).then(function() {
-        $scope.signup.education = {};
-        $state.go('^.education1');
-      });
+    if ($scope.model.location)
+      $scope.locationText = ConfigAPI.locationToText($scope.model.location);
+
+    function setLocation(location) {
+      var city = ConfigAPI.getLocationFromText(location);
+      $scope.errorInvalidCity = city === null;
+      $scope.model.location = city;
     }
 
-    function submit() {
+    function save() {
+      if (!$scope.model.location || $scope.errorInvalidCity) {
+        $scope.errorInvalidCity = true;
+        return $q.reject(new Error('Form data not valid'));
+      }
+
       $scope.loading = true;
-      CandidateSession.addEducation($scope.signup.education).then(function() {
-        return $scope.signup.nextStep();
-      }).then(function() {
-        $scope.signup.education = {};
+      return CandidateSession.addExperience($scope.model);
+    }
+
+    function addAnother() {
+      save().then(function() {
+        $scope.model = {};
+      }).finally(function() {
         $scope.loading = false;
       });
     }
 
+    function submit() {
+      save().then(function() {
+        return $scope.signup.nextStep();
+      }).then(function() {
+        $scope.model = {};
+      }).finally(function() {
+        $scope.loading = false;
+      });
+    }
 
     function bindDate(key) {
       var month = key + 'Month';
       var year = key + 'Year';
-      var storedValue = $scope.signup.education[key];
+      var storedValue = $scope.model[key];
 
       if (storedValue) {
         var date = new Date(storedValue);
@@ -71,15 +94,15 @@ define(function(require) {
           value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
         }
 
-        $scope.signup.education[key] = value;
+        $scope.model[key] = value;
       };
     }
   });
 
   return {
-    url: '/education-2',
-    template: require('text!./candidate-signup-education2.html'),
-    controller: 'CandidateSignupEducation2Ctrl',
-    controllerAs: 'signupEducation2',
+    url: '/experience',
+    template: require('text!./candidate-signup-experience.html'),
+    controller: 'CandidateSignupExperienceCtrl',
+    controllerAs: 'signupExperience',
   };
 });

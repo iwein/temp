@@ -3,13 +3,19 @@ define(function(require) {
   require('tools/config-api');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTarget2Ctrl', function($scope, ConfigAPI) {
+  module.controller('CandidateSignupTargetCtrl', function($scope, ConfigAPI) {
+    this.searchSkills = ConfigAPI.skills;
+    this.searchRoles = ConfigAPI.roles;
     this.searchCities = ConfigAPI.locationsText;
     this.cityText = ConfigAPI.locationToText;
     this.addCity = addCity;
     this.removeCity = removeCity;
     this.submit = submit;
     $scope.loading = false;
+
+    ConfigAPI.companyTypes().then(function(data) {
+      $scope.companyTypes = data;
+    });
 
     function addCity() {
       var cities = $scope.signup.cities;
@@ -28,8 +34,15 @@ define(function(require) {
     }
 
     function submit() {
-      if (!$scope.signup.cities.length)
+      if (!$scope.signup.cities.length) {
+        $scope.formTarget.cities.$dirty = true;
         return;
+      }
+
+      if (!$scope.signup.target.company_type) {
+        $scope.formTarget.companyType.$dirty = true;
+        return;
+      }
 
       $scope.loading = true;
       $scope.signup.nextStep().finally(function() {
@@ -39,9 +52,9 @@ define(function(require) {
   });
 
   return {
-    url: '/target-position-2',
-    template: require('text!./candidate-signup-target2.html'),
-    controller: 'CandidateSignupTarget2Ctrl',
-    controllerAs: 'signupTarget2',
+    url: '/target-position',
+    template: require('text!./candidate-signup-target.html'),
+    controller: 'CandidateSignupTargetCtrl',
+    controllerAs: 'signupTarget',
   };
 });

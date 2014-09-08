@@ -19,11 +19,14 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupExperience2Ctrl', function($scope, $state, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupEducationCtrl', function($scope, $state, ConfigAPI, CandidateSession) {
+    this.searchInstitutions = ConfigAPI.institutions;
+    this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.submit = submit;
     $scope.months = months;
+    $scope.model = {};
     $scope.loading = false;
 
     bindDate('start');
@@ -32,20 +35,27 @@ define(function(require) {
     ConfigAPI.skillLevels().then(function(data) {
       $scope.levels = data;
     });
+    ConfigAPI.degrees().then(function(data) {
+      $scope.degrees = data;
+    });
+
+    function save() {
+      $scope.loading = true;
+      return CandidateSession.addEducation($scope.model);
+    }
 
     function addAnother() {
-      CandidateSession.addExperience($scope.signup.experience).then(function() {
-        $state.go('^.experience1');
-        $scope.signup.experience = {};
+      save().then(function() {
+        $scope.model = {};
+        $scope.loading = false;
       });
     }
 
     function submit() {
-      $scope.loading = true;
-      CandidateSession.addExperience($scope.signup.experience).then(function() {
+      save().then(function() {
         return $scope.signup.nextStep();
       }).then(function() {
-        $scope.signup.experience = {};
+        $scope.model = {};
         $scope.loading = false;
       });
     }
@@ -54,7 +64,7 @@ define(function(require) {
     function bindDate(key) {
       var month = key + 'Month';
       var year = key + 'Year';
-      var storedValue = $scope.signup.experience[key];
+      var storedValue = $scope.model[key];
 
       if (storedValue) {
         var date = new Date(storedValue);
@@ -70,15 +80,15 @@ define(function(require) {
           value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
         }
 
-        $scope.signup.experience[key] = value;
+        $scope.model[key] = value;
       };
     }
   });
 
   return {
-    url: '/experience-2',
-    template: require('text!./candidate-signup-experience2.html'),
-    controller: 'CandidateSignupExperience2Ctrl',
-    controllerAs: 'signupExperience2',
+    url: '/education',
+    template: require('text!./candidate-signup-education.html'),
+    controller: 'CandidateSignupEducationCtrl',
+    controllerAs: 'signupEducation',
   };
 });
