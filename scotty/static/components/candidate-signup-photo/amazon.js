@@ -7,6 +7,7 @@ define(function(require) {
 
 
   function Amazon(config) {
+    this._promise = config.promise;
     this._ajax = config.ajax;
     this._AWSSecretKeyId = config.AWSSecretKeyId;
     this._AWSAccessKeyId = config.AWSAccessKeyId;
@@ -22,16 +23,15 @@ define(function(require) {
       folder = folder ? folder + '/' : '';
       var key = folder + filename;
       var year = new Date().getFullYear();
-      var contentType = 'image/';
 
       var policyJson = {
         'expiration': year + '-12-12T12:00:00.000Z',
         'conditions': [
-          [ 'eq', '$bucket', this._bucket ],
-          [ 'starts-with', '$key', key ],
           { 'acl': this._acl },
+          { 'key': key },
+          { 'bucket': this._bucket },
           { 'x-amz-meta-filename': filename },
-          [ 'starts-with', '$Content-Type', contentType ]
+          [ 'starts-with', '$Content-Type', 'image/' ]
         ]
       };
 
@@ -43,25 +43,44 @@ define(function(require) {
       fd.append('acl', this._acl);
       fd.append('Policy', policy);
       fd.append('Signature', signature);
-      fd.append('Content-Type', 'multipart/form-data');
+      fd.append('Content-Type', file.type);
       fd.append('x-amz-meta-filename', filename);
       fd.append('key', key);
       fd.append('file', file);
 
-      return this._ajax.post('//' + this._bucket + '.s3.amazonaws.com', fd).then(function() {
-        return 'https://s3-eu-west-1.amazonaws.com/' + this._bucket + '/' + key;
-      });
+      return new this._promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '//' + this._bucket + '.s3.amazonaws.com', true);
+        xhr.send(fd);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 204)
+              resolve('https://s3-eu-west-1.amazonaws.com/' + this._bucket + key);
+            else
+              reject(xhr);
+          }
+        }.bind(this);
+      }.bind(this));
     }
   };
 
 
-  module.factory('Amazon', function($http) {
+  module.factory('Amazon', function($http, $q) {
+
+    // $q will be this function on next versions
+    function PromiseWrapper(resolver) {
+      var deferred = $q.defer();
+      resolver(deferred.resolve, deferred.reject);
+      return deferred.promise;
+    }
+
     return new Amazon({
+      promise: PromiseWrapper,
       ajax: $http,
       AWSSecretKeyId: conf.amazon_secret_key,
       AWSAccessKeyId: conf.amazon_access_key,
       bucket: conf.amazon_bucket,
-      acl: conf.amaozn_acl,
+      acl: conf.amazon_acl,
     });
   });
 

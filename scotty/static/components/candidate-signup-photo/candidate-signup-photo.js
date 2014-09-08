@@ -21,11 +21,11 @@ define(function(require) {
 
       $scope.loading = true;
       Amazon.upload($scope.files[0], '/users').then(function(file) {
-        CandidateSession.setPicture(file);
+        return CandidateSession.setPicture(file);
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
-        this.loading = false;
+        $scope.loading = false;
       });
     }
   });
