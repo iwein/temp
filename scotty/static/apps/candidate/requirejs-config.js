@@ -2,7 +2,7 @@ window.DEBUG = true;
 
 requirejs.config({
 
-  baseUrl: '../',
+  baseUrl: '../../',
 
   paths: {
     // vendors
@@ -13,6 +13,7 @@ requirejs.config({
     'b64_hmac_sha1': 'vendor/sha1',
 
     // aliases
+    'conf': 'config/app-conf-dev',
     'app-module': 'apps/candidate/candidate-module',
   },
 

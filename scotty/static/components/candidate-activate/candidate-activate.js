@@ -5,7 +5,10 @@ define(function(require) {
 
   module.controller('CandidateActivateCtrl', function($scope, $state, CandidateSession) {
     CandidateSession.activate($state.params.token).then(function() {
+      return CandidateSession.isSignupComplete();
+    }).then(function(result) {
       $scope.success = true;
+      $scope.signupComplete = result;
     }, function() {
       $scope.error = true;
     });

@@ -18,7 +18,7 @@
   },
 
   "admin": {
-    "html": "public/admin.html",
+    "html": "apps/admin/index.html",
     "less": "apps/admin/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -30,13 +30,14 @@
       "<%= files.components.js %>"
     ],
     "out": {
-      "js": "public/admin.js",
-      "css": "public/admin.css"
+      "html": "dist/admin/index.html",
+      "js": "dist/admin/build.js",
+      "css": "dist/admin/build.css"
     }
   },
 
   "candidate": {
-    "html": "public/candidate.html",
+    "html": "apps/candidate/index.html",
     "less": "apps/candidate/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -48,13 +49,14 @@
       "<%= files.components.js %>"
     ],
     "out": {
-      "js": "public/candidate.js",
-      "css": "public/candidate.css"
+      "html": "dist/candidate/index.html",
+      "js": "dist/candidate/build.js",
+      "css": "dist/candidate/build.css"
     }
   },
 
   "employer": {
-    "html": "public/employer.html",
+    "html": "apps/employer/index.html",
     "less": "apps/employer/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -66,13 +68,14 @@
       "<%= files.components.js %>"
     ],
     "out": {
-      "js": "public/employer.js",
-      "css": "public/employer.css"
+      "html": "dist/employer/index.html",
+      "js": "dist/employer/build.js",
+      "css": "dist/employer/build.css"
     }
   },
 
   "index": {
-    "html": "public/index.html",
+    "html": "apps/index.html",
     "less": "apps/index/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -84,8 +87,9 @@
       "<%= files.components.js %>"
     ],
     "out": {
-      "js": "public/index.js",
-      "css": "public/index.css"
+      "html": "dist/index.html",
+      "js": "dist/build.js",
+      "css": "dist/build.css"
     }
   },
 

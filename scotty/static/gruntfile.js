@@ -7,6 +7,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -27,6 +28,7 @@ module.exports = function(grunt) {
     requirejs: grunt.file.readJSON('config/grunt-requirejs.json'),
     uglify: grunt.file.readJSON('config/grunt-uglify.json'),
     ngAnnotate: grunt.file.readJSON('config/grunt-ngannotate.json'),
+    copy: grunt.file.readJSON('config/grunt-copy.json'),
     usemin: grunt.file.readJSON('config/grunt-usemin.json'),
 
     // tests
@@ -37,6 +39,9 @@ module.exports = function(grunt) {
 
   grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
 
+  var configFile = grunt.option('config-file');
+  if (configFile)
+    grunt.config.set('requirejs.options.paths.conf', configFile.replace(/\.js$/, ''));
 
 
   var apps = [
@@ -58,6 +63,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build-' + app, [
       'build-' + app + '-js',
       'build-' + app + '-css',
+      'copy:' + app,
       'usemin:' + app,
     ]);
   });

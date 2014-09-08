@@ -8,8 +8,8 @@
     <meta name="author" content="HackandCraft">
     <title>Scotty</title>
 
-    <!-- build:css index.css -->
-    <link rel="stylesheet/less" href="../apps/index/styles.less">
+    <!-- build:css build.css -->
+    <link rel="stylesheet/less" href="index/styles.less">
     <script>less = { logLevel: 1 };</script>
     <script src="../bower_components/less/dist/less-1.7.0.js"></script>
     <!-- endbuild -->
@@ -43,9 +43,9 @@
 
     <ui-view></ui-view>
 
-    <!- build:js index.js ->
+    <!- build:js build.js ->
     <script src="../bower_components/requirejs/require.js"></script>
-    <script src="../apps/index/requirejs-config.js"></script>
+    <script src="index/requirejs-config.js"></script>
     <!- endbuild -->
   </body>
 </html>

@@ -43,6 +43,19 @@ define(function(require) {
       });
     },
 
+    isSignupComplete: function() {
+      return this.getSignupStage().then(function(stage) {
+        if (!stage)
+          return false;
+
+        return stage.ordering.every(function(item) {
+          // TODO: remove this conditional when 'image' is implemented
+          if (item === 'image') return true;
+          return stage[item];
+        });
+      });
+    },
+
     login: function(email, password) {
       return this._api.post('/candidates/login', {
         email: email,
@@ -85,7 +98,7 @@ define(function(require) {
     },
 
     whenReady: function(fn) {
-      this._onReady.then(fn, fn);
+      this._onReady.finally(fn);
     },
 
     id: function() {
