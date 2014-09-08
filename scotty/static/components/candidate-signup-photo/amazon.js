@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var conf = require('conf');
   var btoa = window.btoa;
   var b64_hmac_sha1 = require('b64_hmac_sha1');
   var module = require('app-module');
@@ -57,10 +58,10 @@ define(function(require) {
   module.factory('Amazon', function($http) {
     return new Amazon({
       ajax: $http,
-      AWSSecretKeyId: 'xWdmpQ8bVSRyDkJ6BLD8i9EUnYWkt8CJ0QjREcD5',
-      AWSAccessKeyId: 'AKIAI72PUNP77JJ4YMFA',
-      bucket: 'scotty-dev',
-      acl: 'public'
+      AWSSecretKeyId: conf.amazon_secret_key,
+      AWSAccessKeyId: conf.amazon_access_key,
+      bucket: conf.amazon_bucket,
+      acl: conf.amaozn_acl,
     });
   });
 

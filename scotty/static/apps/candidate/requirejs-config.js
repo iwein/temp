@@ -13,6 +13,7 @@ requirejs.config({
     'b64_hmac_sha1': 'vendor/sha1',
 
     // aliases
+    'conf': 'apps/candidate/conf',
     'app-module': 'apps/candidate/candidate-module',
   },
 

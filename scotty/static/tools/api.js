@@ -1,10 +1,6 @@
 define(function(require) {
   'use strict';
-  var apiURL = 'http://guarded-inlet-9319.herokuapp.com/api/';
-
-  if (DEBUG) {
-    apiURL = 'http://sheltered-meadow-1359.herokuapp.com/api/';
-  }
+  var apiURL = require('conf').api_url;
 
   function API(ajax, options) {
     options = options || {};
