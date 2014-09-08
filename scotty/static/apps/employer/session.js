@@ -24,7 +24,7 @@ define(function(require) {
     },
 
     isSignupComplete: function() {
-      return this._promise(function(resolve, reject) {
+      return this._promise(function(resolve) {
         resolve(false);
       });
     }

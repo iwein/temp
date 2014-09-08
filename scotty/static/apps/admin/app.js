@@ -12,8 +12,7 @@ define(function(require) {
       .state('home', {});
   });
 
-  require('tools/candidate-session');
-  module.run(function($state, $templateCache, $rootScope) {
+  module.run(function($templateCache) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
   });
 
