@@ -1,0 +1,19 @@
+<div class="component-admin-approve-employers row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Personal data</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="employer in employers">
+          {{ employer.contact_name }} at {{ employer.company_name }}
+          <button type="button"
+            ng-if="employer.status === 'applied'"
+            ng-click="approveEmployers.approve(employer)">
+            Approve
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
