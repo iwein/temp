@@ -11,12 +11,20 @@ define(function(require) {
       'signup.experience1',
       'signup.experience2',
     ],
-    'skills': [ 'signup.skills' ],
+    'skills': [
+      'signup.experience1',
+      'signup.experience2',
+      'signup.skills',
+    ],
     'education': [
       'signup.education1',
       'signup.education2',
     ],
-    'languages': [ 'signup.languages' ],
+    'languages': [
+      'signup.education1',
+      'signup.education2',
+      'signup.languages',
+    ],
     //'image': [ 'signup.photo' ],
     'image': [ 'signup.activate' ],
     'active': [ 'signup.activate' ]
