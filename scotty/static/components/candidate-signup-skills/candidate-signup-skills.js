@@ -1,10 +1,10 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupSkillsCtrl', function($scope, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupSkillsCtrl', function($scope, ConfigAPI, Session) {
     this.searchSkills = ConfigAPI.skills;
     this.remove = remove;
     this.onChange = onChange;
@@ -40,7 +40,7 @@ define(function(require) {
       data.pop();
 
       $scope.loading = true;
-      CandidateSession.setSkills(data).then(function() {
+      Session.setSkills(data).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
         this.loading = false;

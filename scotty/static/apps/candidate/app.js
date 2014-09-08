@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('session');
   var angular = require('angular');
   var module = require('app-module');
 
@@ -26,13 +27,12 @@ define(function(require) {
   });
 
 
-  require('tools/candidate-session');
-  module.run(function($state, $templateCache, $rootScope, CandidateSession) {
-    $rootScope.session = CandidateSession;
+  module.run(function($state, $templateCache, $rootScope, Session) {
+    $rootScope.session = Session;
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
     $rootScope.logout = function() {
-      CandidateSession.logout().then(function() {
+      Session.logout().then(function() {
         $state.go('home');
       });
     };

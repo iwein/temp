@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
   var months = [
@@ -19,7 +19,7 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, Session) {
     this.searchCompanies = ConfigAPI.companies;
     this.searchLocations = ConfigAPI.locationsText;
     this.searchJobTitles = ConfigAPI.jobTitles;
@@ -54,7 +54,7 @@ define(function(require) {
       }
 
       $scope.loading = true;
-      return CandidateSession.addExperience($scope.model);
+      return Session.addExperience($scope.model);
     }
 
     function addAnother() {

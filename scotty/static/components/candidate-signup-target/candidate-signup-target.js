@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  require('session');
   var module = require('app-module');
 
   module.controller('CandidateSignupTargetCtrl', function($scope, ConfigAPI) {

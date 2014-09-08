@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('session');
   var module = require('app-module');
   var validStates = {
     'target_positions': [
@@ -34,7 +35,7 @@ define(function(require) {
   ];
 
 
-  module.controller('CandidateSignupCtrl', function($scope, $state, CandidateSession) {
+  module.controller('CandidateSignupCtrl', function($scope, $state, Session) {
     var signup = this;
     var validated = null;
     this.nextStep = nextStep;
@@ -81,7 +82,7 @@ define(function(require) {
     }
 
     function getValidStates() {
-      return CandidateSession.getSignupStage().then(function(stage) {
+      return Session.getSignupStage().then(function(stage) {
         var destination = [ 'profile' ];
         if (!stage)
           return validStates.target_positions;

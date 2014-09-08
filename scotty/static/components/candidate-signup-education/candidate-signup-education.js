@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
   var months = [
@@ -19,7 +19,7 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupEducationCtrl', function($scope, $state, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupEducationCtrl', function($scope, $state, ConfigAPI, Session) {
     this.searchInstitutions = ConfigAPI.institutions;
     this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
@@ -41,7 +41,7 @@ define(function(require) {
 
     function save() {
       $scope.loading = true;
-      return CandidateSession.addEducation($scope.model);
+      return Session.addEducation($scope.model);
     }
 
     function addAnother() {

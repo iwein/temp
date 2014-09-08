@@ -2,25 +2,24 @@
 
 define(function(require) {
   'use strict';
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, CandidateSession) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, Session) {
     this.submit = submit;
-    this.loading = false;
     $scope.loading = false;
     $scope.model = {};
 
     function submit() {
       $scope.loading = true;
 
-      CandidateSession.signup($scope.model).then(function() {
+      Session.signup($scope.model).then(function() {
         var position = $scope.signup.target;
         var cities = $scope.signup.cities;
 
         return $q.all([
-          CandidateSession.addTargetPosition(position),
-          CandidateSession.setPreferredCities(cities),
+          Session.addTargetPosition(position),
+          Session.setPreferredCities(cities),
         ]);
       }).then(function() {
         return $scope.signup.nextStep();

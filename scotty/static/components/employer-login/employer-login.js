@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('CandidateLoginCtrl', function($scope, $state, Session) {
+  module.controller('EmployerLoginCtrl', function($scope, $state, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
@@ -28,8 +28,8 @@ define(function(require) {
 
   return {
     url: '/login',
-    template: require('text!./candidate-login.html'),
-    controller: 'CandidateLoginCtrl',
+    template: require('text!./employer-login.html'),
+    controller: 'EmployerLoginCtrl',
     controllerAs: 'login',
   };
 });

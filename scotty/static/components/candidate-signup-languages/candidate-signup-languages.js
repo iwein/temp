@@ -1,10 +1,10 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, CandidateSession) {
+  module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, Session) {
     this.remove = remove;
     this.onChange = onChange;
     this.submit = submit;
@@ -39,7 +39,7 @@ define(function(require) {
       data.pop();
 
       $scope.loading = true;
-      CandidateSession.setLanguages(data).then(function() {
+      Session.setLanguages(data).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
         $scope.loading = false;

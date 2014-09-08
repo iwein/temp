@@ -1,11 +1,11 @@
 define(function(require) {
   'use strict';
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
-  module.controller('CandidateActivateCtrl', function($scope, $state, CandidateSession) {
-    CandidateSession.activate($state.params.token).then(function() {
-      return CandidateSession.isSignupComplete();
+  module.controller('CandidateActivateCtrl', function($scope, $state, Session) {
+    Session.activate($state.params.token).then(function() {
+      return Session.isSignupComplete();
     }).then(function(result) {
       $scope.success = true;
       $scope.signupComplete = result;

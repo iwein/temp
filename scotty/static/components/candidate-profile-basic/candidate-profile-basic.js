@@ -1,21 +1,21 @@
 define(function(require) {
   'use strict';
-  require('tools/candidate-session');
+  require('session');
   var module = require('app-module');
 
-  module.controller('ProfileBasicCtrl', function($scope, $state, CandidateSession) {
-    CandidateSession.whenReady(function() {
-      if (!CandidateSession.hasSession()) {
+  module.controller('ProfileBasicCtrl', function($scope, $state, Session) {
+    Session.whenReady(function() {
+      if (!Session.hasSession()) {
         $state.go('login');
         return;
       }
 
 
-      CandidateSession.isSignupComplete().then(function(result) {
+      Session.isSignupComplete().then(function(result) {
         $scope.isSignupComplete = result;
       });
 
-      CandidateSession.getUserData().then(function(data) {
+      Session.getUserData().then(function(data) {
         $scope.ready = true;
         $scope.cities = data.preferred_cities;
         $scope.languages = data.languages;
@@ -23,15 +23,15 @@ define(function(require) {
         $scope.user = data;
       });
 
-      CandidateSession.getTargetPositions().then(function(data) {
+      Session.getTargetPositions().then(function(data) {
         $scope.targetPositions = data;
       });
 
-      CandidateSession.getExperience().then(function(data) {
+      Session.getExperience().then(function(data) {
         $scope.experience = data;
       });
 
-      CandidateSession.getEducation().then(function(data) {
+      Session.getEducation().then(function(data) {
         $scope.education = data;
       });
     });
