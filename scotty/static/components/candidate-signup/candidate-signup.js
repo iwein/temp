@@ -17,6 +17,7 @@ define(function(require) {
       'signup.education2',
     ],
     'languages': [ 'signup.languages' ],
+    // TODO: when we implement 'image' this must be fixed
     //'image': [ 'signup.photo' ],
     'image': [ 'signup.activate' ],
     'active': [ 'signup.activate' ]
