@@ -17,9 +17,8 @@ define(function(require) {
       'signup.education',
       'signup.languages',
     ],
-    // TODO: when we implement 'image' this must be fixed
-    //'image': [ 'signup.photo' ],
-    'image': [ 'signup.activate' ],
+    'languages': [ 'signup.languages' ],
+    'image': [ 'signup.photo' ],
     'active': [ 'signup.activate' ]
   };
   var order = [
@@ -29,7 +28,7 @@ define(function(require) {
     'signup.skills',
     'signup.education',
     'signup.languages',
-    //'signup.photo',
+    'signup.photo',
     'signup.activate',
     'profile',
   ];
@@ -88,8 +87,6 @@ define(function(require) {
           return validStates.target_positions;
 
         stage.ordering.some(function(item) {
-          if (item === 'image') return;
-
           if (!stage[item]) {
             destination = validStates[item];
             return true;

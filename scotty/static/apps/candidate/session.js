@@ -49,8 +49,6 @@ define(function(require) {
           return false;
 
         return stage.ordering.every(function(item) {
-          // TODO: remove this conditional when 'image' is implemented
-          if (item === 'image') return true;
           return stage[item];
         });
       });
