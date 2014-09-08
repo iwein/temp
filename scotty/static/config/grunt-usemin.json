@@ -4,19 +4,15 @@
   },
 
   "admin": {
-    "src": "<%= files.admin.html %>",
-    "dest": "<%= files.admin.out.html %>"
+    "src": "<%= files.admin.out.html %>"
   },
   "candidate": {
-    "src": "<%= files.candidate.html %>",
-    "dest": "<%= files.candidate.out.html %>"
+    "src": "<%= files.candidate.out.html %>"
   },
   "employer": {
-    "src": "<%= files.employer.html %>",
-    "dest": "<%= files.employer.out.html %>"
+    "src": "<%= files.employer.out.html %>"
   },
   "index": {
-    "src": "<%= files.index.html %>",
-    "dest": "<%= files.index.out.html %>"
+    "src": "<%= files.index.out.html %>"
   }
 }

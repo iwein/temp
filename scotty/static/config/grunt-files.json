@@ -56,7 +56,7 @@
   },
 
   "employer": {
-    "html": "app/employer/index.html",
+    "html": "apps/employer/index.html",
     "less": "apps/employer/styles.less",
     "test": [
       "<%= files.tools.test %>",
