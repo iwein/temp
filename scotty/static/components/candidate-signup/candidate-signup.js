@@ -17,7 +17,8 @@ define(function(require) {
       'signup.education',
       'signup.languages',
     ],
-    'languages': [ 'signup.languages' ],
+    // ---> TODO: NONO
+    // 'languages': [ 'signup.languages' ],
     'image': [ 'signup.photo' ],
     'active': [ 'signup.activate' ]
   };
