@@ -1,5 +1,5 @@
 <div class="component-candidate-signup row">
-  <div class="signup-container">
+  <div class="signup-container" ng-show="signup.ready">
     <ol class="col-sm-3 sidenav">
       <li ng-class="{ active: signup.atStep('signup.target1') || signup.atStep('signup.target2') }">Target position</li>
       <li ng-class="{ active: signup.atStep('signup.user') }">User data</li>
@@ -8,6 +8,6 @@
       <li ng-class="{ active: signup.atStep('signup.education1') || signup.atStep('signup.education2') }">Education</li>
       <li ng-class="{ active: signup.atStep('signup.languages') }">Languages</li>
     </ol>
-    <ui-view class="col-sm-6" ng-show="signup.ready"></ui-view>
+    <ui-view class="col-sm-6"></ui-view>
   </div>
 </div>
