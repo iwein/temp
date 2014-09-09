@@ -24,6 +24,10 @@ define(function(require) {
   CandidateSession.prototype = {
     constructor: CandidateSession,
 
+    id: function() {
+      return this.user && this.user.id;
+    },
+
     activate: function(token) {
       return this._api.get('/candidates/activate/' + token);
     },
@@ -99,12 +103,8 @@ define(function(require) {
       this._onReady.finally(fn);
     },
 
-    id: function() {
-      return this.user && this.user.id;
-    },
-
-    setPicture: function(file) {
-      return this._api.post('/candidates/me/picture', { url: file });
+    setProfile: function(model) {
+      return this._api.post('/candidates/me/picture', { url: model.photo });
     },
 
     addTargetPosition: setHelper('target_positions', 'post'),

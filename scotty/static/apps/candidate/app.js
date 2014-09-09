@@ -21,7 +21,7 @@ define(function(require) {
       .state('signup.skills', require('components/candidate-signup-skills/candidate-signup-skills'))
       .state('signup.education', require('components/candidate-signup-education/candidate-signup-education'))
       .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
-      .state('signup.photo', require('components/candidate-signup-photo/candidate-signup-photo'))
+      .state('signup.profile', require('components/candidate-signup-profile/candidate-signup-profile'))
       .state('signup.activate', require('components/candidate-signup-activate/candidate-signup-activate'))
       ;
   });

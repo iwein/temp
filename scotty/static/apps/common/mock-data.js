@@ -6,6 +6,7 @@ define(function(require) {
   if (DEBUG) {
     var angular = require('angular');
     var module = require('app-module');
+    var moment = require('moment');
 
     function $(selector) {
       var elements = document.querySelectorAll(selector);
@@ -68,21 +69,21 @@ define(function(require) {
         setValue('textarea', guid);
         setValue('input[type=text]', guid);
         setValue('input[type=email]', function() {
-          return 'amatiasq+test' + (localStorage.foobar++) + '@gmail.com';
+          if (!localStorage.mockEmail) return;
+          if (!localStorage.mockEmailCounter) localStorage.mockEmailCounter = 0;
+          return localStorage.mockEmail.replace('%D%', localStorage.mockEmailCounter++);
         });
         setValue('input[type=password]', '123123123');
-        setValue('input[type=number]', function() {
-          return Math.round(Math.random() * 200) + 1900;
-        });
+        setValue('input[type=number]', random.bind(null, 1900, 2100));
+        setValue('input[type=url]', document.location.toString());
         setValue('select', function(element) {
-          return randomElement(element.children).innerHTML;
+          return randomElement(element.children, 1).innerHTML;
+        });
+        setValue('input[type=date]', function() {
+          return moment().format('YYYY-MM-DD');
         });
 
         // special fields
-        $('form[name=formTarget] input[name=availability]').forEach(function(element) {
-          var valid = [ 'q-01-01', '2000-12-31', '3d', '2w 1m', '3m' ]
-          set(element, 'ng-model', randomElement(valid));
-        });
         $('form[name=formTarget] input[name=cities]').forEach(function(element) {
           set(element, 'ng-model', '');
           getScope(element).signup.cities = [{
