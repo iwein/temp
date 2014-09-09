@@ -1,4 +1,5 @@
 import hashlib
+import jsonschema
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
@@ -18,6 +19,13 @@ def candidate_from_signup(params):
     status = get_by_name_or_raise(CandidateStatus, "active")
     candidate = Candidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
                           status=status)
+    return candidate
+
+
+def edit_candidate(candidate, params):
+    for field in candidate.__editable__:
+        if field in params:
+            setattr(candidate, field, params[field])
     return candidate
 
 

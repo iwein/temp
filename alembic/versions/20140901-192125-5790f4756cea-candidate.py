@@ -49,6 +49,7 @@ def upgrade():
                     sa.Column('contact_line3', sa.String(length=512), nullable=True),
                     sa.Column('contact_zipcode', sa.String(length=20), nullable=True),
                     sa.Column('contact_city_id', sa.Integer(), nullable=True),
+                    sa.Column('contact_phone', sa.String(length=128), nullable=True),
                     sa.Column('available_date', sa.Date(), nullable=True),
                     sa.Column('notice_period_number', sa.Integer(), nullable=True),
                     sa.Column('notice_period_measure', sa.String(length=1), server_default='w', nullable=False),
@@ -140,6 +141,15 @@ def upgrade():
                     sa.ForeignKeyConstraint(['skill_id'], ['skill.id'], ),
                     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('work_experience_skill',
+                    sa.Column('work_experience_id', sa.Integer(), nullable=False),
+                    sa.Column('skill_id', sa.Integer(), nullable=False),
+                    sa.ForeignKeyConstraint(['skill_id'], ['skill.id'], ),
+                    sa.ForeignKeyConstraint(['work_experience_id'], ['work_experience.id'], ),
+                    sa.PrimaryKeyConstraint('work_experience_id', 'skill_id')
+    )
+
+
     ### end Alembic commands ###
 
     bulk_insert_names = csv_inserter(__file__)
@@ -161,4 +171,5 @@ def downgrade():
     op.drop_table('education')
     op.drop_table('candidate')
     op.drop_table('candidatestatus')
+    op.drop_table('work_experience_skill')
     ### end Alembic commands ###

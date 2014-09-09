@@ -7,7 +7,7 @@ from scotty import DBSession
 from scotty.models import Candidate, Education, WorkExperience, TargetPosition
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredcities_on_candidate
+    set_preferredcities_on_candidate, edit_candidate
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -75,6 +75,12 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_me', **GET)
     def me(self):
         return self.session_candidate
+
+    @view_config(route_name='candidate_me', **PUT)
+    def edit(self):
+        candidate = edit_candidate(self.session_candidate, self.request.json)
+        return candidate
+
 
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
