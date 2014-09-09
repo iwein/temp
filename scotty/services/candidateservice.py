@@ -62,9 +62,10 @@ def add_candidate_work_experience(candidate, params):
     role = get_by_name_or_create(Role, params["role"])
     city = get_location_by_name_or_create(params['location'])
     company = get_by_name_or_create(Company, params['company'])
+    skills = get_or_create_named_collection(Skill, params.get('skills'))
 
     wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company,
-                          job_title=job_title, role=role)
+                          job_title=job_title, role=role, skills=skills)
     DBSession.add(wexp)
     DBSession.flush()
     return wexp
