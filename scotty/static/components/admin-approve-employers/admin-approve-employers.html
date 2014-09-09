@@ -1,9 +1,22 @@
 <div class="component-admin-approve-employers row">
   <div class="col-sm-6 col-sm-offset-3">
+    <h3>Approve employers</h3>
+
+    <div class="form-group">
+      <label>Status</label>
+      <select
+        class="form-control"
+        name="status"
+        ng-model="status"
+        ng-change="approveEmployers.filterEmployers(status)">
+        <option value="applied">Applied</option>
+        <option value="approved">Approved</option>
+        <option value="signedup">Signed up</option>
+        <option value="status4">Status 4</option>
+      </select>
+    </div>
+
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Personal data</h3>
-      </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="employer in employers">
           {{ employer.contact_name }} at {{ employer.company_name }}
