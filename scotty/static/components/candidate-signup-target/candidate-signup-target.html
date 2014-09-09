@@ -111,22 +111,30 @@
 
     <div class="form-group">
       <label class="required">Availability</label>
-      <input type="text"
-        class="form-control"
-        placeholder="YYYY-MM-DD or 2w 3d"
-        name="availability"
-        ng-disabled="loading"
-        ng-model="signup.target.availability"
-        ng-pattern="/^(\d{4}(\/|-)\d{1,2}(\/|-)\d{1,2})|(\d+[ymwdh]( \d+[ymwdh])*)$/">
 
-      <div class="form-error" ng-show="formTarget.availability.$dirty && formTarget.availability.$invalid">
-        <span ng-show="formTarget.availability.$error.required">
-          Enter the date or the lapse you can be available.
-        </span>
-        <span ng-show="formTarget.availability.$error.pattern">
-          Only exact date (YYYY-MM-DD) and intervals (2w 5d) are allowed.
-        </span>
-        <span></span>
+      <div class="form-inline">
+        <input type="date"
+          class="form-control"
+          placeholder="YYYY-MM-DD"
+          name="available_date"
+          ng-disabled="loading || available_months"
+          ng-model="available_date"
+          ng-require="!available_months">
+
+        <input type="number"
+          class="form-control"
+          placeholder="Months"
+          name="available_months"
+          ng-disabled="loading || available_date"
+          ng-model="available_months"
+          ng-required="!available_date"
+          ng-pattern="/^\d+$/">
+      </div>
+
+      <div class="form-error" ng-show="formTarget.available_date.$dirty || formTarget.available_months.$dirty">
+        <span ng-show="formTarget.available_months.$error.number">Please insert a number.</span>
+        <span ng-show="formTarget.available_months.$error.pattern">Please enter a integer number.</span>
+        <span ng-show="!available_date && !available_months">Please, fill one of the Availability fields</span>
       </div>
     </div>
 

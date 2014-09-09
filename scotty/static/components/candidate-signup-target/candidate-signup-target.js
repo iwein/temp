@@ -45,6 +45,10 @@ define(function(require) {
         return;
       }
 
+      $scope.signup.availability = $scope.available_months ?
+        { available_months: $scope.available_months } :
+        { available_date: $scope.available_date };
+
       $scope.loading = true;
       $scope.signup.nextStep().finally(function() {
         $scope.loading = false;

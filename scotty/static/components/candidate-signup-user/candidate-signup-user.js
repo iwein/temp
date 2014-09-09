@@ -14,10 +14,12 @@ define(function(require) {
       $scope.loading = true;
 
       Session.signup($scope.model).then(function() {
+        var availability = $scope.signup.availability;
         var position = $scope.signup.target;
         var cities = $scope.signup.cities;
 
         return $q.all([
+          Session.updateData(availability),
           Session.addTargetPosition(position),
           Session.setPreferredCities(cities),
         ]);

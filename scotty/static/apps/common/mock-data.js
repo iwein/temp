@@ -85,16 +85,16 @@ define(function(require) {
         setValue('input[name=zipcode]', random.bind(null, 10000, 99999));
 
         // special fields
-        $('form[name=formTarget] input[name=availability]').forEach(function(element) {
-          var valid = [ '2015-01-01', '2000-12-31', '3d', '2w 1m', '3m' ];
-          set(element, 'ng-model', randomElement(valid));
-        });
         $('form[name=formTarget] input[name=cities]').forEach(function(element) {
           set(element, 'ng-model', '');
           getScope(element).signup.cities = [{
             city: 'Barcelona',
             country_iso: 'ES',
           }];
+        });
+        var field = randomElement([ 'date', 'months' ]);
+        $('form[name=formTarget] input[name=available_' + field).forEach(function(element) {
+          set(element, 'ng-model', '');
         });
         $('form[name=formExperience] input[name=location]').forEach(function(element) {
           set(element, 'ng-model', 'Barcelona, ES');
@@ -110,8 +110,6 @@ define(function(require) {
             country_iso: 'ES',
           };
         });
-
-
 
         angular.element($('form')[0]).scope().$apply();
       };
