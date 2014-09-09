@@ -28,6 +28,28 @@
               }
             },
 
+            {'url': '/api/v1/candidates/me', 'title': 'candidate-edit-me', method: 'PUT',
+
+              data:{
+                first_name: 'Harold',
+                last_name: 'Lucky-One',
+                contact_phone: '+40 243564375',
+                contact_skype: 'super.skype.name',
+                contact_line1: 'Super Duper Street 94',
+                contact_line2: 'Line 2 Area',
+                contact_zipcode: '34567',
+                contact_city: {'city': 'Berlin', 'country_iso': 'DE'},
+                dob: '2000-02-28',
+                pob: 'Krakow, Poland',
+                available_date: '2015-04-30',
+                willing_to_travel: false,
+                summary: 'Supoer Candidate with a lot of skills',
+                stackoverflow_url: 'http://meta.stackexchange.com/users/183471/goje87',
+                github_url: 'https://github.com/MartinPeschke'
+
+              }},
+            {'url': '/api/v1/candidates/me', 'title': 'candidate-me-2'},
+
             //{'sectionTitle': 'Set Based Endpoints'},
 
             {'title': 'Languages'},

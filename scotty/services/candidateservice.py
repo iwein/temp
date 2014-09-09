@@ -21,6 +21,17 @@ def candidate_from_signup(params):
     return candidate
 
 
+def edit_candidate(candidate, params):
+    for field in candidate.__editable__:
+        if field in params:
+            setattr(candidate, field, params[field])
+
+    if 'contact_city' in params:
+        candidate.contact_city = get_location_by_name_or_create(params['contact_city'])
+
+    return candidate
+
+
 def candidate_from_login(params):
     email = params['email']
     pwd = hashlib.sha256(params['pwd']).hexdigest()
