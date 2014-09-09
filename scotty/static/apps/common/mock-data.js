@@ -12,6 +12,15 @@ define(function(require) {
       return Array.prototype.slice.call(elements);
     }
 
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    function randomElement(array, skip) {
+      skip = skip || 0;
+      return array[random(skip, array.length)];
+    }
+
     var guid = (function() {
       function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -23,6 +32,7 @@ define(function(require) {
                 s4() + '-' + s4() + s4() + s4();
       };
     })();
+
 
 
     module.run(function($parse) {
@@ -65,12 +75,14 @@ define(function(require) {
           return Math.round(Math.random() * 200) + 1900;
         });
         setValue('select', function(element) {
-          var options = Array.prototype.slice.call(element.children);
-          var rand = Math.floor(Math.random() * (options.length - 1) + 1);
-          return options[rand].innerHTML;
+          return randomElement(element.children).innerHTML;
         });
 
         // special fields
+        $('form[name=formTarget] input[name=availability]').forEach(function(element) {
+          var valid = [ 'q-01-01', '2000-12-31', '3d', '2w 1m', '3m' ]
+          set(element, 'ng-model', randomElement(valid));
+        });
         $('form[name=formTarget] input[name=cities]').forEach(function(element) {
           set(element, 'ng-model', '');
           getScope(element).signup.cities = [{
@@ -85,6 +97,7 @@ define(function(require) {
             country_iso: 'ES',
           };
         });
+
 
 
         angular.element($('form')[0]).scope().$apply();
