@@ -51,7 +51,6 @@ def get_or_create_named_collection(cls, names, field_name='name'):
         DBSession.add_all(new_objs)
         DBSession.flush()
         objs.extend(new_objs)
-
     return objs or []
 
 def get_or_create_named_lookup(cls, names, field_name='name'):

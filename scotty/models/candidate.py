@@ -59,6 +59,10 @@ candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
 
+work_experience_skill = Table('work_experience_skill', Base.metadata,
+                              Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
+                              Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
+
 
 class WorkExperience(Base):
     __tablename__ = 'work_experience'
@@ -82,11 +86,12 @@ class WorkExperience(Base):
     role = relationship(Role)
     job_title_id = Column(Integer, ForeignKey("job_title.id"), nullable=False)
     job_title = relationship(JobTitle)
+    skills = relationship(Skill, secondary=work_experience_skill)
 
     def __json__(self, request):
         return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary,
                 "role": self.role, "job_title": self.job_title, "company": self.company,
-                "location": self.location}
+                "skills": self.skills, "location": self.location}
 
 
 class TargetPosition(Base):
