@@ -8,6 +8,7 @@
       <label class="required">Skill</label>
       <input type="text"
         class="form-control"
+        placeholder="Skill",
         name="skill"
         required
         ng-disabled="loading"
@@ -23,6 +24,7 @@
       <label class="required">Role</label>
       <input type="text"
         class="form-control"
+        placeholder="Role",
         name="role"
         required
         ng-disabled="loading"
@@ -38,6 +40,7 @@
       <label class="required">Company Type</label>
       <select
         class="form-control"
+        placeholder="Company type",
         name="companyType"
         required
         ng-disabled="loading"
@@ -57,6 +60,7 @@
         <span class="input-group-addon">€</span>
         <input type="number"
           class="form-control"
+          placeholder="Minimum salary",
           name="salary"
           required
           ng-disabled="loading"
@@ -81,6 +85,7 @@
     <div class="form-group">
       <label class="required">Cities</label>
       <input type="text"
+        placeholder="City",
         name="cities"
         class="form-control"
         ng-disabled="loading"
@@ -93,9 +98,7 @@
         ng-show="formTarget.cities.$dirty && !currentCity.length && !signup.cities.length">
         <span>Please type a city you would like to work at and press enter key.</span>
       </div>
-    </div>
 
-    <div class="form-group">
       <li ng-repeat="entry in signup.cities" class="label label-default" role="label">
         {{ entry.city }}, {{ entry.country_iso }}
         <button type="button" class="close" data-dismiss="label"
@@ -104,6 +107,27 @@
           <span class="sr-only">Close</span>
         </button>
       </li>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Availability</label>
+      <input type="text"
+        class="form-control"
+        placeholder="YYYY-MM-DD or 2w 3d"
+        name="availability"
+        ng-disabled="loading"
+        ng-model="signup.target.availability"
+        ng-pattern="/^(\d{4}(\/|-)\d{1,2}(\/|-)\d{1,2})|(\d+[ymwdh]( \d+[ymwdh])*)$/">
+
+      <div class="form-error" ng-show="formTarget.availability.$dirty && formTarget.availability.$invalid">
+        <span ng-show="formTarget.availability.$error.required">
+          Enter the date or the lapse you can be available.
+        </span>
+        <span ng-show="formTarget.availability.$error.pattern">
+          Only exact date (YYYY-MM-DD) and intervals (2w 5d) are allowed.
+        </span>
+        <span></span>
+      </div>
     </div>
 
     <div class="form-group">
