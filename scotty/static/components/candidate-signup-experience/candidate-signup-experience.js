@@ -38,13 +38,10 @@ define(function(require) {
       $scope.levels = data;
     });
 
-    if ($scope.model.location)
-      $scope.locationText = ConfigAPI.locationToText($scope.model.location);
-
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
-      $scope.model.location = city;
+      $scope.model.contact_city = city;
     }
 
     function save() {

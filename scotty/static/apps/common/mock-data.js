@@ -82,8 +82,13 @@ define(function(require) {
         setValue('input[type=date]', function() {
           return moment().format('YYYY-MM-DD');
         });
+        setValue('input[name=zipcode]', random.bind(null, 10000, 99999));
 
         // special fields
+        $('form[name=formTarget] input[name=availability]').forEach(function(element) {
+          var valid = [ '2015-01-01', '2000-12-31', '3d', '2w 1m', '3m' ];
+          set(element, 'ng-model', randomElement(valid));
+        });
         $('form[name=formTarget] input[name=cities]').forEach(function(element) {
           set(element, 'ng-model', '');
           getScope(element).signup.cities = [{
@@ -94,6 +99,13 @@ define(function(require) {
         $('form[name=formExperience] input[name=location]').forEach(function(element) {
           set(element, 'ng-model', 'Barcelona, ES');
           getScope(element).model.location = {
+            city: 'Barcelona',
+            country_iso: 'ES',
+          };
+        });
+        $('form[name=formProfile] input[name=location]').forEach(function(element) {
+          set(element, 'ng-model', 'Barcelona, ES');
+          getScope(element).model.contact_city = {
             city: 'Barcelona',
             country_iso: 'ES',
           };

@@ -9,26 +9,99 @@
       <input
         type="text"
         class="form-control"
-        placeholder="Address"
-        name="address"
+        placeholder="Address Line 1"
+        name="contact_line1"
         required
         ng-disabled="loading"
-        ng-model="model.address">
+        ng-model="model.contact_line1">
 
-      <div class="form-error" ng-show="formProfile.address.$dirty && formProfile.address.$invalid">
-        <span ng-show="formProfile.address.$error.required">Please insert your address.</span>
+      <div class="form-error" ng-show="formProfile.contact_line1.$dirty && formProfile.contact_line1.$invalid">
+        <span ng-show="formProfile.contact_line1.$error.required">Please insert your address.</span>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Address Line 2"
+        name="contact_line2"
+        required
+        ng-disabled="loading"
+        ng-model="model.contact_line2">
+
+      <div class="form-error" ng-show="formProfile.contact_line2.$dirty && formProfile.contact_line2.$invalid">
+        <span ng-show="formProfile.contact_line2.$error.required">Please insert your address.</span>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Address Line 3"
+        name="contact_line3"
+        ng-disabled="loading"
+        ng-model="model.contact_line3">
+
+      <div class="form-error" ng-show="formProfile.contact_line3.$dirty && formProfile.contact_line3.$invalid">
+        <span ng-show="formProfile.contact_line3.$error.required">Please insert your address.</span>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Zip code"
+        name="zipcode"
+        maxlength="20"
+        required
+        ng-disabled="loading"
+        ng-model="model.contact_zipcode">
+
+      <div class="form-error" ng-show="formProfile.zipcode.$dirty && formProfile.zipcode.$invalid">
+        <span ng-show="formProfile.zipcode.$error.required">Please insert your zip code.</span>
+      </div>
+
+      <input type="text"
+        placeholder="City"
+        name="location"
+        class="form-control"
+        required
+        ng-disabled="loading"
+        ng-model="locationText"
+        ng-blur="signupProfile.setLocation(locationText)"
+        typeahead-on-select="signupProfile.setLocation(locationText)"
+        typeahead="location for location in signupProfile.searchLocations($viewValue)">
+
+      <div class="form-error" ng-show="errorInvalidCity || (formProfile.location.$dirty && formProfile.location.$invalid)">
+        <span ng-show="formProfile.location.$error.required">
+          Please insert the city you worked on.
+        </span>
+        <span ng-show="errorInvalidCity">
+          Please choose a city from the menu.
+        </span>
+      </div>
+
+      <input
+        type="tel"
+        class="form-control"
+        placeholder="Phone"
+        name="contact_phone"
+        ng-disabled="loading"
+        ng-model="model.contact_phone">
+
+      <div class="form-error" ng-show="formProfile.contact_phone.$dirty && formProfile.contact_phone.$invalid">
+        <span ng-show="formProfile.contact_phone.$error.required">Please insert your phone.</span>
       </div>
     </div>
+
 
     <div class="form-group">
       <label class="required">Photo</label>
       <img ng-show="fileUri" ng-src="{{ fileUri }}">
       <input type="file"
         name="photo"
+        accept="image/*"
         required
         ng-disabled="loading"
         ng-model="files"
-        hc-file-select="select($files)">
+        hc-file-select="signupProfile.selectFile($files)">
 
       <div class="form-error" ng-show="errorFileImage">
         <span ng-show="errorFileRequired">Please select a photo.</span>
@@ -44,7 +117,7 @@
         placeholder="Skype ID"
         name="skype"
         ng-disabled="loading"
-        ng-model="model.skype">
+        ng-model="model.contact_skype">
 
       <div class="form-error" ng-show="formProfile.skype.$dirty && formProfile.skype.$invalid">
         <span ng-show="formProfile.skype.$error.required">Please insert your skype ID.</span>
@@ -60,7 +133,7 @@
         name="birth"
         required
         ng-disabled="loading"
-        ng-model="model.birth">
+        ng-model="model.dob">
 
       <div class="form-error" ng-show="formProfile.birth.$dirty && formProfile.birth.$invalid">
         <span ng-show="formProfile.birth.$error.required">Please insert your birth date.</span>
@@ -75,7 +148,7 @@
         placeholder="Stackoverflow URL"
         name="stackoverflow"
         ng-disabled="loading"
-        ng-model="model.stackoverflow">
+        ng-model="model.stackoverflow_url">
 
       <div class="form-error" ng-show="formProfile.stackoverflow.$dirty && formProfile.stackoverflow.$invalid">
         <span ng-show="formProfile.stackoverflow.$error.required">Please insert your stackoverflow url.</span>
@@ -90,7 +163,7 @@
         placeholder="Github username"
         name="github"
         ng-disabled="loading"
-        ng-model="model.github">
+        ng-model="model.github_url">
 
       <div class="form-error" ng-show="formProfile.github.$dirty && formProfile.github.$invalid">
         <span ng-show="formProfile.github.$error.required">Please insert your github username.</span>

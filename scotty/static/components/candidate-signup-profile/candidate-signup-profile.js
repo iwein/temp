@@ -1,15 +1,25 @@
 define(function(require) {
   'use strict';
+  require('tools/config-api');
   require('session');
   require('./amazon');
   require('./file-select-directive');
   var module = require('app-module');
 
-  module.controller('CandidateSignupProfileCtrl', function($scope, Session, Amazon) {
+  module.controller('CandidateSignupProfileCtrl', function($scope, $q, ConfigAPI, Session, Amazon) {
+    this.searchLocations = ConfigAPI.locationsText;
+    this.setLocation = setLocation;
+    this.selectFile = selectFile;
     this.submit = submit;
     $scope.loading = false;
 
-    $scope.select = function(files) {
+    function setLocation(location) {
+      var city = ConfigAPI.getLocationFromText(location);
+      $scope.errorInvalidCity = city === null;
+      $scope.model.location = city;
+    }
+
+    function selectFile(files) {
       $scope.errorFileRequired = false;
       $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
       $scope.fileUri = '';
@@ -24,7 +34,7 @@ define(function(require) {
         });
       };
       reader.readAsDataURL(files[0]);
-    };
+    }
 
     function submit() {
       if (!$scope.files) {
@@ -37,8 +47,9 @@ define(function(require) {
 
       $scope.loading = true;
       Amazon.upload($scope.files[0], '/users', Session.id()).then(function(file) {
-        $scope.model.photo = file;
-        return Session.setProfile($scope.model);
+        return Session.updateData($scope.model).then(function() {
+          return Session.setPhoto(file);
+        });
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {

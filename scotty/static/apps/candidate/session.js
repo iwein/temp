@@ -103,8 +103,12 @@ define(function(require) {
       this._onReady.finally(fn);
     },
 
-    setProfile: function(model) {
-      return this._api.post('/candidates/me/picture', { url: model.photo });
+    setPhoto: function(photo) {
+      return this._api.post('/candidates/me/picture', { url: photo });
+    },
+
+    updateData: function(model) {
+      return this._api.put('/candidates/me', model);
     },
 
     addTargetPosition: setHelper('target_positions', 'post'),
