@@ -139,7 +139,7 @@ class Candidate(Base):
         'pob', 'dob', 'picture_url', 'title',
         'contact_line1', 'contact_line2', 'contact_line3', 'contact_zipcode',
         'contact_phone', 'available_date', 'notice_period_number', 'willing_to_travel',
-        'summary', 'github_url', 'stackoverflow_url'
+        'summary', 'github_url', 'stackoverflow_url', 'contact_skype'
     ]
 
     id = Column(GUID, primary_key=True, default=uuid4)
@@ -178,6 +178,7 @@ class Candidate(Base):
     contact_city = relationship(City)
 
     contact_phone = Column(String(128))
+    contact_skype = Column(String(128))
     available_date = Column(Date)
     notice_period_number = Column(Integer)
     notice_period_measure = Column(String(1), CheckConstraint("notice_period_measure in ['w', 'm']"), default='w',

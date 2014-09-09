@@ -50,6 +50,7 @@ def upgrade():
                     sa.Column('contact_zipcode', sa.String(length=20), nullable=True),
                     sa.Column('contact_city_id', sa.Integer(), nullable=True),
                     sa.Column('contact_phone', sa.String(length=128), nullable=True),
+                    sa.Column('contact_skype', sa.String(length=255), nullable=True),
                     sa.Column('available_date', sa.Date(), nullable=True),
                     sa.Column('notice_period_number', sa.Integer(), nullable=True),
                     sa.Column('notice_period_measure', sa.String(length=1), server_default='w', nullable=False),
