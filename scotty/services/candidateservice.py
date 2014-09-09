@@ -1,5 +1,4 @@
 import hashlib
-import jsonschema
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
