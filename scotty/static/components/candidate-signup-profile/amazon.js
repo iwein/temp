@@ -1,8 +1,9 @@
 define(function(require) {
   'use strict';
+  require('./sha1');
+  var b64_hmac_sha1 = window.b64_hmac_sha1; // imported from './sha1'
+  var btoa = window.btoa; // standard
   var conf = require('conf');
-  var btoa = window.btoa;
-  var b64_hmac_sha1 = require('b64_hmac_sha1');
   var module = require('app-module');
 
 

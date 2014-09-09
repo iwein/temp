@@ -7,10 +7,10 @@ requirejs.config({
   paths: {
     // vendors
     'text': 'bower_components/text/text',
+    'moment': 'bower_components/moment/moment',
     'angular-core': 'bower_components/angular/angular',
     'angular': 'bower_components/angular-ui-router/release/angular-ui-router',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
-    'b64_hmac_sha1': 'vendor/sha1',
 
     // aliases
     'conf': 'config/app-conf-dev',
@@ -23,10 +23,7 @@ requirejs.config({
       deps: [ 'angular-core' ],
       exports: 'angular',
     },
-    'ui.bootstrap': [ 'angular' ],
-    'b64_hmac_sha1': {
-      exports: 'b64_hmac_sha1',
-    }
+    'ui.bootstrap': [ 'angular' ]
   }
 
 })([ 'apps/common/mock-data', 'apps/candidate/app' ]);

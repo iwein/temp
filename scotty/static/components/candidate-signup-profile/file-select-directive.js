@@ -13,8 +13,10 @@ define(function(require) {
 
         return function postLink(scope) {
           element.addEventListener('change', function() {
-            setModel(scope, element.files);
-            execOnChange(scope);
+            scope.$apply(function() {
+              setModel(scope, element.files);
+              execOnChange(scope, { $files: element.files });
+            });
           });
         };
       }

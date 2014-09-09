@@ -19,7 +19,7 @@ define(function(require) {
     ],
     // ---> TODO: NONO
     // 'languages': [ 'signup.languages' ],
-    'image': [ 'signup.photo' ],
+    'image': [ 'signup.profile' ],
     'active': [ 'signup.activate' ]
   };
   var order = [
@@ -29,7 +29,7 @@ define(function(require) {
     'signup.skills',
     'signup.education',
     'signup.languages',
-    'signup.photo',
+    'signup.profile',
     'signup.activate',
     'profile',
   ];
