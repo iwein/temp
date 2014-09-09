@@ -21,7 +21,7 @@ define(function(require) {
 
       $scope.loading = true;
       Amazon.upload($scope.files[0], '/users').then(function(file) {
-        return CandidateSession.setPicture(file);
+        return Session.setPicture(file);
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
