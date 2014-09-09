@@ -137,7 +137,7 @@ class Candidate(Base):
     __editable__ = [
         'first_name', 'last_name',
         'pob', 'dob', 'picture_url', 'title',
-        'contact_line1', 'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city',
+        'contact_line1', 'contact_line2', 'contact_line3', 'contact_zipcode',
         'contact_phone', 'available_date', 'notice_period_number', 'willing_to_travel',
         'summary', 'github_url', 'stackoverflow_url'
     ]

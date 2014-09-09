@@ -166,10 +166,10 @@ def downgrade():
     op.drop_table('candidate_target_position')
     op.drop_table('candidate_language')
     op.drop_table('candidate_preferred_city')
+    op.drop_table('work_experience_skill')
     op.drop_table('work_experience')
     op.drop_table('candidate_skill')
     op.drop_table('education')
     op.drop_table('candidate')
     op.drop_table('candidatestatus')
-    op.drop_table('work_experience_skill')
     ### end Alembic commands ###
