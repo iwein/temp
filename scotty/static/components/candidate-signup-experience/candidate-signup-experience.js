@@ -23,12 +23,16 @@ define(function(require) {
     this.searchCompanies = ConfigAPI.companies;
     this.searchLocations = ConfigAPI.locationsText;
     this.searchJobTitles = ConfigAPI.jobTitles;
+    this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.setLocation = setLocation;
+    this.onSkillChange = onSkillChange;
+    this.onSkillBlur = onSkillBlur;
     this.submit = submit;
     $scope.months = months;
     $scope.model = {};
+    $scope.skills = [{}];
     $scope.loading = false;
 
     bindDate('start');
@@ -44,11 +48,26 @@ define(function(require) {
       $scope.model.contact_city = city;
     }
 
+    function onSkillBlur(entry, index, isLast) {
+      if (!entry && !isLast)
+        $scope.skills.splice(index, 1);
+    }
+
+    function onSkillChange(entry, index, isLast) {
+      if (entry && isLast)
+        $scope.skills.push({});
+    }
+
     function save() {
       if (!$scope.model.location || $scope.errorInvalidCity) {
         $scope.errorInvalidCity = true;
         return $q.reject(new Error('Form data not valid'));
       }
+
+      $scope.model.skills = $scope.skills.map(function(item) {
+        return item.value;
+      });
+      $scope.model.skills.pop();
 
       $scope.loading = true;
       return Session.addExperience($scope.model);
@@ -57,6 +76,7 @@ define(function(require) {
     function addAnother() {
       save().then(function() {
         $scope.model = {};
+        $scope.skills = [{}];
       }).finally(function() {
         $scope.loading = false;
       });
@@ -67,6 +87,7 @@ define(function(require) {
         return $scope.signup.nextStep();
       }).then(function() {
         $scope.model = {};
+        $scope.skills = [{}];
       }).finally(function() {
         $scope.loading = false;
       });

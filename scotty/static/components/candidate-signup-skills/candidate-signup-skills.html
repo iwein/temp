@@ -14,10 +14,10 @@
           class="form-control"
           name="skill{{ $index }}"
           ng-disabled="loading"
-          ng-required="$index === 0"
+          ng-required="$first"
           ng-model="entry.skill"
-          ng-blur="signupSkills.onBlur(entry, $index)"
-          ng-change="signupSkills.onChange(entry, $index)"
+          ng-blur="signupSkills.onBlur(entry, $index, $last)"
+          ng-change="signupSkills.onChange(entry, $index, $last)"
           typeahead="skill for skill in signupSkills.searchSkills($viewValue)">
 
         <select
@@ -31,7 +31,7 @@
         </select>
 
         <span class="close"
-          ng-if="$index !== signup.skills.length - 1"
+          ng-if="!$last"
           ng-click="signupSkills.remove($index)">
           &times;
         </span>

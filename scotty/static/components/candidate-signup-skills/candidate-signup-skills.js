@@ -17,21 +17,17 @@ define(function(require) {
       $scope.levels = data;
     });
 
-    function last() {
-      return skills[skills.length - 1];
-    }
-
     function remove(index) {
       skills.splice(index, 1);
     }
 
-    function onBlur(entry, index) {
-      if (!entry.skill && entry !== last())
+    function onBlur(entry, index, isLast) {
+      if (!entry.skill && !isLast)
         remove(index);
     }
 
-    function onChange() {
-      if (last().skill)
+    function onChange(entry, index, isLast) {
+      if (entry.skill && isLast)
         skills.push({});
     }
 

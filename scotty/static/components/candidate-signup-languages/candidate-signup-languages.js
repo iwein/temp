@@ -19,18 +19,14 @@ define(function(require) {
       $scope.proficiencies = data;
     });
 
-    function last() {
-      return languages[languages.length - 1];
-    }
-
     function remove(index) {
       languages.splice(index, 1);
     }
 
-    function onChange(entry, index) {
-      if (!entry.language && entry !== last())
+    function onChange(entry, index, isLast) {
+      if (!entry.language && !isLast)
         remove(index);
-      else if (last().language)
+      else if (entry.language && isLast)
         languages.push({});
     }
 

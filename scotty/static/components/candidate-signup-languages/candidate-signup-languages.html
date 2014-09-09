@@ -10,9 +10,9 @@
           class="form-control"
           name="language{{ $index }}"
           ng-disabled="loading"
-          ng-required="$index === 0"
+          ng-required="$first"
           ng-model="entry.language"
-          ng-change="signupLanguages.onChange(entry, $index)"
+          ng-change="signupLanguages.onChange(entry, $index, $last)"
           ng-options="language for language in languages">
           <option value="">Language</option>
         </select>
@@ -28,7 +28,7 @@
         </select>
 
         <span class="close"
-          ng-if="$index !== signup.languages.length - 1"
+          ng-if="!$last"
           ng-click="signupLanguages.remove($index)">
           &times;
         </span>

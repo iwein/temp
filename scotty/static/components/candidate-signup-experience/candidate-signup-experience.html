@@ -161,6 +161,20 @@
     </div>
 
     <div class="form-group">
+      <label class="required">Skills</label>
+      <input type="text"
+        class="form-control"
+        name="skill"
+        ng-repeat="skill in skills"
+        ng-disabled="loading"
+        ng-required="$first"
+        ng-model="skill.value"
+        ng-blur="signupExperience.onSkillBlur(skill.value, $index, $last)"
+        ng-change="signupExperience.onSkillChange(skill.value, $index, $last)"
+        typeahead="skill for skill in signupExperience.searchSkills($viewValue)">
+    </div>
+
+    <div class="form-group">
       <label class="required">Summary</label>
       <textarea
         class="form-control"
@@ -170,9 +184,9 @@
         ng-model="model.summary">
       </textarea>
 
-      <div class="form-error" ng-show="formExperience.level.$dirty && formExperience.level.$invalid">
-        <span ng-show="formExperience.level.$error.required">
-          Please insert the level of this position.
+      <div class="form-error" ng-show="formExperience.summary.$dirty && formExperience.summary.$invalid">
+        <span ng-show="formExperience.summary.$error.required">
+          Please insert a summary for this position.
         </span>
       </div>
     </div>
