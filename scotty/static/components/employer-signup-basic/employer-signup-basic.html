@@ -1,0 +1,425 @@
+<div class="component-employer-signup-basic">
+  <h3>Sign up</h3>
+
+  <div class="alert alert-danger" ng-hide="!error">Wow! this is not ready yet!</div>
+  <div class="alert alert-danger" ng-hide="!invitationFailed">Invalid invitation token.</div>
+
+  <form name="formSignupBasic" ng-submit="signupBasic.submit()">
+
+    <div class="form-group">
+      <label class="required">Logo url</label>
+      <input type="url"
+        class="form-control"
+        placeholder="Logo url"
+        name="logoUrl"
+        ng-disabled="loading"
+        ng-model="model.logoUrl">
+
+      <div class="form-error" ng-show="formSignupBasic.logoUrl.$dirty && formSignupBasic.logoUrl.$invalid">
+        <span ng-show="formSignupBasic.logoUrl.$error.required">
+          Please insert a url to the logo of your company
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Website</label>
+      <input type="url"
+        class="form-control"
+        placeholder="Website"
+        name="website"
+        required
+        ng-disabled="loading"
+        ng-model="model.website">
+
+      <div class="form-error" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
+        <span ng-show="formSignupBasic.website.$error.required">
+          Please insert your the name of the contact person of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Address</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Address Line 1"
+        name="address_line1"
+        required
+        ng-disabled="loading"
+        ng-model="model.address_line1">
+
+      <div class="form-error" ng-show="formBasic.address_line1.$dirty && formBasic.address_line1.$invalid">
+        <span ng-show="formBasic.address_line1.$error.required">Please insert your address.</span>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Address Line 2"
+        name="address_line2"
+        required
+        ng-disabled="loading"
+        ng-model="model.address_line2">
+
+      <div class="form-error" ng-show="formBasic.address_line2.$dirty && formBasic.address_line2.$invalid">
+        <span ng-show="formBasic.address_line2.$error.required">Please insert your address.</span>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Address Line 3"
+        name="address_line3"
+        ng-disabled="loading"
+        ng-model="model.address_line3">
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Zip code"
+        name="zipcode"
+        maxlength="20"
+        required
+        ng-disabled="loading"
+        ng-model="model.address_zipcode">
+
+      <div class="form-error" ng-show="formBasic.zipcode.$dirty && formBasic.zipcode.$invalid">
+        <span ng-show="formBasic.zipcode.$error.required">Please insert your zip code.</span>
+      </div>
+
+      <input type="text"
+        placeholder="City"
+        name="location"
+        class="form-control"
+        required
+        ng-disabled="loading"
+        ng-model="locationText"
+        ng-blur="signupBasic.setLocation(model, locationText)"
+        typeahead-on-select="signupBasic.setLocation(model, locationText)"
+        typeahead="location for location in signupBasic.searchLocations($viewValue)">
+
+      <div class="form-error" ng-show="errorInvalidCity || (formBasic.location.$dirty && formBasic.location.$invalid)">
+        <span ng-show="formBasic.location.$error.required">
+          Please insert the city you worked on.
+        </span>
+        <span ng-show="errorInvalidCity">
+          Please choose a city from the menu.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Contact name</label>
+      <input type="text"
+        class="form-control"
+        placeholder="Contact name"
+        name="contact_name"
+        required
+        ng-disabled="loading"
+        ng-model="model.contact_name">
+
+      <div class="form-error" ng-show="formSignupBasic.contact_name.$dirty && formSignupBasic.contact_name.$invalid">
+        <span ng-show="formSignupBasic.contact_name.$error.required">
+          Please insert your the name of the contact person of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Contact phone</label>
+      <input type="tel"
+        class="form-control"
+        placeholder="Contact phone"
+        name="contact_phone"
+        required
+        ng-disabled="loading"
+        ng-model="model.contact_phone">
+
+      <div class="form-error" ng-show="formSignupBasic.contact_phone.$dirty && formSignupBasic.contact_phone.$invalid">
+        <span ng-show="formSignupBasic.contact_phone.$error.required">
+          Please insert your the phone of the contact person of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Contact email</label>
+      <input type="email"
+        class="form-control"
+        placeholder="Contact email"
+        name="contact_email"
+        required
+        ng-disabled="loading"
+        ng-model="model.contact_email">
+
+      <div class="form-error" ng-show="formSignupBasic.contact_email.$dirty && formSignupBasic.contact_email.$invalid">
+        <span ng-show="formSignupBasic.contact_email.$error.required">
+          Please insert your the email of the contact person of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Contact position</label>
+      <input type="text"
+        class="form-control"
+        placeholder="Contact position"
+        name="contact_position"
+        ng-disabled="loading"
+        ng-model="model.contact_position">
+
+      <div class="form-error" ng-show="formSignupBasic.contact_position.$dirty && formSignupBasic.contact_position.$invalid">
+        <span ng-show="formSignupBasic.contact_position.$error.required">
+          Please insert your the position of the contact person of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Facebook page</label>
+      <input type="url"
+        class="form-control"
+        placeholder="Facebook page"
+        name="fb_url"
+        ng-disabled="loading"
+        ng-model="model.fb_url">
+
+      <div class="form-error" ng-show="formSignupBasic.fb_url.$dirty && formSignupBasic.fb_url.$invalid">
+        <span ng-show="formSignupBasic.fb_url.$error.required">
+          Please insert the facebook page of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required">LinkedIn URL</label>
+      <input type="url"
+        class="form-control"
+        placeholder="LinkedIn URL"
+        name="linkedin_url"
+        ng-disabled="loading"
+        ng-model="model.linkedin_url">
+
+      <div class="form-error" ng-show="formSignupBasic.linkedin_url.$dirty && formSignupBasic.linkedin_url.$invalid">
+        <span ng-show="formSignupBasic.linkedin_url.$error.required">
+          Please insert the linked in URL of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+    </div>
+  </form>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Offices</h3>
+    </div>
+
+    <div class="panel-body">
+      <form name="formSignupBasicOffice" ng-submit="signupBasic.submitOffice()">
+        <div class="form-group">
+          <label class="required">Website</label>
+          <input type="url"
+            class="form-control"
+            placeholder="Website"
+            name="website"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.website">
+
+          <div class="form-error" ng-show="formSignupBasicOffice.website.$dirty && formSignupBasicOffice.website.$invalid">
+            <span ng-show="formSignupBasicOffice.website.$error.required">
+              Please insert your the name of the contact person of your company.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Address</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Address Line 1"
+            name="address_line1"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.address_line1">
+
+          <div class="form-error" ng-show="formBasic.address_line1.$dirty && formBasic.address_line1.$invalid">
+            <span ng-show="formBasic.address_line1.$error.required">Please insert your address.</span>
+          </div>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Address Line 2"
+            name="address_line2"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.address_line2">
+
+          <div class="form-error" ng-show="formBasic.address_line2.$dirty && formBasic.address_line2.$invalid">
+            <span ng-show="formBasic.address_line2.$error.required">Please insert your address.</span>
+          </div>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Address Line 3"
+            name="address_line3"
+            ng-disabled="loadingOffice"
+            ng-model="office.address_line3">
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Zip code"
+            name="zipcode"
+            maxlength="20"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.address_zipcode">
+
+          <div class="form-error" ng-show="formBasic.zipcode.$dirty && formBasic.zipcode.$invalid">
+            <span ng-show="formBasic.zipcode.$error.required">Please insert your zip code.</span>
+          </div>
+
+          <input type="text"
+            placeholder="City"
+            name="location"
+            class="form-control"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="officeLocationText"
+            ng-blur="signupBasic.setLocation(office, officeLocationText)"
+            typeahead-on-select="signupBasic.setLocation(office, officeLocationText)"
+            typeahead="location for location in signupBasic.searchLocations($viewValue)">
+
+          <div class="form-error" ng-show="errorInvalidCity || (formBasic.location.$dirty && formBasic.location.$invalid)">
+            <span ng-show="formBasic.location.$error.required">
+              Please insert the city you worked on.
+            </span>
+            <span ng-show="errorInvalidCity">
+              Please choose a city from the menu.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Contact name</label>
+          <input type="text"
+            class="form-control"
+            placeholder="Contact name"
+            name="contact_name"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.contact_name">
+
+          <div class="form-error" ng-show="formSignupBasicOffice.contact_name.$dirty && formSignupBasicOffice.contact_name.$invalid">
+            <span ng-show="formSignupBasicOffice.contact_name.$error.required">
+              Please insert your the name of the contact person of your company.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Contact phone</label>
+          <input type="tel"
+            class="form-control"
+            placeholder="Contact phone"
+            name="contact_phone"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.contact_phone">
+
+          <div class="form-error" ng-show="formSignupBasicOffice.contact_phone.$dirty && formSignupBasicOffice.contact_phone.$invalid">
+            <span ng-show="formSignupBasicOffice.contact_phone.$error.required">
+              Please insert your the phone of the contact person of your company.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Contact email</label>
+          <input type="email"
+            class="form-control"
+            placeholder="Contact email"
+            name="contact_email"
+            required
+            ng-disabled="loadingOffice"
+            ng-model="office.contact_email">
+
+          <div class="form-error" ng-show="formSignupBasicOffice.contact_email.$dirty && formSignupBasicOffice.contact_email.$invalid">
+            <span ng-show="formSignupBasicOffice.contact_email.$error.required">
+              Please insert your the email of the contact person of your company.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Contact position</label>
+          <input type="text"
+            class="form-control"
+            placeholder="Contact position"
+            name="contact_position"
+            ng-disabled="loadingOffice"
+            ng-model="office.contact_position">
+
+          <div class="form-error" ng-show="formSignupBasicOffice.contact_position.$dirty && formSignupBasicOffice.contact_position.$invalid">
+            <span ng-show="formSignupBasicOffice.contact_position.$error.required">
+              Please insert your the position of the contact person of your company.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-default" ng-disabled="loadingOffice">Save &amp; add another</button>
+        </div>
+      </form>
+    </div>
+
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="office in offices">
+        <dl class="dl-horizontal">
+          <dt>Website</dt>
+          <dd>{{ office.website }}</dd>
+          <dt>Address</dt>
+          <dd>
+            <address>
+              {{ office.address_line1 }}<br>
+              {{ office.address_line2 }}<br>
+              {{ office.address_line3 }}<br ng-if="office.address_line3">
+              {{ office.address_city.city }},
+              {{ office.address_city.country_iso }}
+              {{ office.address_zipcode }}
+            </address>
+          </dd>
+          <dt>Contact name</dt>
+          <dd>{{ office.contact_name }}</dd>
+          <dt>Contact phone</dt>
+          <dd>{{ office.contact_phone }}</dd>
+          <dt>Contact email</dt>
+          <dd>{{ office.contact_email }}</dd>
+          <dt ng-if="office.contact_position">Contact position</dt>
+          <dd ng-if="office.contact_position">{{ office.contact_position }}</dd>
+          <dd>
+            <button type="button"
+              class="btn btn-default"
+              ng-click="signupBasic.removeOffice($index)">
+              Remove
+            </button>
+            <button type="button"
+              class="btn btn-default"
+              ng-click="signupBasic.editOffice(office, $index)">
+              Edit
+            </button>
+          </dd>
+        </dl>
+      </li>
+    </ul>
+  </div>
+</div>
