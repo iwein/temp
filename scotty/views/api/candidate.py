@@ -15,24 +15,18 @@ from sqlalchemy.orm import joinedload
 
 
 class CandidateController(RootController):
-    def get_candidate(self, candidate_id):
-        candidate = DBSession.query(Candidate).get(candidate_id)
-        if not candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
-        return candidate
 
     @reify
     def candidate(self):
-        return self.get_candidate(self.request.matchdict["id"])
+        candidate_id = self.request.matchdict["candidate_id"]
+        if candidate_id == 'me':
+            candidate_id = self.request.session.get('candidate_id')
+            if not candidate_id:
+                raise HTTPForbidden("Not logged in.")
 
-    @reify
-    def session_candidate(self):
-        candidate_id = self.request.session.get('candidate_id')
-        if not candidate_id:
-            raise HTTPForbidden("Not logged in.")
-        candidate = self.get_candidate(candidate_id)
+        candidate = DBSession.query(Candidate).get(candidate_id)
         if not candidate:
-            raise HTTPForbidden("Not logged in.")
+            raise HTTPNotFound("Unknown Candidate ID")
         return candidate
 
     @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
@@ -72,19 +66,23 @@ class CandidateController(RootController):
             del self.request.session['candidate_id']
         return {'success': True}
 
-    @view_config(route_name='candidate_me', **GET)
-    def me(self):
-        return self.session_candidate
+    @view_config(route_name='candidate', **GET)
+    def get(self):
+        return self.candidate
 
-    @view_config(route_name='candidate_me', **PUT)
+    @view_config(route_name='candidate', **PUT)
     def edit(self):
-        candidate = edit_candidate(self.session_candidate, self.request.json)
+        candidate = edit_candidate(self.candidate, self.request.json)
         return candidate
 
+    @view_config(route_name='candidate', **DELETE)
+    def delete(self):
+        DBSession.delete(self.candidate)
+        return {"status": "success"}
 
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
-        candidate = self.session_candidate
+        candidate = self.candidate
         workflow = {'active': candidate.activated != None,
                     'ordering': ['target_positions', 'preferred_cities', 'work_experience', 'skills', 'education',
                                  'languages', 'image', 'active', ], 'image': candidate.picture_url is not None,
@@ -96,24 +94,15 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_picture', **GET)
     def get_picture(self):
         if self.request.params.get('redirect') == 'false':
-            return {'url': self.session_candidate.picture_url}
+            return {'url': self.candidate.picture_url}
         else:
-            raise HTTPFound(location=self.session_candidate.picture_url)
+            raise HTTPFound(location=self.candidate.picture_url)
 
     @view_config(route_name='candidate_picture', **POST)
     def save_picture(self):
         url = self.request.json["url"]
-        self.session_candidate.picture_url = url
-        return self.session_candidate
-
-    @view_config(route_name='candidate', **GET)
-    def get(self):
+        self.candidate.picture_url = url
         return self.candidate
-
-    @view_config(route_name='candidate', **DELETE)
-    def delete(self):
-        DBSession.delete(self.candidate)
-        return {"status": "success"}
 
     @view_config(route_name='candidate_languages', **PUT)
     def set_languages(self):
@@ -168,17 +157,7 @@ class CandidateEducationController(RootController):
         return {"status": "success"}
 
 
-class CandidateWorkExperienceController(RootController):
-    def __init__(self, request):
-        candidate_id = request.matchdict["candidate_id"]
-        self.candidate = DBSession.query(Candidate).options(joinedload("work_experience").joinedload("location"),
-                                                            joinedload("work_experience").joinedload("role"),
-                                                            joinedload("work_experience").joinedload("job_title"),
-                                                            joinedload("work_experience").joinedload("company")).get(
-            candidate_id)
-        if not self.candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
-        super(CandidateWorkExperienceController, self).__init__(request)
+class CandidateWorkExperienceController(CandidateController):
 
     @view_config(route_name='candidate_work_experiences', **GET)
     def list(self):
@@ -198,17 +177,7 @@ class CandidateWorkExperienceController(RootController):
         return {"status": "success"}
 
 
-class CandidateTargetPositionController(RootController):
-    def __init__(self, request):
-        candidate_id = request.matchdict["candidate_id"]
-        self.candidate = DBSession.query(Candidate).options(joinedload("target_positions").joinedload("role"),
-                                                            joinedload("target_positions").joinedload("skill"),
-                                                            joinedload("target_positions").joinedload("company_type"),
-                                                            joinedload("target_positions").joinedload("seniority")).get(
-            candidate_id)
-        if not self.candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
-        super(CandidateTargetPositionController, self).__init__(request)
+class CandidateTargetPositionController(CandidateController):
 
     @view_config(route_name='candidate_target_positions', **GET)
     def list(self):
@@ -233,14 +202,14 @@ def includeme(config):
     config.add_route('candidate_login', 'login')
     config.add_route('candidate_logout', 'logout')
     config.add_route('candidate_activate', 'activate/{token}')
-    config.add_route('candidate_me', 'me')
-    config.add_route('candidate_picture', 'me/picture')
-    config.add_route('candidate_signup_stage', 'signup_stage')
-    config.add_route('candidate', '{id}')
 
-    config.add_route('candidate_skills', '{id}/skills')
-    config.add_route('candidate_preferred_cities', '{id}/preferred_cities')
-    config.add_route('candidate_languages', '{id}/languages')
+
+    config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
+    config.add_route('candidate', '{candidate_id}')
+    config.add_route('candidate_picture', '{candidate_id}/picture')
+    config.add_route('candidate_skills', '{candidate_id}/skills')
+    config.add_route('candidate_preferred_cities', '{candidate_id}/preferred_cities')
+    config.add_route('candidate_languages', '{candidate_id}/languages')
 
     config.add_route('candidate_educations', '{candidate_id}/education')
     config.add_route('candidate_education', '{candidate_id}/education/{id}')

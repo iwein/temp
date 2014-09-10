@@ -17,7 +17,7 @@
             },
 
             {'url': '/api/v1/candidates/me', 'title': 'candidate-me'},
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-base'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-base'},
 
             {'url': '/api/v1/candidates/me/picture', 'title': 'candidate-me-picture',
               data: {'url': 'https://media.licdn.com/mpr/mpr/shrink_120_120/p/8/005/02b/072/128f576.jpg'}},
@@ -65,7 +65,7 @@
               {'language':'english', 'proficiency': 'basic'}
             ]},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-languages'},
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-languages'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-languages'},
 
 
             {'title': 'Preferred Cities'},
@@ -78,7 +78,7 @@
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/preferred_cities'},
               'title': 'set-candidate-preferred_cities-2', method:'PUT', data: [{'city':'Berlin Schöneberg', 'country_iso': 'DE'}]},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-preferred_cities'},
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-3'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-3'},
 
             {'title': 'Skills'},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/skills'},
@@ -94,7 +94,7 @@
               {"skill": "PHP", "level":"basic"}],
               extract:   function(r, extr){return {skillId: r.id}}},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, 'title': 'get-candidate-skills'},
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-skills'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-skills'},
 
             //{'sectionTitle': 'Restful Endpoints'},
 
@@ -112,7 +112,7 @@
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education/'+extr.educationId}, 'title': 'delete-education', method:"DELETE"},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/education'}, 'title': 'list-education-3'},
 
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-Education'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-Education'},
 
             {'title': 'Work Experience'},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience'},
@@ -129,7 +129,7 @@
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/work_experience'}, 'title': 'list-work_experience-3'},
 
 
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-WorkExperience'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-WorkExperience'},
 
             {'title': 'Target Position'},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position'},
@@ -143,7 +143,7 @@
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions/'+extr.target_positionId}, 'title': 'delete-target_position', method:"DELETE"},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/target_positions'}, 'title': 'list-target_position-3'},
 
-            {'url': '/api/v1/candidates/signup_stage', 'title': 'candidate-stage-TargetPosition'},
+            {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-TargetPosition'},
 
             {'sectionTitle': 'Cleanup'},
             {'url': function(r, extr){return '/api/v1/candidates/logout'}, 'title': 'candidate-logout'},
