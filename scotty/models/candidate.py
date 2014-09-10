@@ -5,7 +5,7 @@ from scotty.models.configuration import Title, Country, City, TrafficSource, Ski
     Institution, Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority, Course
 from scotty.models.tools import json_encoder
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
-    UniqueConstraint
+    UniqueConstraint, DateTime
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.orm import relationship
 
@@ -143,10 +143,10 @@ class Candidate(Base):
     ]
 
     id = Column(GUID, primary_key=True, default=uuid4)
-    created = Column(Date, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now)
     activation_token = Column(GUID, unique=True, default=uuid4)
-    activation_sent = Column(Date)
-    activated = Column(Date)
+    activation_sent = Column(DateTime)
+    activated = Column(DateTime)
 
     email = Column(String(512), nullable=False, unique=True)
     pwd = Column(String(128), nullable=False)

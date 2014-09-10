@@ -1,34 +1,26 @@
+from pyramid.path import AssetResolver
+from pyramid.renderers import render_to_response
 from pyramid.view import view_config
 from scotty.views import RootController
 
+a = AssetResolver('scotty')
+resolver = a.resolve('templates/debug/pages')
+templates = resolver.listdir()
+TEMPLATES = {'templates': [s[:-5] for s in templates]}
 
 class DebugController(RootController):
     @view_config(route_name='debug_home', renderer='scotty:templates/debug/index.html')
     def debug_home(self):
-        return {}
+        return TEMPLATES
 
-    @view_config(route_name='debug_config', renderer='scotty:templates/debug/config.html')
-    def debug_config(self):
-        return {}
-
-    @view_config(route_name='debug_invite', renderer='scotty:templates/debug/invite.html')
-    def debug_invite(self):
-        return {}
-
-    @view_config(route_name='debug_employer', renderer='scotty:templates/debug/employer.html')
-    def debug_employer(self):
-        return {}
-
-    @view_config(route_name='debug_candidate', renderer='scotty:templates/debug/candidate.html')
-    def debug_candidate(self):
-        return {}
+    @view_config(route_name='debug_page')
+    def debug_page(self):
+        template = self.request.matchdict['template']
+        return render_to_response("scotty:templates/debug/pages/%s.html" % template, TEMPLATES, self.request)
 
 
 def includeme(config):
     config.add_route('debug_home', '')
-    config.add_route('debug_config', '/config')
-    config.add_route('debug_candidate', '/candidate')
-    config.add_route('debug_employer', '/employer')
-    config.add_route('debug_invite', '/invite')
+    config.add_route('debug_page', '/{template}')
 
 

@@ -1,0 +1,32 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">Employer</%def>
+<%def name="tests()">
+<script>
+  var email = 'martin+' + guid() + "@hackandcraft.com",
+          tests = [
+            {url: '/api/v1/admin/employers/INVITED', title: 'admin-employers-invited'},
+            {url: '/api/v1/admin/employers/SIGNEDUP', title: 'admin-employers-signedup'},
+            {url: '/api/v1/admin/employers/APPLIED', title: 'admin-employers-applied',
+                extract: function(r, extr){ return r.data.length?{id: r.data[0].id}:null;}
+            },
+
+            {url: '/api/v1/admin/employers/APPROVED', title: 'admin-employers-approved'},
+
+            {url: function(r, extr){return extr.id?'/api/v1/admin/employers/'+extr.id+'/approve':null;},
+              title: 'admin-approve-employer',
+            },
+
+            {url: '/api/v1/admin/employers/APPROVED', title: 'admin-employers-approved-2'},
+
+            {url: '/api/v1/admin/employers/invalid', title: 'admin-employers-invalid',
+              expectedErrors:[400]}
+
+          ];
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>

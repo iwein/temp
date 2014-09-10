@@ -1,6 +1,6 @@
 from datetime import datetime
 from uuid import uuid4
-from scotty.models import Employer, DBSession, EmployerStatus
+from scotty.models import Employer, DBSession
 
 schema = {"type": "object", "properties": {"email": {"type": "string", "format": "email", "required": True},
                                            "contact_name": {"type": "string", "required": True},

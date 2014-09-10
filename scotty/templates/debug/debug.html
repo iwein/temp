@@ -42,6 +42,9 @@
 
           var root = $('#results'),
                   url = $.isFunction(conf.url) ? conf.url(resp, extracted) : conf.url;
+          if(!url){
+            runTests(idx + 1, extracted, resp);
+          }
 
           conf.elId = conf.title?conf.title.replace(/ /g, '_'):Math.ceil(Math.random()*10000000);
           conf.$link = $('<li><a href="#'+ conf.elId+'"><span>'+ conf.elId +'</span>('+ url +')</a></li>');

@@ -1,9 +1,10 @@
 from datetime import datetime
 import hashlib
 from uuid import uuid4
+from pyramid.httpexceptions import HTTPBadRequest, HTTPInternalServerError
 from scotty.models import City, TrafficSource, NamedModel, json_encoder, Skill, Benefit
 from scotty.models.meta import Base, GUID
-from sqlalchemy import Column, Text, String, Integer, ForeignKey, Date, CheckConstraint, Boolean, Table
+from sqlalchemy import Column, Text, String, Integer, ForeignKey, Date, CheckConstraint, Boolean, Table, DateTime
 from sqlalchemy.orm import relationship
 
 employer_address_mapping = {'line1': 'address_line1', 'line2': 'address_line2', 'line3': 'address_line3',
@@ -13,7 +14,7 @@ INVITED = 'INVITED'
 SIGNEDUP = 'SIGNEDUP'
 APPLIED = 'APPLIED'
 APPROVED = 'APPROVED'
-EmployerStatus = [INVITED, SIGNEDUP, APPLIED, APPROVED]
+
 
 
 class Office(Base):
@@ -61,6 +62,7 @@ employer_benefits = Table('employer_benefits', Base.metadata,
 
 class Employer(Base):
     __tablename__ = 'employer'
+    __name_field__ = 'company_name'
     id = Column(GUID, primary_key=True, default=uuid4)
     company_name = Column(String(255), unique=True, nullable=False)
 
@@ -68,10 +70,10 @@ class Employer(Base):
     pwd = Column(String(128))
 
     invite_token = Column(GUID)
-    invite_sent = Column(Date)
-    created = Column(Date, nullable=False, default=datetime.now)
-    agreedTos = Column(Date)
-    approved = Column(Date)
+    invite_sent = Column(DateTime)
+    created = Column(DateTime, nullable=False, default=datetime.now)
+    agreedTos = Column(DateTime)
+    approved = Column(DateTime)
 
     website = Column(String(512))
     address_line1 = Column(String(512))
@@ -128,6 +130,21 @@ class Employer(Base):
             return SIGNEDUP
         else:
             return INVITED
+
+    @classmethod
+    def by_status(cls, status):
+        EMPLOYER_STATUS = {
+            INVITED: (Employer.invite_token != None, Employer.pwd == None),
+            SIGNEDUP: (Employer.pwd != None, Employer.agreedTos == None, Employer.approved == None),
+            APPLIED: (Employer.agreedTos != None, Employer.approved == None),
+            APPROVED: (Employer.approved != None, Employer.pwd != None)
+        }
+
+        if status not in EMPLOYER_STATUS:
+            raise HTTPBadRequest("InvalidStatus Requested: %s is not one of %s" % (status, EMPLOYER_STATUS.keys()))
+        else:
+            return EMPLOYER_STATUS[status]
+
 
     def __json__(self, request):
         result = json_encoder(self, request)

@@ -17,12 +17,14 @@ def run_paginated_query(request, basequery, serializer=list):
 
 def listing_request(request, DbCls, searchterm=None, ignorecase=False):
     basequery = DBSession.query(DbCls)
+    name_field = getattr(DbCls, DbCls.__name_field__)
 
     if searchterm is not None:
         if ignorecase:
-            filter_by = func.lower(DbCls.name).contains(func.lower(searchterm))
+            filter_by = func.lower(name_field).contains(func.lower(searchterm))
         else:
-            filter_by = DbCls.name.contains(searchterm)
+            filter_by = name_field.contains(searchterm)
         basequery = basequery.filter(filter_by)
 
-    return run_paginated_query(request, basequery)
+    return run_paginated_query(request, basequery.order_by(name_field))
+

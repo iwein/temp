@@ -13,6 +13,7 @@ Base = declarative_base()
 
 class NamedModel(object):
     name = None
+    __name_field__ = 'name'
 
     def __json__(self, request):
         return self.name

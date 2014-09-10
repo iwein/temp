@@ -70,10 +70,9 @@
     </div>
     <div class="col-sm-6" style="margin-top:30px;">
       <b>Pages:</b>
-      <a href="/debug/config">Configs</a>
-      | <a href="/debug/candidate">Candidate</a>
-      | <a href="/debug/employer">Employer</a>
-      | <a href="/debug/invite">Invite</a>
+      %for template in templates:
+        <a href="/debug/${template}">${template}</a> |
+      %endfor
     </div>
   </div>
 </div>
