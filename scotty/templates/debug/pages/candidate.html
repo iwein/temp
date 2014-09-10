@@ -55,14 +55,14 @@
             {'title': 'Languages'},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
               'title': 'set-languages-1', method:'PUT', data: [
-              {'language':'english', 'proficiency': 'advanced'},
-              {'language':'german', 'proficiency': 'native'},
-              {'language':'french', 'proficiency': 'basic'}
+              {'language':'English', 'proficiency': 'advanced'},
+              {'language':'German', 'proficiency': 'native'},
+              {'language':'French', 'proficiency': 'basic'}
             ]},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'/languages'},
               'title': 'set-languages-2', method:'PUT', data: [
-              {'language':'chinese', 'proficiency': 'native'},
-              {'language':'english', 'proficiency': 'basic'}
+              {'language':'Chinese', 'proficiency': 'native'},
+              {'language':'English', 'proficiency': 'basic'}
             ]},
             {'url': function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'get-candidate-languages'},
             {'url': '/api/v1/candidates/me/signup_stage', 'title': 'candidate-stage-languages'},
