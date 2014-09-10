@@ -13,6 +13,8 @@ define(function(require) {
       .state('home', {})
       .state('login', require('components/employer-login/employer-login'))
       .state('signup', require('components/employer-signup/employer-signup'))
+      .state('signup.invited', require('components/employer-signup-invited/employer-signup-invited'))
+      .state('signup.basic', require('components/employer-signup-basic/employer-signup-basic'))
       ;
   });
 

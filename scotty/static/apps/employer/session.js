@@ -27,7 +27,17 @@ define(function(require) {
       return this._promise(function(resolve) {
         resolve(false);
       });
-    }
+    },
+
+    getInvitationData: function() {
+      return this._promise(function(resolve) {
+        resolve({
+          contact_name: 'Rigoberta Menchu',
+          company_name: 'General Motors',
+          email: 'rmenchu@generalmotors.com',
+        });
+      });
+    },
   };
 
   var module = require('app-module');

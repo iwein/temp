@@ -1,0 +1,81 @@
+<form name="formSignup"
+  class="component-employer-signup-basic"
+  ng-submit="signup.submit()">
+
+  <h3>Sign up</h3>
+
+  <div class="alert alert-danger" ng-hide="!error">Wow! this is not ready yet!</div>
+  <div class="alert alert-danger" ng-hide="!signup.invitationFailed">Invalid invitation token.</div>
+
+  <div class="form-group">
+    <label class="required">Contact name</label>
+    <input type="text"
+      class="form-control"
+      name="contactName"
+      required
+      ng-disabled="loading || signup.invited"
+      ng-model="model.contact_name">
+
+    <div class="form-error" ng-show="formSignup.contactName.$dirty && formSignup.contactName.$invalid">
+      <span ng-show="formSignup.contactName.$error.required">
+        Please insert your the name of the contact person of your company.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Company name</label>
+    <input type="text"
+      class="form-control"
+      name="companyName"
+      required
+      ng-disabled="loading || signup.invited"
+      ng-model="model.company_name">
+
+    <div class="form-error" ng-show="formSignup.companyName.$dirty && formSignup.companyName.$invalid">
+      <span ng-show="formSignup.companyName.$error.required">
+        Please insert the name of your company.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Email</label>
+    <input type="email"
+      class="form-control"
+      name="email"
+      required
+      ng-disabled="loading || signup.invited"
+      ng-model="model.email">
+
+    <div class="form-error" ng-show="formSignup.email.$dirty && formSignup.email.$invalid">
+      <span ng-show="formSignup.email.$error.required">
+        Please insert your email.
+      </span>
+      <span ng-show="formSignup.email.$error.email">
+        Please insert a valid email.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Password</label>
+    <input type="password"
+      class="form-control"
+      name="password"
+      placeholder="Password"
+      required
+      ng-minlength="8"
+      ng-disabled="loading"
+      ng-model="model.pwd">
+
+    <div class="form-error"ng-show="formSignup.password.$dirty && formSignup.password.$invalid">
+      <span ng-show="formSignup.password.$error.required">Please choose a password.</span>
+      <span ng-show="formSignup.password.$error.minlength">Password must have at least 8 characters.</span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+  </div>
+</form>

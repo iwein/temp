@@ -3,9 +3,7 @@
   <form class="component-employer-login" ng-submit="login.submit(email, password)">
     <h3>Log in</h3>
 
-    <div class="error" role="alert" ng-hide="!error">
-      Invalid email or password
-    </div>
+    <div class="alert alert-danger" ng-hide="!error">Invalid email or password.</div>
 
     <div class="form-group required">
       <label>Email</label>
