@@ -95,6 +95,7 @@ class Company(Base, NamedModel):
 
 class Country(Base):
     __tablename__ = 'country'
+    __name_field__ = 'name'
     iso = Column(String(2), primary_key=True)
     name = Column(String(128), nullable=False, unique=True)
     cities = relationship("City", backref="country")
