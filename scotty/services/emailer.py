@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 class MandrillEmailer(object):
     def __init__(self, settings):
         apikey = settings['mandrill.apikey']
+        self.admin_emails = [r.strip() for r in settings['admin.emails'].split(',')]
         self.frontend = settings['frontend.domain']
         self.mandrill = mandrill.Mandrill(apikey)
 
@@ -35,6 +36,14 @@ class MandrillEmailer(object):
                                                      {'content': contact_name, 'name': 'contact_name'},
                                                      {'content': company_name, 'name': 'company_name'},
                                                      {'content': url, 'name': 'invite_link'}]})
+
+    def send_pending_approval(self, company_email, contact_name, company_name, employer_id):
+        return self.send('admin-pending-employer', [], {'to': [{'email': email, 'name': 'Admin'} for email in self.admin_emails],
+                                                 'global_merge_vars': [
+                                                     {'content': contact_name, 'name': 'contact_name'},
+                                                     {'content': company_name, 'name': 'company_name'},
+                                                     {'content': company_email, 'name': 'company_email'},
+                                                     {'content': str(employer_id), 'name': 'employer_id'}]})
 
 
 def emailer_factory(settings):

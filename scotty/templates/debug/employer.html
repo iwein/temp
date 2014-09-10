@@ -17,6 +17,7 @@
             {url: '/api/v1/employers/me', title: 'employer-get-me'},
             {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-get-by-id'},
 
+            {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-pre1', method: 'GET'},
             {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-1', method: 'PUT',
               data: {
                       logo_url: 'http://logo_url.com',
@@ -36,10 +37,12 @@
                       linkedin_url: 'linkedin url of employer'
                       }
             },
+            {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post1', method: 'GET'},
 
             {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-2', method: 'PUT',
               data: {mission_text: 'A VERY LONG TEXT'}
             },
+                  {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post2', method: 'GET'},
 
             {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-3', method: 'PUT',
               data: {
@@ -52,6 +55,7 @@
                 tech_tags: ['PHP', 'Python', 'Java', 'Apache'],
               }
             },
+            {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post3', method: 'GET'},
 
 
             {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-4', method: 'PUT',
@@ -61,11 +65,12 @@
                 training_policy: "really long training description"
               }
             },
+            {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post4', method: 'GET'},
 
             {url: '/api/v1/employers/me/apply', title: 'employer-edit-workflow-step-5', method: 'PUT',
               data: {agreeTos: true}
             },
-
+            {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
 
             {title: 'Offices'},
 

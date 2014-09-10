@@ -118,7 +118,6 @@ class Employer(Base):
     def set_pwd(self, pwd):
         self.pwd = hashlib.sha256(pwd).hexdigest()
 
-
     @property
     def status(self):
         if self.approved:

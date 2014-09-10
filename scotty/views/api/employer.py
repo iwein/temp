@@ -54,6 +54,19 @@ class EmployerController(RootController):
         DBSession.flush()
         return employer
 
+    @view_config(route_name='employer_signup_stage', **GET)
+    def signup_stage(self):
+        employer = self.employer
+        workflow = {'status': employer.status,
+                    'ordering': ['step1', 'step2', 'step3', 'step4', 'step5'],
+                    'step1': employer.address_line1 is not None,
+                    'step2': employer.mission_text is not None,
+                    'step3': len(employer.tech_tags)>0,
+                    'step4': employer.recruitment_process is not None,
+                    'step5': employer.agreedTos is not None,
+        }
+        return workflow
+
     @view_config(route_name='employer', **GET)
     def get(self):
         return self.employer
@@ -67,7 +80,11 @@ class EmployerController(RootController):
     def employer_apply(self):
         if self.request.json['agreeTos'] != True:
             raise HTTPBadRequest("agreeTos must be true")
-        self.employer.agreedTos = datetime.now()
+        employer = self.employer
+        employer.agreedTos = datetime.now()
+        self.request.emailer.send_pending_approval(
+            employer.email, employer.contact_name, employer.company_name, employer.id
+        )
         return self.employer
 
     @view_config(route_name='employer', **DELETE)
@@ -110,6 +127,7 @@ def includeme(config):
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
+    config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
     config.add_route('employer_apply', '{employer_id}/apply')
     config.add_route('employer_offices', '{employer_id}/offices')
     config.add_route('employer_office', '{employer_id}/offices/{office_id}')
