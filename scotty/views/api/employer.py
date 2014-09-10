@@ -1,11 +1,13 @@
+from datetime import datetime
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Employer, Office
-from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office
+from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
+    update_employer
 from scotty.views import RootController
-from scotty.views.common import POST, GET, DELETE
+from scotty.views.common import POST, GET, DELETE, PUT
 
 
 class EmployerInviteController(RootController):
@@ -52,8 +54,37 @@ class EmployerController(RootController):
         DBSession.flush()
         return employer
 
+    @view_config(route_name='employer_signup_stage', **GET)
+    def signup_stage(self):
+        employer = self.employer
+        workflow = {'status': employer.status,
+                    'ordering': ['step1', 'step2', 'step3', 'step4', 'step5'],
+                    'step1': employer.address_line1 is not None,
+                    'step2': employer.mission_text is not None,
+                    'step3': len(employer.tech_tags)>0,
+                    'step4': employer.recruitment_process is not None,
+                    'step5': employer.agreedTos is not None,
+        }
+        return workflow
+
     @view_config(route_name='employer', **GET)
     def get(self):
+        return self.employer
+
+    @view_config(route_name='employer', **PUT)
+    def edit(self):
+        update_employer(self.employer, self.request.json)
+        return self.employer
+
+    @view_config(route_name='employer_apply', **PUT)
+    def employer_apply(self):
+        if self.request.json['agreeTos'] != True:
+            raise HTTPBadRequest("agreeTos must be true")
+        employer = self.employer
+        employer.agreedTos = datetime.now()
+        self.request.emailer.send_pending_approval(
+            employer.email, employer.contact_name, employer.company_name, employer.id
+        )
         return self.employer
 
     @view_config(route_name='employer', **DELETE)
@@ -96,5 +127,7 @@ def includeme(config):
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
+    config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
+    config.add_route('employer_apply', '{employer_id}/apply')
     config.add_route('employer_offices', '{employer_id}/offices')
     config.add_route('employer_office', '{employer_id}/offices/{office_id}')
