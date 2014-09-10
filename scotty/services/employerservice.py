@@ -1,7 +1,7 @@
 import hashlib
 
-from scotty.models import Employer, DBSession, EmployerUser, EmployerStatus, Office, employer_address_mapping
-from scotty.services.common import get_by_name_or_raise, get_location_by_name_or_create
+from scotty.models import Employer, DBSession, Office, employer_address_mapping
+from scotty.services.common import get_location_by_name_or_create
 from sqlalchemy.orm import joinedload
 
 
@@ -18,17 +18,16 @@ def transform_address(params):
 
 
 def employer_from_signup(params):
-    email = params.pop('email')
+    email = params['email']
+    contact_name = params['contact_name']
+    company_name = params['company_name']
     pwd = hashlib.sha256(params.pop('pwd')).hexdigest()
-
-
-    status = get_by_name_or_raise(EmployerStatus, "applied")
-    params, city = transform_address(params)
-
-    employer = Employer(status=status, **params)
-    employer.users.append(EmployerUser(email=email, pwd=pwd))
-    if city:
-        employer.address_city = city
+    employer = Employer(
+        contact_name=contact_name,
+        company_name=company_name,
+        email=email,
+        pwd=pwd
+    )
 
     DBSession.add(employer)
     return employer
@@ -37,8 +36,8 @@ def employer_from_signup(params):
 def employer_from_login(params):
     email = params['email']
     pwd = hashlib.sha256(params['pwd']).hexdigest()
-    employer = DBSession.query(EmployerUser).options(joinedload("employer")).filter(EmployerUser.email == email,
-                                                                                    EmployerUser.pwd == pwd).first()
+    employer = DBSession.query(Employer).filter(Employer.email == email,
+                                                Employer.pwd == pwd).first()
     return employer
 
 

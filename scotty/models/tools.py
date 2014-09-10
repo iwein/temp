@@ -1,3 +1,4 @@
+import codecs
 from alembic import op
 import os
 from sqlalchemy.orm import class_mapper
@@ -11,7 +12,7 @@ def csv_inserter(basepath):
             fields = ['name']
         base = os.path.dirname(os.path.realpath(basepath))
         file_location = os.path.normpath(os.path.join(base, '..', 'lookups', fname))
-        with open(file_location, 'r') as names:
+        with codecs.open(file_location, 'r', 'utf-8') as names:
             t = table(tablename, *[column(field, sa.String) for field in fields])
             op.bulk_insert(t, [{field: value.strip() for field, value in zip(fields, name.split('\t'))} for name in names])
     return bulk_insert_names

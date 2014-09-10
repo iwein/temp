@@ -1,5 +1,5 @@
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Employer, Office
@@ -11,12 +11,42 @@ from sqlalchemy.orm import joinedload
 
 class EmployerController(RootController):
 
-    @reify
-    def employer(self):
-        id = self.request.matchdict["id"]
-        employer = DBSession.query(Employer).get(id)
+    def get_employer(self, employer_id):
+        employer = DBSession.query(Employer).get(employer_id)
         if not employer:
             raise HTTPNotFound("Unknown Employer ID")
+        return employer
+
+    @reify
+    def employer(self):
+        return self.get_employer(self.request.matchdict["id"])
+
+    @reify
+    def session_employer(self):
+        employer_id = self.request.session.get('employer_id')
+        if not employer_id:
+            raise HTTPForbidden("Not logged in.")
+        employer = self.get_employer(employer_id)
+        if not employer:
+            raise HTTPForbidden("Not logged in.")
+        return employer
+
+    @view_config(route_name='employers_invite', **GET)
+    def validate_invite(self):
+        token = self.request.matchdict['token']
+        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
+        if not employer:
+            raise HTTPNotFound("Unknown Invite Token: %s" % token)
+        return employer
+
+    @view_config(route_name='employers_invite', **POST)
+    def respond_invite(self):
+        token = self.request.matchdict['token']
+        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
+        if not employer:
+            raise HTTPNotFound("Unknown Invite Token: %s" % token)
+        employer.set_pwd(self.request.json['pwd'])
+        self.request.session['employer_id'] = employer.id
         return employer
 
     @view_config(route_name='employers', **POST)
@@ -31,7 +61,12 @@ class EmployerController(RootController):
         employer = employer_from_login(self.request.json)
         if not employer:
             raise HTTPNotFound("Unknown User Email or Password.")
+        self.request.session['employer_id'] = employer.id
         return employer
+
+    @view_config(route_name='employer_me', **GET)
+    def me(self):
+        return self.session_employer
 
     @view_config(route_name='employer', **GET)
     def get(self):
@@ -72,8 +107,10 @@ class EmployerOfficeController(RootController):
 
 
 def includeme(config):
+    config.add_route('employers_invite', 'invite/{token}')
     config.add_route('employers', '')
     config.add_route('employer_login', 'login')
+    config.add_route('employer_me', 'me')
     config.add_route('employer', '{id}')
     config.add_route('employer_offices', '{employer_id}/offices')
     config.add_route('employer_office', '{employer_id}/offices/{id}')

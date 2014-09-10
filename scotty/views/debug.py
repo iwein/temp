@@ -11,6 +11,10 @@ class DebugController(RootController):
     def debug_config(self):
         return {}
 
+    @view_config(route_name='debug_invite', renderer='scotty:templates/debug/invite.html')
+    def debug_invite(self):
+        return {}
+
     @view_config(route_name='debug_employer', renderer='scotty:templates/debug/employer.html')
     def debug_employer(self):
         return {}
@@ -25,5 +29,6 @@ def includeme(config):
     config.add_route('debug_config', '/config')
     config.add_route('debug_candidate', '/candidate')
     config.add_route('debug_employer', '/employer')
+    config.add_route('debug_invite', '/invite')
 
 

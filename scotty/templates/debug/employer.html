@@ -4,12 +4,10 @@
 <%def name="title()">Employer</%def>
 <%def name="tests()">
   <script>
-    var email = guid() + "@hackandcraft.com",
+    var email = 'martin+' + guid() + "@hackandcraft.com",
             tests = [
               {'url': '/api/v1/employers/', 'title': 'employer-signup',
-                data: {company_name: 'Bob Corp', "email": email, pwd: "welcomepwd",
-                  "website": "Super Corp Ltd.", address: {line1: "Rosenburger Street", line2: "Vorderhaus 6OG",
-                    zipcode: "10247", city: "Berlin", country_iso: "DE"}},
+                data: {company_name: 'Bob Corp', "email": email, pwd: "welcomepwd", 'contact_name': 'Uncle Bob'},
                 extract: function (r, extr) {
                   return {employerId: r.id}
                 }},
