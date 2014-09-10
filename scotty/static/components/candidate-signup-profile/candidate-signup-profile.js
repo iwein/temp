@@ -59,7 +59,7 @@ define(function(require) {
   });
 
   return {
-    url: '/profile',
+    url: '/profile/',
     template: require('text!./candidate-signup-profile.html'),
     controller: 'CandidateSignupProfileCtrl',
     controllerAs: 'signupProfile',

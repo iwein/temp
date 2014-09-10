@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   return {
-    url: '/home',
+    url: '/home/',
     template: require('text!./admin-home.html'),
   };
 });

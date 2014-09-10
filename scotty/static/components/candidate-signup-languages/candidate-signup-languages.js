@@ -44,7 +44,7 @@ define(function(require) {
   });
 
   return {
-    url: '/languages',
+    url: '/languages/',
     template: require('text!./candidate-signup-languages.html'),
     controller: 'CandidateSignupLanguageCtrl',
     controllerAs: 'signupLanguages',

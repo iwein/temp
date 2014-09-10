@@ -23,7 +23,7 @@ define(function(require) {
   });
 
   return {
-    url: '/invite-employer',
+    url: '/invite-employer/',
     template: require('text!./admin-invite-employer.html'),
     controller: 'AdminInviteEmployerCtrl',
     controllerAs: 'inviteEmployer',

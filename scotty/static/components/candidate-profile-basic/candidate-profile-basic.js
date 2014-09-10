@@ -39,7 +39,7 @@ define(function(require) {
 
 
   return {
-    url: '/profile',
+    url: '/profile/',
     template: require('text!./candidate-profile-basic.html'),
     controller: 'ProfileBasicCtrl',
     controllerAs: 'profile',

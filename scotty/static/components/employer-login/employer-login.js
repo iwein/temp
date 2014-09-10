@@ -27,7 +27,7 @@ define(function(require) {
 
 
   return {
-    url: '/login',
+    url: '/login/',
     template: require('text!./employer-login.html'),
     controller: 'EmployerLoginCtrl',
     controllerAs: 'login',

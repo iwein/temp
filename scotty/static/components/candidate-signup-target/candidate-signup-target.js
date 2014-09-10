@@ -57,7 +57,7 @@ define(function(require) {
   });
 
   return {
-    url: '/target-position',
+    url: '/target-position/',
     template: require('text!./candidate-signup-target.html'),
     controller: 'CandidateSignupTargetCtrl',
     controllerAs: 'signupTarget',

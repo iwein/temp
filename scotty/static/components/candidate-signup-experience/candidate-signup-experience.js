@@ -118,7 +118,7 @@ define(function(require) {
   });
 
   return {
-    url: '/experience',
+    url: '/experience/',
     template: require('text!./candidate-signup-experience.html'),
     controller: 'CandidateSignupExperienceCtrl',
     controllerAs: 'signupExperience',

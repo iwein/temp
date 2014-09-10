@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $q, $state, Session) {
+  module.controller('SignupStartCtrl', function($scope, $q, $state, Session) {
     this.submit = submit;
     $scope.invited = false;
     $scope.loading = true;
@@ -43,10 +43,10 @@ define(function(require) {
   });
 
   return {
-    url: '/basic/:token',
-    template: require('text!./employer-signup-basic.html'),
-    controller: 'SignupBasicCtrl',
-    controllerAs: 'signupBasic',
+    url: '/start/:token',
+    template: require('text!./employer-signup-start.html'),
+    controller: 'SignupStartCtrl',
+    controllerAs: 'signupStart',
   };
 });
 

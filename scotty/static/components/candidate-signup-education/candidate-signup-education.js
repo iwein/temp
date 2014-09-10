@@ -86,7 +86,7 @@ define(function(require) {
   });
 
   return {
-    url: '/education',
+    url: '/education/',
     template: require('text!./candidate-signup-education.html'),
     controller: 'CandidateSignupEducationCtrl',
     controllerAs: 'signupEducation',

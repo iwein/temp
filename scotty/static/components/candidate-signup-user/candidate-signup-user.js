@@ -32,7 +32,7 @@ define(function(require) {
   });
 
   return {
-    url: '/user',
+    url: '/user/',
     template: require('text!./candidate-signup-user.html'),
     controller: 'CandidateSignupUserCtrl',
     controllerAs: 'signupUser',

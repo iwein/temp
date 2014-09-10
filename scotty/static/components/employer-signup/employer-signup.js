@@ -17,7 +17,7 @@ define(function(require) {
     $scope.ready = true;
 
     if ($state.current.name === 'signup')
-      loadStep('signup.basic');
+      loadStep('signup.start');
 
     $scope.$on('$stateChangeStart', function(event, state) {
       if (state.name.indexOf('signup') !== 0)

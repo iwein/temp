@@ -45,7 +45,7 @@ define(function(require) {
   });
 
   return {
-    url: '/skills',
+    url: '/skills/',
     template: require('text!./candidate-signup-skills.html'),
     controller: 'CandidateSignupSkillsCtrl',
     controllerAs: 'signupSkills',

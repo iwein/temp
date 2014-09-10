@@ -16,7 +16,7 @@ define(function(require) {
 
 
   return {
-    url: '/home',
+    url: '/home/',
     template: require('text!./candidate-home.html'),
     controller: 'CandidateHomeCtrl',
     controllerAs: 'home',

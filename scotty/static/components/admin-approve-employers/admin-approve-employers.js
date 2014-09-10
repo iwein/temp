@@ -50,7 +50,7 @@ define(function(require) {
   });
 
   return {
-    url: '/approve-employers',
+    url: '/approve-employers/',
     template: require('text!./admin-approve-employers.html'),
     controller: 'AdminApproveEmployers',
     controllerAs: 'approveEmployers',
