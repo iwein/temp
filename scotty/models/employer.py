@@ -1,4 +1,5 @@
 from datetime import datetime
+import hashlib
 from uuid import uuid4
 from scotty.models import City, TrafficSource, NamedModel, json_encoder
 from scotty.models.meta import Base, GUID
@@ -9,11 +10,11 @@ from sqlalchemy.orm import relationship
 employer_address_mapping = {'line1': 'address_line1', 'line2': 'address_line2', 'line3': 'address_line3',
                             'zipcode': 'address_zipcode'}
 
-
-class EmployerStatus(Base, NamedModel):
-    __tablename__ = 'employerstatus'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False, unique=True)
+INVITED = 'INVITED'
+SIGNEDUP = 'SIGNEDUP'
+APPLIED = 'APPLIED'
+APPROVED = 'APPROVED'
+EmployerStatus = [INVITED, SIGNEDUP, APPLIED, APPROVED]
 
 
 class Office(Base):
@@ -36,11 +37,8 @@ class Office(Base):
     contact_position = Column(String(128))
 
     def __json__(self, request):
-        result = {'id': self.id,
-                  'website': self.website,
-                  'contact_name': self.contact_email,
-                  'contact_phone': self.contact_phone,
-                  'contact_email': self.contact_email,
+        result = {'id': self.id, 'website': self.website, 'contact_name': self.contact_email,
+                  'contact_phone': self.contact_phone, 'contact_email': self.contact_email,
                   'contact_position': self.contact_position}
 
         address = self.address_city.__json__(request) if self.address_city_id else {}
@@ -54,11 +52,18 @@ class Office(Base):
 
 
 class Employer(Base):
-
     __tablename__ = 'employer'
     id = Column(GUID, primary_key=True, default=uuid4)
-    company_name = Column(String(255), nullable=False)
+    company_name = Column(String(255), unique=True, nullable=False)
+
+    email = Column(String(512), nullable=False, unique=True)
+    pwd = Column(String(128))
+
+    invite_token = Column(GUID)
+    invite_sent = Column(Date)
     created = Column(Date, nullable=False, default=datetime.now)
+    applied = Column(Date)
+    approved = Column(Date)
 
     website = Column(String(512))
     address_line1 = Column(String(512))
@@ -76,8 +81,8 @@ class Employer(Base):
     logo_url = Column(String(512))
     image_video_url = Column(String(1024))
     mission_text = Column(Text)
-    culture_text= Column(Text)
-    vision_text= Column(Text)
+    culture_text = Column(Text)
+    vision_text = Column(Text)
 
     founding_date = Column(Date)
     revenue_pa = Column(Integer)
@@ -88,9 +93,6 @@ class Employer(Base):
     tech_team_philosophy = Column(Text)
     benefits = Column(Text)
 
-    status_id = Column(Integer, ForeignKey(EmployerStatus.id), nullable=False)
-    status = relationship(EmployerStatus)
-
     external_rating = Column(Integer, CheckConstraint('external_rating between 0 and 5'))
     featured = Column(Boolean)
     recruitment_process = Column(Text)
@@ -99,7 +101,20 @@ class Employer(Base):
     traffic_source = relationship(TrafficSource)
 
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan')
-    users = relationship('EmployerUser', backref='employer', cascade='all, delete, delete-orphan')
+
+    def set_pwd(self, pwd):
+        self.pwd = hashlib.sha256(pwd).hexdigest()
+
+    @property
+    def status(self):
+        if self.approved:
+            return APPROVED
+        elif self.applied:
+            return APPLIED
+        elif self.pwd:
+            return SIGNEDUP
+        else:
+            return INVITED
 
     def __json__(self, request):
         result = json_encoder(self, request)
@@ -114,18 +129,3 @@ class Employer(Base):
 
         result['address'] = address
         return result
-
-
-class EmployerUser(Base):
-    __tablename__ = 'employer_user'
-    id = Column(GUID, primary_key=True, default=uuid4)
-    employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
-
-    created = Column(Date, nullable=False, default=datetime.now)
-
-    name = Column(String(512))
-    email = Column(String(512), nullable=False, unique=True)
-    pwd = Column(String(128), nullable=False)
-
-    def __json__(self, request):
-        return {'name': self.name, 'email': self.email, 'employer': self.employer}
