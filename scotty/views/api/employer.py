@@ -6,47 +6,43 @@ from scotty.models import Employer, Office
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE
-from sqlalchemy.orm import joinedload
 
 
-class EmployerController(RootController):
-
-    def get_employer(self, employer_id):
-        employer = DBSession.query(Employer).get(employer_id)
-        if not employer:
-            raise HTTPNotFound("Unknown Employer ID")
-        return employer
-
+class EmployerInviteController(RootController):
     @reify
-    def employer(self):
-        return self.get_employer(self.request.matchdict["id"])
-
-    @reify
-    def session_employer(self):
-        employer_id = self.request.session.get('employer_id')
-        if not employer_id:
-            raise HTTPForbidden("Not logged in.")
-        employer = self.get_employer(employer_id)
+    def invited_employer(self):
+        token = self.request.matchdict['token']
+        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
         if not employer:
-            raise HTTPForbidden("Not logged in.")
+            raise HTTPNotFound("Unknown Invite Token: %s" % token)
         return employer
 
     @view_config(route_name='employers_invite', **GET)
     def validate_invite(self):
-        token = self.request.matchdict['token']
-        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
-        if not employer:
-            raise HTTPNotFound("Unknown Invite Token: %s" % token)
-        return employer
+        return self.invited_employer
 
     @view_config(route_name='employers_invite', **POST)
     def respond_invite(self):
-        token = self.request.matchdict['token']
-        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
-        if not employer:
-            raise HTTPNotFound("Unknown Invite Token: %s" % token)
+        employer = self.invited_employer
         employer.set_pwd(self.request.json['pwd'])
         self.request.session['employer_id'] = employer.id
+        return employer
+
+
+class EmployerController(RootController):
+
+    @reify
+    def employer(self):
+        employer_id = self.request.matchdict["employer_id"]
+
+        if employer_id == 'me':
+            employer_id = self.request.session.get('employer_id')
+            if not employer_id:
+                raise HTTPForbidden("Not logged in.")
+
+        employer = DBSession.query(Employer).get(employer_id)
+        if not employer:
+            raise HTTPNotFound("Unknown Employer ID")
         return employer
 
     @view_config(route_name='employers', **POST)
@@ -55,18 +51,6 @@ class EmployerController(RootController):
         DBSession.add(employer)
         DBSession.flush()
         return employer
-
-    @view_config(route_name='employer_login', **POST)
-    def login(self):
-        employer = employer_from_login(self.request.json)
-        if not employer:
-            raise HTTPNotFound("Unknown User Email or Password.")
-        self.request.session['employer_id'] = employer.id
-        return employer
-
-    @view_config(route_name='employer_me', **GET)
-    def me(self):
-        return self.session_employer
 
     @view_config(route_name='employer', **GET)
     def get(self):
@@ -77,15 +61,16 @@ class EmployerController(RootController):
         DBSession.delete(self.employer)
         return {"status": "success"}
 
+    @view_config(route_name='employer_login', **POST)
+    def login(self):
+        employer = employer_from_login(self.request.json)
+        if not employer:
+            raise HTTPNotFound("Unknown User Email or Password.")
+        self.request.session['employer_id'] = employer.id
+        return employer
 
-class EmployerOfficeController(RootController):
 
-    def __init__(self, request):
-        employer_id = request.matchdict["employer_id"]
-        self.employer = DBSession.query(Employer).options(joinedload("offices")).get(employer_id)
-        if not self.employer:
-            raise HTTPNotFound("Unknown Employer ID")
-        super(EmployerOfficeController, self).__init__(request)
+class EmployerOfficeController(EmployerController):
 
     @view_config(route_name='employer_offices', **GET)
     def list(self):
@@ -97,7 +82,7 @@ class EmployerOfficeController(RootController):
 
     @view_config(route_name='employer_office', **DELETE)
     def delete(self):
-        id = self.request.matchdict["id"]
+        id = self.request.matchdict["office_id"]
         office = DBSession.query(Office).get(id)
         if not office:
             raise HTTPNotFound("Unknown Office ID.")
@@ -105,12 +90,11 @@ class EmployerOfficeController(RootController):
         return {"status": "success"}
 
 
-
 def includeme(config):
     config.add_route('employers_invite', 'invite/{token}')
-    config.add_route('employers', '')
     config.add_route('employer_login', 'login')
-    config.add_route('employer_me', 'me')
-    config.add_route('employer', '{id}')
+
+    config.add_route('employers', '')
+    config.add_route('employer', '{employer_id}')
     config.add_route('employer_offices', '{employer_id}/offices')
-    config.add_route('employer_office', '{employer_id}/offices/{id}')
+    config.add_route('employer_office', '{employer_id}/offices/{office_id}')
