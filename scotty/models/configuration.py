@@ -8,6 +8,11 @@ class Seniority(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
+class Benefit(Base, NamedModel):
+    __tablename__ = 'benefit'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128), nullable=False, unique=True)
+
 
 class Title(Base, NamedModel):
     __tablename__ = 'title'

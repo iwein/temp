@@ -53,10 +53,10 @@ def get_or_create_named_collection(cls, names, field_name='name'):
         objs.extend(new_objs)
     return objs or []
 
+
 def get_or_create_named_lookup(cls, names, field_name='name'):
     objs = get_or_create_named_collection(cls, names, field_name)
     return {o.name: o for o in objs}
-
 
 
 def get_or_raise_named_collection(cls, names, field_name='name', require_uniqueness=True):

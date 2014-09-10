@@ -3,63 +3,112 @@
 
 <%def name="title()">Employer</%def>
 <%def name="tests()">
-  <script>
-    var email = 'martin+' + guid() + "@hackandcraft.com",
-            tests = [
-              {'url': '/api/v1/employers/', 'title': 'employer-signup',
-                data: {company_name: 'Bob Corp '+guid(), "email": email, pwd: "welcomepwd", 'contact_name': 'Uncle Bob'},
-                extract: function (r, extr) {
-                  return {employerId: r.id}
-                }},
+<script>
+  var email = 'martin+' + guid() + "@hackandcraft.com",
+          tests = [
+            {url: '/api/v1/employers/', title: 'employer-signup',
+              data: {company_name: 'Bob Corp '+guid(), "email": email, pwd: "welcomepwd", 'contact_name': 'Uncle Bob'},
+              extract: function (r, extr) {
+                return {employerId: r.id}
+              }},
 
-              {'url': function (r, extr) {return '/api/v1/employers/login'}, 'title': 'employer-login', data: {"email": email, pwd: "welcomepwd"}},
+            {url: '/api/v1/employers/login', title: 'employer-login', data: {"email": email, pwd: "welcomepwd"}},
 
-              {'title': "Offices"},
+            {url: '/api/v1/employers/me', title: 'employer-get-me'},
+            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-get-by-id'},
 
-              {'url': function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, 'title': 'employer-add-office',
-                data: {
-                  address: {line1: "Gruenwald Strasse 104", zipcode: "08712", city: "Dresden", country_iso: "DE"},
-                  contact_name: 'Martha Stweard',
-                  contact_phone: "+800-43543-2154",
-                  contact_email: 'matha@stewardhome.com'
-                },
-                extract: function (r, extr) {
-                  return {officeId: r.id}
-                }},
+            {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-1', method: 'PUT',
+              data: {
+                      logo_url: 'http://logo_url.com',
+                      website: "http://website.com",
+                      address_line1: "line 1 of address",
+                      address_line2: "line 2 of address",
+                      address_line3: "line 3 of address",
+                      address_zipcode: "zipcode of address",
+                      address_city: {city: 'Dresden', country_iso: 'DE'},
 
-              {'url': '/api/v1/employers/me', 'title': 'employer-get-me'},
-              {'url': function (r, extr) {return '/api/v1/employers/' + extr.employerId}, 'title': 'employer-get-by-id'},
+                      contact_name: 'name of contact',
+                      contact_phone: 'phone of contact',
+                      contact_email: 'email of contact',
+                      contact_position: 'position of contact',
 
-              {'url': function (r, extr) {
-                return '/api/v1/employers/' + extr.employerId + '/offices'
-              }, 'title': 'employer-add-office-2',
-                data: {
-                  address: {line1: "Schoenhausener Allee 104", zipcode: "08712", city: "Hamburg", country_iso: "DE"},
-                  contact_name: 'Harald Klockner',
-                  contact_phone: "+49 232314 2435",
-                  contact_email: 'harald@kliockner.com'
-                },
-                extract: function (r, extr) {
-                  return {officeId: r.id}
-                }
+                      fb_url: 'facebook url of employer',
+                      linkedin_url: 'linkedin url of employer'
+                      }
+            },
+
+            {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-2', method: 'PUT',
+              data: {mission_text: 'A VERY LONG TEXT'}
+            },
+
+            {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-3', method: 'PUT',
+              data: {
+                founding_date: '2014-02-01',
+                revenue_pa: 2000001,
+                funding_amount: 5688,
+                funding_text: "we received a lot of funding",
+                no_of_employees: 43,
+                tech_team_size: 45,
+                tech_tags: ['PHP', 'Python', 'Java', 'Apache'],
+              }
+            },
+
+
+            {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-4', method: 'PUT',
+              data: {
+                benefits: ['Coffee', 'Breakfasts', 'Massages', 'Dogs Allowed', 'Remote Work'],
+                recruitment_process: "really long recruiting process definition",
+                training_policy: "really long training description"
+              }
+            },
+
+            {url: '/api/v1/employers/me/apply', title: 'employer-edit-workflow-step-5', method: 'PUT',
+              data: {agreeTos: true}
+            },
+
+
+            {title: 'Offices'},
+
+
+            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-office',
+              data: {
+                address: {line1: "Gruenwald Strasse 104", zipcode: "08712", city: "Dresden", country_iso: "DE"},
+                contact_name: 'Martha Stweard',
+                contact_phone: "+800-43543-2154",
+                contact_email: 'matha@stewardhome.com'
               },
+              extract: function (r, extr) {
+                return {officeId: r.id}
+              }},
 
-              {'url': '/api/v1/employers/me/offices', 'title': 'employer-me-offices-list'},
-              {'url': function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices'}, 'title': 'employer-offices-list'},
+            {url: function (r, extr) {
+              return '/api/v1/employers/' + extr.employerId + '/offices'
+            }, title: 'employer-add-office-2',
+              data: {
+                address: {line1: "Schoenhausener Allee 104", zipcode: "08712", city: "Hamburg", country_iso: "DE"},
+                contact_name: 'Harald Klockner',
+                contact_phone: "+49 232314 2435",
+                contact_email: 'harald@kliockner.com'
+              },
+              extract: function (r, extr) {
+                return {officeId: r.id}
+              }
+            },
 
-              {'url': function (r, extr) {
-                return '/api/v1/employers/' + extr.employerId + '/offices/' + extr.officeId
-              }, 'title': 'office-delete', method: "DELETE"},
+            {url: '/api/v1/employers/me/offices', title: 'employer-me-offices-list'},
+            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices'}, title: 'employer-offices-list'},
+
+            {url: function (r, extr) {
+              return '/api/v1/employers/' + extr.employerId + '/offices/' + extr.officeId
+            }, title: 'office-delete', method: "DELETE"},
 
 
-              {'sectionTitle': 'Cleanup'},
-              {'url': function (r, extr) {
-                return '/api/v1/employers/' + extr.employerId
-              }, 'title': 'employer-delete', method: "DELETE"}
-            ];
+            {'sectionTitle': 'Cleanup'},
+            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-delete', method: "DELETE"}
+          ];
 
-    $(function () {
-      getTestRunner(tests)(0, {});
-    })
-  </script>
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
 </%def>
