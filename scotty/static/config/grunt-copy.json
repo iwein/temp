@@ -14,5 +14,9 @@
   "index": {
     "src": "<%= files.index.html %>",
     "dest": "<%= files.index.out.html %>"
+  },
+  "fonts": {
+    "src": "<%= files.fonts.src %>",
+    "dest": "<%= files.fonts.out %>"
   }
 }

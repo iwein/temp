@@ -1,0 +1,21 @@
+<form name="formSignupMission"
+  class="component-employer-signup-mission"
+  ng-submit="signupMission.submit()">
+
+  <h3>Sign up</h3>
+
+  <div class="alert alert-danger" ng-hide="!error">Wow! this is not ready yet!</div>
+
+  <div class="form-group">
+    <label class="required">Logo url</label>
+    <text-angular ng-model="model.mission"></text-angular>
+
+    <div class="form-error" ng-show="missionDirty && errorMissionEmpty">
+      <span>Please insert a description of the mission of your company.</span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+  </div>
+</form>
