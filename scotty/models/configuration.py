@@ -65,6 +65,7 @@ class Skill(Base, NamedModel):
 class Language(Base, NamedModel):
     __tablename__ = 'language'
     id = Column(Integer, primary_key=True)
+    iso_639_2 = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False, unique=True)
 
 

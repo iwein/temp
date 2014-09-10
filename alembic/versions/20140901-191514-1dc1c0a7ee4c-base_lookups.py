@@ -86,6 +86,7 @@ def upgrade():
     )
     op.create_table('language',
                     sa.Column('id', sa.Integer(), nullable=False),
+                    sa.Column('iso_639_2', sa.String(length=3), nullable=False),
                     sa.Column('name', sa.String(length=128), nullable=False),
                     sa.PrimaryKeyConstraint('id'),
                     sa.UniqueConstraint('name')
@@ -127,7 +128,7 @@ def upgrade():
     bulk_insert_names("skill_level", "skill_level.csv")
     bulk_insert_names("skill", "skills.csv")
     bulk_insert_names("proficiency", "proficiency.csv")
-    bulk_insert_names("language", "languages.csv")
+    bulk_insert_names("language", "languages.csv", ['iso_639_2', 'name'])
     bulk_insert_names("degree", "degrees.csv")
     bulk_insert_names("course", "courses.csv")
     bulk_insert_names("role", "roles.csv")
