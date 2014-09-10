@@ -13,7 +13,7 @@
       class="form-control"
       name="contactName"
       required
-      ng-disabled="loading || signup.invited"
+      ng-disabled="loading || invited"
       ng-model="model.contact_name">
 
     <div class="form-error" ng-show="formSignup.contactName.$dirty && formSignup.contactName.$invalid">
@@ -29,7 +29,7 @@
       class="form-control"
       name="companyName"
       required
-      ng-disabled="loading || signup.invited"
+      ng-disabled="loading || invited"
       ng-model="model.company_name">
 
     <div class="form-error" ng-show="formSignup.companyName.$dirty && formSignup.companyName.$invalid">
@@ -45,7 +45,7 @@
       class="form-control"
       name="email"
       required
-      ng-disabled="loading || signup.invited"
+      ng-disabled="loading || invited"
       ng-model="model.email">
 
     <div class="form-error" ng-show="formSignup.email.$dirty && formSignup.email.$invalid">

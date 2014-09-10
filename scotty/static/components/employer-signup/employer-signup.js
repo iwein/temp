@@ -14,7 +14,7 @@ define(function(require) {
     var validated = null;
     this.nextStep = nextStep;
     this.atStep = atStep;
-    this.ready = false;
+    $scope.ready = true;
 
     if ($state.current.name === 'signup')
       loadStep('signup.basic');

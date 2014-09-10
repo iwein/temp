@@ -3,18 +3,30 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $state, Session) {
+  module.controller('SignupBasicCtrl', function($scope, $q, $state, Session) {
     this.submit = submit;
-    $scope.loading = false;
+    $scope.invited = false;
+    $scope.loading = true;
     $scope.model = {};
+    var token = $state.params.token;
 
-    if ($scope.signup.invited) {
+    $q.when(token).then(function(token) {
+      if (!token) return;
+      return Session.getInvitationData(token);
+    }).then(function(data) {
+      if (!data) return;
+      $scope.invited = true;
       $scope.model = {
-        contact_name: $scope.signup.invitedData.contact_name,
-        company_name: $scope.signup.invitedData.company_name,
-        email: $scope.signup.invitedData.email,
+        contact_name: data.contact_name,
+        company_name: data.company_name,
+        email: data.email,
+        token: token,
       };
-    }
+    }, function() {
+      $scope.invitationFailed = true;
+    }).finally(function() {
+      $scope.loading = false;
+    });
 
     function submit() {
       $scope.loading = true;
@@ -31,7 +43,7 @@ define(function(require) {
   });
 
   return {
-    url: '/basic',
+    url: '/basic/:token',
     template: require('text!./employer-signup-basic.html'),
     controller: 'SignupBasicCtrl',
     controllerAs: 'signupBasic',
