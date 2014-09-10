@@ -1,7 +1,10 @@
 {
   "options": {
     "cleancss": true,
-    "relativeUrls": true
+    "relativeUrls": true,
+    "modifyVars": {
+      "fa-font-path": "<%= files.fonts.relative %>"
+    }
   },
 
   "admin": {

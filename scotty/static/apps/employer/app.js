@@ -15,6 +15,7 @@ define(function(require) {
       .state('signup', require('components/employer-signup/employer-signup'))
       .state('signup.start', require('components/employer-signup-start/employer-signup-start'))
       .state('signup.basic', require('components/employer-signup-basic/employer-signup-basic'))
+      .state('signup.mission', require('components/employer-signup-mission/employer-signup-mission'))
       ;
   });
 
