@@ -40,7 +40,7 @@ define(function(require) {
     },
 
     getSignupStage: function() {
-      return this._api.get('/candidates/signup_stage').then(null, function(request) {
+      return this._api.get('/candidates/me/signup_stage').then(null, function(request) {
         if (request.status === 403)
           return null;
         throw request;
