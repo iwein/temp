@@ -1,11 +1,12 @@
 define(function(require) {
   'use strict';
+  require('tools/config-api');
   require('session');
   var module = require('app-module');
   //var validStates = {};
   var order = [
-    'signup.invited',
-    'signup.contact',
+    'signup.start',
+    'signup.basic',
     'profile',
   ];
 

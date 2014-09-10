@@ -59,9 +59,23 @@ define(function(require) {
 
       function setValue(selector, value) {
         $(selector).map(function(element) {
+          if (!element.hasAttribute('required') && !!random(0, 2))
+            return set(element, 'ng-model', '');
+
           set(element, 'ng-model', value);
           get(element, 'ng-change');
           return element;
+        });
+      }
+
+      function setLocation(selector, property) {
+        var setter = $parse(property).assign;
+        $(selector + ' input[name=location]').forEach(function(element) {
+          set(element, 'ng-model', 'Barcelona, ES');
+          setter(getScope(element), {
+            city: 'Barcelona',
+            country_iso: 'ES',
+          });
         });
       }
 
@@ -76,6 +90,9 @@ define(function(require) {
         setValue('input[type=password]', '123123123');
         setValue('input[type=number]', random.bind(null, 1900, 2100));
         setValue('input[type=url]', document.location.toString());
+        setValue('input[type=tel]', function() {
+          return '+' + random(1, 100) + ' ' + random(600000000, 700000000);
+        });
         setValue('select', function(element) {
           return randomElement(element.children, 1).innerHTML;
         });
@@ -85,6 +102,10 @@ define(function(require) {
         setValue('input[name=zipcode]', random.bind(null, 10000, 99999));
 
         // special fields
+        setLocation('form[name=formExperience]', 'model.location');
+        setLocation('form[name=formProfile]', 'model.contact_city');
+        setLocation('form[name=formSignupBasic]', 'model.address_city');
+        setLocation('form[name=formSignupBasicOffice]', 'office.address_city');
         $('form[name=formTarget] input[name=cities]').forEach(function(element) {
           set(element, 'ng-model', '');
           getScope(element).signup.cities = [{
@@ -92,23 +113,10 @@ define(function(require) {
             country_iso: 'ES',
           }];
         });
+
         var field = randomElement([ 'date', 'months' ]);
         $('form[name=formTarget] input[name=available_' + field).forEach(function(element) {
           set(element, 'ng-model', '');
-        });
-        $('form[name=formExperience] input[name=location]').forEach(function(element) {
-          set(element, 'ng-model', 'Barcelona, ES');
-          getScope(element).model.location = {
-            city: 'Barcelona',
-            country_iso: 'ES',
-          };
-        });
-        $('form[name=formProfile] input[name=location]').forEach(function(element) {
-          set(element, 'ng-model', 'Barcelona, ES');
-          getScope(element).model.contact_city = {
-            city: 'Barcelona',
-            country_iso: 'ES',
-          };
         });
 
         angular.element($('form')[0]).scope().$apply();
