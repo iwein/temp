@@ -12,6 +12,7 @@ define(function(require) {
     $stateProvider
       .state('home', {})
       .state('login', require('components/employer-login/employer-login'))
+      .state('profile', require('components/employer-profile/employer-profile'))
       .state('signup', require('components/employer-signup/employer-signup'))
       .state('signup.start', require('components/employer-signup-start/employer-signup-start'))
       .state('signup.basic', require('components/employer-signup-basic/employer-signup-basic'))
@@ -24,7 +25,6 @@ define(function(require) {
 
   module.run(function($state, $templateCache, $rootScope, Session) {
     $rootScope.session = Session;
-    Session.checkSession();
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
     $rootScope.logout = function() {

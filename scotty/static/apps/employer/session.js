@@ -3,9 +3,8 @@ define(function(require) {
   require('tools/api');
 
 
-  function EmployerSession(api, promise) {
+  function EmployerSession(api) {
     this._api = api;
-    this._promise = promise;
     this.checkSession = this.checkSession.bind(this);
   }
 
@@ -74,22 +73,23 @@ define(function(require) {
       });
     },
 
+    hasSession: function() {
+      return !!this.user;
+    },
+
+    getUserData: function() {
+      return this.checkSession();
+    },
+
     getInvitationData: function(token) {
       return this._api.get('/employers/invite/' + token);
     },
   };
 
   var module = require('app-module');
-  module.factory('Session', function(API, $q) {
-
-    function promise(resolver) {
-      var deferred = $q.defer();
-      resolver(deferred.resolve, deferred.reject);
-      return deferred.promise;
-    }
-
-    var session = new EmployerSession(API, promise);
-    //session.checkSession();
+  module.factory('Session', function(API) {
+    var session = new EmployerSession(API);
+    session.checkSession();
     return session;
   });
 

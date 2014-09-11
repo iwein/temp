@@ -1,0 +1,118 @@
+<div class="component-employer-profile row" ng-show="ready">
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <div class="page-header">
+      <h1>
+        <img ng-show="data.logo_url" ng-src="{{ logo_url }}">
+        <small>{{ data.company_name }}</small>
+      </h1>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Company</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Status</dt>
+          <dd>{{ data.status }}</dd>
+          <dt>Website</dt>
+          <dd>{{ data.website }}</dd>
+          <dt ng-show="data.fb_url">Facebook</dt>
+          <dd ng-show="data.fb_url"><a ng-href="{{ data.fb_url }}">{{ data.fb_url }}</a></dd>
+          <dt ng-show="data.linkedin_url">Linked in</dt>
+          <dd ng-show="data.linkedin_url"><a ng-href="{{ data.linkedin_url }}">{{ data.linkedin_url }}</a></dd>
+          <dt>Founding date</dt>
+          <dd>{{ data.founding_date }}</dd>
+          <dt>Founding amount</dt>
+          <dd>{{ data.funding_amount }}€</dd>
+          <dt>Revenue</dt>
+          <dd>{{ data.revenue_pa }}€</dd>
+          <dt>Number of employees</dt>
+          <dd>{{ data.no_of_employees }}</dd>
+          <dt>Tech team size</dt>
+          <dd>{{ data.tech_team_size }}</dd>
+          <dt>Recruitmen process</dt>
+          <dd>{{ data.recruitment_process }}</dd>
+          <dt ng-show="data.training_policy">Training policy</dt>
+          <dd ng-show="data.training_policy">{{ data.training_policy }}</dd>
+          <dt>Benefits</dt>
+          <dd>{{ data.benefits.join(', ') || 'none' }}</dd>
+          <dt>Address</dt>
+          <dd>
+            <address>
+              {{ data.address_line1 }}<br>
+              {{ data.address_line2 }}<br>
+              {{ data.address_line3 }}<br ng-if="data.address_line3">
+              {{ data.address_city.city }},
+              {{ data.address_city.country_iso }}
+              {{ data.address_zipcode }}
+            </address>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Contact</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Name</dt>
+          <dd>{{ data.contact_name }}</dd>
+          <dt>Position</dt>
+          <dd>{{ data.contact_position }}</dd>
+          <dt>Phone</dt>
+          <dd>{{ data.contact_phone }}</dd>
+          <dt>Email</dt>
+          <dd>{{ data.contact_email }}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Tags</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="tag in data.tech_tags">
+          <span class="value">{{ tag }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Offices</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="office in data.offices">
+          <dl class="dl-horizontal">
+            <dt>Website</dt>
+            <dd>{{ office.website }}</dd>
+            <dt>Contact name</dt>
+            <dd>{{ office.contact_name }}</dd>
+            <dt>Contact position</dt>
+            <dd>{{ office.contact_position }}</dd>
+            <dt>Contact phone</dt>
+            <dd>{{ office.contact_phone }}</dd>
+            <dt>Contact email</dt>
+            <dd>{{ office.contact_email }}</dd>
+            <dt>Address</dt>
+            <dd>
+              <address>
+                {{ office.address_line1 }}<br>
+                {{ office.address_line2 }}<br>
+                {{ office.address_line3 }}<br ng-if="office.address_line3">
+                {{ office.address_city.city }},
+                {{ office.address_city.country_iso }}
+                {{ office.address_zipcode }}
+              </address>
+            </dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
