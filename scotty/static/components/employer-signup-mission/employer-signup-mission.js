@@ -20,6 +20,11 @@ define(function(require) {
       if ($scope.errorMissionEmpty)
         return;
 
+      Object.keys($scope.model).forEach(function(key) {
+        if (!$scope.model[key])
+          delete $scope.model[key];
+      });
+
       $scope.error = false;
       $scope.loading = true;
       Session.updateData($scope.model).then(function() {

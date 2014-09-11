@@ -48,6 +48,11 @@ define(function(require) {
 
     function submitOffice() {
       $scope.loadingOffice = true;
+      Object.keys($scope.office).forEach(function(key) {
+        if (!$scope.office[key])
+          delete $scope.office[key];
+      });
+
       return Session.addOffice($scope.office)
         .then(listOffices)
         .then(function() {
@@ -64,6 +69,11 @@ define(function(require) {
       $scope.error = false;
 
       $q.when($scope.formSignupBasicOffice.$valid && submitOffice()).then(function() {
+        Object.keys($scope.model).forEach(function(key) {
+          if (!$scope.model[key])
+            delete $scope.model[key];
+        });
+
         return Session.updateData($scope.model);
       }).then(function() {
         $scope.signup.nextStep();

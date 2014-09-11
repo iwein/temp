@@ -10,12 +10,11 @@
 
 
   <div class="form-group">
-    <label class="required">Founding date</label>
+    <label>Founding date</label>
     <input type="date"
       class="form-control"
       placeholder="YYYY-MM-DD"
       name="founding_date"
-      required
       ng-disabled="loading"
       ng-model="model.founding_date">
 
@@ -27,14 +26,13 @@
   </div>
 
   <div class="form-group">
-    <label class="required">Annual revenue</label>
+    <label>Annual revenue</label>
     <div class="input-group">
       <span class="input-group-addon">€</span>
       <input type="number"
         class="form-control"
         placeholder="Annual revenue",
         name="revenue_pa"
-        required
         ng-disabled="loading"
         ng-model="model.revenue_pa"
         ng-pattern="/^[0-9]+$/">
@@ -55,14 +53,13 @@
   </div>
 
   <div class="form-group">
-    <label class="required">VC Founding amount</label>
+    <label>VC Founding amount</label>
     <div class="input-group">
       <span class="input-group-addon">€</span>
       <input type="number"
         class="form-control"
         placeholder="VC Founding amount",
         name="funding_amount"
-        required
         ng-disabled="loading"
         ng-model="model.funding_amount"
         ng-pattern="/^[0-9]+$/">
@@ -83,12 +80,11 @@
   </div>
 
   <div class="form-group">
-    <label class="required">Company size</label>
+    <label>Company size</label>
     <input type="number"
       class="form-control"
       placeholder="Company size"
       name="no_of_employees"
-      required
       ng-disabled="loading"
       ng-model="model.no_of_employees">
 
@@ -100,12 +96,11 @@
   </div>
 
   <div class="form-group">
-    <label class="required">Tech team size</label>
+    <label>Tech team size</label>
     <input type="number"
       class="form-control"
       placeholder="Tech team size"
       name="tech_team_size"
-      required
       ng-disabled="loading"
       ng-model="model.tech_team_size">
 
