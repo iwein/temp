@@ -1,0 +1,31 @@
+<form name="formSignupTerms"
+  class="component-employer-signup-terms"
+  ng-submit="signupTerms.submit()">
+
+  <h3>Sign up - Terms</h3>
+
+  <div class="alert alert-danger" ng-hide="!error">
+    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
+  </div>
+
+  <div class="form-group">
+    <label class="required">
+      <input type="checkbox"
+        required
+        ng-disabled="loading"
+        ng-model="model.agreedTos">
+      I agree
+      <a href="http://google.com/" target="_blank">terms &amp; services</a>
+    </label>
+
+    <div class="form-error" ng-show="formSignupTerms.recruitment.$dirty && formSignupTerms.recruitment.$invalid">
+      <span ng-show="formSignupTerms.recruitment.$error.required">
+        You must accept terms and services to go on.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" ng-disabled="loading">Apply</button>
+  </div>
+</form>
