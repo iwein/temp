@@ -1,11 +1,5 @@
 {
 
-  "fonts": {
-    "src": "bower_components/font-awesome/fonts/*",
-    "out": "dist/fonts/",
-    "relative": "../fonts"
-  },
-
   "tools": {
     "js": "tools/**/*.js",
     "test": "tools/**/*.unit.js"
