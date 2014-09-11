@@ -129,15 +129,7 @@ class CandidateController(RootController):
         return self.candidate.skills
 
 
-class CandidateEducationController(RootController):
-    def __init__(self, request):
-        candidate_id = request.matchdict["candidate_id"]
-        self.candidate = DBSession.query(Candidate).options(joinedload("education").joinedload("institution"),
-                                                            joinedload("education").joinedload("degree")).get(
-            candidate_id)
-        if not self.candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
-        super(CandidateEducationController, self).__init__(request)
+class CandidateEducationController(CandidateController):
 
     @view_config(route_name='candidate_educations', **GET)
     def list(self):
