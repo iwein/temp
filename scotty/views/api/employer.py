@@ -74,8 +74,8 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_apply', **PUT)
     def employer_apply(self):
-        if self.request.json['agreeTos'] != True:
-            raise HTTPBadRequest("agreeTos must be true")
+        if self.request.json['agreedTos'] != True:
+            raise HTTPBadRequest("agreedTos must be true")
         employer = self.employer
         employer.agreedTos = datetime.now()
         self.request.emailer.send_pending_approval(employer.email, employer.contact_name, employer.company_name,
