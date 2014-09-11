@@ -32,7 +32,6 @@ class EmployerInviteController(RootController):
 
 
 class EmployerController(RootController):
-
     @reify
     def employer(self):
         employer_id = self.request.matchdict["employer_id"]
@@ -58,14 +57,10 @@ class EmployerController(RootController):
     @view_config(route_name='employer_signup_stage', **GET)
     def signup_stage(self):
         employer = self.employer
-        workflow = {'status': employer.status,
-                    'ordering': ['step1', 'step2', 'step3', 'step4', 'step5'],
-                    'step1': employer.address_line1 is not None,
-                    'step2': employer.mission_text is not None,
-                    'step3': len(employer.tech_tags)>0,
-                    'step4': employer.recruitment_process is not None,
-                    'step5': employer.agreedTos is not None,
-        }
+        workflow = {'status': employer.status, 'ordering': ['step1', 'step2', 'step3', 'step4', 'step5'],
+                    'step1': employer.address_line1 is not None, 'step2': employer.mission_text is not None,
+                    'step3': len(employer.tech_tags) > 0, 'step4': employer.recruitment_process is not None,
+                    'step5': employer.agreedTos is not None, }
         return workflow
 
     @view_config(route_name='employer', **GET)
@@ -83,9 +78,8 @@ class EmployerController(RootController):
             raise HTTPBadRequest("agreeTos must be true")
         employer = self.employer
         employer.agreedTos = datetime.now()
-        self.request.emailer.send_pending_approval(
-            employer.email, employer.contact_name, employer.company_name, employer.id
-        )
+        self.request.emailer.send_pending_approval(employer.email, employer.contact_name, employer.company_name,
+                                                   employer.id)
         return self.employer
 
     @view_config(route_name='employer', **DELETE)
@@ -108,9 +102,7 @@ class EmployerController(RootController):
         return {'success': True}
 
 
-
 class EmployerOfficeController(EmployerController):
-
     @view_config(route_name='employer_offices', **GET)
     def list(self):
         return self.employer.offices
