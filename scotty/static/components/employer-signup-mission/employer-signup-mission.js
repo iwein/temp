@@ -4,23 +4,25 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupMissionCtrl', function($scope, $state, ConfigAPI, Session) {
+  module.controller('SignupMissionCtrl', function($scope, Session) {
     this.submit = submit;
+    $scope.error = false;
     $scope.loading = false;
     $scope.missionDirty = false;
     $scope.model = {};
 
-    $scope.$watch('model.mission', function(value) {
+    $scope.$watch('model.mission_text', function(value) {
       $scope.errorMissionEmpty = !value;
       $scope.missionDirty = $scope.missionDirty || !!value;
     });
 
     function submit() {
-      if (!$scope.errorMissionEmpty)
+      if ($scope.errorMissionEmpty)
         return;
 
+      $scope.error = false;
       $scope.loading = true;
-      Session.signup($scope.model).then(function() {
+      Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
         $scope.error = true;

@@ -1,0 +1,138 @@
+<form name="formSignupFacts"
+  class="component-employer-signup-basic"
+  ng-submit="signupFacts.submit()">
+
+  <h3>Sign up</h3>
+
+  <div class="alert alert-danger" ng-hide="!error">
+    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
+  </div>
+  <div class="alert alert-danger" ng-hide="!invitationFailed">Invalid invitation token.</div>
+
+
+  <div class="form-group">
+    <label class="required">Founding date</label>
+    <input type="date"
+      class="form-control"
+      placeholder="YYYY-MM-DD"
+      name="founding_date"
+      required
+      ng-disabled="loading"
+      ng-model="model.founding_date">
+
+    <div class="form-error" ng-show="formSignupFacts.founding_date.$dirty && formSignupFacts.founding_date.$invalid">
+      <span ng-show="formSignupFacts.founding_date.$error.required">
+        Please select the date your company was founded.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Annual revenue</label>
+    <div class="input-group">
+      <span class="input-group-addon">€</span>
+      <input type="number"
+        class="form-control"
+        placeholder="Annual revenue",
+        name="revenue_pa"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.minimum_revenue_pa"
+        ng-pattern="/^[0-9]+$/">
+      <span class="input-group-addon">.00</span>
+    </div>
+
+    <div class="form-error" ng-show="formTarget.revenue_pa.$dirty && formTarget.revenue_pa.$invalid">
+      <span ng-show="formTarget.revenue_pa.$error.required">
+        Please insert your expected annual revenue.
+      </span>
+      <span ng-show="formTarget.revenue_pa.$error.number">
+        Please insert a number.
+      </span>
+      <span ng-show="formTarget.revenue_pa.$error.pattern">
+        Decimals are not allowed.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">VC Founding amount</label>
+    <div class="input-group">
+      <span class="input-group-addon">€</span>
+      <input type="number"
+        class="form-control"
+        placeholder="VC Founding amount",
+        name="funding_amount"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.minimum_funding_amount"
+        ng-pattern="/^[0-9]+$/">
+      <span class="input-group-addon">.00</span>
+    </div>
+
+    <div class="form-error" ng-show="formTarget.funding_amount.$dirty && formTarget.funding_amount.$invalid">
+      <span ng-show="formTarget.funding_amount.$error.required">
+        Please insert your expected annual revenue.
+      </span>
+      <span ng-show="formTarget.funding_amount.$error.number">
+        Please insert a number.
+      </span>
+      <span ng-show="formTarget.funding_amount.$error.pattern">
+        Decimals are not allowed.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Company size</label>
+    <input type="number"
+      class="form-control"
+      placeholder="Company size"
+      name="no_of_employees"
+      required
+      ng-disabled="loading"
+      ng-model="model.no_of_employees">
+
+    <div class="form-error" ng-show="formSignupFacts.no_of_employees.$dirty && formSignupFacts.no_of_employees.$invalid">
+      <span ng-show="formSignupFacts.no_of_employees.$error.required">
+        Please insert the number or employees in your company.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Tech team size</label>
+    <input type="number"
+      class="form-control"
+      placeholder="Tech team size"
+      name="tech_team_size"
+      required
+      ng-disabled="loading"
+      ng-model="model.tech_team_size">
+
+    <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
+      <span ng-show="formSignupFacts.tech_team_size.$error.required">
+        Please insert the number of employees of the tech team.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Technology tags</label>
+    <input type="text"
+      class="form-control"
+      placeholder="Tag"
+      name="skill"
+      ng-repeat="skill in tags"
+      ng-disabled="loading"
+      ng-required="$first"
+      ng-model="skill.value"
+      ng-blur="signupFacts.onTagBlur(skill.value, $index, $last)"
+      ng-change="signupFacts.onTagChange(skill.value, $index, $last)"
+      typeahead="skill for skill in signupFacts.searchTags($viewValue)">
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+  </div>
+</form>

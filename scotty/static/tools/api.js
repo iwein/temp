@@ -37,7 +37,7 @@ define(function(require) {
     },
 
     delete: function(url, params) {
-      return this._ajax.get(this.root() + url, {
+      return this._ajax.delete(this.root() + url, {
         params: params,
       }).then(function(response) {
         return response.data;

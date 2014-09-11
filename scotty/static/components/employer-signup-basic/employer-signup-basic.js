@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $q, $state, ConfigAPI, Session) {
+  module.controller('SignupBasicCtrl', function($scope, $q, ConfigAPI, Session) {
     this.searchLocations = ConfigAPI.locationsText;
     this.setLocation = setLocation;
     this.removeOffice = removeOffice;
@@ -16,6 +16,8 @@ define(function(require) {
     $scope.office = {};
     $scope.offices = [];
 
+    listOffices();
+
     function setLocation(model, location) {
       var city = ConfigAPI.getLocationFromText(location);
       model.errorInvalidCity = city === null;
@@ -23,7 +25,7 @@ define(function(require) {
     }
 
     function listOffices() {
-      return Session.listOffices.bind(Session).then(function(offices) {
+      return Session.listOffices().then(function(offices) {
         $scope.offices = offices;
       });
     }
@@ -33,12 +35,12 @@ define(function(require) {
       return Session.removeOffice(office)
         .then(listOffices)
         .finally(function() {
-          $scope.loadingOffice = true;
+          $scope.loadingOffice = false;
         });
     }
 
-    function editOffice(office, index) {
-      removeOffice(index).then(function() {
+    function editOffice(office) {
+      removeOffice(office).then(function() {
         $scope.office = office;
         $scope.officeLocationText = ConfigAPI.locationToText(office.address_city);
       });
