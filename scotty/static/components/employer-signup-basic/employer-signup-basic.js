@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $q, $state, ConfigAPI, Session) {
+  module.controller('SignupBasicCtrl', function($scope, $q, ConfigAPI, Session) {
     this.searchLocations = ConfigAPI.locationsText;
     this.setLocation = setLocation;
     this.removeOffice = removeOffice;
