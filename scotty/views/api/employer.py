@@ -52,6 +52,7 @@ class EmployerController(RootController):
         employer = employer_from_signup(self.request.json)
         DBSession.add(employer)
         DBSession.flush()
+        self.request.session['employer_id'] = employer.id
         return employer
 
     @view_config(route_name='employer_signup_stage', **GET)
@@ -100,6 +101,13 @@ class EmployerController(RootController):
         self.request.session['employer_id'] = employer.id
         return employer
 
+    @view_config(route_name='employer_logout', **GET)
+    def logout(self):
+        if 'employer_id' in self.request.session:
+            del self.request.session['employer_id']
+        return {'success': True}
+
+
 
 class EmployerOfficeController(EmployerController):
 
@@ -124,6 +132,7 @@ class EmployerOfficeController(EmployerController):
 def includeme(config):
     config.add_route('employers_invite', 'invite/{token}')
     config.add_route('employer_login', 'login')
+    config.add_route('employer_logout', 'logout')
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
