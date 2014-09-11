@@ -34,6 +34,14 @@ define(function(require) {
       return this._ajax.put(this.root() + url, data).then(function(response) {
         return response.data;
       });
+    },
+
+    delete: function(url, params) {
+      return this._ajax.get(this.root() + url, {
+        params: params,
+      }).then(function(response) {
+        return response.data;
+      });
     }
   };
 

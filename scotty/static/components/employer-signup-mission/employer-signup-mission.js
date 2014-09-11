@@ -21,7 +21,7 @@ define(function(require) {
 
       $scope.loading = true;
       Session.signup($scope.model).then(function() {
-        $state.go('home');
+        $scope.signup.nextStep();
       }).catch(function() {
         $scope.error = true;
       }).finally(function() {

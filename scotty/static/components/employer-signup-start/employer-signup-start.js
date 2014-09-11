@@ -19,8 +19,7 @@ define(function(require) {
       $scope.model = {
         contact_name: data.contact_name,
         company_name: data.company_name,
-        email: data.email,
-        token: token,
+        email: data.email
       };
     }, function() {
       $scope.invitationFailed = true;
@@ -32,8 +31,11 @@ define(function(require) {
       $scope.loading = true;
       $scope.error = false;
 
-      Session.signup($scope.model).then(function() {
-        $state.go('home');
+      (token ?
+        Session.signupInvited(token, $scope.model.pwd) :
+        Session.signup($scope.model)
+      ).then(function() {
+        $scope.signup.nextStep();
       }).catch(function() {
         $scope.error = true;
       }).finally(function() {

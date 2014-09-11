@@ -1,7 +1,9 @@
 <div class="component-employer-signup-basic">
   <h3>Sign up</h3>
 
-  <div class="alert alert-danger" ng-hide="!error">Wow! this is not ready yet!</div>
+  <div class="alert alert-danger" ng-hide="!error">
+    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
+  </div>
   <div class="alert alert-danger" ng-hide="!invitationFailed">Invalid invitation token.</div>
 
   <form name="formSignupBasic" ng-submit="signupBasic.submit()">
@@ -409,7 +411,7 @@
           <dd>
             <button type="button"
               class="btn btn-default"
-              ng-click="signupBasic.removeOffice($index)">
+              ng-click="signupBasic.removeOffice(office, $index)">
               Remove
             </button>
             <button type="button"
