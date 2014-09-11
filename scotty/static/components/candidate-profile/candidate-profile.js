@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('ProfileBasicCtrl', function($scope, $state, Session) {
+  module.controller('ProfileCtrl', function($scope, $state, Session) {
     Session.whenReady(function() {
       if (!Session.hasSession()) {
         $state.go('login');
@@ -40,8 +40,8 @@ define(function(require) {
 
   return {
     url: '/profile/',
-    template: require('text!./candidate-profile-basic.html'),
-    controller: 'ProfileBasicCtrl',
+    template: require('text!./candidate-profile.html'),
+    controller: 'ProfileCtrl',
     controllerAs: 'profile',
   };
 });
