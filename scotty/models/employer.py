@@ -154,5 +154,8 @@ class Employer(Base):
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
         city_id = result.pop('address_city_id', None)
+        agreedTos = result.pop('agreedTos', None)
+        approved = result.pop('approved', None)
+        created = result.pop('created', None)
         result['address_city'] = self.address_city
         return result
