@@ -11,7 +11,7 @@ define(function(require) {
     $scope.missionDirty = false;
     $scope.model = {};
 
-    $scope.$watch('model.mission', function(value) {
+    $scope.$watch('model.mission_text', function(value) {
       $scope.errorMissionEmpty = !value;
       $scope.missionDirty = $scope.missionDirty || !!value;
     });
