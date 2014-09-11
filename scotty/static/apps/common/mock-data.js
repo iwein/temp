@@ -81,6 +81,7 @@ define(function(require) {
 
       var fillForm = window.f = function() {
         setValue('textarea', guid);
+        setValue('input[type=checkbox]', true);
         setValue('input[type=text]', guid);
         setValue('input[type=email]', function() {
           if (!localStorage.mockEmail) return;

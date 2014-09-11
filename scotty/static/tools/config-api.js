@@ -39,6 +39,7 @@ define(function(require) {
     companyTypes: helper('company_types'),
     skillLevels: helper('skill_levels'),
     proficiencies: helper('proficiencies'),
+    benefits: helper('benefits'),
 
     // search
     skills: helper('skills'),

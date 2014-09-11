@@ -55,7 +55,7 @@ define(function(require) {
 
     getSignupStage: function() {
       return this._api.get('/employers/me/signup_stage').then(null, function(request) {
-        if (request.status === 403)
+        if (request.status === 403 || request.status === 404)
           return null;
         throw request;
       });
@@ -66,7 +66,7 @@ define(function(require) {
         this.user = response;
         return response;
       }.bind(this), function(request) {
-        if (request.status === 403)
+        if (request.status === 403 || request.status === 404)
           return null;
         throw request;
       });
