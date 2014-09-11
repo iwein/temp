@@ -27,8 +27,7 @@ define(function(require) {
     },
 
     signup: function(data) {
-      return this._api.post('/employers/', data)
-        .then(this.checkSession);
+      return this._api.post('/employers/', data).then(this.checkSession);
     },
 
     signupInvited: function(token, password) {
@@ -37,8 +36,11 @@ define(function(require) {
     },
 
     updateData: function(data) {
-      return this._api.put('/employers/me', data)
-        .then(this.checkSession);
+      return this._api.put('/employers/me', data).then(this.checkSession);
+    },
+
+    apply: function(data) {
+      return this._api.put('/employers/me/apply', data).then(this.checkSession);
     },
 
     listOffices: function() {

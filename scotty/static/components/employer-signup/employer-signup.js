@@ -66,7 +66,7 @@ define(function(require) {
       return Session.getSignupStage().then(function(stage) {
         var destination = [ 'profile' ];
 
-        if (!stage || stage.status !== 'SIGNEDUP')
+        if (!stage)
           return validStates.step0;
 
         stage.ordering.some(function(item) {

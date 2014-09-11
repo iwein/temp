@@ -40,7 +40,7 @@
 
     <div class="form-error" ng-show="formSignupBenefits.recruitment.$dirty && formSignupBenefits.recruitment.$invalid">
       <span ng-show="formSignupBenefits.recruitment.$error.required">
-        Please select the date your company was founded.
+        Please, provide a description of your recruitment process.
       </span>
     </div>
   </div>
@@ -54,12 +54,6 @@
       ng-disabled="loading"
       ng-model="model.training_policy">
     </textarea>
-
-    <div class="form-error" ng-show="formSignupBenefits.training.$dirty && formSignupBenefits.training.$invalid">
-      <span ng-show="formSignupBenefits.training.$error.required">
-        Please select the date your company was founded.
-      </span>
-    </div>
   </div>
 
   <div class="form-group">
