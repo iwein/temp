@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Title, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
-    Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course
+    Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit
 from scotty.views import RootController
 from scotty.views.common import listing_request, run_paginated_query
 from sqlalchemy import func
@@ -37,6 +37,10 @@ class ConfigurationController(RootController):
     @view_config(route_name='configuration_list_degrees')
     def degrees(self):
         return listing_request(self.request, Degree)
+
+    @view_config(route_name='configuration_list_benefits')
+    def benefits(self):
+        return listing_request(self.request, Benefit, self.request.params.get("q"), ignorecase=True)
 
     @view_config(route_name='configuration_list_courses')
     def courses(self):
@@ -92,6 +96,7 @@ def includeme(config):
     config.add_route('configuration_list_traffic_sources', 'traffic_sources')
     config.add_route('configuration_list_degrees', 'degrees')
     config.add_route('configuration_list_courses', 'courses')
+    config.add_route('configuration_list_benefits', 'benefits')
     config.add_route('configuration_list_languages', 'languages')
     config.add_route('configuration_list_skills', 'skills')
     config.add_route('configuration_list_job_titles', 'job_titles')
