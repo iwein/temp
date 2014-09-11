@@ -19,11 +19,13 @@ define(function(require) {
       });
     },
 
-    approveEmployer: function() { // (employer) {
-      // return this._api.post('/admin-approve-employer', model);
+    approveEmployer: function(employer) {
+      return this._api.get('/admin/employers/' + employer.id + '/approve');
+    },
 
-      return this._promise(function(resolve, reject) {
-        reject('NOT_IMPLEMENTED');
+    getEmployersByStatus: function(status) {
+      return this._api.get('/admin/employers/' + status).then(function(response) {
+        return response.data;
       });
     },
   };
