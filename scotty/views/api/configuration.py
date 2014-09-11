@@ -96,7 +96,7 @@ def includeme(config):
     config.add_route('configuration_list_traffic_sources', 'traffic_sources')
     config.add_route('configuration_list_degrees', 'degrees')
     config.add_route('configuration_list_courses', 'courses')
-    config.add_route('configuration_list_benefits', 'courses')
+    config.add_route('configuration_list_benefits', 'benefits')
     config.add_route('configuration_list_languages', 'languages')
     config.add_route('configuration_list_skills', 'skills')
     config.add_route('configuration_list_job_titles', 'job_titles')
