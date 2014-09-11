@@ -32,7 +32,7 @@ define(function(require) {
       $scope.loadingOffice = true;
       return Session.removeOffice(office)
         .then(listOffices)
-        .then(function() {
+        .finally(function() {
           $scope.loadingOffice = true;
         });
     }
@@ -51,6 +51,8 @@ define(function(require) {
         .then(function() {
           $scope.office = {};
           $scope.officeLocationText = '';
+        })
+        .finally(function() {
           $scope.loadingOffice = false;
         });
     }
