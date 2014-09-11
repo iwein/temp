@@ -11,12 +11,8 @@ define(function(require) {
   AdminSession.prototype = {
     constructor: AdminSession,
 
-    inviteEmployer: function() { // (model) {
-      // return this._api.post('/admin-invite-employer', model);
-
-      return this._promise(function(resolve, reject) {
-        reject('NOT_IMPLEMENTED');
-      });
+    inviteEmployer: function(model) {
+      return this._api.post('/admin/employers', model);
     },
 
     approveEmployer: function(employer) {

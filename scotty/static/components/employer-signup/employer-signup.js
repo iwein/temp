@@ -3,22 +3,32 @@ define(function(require) {
   require('tools/config-api');
   require('session');
   var module = require('app-module');
-  //var validStates = {};
+  var validStates = {
+    'step0': [ 'signup.start' ],
+    'step1': [ 'signup.basic' ],
+    'step2': [ 'signup.mission' ],
+    'step3': [ 'signup.facts' ],
+    'step4': [ 'signup.benefits' ],
+    'step5': [ 'signup.terms' ],
+  };
   var order = [
     'signup.start',
     'signup.basic',
+    'signup.mission',
+    'signup.facts',
+    'signup.benefits',
+    'signup.terms',
     'profile',
   ];
 
 
-  module.controller('SignupCtrl', function($scope, $q, $state) {
+  module.controller('SignupCtrl', function($scope, $state, Session) {
     var validated = null;
     this.nextStep = nextStep;
     this.atStep = atStep;
-    $scope.ready = true;
+    $scope.ready = false;
 
-    if ($state.current.name === 'signup')
-      loadStep('signup.start');
+    loadStep($state.current.name);
 
     $scope.$on('$stateChangeStart', function(event, state) {
       if (state.name.indexOf('signup') !== 0)
@@ -42,10 +52,32 @@ define(function(require) {
     }
 
     function loadStep(name) {
-      validated = name;
-      $scope.ready = true;
-      $state.go(name);
-      return $q.when(null);
+      return getValidStates().then(function(valid) {
+        if (valid.indexOf(name) === -1)
+          name = valid[0];
+
+        validated = name;
+        $scope.ready = true;
+        $state.go(name);
+      });
+    }
+
+    function getValidStates() {
+      return Session.getSignupStage().then(function(stage) {
+        var destination = [ 'profile' ];
+
+        if (!stage || stage.status !== 'SIGNEDUP')
+          return validStates.step0;
+
+        stage.ordering.some(function(item) {
+          if (!stage[item]) {
+            destination = validStates[item];
+            return true;
+          }
+        });
+
+        return destination;
+      });
     }
   });
 

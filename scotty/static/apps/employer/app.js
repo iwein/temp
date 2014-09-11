@@ -21,6 +21,7 @@ define(function(require) {
 
   module.run(function($state, $templateCache, $rootScope, Session) {
     $rootScope.session = Session;
+    Session.checkSession();
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
     $rootScope.logout = function() {
