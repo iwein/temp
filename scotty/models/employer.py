@@ -37,17 +37,17 @@ class Office(Base):
     contact_position = Column(String(128))
 
     def __json__(self, request):
-        result = {'id': self.id, 'website': self.website, 'contact_name': self.contact_email,
-                  'contact_phone': self.contact_phone, 'contact_email': self.contact_email,
-                  'contact_position': self.contact_position}
-
-        address = self.address_city.__json__(request) if self.address_city_id else {}
-
-        for k, v in employer_address_mapping.items():
-            if getattr(self, v, None):
-                address[k] = getattr(self, v)
-
-        result['address'] = address
+        result = {'id': self.id,
+                  'website': self.website,
+                  'contact_name': self.contact_email,
+                  'contact_phone': self.contact_phone,
+                  'contact_email': self.contact_email,
+                  'contact_position': self.contact_position,
+                  'address_line1': self.address_line1,
+                  'address_line2': self.address_line2,
+                  'address_line3': self.address_line3,
+                  'address_zipcode': self.address_zipcode,
+                  'address_city': self.address_city}
         return result
 
 
@@ -153,12 +153,6 @@ class Employer(Base):
         result['offices'] = self.offices
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
-
         city_id = result.pop('address_city_id', None)
-        address = self.address_city.__json__(request) if city_id else {}
-        for k, v in employer_address_mapping.items():
-            if v in result:
-                address[k] = result.pop(v)
-
-        result['address'] = address
+        result['address_city'] = self.address_city
         return result

@@ -77,7 +77,7 @@
 
             {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-office',
               data: {
-                address: {line1: "Gruenwald Strasse 104", zipcode: "08712", city: "Dresden", country_iso: "DE"},
+                address_line1: "Gruenwald Strasse 104", address_zipcode: "08712", address_city: {city: "Dresden", country_iso: "DE"},
                 contact_name: 'Martha Stweard',
                 contact_phone: "+800-43543-2154",
                 contact_email: 'matha@stewardhome.com'
@@ -90,7 +90,7 @@
               return '/api/v1/employers/' + extr.employerId + '/offices'
             }, title: 'employer-add-office-2',
               data: {
-                address: {line1: "Schoenhausener Allee 104", zipcode: "08712", city: "Hamburg", country_iso: "DE"},
+                address_line1: "Schoenhausener Allee 104", address_zipcode: "08712", address_city: {'city': "Hamburg", country_iso: "DE"},
                 contact_name: 'Harald Klockner',
                 contact_phone: "+49 232314 2435",
                 contact_email: 'harald@kliockner.com'

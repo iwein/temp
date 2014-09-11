@@ -8,6 +8,8 @@ from sqlalchemy.orm import joinedload
 
 def transform_address(params):
     address = params.pop('address', None)
+    if not address:
+        return params, None
     for k, v in address.items():
         if k in employer_address_mapping:
             params[employer_address_mapping[k]] = v
@@ -43,8 +45,7 @@ def employer_from_login(params):
 
 
 def add_employer_office(employer, params):
-    params, city = transform_address(params)
-    params['address_city'] = city
+    params['address_city'] = get_location_by_name_or_raise(params['address_city'])
     office = Office(employer=employer, **params)
     DBSession.flush()
     return office
