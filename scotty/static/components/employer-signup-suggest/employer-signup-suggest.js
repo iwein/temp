@@ -7,7 +7,6 @@ define(function(require) {
   module.controller('SignupSuggestCtrl', function($scope, $state, ConfigAPI, Session) {
     $scope.error = false;
     $scope.loading = true;
-    $scope.ready = false;
 
     function anonymize(entry) {
       return entry.first_name[0] + '. ' + entry.last_name[0] + '.';
