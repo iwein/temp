@@ -18,6 +18,11 @@ define(function(require) {
 
     listOffices();
 
+    Session.getUserData().then(function(data) {
+      $scope.model.contact_name = data.contact_name;
+      $scope.model.contact_email = data.email;
+    });
+
     function setLocation(model, location) {
       var city = ConfigAPI.getLocationFromText(location);
       model.errorInvalidCity = city === null;
