@@ -18,7 +18,7 @@ define(function(require) {
         $scope.error = true;
         throw error;
       }).then(function(isComplete) {
-        $state.go(isComplete ? 'home' : 'signup');
+        $state.go(isComplete ? 'profile' : 'signup');
       }).finally(function() {
         $scope.loading = false;
       });
