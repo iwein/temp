@@ -22,6 +22,11 @@ define(function(require) {
         .filter(function(benefit) { return benefit.selected })
         .map(function(benefit) { return benefit.value });
 
+      Object.keys($scope.model).forEach(function(key) {
+        if (!$scope.model[key])
+          delete $scope.model[key];
+      });
+
       Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {

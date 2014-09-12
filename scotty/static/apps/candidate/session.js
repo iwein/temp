@@ -5,12 +5,12 @@ define(function(require) {
 
   function getHelper(key) {
     return function() {
-      return this._api.get('/candidates/' + this.id() + '/' + key);
+      return this._api.get('/candidates/me/' + key);
     };
   }
   function setHelper(key, method) {
     return function(data) {
-      return this._api[method]('/candidates/' + this.id() + '/' + key, data);
+      return this._api[method]('/candidates/me/' + key, data);
     };
   }
 

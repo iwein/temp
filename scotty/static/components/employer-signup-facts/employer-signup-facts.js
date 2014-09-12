@@ -30,6 +30,11 @@ define(function(require) {
         .filter(function(item) { return item.value })
         .map(function(item) { return item.value });
 
+      Object.keys($scope.model).forEach(function(key) {
+        if (!$scope.model[key])
+          delete $scope.model[key];
+      });
+
       Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
