@@ -10,6 +10,8 @@ from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.orm import relationship
 
 
+INCLUDE_WEXP = 'include_wexp'
+
 class CandidateStatus(Base, NamedModel):
     __tablename__ = 'candidatestatus'
     id = Column(Integer, primary_key=True)
@@ -196,6 +198,10 @@ class Candidate(Base):
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
+    def get_json_options(self, request):
+        options = request.renderer_options.get(self.__class__.__name__)
+        return options or {}
+
     def __json__(self, request):
         result = json_encoder(self, request)
 
@@ -214,4 +220,9 @@ class Candidate(Base):
         # TODO: fix, why is it not auto loaded?
         result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() \
             if self.preferred_cities else []
+
+        opts = self.get_json_options(request)
+        if opts.get(INCLUDE_WEXP):
+            result['work_experience'] = self.work_experience
+
         return result
