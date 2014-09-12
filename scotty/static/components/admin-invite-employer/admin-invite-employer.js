@@ -14,8 +14,11 @@ define(function(require) {
 
       Session.inviteEmployer($scope.model).then(function() {
         $state.go('home');
-      }).catch(function() {
-        $scope.error = true;
+      }).catch(function(request) {
+        if (request.status === 409)
+          $scope.errorAlreadyRegistered = true;
+        else
+          $scope.error = true;
       }).finally(function() {
         $scope.loading = false;
       });

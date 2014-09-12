@@ -6,8 +6,11 @@
 
       <h3>Invite employer</h3>
 
-      <div class="error" role="alert" ng-hide="!error">
-        Wow! this is not ready yet!
+      <div class="error" role="alert" ng-show="error">
+        Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
+      </div>
+      <div class="error" role="alert" ng-show="errorAlreadyRegistered">
+        Email address already registered.
       </div>
 
       <div class="form-group">
