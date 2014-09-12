@@ -31,8 +31,6 @@ def employer_from_signup(params):
         email=email,
         pwd=pwd
     )
-
-    DBSession.add(employer)
     return employer
 
 
