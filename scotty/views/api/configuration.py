@@ -24,7 +24,7 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_skilllevels')
     def skilllevels(self):
-        return listing_request(self.request, SkillLevel)
+        return listing_request(self.request, SkillLevel, order_field=SkillLevel.id)
 
     @view_config(route_name='configuration_list_proficiencies')
     def proficiencies(self):

@@ -15,7 +15,7 @@ def run_paginated_query(request, basequery, serializer=list):
             "data": serializer(query)}
 
 
-def listing_request(request, DbCls, searchterm=None, ignorecase=False):
+def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_field=None):
     basequery = DBSession.query(DbCls)
     name_field = getattr(DbCls, DbCls.__name_field__)
 
@@ -26,5 +26,5 @@ def listing_request(request, DbCls, searchterm=None, ignorecase=False):
             filter_by = name_field.contains(searchterm)
         basequery = basequery.filter(filter_by)
 
-    return run_paginated_query(request, basequery.order_by(name_field))
+    return run_paginated_query(request, basequery.order_by(order_field or name_field))
 
