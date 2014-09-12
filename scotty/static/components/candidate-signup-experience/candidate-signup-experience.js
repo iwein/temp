@@ -45,7 +45,7 @@ define(function(require) {
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
-      $scope.model.contact_city = city;
+      $scope.model.location = city;
     }
 
     function onSkillBlur(entry, index, isLast) {
@@ -59,7 +59,7 @@ define(function(require) {
     }
 
     function save() {
-      if (!$scope.model.contact_city || $scope.errorInvalidCity) {
+      if (!$scope.model.location || $scope.errorInvalidCity) {
         $scope.errorInvalidCity = true;
         return $q.reject(new Error('Form data not valid'));
       }
