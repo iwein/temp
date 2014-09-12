@@ -30,14 +30,18 @@ define(function(require) {
     function submit() {
       $scope.loading = true;
       $scope.error = false;
+      $scope.errorAlreadyRegistered = false;
 
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :
         Session.signup($scope.model)
       ).then(function() {
         $scope.signup.nextStep();
-      }).catch(function() {
-        $scope.error = true;
+      }).catch(function(request) {
+        if (request.status === 409)
+          $scope.errorAlreadyRegistered = true;
+        else
+          $scope.error = true;
       }).finally(function() {
         $scope.loading = false;
       });
