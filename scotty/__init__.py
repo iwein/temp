@@ -22,11 +22,11 @@ from scotty.models.meta import (DBSession, Base)
 
 
 def format_date(val, request):
-    return val.strftime('%Y-%m-%d')
+    return val.isoformat().split("T")[0]
 
 
 def format_datetime(val, request):
-    return val.strftime('%Y-%m-%dT%H:%M:%S')
+    return val.isoformat()
 
 
 def format_uuid(val, request):
