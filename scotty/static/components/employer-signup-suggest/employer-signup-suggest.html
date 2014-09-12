@@ -1,12 +1,9 @@
-<div class="component-employer-signup-suggest" ng-show="ready">
+<div class="component-employer-signup-suggest">
 
   <h3>Sign up - Suggested candidates</h3>
 
   <div class="alert alert-danger" ng-show="error">
     Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
-  </div>
-  <div class="alert alert-warning" ng-show="!approved">
-    Your account needs to be approved to continue.
   </div>
 
   <div class="panel panel-default" ng-repeat="candidate in candidates">

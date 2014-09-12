@@ -73,7 +73,8 @@ define(function(require) {
       $scope.loading = true;
       $scope.error = false;
 
-      $q.when($scope.formSignupBasicOffice.$valid && submitOffice()).then(function() {
+      //$q.when($scope.formSignupBasicOffice.$valid && submitOffice())
+      $q.when(true).then(function() {
         Object.keys($scope.model).forEach(function(key) {
           if (!$scope.model[key])
             delete $scope.model[key];

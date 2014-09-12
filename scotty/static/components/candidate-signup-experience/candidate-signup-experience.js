@@ -75,6 +75,12 @@ define(function(require) {
 
     function addAnother() {
       save().then(function() {
+        $scope.formExperience.$setPristine();
+        $scope.locationText = '';
+        $scope.startMonth = '';
+        $scope.startYear = '';
+        $scope.endMonth = '';
+        $scope.endYear = '';
         $scope.model = {};
         $scope.skills = [{}];
       }).finally(function() {

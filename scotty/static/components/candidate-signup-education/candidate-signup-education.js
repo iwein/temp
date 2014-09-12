@@ -46,6 +46,11 @@ define(function(require) {
 
     function addAnother() {
       save().then(function() {
+        $scope.formEducation.$setPristine();
+        $scope.startMonth = '';
+        $scope.startYear = '';
+        $scope.endMonth = '';
+        $scope.endYear = '';
         $scope.model = {};
         $scope.loading = false;
       });

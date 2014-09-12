@@ -13,9 +13,12 @@ define(function(require) {
       }
 
       if (data.status === 'SIGNEDUP') {
-        $state.go('signedup');
+        $state.go('signup');
         return;
       }
+
+      if (data.status === 'APPROVED')
+        $scope.approved = true;
 
       $scope.ready = true;
       $scope.data = data;

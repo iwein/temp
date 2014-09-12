@@ -1,6 +1,8 @@
 <div class="component-employer-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
+    <div class="alert alert-warning" ng-show="!approved">Awaiting approval</div>
+
     <div class="page-header">
       <h1>
         <img ng-show="data.logo_url" ng-src="{{ logo_url }}">
@@ -82,7 +84,7 @@
       </ul>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="display:none">
       <div class="panel-heading">
         <h3 class="panel-title">Offices</h3>
       </div>
