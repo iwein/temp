@@ -59,7 +59,7 @@ define(function(require) {
     }
 
     function save() {
-      if (!$scope.model.location || $scope.errorInvalidCity) {
+      if (!$scope.model.contact_city || $scope.errorInvalidCity) {
         $scope.errorInvalidCity = true;
         return $q.reject(new Error('Form data not valid'));
       }
