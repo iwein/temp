@@ -1,6 +1,6 @@
 from datetime import datetime
-from uuid import uuid4
-from paste.httpexceptions import HTTPNotFound, HTTPConflict
+
+from pyramid.httpexceptions import HTTPNotFound, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Employer
@@ -17,14 +17,15 @@ class AdminController(RootController):
     def invite(self):
         try:
             employer = invite_employer(self.request.json)
-            self.request.emailer.send_employer_invite(
-                employer.email,
-                employer.contact_name,
-                employer.company_name,
-                employer.invite_token
-            )
         except IntegrityError:
             raise HTTPConflict("company_name of email already registered.")
+
+        self.request.emailer.send_employer_invite(
+            employer.email,
+            employer.contact_name,
+            employer.company_name,
+            employer.invite_token
+        )
         return employer
 
     @view_config(route_name='admin_employer_by_status', **GET)

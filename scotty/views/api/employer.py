@@ -57,8 +57,6 @@ class EmployerController(RootController):
             DBSession.flush()
         except IntegrityError:
             raise HTTPConflict("company_name of email already registered.")
-
-
         self.request.session['employer_id'] = employer.id
         return employer
 
