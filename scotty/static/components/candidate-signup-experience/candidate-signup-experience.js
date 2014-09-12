@@ -45,7 +45,7 @@ define(function(require) {
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
-      $scope.model.contact_city = city;
+      $scope.model.location = city;
     }
 
     function onSkillBlur(entry, index, isLast) {
