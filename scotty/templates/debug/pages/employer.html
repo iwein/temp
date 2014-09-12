@@ -111,6 +111,8 @@
 
 
             {'sectionTitle': 'Cleanup'},
+            {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
+            {url: '/api/v1/employers/me', title: 'employer-me-after-logout', method: "GET", expectedErrors: [403]},
             {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-delete', method: "DELETE"}
           ];
 
