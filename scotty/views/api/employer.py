@@ -1,6 +1,6 @@
 from datetime import datetime
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate
@@ -9,6 +9,7 @@ from scotty.services.employerservice import employer_from_signup, employer_from_
     update_employer
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 
@@ -50,9 +51,12 @@ class EmployerController(RootController):
 
     @view_config(route_name='employers', **POST)
     def signup(self):
-        employer = employer_from_signup(self.request.json)
-        DBSession.add(employer)
-        DBSession.flush()
+        try:
+            employer = employer_from_signup(self.request.json)
+            DBSession.add(employer)
+            DBSession.flush()
+        except IntegrityError:
+            raise HTTPConflict("company_name of email already registered.")
         self.request.session['employer_id'] = employer.id
         return employer
 
