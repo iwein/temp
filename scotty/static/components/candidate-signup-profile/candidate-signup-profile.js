@@ -46,7 +46,7 @@ define(function(require) {
         return;
 
       $scope.loading = true;
-      Amazon.upload($scope.files[0], '/users', Session.id()).then(function(file) {
+      Amazon.upload($scope.files[0], 'users', Session.id()).then(function(file) {
         return Session.updateData($scope.model).then(function() {
           return Session.setPhoto(file);
         });

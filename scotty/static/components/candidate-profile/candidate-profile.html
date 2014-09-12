@@ -6,7 +6,10 @@
     </div>
 
     <div class="page-header">
-      <h1><small>{{ user.first_name }} {{ user.last_name }}</small></h1>
+      <h1>
+        <img class="avatar" ng-src="{{ user.picture_url }}">
+        <small>{{ user.first_name }} {{ user.last_name }}</small>
+      </h1>
     </div>
 
     <div class="panel panel-default">
