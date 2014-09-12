@@ -6,11 +6,14 @@
 
       <h3>Invite employer</h3>
 
-      <div class="error" role="alert" ng-show="error">
+      <div class="alert alert-danger" ng-show="error">
         Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
       </div>
-      <div class="error" role="alert" ng-show="errorAlreadyRegistered">
+      <div class="alert alert-danger" ng-show="errorAlreadyRegistered">
         Email address already registered.
+      </div>
+      <div class="alert alert-success" ng-show="sent">
+        Email was sent to {{ sent }}
       </div>
 
       <div class="form-group">

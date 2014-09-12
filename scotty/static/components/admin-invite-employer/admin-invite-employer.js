@@ -3,17 +3,20 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('AdminInviteEmployerCtrl', function($scope, $state, Session) {
+  module.controller('AdminInviteEmployerCtrl', function($scope, Session) {
     this.submit = submit;
+    $scope.sent = false;
     $scope.loading = false;
     $scope.model = {};
 
     function submit() {
       $scope.loading = true;
       $scope.error = false;
+      $scope.sent = false;
 
       Session.inviteEmployer($scope.model).then(function() {
-        $state.go('home');
+        $scope.sent = $scope.model.email;
+        $scope.model = {};
       }).catch(function(request) {
         if (request.status === 409)
           $scope.errorAlreadyRegistered = true;
