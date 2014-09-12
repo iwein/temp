@@ -3,7 +3,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office
+from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer
 from scotty.views import RootController
@@ -82,6 +82,13 @@ class EmployerController(RootController):
                                                    employer.id)
         return self.employer
 
+    @view_config(route_name='employer_suggested_candidates', **GET)
+    def employer_suggested_candidates(self):
+        if self.employer.status not in [APPLIED, APPROVED]:
+            raise HTTPForbidden("Employer has not applied yet and is not approved")
+        #TODO: add meaning full candidates
+        return DBSession.query(Candidate).limit(5).all()
+
     @view_config(route_name='employer', **DELETE)
     def delete(self):
         DBSession.delete(self.employer)
@@ -128,6 +135,7 @@ def includeme(config):
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
+    config.add_route('employer_suggested_candidates', '{employer_id}/suggestedcandidates')
     config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
     config.add_route('employer_apply', '{employer_id}/apply')
     config.add_route('employer_offices', '{employer_id}/offices')
