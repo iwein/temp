@@ -4,12 +4,16 @@ define(function(require) {
   require('session');
   var module = require('app-module');
   var validStates = {
-    'step0': [ 'signup.start' ],
+    'start': [ 'signup.start' ],
     'step1': [ 'signup.basic' ],
     'step2': [ 'signup.mission' ],
     'step3': [ 'signup.facts' ],
     'step4': [ 'signup.benefits' ],
-    'step5': [ 'signup.terms' ],
+    'step5': [
+      'signup.terms',
+      'signup.tos',
+    ],
+    'end': [ 'profile' ],
   };
   var order = [
     'signup.start',
@@ -64,18 +68,16 @@ define(function(require) {
 
     function getValidStates() {
       return Session.getSignupStage().then(function(stage) {
-        var destination = [ 'profile' ];
-
         if (!stage)
-          return validStates.step0;
+          return validStates.start;
 
+        var destination = validStates.end;
         stage.ordering.some(function(item) {
           if (!stage[item]) {
             destination = validStates[item];
             return true;
           }
         });
-
         return destination;
       });
     }

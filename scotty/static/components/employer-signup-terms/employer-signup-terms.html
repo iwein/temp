@@ -15,8 +15,10 @@
         ng-disabled="loading"
         ng-model="model.agreedTos">
       I agree
-      <a href="http://google.com/" target="_blank">terms &amp; services</a>
     </label>
+    <strong>
+      <a ui-sref="signup.tos">terms &amp; services</a>
+    </strong>
 
     <div class="form-error" ng-show="formSignupTerms.recruitment.$dirty && formSignupTerms.recruitment.$invalid">
       <span ng-show="formSignupTerms.recruitment.$error.required">
