@@ -84,6 +84,10 @@ define(function(require) {
     getInvitationData: function(token) {
       return this._api.get('/employers/invite/' + token);
     },
+
+    getSuggestedCandidates: function() {
+      return this._api.get('/employers/me/suggestedcandidates');
+    },
   };
 
   var module = require('app-module');

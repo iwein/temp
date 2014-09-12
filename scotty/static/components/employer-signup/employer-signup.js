@@ -13,7 +13,7 @@ define(function(require) {
       'signup.terms',
       'signup.tos',
     ],
-    'end': [ 'profile' ],
+    'end': [ 'signup.suggest' ],
   };
   var order = [
     'signup.start',
@@ -22,7 +22,7 @@ define(function(require) {
     'signup.facts',
     'signup.benefits',
     'signup.terms',
-    'profile',
+    'signup.suggest',
   ];
 
 
