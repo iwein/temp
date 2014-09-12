@@ -4,10 +4,12 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate
+from scotty.models.candidate import INCLUDE_WEXP
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
+from sqlalchemy.orm import joinedload
 
 
 class EmployerInviteController(RootController):
@@ -87,7 +89,10 @@ class EmployerController(RootController):
         if self.employer.status not in [APPLIED, APPROVED]:
             raise HTTPForbidden("Employer has not applied yet and is not approved")
         #TODO: add meaning full candidates
-        return DBSession.query(Candidate).limit(5).all()
+        self.request.renderer_options['Candidate'] = {INCLUDE_WEXP: True}
+        return DBSession.query(Candidate).options(joinedload("languages"),
+                                                  joinedload("skills"),
+                                                  joinedload("work_experience")).limit(5).all()
 
     @view_config(route_name='employer', **DELETE)
     def delete(self):
@@ -104,8 +109,7 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_logout', **GET)
     def logout(self):
-        if 'employer_id' in self.request.session:
-            del self.request.session['employer_id']
+        self.request.session.pop('employer_id', None)
         return {'success': True}
 
 

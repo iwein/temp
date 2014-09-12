@@ -108,6 +108,7 @@ def main(global_config, **settings):
     config.add_view_predicate('content_type', ContentTypePredicate)
 
     config.add_request_method(emailer_factory(settings), 'emailer', reify=True)
+    config.add_request_method(lambda req: {}, 'renderer_options', reify=True)
 
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.include('scotty.views')
