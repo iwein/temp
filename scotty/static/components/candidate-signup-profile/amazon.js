@@ -56,7 +56,7 @@ define(function(require) {
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4) {
             if (xhr.status === 204)
-              resolve('https://s3-eu-west-1.amazonaws.com/' + this._bucket + key);
+              resolve('https://s3-eu-west-1.amazonaws.com/' + this._bucket + '/' + key);
             else
               reject(xhr);
           }

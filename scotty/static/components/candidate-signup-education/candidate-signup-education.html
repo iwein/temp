@@ -4,8 +4,8 @@
 
     <h3>Sign up - Education</h3>
 
-    <div class="form-group">
-      <label class="required">Institution</label>
+    <div class="form-group required">
+      <label>Institution</label>
       <input type="text"
         class="form-control"
         name="institution"
@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Degree</label>
+    <div class="form-group required">
+      <label>Degree</label>
       <select
         class="form-control"
         name="degree"
@@ -41,8 +41,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Period</label>
+    <div class="form-group required">
+      <label>Period</label>
 
       <div class="form-inline">
         <!-- From month -->
@@ -74,9 +74,9 @@
         <select
           class="form-control"
           name="endMonth"
-          required
           ng-disabled="loading"
           ng-model="endMonth"
+          ng-required="endYear"
           ng-options="month for month in months"
           ng-change="endDateUpdate()">
           <option value="">Month</option>
@@ -87,9 +87,9 @@
           class="form-control"
           name="endYear"
           placeholder="Year"
-          required
           ng-disabled="loading"
           ng-model="endYear"
+          ng-required="endMonth"
           ng-change="endDateUpdate()">
       </div>
 
@@ -107,8 +107,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Course</label>
+    <div class="form-group required">
+      <label>Course</label>
       <input type="text"
         class="form-control"
         name="course"

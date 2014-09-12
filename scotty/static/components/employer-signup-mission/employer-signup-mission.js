@@ -17,8 +17,10 @@ define(function(require) {
     });
 
     function submit() {
-      if ($scope.errorMissionEmpty)
+      if ($scope.errorMissionEmpty) {
+        $scope.missionDirty = true;
         return;
+      }
 
       Object.keys($scope.model).forEach(function(key) {
         if (!$scope.model[key])

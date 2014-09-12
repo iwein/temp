@@ -8,7 +8,7 @@
   <form name="formSignupBasic" ng-submit="signupBasic.submit()">
 
     <div class="form-group">
-      <label class="required">Logo url</label>
+      <label>Logo url</label>
       <input type="url"
         class="form-control"
         placeholder="Logo url"
@@ -23,8 +23,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Website</label>
+    <div class="form-group required">
+      <label>Website</label>
       <input type="url"
         class="form-control"
         placeholder="Website"
@@ -35,13 +35,13 @@
 
       <div class="form-error" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
         <span ng-show="formSignupBasic.website.$error.required">
-          Please insert your the name of the contact person of your company.
+          Please insert the name of the contact person of your company.
         </span>
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Address</label>
+    <div class="form-group required">
+      <label>Address</label>
       <input
         type="text"
         class="form-control"
@@ -111,8 +111,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Contact name</label>
+    <div class="form-group required">
+      <label>Contact name</label>
       <input type="text"
         class="form-control"
         placeholder="Contact name"
@@ -128,8 +128,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Contact phone</label>
+    <div class="form-group required">
+      <label>Contact phone</label>
       <input type="tel"
         class="form-control"
         placeholder="Contact phone"
@@ -145,8 +145,8 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="required">Contact email</label>
+    <div class="form-group required">
+      <label>Contact email</label>
       <input type="email"
         class="form-control"
         placeholder="Contact email"
@@ -170,44 +170,26 @@
         name="contact_position"
         ng-disabled="loading"
         ng-model="model.contact_position">
-
-      <div class="form-error" ng-show="formSignupBasic.contact_position.$dirty && formSignupBasic.contact_position.$invalid">
-        <span ng-show="formSignupBasic.contact_position.$error.required">
-          Please insert your the position of the contact person of your company.
-        </span>
-      </div>
     </div>
 
     <div class="form-group">
-      <label class="required">Facebook page</label>
+      <label>Facebook page</label>
       <input type="url"
         class="form-control"
         placeholder="Facebook page"
         name="fb_url"
         ng-disabled="loading"
         ng-model="model.fb_url">
-
-      <div class="form-error" ng-show="formSignupBasic.fb_url.$dirty && formSignupBasic.fb_url.$invalid">
-        <span ng-show="formSignupBasic.fb_url.$error.required">
-          Please insert the facebook page of your company.
-        </span>
-      </div>
     </div>
 
     <div class="form-group">
-      <label class="required">LinkedIn URL</label>
+      <label>LinkedIn URL</label>
       <input type="url"
         class="form-control"
         placeholder="LinkedIn URL"
         name="linkedin_url"
         ng-disabled="loading"
         ng-model="model.linkedin_url">
-
-      <div class="form-error" ng-show="formSignupBasic.linkedin_url.$dirty && formSignupBasic.linkedin_url.$invalid">
-        <span ng-show="formSignupBasic.linkedin_url.$error.required">
-          Please insert the linked in URL of your company.
-        </span>
-      </div>
     </div>
 
     <div class="form-group">
@@ -222,8 +204,8 @@
 
     <div class="panel-body">
       <form name="formSignupBasicOffice" ng-submit="signupBasic.submitOffice()">
-        <div class="form-group">
-          <label class="required">Website</label>
+        <div class="form-group required">
+          <label>Website</label>
           <input type="url"
             class="form-control"
             placeholder="Website"
@@ -239,8 +221,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="required">Address</label>
+        <div class="form-group required">
+          <label>Address</label>
           <input
             type="text"
             class="form-control"
@@ -310,8 +292,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="required">Contact name</label>
+        <div class="form-group required">
+          <label>Contact name</label>
           <input type="text"
             class="form-control"
             placeholder="Contact name"
@@ -327,8 +309,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="required">Contact phone</label>
+        <div class="form-group required">
+          <label>Contact phone</label>
           <input type="tel"
             class="form-control"
             placeholder="Contact phone"
@@ -344,8 +326,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="required">Contact email</label>
+        <div class="form-group required">
+          <label>Contact email</label>
           <input type="email"
             class="form-control"
             placeholder="Contact email"
@@ -369,12 +351,6 @@
             name="contact_position"
             ng-disabled="loadingOffice"
             ng-model="office.contact_position">
-
-          <div class="form-error" ng-show="formSignupBasicOffice.contact_position.$dirty && formSignupBasicOffice.contact_position.$invalid">
-            <span ng-show="formSignupBasicOffice.contact_position.$error.required">
-              Please insert your the position of the contact person of your company.
-            </span>
-          </div>
         </div>
 
         <div class="form-group">

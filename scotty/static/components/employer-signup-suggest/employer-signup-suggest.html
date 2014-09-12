@@ -1,0 +1,29 @@
+<div class="component-employer-signup-suggest" ng-show="ready">
+
+  <h3>Sign up - Suggested candidates</h3>
+
+  <div class="alert alert-danger" ng-show="error">
+    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
+  </div>
+  <div class="alert alert-warning" ng-show="!approved">
+    Your account needs to be approved to continue.
+  </div>
+
+  <div class="panel panel-default" ng-repeat="candidate in candidates">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ candidate.name }}</h3>
+    </div>
+    <div class="panel-body">
+      <dl class="dl-horizontal">
+        <dt>City</dt>
+        <dd>{{ candidate.city }}</dd>
+        <dt>Years of experience</dt>
+        <dd>{{ candidate.yearsOfExperience }}</dd>
+        <dt>Skills</dt>
+        <dd>{{ candidate.skills.join(', ') }}</dd>
+      </dl>
+    </div>
+  </div>
+
+  <a class="btn btn-primary" ui-sref="profile">Continue</a>
+</div>

@@ -6,19 +6,45 @@
     </div>
 
     <div class="page-header">
-      <h1><small>{{ user.first_name }} {{ user.last_name }}</small></h1>
+      <h1>
+        <img class="avatar" ng-src="{{ user.picture_url }}">
+        <small>{{ user.first_name }} {{ user.last_name }}</small>
+      </h1>
     </div>
 
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Personal data</h3>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <span class="key">Email:</span>
-          <span class="value">{{ user.email }}</span>
-        </li>
-      </ul>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>email</dt>
+          <dd>{{ user.email }}</dd>
+          <dt>Availabilty</dt>
+          <dd>{{ user.available_date || (user.available_months + ' months') }}</dd>
+          <dt ng-if="user.contact_skype">Skype</dt>
+          <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
+          <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
+          <dd ng-if="user.stackoverflow_url">
+            <a ng-href="{{ user.stackoverflow_url }}">{{ user.stackoverflow_url }}</a>
+          </dd>
+          <dt ng-if="user.github_url">Github</dt>
+          <dd ng-if="user.github_url">
+            <a ng-href="{{ user.github_url }}">{{ user.github_url }}</a>
+          </dd>
+          <dt>Address</dt>
+          <dd>
+            <address>
+              {{ user.contact_line1 }}<br>
+              {{ user.contact_line2 }}<br>
+              {{ user.contact_line3 }}<br ng-if="user.contact_line3">
+              {{ user.contact_city.city }},
+              {{ user.contact_city.country_iso }}
+              {{ user.contact_zipcode }}
+            </address>
+          </dd>
+        </dl>
+      </div>
     </div>
 
     <div class="panel panel-default">
@@ -58,30 +84,18 @@
       <div class="panel-heading">
         <h3 class="panel-title">Target positions</h3>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="position in targetPositions">
-          <div class="panel panel-default">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <span class="key">role:</span>
-                <span class="value">{{ position.role }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">skill:</span>
-                <span class="value">{{ position.skill }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">company type:</span>
-                <span class="value">{{ position.company_type }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">minimum salary:</span>
-                <span class="value">{{ position.minimum_salary }}</span>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>role</dt>
+          <dd>{{ targetPositions[0].role }}</dd>
+          <dt>skill</dt>
+          <dd>{{ targetPositions[0].skill }}</dd>
+          <dt>company type</dt>
+          <dd>{{ targetPositions[0].company_type }}</dd>
+          <dt>minimum salary</dt>
+          <dd>{{ targetPositions[0].minimum_salary }}</dd>
+        </dl>
+      </div>
     </div>
 
     <div class="panel panel-default">
@@ -90,40 +104,22 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in experience">
-          <div class="panel panel-default">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <span class="key">company:</span>
-                <span class="value">{{ entry.company }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">location:</span>
-                <span class="value">
-                  {{ entry.location.city }}, {{ entry.location.country_iso }}
-                </span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">start:</span>
-                <span class="value">{{ entry.start }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">end:</span>
-                <span class="value">{{ entry.end }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">job title:</span>
-                <span class="value">{{ entry.job_title }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">role:</span>
-                <span class="value">{{ entry.role }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">summary:</span>
-                <span class="value">{{ entry.summary }}</span>
-              </li>
-            </ul>
-          </div>
+          <dl class="dl-horizontal">
+            <dt>company</dt>
+            <dd>{{ entry.company }}</dd>
+            <dt>location</dt>
+            <dd>{{ entry.location.city }}, {{ entry.location.country_iso }}</dd>
+            <dt>start</dt>
+            <dd>{{ entry.start }}</dd>
+            <dt>end</dt>
+            <dd>{{ entry.end }}</dd>
+            <dt>job title</dt>
+            <dd>{{ entry.job_title }}</dd>
+            <dt>role</dt>
+            <dd>{{ entry.role }}</dd>
+            <dt>summary</dt>
+            <dd>{{ entry.summary }}</dd>
+          </dl>
         </li>
       </ul>
     </div>
@@ -134,30 +130,18 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in education">
-          <div class="panel panel-default">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <span class="key">institution:</span>
-                <span class="value">{{ entry.institution }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">degree:</span>
-                <span class="value">{{ entry.degree }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">course:</span>
-                <span class="value">{{ entry.course }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">start:</span>
-                <span class="value">{{ entry.start }}</span>
-              </li>
-              <li class="list-group-item">
-                <span class="key">end:</span>
-                <span class="value">{{ entry.end }}</span>
-              </li>
-            </ul>
-          </div>
+          <dl class="dl-horizontal">
+            <dt>institution</dt>
+            <dd>{{ entry.institution }}</dd>
+            <dt>degree</dt>
+            <dd>{{ entry.degree }}</dd>
+            <dt>course</dt>
+            <dd>{{ entry.course }}</dd>
+            <dt>start</dt>
+            <dd>{{ entry.start }}</dd>
+            <dt>end</dt>
+            <dd>{{ entry.end }}</dd>
+          </dl>
         </li>
       </ul>
     </div>

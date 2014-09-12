@@ -1,6 +1,13 @@
-<div class="employer-candidate-signup row">
+<div class="component-employer-signup row">
   <div class="signup-container" ng-show="ready">
     <ol class="col-sm-3 sidenav">
+      <li ng-class="{ active: signup.atStep('signup.start') }">Start</li>
+      <li ng-class="{ active: signup.atStep('signup.basic') }">Basic information</li>
+      <li ng-class="{ active: signup.atStep('signup.mission') }">Mission</li>
+      <li ng-class="{ active: signup.atStep('signup.facts') }">Facts</li>
+      <li ng-class="{ active: signup.atStep('signup.benefits') }">Benefits</li>
+      <li ng-class="{ active: signup.atStep('signup.terms') }">Terms &amp; services</li>
+      <li ng-class="{ active: signup.atStep('signup.suggestions') }">Suggestions</li>
     </ol>
     <ui-view class="col-sm-6"></ui-view>
   </div>

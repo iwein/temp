@@ -20,6 +20,8 @@ define(function(require) {
       .state('signup.facts', require('components/employer-signup-facts/employer-signup-facts'))
       .state('signup.benefits', require('components/employer-signup-benefits/employer-signup-benefits'))
       .state('signup.terms', require('components/employer-signup-terms/employer-signup-terms'))
+      .state('signup.tos', require('components/employer-signup-tos/employer-signup-tos'))
+      .state('signup.suggest', require('components/employer-signup-suggest/employer-signup-suggest'))
       ;
   });
 
