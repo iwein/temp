@@ -36,7 +36,7 @@
           <dd>
             <address>
               {{ user.contact_line1 }}<br>
-              {{ user.contact_line2 }}<br>
+              {{ user.contact_line2 }}<br ng-if="user.contact_line2">
               {{ user.contact_line3 }}<br ng-if="user.contact_line3">
               {{ user.contact_city.city }},
               {{ user.contact_city.country_iso }}
