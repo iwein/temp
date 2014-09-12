@@ -12,3 +12,13 @@ ui-view {
 .link {
   cursor: pointer;
 }
+
+.form-group {
+  &.required label,
+  label.required {
+    &:after {
+      content: ' *';
+      color: red;
+    }
+  }
+}

@@ -21,7 +21,7 @@
         <li class="list-group-item" ng-repeat="employer in employers">
           {{ employer.contact_name }} at {{ employer.company_name }}
           <button type="button"
-            ng-if="employer.status === 'applied'"
+            ng-if="employer.status === 'APPLIED'"
             ng-click="approveEmployers.approve(employer)">
             Approve
           </button>
