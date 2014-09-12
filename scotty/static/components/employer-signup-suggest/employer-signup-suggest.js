@@ -18,17 +18,6 @@ define(function(require) {
       return Math.round(Math.random() * 15);
     }
 
-    Session.getUserData().then(function(data) {
-      if (!Session.hasSession()) {
-        $state.go('login');
-        return;
-      }
-
-      if (data.status === 'APPROVED')
-        $scope.approved = true;
-      $scope.ready = true;
-    });
-
     Session.getSuggestedCandidates().then(function(candidates) {
       $scope.candidates = candidates.map(function(entry) {
         return {
