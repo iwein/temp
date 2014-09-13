@@ -12,7 +12,7 @@ from sqlalchemy.orm import joinedload
 class ConfigurationController(RootController):
     @view_config(route_name='configuration_list_seniority')
     def seniority(self):
-        return listing_request(self.request, Seniority, order_field=Title.id)
+        return listing_request(self.request, Seniority, order_field=Seniority.id)
 
     @view_config(route_name='configuration_list_titles')
     def titles(self):
