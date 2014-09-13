@@ -74,7 +74,9 @@
                   },
                   error = function (post_data) {
                     return function(resp, status, msg) {
-                      if(resp.status>299 && conf.expectedErrors && !!~conf.expectedErrors.indexOf(resp.status)){
+                      if(resp.status<300){
+                        cb(params)(resp.responseJSON);
+                      } else if(conf.expectedErrors && !!~conf.expectedErrors.indexOf(resp.status)){
                         cb(params)(resp.responseJSON);
                       } else {
                         conf.$link.addClass('error');
