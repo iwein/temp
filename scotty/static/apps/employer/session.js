@@ -62,6 +62,17 @@ define(function(require) {
       });
     },
 
+    isSignupComplete: function() {
+      return this.getSignupStage().then(function(stage) {
+        if (!stage)
+          return false;
+
+        return stage.ordering.every(function(item) {
+          return stage[item];
+        });
+      });
+    },
+
     checkSession: function() {
       return this._api.get('/employers/me').then(function(response) {
         this.user = response;

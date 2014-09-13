@@ -34,7 +34,11 @@
           <dd ng-show="data.no_of_employees">{{ data.no_of_employees }}</dd>
           <dt ng-show="data.tech_team_size">Tech team size</dt>
           <dd ng-show="data.tech_team_size">{{ data.tech_team_size }}</dd>
-          <dt>Recruitmen process</dt>
+
+          <dt>Company Description</dt>
+          <dd ng-bind-html="data.mission_text"></dd>
+
+          <dt>Recruitment process</dt>
           <dd>{{ data.recruitment_process }}</dd>
           <dt ng-show="data.training_policy">Training policy</dt>
           <dd ng-show="data.training_policy">{{ data.training_policy }}</dd>
