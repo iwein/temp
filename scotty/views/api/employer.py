@@ -108,7 +108,7 @@ class EmployerController(RootController):
                     on  cs.skill_id = s.id
                 join candidate c
                     on cs.candidate_id = c.id
-                where e.id = :employer_id
+                where e.id = :employer_id and c.contact_city is not NULL
                 group by c.id
                 order by noskills desc
         """), {'employer_id': str(self.employer.id)})
