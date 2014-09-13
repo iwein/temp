@@ -100,7 +100,7 @@ class EmployerController(RootController):
         results = DBSession.execute(text("""
             select c.id as id, count(s.id) as noskills
                 from employer e
-                join employer_skills es
+                join employer_skill es
                     on e.id = es.employer_id
                 join skill s
                     on s.id = es.skill_id
