@@ -23,7 +23,7 @@ class MandrillEmailer(object):
             return True
 
     def send_welcome(self, email, first_name, activation_token):
-        url = 'http://%s/candidate.html#/activate/%s' % (self.frontend, activation_token)
+        url = 'http://%s/candidate#/activate/%s' % (self.frontend, activation_token)
         return self.send('signup-welcome', [], {'to': [{'email': email, 'name': first_name}],
                                                 'global_merge_vars': [
                                                     {'content': first_name, 'name': 'first_name'},
