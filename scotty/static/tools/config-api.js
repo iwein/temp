@@ -16,8 +16,9 @@ define(function(require) {
         params.q = options.term;
 
       return this._api.get('/config/' + key, params).then(function(response) {
+        this._lastResults[key] = response.data;
         return response.data;
-      });
+      }.bind(this));
     };
   }
 
@@ -25,6 +26,7 @@ define(function(require) {
   function ConfigAPI(api) {
     this._api = api;
     this._locations = {};
+    this._lastResults = {};
 
     Object.keys(ConfigAPI.prototype).forEach(function(method) {
       if (method !== 'constructor')
@@ -50,6 +52,11 @@ define(function(require) {
     languages: helper('languages'),
     courses: helper('courses'),
     locations: helper('locations'),
+
+    isValidLanguage: function(lang) {
+      var langs = this._lastResults.languages;
+      return langs && langs.indexOf(lang) !== -1;
+    },
 
     // custom
     locationsText: function(options) {

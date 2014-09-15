@@ -3,26 +3,23 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('AdminInviteEmployerCtrl', function($scope, Session) {
+  module.controller('AdminInviteEmployerCtrl', function($scope, toaster, Session) {
     this.submit = submit;
-    $scope.sent = false;
     $scope.loading = false;
     $scope.model = {};
 
     function submit() {
       $scope.loading = true;
-      $scope.error = false;
-      $scope.sent = false;
 
       Session.inviteEmployer($scope.model).then(function() {
         $scope.formInviteEmployer.$setPristine();
-        $scope.sent = $scope.model.email;
+        toaster.success('Email was sent to ' + $scope.model.email);
         $scope.model = {};
       }).catch(function(request) {
         if (request.status === 409)
-          $scope.errorAlreadyRegistered = true;
+          toaster.error('Email address already registered.');
         else
-          $scope.error = true;
+          toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

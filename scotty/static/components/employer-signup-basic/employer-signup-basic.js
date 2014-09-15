@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $q, ConfigAPI, Session) {
+  module.controller('SignupBasicCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
     this.searchLocations = ConfigAPI.locationsText;
     this.setLocation = setLocation;
     this.removeOffice = removeOffice;
@@ -71,7 +71,6 @@ define(function(require) {
 
     function submit() {
       $scope.loading = true;
-      $scope.error = false;
 
       //$q.when($scope.formSignupBasicOffice.$valid && submitOffice())
       $q.when(true).then(function() {
@@ -84,7 +83,7 @@ define(function(require) {
       }).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
-        $scope.error = true;
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

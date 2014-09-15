@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupFactsCtrl', function($scope, ConfigAPI, Session) {
+  module.controller('SignupFactsCtrl', function($scope, toaster, ConfigAPI, Session) {
     this.searchTags = ConfigAPI.skills;
     this.onTagChange = onTagChange;
     this.onTagBlur = onTagBlur;
@@ -24,7 +24,6 @@ define(function(require) {
 
     function submit() {
       $scope.loading = true;
-      $scope.error = false;
 
       $scope.model.tech_tags = $scope.tags
         .filter(function(item) { return item.value })
@@ -38,7 +37,7 @@ define(function(require) {
       Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
-        $scope.error = true;
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

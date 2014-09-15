@@ -5,7 +5,6 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('SignupSuggestCtrl', function($scope, $state, ConfigAPI, Session) {
-    $scope.error = false;
     $scope.loading = true;
 
     function anonymize(entry) {

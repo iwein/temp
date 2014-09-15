@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('CandidateLoginCtrl', function($scope, $state, Session) {
+  module.controller('CandidateLoginCtrl', function($scope, $state, toaster, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
@@ -15,7 +15,7 @@ define(function(require) {
       Session.login(email, password).then(function() {
         return Session.isSignupComplete();
       }, function(error) {
-        $scope.error = true;
+        toaster.error('Invalid email or password.');
         throw error;
       }).then(function(isComplete) {
         $state.go(isComplete ? 'home' : 'signup');

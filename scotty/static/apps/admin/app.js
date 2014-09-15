@@ -15,8 +15,28 @@ define(function(require) {
       ;
   });
 
-  module.run(function($templateCache) {
+  module.run(function($templateCache, toaster) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
+
+    toaster.error = function(message) {
+      toaster.pop('error', '', message);
+    };
+    toaster.warning = function(message) {
+      toaster.pop('warning', '', message);
+    };
+    toaster.info = function(message) {
+      toaster.pop('info', '', message);
+    };
+    toaster.success = function(message) {
+      toaster.pop('success', '', message);
+    };
+    toaster.defaultError = function() {
+      toaster.pop(
+        'error',
+        'Error',
+        'Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.'
+      );
+    };
   });
 
   angular.bootstrap(document, [ 'scotty-admin' ]);

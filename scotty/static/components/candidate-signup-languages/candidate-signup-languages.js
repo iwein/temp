@@ -5,15 +5,14 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, Session) {
+    this.searchLanguages = ConfigAPI.languages;
     this.remove = remove;
+    this.setLanguage = validateLang;
+    this.onBlur = onBlur;
     this.onChange = onChange;
     this.submit = submit;
     $scope.loading = false;
     var languages = $scope.model = [{}];
-
-    ConfigAPI.languages().then(function(data) {
-      $scope.languages = data;
-    });
 
     ConfigAPI.proficiencies().then(function(data) {
       $scope.proficiencies = data;
@@ -23,14 +22,29 @@ define(function(require) {
       languages.splice(index, 1);
     }
 
-    function onChange(entry, index, isLast) {
+    function validateLang(entry) {
+      entry.errorInvalidLanguage = !ConfigAPI.isValidLanguage(entry.language);
+    }
+
+    function onBlur(entry, index, isLast) {
+      entry.$dirty = true;
+      validateLang(entry);
       if (!entry.language && !isLast)
         remove(index);
-      else if (entry.language && isLast)
+    }
+
+    function onChange(entry, index, isLast) {
+      validateLang(entry);
+      if (entry.language && isLast)
         languages.push({});
     }
 
     function submit() {
+      if ($scope.model.some(function(entry) {
+        if (!entry.language) return false;
+        return entry.errorInvalidLanguage;
+      })) return;
+
       var data = languages.slice();
       data.pop();
 

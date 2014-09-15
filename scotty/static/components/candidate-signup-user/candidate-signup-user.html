@@ -1,15 +1,9 @@
 <form name="formSignupUser"
   class="component-candidate-signup-user"
   ng-submit="signupUser.submit()">
+  <toaster-container></toaster-container>
 
   <h3>Sign up - User data</h3>
-
-  <div class="alert alert-danger" ng-hide="!error">
-    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
-  </div>
-  <div class="alert alert-danger" ng-show="errorAlreadyRegistered">
-    Email address already registered.
-  </div>
 
   <div class="form-group">
     <label class="required">First Name</label>

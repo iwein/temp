@@ -25,14 +25,34 @@ define(function(require) {
       ;
   });
 
-  module.run(function($state, $templateCache, $rootScope, Session) {
-    $rootScope.session = Session;
+  module.run(function($state, $templateCache, $rootScope, toaster, Session) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
+    $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
         $state.go('home');
       });
+    };
+
+    toaster.error = function(message) {
+      toaster.pop('error', '', message);
+    };
+    toaster.warning = function(message) {
+      toaster.pop('warning', '', message);
+    };
+    toaster.info = function(message) {
+      toaster.pop('info', '', message);
+    };
+    toaster.success = function(message) {
+      toaster.pop('success', '', message);
+    };
+    toaster.defaultError = function() {
+      toaster.pop(
+        'error',
+        'Error',
+        'Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.'
+      );
     };
   });
 

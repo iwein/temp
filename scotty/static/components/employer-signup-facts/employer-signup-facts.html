@@ -1,13 +1,9 @@
 <form name="formSignupFacts"
   class="component-employer-signup-facts"
   ng-submit="signupFacts.submit()">
+  <toaster-container></toaster-container>
 
   <h3>Sign up - Facts</h3>
-
-  <div class="alert alert-danger" ng-hide="!error">
-    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
-  </div>
-
 
   <div class="form-group">
     <label>Founding date</label>

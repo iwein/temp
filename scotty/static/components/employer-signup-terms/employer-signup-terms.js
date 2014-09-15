@@ -3,19 +3,18 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupTermsCtrl', function($scope, Session) {
+  module.controller('SignupTermsCtrl', function($scope, toaster, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
 
     function submit() {
       $scope.loading = true;
-      $scope.error = false;
 
       Session.apply($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
-        $scope.error = true;
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });
