@@ -25,6 +25,11 @@ define(function(require) {
         ]);
       }).then(function() {
         return $scope.signup.nextStep();
+      }).catch(function(request) {
+        if (request.status === 409)
+          $scope.errorAlreadyRegistered = true;
+        else
+          $scope.error = true;
       }).finally(function() {
         $scope.loading = false;
       });
