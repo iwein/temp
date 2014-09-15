@@ -31,8 +31,8 @@
     ],
     "out": {
       "html": "dist/admin/index.html",
-      "js": "dist/admin/build.js",
-      "css": "dist/admin/build.css"
+      "js": "dist/admin/build.TIMESTAMP.js",
+      "css": "dist/admin/build.TIMESTAMP.css"
     }
   },
 
@@ -50,8 +50,8 @@
     ],
     "out": {
       "html": "dist/candidate/index.html",
-      "js": "dist/candidate/build.js",
-      "css": "dist/candidate/build.css"
+      "js": "dist/candidate/build.TIMESTAMP.js",
+      "css": "dist/candidate/build.TIMESTAMP.css"
     }
   },
 
@@ -69,8 +69,8 @@
     ],
     "out": {
       "html": "dist/employer/index.html",
-      "js": "dist/employer/build.js",
-      "css": "dist/employer/build.css"
+      "js": "dist/employer/build.TIMESTAMP.js",
+      "css": "dist/employer/build.TIMESTAMP.css"
     }
   },
 
@@ -88,8 +88,8 @@
     ],
     "out": {
       "html": "dist/index.html",
-      "js": "dist/build.js",
-      "css": "dist/build.css"
+      "js": "dist/build.TIMESTAMP.js",
+      "css": "dist/build.TIMESTAMP.css"
     }
   },
 

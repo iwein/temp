@@ -51,6 +51,14 @@ module.exports = function(grunt) {
     'index',
   ];
 
+  var timestamp = Date.now();
+  apps.forEach(function(app) {
+    var js = 'files.' + app + '.out.js';
+    var css = 'files.' + app + '.out.css';
+    grunt.config.set(js, grunt.config.get(js).replace(/TIMESTAMP/, timestamp));
+    grunt.config.set(css, grunt.config.get(css).replace(/TIMESTAMP/, timestamp));
+  });
+
   // generate specific tasks for each app
   apps.forEach(function(app) {
     grunt.registerTask('build-' + app + '-css', [ 'less:' + app ]);
@@ -76,7 +84,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build-js', [ 'jshint:apps' ].concat(apps.map(function(app) {
     return 'build-' + app + '-js';
   })));
-  grunt.registerTask('build', [ 'jshint:apps' ].concat(apps.map(function(app) {
+  grunt.registerTask('build', [ 'jshint:apps', 'clean:build' ].concat(apps.map(function(app) {
     return 'build-' + app;
   })));
 
