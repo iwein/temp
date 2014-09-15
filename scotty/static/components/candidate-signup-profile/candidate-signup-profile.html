@@ -80,8 +80,8 @@
         class="form-control"
         placeholder="Phone"
         name="contact_phone"
-           pattern="/+?[0-9 -/()]/"
-        ng-pattern="/+?[0-9 -/()]/"
+            pattern="^\+?[0-9 /()-]+$"
+        ng-pattern="/^\+?[0-9 /()-]+$/"
         ng-disabled="loading"
         ng-model="model.contact_phone">
 
