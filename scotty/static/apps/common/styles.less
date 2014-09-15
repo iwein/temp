@@ -39,3 +39,31 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
+.signup-form-mixin() {
+  .sidenav li {
+    margin: 15px 10px;
+    &.active {
+      font-weight: bold;
+    }
+  }
+
+  .signup-container {
+    margin-top: 50px;
+  }
+
+  .close {
+    float: none;
+  }
+
+  .form-inline input.form-control {
+    min-width: 114.9px;
+    width: 15%
+  }
+
+  .label-container {
+    .label {
+      margin: 1px;
+    }
+  }
+}
