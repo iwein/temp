@@ -15,6 +15,7 @@ define(function(require) {
       $scope.sent = false;
 
       Session.inviteEmployer($scope.model).then(function() {
+        $scope.formInviteEmployer.$setPristine();
         $scope.sent = $scope.model.email;
         $scope.model = {};
       }).catch(function(request) {
