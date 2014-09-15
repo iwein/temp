@@ -2,10 +2,9 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
   var angular = require('angular');
+  require('../common/basic-conf')(module);
 
-  module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
-
+  module.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
 
     $stateProvider
@@ -15,28 +14,8 @@ define(function(require) {
       ;
   });
 
-  module.run(function($templateCache, toaster) {
+  module.run(function($templateCache) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
-
-    toaster.error = function(message) {
-      toaster.pop('error', '', message);
-    };
-    toaster.warning = function(message) {
-      toaster.pop('warning', '', message);
-    };
-    toaster.info = function(message) {
-      toaster.pop('info', '', message);
-    };
-    toaster.success = function(message) {
-      toaster.pop('success', '', message);
-    };
-    toaster.defaultError = function() {
-      toaster.pop(
-        'error',
-        'Error',
-        'Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.'
-      );
-    };
   });
 
   angular.bootstrap(document, [ 'scotty-admin' ]);

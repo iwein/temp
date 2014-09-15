@@ -9,8 +9,12 @@ define(function(require) {
     }).then(function(result) {
       $scope.success = true;
       $scope.signupComplete = result;
-    }, function() {
-      toaster.defaultError();
+    }, function(request) {
+      if (request.status === 404) {
+        toaster.error('Invalid invitation token.');
+        $scope.failed = true;
+      } else
+        toaster.defaultError();
     });
   });
 
