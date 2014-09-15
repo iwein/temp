@@ -16,7 +16,7 @@ define(function(require) {
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
-      $scope.model.location = city;
+      $scope.model.contact_city = city;
     }
 
     function selectFile(files) {

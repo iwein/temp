@@ -84,9 +84,9 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.candidate
         workflow = {'active': candidate.activated != None,
-                    'ordering': ['target_positions', 'preferred_cities', 'work_experience', 'skills', 'education',
+                    'ordering': ['target_positions', 'work_experience', 'skills', 'education',
                                  'languages', 'image', 'active', ], 'image': candidate.picture_url is not None,
-                    'languages': len(candidate.languages) > 0, 'preferred_cities': len(candidate.preferred_cities) > 0,
+                    'languages': len(candidate.languages) > 0,
                     'skills': len(candidate.skills) > 0, 'target_positions': len(candidate.target_positions) > 0,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow

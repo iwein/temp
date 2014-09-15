@@ -3,12 +3,14 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate
+from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate, Skill, CandidateSkill
 from scotty.models.candidate import INCLUDE_WEXP
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
+from simplejson import OrderedDict
+from sqlalchemy import func, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
@@ -94,9 +96,32 @@ class EmployerController(RootController):
             raise HTTPForbidden("Employer has not applied yet and is not approved")
         #TODO: add meaning full candidates
         self.request.renderer_options['Candidate'] = {INCLUDE_WEXP: True}
-        return DBSession.query(Candidate).options(joinedload("languages"),
-                                                  joinedload("skills"),
-                                                  joinedload("work_experience")).limit(5).all()
+
+        results = DBSession.execute(text("""
+            select c.id as id, count(s.id) as noskills
+                from employer e
+                join employer_skill es
+                    on e.id = es.employer_id
+                join skill s
+                    on s.id = es.skill_id
+                join candidate_skill cs
+                    on  cs.skill_id = s.id
+                join candidate c
+                    on cs.candidate_id = c.id
+                where e.id = :employer_id and c.contact_city_id is not NULL
+                group by c.id
+                order by noskills desc
+        """), {'employer_id': str(self.employer.id)})
+
+        # TODO: order results sometime
+        candidate_ids = [r[0] for r in results]
+
+        candidates = DBSession.query(Candidate).options(joinedload("languages"),
+                                                        joinedload("skills"),
+                                                        joinedload("work_experience"))\
+            .filter(Candidate.id.in_(candidate_ids)).all()
+        return candidates
+
 
     @view_config(route_name='employer', **DELETE)
     def delete(self):

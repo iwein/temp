@@ -51,11 +51,11 @@ class Office(Base):
         return result
 
 
-employer_skills = Table('employer_skills', Base.metadata,
+employer_skills = Table('employer_skill', Base.metadata,
                         Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
                         Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
 
-employer_benefits = Table('employer_benefits', Base.metadata,
+employer_benefits = Table('employer_benefit', Base.metadata,
                           Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
                           Column('benefit_id', Integer, ForeignKey('benefit.id'), primary_key=True))
 
