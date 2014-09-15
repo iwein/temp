@@ -75,7 +75,7 @@ define(function(require) {
       if (!$scope.model.skills.length) {
         $scope.formExperience.skill.$dirty = true;
         $scope.currentSkill = '';
-        return;
+        return $q.reject(new Error('Form data not valid'));
       }
 
       $scope.loading = true;
