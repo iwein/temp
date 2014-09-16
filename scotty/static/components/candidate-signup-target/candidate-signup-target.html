@@ -38,19 +38,18 @@
 
     <div class="form-group required">
       <label>Company Type</label>
-      <select
-        class="form-control"
-        placeholder="Company type",
-        name="companyType"
-        required
-        ng-disabled="loading"
-        ng-model="signup.target.company_types[0]"
-        ng-options="type for type in companyTypes">
-        <option value="">Select one</option>
-      </select>
 
-      <div class="form-error"ng-show="formTarget.companyType.$dirty && formTarget.companyType.$invalid">
-        <span>Please select your's company type.</span>
+      <label class="form-label" ng-repeat="type in companyTypes">
+        <input type="checkbox"
+          ng-required="errorNoCompanyType"
+          ng-disabled="loading"
+          ng-model="type.selected"
+          ng-change="signupTarget.companyTypeChange()">
+        {{ type.value }}
+      </label>
+
+      <div class="form-error"ng-show="errorNoCompanyType">
+        <span>Please select at least one company type.</span>
       </div>
     </div>
 
@@ -84,18 +83,30 @@
 
     <div class="form-group required">
       <label>Cities</label>
+
       <input type="text"
         placeholder="City"
         name="cities"
         class="form-control"
-        ng-disabled="loading"
+        ng-disabled="loading || signup.dont_care_location"
         ng-model="currentCity"
         ng-blur="currentCity = ''"
         typeahead-on-select="signupTarget.addCity()"
         typeahead="city for city in signupTarget.searchCities($viewValue)">
 
+      <label class="form-label">
+        <input type="checkbox"
+          ng-model="signup.dont_care_location"
+          ng-change="signupTarget.removeCities()">
+        Anywhere
+      </label>
+
       <div class="form-error"
-        ng-show="formTarget.cities.$dirty && !currentCity.length && !signup.cities.length">
+        ng-show="
+          formTarget.cities.$dirty &&
+          !currentCity.length &&
+          !signup.cities.length &&
+          !signup.dont_care_location">
         <span>Please type a city you would like to work at and press enter key.</span>
       </div>
 

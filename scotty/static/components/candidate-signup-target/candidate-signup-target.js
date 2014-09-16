@@ -9,14 +9,26 @@ define(function(require) {
     this.searchRoles = ConfigAPI.roles;
     this.searchCities = ConfigAPI.locationsText;
     this.cityText = ConfigAPI.locationToText;
+    this.companyTypeChange = companyTypeChange;
     this.addCity = addCity;
     this.removeCity = removeCity;
+    this.removeCities = removeCities;
     this.submit = submit;
     $scope.loading = false;
 
     ConfigAPI.companyTypes().then(function(data) {
-      $scope.companyTypes = data;
+      $scope.companyTypes = data.map(function(type) {
+        return { value: type };
+      });
     });
+
+    function companyTypeChange() {
+      $scope.signup.target.company_types = $scope.companyTypes
+        .filter(function(type) { return type.selected })
+        .map(function(type) { return type.value });
+
+      $scope.errorNoCompanyType = !$scope.signup.target.company_types.length;
+    }
 
     function addCity() {
       var cities = $scope.signup.cities;
@@ -34,16 +46,18 @@ define(function(require) {
       cities.splice(cities.indexOf(city), 1);
     }
 
+    function removeCities() {
+      $scope.signup.cities.length = 0;
+    }
+
     function submit() {
-      if (!$scope.signup.cities.length) {
+      if (!$scope.signup.cities.length && !$scope.signup.dont_care_location) {
         $scope.formTarget.cities.$dirty = true;
         return;
       }
 
-      if (!$scope.signup.target.company_types) {
-        $scope.formTarget.companyTypes.$dirty = true;
+      if ($scope.errorNoCompanyType)
         return;
-      }
 
       $scope.signup.availability = $scope.available_months ?
         { available_months: $scope.available_months } :

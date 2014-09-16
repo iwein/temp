@@ -73,7 +73,8 @@
       <div class="panel-heading">
         <h3 class="panel-title">Preferred cities</h3>
       </div>
-      <ul class="list-group">
+      <div class="panel-body" ng-if="user.dont_care_location">Anywhere</div>
+      <ul class="list-group" ng-if="!user.dont_care_location">
         <li class="list-group-item" ng-repeat="entry in cities">
           <span class="value">{{ entry.city }}, {{ entry.country_iso }}</span>
         </li>

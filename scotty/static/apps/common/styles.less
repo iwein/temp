@@ -20,12 +20,17 @@ dt {
 }
 
 .form-group {
-  &.required label,
+  &.required label:nth-child(1),
   label.required {
     &:after {
       content: ' *';
       color: red;
     }
+  }
+
+  label.form-label {
+    display: block;
+    font-weight: normal;
   }
 
   &.address {
