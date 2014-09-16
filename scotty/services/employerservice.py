@@ -69,7 +69,7 @@ EMPLOYER_EDITABLES = {
     'mission_text': ID,
     'culture_text': ID,
     'vision_text': ID,
-    'founding_date': ID,
+    'founding_year': ID,
     'revenue_pa': ID,
     'funding_amount': ID,
     'funding_text': ID,

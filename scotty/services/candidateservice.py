@@ -3,12 +3,10 @@ import hashlib
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
-    Education, Company, JobTitle, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
+    Education, Company, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
     Language, Seniority, CandidateLanguage, Course
-from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, params_get_list_or_raise, \
-    get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
+from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
     get_or_create_named_lookup
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 
@@ -81,12 +79,11 @@ def add_candidate_work_experience(candidate, params):
     return wexp
 
 
-def add_candidate_target_position(candidate, params):
+def add_target_position(candidate, params):
     minimum_salary = params['minimum_salary']
     benefits = params.get('benefits')
 
-    company_type_name = params.get('company_type')
-    company_type = get_by_name_or_raise(CompanyType, company_type_name)
+    company_types = get_or_raise_named_collection(CompanyType, params['company_types']).values()
 
     seniority_name = params.get('seniority')
 
@@ -94,7 +91,7 @@ def add_candidate_target_position(candidate, params):
     skill = get_by_name_or_create(Skill, params["skill"])
 
     tp = TargetPosition(candidate=candidate, minimum_salary=minimum_salary, benefits=benefits,
-                        company_type=company_type, role=role, skill=skill)
+                        company_types=company_types, role=role, skill=skill)
     if seniority_name:
         seniority = get_by_name_or_raise(Seniority, seniority_name)
         tp.seniority = seniority
@@ -122,21 +119,23 @@ def set_languages_on_candidate(candidate, params):
 
 
 def set_preferredcities_on_candidate(candidate, params):
-    if not isinstance(params, list):
-        raise HTTPBadRequest("Must submit list of locations as root level.")
-
     if not params:
         cities = []
-    else:
+    elif isinstance(params, dict):
+        candidate.dont_care_location = params['dont_care_location']
+        cities = []
+    elif isinstance(params, list):
         cities = DBSession.query(City).options(joinedload("country")).filter(
             City.name.in_(p['city'] for p in params),
             City.country_iso.in_(p['country_iso'] for p in params)
         ).all()
 
-    if len(cities) < len(params):
-        cities = [(c.name, c.country_iso) for c in cities]
-        raise HTTPBadRequest("Unknown Locations Submitted: " % [l for l in params
-                                                                if (l['city'], l['country_iso']) not in cities])
+        if len(cities) < len(params):
+            cities = [(c.name, c.country_iso) for c in cities]
+            raise HTTPBadRequest("Unknown Locations Submitted: " % [l for l in params
+                                                                    if (l['city'], l['country_iso']) not in cities])
+    else:
+        raise HTTPBadRequest("Must submit list of locations as root level.")
     Candidate.preferred_cities = [c.id for c in cities]
     DBSession.flush()
     return candidate

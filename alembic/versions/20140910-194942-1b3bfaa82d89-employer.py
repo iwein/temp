@@ -51,7 +51,7 @@ def upgrade():
     sa.Column('vision_text', sa.Text(), nullable=True),
     sa.Column('recruitment_process', sa.Text(), nullable=True),
     sa.Column('training_policy', sa.Text(), nullable=True),
-    sa.Column('founding_date', sa.Date(), nullable=True),
+    sa.Column('founding_year', sa.Integer(), nullable=True),
     sa.Column('revenue_pa', sa.Integer(), nullable=True),
     sa.Column('funding_amount', sa.Integer(), nullable=True),
     sa.Column('funding_text', sa.Text(), nullable=True),

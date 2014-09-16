@@ -61,6 +61,7 @@ candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
 
+
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
                               Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
@@ -94,8 +95,13 @@ class WorkExperience(Base):
                 "skills": self.skills, "location": self.location}
 
 
+target_position_company_type = Table('target_position_company_type', Base.metadata,
+                              Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
+                              Column('company_type_id', Integer, ForeignKey('company_type.id'), primary_key=True))
+
+
 class TargetPosition(Base):
-    __tablename__ = 'candidate_target_position'
+    __tablename__ = 'target_position'
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
@@ -110,15 +116,14 @@ class TargetPosition(Base):
     seniority_id = Column(Integer, ForeignKey(Seniority.id))
     seniority = relationship(Seniority)
 
-    company_type_id = Column(Integer, ForeignKey(CompanyType.id))
-    company_type = relationship(CompanyType)
+    company_types = relationship(CompanyType, secondary=target_position_company_type)
 
     minimum_salary = Column(Integer, nullable=False)
     benefits = Column(Text)
 
     def __json__(self, request):
         return {"id": self.id, 'seniority': self.seniority, "skill": self.skill, "role": self.role,
-                "minimum_salary": self.minimum_salary, "benefits": self.benefits, "company_type": self.company_type}
+                "minimum_salary": self.minimum_salary, "benefits": self.benefits, "company_types": self.company_types}
 
 
 class CandidateLanguage(Base):
@@ -132,6 +137,7 @@ class CandidateLanguage(Base):
     def __json__(self, request):
         return {"language": self.language, "proficiency": self.proficiency}
 
+
 class Candidate(Base):
     __tablename__ = 'candidate'
     __editable__ = [
@@ -139,8 +145,7 @@ class Candidate(Base):
         'pob', 'dob', 'picture_url', 'title',
         'contact_line1', 'contact_line2', 'contact_line3', 'contact_zipcode',
         'contact_phone', 'available_date', 'notice_period_number', 'willing_to_travel',
-        'summary', 'github_url', 'stackoverflow_url', 'contact_skype'
-    ]
+        'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
 
     id = Column(GUID, primary_key=True, default=uuid4)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -188,6 +193,7 @@ class Candidate(Base):
     status = relationship(CandidateStatus)
 
     willing_to_travel = Column(Boolean)
+    dont_care_location = Column(Boolean)
 
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
