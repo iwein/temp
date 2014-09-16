@@ -97,7 +97,7 @@ class Employer(Base):
     recruitment_process = Column(Text)
     training_policy = Column(Text)
 
-    founding_date = Column(Date)
+    founding_year = Column(Integer)
     revenue_pa = Column(Integer)
     funding_amount = Column(Integer)
     funding_text = Column(Text)
