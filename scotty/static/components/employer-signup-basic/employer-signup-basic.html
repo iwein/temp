@@ -5,18 +5,20 @@
   <form name="formSignupBasic" ng-submit="signupBasic.submit()">
 
     <div class="form-group">
-      <label>Logo url</label>
-      <input type="url"
-        class="form-control"
-        placeholder="Logo url"
-        name="logo_url"
+      <label>Logo</label>
+      <img ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
+      <input type="file"
+        name="photo"
+        accept="image/*"
+        required
         ng-disabled="loading"
-        ng-model="model.logo_url">
+        ng-model="files"
+        hc-file-select="signupBasic.selectFile($files)"
+        hc-data-url="selectedFiles">
 
-      <div class="form-error" ng-show="formSignupBasic.logo_url.$dirty && formSignupBasic.logo_url.$invalid">
-        <span ng-show="formSignupBasic.logo_url.$error.required">
-          Please insert a url to the logo of your company
-        </span>
+      <div class="form-error" ng-show="errorFileRequired || errorFileImage">
+        <span ng-show="errorFileRequired">Please select a photo.</span>
+        <span ng-show="errorFileImage">The file should be an image.</span>
       </div>
     </div>
 

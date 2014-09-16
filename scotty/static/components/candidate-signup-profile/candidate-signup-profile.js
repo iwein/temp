@@ -21,8 +21,9 @@ define(function(require) {
     }
 
     function selectFile(files) {
-      $scope.errorFileRequired = false;
-      $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
+      $scope.errorFileRequired = !files.length;
+      if (files.length)
+        $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
     }
 
     function submit() {
