@@ -1,13 +1,28 @@
 <div class="component-candidate-signup row">
-  <div class="signup-container" ng-show="signup.ready">
+  <div class="signup-container" ng-show="ready">
     <ol class="col-sm-3 sidenav">
       <li ng-class="{ active: signup.atStep('signup.target') }">Target position</li>
       <li ng-class="{ active: signup.atStep('signup.user') }">User data</li>
-      <li ng-class="{ active: signup.atStep('signup.experience') }">Experience</li>
-      <li ng-class="{ active: signup.atStep('signup.skills') }">Skills</li>
-      <li ng-class="{ active: signup.atStep('signup.education') }">Education</li>
-      <li ng-class="{ active: signup.atStep('signup.languages') }">Languages</li>
-      <li ng-class="{ active: signup.atStep('signup.profile') }">Profile</li>
+      <li ng-class="{ active: signup.atStep('signup.experience') }">
+        <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Experience</a>
+        <span ng-if="!signup.afterStep('signup.experience')">Experience</span>
+      </li>
+      <li ng-class="{ active: signup.atStep('signup.skills') }">
+        <a ng-if="signup.afterStep('signup.skills')" ui-sref="signup.skills">Skills</a>
+        <span ng-if="!signup.afterStep('signup.skills')">Skills</span>
+      </li>
+      <li ng-class="{ active: signup.atStep('signup.education') }">
+        <a ng-if="signup.afterStep('signup.education')" ui-sref="signup.education">Education</a>
+        <span ng-if="!signup.afterStep('signup.education')">Education</span>
+      </li>
+      <li ng-class="{ active: signup.atStep('signup.languages') }">
+        <a ng-if="signup.afterStep('signup.languages')" ui-sref="signup.languages">Languages</a>
+        <span ng-if="!signup.afterStep('signup.languages')">Languages</span>
+      </li>
+      <li ng-class="{ active: signup.atStep('signup.profile') }">
+        <a ng-if="signup.afterStep('signup.profile')" ui-sref="signup.profile">Profile</a>
+        <span ng-if="!signup.afterStep('signup.profile')">Profile</span>
+      </li>
     </ol>
     <ui-view class="col-sm-6"></ui-view>
   </div>
