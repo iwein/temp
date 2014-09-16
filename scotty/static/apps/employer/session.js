@@ -11,6 +11,10 @@ define(function(require) {
   EmployerSession.prototype = {
     constructor: EmployerSession,
 
+    id: function() {
+      return this.user && this.user.id;
+    },
+
     login: function(email, password) {
       return this._api.post('/employers/login', {
         email: email,

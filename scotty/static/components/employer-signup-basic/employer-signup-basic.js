@@ -1,12 +1,16 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('tools/file-upload/amazon');
+  require('tools/file-upload/data-url-directive');
+  require('tools/file-upload/file-select-directive');
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
+  module.controller('SignupBasicCtrl', function($scope, $q, toaster, ConfigAPI, Session, Amazon) {
     this.searchLocations = ConfigAPI.locationsText;
     this.setLocation = setLocation;
+    this.selectFile = selectFile;
     this.removeOffice = removeOffice;
     this.editOffice = editOffice;
     this.submitOffice = submitOffice;
@@ -35,7 +39,9 @@ define(function(require) {
         'linkedin_url',
       ]);
       $scope.model.contact_email = data.contact_email || data.email;
-      $scope.locationText = ConfigAPI.locationToText(data.address_city);
+
+      if (data.address_city)
+        $scope.locationText = ConfigAPI.locationToText(data.address_city);
     }).finally(function() {
       $scope.loading = false;
     });
@@ -44,6 +50,12 @@ define(function(require) {
       var city = ConfigAPI.getLocationFromText(location);
       model.errorInvalidCity = city === null;
       model.address_city = city;
+    }
+
+    function selectFile(files) {
+      $scope.errorFileRequired = !files.length;
+      if (files.length)
+        $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
     }
 
     function listOffices() {
@@ -87,15 +99,25 @@ define(function(require) {
     }
 
     function submit() {
+      if (!$scope.files || !$scope.files.length) {
+        $scope.errorFileRequired = true;
+        return;
+      }
+      if ($scope.errorFileImage)
+        return;
+
       $scope.loading = true;
 
       //$q.when($scope.formSignupBasicOffice.$valid && submitOffice())
       $q.when(true).then(function() {
+        return Amazon.upload($scope.files[0], 'logo', Session.id());
+      }).then(function(url) {
         Object.keys($scope.model).forEach(function(key) {
           if (!$scope.model[key])
             delete $scope.model[key];
         });
 
+        $scope.model.logo_url = url;
         return Session.updateData($scope.model);
       }).then(function() {
         $scope.signup.nextStep();
