@@ -7,6 +7,7 @@ from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, Candida
     Language, Seniority, CandidateLanguage, Course
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
     get_or_create_named_lookup
+from sqlalchemy import text
 from sqlalchemy.orm import joinedload
 
 
@@ -157,3 +158,25 @@ def set_skills_on_candidate(candidate, params):
     DBSession.add_all(skills)
     DBSession.flush()
     return candidate
+
+def get_candidates_by_techtags(tags):
+    params = {'tag_%d' % i: tag.lower() for i, tag in enumerate(tags)}
+
+    query = DBSession.execute(
+        text("""
+            select c.id as id,
+              count(s.id) as noskills,
+              array_agg(s.name) as matched_tags
+            from candidate c
+            join candidate_skill cs
+              on c.id = cs.candidate_id
+            join skill s
+              on s.id = cs.skill_id
+            where c.activated is not null and lower(s.name) in (%s)
+            group by c.id
+            order by noskills desc
+            limit 20
+        """ % ','.join(':%s' % k for k in params.keys())), params)
+
+    results = list(query)
+    return {r['id']: r['matched_tags'] for r in results}

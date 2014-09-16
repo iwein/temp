@@ -3,6 +3,7 @@ import hashlib
 from scotty.models import Employer, DBSession, Office, employer_address_mapping, TrafficSource, Skill, Benefit
 from scotty.services.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection
+from sqlalchemy import text
 from sqlalchemy.orm import joinedload
 
 
@@ -90,3 +91,49 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
     for field, transform in lookup.items():
         if field in params:
             setattr(obj, field, transform(params[field]))
+
+
+def get_employers_by_techtags(tags):
+    params = {'tag_%d' % i: tag.lower() for i, tag in enumerate(tags)}
+
+    query = DBSession.execute(
+        text("""
+            select e.id as id,
+                count(s.id) as noskills,
+                array_agg(s.name) as matched_tags
+                from employer e
+            join employer_skill es
+                on e.id = es.employer_id
+            join skill s
+                on s.id = es.skill_id
+            where e.approved is not null and lower(s.name) in (%s)
+            group by e.id
+            order by noskills desc
+            limit 20
+        """ % ','.join(':%s' % k for k in params.keys())), params)
+
+    results = list(query)
+    return {r['id']: r['matched_tags'] for r in results}
+
+
+def get_employer_suggested_candidate_ids(employer_id):
+    results = DBSession.execute(text("""
+        select c.id as id, count(s.id) as noskills
+            from employer e
+            join employer_skill es
+                on e.id = es.employer_id
+            join skill s
+                on s.id = es.skill_id
+            join candidate_skill cs
+                on  cs.skill_id = s.id
+            join candidate c
+                on cs.candidate_id = c.id
+            where e.id = :employer_id and c.contact_city_id is not NULL
+            group by c.id
+            order by noskills desc
+    """), {'employer_id': str(employer_id)})
+
+    # TODO: order results sometime
+    return [r[0] for r in results]
+
+

@@ -206,7 +206,8 @@ class Candidate(Base):
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
     bookmarked_employers = relationship("Employer", secondary=candidate_bookmark_employer,
-                                        order_by=candidate_bookmark_employer.c.created.desc())
+                                        order_by=candidate_bookmark_employer.c.created.desc(),
+                                        backref="interested_candidates")
 
     def get_json_options(self, request):
         options = request.renderer_options.get(self.__class__.__name__)
@@ -234,4 +235,6 @@ class Candidate(Base):
         if opts.get(INCLUDE_WEXP):
             result['work_experience'] = self.work_experience
 
+        if hasattr(self, 'additional_data'):
+            result.update(self.additional_data)
         return result

@@ -1,16 +1,15 @@
 from datetime import datetime
+
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate, Skill, CandidateSkill
+from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate
 from scotty.models.candidate import INCLUDE_WEXP
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer
+    update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
-from simplejson import OrderedDict
-from sqlalchemy import func, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
@@ -62,6 +61,21 @@ class EmployerController(RootController):
         self.request.session['employer_id'] = employer.id
         return employer
 
+    @view_config(route_name='employers', **GET)
+    def search(self):
+        tags = self.request.params.get('tags', '').split(',')
+
+        employer_lookup = get_employers_by_techtags(tags)
+        employer_query = DBSession.query(Employer).filter(Employer.id.in_(employer_lookup.keys()))
+        employers = employer_query.limit(20).all()
+        for employer in employers:
+            employer.additional_data = {'matched_tags': employer_lookup[str(employer.id)]}
+        return employers
+
+    @view_config(route_name='employer_interestedcandidates', **GET)
+    def employer_interestedcandidates(self):
+        return self.employer.interested_candidates
+
     @view_config(route_name='employer_signup_stage', **GET)
     def signup_stage(self):
         employer = self.employer
@@ -82,7 +96,7 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_apply', **PUT)
     def employer_apply(self):
-        if self.request.json['agreedTos'] != True:
+        if not self.request.json['agreedTos']:
             raise HTTPBadRequest("agreedTos must be true")
         employer = self.employer
         employer.agreedTos = datetime.now()
@@ -94,34 +108,13 @@ class EmployerController(RootController):
     def employer_suggested_candidates(self):
         if self.employer.status not in [APPLIED, APPROVED]:
             raise HTTPForbidden("Employer has not applied yet and is not approved")
-        #TODO: add meaning full candidates
+        # TODO: add meaning full candidates
         self.request.renderer_options['Candidate'] = {INCLUDE_WEXP: True}
-
-        results = DBSession.execute(text("""
-            select c.id as id, count(s.id) as noskills
-                from employer e
-                join employer_skill es
-                    on e.id = es.employer_id
-                join skill s
-                    on s.id = es.skill_id
-                join candidate_skill cs
-                    on  cs.skill_id = s.id
-                join candidate c
-                    on cs.candidate_id = c.id
-                where e.id = :employer_id and c.contact_city_id is not NULL
-                group by c.id
-                order by noskills desc
-        """), {'employer_id': str(self.employer.id)})
-
-        # TODO: order results sometime
-        candidate_ids = [r[0] for r in results]
-
-        candidates = DBSession.query(Candidate).options(joinedload("languages"),
-                                                        joinedload("skills"),
+        candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
+        candidates = DBSession.query(Candidate).options(joinedload("languages"), joinedload("skills"),
                                                         joinedload("work_experience"))\
             .filter(Candidate.id.in_(candidate_ids)).all()
         return candidates
-
 
     @view_config(route_name='employer', **DELETE)
     def delete(self):
@@ -168,6 +161,7 @@ def includeme(config):
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
+    config.add_route('employer_interestedcandidates', '{employer_id}/interestedcandidates')
     config.add_route('employer_suggested_candidates', '{employer_id}/suggestedcandidates')
     config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
     config.add_route('employer_apply', '{employer_id}/apply')

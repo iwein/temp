@@ -16,7 +16,6 @@ APPLIED = 'APPLIED'
 APPROVED = 'APPROVED'
 
 
-
 class Office(Base):
     __tablename__ = 'employer_office'
     id = Column(Integer, primary_key=True)
@@ -147,7 +146,6 @@ class Employer(Base):
         else:
             return EMPLOYER_STATUS[status]
 
-
     def __json__(self, request):
         result = json_encoder(self, request)
 
@@ -160,4 +158,7 @@ class Employer(Base):
         approved = result.pop('approved', None)
         created = result.pop('created', None)
         result['address_city'] = self.address_city
+
+        if hasattr(self, 'additional_data'):
+            result.update(self.additional_data)
         return result

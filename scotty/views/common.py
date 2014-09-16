@@ -11,8 +11,9 @@ def run_paginated_query(request, basequery, serializer=list):
     offset = request.params.get('offset', 0)
     limit = request.params.get('limit', 100)
     query = basequery.offset(int(offset)).limit(int(limit))
-    return {"pagination": {"total": basequery.count(), "offset": offset, "count": query.count()},
-            "data": serializer(query)}
+    results = serializer(query)
+    return {"pagination": {"total": basequery.count(), "offset": offset, "count": len(results)},
+            "data": results}
 
 
 def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_field=None):

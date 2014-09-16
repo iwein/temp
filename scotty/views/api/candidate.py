@@ -8,14 +8,13 @@ from scotty import DBSession
 from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredcities_on_candidate, edit_candidate
+    set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
 
 
 class CandidateController(RootController):
-
     @reify
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
@@ -41,6 +40,17 @@ class CandidateController(RootController):
         self.request.emailer.send_welcome(candidate.email, candidate.first_name, candidate.activation_token)
         candidate.activation_sent = datetime.now()
         return candidate
+
+    @view_config(route_name='candidates', **GET)
+    def search(self):
+        tags = self.request.params.get('tags', '').split(',')
+
+        candidate_lookup = get_candidates_by_techtags(tags)
+        candidate_query = DBSession.query(Candidate).filter(Candidate.id.in_(candidate_lookup.keys()))
+        candidates = candidate_query.limit(20).all()
+        for candidate in candidates:
+            candidate.additional_data = {'matched_tags': candidate_lookup[str(candidate.id)]}
+        return candidates
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):
@@ -84,10 +94,9 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.candidate
         workflow = {'active': candidate.activated != None,
-                    'ordering': ['target_positions', 'work_experience', 'skills', 'education',
-                                 'languages', 'image', 'active', ], 'image': candidate.picture_url is not None,
-                    'languages': len(candidate.languages) > 0,
-                    'skills': len(candidate.skills) > 0, 'target_positions': len(candidate.target_positions) > 0,
+                    'ordering': ['target_positions', 'work_experience', 'skills', 'education', 'languages', 'image',
+                                 'active', ], 'image': candidate.picture_url is not None,
+                    'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0, 'target_positions': len(candidate.target_positions) > 0,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
 
@@ -130,7 +139,6 @@ class CandidateController(RootController):
 
 
 class CandidateEducationController(CandidateController):
-
     @view_config(route_name='candidate_educations', **GET)
     def list(self):
         return self.candidate.education
@@ -150,7 +158,6 @@ class CandidateEducationController(CandidateController):
 
 
 class CandidateWorkExperienceController(CandidateController):
-
     @view_config(route_name='candidate_work_experiences', **GET)
     def list(self):
         return self.candidate.work_experience
@@ -170,7 +177,6 @@ class CandidateWorkExperienceController(CandidateController):
 
 
 class CandidateTargetPositionController(CandidateController):
-
     @view_config(route_name='target_positions', **GET)
     def list(self):
         return self.candidate.target_positions
@@ -190,21 +196,19 @@ class CandidateTargetPositionController(CandidateController):
 
 
 class CandidateBookmarkController(CandidateController):
-
     @view_config(route_name='candidate_bookmarks', **GET)
     def list(self):
         return self.candidate.bookmarked_employers
 
     @view_config(route_name='candidate_bookmarks', **POST)
     def create(self):
-        employer_id = self.request.json('id')
+        employer_id = self.request.json['id']
         if employer_id in [str(e.id) for e in self.candidate.bookmarked_employers]:
             raise HTTPConflict("Employer already present.")
 
         employer = DBSession.query(Employer).get(employer_id)
         self.candidate.bookmarked_employers.append(employer)
-
-        return add_candidate_education(self.candidate, self.request.json)
+        return self.candidate.bookmarked_employers
 
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
@@ -215,13 +219,11 @@ class CandidateBookmarkController(CandidateController):
         return {"status": "success"}
 
 
-
 def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
     config.add_route('candidate_logout', 'logout')
     config.add_route('candidate_activate', 'activate/{token}')
-
 
     config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
     config.add_route('candidate', '{candidate_id}')

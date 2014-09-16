@@ -1,0 +1,63 @@
+<%inherit file="../debug.html"/>
+<%namespace file="candidate.html" name="candidate" />
+
+<%def name="title()">Offer flow</%def>
+<%def name="tests()">
+<script>
+  var email = guid()+"@hackandcraft.com",
+          tests = [
+
+            {'title': 'Employer Search'},
+            {url:'/api/v1/employers/?tags=Python', title: 'employer-search',
+            extract: function(r, extr){
+              return {'employers': r}
+            }},
+            {url:'/api/v1/employers/?tags=Python,Spring', title: 'employer-search-multi-1'},
+            {url:'/api/v1/employers/?tags=Python,Spring,Apache', title: 'employer-search-multi-2'},
+            {url:'/api/v1/employers/?tags=Python,PHP', title: 'employer-search-multi-3'},
+            {url:'/api/v1/employers/?tags=Python&offset=1&limit=1', title: 'employer-search-limit-offset'},
+
+            {'title': 'Candidate Search'},
+            {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search',
+            extract: function(r, extr){
+              return {'candidates': r}
+            }},
+            {url:'/api/v1/candidates/?tags=Python,Spring', title: 'candidates-search-multi-1'},
+            {url:'/api/v1/candidates/?tags=Python,Spring,Apache', title: 'candidates-search-multi-2'},
+            {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
+            {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1', title: 'candidates-search-limit-offset'},
+
+            {'title': 'Candidate Bookmark Employers'},
+
+
+            ${candidate.signup()|n}
+
+            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-1',
+            data: function(r, extr){
+              return {id: extr.employers[0].id}
+            }},
+            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-1'},
+
+            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-2',
+            data: function(r, extr){
+              return {id: extr.employers[1].id}
+            }},
+            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-2'},
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employers[0].id+'/interestedcandidates'},
+              title: 'employer-interested-candidates'},
+
+            {url: function(r, extr) { return '/api/v1/candidates/me/bookmarks/' + extr.employers[0].id},
+              title: 'candidates-bookmark-delete-1', method: 'DELETE'},
+            {url: function(r, extr) { return '/api/v1/candidates/me/bookmarks/' + extr.employers[1].id},
+              title: 'candidates-bookmark-delete-2', method: 'DELETE'},
+
+            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-2'},
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employers[0].id+'/interestedcandidates'},
+              title: 'employer-interested-candidates-empty'},
+          ];
+
+  $(function(){getTestRunner(tests)(0, {});})
+</script>
+</%def>
