@@ -1,14 +1,13 @@
 <div class="component-candidate-activate row">
   <div class="col-sm-6 col-sm-offset-3">
+    <toaster-container></toaster-container>
+
 
     <div ng-if="success">
-      Thanks for activating your account, now you can
-      <a ng-if="signupComplete" ui-sref="profile">go to your profile.</a>
-      <a ng-if="!signupComplete" ui-sref="signup">continue signup process.</a>
-    </div>
-
-    <div ng-if="error">
-      Oops! Something went wrong :\
+      Thanks for activating your account, you can now
+      <a ng-if="!session.user" ui-sref="login">log in.</a>
+      <a ng-if="session.user && signupComplete" ui-sref="profile">go to your profile.</a>
+      <a ng-if="session.user && !signupComplete" ui-sref="signup">continue signup process.</a>
     </div>
 
   </div>

@@ -59,8 +59,8 @@ define(function(require) {
 
       function setValue(selector, value) {
         $(selector).map(function(element) {
-          if (!element.hasAttribute('required'))// && !!random(0, 2))
-            return set(element, 'ng-model', '');
+          //if (!element.hasAttribute('required'))// && !!random(0, 2))
+          //  return set(element, 'ng-model', '');
 
           set(element, 'ng-model', value);
           get(element, 'ng-change');

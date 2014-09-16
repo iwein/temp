@@ -27,12 +27,12 @@ define(function(require) {
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.setLocation = setLocation;
-    this.onSkillChange = onSkillChange;
-    this.onSkillBlur = onSkillBlur;
+    this.addSkill = addSkill;
+    this.removeSkill = removeSkill;
+    this.skillKeydown = skillKeydown;
     this.submit = submit;
     $scope.months = months;
-    $scope.model = {};
-    $scope.skills = [{}];
+    $scope.model = { skills: [] };
     $scope.loading = false;
 
     bindDate('start');
@@ -48,14 +48,22 @@ define(function(require) {
       $scope.model.location = city;
     }
 
-    function onSkillBlur(entry, index, isLast) {
-      if (!entry && !isLast)
-        $scope.skills.splice(index, 1);
+    function addSkill() {
+      var index = $scope.model.skills.indexOf($scope.currentSkill);
+      if (index === -1)
+        $scope.model.skills.push($scope.currentSkill);
+      $scope.currentSkill = '';
     }
 
-    function onSkillChange(entry, index, isLast) {
-      if (entry && isLast)
-        $scope.skills.push({});
+    function removeSkill(index) {
+      $scope.model.skills.splice(index, 1);
+    }
+
+    function skillKeydown(event, skill) {
+      if (skill && event.keyCode === 13) {
+        addSkill();
+        event.preventDefault();
+      }
     }
 
     function save() {
@@ -64,10 +72,11 @@ define(function(require) {
         return $q.reject(new Error('Form data not valid'));
       }
 
-      $scope.model.skills = $scope.skills.map(function(item) {
-        return item.value;
-      });
-      $scope.model.skills.pop();
+      if (!$scope.model.skills.length) {
+        $scope.formExperience.skill.$dirty = true;
+        $scope.currentSkill = '';
+        return $q.reject(new Error('Form data not valid'));
+      }
 
       $scope.loading = true;
       return Session.addExperience($scope.model);
@@ -81,8 +90,7 @@ define(function(require) {
         $scope.startYear = '';
         $scope.endMonth = '';
         $scope.endYear = '';
-        $scope.model = {};
-        $scope.skills = [{}];
+        $scope.model = { skills: [] };
       }).finally(function() {
         $scope.loading = false;
       });

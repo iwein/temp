@@ -1,6 +1,7 @@
 //@import '../../tools/reset.less';
 // Include all bootstrap until we found a simpler way to reference it's folder
 @import '../../bower_components/bootstrap/less/bootstrap.less';
+@import '../../bower_components/angularjs-toaster/toaster.css';
 
 ui-view {
   display: block;
@@ -26,6 +27,43 @@ ui-view {
     input {
       &:nth-child(2) { margin-top: 0; }
       margin-top: 10px;
+    }
+  }
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.signup-form-mixin() {
+  .sidenav li {
+    margin: 15px 10px;
+    &.active {
+      font-weight: bold;
+    }
+  }
+
+  .signup-container {
+    margin-top: 50px;
+  }
+
+  .close {
+    float: none;
+  }
+
+  .form-inline input.form-control {
+    min-width: 114.9px;
+    width: 15%
+  }
+
+  .label-container {
+    .label {
+      margin: 1px;
     }
   }
 }

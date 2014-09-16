@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupStartCtrl', function($scope, $q, $state, Session) {
+  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, Session) {
     this.submit = submit;
     $scope.invited = false;
     $scope.loading = true;
@@ -22,15 +22,13 @@ define(function(require) {
         email: data.email
       };
     }, function() {
-      $scope.invitationFailed = true;
+      toaster.error('Invalid invitation token.');
     }).finally(function() {
       $scope.loading = false;
     });
 
     function submit() {
       $scope.loading = true;
-      $scope.error = false;
-      $scope.errorAlreadyRegistered = false;
 
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :
@@ -39,9 +37,9 @@ define(function(require) {
         $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409)
-          $scope.errorAlreadyRegistered = true;
+          toaster.error('Email address already registered.');
         else
-          $scope.error = true;
+          toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

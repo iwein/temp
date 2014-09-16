@@ -4,7 +4,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupMissionCtrl', function($scope, Session) {
+  module.controller('SignupMissionCtrl', function($scope, toaster, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
@@ -27,12 +27,11 @@ define(function(require) {
           delete $scope.model[key];
       });
 
-      $scope.error = false;
       $scope.loading = true;
       Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
-        $scope.error = true;
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

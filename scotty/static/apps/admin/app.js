@@ -2,10 +2,9 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
   var angular = require('angular');
+  require('../common/basic-conf')(module);
 
-  module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
-
+  module.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
 
     $stateProvider

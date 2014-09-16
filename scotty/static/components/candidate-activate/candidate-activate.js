@@ -3,14 +3,18 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('CandidateActivateCtrl', function($scope, $state, Session) {
+  module.controller('CandidateActivateCtrl', function($scope, $state, toaster, Session) {
     Session.activate($state.params.token).then(function() {
       return Session.isSignupComplete();
     }).then(function(result) {
       $scope.success = true;
       $scope.signupComplete = result;
-    }, function() {
-      $scope.error = true;
+    }, function(request) {
+      if (request.status === 404) {
+        toaster.error('Invalid invitation token.');
+        $scope.failed = true;
+      } else
+        toaster.defaultError();
     });
   });
 

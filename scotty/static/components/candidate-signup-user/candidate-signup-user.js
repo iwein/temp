@@ -5,7 +5,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
@@ -25,6 +25,11 @@ define(function(require) {
         ]);
       }).then(function() {
         return $scope.signup.nextStep();
+      }).catch(function(request) {
+        if (request.status === 409)
+          toaster.error('Email address already registered.');
+        else
+          toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

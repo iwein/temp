@@ -1,9 +1,6 @@
 <div class="component-employer-signup-basic">
+  <toaster-container></toaster-container>
   <h3>Sign up - Basic information</h3>
-
-  <div class="alert alert-danger" ng-hide="!error">
-    Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
-  </div>
 
   <form name="formSignupBasic" ng-submit="signupBasic.submit()">
 
@@ -134,6 +131,8 @@
         placeholder="Contact phone"
         name="contact_phone"
         required
+            pattern="^\+?[0-9 /()-]+$"
+        ng-pattern="/^\+?[0-9 -/()]+$/"
         ng-disabled="loading"
         ng-model="model.contact_phone">
 
@@ -141,6 +140,7 @@
         <span ng-show="formSignupBasic.contact_phone.$error.required">
           Please insert the phone of the contact person of your company.
         </span>
+        <span ng-show="formProfile.contact_phone.$error.pattern">Valid chacters are: Numbers - / ( )</span>
       </div>
     </div>
 
@@ -315,6 +315,8 @@
             placeholder="Contact phone"
             name="contact_phone"
             required
+                pattern="^\+?[0-9 /()-]+$"
+            ng-pattern="/^\+?[0-9 -/()]+$/"
             ng-disabled="loadingOffice"
             ng-model="office.contact_phone">
 
@@ -322,6 +324,7 @@
             <span ng-show="formSignupBasicOffice.contact_phone.$error.required">
               Please insert your the phone of the contact person of your company.
             </span>
+            <span ng-show="formProfile.contact_phone.$error.pattern">Valid chacters are: Numbers - / ( )</span>
           </div>
         </div>
 

@@ -3,32 +3,41 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupFactsCtrl', function($scope, ConfigAPI, Session) {
+  module.controller('SignupFactsCtrl', function($scope, toaster, ConfigAPI, Session) {
     this.searchTags = ConfigAPI.skills;
-    this.onTagChange = onTagChange;
-    this.onTagBlur = onTagBlur;
+    this.addSkill = addSkill;
+    this.removeSkill = removeSkill;
+    this.skillKeydown = skillKeydown;
     this.submit = submit;
     $scope.loading = false;
-    $scope.model = {};
-    $scope.tags = [{}];
+    $scope.model = { tech_tags: [] };
 
-    function onTagBlur(entry, index, isLast) {
-      if (!entry && !isLast)
-        $scope.tags.splice(index, 1);
+    function addSkill() {
+      var index = $scope.model.tech_tags.indexOf($scope.currentSkill);
+      if (index === -1)
+        $scope.model.tech_tags.push($scope.currentSkill);
+      $scope.currentSkill = '';
     }
 
-    function onTagChange(entry, index, isLast) {
-      if (entry && isLast)
-        $scope.tags.push({});
+    function removeSkill(index) {
+      $scope.model.tech_tags.splice(index, 1);
+    }
+
+    function skillKeydown(event, skill) {
+      if (skill && event.keyCode === 13) {
+        addSkill();
+        event.preventDefault();
+      }
     }
 
     function submit() {
-      $scope.loading = true;
-      $scope.error = false;
+      if (!$scope.model.tech_tags.length) {
+        $scope.formSignupFacts.skill.$dirty = true;
+        $scope.currentSkill = '';
+        return;
+      }
 
-      $scope.model.tech_tags = $scope.tags
-        .filter(function(item) { return item.value })
-        .map(function(item) { return item.value });
+      $scope.loading = true;
 
       Object.keys($scope.model).forEach(function(key) {
         if (!$scope.model[key])
@@ -38,7 +47,7 @@ define(function(require) {
       Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
-        $scope.error = true;
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

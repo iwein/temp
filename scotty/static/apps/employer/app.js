@@ -3,10 +3,9 @@ define(function(require) {
   require('session');
   var angular = require('angular');
   var module = require('app-module');
+  require('../common/basic-conf')(module);
 
-  module.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
-
+  module.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -26,9 +25,9 @@ define(function(require) {
   });
 
   module.run(function($state, $templateCache, $rootScope, Session) {
-    $rootScope.session = Session;
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
+    $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
         $state.go('home');

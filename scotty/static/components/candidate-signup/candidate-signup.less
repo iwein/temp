@@ -2,27 +2,5 @@
 @import '../candidate-signup-profile/candidate-signup-profile.less';
 
 .component-candidate-signup {
-  .sidenav li {
-    margin: 15px 10px;
-    &.active {
-      font-weight: bold;
-    }
-  }
-
-  .signup-container {
-    margin-top: 50px;
-  }
-
-  .close {
-    float: none;
-  }
-
-  .form-inline input.form-control {
-    min-width: 130px;
-    width: 15%;
-
-    &[type=date] {
-      min-width: 165px;
-    }
-  }
+  .signup-form-mixin();
 }

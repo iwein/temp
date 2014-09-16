@@ -6,16 +6,17 @@
 
     <div class="form-group" ng-repeat="entry in model">
       <div class="form-inline">
-        <select
+        <input type="text"
           class="form-control"
           name="language{{ $index }}"
+          placeholder="Language"
           ng-disabled="loading"
           ng-required="$first"
           ng-model="entry.language"
+          ng-blur="signupLanguages.onBlur(entry, $index, $last)"
           ng-change="signupLanguages.onChange(entry, $index, $last)"
-          ng-options="language for language in languages">
-          <option value="">Language</option>
-        </select>
+          typeahead-on-select="signupLanguages.setLanguage(entry)"
+          typeahead="language for language in signupLanguages.searchLanguages($viewValue)">
 
         <select
           class="form-control"
@@ -33,13 +34,8 @@
           &times;
         </span>
 
-        <!-- TODO: This doesn't work yet -->
-        <div class="form-error" ng-show="
-          formLanguages['language' + $index].$dirty &&
-          formLanguages['language' + $index].$invalid">
-          <span ng-show="formLanguages['language' + $index].$error.required">
-            Please insert the language proficiency.
-          </span>
+        <div class="form-error" ng-show="!$last && entry.$dirty && entry.errorInvalidLanguage">
+          <span ng-show="entry.errorInvalidLanguage">Please choose a city from the menu.</span>
         </div>
       </div>
     </div>

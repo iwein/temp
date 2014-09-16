@@ -3,7 +3,7 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupBenefitsCtrl', function($scope, ConfigAPI, Session) {
+  module.controller('SignupBenefitsCtrl', function($scope, toaster, ConfigAPI, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
@@ -16,7 +16,6 @@ define(function(require) {
 
     function submit() {
       $scope.loading = true;
-      $scope.error = false;
 
       $scope.model.benefits = $scope.benefits
         .filter(function(benefit) { return benefit.selected })
@@ -30,7 +29,7 @@ define(function(require) {
       Session.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
-        $scope.error = true;
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
       });

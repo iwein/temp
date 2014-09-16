@@ -8,11 +8,13 @@ requirejs.config({
     // vendors
     'text': 'bower_components/text/text',
     'moment': 'bower_components/moment/moment',
-    'angular-core': 'bower_components/angular/angular',
-    'angular': 'bower_components/angular-ui-router/release/angular-ui-router',
+    'angular': 'bower_components/angular/angular',
+    'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+    'angular-animate': 'bower_components/angular-animate/angular-animate',
+    'angularjs-toaster': 'bower_components/angularjs-toaster/toaster',
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
-    'textangular': 'bower_components/textAngular/dist/textAngular.min',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
+    'textangular': 'bower_components/textAngular/dist/textAngular.min',
 
     // aliases
     'conf': 'config/app-conf-dev',
@@ -21,13 +23,13 @@ requirejs.config({
   },
 
   shim: {
-    'angular-sanitize': [ 'angular-core' ],
-    'ui.bootstrap': [ 'angular-core' ],
+    'angular': { exports: 'angular' },
+    'ui.bootstrap': [ 'angular' ],
+    'angular-router': [ 'angular' ],
+    'angular-animate': [ 'angular' ],
+    'angularjs-toaster': [ 'angular-animate' ],
+    'angular-sanitize': [ 'angular' ],
     'textangular': [ 'angular-sanitize' ],
-    'angular': {
-      deps: [ 'angular-core' ],
-      exports: 'angular',
-    },
   }
 
 })([ 'apps/common/mock-data', 'apps/employer/app' ]);

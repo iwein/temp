@@ -4,17 +4,8 @@
       class="component-employer-invite-employer"
       ng-submit="inviteEmployer.submit()">
 
+      <toaster-container></toaster-container>
       <h3>Invite employer</h3>
-
-      <div class="alert alert-danger" ng-show="error">
-        Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.
-      </div>
-      <div class="alert alert-danger" ng-show="errorAlreadyRegistered">
-        Email address already registered.
-      </div>
-      <div class="alert alert-success" ng-show="sent">
-        Email was sent to {{ sent }}
-      </div>
 
       <div class="form-group">
         <label class="required">Contact name</label>
