@@ -86,13 +86,11 @@ class WorkExperience(Base):
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
-    job_title_id = Column(Integer, ForeignKey("job_title.id"), nullable=False)
-    job_title = relationship(JobTitle)
     skills = relationship(Skill, secondary=work_experience_skill)
 
     def __json__(self, request):
         return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary,
-                "role": self.role, "job_title": self.job_title, "company": self.company,
+                "role": self.role, "company": self.company,
                 "skills": self.skills, "location": self.location}
 
 
