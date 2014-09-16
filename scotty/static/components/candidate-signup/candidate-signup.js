@@ -2,8 +2,10 @@ define(function(require) {
   'use strict';
   require('session');
   var module = require('app-module');
+
+
   var validStates = {
-    'target_positions': [
+    'start': [
       'signup.target',
       'signup.user',
     ],
@@ -17,10 +19,9 @@ define(function(require) {
       'signup.education',
       'signup.languages',
     ],
-    // ---> TODO: NONO
-    // 'languages': [ 'signup.languages' ],
     'image': [ 'signup.profile' ],
-    'active': [ 'signup.activate' ]
+    'active': [ 'signup.activate' ],
+    'end': [ 'profile' ],
   };
   var order = [
     'signup.target',
@@ -37,65 +38,16 @@ define(function(require) {
 
   module.controller('CandidateSignupCtrl', function($scope, $state, Session) {
     var signup = this;
-    var validated = null;
-    this.nextStep = nextStep;
-    this.atStep = atStep;
-    this.ready = false;
     this.target = {};
     this.cities = [];
 
-    loadStep($state.current.name);
+    // Create and invoke controller
+    require('tools/signup-controller')('candidate', order, validStates, validateStep)
+      .call(this, $scope, $state, Session);
 
-    $scope.$on('$stateChangeStart', function(event, state) {
-      if (state.name.indexOf('signup') !== 0)
-        return;
-
-      if (validated !== state.name) {
-        event.preventDefault();
-        loadStep(state.name);
-      }
-    });
-
-    function atStep(step) {
-      return $state.current.name === step;
-    }
-
-    function nextStep() {
-      var current = $state.current.name;
-      var index = order.indexOf(current);
-      var next = order[index + 1];
-      return loadStep(next);
-    }
-
-    function loadStep(name) {
-      return getValidStates().then(function(valid) {
-        if (valid.indexOf(name) === -1)
-          name = valid[0];
-
-        if (name === 'signup.user' && !targetPositionCompleted())
-          name = 'signup.target';
-
-        validated = name;
-        signup.ready = true;
-        $state.go(name);
-      });
-    }
-
-    function getValidStates() {
-      return Session.getSignupStage().then(function(stage) {
-        var destination = [ 'profile' ];
-        if (!stage)
-          return validStates.target_positions;
-
-        stage.ordering.some(function(item) {
-          if (!stage[item]) {
-            destination = validStates[item];
-            return true;
-          }
-        });
-
-        return destination;
-      });
+    function validateStep(name) {
+      if (name === 'signup.user' && !targetPositionCompleted())
+        return 'signup.target';
     }
 
     function targetPositionCompleted() {
@@ -105,6 +57,7 @@ define(function(require) {
       );
     }
   });
+
 
 
   return {

@@ -13,6 +13,10 @@ define(function(require) {
     $scope.loading = false;
     var skills = $scope.model = [{}];
 
+    Session.getUserData().then(function(data) {
+      skills = $scope.model = data.skills.concat(skills);
+    });
+
     ConfigAPI.skillLevels().then(function(data) {
       $scope.levels = data;
     });

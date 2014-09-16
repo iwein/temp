@@ -14,6 +14,10 @@ define(function(require) {
     $scope.loading = false;
     var languages = $scope.model = [{}];
 
+    Session.getUserData().then(function(data) {
+      languages = $scope.model = data.languages.concat(languages);
+    });
+
     ConfigAPI.proficiencies().then(function(data) {
       $scope.proficiencies = data;
     });
