@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('SignupBasicCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
@@ -10,7 +11,7 @@ define(function(require) {
     this.editOffice = editOffice;
     this.submitOffice = submitOffice;
     this.submit = submit;
-    $scope.loading = false;
+    $scope.loading = true;
     $scope.loadingOffice = false;
     $scope.model = {};
     $scope.office = {};
@@ -19,8 +20,24 @@ define(function(require) {
     listOffices();
 
     Session.getUserData().then(function(data) {
-      $scope.model.contact_name = data.contact_name;
-      $scope.model.contact_email = data.email;
+      $scope.model = _.pick(data, [
+        'logo_url',
+        'website',
+        'address_line1',
+        'address_line2',
+        'address_line3',
+        'address_zipcode',
+        'address_city',
+        'contact_name',
+        'contact_phone',
+        'contact_position',
+        'fb_url',
+        'linkedin_url',
+      ]);
+      $scope.model.contact_email = data.contact_email || data.email;
+      $scope.locationText = ConfigAPI.locationToText(data.address_city);
+    }).finally(function() {
+      $scope.loading = false;
     });
 
     function setLocation(model, location) {

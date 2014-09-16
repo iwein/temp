@@ -13,6 +13,11 @@ define(function(require) {
       return this._api[method]('/candidates/me/' + key, data);
     };
   }
+  function deleteHelper(key) {
+    return function(data) {
+      return this._api.delete('/candidates/me/' + key + '/' + data.id);
+    };
+  }
 
 
   function CandidateSession(api) {
@@ -113,12 +118,15 @@ define(function(require) {
 
     addTargetPosition: setHelper('target_positions', 'post'),
     getTargetPositions: getHelper('target_positions'),
+    deleteTargetPosition: deleteHelper('target_positions'),
 
     addExperience: setHelper('work_experience', 'post'),
     getExperience: getHelper('work_experience'),
+    deleteExperience: deleteHelper('work_experience'),
 
     addEducation: setHelper('education', 'post'),
     getEducation: getHelper('education'),
+    deleteEducation: deleteHelper('education'),
 
     setPreferredCities: setHelper('preferred_cities', 'put'),
     setSkills: setHelper('skills', 'put'),

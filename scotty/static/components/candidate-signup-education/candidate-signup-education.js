@@ -24,6 +24,7 @@ define(function(require) {
     this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
+    this.edit = edit;
     this.submit = submit;
     $scope.months = months;
     $scope.model = {};
@@ -39,6 +40,20 @@ define(function(require) {
       $scope.degrees = data;
     });
 
+    function edit(entry) {
+      $scope.model = entry;
+
+      var start = new Date(entry.start);
+      $scope.startMonth = months[start.getMonth()];
+      $scope.startYear = start.getFullYear();
+
+      if (entry.end) {
+        var end = new Date(entry.end);
+        $scope.endMonth = months[end.getMonth()];
+        $scope.endYear = start.getFullYear();
+      }
+    }
+
     function save() {
       $scope.loading = true;
       return Session.addEducation($scope.model);
@@ -46,12 +61,15 @@ define(function(require) {
 
     function addAnother() {
       save().then(function() {
+        return $scope.list.refresh();
+      }).then(function() {
         $scope.formEducation.$setPristine();
         $scope.startMonth = '';
         $scope.startYear = '';
         $scope.endMonth = '';
         $scope.endYear = '';
         $scope.model = {};
+      }).finally(function() {
         $scope.loading = false;
       });
     }

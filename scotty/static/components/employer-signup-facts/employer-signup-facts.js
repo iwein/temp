@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('SignupFactsCtrl', function($scope, toaster, ConfigAPI, Session) {
@@ -9,8 +10,21 @@ define(function(require) {
     this.removeSkill = removeSkill;
     this.skillKeydown = skillKeydown;
     this.submit = submit;
-    $scope.loading = false;
+    $scope.loading = true;
     $scope.model = { tech_tags: [] };
+
+    Session.getUserData().then(function(data) {
+      $scope.model = _.pick(data, [
+        'founding_year',
+        'revenue_pa',
+        'funding_amoun',
+        'no_of_employees',
+        'tech_team_size',
+        'tech_tags',
+      ]);
+    }).finally(function() {
+      $scope.loading = false;
+    });
 
     function addSkill() {
       var index = $scope.model.tech_tags.indexOf($scope.currentSkill);

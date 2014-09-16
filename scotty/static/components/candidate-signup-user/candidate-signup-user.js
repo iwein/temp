@@ -21,7 +21,8 @@ define(function(require) {
         return $q.all([
           Session.updateData(availability),
           Session.addTargetPosition(position),
-          Session.setPreferredCities(cities),
+          Session.setPreferredCities($scope.signup.dont_care_location ?
+            { dont_care_location: true } : cities),
         ]);
       }).then(function() {
         return $scope.signup.nextStep();

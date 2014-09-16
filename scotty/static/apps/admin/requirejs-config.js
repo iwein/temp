@@ -7,6 +7,7 @@ requirejs.config({
   paths: {
     // vendors
     'text': 'bower_components/text/text',
+    'underscore': 'bower_components/underscore/underscore',
     'moment': 'bower_components/moment/moment',
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',

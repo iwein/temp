@@ -1,17 +1,34 @@
 define(function(require) {
   'use strict';
   require('session');
+  var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupBenefitsCtrl', function($scope, toaster, ConfigAPI, Session) {
+  module.controller('SignupBenefitsCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
     this.submit = submit;
-    $scope.loading = false;
+    $scope.loading = true;
     $scope.model = {};
 
-    ConfigAPI.benefits().then(function(benefits) {
+    $q.all([
+      ConfigAPI.benefits(),
+      Session.getUserData(),
+    ]).then(function(result) {
+      var benefits = result[0];
+      var data = result[1];
+
+      $scope.model = _.pick(data, [
+        'recruitment_process',
+        'training_policy',
+      ]);
+
       $scope.benefits = benefits.map(function(value) {
-        return { value: value };
+        return {
+          value: value,
+          selected: data.benefits.indexOf(value) !== -1,
+        };
       });
+    }).finally(function() {
+      $scope.loading = false;
     });
 
     function submit() {

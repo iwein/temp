@@ -9,6 +9,10 @@ define(function(require) {
       'signup.target',
       'signup.user',
     ],
+    'target_positions': [
+      'signup.target',
+      'signup.user',
+    ],
     'work_experience': [ 'signup.experience' ],
     'skills': [
       'signup.experience',
@@ -38,7 +42,7 @@ define(function(require) {
 
   module.controller('CandidateSignupCtrl', function($scope, $state, Session) {
     var signup = this;
-    this.target = {};
+    this.target = { company_types: [] };
     this.cities = [];
 
     // Create and invoke controller
@@ -53,7 +57,7 @@ define(function(require) {
     function targetPositionCompleted() {
       return (
         signup.target.minimum_salary &&
-        signup.cities.length
+        (signup.cities.length || signup.dont_care_location)
       );
     }
   });

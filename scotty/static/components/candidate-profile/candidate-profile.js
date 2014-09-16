@@ -1,6 +1,9 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('components/directive-target-positions/directive-target-positions');
+  require('components/directive-experience/directive-experience');
+  require('components/directive-education/directive-education');
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $state, Session) {
@@ -9,7 +12,6 @@ define(function(require) {
         $state.go('login');
         return;
       }
-
 
       Session.isSignupComplete().then(function(result) {
         $scope.isSignupComplete = result;
@@ -21,18 +23,6 @@ define(function(require) {
         $scope.languages = data.languages;
         $scope.skills = data.skills;
         $scope.user = data;
-      });
-
-      Session.getTargetPositions().then(function(data) {
-        $scope.targetPositions = data;
-      });
-
-      Session.getExperience().then(function(data) {
-        $scope.experience = data;
-      });
-
-      Session.getEducation().then(function(data) {
-        $scope.education = data;
       });
     });
   });
