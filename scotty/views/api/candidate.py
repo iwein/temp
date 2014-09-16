@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
@@ -6,12 +7,11 @@ from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Candidate, Education, WorkExperience, TargetPosition
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
-    add_candidate_work_experience, add_candidate_target_position, set_languages_on_candidate, set_skills_on_candidate, \
+    add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate, edit_candidate
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import joinedload
 
 
 class CandidateController(RootController):
@@ -171,15 +171,15 @@ class CandidateWorkExperienceController(CandidateController):
 
 class CandidateTargetPositionController(CandidateController):
 
-    @view_config(route_name='candidate_target_positions', **GET)
+    @view_config(route_name='target_positions', **GET)
     def list(self):
         return self.candidate.target_positions
 
-    @view_config(route_name='candidate_target_positions', **POST)
+    @view_config(route_name='target_positions', **POST)
     def create(self):
-        return add_candidate_target_position(self.candidate, self.request.json)
+        return add_target_position(self.candidate, self.request.json)
 
-    @view_config(route_name='candidate_target_position', **DELETE)
+    @view_config(route_name='target_position', **DELETE)
     def delete(self):
         id = self.request.matchdict["id"]
         we = DBSession.query(TargetPosition).get(id)
@@ -209,5 +209,5 @@ def includeme(config):
     config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
 
-    config.add_route('candidate_target_positions', '{candidate_id}/target_positions')
-    config.add_route('candidate_target_position', '{candidate_id}/target_positions/{id}')
+    config.add_route('target_positions', '{candidate_id}/target_positions')
+    config.add_route('target_position', '{candidate_id}/target_positions/{id}')

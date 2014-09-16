@@ -56,6 +56,7 @@ def upgrade():
                     sa.Column('notice_period_measure', sa.String(length=1), server_default='w', nullable=False),
                     sa.Column('status_id', sa.Integer(), nullable=False),
                     sa.Column('willing_to_travel', sa.Boolean(), nullable=True),
+                    sa.Column('dont_care_location', sa.Boolean(), nullable=True),
                     sa.ForeignKeyConstraint(['contact_city_id'], [u'city.id'], ),
                     sa.ForeignKeyConstraint(['residence_country_iso'], [u'country.iso'], ),
                     sa.ForeignKeyConstraint(['status_id'], [u'candidatestatus.id'], ),
@@ -123,22 +124,27 @@ def upgrade():
                     sa.ForeignKeyConstraint(['proficiency_id'], [u'proficiency.id'], ),
                     sa.PrimaryKeyConstraint('candidate_id', 'language_id')
     )
-    op.create_table('candidate_target_position',
+    op.create_table('target_position',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('candidate_id', GUID(), nullable=False),
                     sa.Column('created', sa.Date(), nullable=False),
                     sa.Column('role_id', sa.Integer(), nullable=False),
                     sa.Column('skill_id', sa.Integer(), nullable=False),
                     sa.Column('seniority_id', sa.Integer(), nullable=True),
-                    sa.Column('company_type_id', sa.Integer(), nullable=True),
                     sa.Column('minimum_salary', sa.Integer(), nullable=False),
                     sa.Column('benefits', sa.Text(), nullable=True),
                     sa.ForeignKeyConstraint(['candidate_id'], ['candidate.id'], ),
-                    sa.ForeignKeyConstraint(['company_type_id'], [u'company_type.id'], ),
                     sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),
                     sa.ForeignKeyConstraint(['seniority_id'], [u'seniority.id'], ),
                     sa.ForeignKeyConstraint(['skill_id'], ['skill.id'], ),
                     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('target_position_company_type',
+                    sa.Column('target_position_id', sa.Integer(), nullable=False),
+                    sa.ForeignKeyConstraint(['target_position_id'], ['target_position.id'], ),
+                    sa.Column('company_type_id', sa.Integer(), nullable=False),
+                    sa.ForeignKeyConstraint(['company_type_id'], ['company_type.id'], ),
+                    sa.PrimaryKeyConstraint('target_position_id', 'company_type_id')
     )
     op.create_table('work_experience_skill',
                     sa.Column('work_experience_id', sa.Integer(), nullable=False),
@@ -147,7 +153,6 @@ def upgrade():
                     sa.ForeignKeyConstraint(['work_experience_id'], ['work_experience.id'], ),
                     sa.PrimaryKeyConstraint('work_experience_id', 'skill_id')
     )
-
 
     ### end Alembic commands ###
 
