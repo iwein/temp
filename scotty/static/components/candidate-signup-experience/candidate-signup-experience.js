@@ -29,6 +29,7 @@ define(function(require) {
     this.addSkill = addSkill;
     this.removeSkill = removeSkill;
     this.skillKeydown = skillKeydown;
+    this.edit = edit;
     this.submit = submit;
     $scope.months = months;
     $scope.model = { skills: [] };
@@ -65,6 +66,21 @@ define(function(require) {
       }
     }
 
+    function edit(entry) {
+      $scope.model = entry;
+      $scope.locationText = ConfigAPI.locationToText(entry.location);
+
+      var start = new Date(entry.start);
+      $scope.startMonth = months[start.getMonth()];
+      $scope.startYear = start.getFullYear();
+
+      if (entry.end) {
+        var end = new Date(entry.end);
+        $scope.endMonth = months[end.getMonth()];
+        $scope.endYear = start.getFullYear();
+      }
+    }
+
     function save() {
       if (!$scope.model.location || $scope.errorInvalidCity) {
         $scope.errorInvalidCity = true;
@@ -83,6 +99,8 @@ define(function(require) {
 
     function addAnother() {
       save().then(function() {
+        return $scope.list.refresh();
+      }).then(function() {
         $scope.formExperience.$setPristine();
         $scope.locationText = '';
         $scope.startMonth = '';

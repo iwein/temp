@@ -1,0 +1,29 @@
+<div class="panel panel-default" ng-show="model.length || hcShowEmpty">
+  <div ng-if="hcTitle" class="panel-heading">
+    <h3 class="panel-title">{{ hcTitle }}</h3>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="entry in model">
+      <dl class="dl-horizontal">
+        <dt>company</dt>
+        <dd>{{ entry.company }}</dd>
+        <dt>location</dt>
+        <dd>{{ entry.location.city }}, {{ entry.location.country_iso }}</dd>
+        <dt>start</dt>
+        <dd>{{ entry.start }}</dd>
+        <dt>end</dt>
+        <dd>{{ entry.end }}</dd>
+        <dt>role</dt>
+        <dd>{{ entry.role }}</dd>
+        <dt>skills</dt>
+        <dd>{{ entry.skills.join(', ') }}</dd>
+        <dt>summary</dt>
+        <dd>{{ entry.summary }}</dd>
+        <dd ng-if="hcEditable">
+          <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
+          <button type="button" class="btn btn-default" ng-click="remove(entry)">Remove</button>
+        <dd>
+      </dl>
+    </li>
+  </ul>
+</div>

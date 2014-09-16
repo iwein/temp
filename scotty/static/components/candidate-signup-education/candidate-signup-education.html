@@ -1,6 +1,5 @@
-  <form name="formEducation"
-    class="component-candidate-signup-education"
-    ng-submit="signupEducation.submit()">
+<div class="component-candidate-signup-education">
+  <form name="formEducation" ng-submit="signupEducation.submit()">
 
     <h3>Sign up - Education</h3>
 
@@ -126,6 +125,14 @@
       <button type="button" class="btn btn-default" ng-click="signupEducation.addAnother()" ng-disabled="loading">
         Save &amp; add another
       </button>
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Save &amp; continue</button>
     </div>
   </form>
+
+  <div
+    hc-education="list"
+    hc-title="Saved"
+    hc-editable
+    hc-edit="signupEducation.edit($entry)"></div>
+
+</div>

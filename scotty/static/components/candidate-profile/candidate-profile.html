@@ -80,71 +80,8 @@
       </ul>
     </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Target positions</h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>role</dt>
-          <dd>{{ targetPositions[0].role }}</dd>
-          <dt>skill</dt>
-          <dd>{{ targetPositions[0].skill }}</dd>
-          <dt>company type</dt>
-          <dd>{{ targetPositions[0].company_type }}</dd>
-          <dt>minimum salary</dt>
-          <dd>{{ targetPositions[0].minimum_salary }}</dd>
-        </dl>
-      </div>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Experience</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="entry in experience">
-          <dl class="dl-horizontal">
-            <dt>company</dt>
-            <dd>{{ entry.company }}</dd>
-            <dt>location</dt>
-            <dd>{{ entry.location.city }}, {{ entry.location.country_iso }}</dd>
-            <dt>start</dt>
-            <dd>{{ entry.start }}</dd>
-            <dt>end</dt>
-            <dd>{{ entry.end }}</dd>
-            <dt>role</dt>
-            <dd>{{ entry.role }}</dd>
-            <dt>skills</dt>
-            <dd>{{ entry.skills.join(', ') }}</dd>
-            <dt>summary</dt>
-            <dd>{{ entry.summary }}</dd>
-          </dl>
-        </li>
-      </ul>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Education</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="entry in education">
-          <dl class="dl-horizontal">
-            <dt>institution</dt>
-            <dd>{{ entry.institution }}</dd>
-            <dt>degree</dt>
-            <dd>{{ entry.degree }}</dd>
-            <dt>course</dt>
-            <dd>{{ entry.course }}</dd>
-            <dt>start</dt>
-            <dd>{{ entry.start }}</dd>
-            <dt>end</dt>
-            <dd>{{ entry.end }}</dd>
-          </dl>
-        </li>
-      </ul>
-    </div>
-
+    <div hc-target-positions hc-title="Target positions" hc-show-empty></div>
+    <div hc-experience hc-title="Experience" hc-show-empty></div>
+    <div hc-education hc-title="Education" hc-show-empty></div>
   </div>
 </div>
