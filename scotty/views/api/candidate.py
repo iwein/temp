@@ -45,11 +45,14 @@ class CandidateController(RootController):
     def search(self):
         tags = self.request.params.get('tags', '').split(',')
 
-        candidate_lookup = get_candidates_by_techtags(tags)
-        candidate_query = DBSession.query(Candidate).filter(Candidate.id.in_(candidate_lookup.keys()))
-        candidates = candidate_query.limit(20).all()
-        for candidate in candidates:
-            candidate.additional_data = {'matched_tags': candidate_lookup[str(candidate.id)]}
+        base_query = DBSession.query(Candidate)
+        if tags:
+            candidate_lookup = get_candidates_by_techtags(tags)
+            candidates = base_query.filter(Candidate.id.in_(candidate_lookup.keys())).limit(20).all()
+            for candidate in candidates:
+                candidate.additional_data = {'matched_tags': candidate_lookup[str(candidate.id)]}
+        else:
+            candidates = base_query.limit(20).all()
         return candidates
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
