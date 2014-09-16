@@ -88,8 +88,10 @@ class Employer(Base):
     contact_email = Column(String(1024))
     contact_position = Column(String(128))
 
-    logo_url = Column(String(512))
+    logo_url = Column(String(1024))
     image_video_url = Column(String(1024))
+    fb_url = Column(String(1024))
+    linkedin_url = Column(String(1024))
 
     mission_text = Column(Text)
     culture_text = Column(Text)

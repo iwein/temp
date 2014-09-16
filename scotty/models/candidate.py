@@ -1,16 +1,17 @@
 from uuid import uuid4
 from datetime import datetime
 
-from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, \
-    Institution, Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority, Course
+from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
+    Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority, Course
 from scotty.models.tools import json_encoder
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
-    UniqueConstraint, DateTime
+    UniqueConstraint, DateTime, func
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.orm import relationship
 
 
 INCLUDE_WEXP = 'include_wexp'
+
 
 class CandidateStatus(Base, NamedModel):
     __tablename__ = 'candidatestatus'
@@ -38,8 +39,8 @@ class Education(Base):
     degree = relationship(Degree)
 
     def __json__(self, request):
-        return {'institution': self.institution, "degree": self.degree, "id": self.id,
-                "start": self.start, "end": self.end, "course": self.course}
+        return {'institution': self.institution, "degree": self.degree, "id": self.id, "start": self.start, "end":
+            self.end, "course": self.course}
 
 
 class CandidateSkill(Base):
@@ -60,7 +61,6 @@ class CandidateSkill(Base):
 candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
-
 
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
@@ -90,14 +90,13 @@ class WorkExperience(Base):
     skills = relationship(Skill, secondary=work_experience_skill)
 
     def __json__(self, request):
-        return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary,
-                "role": self.role, "company": self.company,
-                "skills": self.skills, "location": self.location}
+        return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary, "role": self.role,
+                "company": self.company, "skills": self.skills, "location": self.location}
 
 
 target_position_company_type = Table('target_position_company_type', Base.metadata,
-                              Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
-                              Column('company_type_id', Integer, ForeignKey('company_type.id'), primary_key=True))
+                                     Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
+                                     Column('company_type_id', Integer, ForeignKey('company_type.id'), primary_key=True))
 
 
 class TargetPosition(Base):
@@ -138,14 +137,18 @@ class CandidateLanguage(Base):
         return {"language": self.language, "proficiency": self.proficiency}
 
 
+candidate_bookmark_employer = Table('candidate_bookmark_employer', Base.metadata,
+                                    Column('candidate_id', GUID(), ForeignKey('candidate.id'), primary_key=True),
+                                    Column('employer_id', GUID(), ForeignKey('employer.id'), primary_key=True),
+                                    Column('created', DateTime, nullable=False, default=datetime.now,
+                                           server_default=func.now()))
+
+
 class Candidate(Base):
     __tablename__ = 'candidate'
-    __editable__ = [
-        'first_name', 'last_name',
-        'pob', 'dob', 'picture_url', 'title',
-        'contact_line1', 'contact_line2', 'contact_line3', 'contact_zipcode',
-        'contact_phone', 'available_date', 'notice_period_number', 'willing_to_travel',
-        'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
+    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'title', 'contact_line1', 'contact_line2',
+                    'contact_line3', 'contact_zipcode', 'contact_phone', 'available_date', 'notice_period_number',
+                    'willing_to_travel', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
 
     id = Column(GUID, primary_key=True, default=uuid4)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -202,6 +205,9 @@ class Candidate(Base):
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
+    bookmarked_employers = relationship("Employer", secondary=candidate_bookmark_employer,
+                                        order_by=candidate_bookmark_employer.c.created.desc())
+
     def get_json_options(self, request):
         options = request.renderer_options.get(self.__class__.__name__)
         return options or {}
@@ -222,8 +228,7 @@ class Candidate(Base):
         result['skills'] = self.skills
 
         # TODO: fix, why is it not auto loaded?
-        result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() \
-            if self.preferred_cities else []
+        result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() if self.preferred_cities else []
 
         opts = self.get_json_options(request)
         if opts.get(INCLUDE_WEXP):

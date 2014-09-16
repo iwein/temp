@@ -65,6 +65,8 @@ EMPLOYER_EDITABLES = {
     'contact_email': ID,
     'contact_position': ID,
     'logo_url': ID,
+    'fb_url': ID,
+    'linkedin_url': ID,
     'image_video_url': ID,
     'mission_text': ID,
     'culture_text': ID,

@@ -5,7 +5,7 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, Education, WorkExperience, TargetPosition
+from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate, edit_candidate
@@ -189,6 +189,33 @@ class CandidateTargetPositionController(CandidateController):
         return {"status": "success"}
 
 
+class CandidateBookmarkController(CandidateController):
+
+    @view_config(route_name='candidate_bookmarks', **GET)
+    def list(self):
+        return self.candidate.bookmarked_employers
+
+    @view_config(route_name='candidate_bookmarks', **POST)
+    def create(self):
+        employer_id = self.request.json('id')
+        if employer_id in [str(e.id) for e in self.candidate.bookmarked_employers]:
+            raise HTTPConflict("Employer already present.")
+
+        employer = DBSession.query(Employer).get(employer_id)
+        self.candidate.bookmarked_employers.append(employer)
+
+        return add_candidate_education(self.candidate, self.request.json)
+
+    @view_config(route_name='candidate_bookmark', **DELETE)
+    def delete(self):
+        employer_id = self.request.matchdict['id']
+
+        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) != employer_id]
+
+        return {"status": "success"}
+
+
+
 def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
@@ -205,6 +232,9 @@ def includeme(config):
 
     config.add_route('candidate_educations', '{candidate_id}/education')
     config.add_route('candidate_education', '{candidate_id}/education/{id}')
+
+    config.add_route('candidate_bookmarks', '{candidate_id}/bookmarks')
+    config.add_route('candidate_bookmark', '{candidate_id}/bookmarks/{id}')
 
     config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')

@@ -2,7 +2,7 @@
   "swaggerVersion": "1.2",
   "apis": [
     {
-      "path": "/api/v1/seniority",
+      "path": "config/seniority",
       "description": "Sample valid api declaration."
     }
   ]
