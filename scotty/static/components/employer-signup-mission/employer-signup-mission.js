@@ -2,18 +2,25 @@ define(function(require) {
   'use strict';
   require('textangular');
   require('session');
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('SignupMissionCtrl', function($scope, toaster, Session) {
     this.submit = submit;
     $scope.error = false;
-    $scope.loading = false;
+    $scope.loading = true;
     $scope.missionDirty = false;
     $scope.model = {};
 
     $scope.$watch('model.mission_text', function(value) {
       $scope.errorMissionEmpty = !value;
       $scope.missionDirty = $scope.missionDirty || !!value;
+    });
+
+    Session.getUserData().then(function(data) {
+      $scope.model = _.pick(data, 'mission_text');
+    }).finally(function() {
+      $scope.loading = false;
     });
 
     function submit() {

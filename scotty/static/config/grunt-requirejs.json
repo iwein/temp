@@ -5,6 +5,7 @@
     "name": "bower_components/almond/almond",
     "out": "<%= files.build.amd %>",
     "paths": {
+      "underscore": "bower_components/underscore/underscore-min",
       "angular": "bower_components/angular/angular.min",
       "angular-router": "bower_components/angular-ui-router/release/angular-ui-router.min",
       "angular-animate": "bower_components/angular-animate/angular-animate.min",

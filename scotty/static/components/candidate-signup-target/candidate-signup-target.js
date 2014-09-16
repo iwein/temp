@@ -40,8 +40,8 @@ define(function(require) {
         return;
       }
 
-      if (!$scope.signup.target.company_type) {
-        $scope.formTarget.companyType.$dirty = true;
+      if (!$scope.signup.target.company_types) {
+        $scope.formTarget.companyTypes.$dirty = true;
         return;
       }
 

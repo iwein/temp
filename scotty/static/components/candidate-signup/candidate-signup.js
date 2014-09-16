@@ -38,7 +38,7 @@ define(function(require) {
 
   module.controller('CandidateSignupCtrl', function($scope, $state, Session) {
     var signup = this;
-    this.target = {};
+    this.target = { company_types: [] };
     this.cities = [];
 
     // Create and invoke controller
