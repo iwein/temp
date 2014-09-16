@@ -100,11 +100,9 @@ def upgrade():
                     sa.Column('company_id', sa.Integer(), nullable=False),
                     sa.Column('city_id', sa.Integer(), nullable=False),
                     sa.Column('role_id', sa.Integer(), nullable=False),
-                    sa.Column('job_title_id', sa.Integer(), nullable=False),
                     sa.ForeignKeyConstraint(['candidate_id'], ['candidate.id'], ),
                     sa.ForeignKeyConstraint(['city_id'], [u'city.id'], ),
                     sa.ForeignKeyConstraint(['company_id'], [u'company.id'], ),
-                    sa.ForeignKeyConstraint(['job_title_id'], ['job_title.id'], ),
                     sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),
                     sa.PrimaryKeyConstraint('id'),
                     sa.UniqueConstraint('candidate_id', 'company_id', 'start', name='candidate_work_experience_unique')
