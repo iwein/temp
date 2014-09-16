@@ -1,9 +1,10 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  require('tools/file-upload/amazon');
+  require('tools/file-upload/data-url-directive');
+  require('tools/file-upload/file-select-directive');
   require('session');
-  require('./amazon');
-  require('./file-select-directive');
   var module = require('app-module');
 
   module.controller('CandidateSignupProfileCtrl', function($scope, $q, ConfigAPI, Session, Amazon) {
@@ -22,22 +23,10 @@ define(function(require) {
     function selectFile(files) {
       $scope.errorFileRequired = false;
       $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
-      $scope.fileUri = '';
-
-      if ($scope.errorFileImage)
-        return;
-
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        $scope.$apply(function() {
-          $scope.fileUri = event.target.result;
-        });
-      };
-      reader.readAsDataURL(files[0]);
     }
 
     function submit() {
-      if (!$scope.files) {
+      if (!$scope.files || !$scope.files.length) {
         $scope.errorFileRequired = true;
         return;
       }

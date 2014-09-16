@@ -108,16 +108,17 @@
 
     <div class="form-group required">
       <label>Photo</label>
-      <img ng-show="fileUri" ng-src="{{ fileUri }}">
+      <img ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
       <input type="file"
         name="photo"
         accept="image/*"
         required
         ng-disabled="loading"
         ng-model="files"
-        hc-file-select="signupProfile.selectFile($files)">
+        hc-file-select="signupProfile.selectFile($files)"
+        hc-data-url="selectedFiles">
 
-      <div class="form-error" ng-show="errorFileImage">
+      <div class="form-error" ng-show="errorFileRequired || errorFileImage">
         <span ng-show="errorFileRequired">Please select a photo.</span>
         <span ng-show="errorFileImage">The file should be an image.</span>
       </div>

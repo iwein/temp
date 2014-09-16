@@ -4,18 +4,25 @@ define(function(require) {
 
   module.directive('hcFileSelect', function($parse) {
     return {
+      restrict: 'A',
       compile: function(elem, attr) {
         var element = elem[0];
-        var model = attr.ngModel;
-        var onChange = attr.hcFileSelect;
-        var setModel = $parse(model).assign;
-        var execOnChange = $parse(onChange);
+        var model, onChange;
+
+        if (attr.ngModel)
+          model = $parse(attr.ngModel).assign;
+
+        if (attr.hcFileSelect)
+          onChange = $parse(attr.hcFileSelect);
 
         return function postLink(scope) {
           element.addEventListener('change', function() {
             scope.$apply(function() {
-              setModel(scope, element.files);
-              execOnChange(scope, { $files: element.files });
+              if (model)
+                model(scope, element.files);
+
+              if (onChange)
+                onChange(scope, { $files: element.files });
             });
           });
         };
