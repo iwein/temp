@@ -47,7 +47,6 @@ define(function(require) {
     skills: helper('skills'),
     roles: helper('roles'),
     companies: helper('companies'),
-    jobTitles: helper('job_titles'),
     institutions: helper('institutions'),
     languages: helper('languages'),
     courses: helper('courses'),

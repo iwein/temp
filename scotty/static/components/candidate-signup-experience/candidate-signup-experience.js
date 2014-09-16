@@ -22,7 +22,6 @@ define(function(require) {
   module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, Session) {
     this.searchCompanies = ConfigAPI.companies;
     this.searchLocations = ConfigAPI.locationsText;
-    this.searchJobTitles = ConfigAPI.jobTitles;
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
