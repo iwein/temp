@@ -1,6 +1,6 @@
 <form name="formSignupFacts"
-      class="component-employer-signup-facts"
-      ng-submit="signupFacts.submit()">
+  class="component-employer-signup-facts"
+  ng-submit="signupFacts.submit()">
   <toaster-container></toaster-container>
 
   <h3>Sign up - Facts</h3>
@@ -8,13 +8,13 @@
   <div class="form-group">
     <label>Founding year</label>
     <input type="number"
-           class="form-control"
-           placeholder="YYYY-MM-DD"
-           name="founding_year"
-           placeholder="VC Founding amount"
-           name="funding_amount"
-           ng-disabled="loading"
-           ng-model="model.funding_year">
+      class="form-control"
+      placeholder="YYYY-MM-DD"
+      name="founding_year"
+      placeholder="VC Founding amount"
+      name="funding_amount"
+      ng-disabled="loading"
+      ng-model="model.funding_year">
 
     <div class="form-error" ng-show="formSignupFacts.funding_year.$dirty && formSignupFacts.funding_year.$invalid">
       <span ng-show="formSignupFacts.funding_year.$error.required">
@@ -28,12 +28,12 @@
     <div class="input-group">
       <span class="input-group-addon">€</span>
       <input type="number"
-             class="form-control"
-             placeholder="Annual revenue",
-      name="revenue_pa"
-      ng-disabled="loading"
-      ng-model="model.revenue_pa"
-      ng-pattern="/^[0-9]+$/">
+        class="form-control"
+        placeholder="Annual revenue"
+        name="revenue_pa"
+        ng-disabled="loading"
+        ng-model="model.revenue_pa"
+        ng-pattern="/^[0-9]+$/">
       <span class="input-group-addon">.00</span>
     </div>
 
@@ -55,13 +55,13 @@
     <div class="input-group">
       <span class="input-group-addon">€</span>
       <input type="number"
-             class="form-control"
-             placeholder="VC Founding amount",
-      name="funding_amount"
-      ng-disabled="loading"
-      ng-model="model.funding_amount"
-      ng-pattern="/^[0-9]+$/">
-      <span class="input-group-addon">.00</span>
+        class="form-control"
+        placeholder="VC Founding amount"
+        name="funding_amount"
+        ng-disabled="loading"
+        ng-model="model.funding_amount"
+        ng-pattern="/^[0-9]+$/">
+        <span class="input-group-addon">.00</span>
     </div>
 
     <div class="form-error" ng-show="formTarget.funding_amount.$dirty && formTarget.funding_amount.$invalid">
@@ -80,11 +80,11 @@
   <div class="form-group">
     <label>Company size</label>
     <input type="number"
-           class="form-control"
-           placeholder="Company size"
-           name="no_of_employees"
-           ng-disabled="loading"
-           ng-model="model.no_of_employees">
+      class="form-control"
+      placeholder="Company size"
+      name="no_of_employees"
+      ng-disabled="loading"
+      ng-model="model.no_of_employees">
 
     <div class="form-error" ng-show="formSignupFacts.no_of_employees.$dirty && formSignupFacts.no_of_employees.$invalid">
       <span ng-show="formSignupFacts.no_of_employees.$error.required">
@@ -96,11 +96,11 @@
   <div class="form-group">
     <label>Tech team size</label>
     <input type="number"
-           class="form-control"
-           placeholder="Tech team size"
-           name="tech_team_size"
-           ng-disabled="loading"
-           ng-model="model.tech_team_size">
+      class="form-control"
+      placeholder="Tech team size"
+      name="tech_team_size"
+      ng-disabled="loading"
+      ng-model="model.tech_team_size">
 
     <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
       <span ng-show="formSignupFacts.tech_team_size.$error.required">
@@ -111,31 +111,16 @@
 
   <div class="form-group">
     <label class="required">Technology tags</label>
-    <input type="text"
-           class="form-control"
-           placeholder="Tag"
-           name="skill"
-           ng-disabled="loading"
-           ng-model="currentSkill"
-           ng-blur="currentSkill = ''"
-           ng-keydown="signupFacts.skillKeydown($event, currentSkill)"
-           typeahead-on-select="signupFacts.addSkill(currentSkill)"
-           typeahead="skill for skill in signupFacts.searchTags($viewValue)">
 
-    <div class="form-error" ng-show="formSignupFacts.skill.$dirty && !currentSkill.length && !model.tech_tags.length">
-      <span>Please type a skill you used at this work and press enter key.</span>
-    </div>
-
-    <div class="label-container">
-      <span ng-repeat="entry in model.tech_tags" class="label label-default" role="label">
-        {{ entry }}
-        <button type="button" class="close" data-dismiss="label"
-                ng-click="signupFacts.removeSkill($index)">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-      </span>
-    </div>
+    <hc-label-typeahead
+      name="techTags"
+      placeholder="Technology tags"
+      ng-disabled="loading"
+      ng-model="model.tech_tags"
+      hc-source="signupFacts.searchTags($viewValue)"
+      hc-error-message="Please choose at least one tag"
+      hc-allow-new>
+    </hc-label-typeahead>
   </div>
 
   <div class="form-group">

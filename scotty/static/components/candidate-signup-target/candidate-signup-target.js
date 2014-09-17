@@ -7,12 +7,9 @@ define(function(require) {
   module.controller('CandidateSignupTargetCtrl', function($scope, ConfigAPI) {
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
-    this.searchCities = ConfigAPI.locationsText;
-    this.cityText = ConfigAPI.locationToText;
+    this.searchCities = ConfigAPI.locations;
+    this.locationToText = ConfigAPI.locationToText;
     this.companyTypeChange = companyTypeChange;
-    this.addCity = addCity;
-    this.removeCity = removeCity;
-    this.removeCities = removeCities;
     this.submit = submit;
     $scope.loading = false;
 
@@ -30,29 +27,9 @@ define(function(require) {
       $scope.errorNoCompanyType = !$scope.signup.target.company_types.length;
     }
 
-    function addCity() {
-      var cities = $scope.signup.cities;
-      var city = $scope.currentCity;
-      $scope.currentCity = '';
-
-      if (cities.map(ConfigAPI.locationToText).indexOf(city) !== -1)
-        return;
-
-      cities.push(ConfigAPI.getLocationFromText(city));
-    }
-
-    function removeCity(city) {
-      var cities = $scope.signup.cities;
-      cities.splice(cities.indexOf(city), 1);
-    }
-
-    function removeCities() {
-      $scope.signup.cities.length = 0;
-    }
-
     function submit() {
       if (!$scope.signup.cities.length && !$scope.signup.dont_care_location) {
-        $scope.formTarget.cities.$dirty = true;
+        $scope.cities.setDirty(true);
         return;
       }
 

@@ -39,10 +39,20 @@ define(function(require) {
         $scope.remove = remove;
         $scope.getSource = getSource;
         $scope.onKeydown = onKeydown;
+        this.setDirty = setDirty;
 
         $scope.$watch('dirty && !disabled && !input.length && !ngModel.length', function(value) {
           $scope.invalid = this.invalid = value;
         }.bind(this));
+
+        function setDirty(value) {
+          $scope.dirty = !!value;
+          $scope.input = '';
+        }
+
+        function render(value) {
+          return $scope.hcRender({ $entry: value });
+        }
 
         function add(input) {
           $scope.ngModel = $scope.ngModel || [];
@@ -64,15 +74,12 @@ define(function(require) {
         }
 
         function getSource(input) {
-          return $q.when($scope.hcSource({ $viewValue: input })).then(function(result) {
-            if (hasRender) {
-              rendered = result.map(function(value) {
-                return $scope.hcRender({ $entry: value });
-              });
-            }
 
+
+          return $q.when($scope.hcSource({ $viewValue: input })).then(function(result) {
             data = result;
-            return result;
+            rendered = hasRender ? result.map(render) : result;
+            return rendered;
           });
         }
 
