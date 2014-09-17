@@ -1,5 +1,7 @@
 define(function(require) {
   'use strict';
+  require('tools/extend-directives/input-url-directive');
+
   return function basicConf(module) {
 
     module.config(function($httpProvider) {
