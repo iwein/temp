@@ -116,6 +116,18 @@ define(function(require) {
     searchCandidates: function(tags) {
       return this._api.get('/candidates', { tags: tags.join() });
     },
+    getCandidateData: function(id) {
+      return this._api.get('/candidates/' + id);
+    },
+    getCandidateTargetPositions: function(id) {
+      return this._api.get('/candidates/' + id + '/target_positions');
+    },
+    getCandidateExperience: function(id) {
+      return this._api.get('/candidates/' + id + '/work_experience');
+    },
+    getCandidateEducation: function(id) {
+      return this._api.get('/candidates/' + id + '/education');
+    },
   };
 
   var module = require('app-module');

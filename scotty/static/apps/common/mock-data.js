@@ -104,7 +104,8 @@ define(function(require) {
 
         // special fields
 
-        setValue('form[name=formExperience] hc-label-typeahead', ['asdf','Javascript']);
+        setValue('form[name=formExperience] hc-label-typeahead', ['asdf','Python']);
+        setValue('form[name=formSignupFacts] hc-label-typeahead[name=techTags]', ['asdf','Python']);
         setLocation('form[name=formExperience]', 'model.location');
         setLocation('form[name=formProfile]', 'model.contact_city');
         setLocation('form[name=formSignupBasic]', 'model.address_city');

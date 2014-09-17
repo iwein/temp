@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('components/directive-candidate/directive-candidate');
   var module = require('app-module');
 
 

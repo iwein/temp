@@ -31,7 +31,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $state.go('dashboard');
+        $state.go('login');
       });
     };
  });

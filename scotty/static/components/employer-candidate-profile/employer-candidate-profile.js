@@ -6,12 +6,17 @@ define(function(require) {
   require('components/directive-education/directive-education');
   var module = require('app-module');
 
-  module.controller('CandidateProfileCtrl', function($scope, $state, Session) {
-    Session.getCandidateData().then(function(data) {
+  module.controller('CandidateProfileCtrl', function($scope, $state, toaster, Session) {
+    $scope.id = $state.params.id;
+
+    Session.getCandidateData($scope.id).then(function(data) {
+      $scope.ready = true;
       $scope.cities = data.preferred_cities;
       $scope.languages = data.languages;
       $scope.skills = data.skills;
       $scope.user = data;
+    }).catch(function() {
+      toaster.defaultError();
     });
   });
 

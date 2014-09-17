@@ -24,13 +24,15 @@ define(function(require) {
         model: '=ngModel',
         hcHide: '@'
       },
-      link: function(scope) {
+      link: function(scope, elem, attr) {
         try {
           scope.hide = angular.fromJson(scope.hcHide || '{}');
         } catch (err) {
           throw new Error('Invalid JSON at hc-hide attribute. ' +
             'Remember to use angular\'s expression {{ { key: "value" } }}');
         }
+
+        if ('hcLinkProfile' in attr) scope.hcLinkProfile = true;
 
         scope.$watch('model', function(model) {
           scope.candidate = {
