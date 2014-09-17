@@ -113,6 +113,11 @@ define(function(require) {
       // NOT IMPLEMENTED YET
       return this._api.get('/i-will-fail');
     },
+
+    searchCandidates: function() {
+      // NOT IMPLEMENTED YET
+      return this._api.get('/i-will-fail');
+    },
   };
 
   var module = require('app-module');

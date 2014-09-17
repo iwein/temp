@@ -7,6 +7,7 @@ define(function(require) {
   module.controller('DashboardCtrl', function($scope, $q, $state, toaster, Session) {
     Session.checkSession().then(function() {
       if (!Session.hasSession()) {
+        toaster.error('You need to log in to access this page');
         $state.go('login');
         return;
       }
@@ -15,15 +16,16 @@ define(function(require) {
         Session.isSignupComplete(),
         Session.getCandidates(),
         Session.getOffers(),
-      ]);
-    }).then(function(results) {
-      if (!results[0])
-        $state.go('signup');
+      ]).then(function(results) {
+        if (!results[0])
+          $state.go('signup');
 
-      $scope.candidates = results[1];
-      $scope.offers = results[2];
+        $scope.candidates = results[1];
+        $scope.offers = results[2];
+      });
     }).catch(function() {
-      toaster.defaultError();
+      toaster.error('Endpoints not connected yet');
+      //toaster.defaultError();
     });
   });
 
