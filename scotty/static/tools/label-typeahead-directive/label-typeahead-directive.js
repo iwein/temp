@@ -10,7 +10,7 @@ define(function(require) {
     return {
       restrict: 'EA',
       require: 'ngModel',
-      template: require('text!./label-typeahead-directive'),
+      template: require('text!./label-typeahead-directive.html'),
       scope: {
         name: '@',
         placeholder: '@',
