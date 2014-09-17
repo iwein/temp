@@ -38,19 +38,11 @@
             }},
             {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-1'},
 
-            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-2',
-            data: function(r, extr){
-              return {id: extr.employers[1].id}
-            }},
-            {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-2'},
-
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employers[0].id+'/interestedcandidates'},
               title: 'employer-interested-candidates'},
 
             {url: function(r, extr) { return '/api/v1/candidates/me/bookmarks/' + extr.employers[0].id},
               title: 'candidates-bookmark-delete-1', method: 'DELETE'},
-            {url: function(r, extr) { return '/api/v1/candidates/me/bookmarks/' + extr.employers[1].id},
-              title: 'candidates-bookmark-delete-2', method: 'DELETE'},
 
             {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-2'},
 
