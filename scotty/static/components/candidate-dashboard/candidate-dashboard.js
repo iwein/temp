@@ -4,13 +4,24 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('DashboardCtrl', function($state, Session) {
-    Session.whenReady(function() {
-      if (Session.hasSession()) {
-        Session.isSignupComplete().then(function(result) {
-          $state.go(result ? 'profile' : 'signup');
-        });
+  module.controller('DashboardCtrl', function($scope, $q, $state, toaster, Session) {
+    Session.checkSession().then(function() {
+      if (!Session.hasSession()) {
+        toaster.error('You need to log in to access this page');
+        $state.go('login');
+        return;
       }
+
+      return $q.all([
+        Session.isSignupComplete(),
+        //Session.getOffers(),
+      ]).then(function(results) {
+        if (!results[0])
+          $state.go('signup');
+        $scope.offers = results[2];
+      });
+    }).catch(function() {
+      toaster.defaultError();
     });
   });
 

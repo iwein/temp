@@ -1,5 +1,19 @@
 <div class="component-candidate-dashboard row">
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Candidate dashboard</h3>
+    <h3>Dashboard</h3>
+
+    <a ui-sref="search-employers">Search employers</a>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Offers</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="offer in offers">
+          <dl class="dl-horizontal">TODO</dl>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>
