@@ -13,7 +13,7 @@ define(function(require) {
       Session.searchEmployers(terms).then(function(results) {
         $scope.employers = results;
       }).catch(function() {
-        toaster.error('Endpoint not connected yet');
+        toaster.defaultError();
       });
     }
   });

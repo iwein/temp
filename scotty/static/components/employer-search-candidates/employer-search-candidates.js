@@ -14,7 +14,7 @@ define(function(require) {
       Session.searchCandidates(terms).then(function(results) {
         $scope.candidates = results;
       }).catch(function() {
-        toaster.error('Endpoint not connected yet');
+        toaster.defaultError();
       });
     }
   });
