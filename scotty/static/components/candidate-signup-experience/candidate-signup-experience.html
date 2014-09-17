@@ -144,30 +144,15 @@
 
     <div class="form-group required">
       <label>Technologies &amp; Skills</label>
-      <input type="text"
-        class="form-control"
-        name="skill"
+
+      <hc-label-typeahead
+        placeholder="Technologies &amp; skills"
         ng-disabled="loading"
-        ng-model="currentSkill"
-        ng-blur="currentSkill = ''"
-        ng-keydown="signupExperience.skillKeydown($event, currentSkill)"
-        typeahead-on-select="signupExperience.addSkill(currentSkill)"
-        typeahead="skill for skill in signupExperience.searchSkills($viewValue)">
-
-      <div class="form-error" ng-show="formExperience.skill.$dirty && !currentSkill.length && !model.skills.length">
-        <span>Please type a skill you used at this work and press enter key.</span>
-      </div>
-
-      <div class="label-container">
-        <span ng-repeat="entry in model.skills" class="label label-default" role="label">
-          {{ entry }}
-          <button type="button" class="close" data-dismiss="label"
-            ng-click="signupExperience.removeSkill($index)">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-        </span>
-      </div>
+        ng-model="model.skills"
+        hc-source="signupExperience.searchSkills($viewValue)"
+        hc-error-message="Please choose at least one skill"
+        hc-allow-new>
+      </hc-label-typeahead>
     </div>
 
     <div class="form-group required">

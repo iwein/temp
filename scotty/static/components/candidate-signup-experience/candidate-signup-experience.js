@@ -26,13 +26,10 @@ define(function(require) {
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.setLocation = setLocation;
-    this.addSkill = addSkill;
-    this.removeSkill = removeSkill;
-    this.skillKeydown = skillKeydown;
     this.edit = edit;
     this.submit = submit;
     $scope.months = months;
-    $scope.model = { skills: [] };
+    $scope.model = {};
     $scope.loading = false;
 
     bindDate('start');
@@ -46,24 +43,6 @@ define(function(require) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
       $scope.model.location = city;
-    }
-
-    function addSkill() {
-      var index = $scope.model.skills.indexOf($scope.currentSkill);
-      if (index === -1)
-        $scope.model.skills.push($scope.currentSkill);
-      $scope.currentSkill = '';
-    }
-
-    function removeSkill(index) {
-      $scope.model.skills.splice(index, 1);
-    }
-
-    function skillKeydown(event, skill) {
-      if (skill && event.keyCode === 13) {
-        addSkill();
-        event.preventDefault();
-      }
     }
 
     function edit(entry) {
@@ -107,7 +86,7 @@ define(function(require) {
         $scope.startYear = '';
         $scope.endMonth = '';
         $scope.endYear = '';
-        $scope.model = { skills: [] };
+        $scope.model = {};
       }).finally(function() {
         $scope.loading = false;
       });
