@@ -81,8 +81,22 @@
       </ul>
     </div>
 
-    <div hc-target-positions hc-title="Target positions" hc-show-empty></div>
-    <div hc-experience hc-title="Experience" hc-show-empty></div>
-    <div hc-education hc-title="Education" hc-show-empty></div>
+    <hc-target-positions
+      hc-title="Target positions"
+      hc-source="session.getTargetPositions()"
+      hc-show-empty>
+    </hc-target-positions>
+
+    <hc-experience
+      hc-title="Experience"
+      hc-source="session.getExperience()"
+      hc-show-empty>
+    </hc-experience>
+
+    <hc-education
+      hc-title="Education"
+      hc-source="session.getEducation()"
+      hc-show-empty>
+    </hc-education>
   </div>
 </div>

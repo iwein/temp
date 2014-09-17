@@ -129,10 +129,13 @@
     </div>
   </form>
 
-  <div
-    hc-education="list"
+  <hc-education
+    name="list"
     hc-title="Saved"
-    hc-editable
-    hc-edit="signupEducation.edit($entry)"></div>
+    hc-source="session.getEducation()"
+    hc-source-remove="session.deleteEducation($entry)"
+    on-edit="signupEducation.edit($entry)"
+    hc-editable>
+  </hc-education>
 
 </div>
