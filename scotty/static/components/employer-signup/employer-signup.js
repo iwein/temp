@@ -30,8 +30,12 @@ define(function(require) {
   ];
 
 
-  module.controller('SignupCtrl',
-    require('tools/signup-controller')('employer', order, validStates));
+  module.controller('SignupCtrl', [
+    '$scope',
+    '$state',
+    'Session',
+    require('tools/signup-controller')('employer', order, validStates),
+  ]);
 
 
   return {
