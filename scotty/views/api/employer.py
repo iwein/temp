@@ -63,13 +63,16 @@ class EmployerController(RootController):
 
     @view_config(route_name='employers', **GET)
     def search(self):
-        tags = self.request.params.get('tags', '').split(',')
+        tags = filter(None, self.request.params.get('tags', '').split(','))
 
-        employer_lookup = get_employers_by_techtags(tags)
-        employer_query = DBSession.query(Employer).filter(Employer.id.in_(employer_lookup.keys()))
-        employers = employer_query.limit(20).all()
-        for employer in employers:
-            employer.additional_data = {'matched_tags': employer_lookup[str(employer.id)]}
+        base_query = DBSession.query(Employer).filter(Employer.approved != None)
+        if tags:
+            employer_lookup = get_employers_by_techtags(tags)
+            employers = base_query.filter(Employer.id.in_(employer_lookup.keys())).limit(20).all()
+            for employer in employers:
+                employer.additional_data = {'matched_tags': employer_lookup[str(employer.id)]}
+        else:
+            employers = base_query.limit(20).all()
         return employers
 
     @view_config(route_name='employer_interestedcandidates', **GET)
