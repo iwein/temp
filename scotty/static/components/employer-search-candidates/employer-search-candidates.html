@@ -6,7 +6,7 @@
       placeholder="Skills"
       ng-model="terms"
       hc-source="searchCandidates.searchSkills($viewValue)"
-      on-change="searchCandidates.onTermsChange()">
+      on-change="searchCandidates.onTermsChange($value)">
     </hc-label-typeahead>
 
     <div class="panel panel-default" ng-repeat="candidate in candidates">
@@ -14,22 +14,14 @@
         <h3 class="panel-title">{{ candiate.first_name }} {{ candidate.last_name }}</h3>
       </div>
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="candidate in candidates">
+        <li class="list-group-item">
           <dl class="dl-horizontal"
             hc-candidate="candidate"
-            hc-hide="{{ { name: true } }}">
+            hc-hide="{{ {
+              name: true,
+              years: true,
+            } }}">
           </dl>
-        </li>
-      </ul>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Offers</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="offer in offers">
-          <dl class="dl-horizontal">TODO</dl>
         </li>
       </ul>
     </div>

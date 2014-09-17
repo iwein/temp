@@ -15,7 +15,7 @@ define(function(require) {
       return $q.all([
         Session.isSignupComplete(),
         Session.getCandidates(),
-        Session.getOffers(),
+        //Session.getOffers(),
       ]).then(function(results) {
         if (!results[0])
           $state.go('signup');
@@ -24,8 +24,7 @@ define(function(require) {
         $scope.offers = results[2];
       });
     }).catch(function() {
-      toaster.error('Endpoints not connected yet');
-      //toaster.defaultError();
+      toaster.defaultError();
     });
   });
 

@@ -9,8 +9,8 @@ define(function(require) {
     this.searchSkills = ConfigAPI.skills;
     this.onTermsChange = onTermsChange;
 
-    function onTermsChange() {
-      Session.searchCandidates($scope.terms).then(function(results) {
+    function onTermsChange(terms) {
+      Session.searchCandidates(terms).then(function(results) {
         $scope.candidates = results;
       }).catch(function() {
         toaster.error('Endpoint not connected yet');

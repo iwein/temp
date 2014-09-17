@@ -5,6 +5,7 @@ define(function(require) {
   var module = require('app-module');
 
   function calcExperience(experience) {
+    if (!experience) return 0;
     return experience.reduce(function(sum, entry) {
       var start = new Date(entry.start);
       var end = new Date(entry.end);

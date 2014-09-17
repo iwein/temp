@@ -105,8 +105,7 @@ define(function(require) {
     },
 
     getCandidates: function() {
-      // NOT IMPLEMENTED YET
-      return this._api.get('/i-will-fail');
+      return this._api.get('/employers/me/interestedcandidates');
     },
 
     getOffers: function() {
@@ -114,9 +113,8 @@ define(function(require) {
       return this._api.get('/i-will-fail');
     },
 
-    searchCandidates: function() {
-      // NOT IMPLEMENTED YET
-      return this._api.get('/i-will-fail');
+    searchCandidates: function(tags) {
+      return this._api.get('/candidates', { tags: tags.join() });
     },
   };
 
