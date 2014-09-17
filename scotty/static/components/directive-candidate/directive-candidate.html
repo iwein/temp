@@ -1,8 +1,17 @@
-<dt ng-hide="hide.name">Name</dt>
-<dd ng-hide="hide.name">{{ candidate.name }}</dd>
-<dt ng-hide="hide.city">City</dt>
-<dd ng-hide="hide.city">{{ candidate.city }}</dd>
-<dt ng-hide="hide.years">Years of experience</dt>
-<dd ng-hide="hide.years">{{ candidate.years }}</dd>
-<dt ng-hide="hide.skill">Skills</dt>
-<dd ng-hide="hide.skill">{{ candidate.skills }}</dd>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <a ui-sref="candidate({ id: candidate.id })">{{ candidate.name }}</a>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <dt ng-hide="hide.city">City</dt>
+      <dd ng-hide="hide.city">{{ candidate.city }}</dd>
+      <dt ng-hide="hide.years">Years of experience</dt>
+      <dd ng-hide="hide.years">{{ candidate.years }}</dd>
+      <dt ng-hide="hide.skill">Skills</dt>
+      <dd ng-hide="hide.skill">{{ candidate.skills }}</dd>
+    </dl>
+  </div>
+</div>

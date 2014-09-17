@@ -9,22 +9,11 @@
       on-change="searchCandidates.onTermsChange($value)">
     </hc-label-typeahead>
 
-    <div class="panel panel-default" ng-repeat="candidate in candidates">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{ candiate.first_name }} {{ candidate.last_name }}</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <dl class="dl-horizontal"
-            hc-candidate="candidate"
-            hc-hide="{{ {
-              name: true,
-              years: true,
-            } }}">
-          </dl>
-        </li>
-      </ul>
-    </div>
+    <hc-candidate
+      ng-repeat="candidate in candidates"
+      ng-model="candidate"
+      hc-hide="{{ { years: true } }}">
+    </hc-candidate>
 
   </div>
 </div>

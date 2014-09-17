@@ -4,15 +4,13 @@
 
     <a ui-sref="search-candidates">Search candidates</a>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Candidates that bookmarked me</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="candidate in candidates">
-          <dl class="dl-horizontal" hc-candidate="candidate"></dl>
-        </li>
-      </ul>
+    <div ng-show="candidates.length">
+      <h4>Candidates that bookmarked me</h4>
+
+      <hc-candidate
+        ng-repeat="candidate in candidates"
+        ng-model="candidate">
+      </hc-candidate>
     </div>
 
     <div class="panel panel-default">

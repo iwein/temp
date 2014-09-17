@@ -21,7 +21,7 @@ define(function(require) {
       restrict: 'EA',
       template: require('text!./directive-candidate.html'),
       scope: {
-        model: '=hcCandidate',
+        model: '=ngModel',
         hcHide: '@'
       },
       link: function(scope) {
@@ -34,6 +34,7 @@ define(function(require) {
 
         scope.$watch('model', function(model) {
           scope.candidate = {
+            id: model.id,
             name: model.first_name + ' ' + model.last_name,
             city: ConfigAPI.locationToText(model.contact_city),
             years: calcExperience(model.work_experience),
