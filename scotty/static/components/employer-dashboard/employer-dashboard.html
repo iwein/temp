@@ -1,5 +1,30 @@
 <div class="component-employer-dashboard row">
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Employer dashboard</h3>
+    <h3>Dashboard</h3>
+
+    <a ui-sref="search-candidates">Search candidates</a>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Candidates that bookmarked me</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="candidate in candidates">
+          <dl class="dl-horizontal" hc-candidate="candidate"></dl>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Offers</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="offer in offers">
+          <dl class="dl-horizontal">TODO</dl>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>
