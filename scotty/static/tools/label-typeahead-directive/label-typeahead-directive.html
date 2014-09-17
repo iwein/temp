@@ -11,7 +11,7 @@
 
 <ul class="list-unstyled">
   <li ng-repeat="entry in ngModel" class="label label-default" role="label">
-    {{ hcRender(entry) }}
+    {{ hcRender({ $entry: entry }) }}
     <button type="button" class="close" data-dismiss="label" ng-click="remove(entry, $index)">
       <span aria-hidden="true">&times;</span>
       <span class="sr-only">Close</span>
@@ -19,6 +19,6 @@
   </li>
 </ul>
 
-<div class="form-error" ng-hide="!dirty || disabled || input.length || ngModel.length">
+<div class="form-error" ng-if="hcErrorMessage" ng-show="invalid">
   {{ hcErrorMessage }}
 </div>

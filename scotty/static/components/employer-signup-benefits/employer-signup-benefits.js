@@ -15,6 +15,8 @@ define(function(require) {
     ]).then(function(result) {
       var benefits = result[0];
       var data = result[1];
+      if (!data)
+        data = { benefits: [] };
 
       $scope.model = _.pick(data, [
         'recruitment_process',

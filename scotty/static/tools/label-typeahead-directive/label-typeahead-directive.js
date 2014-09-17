@@ -2,8 +2,8 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-  function identity(item) {
-    return item;
+  function noRender(arg) {
+    return arg.$entry;
   }
 
   module.directive('hcLabelTypeahead', function($q) {
@@ -27,7 +27,7 @@ define(function(require) {
         var data = [];
         var rendered = [];
         var hasRender = 'hcRender' in $attrs;
-        $scope.hcRender = hasRender ? $scope.hcRender : identity;
+        $scope.hcRender = hasRender ? $scope.hcRender : noRender;
 
         $scope.hcAllowNew = 'hcAllowNew' in $attrs;
         $scope.dirty = false;
@@ -39,6 +39,10 @@ define(function(require) {
         $scope.remove = remove;
         $scope.getSource = getSource;
         $scope.onKeydown = onKeydown;
+
+        $scope.$watch('dirty && !disabled && !input.length && !ngModel.length', function(value) {
+          $scope.invalid = this.invalid = value;
+        }.bind(this));
 
         function add(input) {
           $scope.ngModel = $scope.ngModel || [];
@@ -61,8 +65,11 @@ define(function(require) {
 
         function getSource(input) {
           return $q.when($scope.hcSource({ $viewValue: input })).then(function(result) {
-            if (hasRender)
-              rendered = result.map($scope.hcRender);
+            if (hasRender) {
+              rendered = result.map(function(value) {
+                return $scope.hcRender({ $entry: value });
+              });
+            }
 
             data = result;
             return result;

@@ -24,6 +24,8 @@ define(function(require) {
     listOffices();
 
     Session.getUserData().then(function(data) {
+      if (!data) return;
+
       $scope.model = _.pick(data, [
         'logo_url',
         'website',

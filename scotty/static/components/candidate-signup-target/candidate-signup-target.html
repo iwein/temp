@@ -84,29 +84,23 @@
     <div class="form-group required">
       <label>Cities</label>
 
-      <input type="text"
-        placeholder="City"
+      <hc-label-typeahead
         name="cities"
-        class="form-control"
+        placeholder="Type a city..."
         ng-disabled="loading || signup.dont_care_location"
-        ng-model="currentCity"
-        ng-blur="currentCity = ''"
-        typeahead-on-select="signupTarget.addCity()"
-        typeahead="city for city in signupTarget.searchCities($viewValue)">
+        ng-model="signup.cities"
+        hc-source="signupTarget.searchCities($viewValue)"
+        hc-render="signupTarget.locationToText($entry)">
+      </hc-label-typeahead>
 
-      <label class="form-label">
+      <label class="form-label" ng-hide="signup.cities.length">
         <input type="checkbox"
           ng-model="signup.dont_care_location"
-          ng-change="signupTarget.removeCities()">
+          ng-change="signup.cities.length = 0">
         Anywhere
       </label>
 
-      <div class="form-error"
-        ng-show="
-          formTarget.cities.$dirty &&
-          !currentCity.length &&
-          !signup.cities.length &&
-          !signup.dont_care_location">
+      <div class="form-error" ng-show="cities.invalid && !signup.dont_care_location">
         <span>Please type a city you would like to work at and press enter key.</span>
       </div>
 
