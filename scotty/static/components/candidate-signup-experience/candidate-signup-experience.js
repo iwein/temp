@@ -35,10 +35,6 @@ define(function(require) {
     bindDate('start');
     bindDate('end');
 
-    ConfigAPI.skillLevels().then(function(data) {
-      $scope.levels = data;
-    });
-
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
