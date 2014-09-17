@@ -103,6 +103,16 @@ define(function(require) {
     getSuggestedCandidates: function() {
       return this._api.get('/employers/me/suggestedcandidates');
     },
+
+    getCandidates: function() {
+      // NOT IMPLEMENTED YET
+      return this._api.get('/i-will-fail');
+    },
+
+    getOffers: function() {
+      // NOT IMPLEMENTED YET
+      return this._api.get('/i-will-fail');
+    },
   };
 
   var module = require('app-module');

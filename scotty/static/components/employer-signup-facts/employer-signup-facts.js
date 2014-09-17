@@ -6,9 +6,6 @@ define(function(require) {
 
   module.controller('SignupFactsCtrl', function($scope, toaster, ConfigAPI, Session) {
     this.searchTags = ConfigAPI.skills;
-    this.addSkill = addSkill;
-    this.removeSkill = removeSkill;
-    this.skillKeydown = skillKeydown;
     this.submit = submit;
     $scope.loading = true;
     $scope.model = { tech_tags: [] };
@@ -26,28 +23,9 @@ define(function(require) {
       $scope.loading = false;
     });
 
-    function addSkill() {
-      var index = $scope.model.tech_tags.indexOf($scope.currentSkill);
-      if (index === -1)
-        $scope.model.tech_tags.push($scope.currentSkill);
-      $scope.currentSkill = '';
-    }
-
-    function removeSkill(index) {
-      $scope.model.tech_tags.splice(index, 1);
-    }
-
-    function skillKeydown(event, skill) {
-      if (skill && event.keyCode === 13) {
-        addSkill();
-        event.preventDefault();
-      }
-    }
-
     function submit() {
       if (!$scope.model.tech_tags.length) {
-        $scope.formSignupFacts.skill.$dirty = true;
-        $scope.currentSkill = '';
+        $scope.techTags.setDirty(true);
         return;
       }
 

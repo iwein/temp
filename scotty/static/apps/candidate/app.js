@@ -6,10 +6,10 @@ define(function(require) {
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/dashboard/');
 
     $stateProvider
-      .state('home', require('components/candidate-home/candidate-home'))
+      .state('dashboard', require('components/candidate-dashboard/candidate-dashboard'))
       .state('login', require('components/candidate-login/candidate-login'))
       .state('activate', require('components/candidate-activate/candidate-activate'))
       .state('profile', require('components/candidate-profile/candidate-profile'))
@@ -31,7 +31,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $state.go('home');
+        $state.go('dashboard');
       });
     };
  });

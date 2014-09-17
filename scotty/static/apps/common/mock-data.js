@@ -56,7 +56,6 @@ define(function(require) {
           $parse(arg)(getScope(element));
       }
 
-
       function setValue(selector, value) {
         $(selector).map(function(element) {
           //if (!element.hasAttribute('required'))// && !!random(0, 2))
@@ -101,23 +100,43 @@ define(function(require) {
           return moment().format('YYYY-MM-DD');
         });
         setValue('input[name=zipcode]', random.bind(null, 10000, 99999));
+        setValue('hc-label-typeahead input', '');
 
         // special fields
+
+        setValue('form[name=formExperience] hc-label-typeahead', ['asdf','Javascript']);
         setLocation('form[name=formExperience]', 'model.location');
         setLocation('form[name=formProfile]', 'model.contact_city');
         setLocation('form[name=formSignupBasic]', 'model.address_city');
         setLocation('form[name=formSignupBasicOffice]', 'office.address_city');
-        $('form[name=formTarget] input[name=cities]').forEach(function(element) {
-          set(element, 'ng-model', '');
-          getScope(element).signup.cities = [{
-            city: 'Barcelona',
-            country_iso: 'ES',
-          }];
-        });
 
         var field = randomElement([ 'date', 'months' ]);
         $('form[name=formTarget] input[name=available_' + field).forEach(function(element) {
           set(element, 'ng-model', '');
+        });
+
+        $('form[name=formLanguages]').map(function(element) {
+          getScope(element).model.forEach(function(item) {
+            if (!item.proficiency) return;
+              item.language = randomElement([
+'Abkhazian', 'Achinese', 'Acoli', 'Adangme', 'Adyghe; Adygei', 'Afar', 'Afrihili', 'Afrikaans',
+'Afro-Asiatic languages', 'Ainu', 'Akan', 'Akkadian', 'Albanian', 'Aleut', 'Algonquian languages', 'Altaic languages',
+'Amharic', 'Angika', 'Apache languages', 'Arabic', 'Aragonese', 'Arapaho', 'Arawak', 'Armenian',
+'Aromanian; Arumanian; Macedo-Romanian', 'Artificial languages', 'Assamese', 'Asturian; Bable; Leonese; Asturleonese',
+'Athapascan languages', 'Australian languages', 'Austronesian languages', 'Avaric', 'Avestan', 'Awadhi', 'Aymara',
+'Azerbaijani', 'Balinese', 'Baltic languages', 'Baluchi', 'Bambara', 'Bamileke languages', 'Banda languages',
+'Bantu languages', 'Basa', 'Bashkir', 'Basque', 'Batak languages', 'Beja; Bedawiyet', 'Belarusian', 'Bemba', 'Bengali',
+'Berber languages', 'Bihari languages', 'Bislama', 'Bokm\u00e5l, Norwegian; Norwegian Bokm\u00e5l', 'Bosnian', 'Braj',
+'Bulgarian', 'Buriat', 'Caddo', 'Catalan; Valencian', 'Caucasian languages', 'Cebuano', 'Celtic languages',
+'Central American Indian languages', 'Central Khmer', 'Chagatai', 'Chamic languages', 'Chamorro', 'Chibcha',
+'Chichewa; Chewa; Nyanja', 'Chinook jargon', 'Chipewyan; Dene Suline', 'Choctaw', 'Church Slavic', 'Chuvash',
+'Classical Newari; Old Newari; Classical Nepal Bhasa', 'Classical Syriac', 'Corsican', 'Creoles and pidgins',
+'Creoles and pidgins, English based', 'Creoles and pidgins, French-based', 'Creoles and pidgins, Portuguese-based',
+'Crimean Tatar; Crimean Turkish', 'Croatian', 'Cushitic languages', 'Dakota', 'Danish', 'Dargwa', 'Delaware', 'Dinka',
+'Divehi; Dhivehi; Maldivian', 'Dravidian languages', 'Duala', 'Dutch, Middle (ca.1050-1350)', 'Dyula', 'Dzongkha',
+'Eastern Frisian', 'Egyptian (Ancient)']);
+            item.errorInvalidLanguage = false;
+          });
         });
 
         angular.element($('form')[0]).scope().$apply();

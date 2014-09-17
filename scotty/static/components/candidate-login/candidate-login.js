@@ -18,7 +18,7 @@ define(function(require) {
         toaster.error('Invalid email or password.');
         throw error;
       }).then(function(isComplete) {
-        $state.go(isComplete ? 'home' : 'signup');
+        $state.go(isComplete ? 'dashboard' : 'signup');
       }).finally(function() {
         $scope.loading = false;
       });

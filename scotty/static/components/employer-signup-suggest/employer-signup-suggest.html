@@ -8,14 +8,9 @@
       <h3 class="panel-title">{{ candidate.name }}</h3>
     </div>
     <div class="panel-body">
-      <dl class="dl-horizontal">
-        <dt>City</dt>
-        <dd>{{ candidate.city }}</dd>
-        <dt>Years of experience</dt>
-        <dd>{{ candidate.yearsOfExperience }}</dd>
-        <dt>Skills</dt>
-        <dd>{{ candidate.skills.join(', ') }}</dd>
-      </dl>
+      <dl class="dl-horizontal"
+        hc-candidate="candidate"
+        hc-hide="{{ { name: true } }}"></dl>
     </div>
   </div>
 
