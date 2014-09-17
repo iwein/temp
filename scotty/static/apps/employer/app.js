@@ -9,7 +9,7 @@ define(function(require) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-      .state('home', {})
+      .state('dashboard', require('components/employer-dashboard/employer-dashboard'))
       .state('login', require('components/employer-login/employer-login'))
       .state('profile', require('components/employer-profile/employer-profile'))
       .state('signup', require('components/employer-signup/employer-signup'))
@@ -30,7 +30,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $state.go('home');
+        $state.go('dashboard');
       });
     };
   });

@@ -4,7 +4,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateHomeCtrl', function($state, Session) {
+  module.controller('DashboardCtrl', function($state, Session) {
     Session.whenReady(function() {
       if (Session.hasSession()) {
         Session.isSignupComplete().then(function(result) {
@@ -16,9 +16,9 @@ define(function(require) {
 
 
   return {
-    url: '/home/',
-    template: require('text!./candidate-home.html'),
-    controller: 'CandidateHomeCtrl',
-    controllerAs: 'home',
+    url: '/dashboard/',
+    template: require('text!./candidate-dashboard.html'),
+    controller: 'DashboardCtrl',
+    controllerAs: 'dashboard',
   };
 });
