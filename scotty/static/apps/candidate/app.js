@@ -13,6 +13,7 @@ define(function(require) {
       .state('login', require('components/candidate-login/candidate-login'))
       .state('activate', require('components/candidate-activate/candidate-activate'))
       .state('profile', require('components/candidate-profile/candidate-profile'))
+      .state('search-employers', require('components/candidate-search-employers/candidate-search-employers'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
       .state('signup.target', require('components/candidate-signup-target/candidate-signup-target'))
       .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))

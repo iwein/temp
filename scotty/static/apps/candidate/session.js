@@ -134,6 +134,10 @@ define(function(require) {
     getUserData: function() {
       return this.checkSession();
     },
+
+    searchEmployers: function(tags) {
+      return this._api.get('/employers', { tags: tags.join() });
+    },
   };
 
   var module = require('app-module');
