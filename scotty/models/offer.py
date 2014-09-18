@@ -76,7 +76,9 @@ class Offer(Base):
             return STATUS[status]
 
     def __json__(self, request):
-        return json_encoder(self, request)
+        result = json_encoder(self, request)
+        result['status'] = self.status
+        return result
 
 
 class EmployerOffer(Offer):
