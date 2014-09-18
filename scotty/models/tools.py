@@ -25,7 +25,7 @@ def csv_inserter(basepath):
     return bulk_insert_names
 
 
-def json_encoder(val, request):
+def json_encoder(val, request, level=PUBLIC):
     """Transforms a model into a dictionary which can be dumped to JSON."""
     # first we get the names of all the columns on your model
     columns = [c.key for c in class_mapper(val.__class__).columns if c.info == PUBLIC]

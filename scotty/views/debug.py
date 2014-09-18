@@ -11,13 +11,16 @@ TEMPLATES = {'templates': [s[:-5] for s in templates]}
 class DebugController(RootController):
     @view_config(route_name='debug_home', renderer='scotty:templates/debug/index.html')
     def debug_home(self):
-        return TEMPLATES
+        params = {k: v for k, v in self.request.params.items()}
+        params['email'] = params.get('email', 'catch@hackandcraft.com')
+        params.update(TEMPLATES)
+        return params
 
     @view_config(route_name='debug_page')
     def debug_page(self):
         template = self.request.matchdict['template']
         params = {k: v for k, v in self.request.params.items()}
-        params['email'] = params.get('email', 'martin@hackandcraft.com')
+        params['email'] = params.get('email', 'catch@hackandcraft.com')
         params.update(TEMPLATES)
         return render_to_response("scotty:templates/debug/pages/%s.html" % template, params, self.request)
 

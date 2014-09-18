@@ -180,5 +180,6 @@ class FullEmployer(Employer):
         result = super(FullEmployer, self).__json__(request)
         result['invite_token'] = self.invite_token
         result['invite_sent'] = self.invite_sent
+        result['email'] = self.email
         return result
 
