@@ -78,8 +78,7 @@ define(function() {
 
 
     getOffers: function() {
-      // NOT IMPLEMENTED YET
-      return this._api.get('/i-will-fail');
+      return this._api.get(this._url() + '/offers');
     },
 
     dispose: function() {
