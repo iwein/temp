@@ -272,7 +272,7 @@ class CandidateOfferController(CandidateController):
         offer = self.offer
 
         offer.rejected = datetime.now()
-        offer.rejected_reason = get_by_name_or_raise(RejectionReason, self.request.params['reason'])
+        offer.rejected_reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
         DBSession.flush()
 
         self.request.emailer.send_employer_offer_rejected(
