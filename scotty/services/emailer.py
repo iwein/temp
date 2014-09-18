@@ -68,6 +68,33 @@ class MandrillEmailer(object):
                               {'content': company_name, 'name': 'company_name'},
                               {'content': url, 'name': 'offer_url'}]})
 
+    def send_employer_offer_accepted(self, email, candidate_name, contact_name,
+                                     company_name, offer_id, candidate_id):
+        return self.send_employer_offer(email, candidate_name, contact_name, company_name, offer_id, candidate_id,
+                                        'employer-offer-accepted')
+
+    def send_employer_offer_rejected(self, email, candidate_name, contact_name,
+                                     company_name, offer_id, candidate_id):
+        return self.send_employer_offer(email, candidate_name, contact_name, company_name, offer_id, candidate_id,
+                                        'employer-offer-rejected')
+
+    def send_employer_offer(self, email,
+                            candidate_name,
+                            contact_name,
+                            company_name,
+                            offer_id,
+                            candidate_id, template):
+        offer_url = 'http://%s/employer/#/offer/%s' % (self.frontend, offer_id)
+        candidate_url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
+        return self.send(template, [],
+                         {'to': [{'email': email, 'name': candidate_name}],
+                          'global_merge_vars': [
+                              {'content': candidate_name, 'name': 'candidate_name'},
+                              {'content': contact_name, 'name': 'contact_name'},
+                              {'content': company_name, 'name': 'company_name'},
+                              {'content': offer_url, 'name': 'offer_url'},
+                              {'content': candidate_url, 'name': 'candidate_url'}]})
+
 
 def emailer_factory(settings):
     return MandrillEmailer(settings)

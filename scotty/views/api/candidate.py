@@ -6,10 +6,11 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer, FullCandidate, \
-    MatchedCandidate
+    MatchedCandidate, CandidateOffer, RejectionReason
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
+from scotty.services.common import get_by_name_or_raise
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -234,17 +235,54 @@ class CandidateBookmarkController(CandidateController):
 
 
 class CandidateOfferController(CandidateController):
+    @reify
+    def offer(self):
+        offer_id = self.request.matchdict["id"]
+        offer = DBSession.query(CandidateOffer).get(offer_id)
+        if not offer:
+            raise HTTPNotFound("Unknown Candidate ID")
+        return offer
+
     @view_config(route_name='candidate_offers', **GET)
     def list(self):
         return self.candidate.offers
 
-    @view_config(route_name='candidate_offer_accept', **GET)
-    def accept(self):
-        return self.candidate.offers
+    @view_config(route_name='candidate_offer', **GET)
+    def get(self):
+        return self.offer
 
-    @view_config(route_name='candidate_offer_reject', **GET)
+    @view_config(route_name='candidate_offer_accept', **POST)
+    def accept(self):
+        offer = self.offer
+        offer.accepted = datetime.now()
+        DBSession.flush()
+
+        self.request.emailer.send_employer_offer_accepted(
+            email=offer.employer.contact_email,
+            candidate_name=self.candidate.full_name,
+            contact_name=offer.employer.contact_name,
+            company_name=offer.employer.company_name,
+            offer_id=offer.id,
+            candidate_id=self.candidate.id)
+        DBSession.flush()
+        return offer
+
+    @view_config(route_name='candidate_offer_reject', **POST)
     def reject(self):
-        return self.candidate.offers
+        offer = self.offer
+
+        offer.rejected = datetime.now()
+        offer.rejected_reason = get_by_name_or_raise(RejectionReason, self.request.params['reason'])
+        DBSession.flush()
+
+        self.request.emailer.send_employer_offer_rejected(
+            email=offer.employer.contact_email,
+            candidate_name=self.candidate.full_name,
+            contact_name=offer.employer.contact_name,
+            company_name=offer.employer.company_name,
+            offer_id=offer.id,
+            candidate_id=self.candidate.id)
+        return offer
 
 def includeme(config):
     config.add_route('candidates', '')
@@ -272,5 +310,6 @@ def includeme(config):
     config.add_route('target_position', '{candidate_id}/target_positions/{id}')
 
     config.add_route('candidate_offers', '{candidate_id}/offers')
+    config.add_route('candidate_offer', '{candidate_id}/offers/{id}')
     config.add_route('candidate_offer_accept', '{candidate_id}/offers/{id}/accept')
     config.add_route('candidate_offer_reject', '{candidate_id}/offers/{id}/reject')

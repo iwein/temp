@@ -34,7 +34,7 @@
             {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
             {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1', title: 'candidates-search-limit-offset'},
 
-            {'title': 'Candidate Bookmark Employers'}];
+            {'title': 'Employer Signup'}];
 
   tests = tests
           .concat(EMPLOYER_SIGNUP(emp_email))
@@ -43,11 +43,14 @@
               title: 'admin-approve-employer',
             }
           ])
+          .concat([
+              {'title': 'Candidate Signup'}
+          ])
           .concat(CANDIDATE_SIGNUP(cand_email))
           .concat(CANDIDATE_COMPLETE_PROFILE(cand_email))
           .concat(
           [
-
+            {'title': 'Bookmarking'},
             {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-1',
               data: function(r, extr){
                 return {id: extr.employerId}
@@ -65,6 +68,8 @@
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
               title: 'employer-interested-candidates-empty'},
 
+
+            {'title': 'Offering'},
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-to-candidate', method:'POST',
             data: function(r, extr){
               return {
@@ -77,8 +82,7 @@
                 interview_details: 'We will interview you',
                 job_description: 'You will work for us',
               }
-            },
-            extract: function(r, extr){return {offerId: r.id}}
+            }, extract: function(r, extr){return {offer1Id: r.id}}
             },
 
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-to-candidate', method:'POST',
@@ -86,7 +90,7 @@
               return {
                 candidate: {id: extr.candidateId},
                 location: {'city': 'Berlin', country_iso:'DE'},
-                benefits: ['Company car', 'Breakfast'],
+                benefits: ['Company car', 'Breakfasts'],
                 technologies: ['Apache', 'Java'],
                 role: 'Senior Artchitect',
                 annual_salary: 3,
@@ -94,10 +98,28 @@
                 job_description: 'you could work for us',
               }
             },
-            extract: function(r, extr){return {offerId: r.id}}
+            extract: function(r, extr){return {offer2Id: r.id}}
             },
 
           {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-get-my-offers'},
+          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
+            title: 'candidate-get-my-offers'},
+
+          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id;},
+            title: 'candidate-get-offer'},
+
+          {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id;},
+            title: 'employer-get-offer'},
+
+          {'title': 'Offer Responses'},
+
+
+          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/reject';},
+            method: "POST", data:{reason: 'Salary too low'}, title: 'candidate-reject-1'},
+
+          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/accept';},
+            method: "POST", data:{}, title: 'candidate-reject-1'},
+
           {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
             title: 'candidate-get-my-offers'},
 

@@ -4,7 +4,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer
+from scotty.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer
 from scotty.models.candidate import WXPCandidate
 from scotty.models.offer import Offer
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
@@ -158,6 +158,14 @@ class EmployerOfficeController(EmployerController):
 
 
 class EmployerOfferController(EmployerController):
+    @reify
+    def offer(self):
+        offer_id = self.request.matchdict["offer_id"]
+        offer = DBSession.query(EmployerOffer).get(offer_id)
+        if not offer:
+            raise HTTPNotFound("Unknown Candidate ID")
+        return offer
+
     @view_config(route_name='employer_offers', **GET)
     def list(self):
         return self.employer.offers
@@ -173,13 +181,13 @@ class EmployerOfferController(EmployerController):
         )
         return offer
 
+    @view_config(route_name='employer_offer', **GET)
+    def get(self):
+        return self.offer
+
     @view_config(route_name='employer_offer', **DELETE)
     def delete(self):
-        id = self.request.matchdict["offer"]
-        office = DBSession.query(Offer).get(id)
-        if not office:
-            raise HTTPNotFound("Unknown Office ID.")
-        DBSession.delete(office)
+        DBSession.delete(self.offer)
         return {"status": "success"}
 
 
