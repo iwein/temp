@@ -27,9 +27,11 @@ define(function(require) {
       ]).then(function(result) {
         var benefits = result[0];
         var data = result[1];
+        var candidate = result[2];
 
         $scope.ready = true;
-        $scope.candidate = result[2];
+        $scope.candidate = candidate;
+        $scope.candidateName = candidate.first_name + ' ' + candidate.last_name;
         $scope.benefits = benefits.map(function(value) {
           return {
             value: value,
@@ -41,8 +43,8 @@ define(function(require) {
       $scope.$watch('model.job_description', function(value) {
         $scope.model.job_description = value && value.trim();
       });
-      $scope.$watch('model.hiring_process', function(value) {
-        $scope.model.job_description = value && value.trim();
+      $scope.$watch('model.interview_details', function(value) {
+        $scope.model.interview_details = value && value.trim();
       });
 
       function setLocation(location) {
@@ -53,10 +55,17 @@ define(function(require) {
 
       function submit() {
         $scope.dirty = true;
-        if (!$scope.model.job_description || !$scope.model.hiring_process)
+        if (!$scope.model.job_description || !$scope.model.interview_details)
           return;
 
-        toaster.error('Endpoint not connected');
+        $scope.model.candidate = { id: $scope.candidate.id };
+        $scope.model.benefits = $scope.benefits
+          .filter(function(benefit) { return benefit.selected })
+          .map(function(benefit) { return benefit.value });
+
+        Session.user.makeOffer($scope.model).then(function() {
+          toaster.success('Offer sent to ' + $scope.candidateName);
+        }).catch(toaster.defaultError);
       }
 
     }.bind(this));
@@ -70,14 +79,3 @@ define(function(require) {
     controllerAs: 'createOffer',
   };
 });
-
-/*
-ng-model="model.annual_salary"
-ng-model="model.role"
-ng-model="model.skills"
-<text-angular required ng-model="model.job_description"></text-angular>
-<text-angular required ng-model="model.hiring_process"></text-angular>
-<li class="list-group-item" ng-repeat="benefit in benefits">
-ng-model="benefit.selected">
-{{ benefit.value }}
-*/

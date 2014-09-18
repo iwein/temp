@@ -9,6 +9,8 @@
       on-change="searchCandidates.onTermsChange($value)">
     </hc-label-typeahead>
 
+    <div ng-show="terms.length && !candidates.length">No candidate found</div>
+
     <hc-candidate
       ng-repeat="candidate in candidates"
       ng-model="candidate"
