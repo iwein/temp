@@ -178,5 +178,7 @@ class MatchedEmployer(Employer):
 class FullEmployer(Employer):
     def __json__(self, request):
         result = super(FullEmployer, self).__json__(request)
+        result['invite_token'] = self.invite_token
+        result['invite_sent'] = self.invite_sent
         return result
 

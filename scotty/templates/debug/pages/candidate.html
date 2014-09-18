@@ -8,7 +8,8 @@
 
 <%def name="tests()">
 <script>
-  var email = guid()+"@hackandcraft.com",
+  var email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+
           tests = CANDIDATE_SIGNUP(email).concat([
 
             {url: '/api/v1/candidates/me', title: 'candidate-me'},

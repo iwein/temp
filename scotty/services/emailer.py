@@ -66,7 +66,6 @@ class MandrillEmailer(object):
                           'global_merge_vars': [
                               {'content': candidate_name, 'name': 'candidate_name'},
                               {'content': company_name, 'name': 'company_name'},
-                              {'content': candidate_name, 'name': 'candidate_name'},
                               {'content': url, 'name': 'offer_url'}]})
 
 

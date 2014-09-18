@@ -10,8 +10,8 @@
 
 <%def name="tests()">
 <script>
-  var cand_email = 'martin+candidate-'+guid()+"@hackandcraft.com"
-          , emp_email = 'martin+employer-'+guid()+"@hackandcraft.com",
+  var cand_email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+          emp_email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
           tests = [
 
             {'title': 'Employer Search'},
@@ -44,6 +44,7 @@
             }
           ])
           .concat(CANDIDATE_SIGNUP(cand_email))
+          .concat(CANDIDATE_COMPLETE_PROFILE(cand_email))
           .concat(
           [
 
