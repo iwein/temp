@@ -117,8 +117,8 @@
           {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/reject';},
             method: "POST", data:{reason: 'Salary too low'}, title: 'candidate-reject-1'},
 
-          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/accept';},
-            method: "POST", data:{}, title: 'candidate-reject-1'},
+          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer2Id+'/accept';},
+            method: "POST", data:{}, title: 'candidate-accept-2'},
 
           {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
             title: 'candidate-get-my-offers'},
