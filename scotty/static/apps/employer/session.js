@@ -105,13 +105,28 @@ define(function(require) {
     },
 
     getCandidates: function() {
-      // NOT IMPLEMENTED YET
-      return this._api.get('/i-will-fail');
+      return this._api.get('/employers/me/interestedcandidates');
     },
 
     getOffers: function() {
       // NOT IMPLEMENTED YET
       return this._api.get('/i-will-fail');
+    },
+
+    searchCandidates: function(tags) {
+      return this._api.get('/candidates', { tags: tags.join() });
+    },
+    getCandidateData: function(id) {
+      return this._api.get('/candidates/' + id);
+    },
+    getCandidateTargetPositions: function(id) {
+      return this._api.get('/candidates/' + id + '/target_positions');
+    },
+    getCandidateExperience: function(id) {
+      return this._api.get('/candidates/' + id + '/work_experience');
+    },
+    getCandidateEducation: function(id) {
+      return this._api.get('/candidates/' + id + '/education');
     },
   };
 

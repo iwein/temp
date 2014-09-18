@@ -12,7 +12,6 @@ define(function(require) {
       $scope.candidates = candidates.map(function(entry) {
         entry.first_name = entry.first_name[0] + '.';
         entry.last_name = entry.last_name[0] + '.';
-        entry.name = entry.first_name + ' ' + entry.last_name;
         return entry;
       });
     });

@@ -128,11 +128,23 @@ define(function(require) {
     getEducation: getHelper('education'),
     deleteEducation: deleteHelper('education'),
 
+    addBookmark: setHelper('bookmarks', 'post'),
+    getBookmarks: getHelper('bookmarks'),
+    deleteBookmark: deleteHelper('bookmarks'),
+
     setPreferredCities: setHelper('preferred_cities', 'put'),
     setSkills: setHelper('skills', 'put'),
     setLanguages: setHelper('languages', 'put'),
+
     getUserData: function() {
       return this.checkSession();
+    },
+
+    searchEmployers: function(tags) {
+      return this._api.get('/employers', { tags: tags.join() });
+    },
+    getEmployerData: function(id) {
+      return this._api.get('/employers/' + id);
     },
   };
 

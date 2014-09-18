@@ -21,6 +21,7 @@ define(function(require) {
         hcRender: '&',
         onAdd: '&',
         onRemove: '&',
+        onChange: '&',
       },
       controller: function($scope, $attrs) {
         var name = $attrs.name || $attrs.hcLabelTypeahead;
@@ -66,16 +67,16 @@ define(function(require) {
 
           $scope.ngModel.push(input);
           $scope.onAdd({ $value: input });
+          $scope.onChange({ $value: $scope.ngModel });
         }
 
         function remove(entry, index) {
           $scope.ngModel.splice(index, 1);
           $scope.onRemove({ $value: entry, $index: index });
+          $scope.onChange({ $value: $scope.ngModel });
         }
 
         function getSource(input) {
-
-
           return $q.when($scope.hcSource({ $viewValue: input })).then(function(result) {
             data = result;
             rendered = hasRender ? result.map(render) : result;

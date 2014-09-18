@@ -1,0 +1,20 @@
+<div class="component-employer-dashboard row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h3>Search candidates</h3>
+
+    <hc-label-typeahead
+      placeholder="Skills"
+      ng-model="terms"
+      hc-source="searchCandidates.searchSkills($viewValue)"
+      on-change="searchCandidates.onTermsChange($value)">
+    </hc-label-typeahead>
+
+    <hc-candidate
+      ng-repeat="candidate in candidates"
+      ng-model="candidate"
+      hc-hide="{{ { years: true } }}"
+      hc-link-profile>
+    </hc-candidate>
+
+  </div>
+</div>

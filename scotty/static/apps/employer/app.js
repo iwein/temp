@@ -12,6 +12,8 @@ define(function(require) {
       .state('dashboard', require('components/employer-dashboard/employer-dashboard'))
       .state('login', require('components/employer-login/employer-login'))
       .state('profile', require('components/employer-profile/employer-profile'))
+      .state('search-candidates', require('components/employer-search-candidates/employer-search-candidates'))
+      .state('candidate', require('components/employer-candidate-profile/employer-candidate-profile'))
       .state('signup', require('components/employer-signup/employer-signup'))
       .state('signup.start', require('components/employer-signup-start/employer-signup-start'))
       .state('signup.basic', require('components/employer-signup-basic/employer-signup-basic'))
@@ -30,7 +32,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $state.go('dashboard');
+        $state.go('login');
       });
     };
   });

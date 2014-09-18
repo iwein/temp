@@ -5,19 +5,22 @@ define(function(require) {
 
   module.directive('hcExperience', function() {
     return {
-      restrict: 'A',
+      restrict: 'EA',
       scope: {
         hcTitle: '@',
-        hcEdit: '&',
-        hcRemove: '&',
+        onEdit: '&',
+        onRemove: '&',
+        hcSource: '&',
+        hcSourceRemove: '&',
       },
       template: require('text!./directive-experience.html'),
-      controller: function($scope, $attrs, Session) {
+      controller: function($scope, $attrs) {
         if ('hcEditable' in $attrs) $scope.hcEditable = true;
         if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
 
-        if ($attrs.hcExperience)
-          $scope.$parent[$attrs.hcExperience] = this;
+        var name = $attrs.name || $attrs.hcExperience;
+        if (name)
+          $scope.$parent[name] = this;
 
         list();
         $scope.edit = edit;
@@ -26,20 +29,20 @@ define(function(require) {
 
         function edit(entry) {
           remove(entry).then(function() {
-            $scope.hcEdit({ $entry: entry });
+            $scope.onEdit({ $entry: entry });
           });
         }
 
         function remove(entry) {
-          return Session.deleteExperience(entry).then(function() {
+          return $scope.hcSourceRemove({ $entry: entry }).then(function() {
             list();
-            $scope.hcRemove(entry.id);
+            $scope.onRemove(entry.id);
           });
         }
 
         function list() {
           $scope.error = false;
-          return Session.getExperience().then(function(data) {
+          return $scope.hcSource().then(function(data) {
             $scope.model = data;
           }).catch(function() {
             $scope.error = true;

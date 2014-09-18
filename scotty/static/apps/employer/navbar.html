@@ -20,10 +20,14 @@
           <li ng-hide="session.user" ui-sref-active="active">
             <a ui-sref="signup">Sign up</a>
           </li>
-          <li ng-show="session.user"><a ui-sref="dashboard">Dashboard</a></li>
+          <li ng-show="session.user" ui-sref-active="active">
+            <a ui-sref="dashboard">Dashboard</a>
+          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li ng-show="session.user"><a ui-sref="profile">{{ session.user.first_name }}</a></li>
+          <li ng-show="session.user" ui-sref-active="active">
+            <a ui-sref="profile">{{ session.user.first_name }}</a>
+          </li>
           <li ng-show="session.user"><a class="link" ng-click="logout()">Log out</a></li>
         </ul>
       </div>

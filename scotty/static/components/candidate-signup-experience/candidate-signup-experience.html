@@ -162,10 +162,13 @@
 
   </form>
 
-  <div
-    hc-experience="list"
+  <hc-experience
+    name="list"
     hc-title="Saved"
-    hc-editable
-    hc-edit="signupExperience.edit($entry)"></div>
+    hc-source="session.getExperience()"
+    hc-source-remove="session.deleteExperience($entry)"
+    on-edit="signupExperience.edit($entry)"
+    hc-editable>
+  </hc-experience>
 
 </div>

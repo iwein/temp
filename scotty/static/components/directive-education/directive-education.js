@@ -5,19 +5,22 @@ define(function(require) {
 
   module.directive('hcEducation', function() {
     return {
-      restrict: 'A',
+      restrict: 'EA',
       scope: {
         hcTitle: '@',
-        hcEdit: '&',
-        hcRemove: '&',
+        onEdit: '&',
+        onRemove: '&',
+        hcSource: '&',
+        hcSourceRemove: '&',
       },
       template: require('text!./directive-education.html'),
-      controller: function($scope, $attrs, Session) {
+      controller: function($scope, $attrs) {
         if ('hcEditable' in $attrs) $scope.hcEditable = true;
         if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
 
-        if ($attrs.hcEducation)
-          $scope.$parent[$attrs.hcEducation] = this;
+        var name = $attrs.name || $attrs.hcEducation;
+        if (name)
+          $scope.$parent[name] = this;
 
         list();
         $scope.edit = edit;
@@ -26,20 +29,20 @@ define(function(require) {
 
         function edit(entry) {
           remove(entry).then(function() {
-            $scope.hcEdit({ $entry: entry });
+            $scope.onEdit({ $entry: entry });
           });
         }
 
         function remove(entry) {
-          return Session.deleteEducation(entry).then(function() {
+          return $scope.hcSourceRemove({ $entry: entry }).then(function() {
             list();
-            $scope.hcRemove(entry.id);
+            $scope.onRemove(entry.id);
           });
         }
 
         function list() {
           $scope.error = false;
-          return Session.getEducation().then(function(data) {
+          return $scope.hcSource().then(function(data) {
             $scope.model = data;
           }).catch(function() {
             $scope.error = true;

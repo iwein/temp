@@ -5,6 +5,7 @@ define(function(require) {
   var module = require('app-module');
 
   function calcExperience(experience) {
+    if (!experience) return 0;
     return experience.reduce(function(sum, entry) {
       var start = new Date(entry.start);
       var end = new Date(entry.end);
@@ -20,10 +21,10 @@ define(function(require) {
       restrict: 'EA',
       template: require('text!./directive-candidate.html'),
       scope: {
-        model: '=hcCandidate',
+        model: '=ngModel',
         hcHide: '@'
       },
-      link: function(scope) {
+      link: function(scope, elem, attr) {
         try {
           scope.hide = angular.fromJson(scope.hcHide || '{}');
         } catch (err) {
@@ -31,8 +32,11 @@ define(function(require) {
             'Remember to use angular\'s expression {{ { key: "value" } }}');
         }
 
+        if ('hcLinkProfile' in attr) scope.hcLinkProfile = true;
+
         scope.$watch('model', function(model) {
           scope.candidate = {
+            id: model.id,
             name: model.first_name + ' ' + model.last_name,
             city: ConfigAPI.locationToText(model.contact_city),
             years: calcExperience(model.work_experience),

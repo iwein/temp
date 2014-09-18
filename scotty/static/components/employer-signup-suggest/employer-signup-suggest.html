@@ -1,18 +1,11 @@
 <div class="component-employer-signup-suggest">
-  <toaster-container></toaster-container>
 
   <h3>Sign up - Suggested candidates</h3>
 
-  <div class="panel panel-default" ng-repeat="candidate in candidates">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ candidate.name }}</h3>
-    </div>
-    <div class="panel-body">
-      <dl class="dl-horizontal"
-        hc-candidate="candidate"
-        hc-hide="{{ { name: true } }}"></dl>
-    </div>
-  </div>
+  <hc-candidate
+    ng-repeat="candidate in candidates"
+    ng-model="candidate">
+  </hc-candidate>
 
   <a class="btn btn-primary" ui-sref="profile">Continue</a>
 </div>
