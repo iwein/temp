@@ -21,8 +21,14 @@
             </dd>
             <dt>Created</dt>
             <dd><a ui-sref="offer({ id: offer.id })">{{ offer.created | timeAgo }}</a></dd>
+            <dt>Location</dt>
+            <dd>{{ offer.location.city }}, {{ offer.location.country_iso }}</dd>
             <dt>Salary</dt>
-            <dd>{{ offer.annual_salary }}€/year</dd>
+            <dd>{{ offer.annual_salary }} €/year</dd>
+            <dt>Technologies</dt>
+            <dd>{{ offer.technologies.join(', ') }}</dd>
+            <dt>Benefits</dt>
+            <dd>{{ offer.benefits.join(', ') }}</dd>
             <dt>Job Description</dt>
             <dd ng-bind-html="offer.job_description"></dd>
             <dt>Hiring process</dt>
