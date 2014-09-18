@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('session');
   var module = require('app-module');
 
   var months = [
@@ -69,7 +68,7 @@ define(function(require) {
       }
 
       $scope.loading = true;
-      return Session.addExperience($scope.model);
+      return Session.user.addExperience($scope.model);
     }
 
     function addAnother() {

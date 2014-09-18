@@ -1,11 +1,10 @@
 define(function(require) {
   'use strict';
-  require('session');
   var module = require('app-module');
 
   module.controller('CandidateActivateCtrl', function($scope, $state, toaster, Session) {
     Session.activate($state.params.token).then(function() {
-      return Session.isSignupComplete();
+      return Session.isActivated();
     }).then(function(result) {
       $scope.success = true;
       $scope.signupComplete = result;

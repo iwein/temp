@@ -79,22 +79,24 @@
       </ul>
     </div>
 
-    <hc-target-positions
-      hc-title="Target positions"
-      hc-source="session.getCandidateTargetPositions(id)"
-      hc-show-empty>
-    </hc-target-positions>
+    <div ng-if="ready">
+      <hc-target-positions
+        hc-title="Target positions"
+        hc-source="candidate.getTargetPositions()"
+        hc-show-empty>
+      </hc-target-positions>
 
-    <hc-experience
-      hc-title="Experience"
-      hc-source="session.getCandidateExperience(id)"
-      hc-show-empty>
-    </hc-experience>
+      <hc-experience
+        hc-title="Experience"
+        hc-source="candidate.getExperience()"
+        hc-show-empty>
+      </hc-experience>
 
-    <hc-education
-      hc-title="Education"
-      hc-source="session.getCandidateEducation(id)"
-      hc-show-empty>
-    </hc-education>
+      <hc-education
+        hc-title="Education"
+        hc-source="candidate.getEducation()"
+        hc-show-empty>
+      </hc-education>
+    </div>
   </div>
 </div>

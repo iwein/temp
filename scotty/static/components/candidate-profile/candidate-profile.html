@@ -1,10 +1,6 @@
 <div class="component-candidate-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <div class="alert alert-warning" role="alert" ng-if="!isSignupComplete">
-      This is an incomplete profile, to fulfill it please complete the <a ui-sref="signup">signup process</a>
-    </div>
-
     <div class="page-header">
       <h1>
         <img class="avatar" ng-src="{{ user.picture_url }}">
@@ -81,22 +77,24 @@
       </ul>
     </div>
 
-    <hc-target-positions
-      hc-title="Target positions"
-      hc-source="session.getTargetPositions()"
-      hc-show-empty>
-    </hc-target-positions>
+    <div ng-if="ready">
+      <hc-target-positions
+        hc-title="Target positions"
+        hc-source="session.user.getTargetPositions()"
+        hc-show-empty>
+      </hc-target-positions>
 
-    <hc-experience
-      hc-title="Experience"
-      hc-source="session.getExperience()"
-      hc-show-empty>
-    </hc-experience>
+      <hc-experience
+        hc-title="Experience"
+        hc-source="session.user.getExperience()"
+        hc-show-empty>
+      </hc-experience>
 
-    <hc-education
-      hc-title="Education"
-      hc-source="session.getEducation()"
-      hc-show-empty>
-    </hc-education>
+      <hc-education
+        hc-title="Education"
+        hc-source="session.user.getEducation()"
+        hc-show-empty>
+      </hc-education>
+    </div>
   </div>
 </div>

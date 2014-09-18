@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('session');
   var module = require('app-module');
 
 

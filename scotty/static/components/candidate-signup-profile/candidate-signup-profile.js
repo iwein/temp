@@ -4,7 +4,6 @@ define(function(require) {
   require('tools/file-upload/amazon');
   require('tools/file-upload/data-url-directive');
   require('tools/file-upload/file-select-directive');
-  require('session');
   var module = require('app-module');
 
   module.controller('CandidateSignupProfileCtrl', function($scope, $q, ConfigAPI, Session, Amazon) {
@@ -37,8 +36,8 @@ define(function(require) {
 
       $scope.loading = true;
       Amazon.upload($scope.files[0], 'users', Session.id()).then(function(file) {
-        return Session.updateData($scope.model).then(function() {
-          return Session.setPhoto(file);
+        return Session.user.updateData($scope.model).then(function() {
+          return Session.user.setPhoto(file);
         });
       }).then(function() {
         return $scope.signup.nextStep();

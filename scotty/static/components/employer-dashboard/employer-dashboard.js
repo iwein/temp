@@ -1,31 +1,23 @@
 define(function(require) {
   'use strict';
-  require('session');
   require('components/directive-candidate/directive-candidate');
   var module = require('app-module');
 
 
-  module.controller('DashboardCtrl', function($scope, $q, $state, toaster, Session) {
-    Session.checkSession().then(function() {
-      if (!Session.hasSession()) {
-        toaster.error('You need to log in to access this page');
-        $state.go('login');
-        return;
-      }
+  module.controller('DashboardCtrl', function($scope, $q, $state, toaster, Permission, Session) {
+    $scope.ready = false;
+    Permission.requireSignup().then(function() {
+      $scope.ready = true;
 
-      return $q.all([
-        Session.isSignupComplete(),
-        Session.getCandidates(),
-        //Session.getOffers(),
-      ]).then(function(results) {
-        if (!results[0])
-          $state.go('signup');
-
-        $scope.candidates = results[1];
-        $scope.offers = results[2];
+      Session.user.getCandidates().then(function(result) {
+        $scope.candidates = result;
       });
-    }).catch(function() {
-      toaster.defaultError();
+
+      Session.user.getOffers().then(function(offers) {
+        $scope.offers = offers;
+      }).catch(function() {
+        toaster.error('Offers not implemented');
+      });
     });
   });
 

@@ -1,22 +1,14 @@
 define(function(require) {
   'use strict';
   require('angular-sanitize');
-  require('session');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $sce, $state, Session) {
+  module.controller('ProfileCtrl', function($scope, $sce, $state, Permission, Session) {
     $scope.ready = false;
-
-    Session.getUserData().then(function(data) {
-      if (!Session.hasSession()) {
-        $state.go('login');
-        return;
-      }
-
-      if (data.status === 'SIGNEDUP') {
-        $state.go('signup');
-        return;
-      }
+    Permission.requireSignup().then(function() {
+      return Session.user.getData();
+    }).then(function(data) {
+      $scope.ready = true;
 
       if (data.status === 'APPROVED')
         $scope.approved = true;

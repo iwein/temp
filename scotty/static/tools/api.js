@@ -2,8 +2,9 @@ define(function(require) {
   'use strict';
   var apiURL = require('conf').api_url;
 
-  function API(ajax, options) {
+  function API(ajax, when, options) {
     options = options || {};
+    this.when = when;
     this._ajax = ajax;
     this._root = options.root || apiURL;
     this._version = options.version || 'v1';
@@ -47,8 +48,8 @@ define(function(require) {
 
 
   var module = require('app-module');
-  module.factory('API', function($http) {
-    return new API($http);
+  module.factory('API', function($http, $q) {
+    return new API($http, $q.when);
   });
 
 

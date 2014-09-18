@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('session');
   var module = require('app-module');
 
   module.controller('CandidateLoginCtrl', function($scope, $state, toaster, Session) {
@@ -13,12 +12,12 @@ define(function(require) {
       $scope.loading = true;
 
       Session.login(email, password).then(function() {
-        return Session.isSignupComplete();
+        return Session.isActivated();
       }, function(error) {
         toaster.error('Invalid email or password.');
         throw error;
-      }).then(function(isComplete) {
-        $state.go(isComplete ? 'dashboard' : 'signup');
+      }).then(function(isActivated) {
+        $state.go(isActivated ? 'dashboard' : 'signup');
       }).finally(function() {
         $scope.loading = false;
       });

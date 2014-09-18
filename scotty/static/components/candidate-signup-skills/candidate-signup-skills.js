@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('session');
   var module = require('app-module');
 
   module.controller('CandidateSignupSkillsCtrl', function($scope, ConfigAPI, Session) {
@@ -13,7 +12,7 @@ define(function(require) {
     $scope.loading = false;
     var skills = $scope.model = [{}];
 
-    Session.getUserData().then(function(data) {
+    Session.user.getData().then(function(data) {
       skills = $scope.model = data.skills.concat(skills);
     });
 
@@ -40,7 +39,7 @@ define(function(require) {
       data.pop();
 
       $scope.loading = true;
-      Session.setSkills(data).then(function() {
+      Session.user.setSkills(data).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
         this.loading = false;

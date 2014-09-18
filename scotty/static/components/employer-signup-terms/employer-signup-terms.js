@@ -11,7 +11,7 @@ define(function(require) {
     function submit() {
       $scope.loading = true;
 
-      Session.apply($scope.model).then(function() {
+      Session.user.apply($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();

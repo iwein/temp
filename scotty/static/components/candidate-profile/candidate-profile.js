@@ -1,30 +1,22 @@
 define(function(require) {
   'use strict';
-  require('session');
   require('components/directive-target-positions/directive-target-positions');
   require('components/directive-experience/directive-experience');
   require('components/directive-education/directive-education');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $state, Session) {
-    Session.whenReady(function() {
-      if (!Session.hasSession()) {
-        $state.go('login');
-        return;
-      }
+  module.controller('ProfileCtrl', function($scope, $state, Permission, Session) {
+    $scope.ready = false;
 
-      Session.isSignupComplete().then(function(result) {
-        $scope.isSignupComplete = result;
-      });
-
-      Session.getUserData().then(function(data) {
+    Permission.requireSignup().then(function() {
+      Session.getUser().getData().then(function(data) {
         $scope.ready = true;
         $scope.cities = data.preferred_cities;
         $scope.languages = data.languages;
         $scope.skills = data.skills;
         $scope.user = data;
       });
-    });
+    }.bind(this));
   });
 
 

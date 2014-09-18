@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('session');
   var module = require('app-module');
 
   module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, Session) {
@@ -14,7 +13,7 @@ define(function(require) {
     $scope.loading = false;
     var languages = $scope.model = [{}];
 
-    Session.getUserData().then(function(data) {
+    Session.user.getData().then(function(data) {
       languages = $scope.model = data.languages.concat(languages);
     });
 
@@ -53,7 +52,7 @@ define(function(require) {
       data.pop();
 
       $scope.loading = true;
-      Session.setLanguages(data).then(function() {
+      Session.user.setLanguages(data).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
         $scope.loading = false;

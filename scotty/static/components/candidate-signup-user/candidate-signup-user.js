@@ -2,7 +2,6 @@
 
 define(function(require) {
   'use strict';
-  require('session');
   var module = require('app-module');
 
   module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Session) {
@@ -19,9 +18,9 @@ define(function(require) {
         var cities = $scope.signup.cities;
 
         return $q.all([
-          Session.updateData(availability),
-          Session.addTargetPosition(position),
-          Session.setPreferredCities($scope.signup.dont_care_location ?
+          Session.user.updateData(availability),
+          Session.user.addTargetPosition(position),
+          Session.user.setPreferredCities($scope.signup.dont_care_location ?
             { dont_care_location: true } : cities),
         ]);
       }).then(function() {

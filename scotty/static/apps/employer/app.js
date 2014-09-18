@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('../common/permission');
   var angular = require('angular');
   var module = require('app-module');
   require('../common/basic-conf')(module);
