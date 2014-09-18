@@ -1,39 +1,40 @@
-<div class="component-candidate-offer row" ng-show="ready">
+<div class="component-candidate-offer row" ng-if="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <button class="btn btn-default"
-      ng-click="accept()">
-      Accept Offer
-    </button>
+    <div ng-show="active">
+      <button class="btn btn-default"
+        ng-disabled="loading"
+        ng-click="offerDetail.accept()">
+        Accept Offer
+      </button>
 
-    <button class="btn btn-default"
-      ng-class="{ active: rejecting }"
-      ng-click="offerDetail.toggleRejecting()">
-      Reject Offer
-    </button>
+      <button class="btn btn-default"
+        ng-class="{ active: rejecting }"
+        ng-disabled="loading"
+        ng-click="offerDetail.toggleRejecting()">
+        Reject Offer
+      </button>
 
-    <form name="formReject" ng-show="rejecting" ng-submit="reject(rejectReason)">
-      <div class="form-group">
-        <ul>
-          <li ng-repeat="reason in rejectReasons">
+      <form name="formReject" ng-show="rejecting" ng-submit="offerDetail.reject(rejectReason)">
+        <div class="form-group">
+          <div ng-repeat="reason in rejectReasons">
             <label>
               <input type="radio"
-                class="form-control"
+                name="rejectReason"
                 value="{{ reason }}"
                 ng-disabled="loading"
-                ng-required="!rejectReason"
-                ng-model="rejectReason">
+                ng-required="!model.reason"
+                ng-model="model.reason">
               {{ reason }}
             </label>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
-      </div>
-    </form>
-
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
+        </div>
+      </form>
+    </div>
 
     <div class="panel panel-default">
       <div class="panel-heading">
