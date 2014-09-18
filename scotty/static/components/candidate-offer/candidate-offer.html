@@ -1,38 +1,72 @@
-<div class="component-candidate-offer row" ng-show="ready">
+<div class="component-candidate-offer row" ng-if="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <button class="btn btn-default"
-      ng-click="accept()">
-      Accept Offer
-    </button>
+    <div ng-show="active">
+      <button class="btn btn-default"
+        ng-disabled="loading"
+        ng-click="offerDetail.accept()">
+        Accept Offer
+      </button>
 
-    <button class="btn btn-default"
-      ng-class="{ active: rejecting }"
-      ng-click="toggleRejecting()">
-      Reject Offer
-    </button>
+      <button class="btn btn-default"
+        ng-class="{ active: rejecting }"
+        ng-disabled="loading"
+        ng-click="offerDetail.toggleRejecting()">
+        Reject Offer
+      </button>
 
-    <form name="formReject" ng-show="rejecting" ng-submit="reject(rejectReason)">
-      <div class="form-group">
-        <ul>
-          <li ng-repeat="reason in rejectReasons">
+      <form name="formReject" ng-show="rejecting" ng-submit="offerDetail.reject(rejectReason)">
+        <div class="form-group">
+          <div ng-repeat="reason in rejectReasons">
             <label>
-              <input class="form-control"
+              <input type="radio"
+                name="rejectReason"
                 value="{{ reason }}"
                 ng-disabled="loading"
-                ng-required="!rejectReason"
-                ng-model="rejectReason">
+                ng-required="!model.reason"
+                ng-model="model.reason">
               {{ reason }}
             </label>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
-      </div>
-    </form>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
+        </div>
+      </form>
+    </div>
 
-    OFFER DETAILS HERE
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Offer details</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <dl class="dl-horizontal">
+            <dt>Employer</dt>
+            <dd>
+              <img class="logo" ng-src="{{ offer.employer.logo_url }}">
+              <a ui-sref="employer({ id: offer.employer.id })">{{ offer.employer.company_name }}</a>
+            </dd>
+            <dt>Created</dt>
+            <dd><a ui-sref="offer({ id: offer.id })">{{ offer.created | timeAgo }}</a></dd>
+            <dt>Location</dt>
+            <dd>{{ offer.location.city }}, {{ offer.location.country_iso }}</dd>
+            <dt>Salary</dt>
+            <dd>{{ offer.annual_salary }} €/year</dd>
+            <dt>Technologies</dt>
+            <dd>{{ offer.technologies.join(', ') }}</dd>
+            <dt>Benefits</dt>
+            <dd>{{ offer.benefits.join(', ') }}</dd>
+            <dt>Job Description</dt>
+            <dd ng-bind-html="offer.job_description"></dd>
+            <dt>Hiring process</dt>
+            <dd ng-bind-html="offer.interview_details"></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+
+
   </div>
 </div>

@@ -42,6 +42,7 @@ define(function(require) {
     skillLevels: helper('skill_levels'),
     proficiencies: helper('proficiencies'),
     benefits: helper('benefits'),
+    rejectReasons: helper('rejectionreasons'),
 
     // search
     skills: helper('skills'),

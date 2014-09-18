@@ -16,6 +16,7 @@ define(function(require) {
       .state('profile', require('components/candidate-profile/candidate-profile'))
       .state('search-employers', require('components/candidate-search-employers/candidate-search-employers'))
       .state('employer', require('components/candidate-employer-profile/candidate-employer-profile'))
+      .state('offer', require('components/candidate-offer/candidate-offer'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
       .state('signup.target', require('components/candidate-signup-target/candidate-signup-target'))
       .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))

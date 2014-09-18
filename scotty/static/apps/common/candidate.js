@@ -80,6 +80,15 @@ define(function() {
     getOffers: function() {
       return this._api.get(this._url() + '/offers');
     },
+    getOffer: function(id) {
+      return this._api.get(this._url() + '/offers/' + id);
+    },
+    acceptOffer: function(id) {
+      return this._api.post(this._url() + '/offers/' + id + '/accept', {});
+    },
+    rejectOffer: function(id, data) {
+      return this._api.post(this._url() + '/offers/' + id + '/reject', data);
+    },
 
     dispose: function() {
       // TODO
