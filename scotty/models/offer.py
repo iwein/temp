@@ -78,6 +78,11 @@ class Offer(Base):
     def __json__(self, request):
         result = json_encoder(self, request)
         result['status'] = self.status
+        result['technologies'] = self.technologies
+        result['benefits'] = self.benefits
+        result['role'] = self.role
+        result['location'] = self.location
+        result['rejected_reason'] = self.rejected_reason
         return result
 
 
