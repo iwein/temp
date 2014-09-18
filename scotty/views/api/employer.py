@@ -4,8 +4,8 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED, Candidate
-from scotty.models.candidate import INCLUDE_WEXP
+from scotty.models import Employer, Office, APPLIED, APPROVED
+from scotty.models.candidate import WXPCandidate
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags
 from scotty.views import RootController
@@ -111,12 +111,11 @@ class EmployerController(RootController):
     def employer_suggested_candidates(self):
         if self.employer.status not in [APPLIED, APPROVED]:
             raise HTTPForbidden("Employer has not applied yet and is not approved")
-        # TODO: add meaning full candidates
-        self.request.renderer_options['Candidate'] = {INCLUDE_WEXP: True}
+
         candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
-        candidates = DBSession.query(Candidate).options(joinedload("languages"), joinedload("skills"),
+        candidates = DBSession.query(WXPCandidate).options(joinedload("languages"), joinedload("skills"),
                                                         joinedload("work_experience"))\
-            .filter(Candidate.id.in_(candidate_ids)).all()
+            .filter(WXPCandidate.id.in_(candidate_ids)).all()
         return candidates
 
     @view_config(route_name='employer', **DELETE)
