@@ -1,11 +1,15 @@
 from datetime import datetime
 import hashlib
 from uuid import uuid4
-from pyramid.httpexceptions import HTTPBadRequest, HTTPInternalServerError
-from scotty.models import City, TrafficSource, NamedModel, json_encoder, Skill, Benefit
+
+from pyramid.httpexceptions import HTTPBadRequest
+from scotty.models.configuration import City, TrafficSource, Skill, Benefit
+from scotty.models.offer import EmployerOffer
 from scotty.models.meta import Base, GUID
-from sqlalchemy import Column, Text, String, Integer, ForeignKey, Date, CheckConstraint, Boolean, Table, DateTime
+from scotty.models.tools import PUBLIC, PRIVATE, json_encoder
+from sqlalchemy import Column, Text, String, Integer, ForeignKey, DateTime, CheckConstraint, Boolean, Table, DateTime
 from sqlalchemy.orm import relationship
+
 
 employer_address_mapping = {'line1': 'address_line1', 'line2': 'address_line2', 'line3': 'address_line3',
                             'zipcode': 'address_zipcode'}
@@ -20,7 +24,7 @@ class Office(Base):
     __tablename__ = 'employer_office'
     id = Column(Integer, primary_key=True)
     employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
-    created = Column(Date, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now)
 
     website = Column(String(512))
     address_line1 = Column(String(512), nullable=False)
@@ -59,64 +63,67 @@ employer_benefits = Table('employer_benefit', Base.metadata,
                           Column('benefit_id', Integer, ForeignKey('benefit.id'), primary_key=True))
 
 
+
 class Employer(Base):
     __tablename__ = 'employer'
     __name_field__ = 'company_name'
-    id = Column(GUID, primary_key=True, default=uuid4)
-    company_name = Column(String(255), unique=True, nullable=False)
+    id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
+    company_name = Column(String(255), unique=True, nullable=False, info=PUBLIC)
 
-    email = Column(String(512), nullable=False, unique=True)
+    email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
     pwd = Column(String(128))
 
-    invite_token = Column(GUID)
-    invite_sent = Column(DateTime)
+    invite_token = Column(GUID, info=PRIVATE)
+    invite_sent = Column(DateTime, info=PRIVATE)
     created = Column(DateTime, nullable=False, default=datetime.now)
     agreedTos = Column(DateTime)
     approved = Column(DateTime)
 
-    website = Column(String(512))
-    address_line1 = Column(String(512))
-    address_line2 = Column(String(512))
-    address_line3 = Column(String(512))
-    address_zipcode = Column(String(20))
+    website = Column(String(512), info=PUBLIC)
+    address_line1 = Column(String(512), info=PUBLIC)
+    address_line2 = Column(String(512), info=PUBLIC)
+    address_line3 = Column(String(512), info=PUBLIC)
+    address_zipcode = Column(String(20), info=PUBLIC)
     address_city_id = Column(Integer, ForeignKey(City.id))
-    address_city = relationship(City)
+    address_city = relationship(City, info=PUBLIC)
 
-    contact_name = Column(String(255))
-    contact_phone = Column(String(32))
-    contact_email = Column(String(1024))
-    contact_position = Column(String(128))
+    contact_name = Column(String(255), info=PUBLIC)
+    contact_phone = Column(String(32), info=PUBLIC)
+    contact_email = Column(String(1024), info=PUBLIC)
+    contact_position = Column(String(128), info=PUBLIC)
 
-    logo_url = Column(String(1024))
-    image_video_url = Column(String(1024))
-    fb_url = Column(String(1024))
-    linkedin_url = Column(String(1024))
+    logo_url = Column(String(1024), info=PUBLIC)
+    image_video_url = Column(String(1024), info=PUBLIC)
+    fb_url = Column(String(1024), info=PUBLIC)
+    linkedin_url = Column(String(1024), info=PUBLIC)
 
-    mission_text = Column(Text)
-    culture_text = Column(Text)
-    vision_text = Column(Text)
-    recruitment_process = Column(Text)
-    training_policy = Column(Text)
+    mission_text = Column(Text, info=PUBLIC)
+    culture_text = Column(Text, info=PUBLIC)
+    vision_text = Column(Text, info=PUBLIC)
+    recruitment_process = Column(Text, info=PUBLIC)
+    training_policy = Column(Text, info=PUBLIC)
 
-    founding_year = Column(Integer)
-    revenue_pa = Column(Integer)
-    funding_amount = Column(Integer)
-    funding_text = Column(Text)
+    founding_year = Column(Integer, info=PUBLIC)
+    revenue_pa = Column(Integer, info=PUBLIC)
+    funding_amount = Column(Integer, info=PUBLIC)
+    funding_text = Column(Text, info=PUBLIC)
 
-    no_of_employees = Column(Integer)
-    tech_team_size = Column(Integer)
-    tech_team_philosophy = Column(Text)
+    no_of_employees = Column(Integer, info=PUBLIC)
+    tech_team_size = Column(Integer, info=PUBLIC)
+    tech_team_philosophy = Column(Text, info=PUBLIC)
 
-    tech_tags = relationship(Skill, secondary=employer_skills)
-    benefits = relationship(Benefit, secondary=employer_benefits)
+    tech_tags = relationship(Skill, secondary=employer_skills, info=PUBLIC)
+    benefits = relationship(Benefit, secondary=employer_benefits, info=PUBLIC)
 
-    external_rating = Column(Integer, CheckConstraint('external_rating between 0 and 5'))
+    external_rating = Column(Integer, CheckConstraint('external_rating between 0 and 5'), info=PUBLIC)
     featured = Column(Boolean)
 
     traffic_source_id = Column(Integer, ForeignKey(TrafficSource.id))
-    traffic_source = relationship(TrafficSource)
+    traffic_source = relationship(TrafficSource, info=PUBLIC)
 
-    offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan')
+    offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
+    offers = relationship(EmployerOffer, backref='employer')
+
 
     def set_pwd(self, pwd):
         self.pwd = hashlib.sha256(pwd).hexdigest()
@@ -153,12 +160,25 @@ class Employer(Base):
         result['offices'] = self.offices
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
-        city_id = result.pop('address_city_id', None)
-        agreedTos = result.pop('agreedTos', None)
-        approved = result.pop('approved', None)
-        created = result.pop('created', None)
         result['address_city'] = self.address_city
-
-        if hasattr(self, 'additional_data'):
-            result.update(self.additional_data)
         return result
+
+
+class EmbeddedEmployer(Employer):
+    def __json__(self, request):
+        return json_encoder(self, request)
+
+class MatchedEmployer(Employer):
+    def __json__(self, request):
+        result = super(MatchedEmployer, self).__json__(request)
+        result['matched_tags'] = self.matched_tags
+        return result
+
+
+class FullEmployer(Employer):
+    def __json__(self, request):
+        result = super(FullEmployer, self).__json__(request)
+        result['invite_token'] = self.invite_token
+        result['invite_sent'] = self.invite_sent
+        return result
+

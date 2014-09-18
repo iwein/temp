@@ -27,9 +27,9 @@ def upgrade():
     )
     op.create_table('candidate',
                     sa.Column('id', GUID(), nullable=False),
-                    sa.Column('created', sa.Date(), nullable=False),
-                    sa.Column('activated', sa.Date(), nullable=True),
-                    sa.Column('activation_sent', sa.Date(), nullable=True),
+                    sa.Column('created', sa.DateTime(), nullable=False),
+                    sa.Column('activated', sa.DateTime(), nullable=True),
+                    sa.Column('activation_sent', sa.DateTime(), nullable=True),
                     sa.Column('activation_token', GUID(), nullable=True),
                     sa.Column('email', sa.String(length=512), nullable=False),
                     sa.Column('pwd', sa.String(length=128), nullable=False),
@@ -67,7 +67,7 @@ def upgrade():
                     sa.UniqueConstraint('activation_token')
     )
     op.create_table('education',
-                    sa.Column('created', sa.Date(), nullable=False),
+                    sa.Column('created', sa.DateTime(), nullable=False),
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('candidate_id', GUID(), nullable=False),
                     sa.Column('start', sa.Date(), nullable=False),
@@ -83,7 +83,7 @@ def upgrade():
     )
     op.create_table('candidate_skill',
                     sa.Column('candidate_id', GUID(), nullable=False),
-                    sa.Column('created', sa.Date(), nullable=False),
+                    sa.Column('created', sa.DateTime(), nullable=False),
                     sa.Column('skill_id', sa.Integer(), nullable=False),
                     sa.Column('level_id', sa.Integer(), nullable=False),
                     sa.ForeignKeyConstraint(['candidate_id'], ['candidate.id'], ),
@@ -94,7 +94,7 @@ def upgrade():
     op.create_table('work_experience',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('candidate_id', GUID(), nullable=False),
-                    sa.Column('created', sa.Date(), nullable=False),
+                    sa.Column('created', sa.DateTime(), nullable=False),
                     sa.Column('start', sa.Date(), nullable=False),
                     sa.Column('end', sa.Date(), nullable=True),
                     sa.Column('summary', sa.Text(), nullable=False),
@@ -127,7 +127,7 @@ def upgrade():
     op.create_table('target_position',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('candidate_id', GUID(), nullable=False),
-                    sa.Column('created', sa.Date(), nullable=False),
+                    sa.Column('created', sa.DateTime(), nullable=False),
                     sa.Column('role_id', sa.Integer(), nullable=False),
                     sa.Column('skill_id', sa.Integer(), nullable=False),
                     sa.Column('seniority_id', sa.Integer(), nullable=True),

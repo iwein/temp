@@ -2,16 +2,23 @@
 <%namespace file="candidate.html" name="candidate" />
 
 <%def name="title()">Offer flow</%def>
+
+<%def name="scripts()">
+  <script src="/debug/static/employer_signup.js"></script>
+  <script src="/debug/static/candidate_signup.js"></script>
+</%def>
+
 <%def name="tests()">
 <script>
-  var email = guid()+"@hackandcraft.com",
+  var cand_email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+          emp_email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
           tests = [
 
             {'title': 'Employer Search'},
             {url:'/api/v1/employers/?tags=Python', title: 'employer-search',
-            extract: function(r, extr){
-              return {'employers': r}
-            }},
+              extract: function(r, extr){
+                return {'employers': r}
+              }},
             {url:'/api/v1/employers/?tags=Python,Spring', title: 'employer-search-multi-1'},
             {url:'/api/v1/employers/?tags=Python,Spring,Apache', title: 'employer-search-multi-2'},
             {url:'/api/v1/employers/?tags=Python,PHP', title: 'employer-search-multi-3'},
@@ -19,36 +26,82 @@
 
             {'title': 'Candidate Search'},
             {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search',
-            extract: function(r, extr){
-              return {'candidates': r}
-            }},
+              extract: function(r, extr){
+                return {'candidates': r}
+              }},
             {url:'/api/v1/candidates/?tags=Python,Spring', title: 'candidates-search-multi-1'},
             {url:'/api/v1/candidates/?tags=Python,Spring,Apache', title: 'candidates-search-multi-2'},
             {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
             {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1', title: 'candidates-search-limit-offset'},
 
-            {'title': 'Candidate Bookmark Employers'},
+            {'title': 'Candidate Bookmark Employers'}];
 
-
-            ${candidate.signup()|n}
+  tests = tests
+          .concat(EMPLOYER_SIGNUP(emp_email))
+          .concat([
+            {url: function(r, extr){return '/api/v1/admin/employers/'+extr.employerId+'/approve';},
+              title: 'admin-approve-employer',
+            }
+          ])
+          .concat(CANDIDATE_SIGNUP(cand_email))
+          .concat(CANDIDATE_COMPLETE_PROFILE(cand_email))
+          .concat(
+          [
 
             {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-1',
-            data: function(r, extr){
-              return {id: extr.employers[0].id}
-            }},
+              data: function(r, extr){
+                return {id: extr.employerId}
+              }},
             {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-1'},
 
-            {url:function(r, extr){ return '/api/v1/employers/'+extr.employers[0].id+'/interestedcandidates'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
               title: 'employer-interested-candidates'},
 
-            {url: function(r, extr) { return '/api/v1/candidates/me/bookmarks/' + extr.employers[0].id},
+            {url: function(r, extr) { return '/api/v1/candidates/me/bookmarks/' + extr.employerId},
               title: 'candidates-bookmark-delete-1', method: 'DELETE'},
 
             {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-2'},
 
-            {url:function(r, extr){ return '/api/v1/employers/'+extr.employers[0].id+'/interestedcandidates'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
               title: 'employer-interested-candidates-empty'},
-          ];
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-to-candidate', method:'POST',
+            data: function(r, extr){
+              return {
+                candidate: {id: extr.candidateId},
+                location: {'city': 'Dresden', country_iso:'DE'},
+                benefits: ['Coffee', 'Massages'],
+                technologies: ['PHP', 'Python'],
+                role: 'Senior Artchitect',
+                annual_salary: 2000000,
+                interview_details: 'We will interview you',
+                job_description: 'You will work for us',
+              }
+            },
+            extract: function(r, extr){return {offerId: r.id}}
+            },
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-to-candidate', method:'POST',
+            data: function(r, extr){
+              return {
+                candidate: {id: extr.candidateId},
+                location: {'city': 'Berlin', country_iso:'DE'},
+                benefits: ['Company car', 'Breakfast'],
+                technologies: ['Apache', 'Java'],
+                role: 'Senior Artchitect',
+                annual_salary: 3,
+                interview_details: 'We might interview you',
+                job_description: 'you could work for us',
+              }
+            },
+            extract: function(r, extr){return {offerId: r.id}}
+            },
+
+          {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-get-my-offers'},
+          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
+            title: 'candidate-get-my-offers'},
+
+          ]);
 
   $(function(){getTestRunner(tests)(0, {});})
 </script>

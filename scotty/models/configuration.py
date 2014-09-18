@@ -38,6 +38,11 @@ class Proficiency(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False, unique=True)
 
+class RejectionReason(Base, NamedModel):
+    __tablename__ = 'rejectionreason'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), nullable=False, unique=True)
+
 
 class TrafficSource(Base, NamedModel):
     __tablename__ = 'traffic_source'
