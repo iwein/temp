@@ -51,6 +51,10 @@ class Offer(Base):
     technologies = relationship(Skill, secondary=offer_skills, info=PUBLIC)
 
     @property
+    def is_active(self):
+        return self.status == ACTIVE
+
+    @property
     def status(self):
         if self.accepted is not None:
             return ACCEPTED
