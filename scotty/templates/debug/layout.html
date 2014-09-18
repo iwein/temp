@@ -65,14 +65,28 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <h1 class="text-center"><a href="/debug">Debug</a></h1>
     </div>
     <div class="col-sm-6" style="margin-top:30px;">
       <b>Pages:</b>
       %for template in templates:
-        <a href="/debug/${template}">${template}</a> |
+      <a href="/debug/${template}?email=${email}">${template}</a> |
       %endfor
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <form method="GET">
+        <div>
+          <label>
+            use this emailaddress
+          </label>
+          <input type="email" name="email" value="${email}"/>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
