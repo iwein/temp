@@ -4,10 +4,11 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED
+from scotty.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer
 from scotty.models.candidate import WXPCandidate
+from scotty.models.offer import Offer
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags
+    update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags, add_employer_offer
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -65,12 +66,12 @@ class EmployerController(RootController):
     def search(self):
         tags = filter(None, self.request.params.get('tags', '').split(','))
 
-        base_query = DBSession.query(Employer).filter(Employer.approved != None)
+        base_query = DBSession.query(MatchedEmployer).filter(MatchedEmployer.approved != None)
         if tags:
             employer_lookup = get_employers_by_techtags(tags)
-            employers = base_query.filter(Employer.id.in_(employer_lookup.keys())).limit(20).all()
+            employers = base_query.filter(MatchedEmployer.id.in_(employer_lookup.keys())).limit(20).all()
             for employer in employers:
-                employer.additional_data = {'matched_tags': employer_lookup[str(employer.id)]}
+                employer.matched_tags = employer_lookup[str(employer.id)]
         else:
             employers = base_query.limit(20).all()
         return employers
@@ -156,6 +157,32 @@ class EmployerOfficeController(EmployerController):
         return {"status": "success"}
 
 
+class EmployerOfferController(EmployerController):
+    @view_config(route_name='employer_offers', **GET)
+    def list(self):
+        return self.employer.offers
+
+    @view_config(route_name='employer_offers', **POST)
+    def create(self):
+        offer = add_employer_offer(self.employer, self.request.json)
+        self.request.emailer.send_candidate_received_offer(
+            offer.candidate.email,
+            offer.candidate.first_name,
+            self.employer.company_name,
+            offer.id
+        )
+        return offer
+
+    @view_config(route_name='employer_offer', **DELETE)
+    def delete(self):
+        id = self.request.matchdict["offer"]
+        office = DBSession.query(Offer).get(id)
+        if not office:
+            raise HTTPNotFound("Unknown Office ID.")
+        DBSession.delete(office)
+        return {"status": "success"}
+
+
 def includeme(config):
     config.add_route('employers_invite', 'invite/{token}')
     config.add_route('employer_login', 'login')
@@ -169,3 +196,6 @@ def includeme(config):
     config.add_route('employer_apply', '{employer_id}/apply')
     config.add_route('employer_offices', '{employer_id}/offices')
     config.add_route('employer_office', '{employer_id}/offices/{office_id}')
+
+    config.add_route('employer_offers', '{employer_id}/offers')
+    config.add_route('employer_offer', '{employer_id}/offers/{offer_id}')

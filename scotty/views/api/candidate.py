@@ -5,7 +5,8 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer, FullCandidate
+from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer, FullCandidate, \
+    MatchedCandidate
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
@@ -46,12 +47,12 @@ class CandidateController(RootController):
     def search(self):
         tags = self.request.params.get('tags', '').split(',')
 
-        base_query = DBSession.query(Candidate)
+        base_query = DBSession.query(MatchedCandidate)
         if tags:
             candidate_lookup = get_candidates_by_techtags(tags)
-            candidates = base_query.filter(Candidate.id.in_(candidate_lookup.keys())).limit(20).all()
+            candidates = base_query.filter(MatchedCandidate.id.in_(candidate_lookup.keys())).limit(20).all()
             for candidate in candidates:
-                candidate.additional_data = {'matched_tags': candidate_lookup[str(candidate.id)]}
+                candidate.matched_tags = candidate_lookup[str(candidate.id)]
         else:
             candidates = base_query.limit(20).all()
         return candidates
@@ -212,6 +213,15 @@ class CandidateBookmarkController(CandidateController):
 
         employer = DBSession.query(Employer).get(employer_id)
         self.candidate.bookmarked_employers.append(employer)
+        DBSession.flush()
+
+        self.request.emailer.send_employer_was_bookmarked(
+            employer.email,
+            employer.contact_name,
+            employer.company_name,
+            candidate_name=self.candidate.full_name,
+            candidate_id=self.candidate.id
+        )
         return self.candidate.bookmarked_employers
 
     @view_config(route_name='candidate_bookmark', **DELETE)
@@ -222,6 +232,19 @@ class CandidateBookmarkController(CandidateController):
 
         return {"status": "success"}
 
+
+class CandidateOfferController(CandidateController):
+    @view_config(route_name='candidate_offers', **GET)
+    def list(self):
+        return self.candidate.offers
+
+    @view_config(route_name='candidate_offer_accept', **GET)
+    def accept(self):
+        return self.candidate.offers
+
+    @view_config(route_name='candidate_offer_reject', **GET)
+    def reject(self):
+        return self.candidate.offers
 
 def includeme(config):
     config.add_route('candidates', '')
@@ -247,3 +270,7 @@ def includeme(config):
 
     config.add_route('target_positions', '{candidate_id}/target_positions')
     config.add_route('target_position', '{candidate_id}/target_positions/{id}')
+
+    config.add_route('candidate_offers', '{candidate_id}/offers')
+    config.add_route('candidate_offer_accept', '{candidate_id}/offers/{id}/accept')
+    config.add_route('candidate_offer_reject', '{candidate_id}/offers/{id}/reject')

@@ -1,12 +1,13 @@
 from uuid import uuid4
 from datetime import datetime
+from scotty.models.tools import json_encoder, PUBLIC
 
+from scotty.models.offer import CandidateOffer
 from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
-    Company, Role, JobTitle, Language, Proficiency, CompanyType, Seniority, Course
-from scotty.models.tools import json_encoder
+    Company, Role, Language, Proficiency, CompanyType, Seniority, Course
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
-from scotty.models.meta import Base, NamedModel, GUID, DBSession
+from scotty.models.meta import Base, NamedModel, GUID
 from sqlalchemy.orm import relationship
 
 
@@ -19,7 +20,7 @@ class CandidateStatus(Base, NamedModel):
 class Education(Base):
     __tablename__ = 'education'
     __table_args__ = (UniqueConstraint('candidate_id', 'institution_id', 'start', name='candidate_education_unique'),)
-    created = Column(Date, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now)
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
@@ -43,7 +44,7 @@ class Education(Base):
 class CandidateSkill(Base):
     __tablename__ = 'candidate_skill'
     candidate_id = Column(GUID, ForeignKey("candidate.id"), primary_key=True)
-    created = Column(Date, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now)
 
     skill_id = Column(Integer, ForeignKey(Skill.id), primary_key=True)
     skill = relationship(Skill)
@@ -70,7 +71,7 @@ class WorkExperience(Base):
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
-    created = Column(Date, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now)
 
     start = Column(Date, nullable=False)
     end = Column(Date)
@@ -101,7 +102,7 @@ class TargetPosition(Base):
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
-    created = Column(Date, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now)
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
@@ -135,8 +136,8 @@ class CandidateLanguage(Base):
 
 
 candidate_bookmark_employer = Table('candidate_bookmark_employer', Base.metadata,
-                                    Column('candidate_id', GUID(), ForeignKey('candidate.id'), primary_key=True),
-                                    Column('employer_id', GUID(), ForeignKey('employer.id'), primary_key=True),
+                                    Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
+                                    Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
                                     Column('created', DateTime, nullable=False, default=datetime.now,
                                            server_default=func.now()))
 
@@ -147,7 +148,7 @@ class Candidate(Base):
                     'contact_line3', 'contact_zipcode', 'contact_phone', 'available_date', 'notice_period_number',
                     'willing_to_travel', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
 
-    id = Column(GUID, primary_key=True, default=uuid4)
+    id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
     activation_token = Column(GUID, unique=True, default=uuid4)
     activation_sent = Column(DateTime)
@@ -156,11 +157,11 @@ class Candidate(Base):
     email = Column(String(512), nullable=False, unique=True)
     pwd = Column(String(128), nullable=False)
 
-    first_name = Column(String(512), nullable=False)
-    last_name = Column(String(512), nullable=False)
+    first_name = Column(String(512), nullable=False, info=PUBLIC)
+    last_name = Column(String(512), nullable=False, info=PUBLIC)
     dob = Column(Date)
     pob = Column(String(512))
-    picture_url = Column(String(1024))
+    picture_url = Column(String(1024), info=PUBLIC)
 
     title_id = Column(Integer, ForeignKey(Title.id))
     title = relationship(Title)
@@ -168,9 +169,9 @@ class Candidate(Base):
     residence_country_iso = Column(String(2), ForeignKey(Country.iso))
     residence_country = relationship(Country)
 
-    summary = Column(Text())
-    github_url = Column(String(1024))
-    stackoverflow_url = Column(String(1024))
+    summary = Column(Text(), info=PUBLIC)
+    github_url = Column(String(1024), info=PUBLIC)
+    stackoverflow_url = Column(String(1024), info=PUBLIC)
 
     traffic_source_id = Column(Integer, ForeignKey(TrafficSource.id))
     traffic_source = relationship(TrafficSource)
@@ -202,9 +203,15 @@ class Candidate(Base):
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
+    offers = relationship(CandidateOffer, backref='candidate')
+
     bookmarked_employers = relationship("Employer", secondary=candidate_bookmark_employer,
                                         order_by=candidate_bookmark_employer.c.created.desc(),
                                         backref="interested_candidates")
+
+    @property
+    def full_name(self):
+        return u'%s %s' % (self.first_name, self.last_name)
 
     def __json__(self, request):
         result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
@@ -218,12 +225,22 @@ class Candidate(Base):
 
         return result
 
+class EmbeddedCandidate(Candidate):
+    def __json__(self, request):
+        return json_encoder(self, request)
 
 class WXPCandidate(Candidate):
     def __json__(self, request):
         results = super(WXPCandidate, self).__json__(request)
         results['work_experience'] = self.work_experience
         return results
+
+
+class MatchedCandidate(WXPCandidate):
+    def __json__(self, request):
+        result = super(MatchedCandidate, self).__json__(request)
+        result['matched_tags'] = self.matched_tags
+        return result
 
 
 class FullCandidate(WXPCandidate):

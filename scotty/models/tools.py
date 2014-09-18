@@ -6,6 +6,13 @@ from sqlalchemy.sql import table, column
 import sqlalchemy as sa
 
 
+DISPLAY_ALWAYS = 'DISPLAY_ALWAYS'
+DISPLAY_PRIVATE = 'DISPLAY_PRIVATE'
+
+PUBLIC = {'display': DISPLAY_ALWAYS}
+PRIVATE = {'display': DISPLAY_PRIVATE}
+
+
 def csv_inserter(basepath):
     def bulk_insert_names(tablename, fname, fields=None):
         if not fields:
@@ -21,7 +28,7 @@ def csv_inserter(basepath):
 def json_encoder(val, request):
     """Transforms a model into a dictionary which can be dumped to JSON."""
     # first we get the names of all the columns on your model
-    columns = [c.key for c in class_mapper(val.__class__).columns]
+    columns = [c.key for c in class_mapper(val.__class__).columns if c.info == PUBLIC]
     # then we return their values in a dict
     result = {c: getattr(val, c) for c in columns if getattr(val, c) is not None}
     return result

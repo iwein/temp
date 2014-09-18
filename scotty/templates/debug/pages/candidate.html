@@ -2,26 +2,14 @@
 
 
 <%def name="title()">Candidate</%def>
-<%def name="signup()">
-
-            {url:'/api/v1/candidates/', title: 'candidate-signup',
-              data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd"},
-              extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
-
-            {url:function(r, extr){ return '/api/v1/candidates/activate/'+extr.actToken;}, title: 'candidate-activation'},
-
-            {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login',
-              data: {"email": email, pwd:"welcomepwd"}
-            },
+<%def name="scripts()">
+  <script src="/debug/static/candidate_signup.js"></script>
 </%def>
-
 
 <%def name="tests()">
 <script>
   var email = guid()+"@hackandcraft.com",
-          tests = [
-
-            ${self.signup()|n}
+          tests = CANDIDATE_SIGNUP(email).concat([
 
             {url: '/api/v1/candidates/me', title: 'candidate-me'},
             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-base'},
@@ -159,7 +147,8 @@
             {'sectionTitle': 'Cleanup'},
             {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
             {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"}
-          ];
+          ])
+          ;
 
   $(function(){getTestRunner(tests)(0, {});})
 </script>

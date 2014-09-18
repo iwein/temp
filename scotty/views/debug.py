@@ -21,6 +21,7 @@ class DebugController(RootController):
 
 def includeme(config):
     config.add_route('debug_home', '')
+    config.add_static_view('static', 'scotty:templates/debug/static', cache_max_age=3600)
     config.add_route('debug_page', '/{template}')
 
 

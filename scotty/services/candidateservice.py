@@ -82,7 +82,6 @@ def add_candidate_work_experience(candidate, params):
 
 def add_target_position(candidate, params):
     minimum_salary = params['minimum_salary']
-    benefits = params.get('benefits')
 
     company_types = get_or_raise_named_collection(CompanyType, params['company_types']).values()
 
@@ -91,8 +90,8 @@ def add_target_position(candidate, params):
     role = get_by_name_or_create(Role, params["role"])
     skill = get_by_name_or_create(Skill, params["skill"])
 
-    tp = TargetPosition(candidate_id=candidate.id, minimum_salary=minimum_salary, benefits=benefits,
-                        company_types=company_types, role=role, skill=skill)
+    tp = TargetPosition(candidate_id=candidate.id, minimum_salary=minimum_salary, company_types=company_types,
+                        role=role, skill=skill)
     if seniority_name:
         seniority = get_by_name_or_raise(Seniority, seniority_name)
         tp.seniority = seniority
