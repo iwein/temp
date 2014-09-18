@@ -8,9 +8,26 @@
       <div class="panel-heading">
         <h3 class="panel-title">Offers</h3>
       </div>
+      <div class="panel-body" ng-show="!offers.length">
+        No offers
+      </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="offer in offers">
-          <dl class="dl-horizontal">TODO</dl>
+          <dl class="dl-horizontal">
+            <dt>Employer</dt>
+            <dd>
+              <img class="logo" ng-src="{{ offer.employer.logo_url }}">
+              <a ui-sref="employer({ id: offer.employer.id })">{{ offer.employer.company_name }}</a>
+            </dd>
+            <dt>Created</dt>
+            <dd><a ui-sref="offer({ id: offer.id })">{{ offer.created | timeAgo }}</a></dd>
+            <dt>Salary</dt>
+            <dd>{{ offer.annual_salary }}€/year</dd>
+            <dt>Job Description</dt>
+            <dd ng-bind-html="offer.job_description"></dd>
+            <dt>Hiring process</dt>
+            <dd ng-bind-html="offer.interview_details"></dd>
+          </dl>
         </li>
       </ul>
     </div>

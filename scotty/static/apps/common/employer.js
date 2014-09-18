@@ -59,16 +59,13 @@ define(function() {
     getSuggestedCandidates: function() {
       return this._api.get(this._url() + '/suggestedcandidates');
     },
-
     getCandidates: function() {
       return this._api.get(this._url() + '/interestedcandidates');
     },
 
     getOffers: function() {
-      // NOT IMPLEMENTED YET
-      return this._api.get('/i-will-fail');
+      return this._api.get(this._url() + '/offers');
     },
-
     makeOffer: function(data) {
       return this._api.post(this._url() + '/offers', data);
     },
