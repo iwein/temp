@@ -12,6 +12,7 @@ requirejs.config({
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-animate': 'bower_components/angular-animate/angular-animate',
+    'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize.min',
     'angularjs-toaster': 'bower_components/angularjs-toaster/toaster',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
 

@@ -1,9 +1,10 @@
 define(function(require) {
   'use strict';
+  require('angular-sanitize');
   require('session');
   var module = require('app-module');
 
-  module.controller('EmployerProfileCtrl', function($scope, $state, toaster, Session) {
+  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Session) {
     $scope.id = $state.params.id;
     $scope.ready = false;
     this.toogleBookmark = toogleBookmark;
@@ -32,6 +33,7 @@ define(function(require) {
     Session.getEmployerData($scope.id).then(function(data) {
       $scope.ready = true;
       $scope.data = data;
+      $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
     }).catch(function() {
       toaster.defaultError();
     });
