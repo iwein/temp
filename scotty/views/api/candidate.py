@@ -5,7 +5,7 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer
+from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer, FullCandidate
 from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
@@ -18,12 +18,13 @@ class CandidateController(RootController):
     @reify
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
+        cls = Candidate
         if candidate_id == 'me':
             candidate_id = self.request.session.get('candidate_id')
             if not candidate_id:
                 raise HTTPForbidden("Not logged in.")
-
-        candidate = DBSession.query(Candidate).get(candidate_id)
+            cls = FullCandidate
+        candidate = DBSession.query(cls).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate

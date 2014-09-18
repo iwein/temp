@@ -4,7 +4,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
     Education, Company, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
-    Language, Seniority, CandidateLanguage, Course
+    Language, Seniority, CandidateLanguage, Course, FullCandidate
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
     get_or_create_named_lookup
 from sqlalchemy import text
@@ -15,8 +15,8 @@ def candidate_from_signup(params):
     pwd = hashlib.sha256(params['pwd']).hexdigest()
 
     status = get_by_name_or_raise(CandidateStatus, "active")
-    candidate = Candidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
-                          status=status)
+    candidate = FullCandidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
+                              status=status)
     return candidate
 
 
@@ -34,7 +34,7 @@ def edit_candidate(candidate, params):
 def candidate_from_login(params):
     email = params['email']
     pwd = hashlib.sha256(params['pwd']).hexdigest()
-    candidate = DBSession.query(Candidate).filter(Candidate.email == email, Candidate.pwd == pwd).first()
+    candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd).first()
     return candidate
 
 
@@ -42,9 +42,8 @@ def add_candidate_skill(candidate, params):
     level_name = params['level']
     level = get_by_name_or_raise(SkillLevel, level_name)
     skill = get_by_name_or_create(Skill, params['name'])
-
-    cskill = CandidateSkill(skill=skill, level=level, candidate=candidate)
-
+    cskill = CandidateSkill(candidate_id=candidate.id, skill=skill, level=level)
+    DBSession.add(cskill)
     DBSession.flush()
     return cskill
 
@@ -57,8 +56,9 @@ def add_candidate_education(candidate, params):
     start = params['start']
     end = params.get('end')
 
-    education = Education(institution=institution, degree=degree, candidate=candidate, start=start, end=end,
+    education = Education(candidate_id=candidate.id, institution=institution, degree=degree, start=start, end=end,
                           course=course)
+    DBSession.add(education)
     DBSession.flush()
     return education
 
@@ -73,8 +73,8 @@ def add_candidate_work_experience(candidate, params):
     company = get_by_name_or_create(Company, params['company'])
     skills = get_or_create_named_collection(Skill, params.get('skills'))
 
-    wexp = WorkExperience(start=start, end=end, summary=summary, candidate=candidate, location=city, company=company,
-                          role=role, skills=skills)
+    wexp = WorkExperience(candidate_id=candidate.id, start=start, end=end, summary=summary, location=city,
+                          company=company, role=role, skills=skills)
     DBSession.add(wexp)
     DBSession.flush()
     return wexp
@@ -91,12 +91,11 @@ def add_target_position(candidate, params):
     role = get_by_name_or_create(Role, params["role"])
     skill = get_by_name_or_create(Skill, params["skill"])
 
-    tp = TargetPosition(candidate=candidate, minimum_salary=minimum_salary, benefits=benefits,
+    tp = TargetPosition(candidate_id=candidate.id, minimum_salary=minimum_salary, benefits=benefits,
                         company_types=company_types, role=role, skill=skill)
     if seniority_name:
         seniority = get_by_name_or_raise(Seniority, seniority_name)
         tp.seniority = seniority
-
     DBSession.add(tp)
     DBSession.flush()
     return tp
@@ -137,7 +136,7 @@ def set_preferredcities_on_candidate(candidate, params):
                                                                     if (l['city'], l['country_iso']) not in cities])
     else:
         raise HTTPBadRequest("Must submit list of locations as root level.")
-    Candidate.preferred_cities = [c.id for c in cities]
+    candidate.preferred_cities = cities
     DBSession.flush()
     return candidate
 
@@ -152,7 +151,7 @@ def set_skills_on_candidate(candidate, params):
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
     skills = []
     for p in params:
-        skills.append(CandidateSkill(candidate=candidate,
+        skills.append(CandidateSkill(candidate_id=candidate.id,
                                      skill=skill_lookup[p['skill']],
                                      level=level_lookup[p['level']]))
     DBSession.add_all(skills)

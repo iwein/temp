@@ -10,9 +10,6 @@ from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.orm import relationship
 
 
-INCLUDE_WEXP = 'include_wexp'
-
-
 class CandidateStatus(Base, NamedModel):
     __tablename__ = 'candidatestatus'
     id = Column(Integer, primary_key=True)
@@ -201,7 +198,7 @@ class Candidate(Base):
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
-    preferred_cities = relationship(City, secondary=candidate_preferred_city)
+    preferred_cities = relationship(City, secondary=candidate_preferred_city, enable_typechecks=False)
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
@@ -209,32 +206,31 @@ class Candidate(Base):
                                         order_by=candidate_bookmark_employer.c.created.desc(),
                                         backref="interested_candidates")
 
-    def get_json_options(self, request):
-        options = request.renderer_options.get(self.__class__.__name__)
-        return options or {}
-
     def __json__(self, request):
-        result = json_encoder(self, request)
-
-        result.pop('status_id', None)
-        result.pop('title_id', None)
-        result.pop('traffic_source_id', None)
-        result.pop('contact_city_id', None)
-
+        result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
+        result['id'] = self.id
         result['title'] = self.title
         result['contact_city'] = self.contact_city
         result['status'] = self.status
         result['languages'] = self.languages
-        result['traffic_source'] = self.traffic_source
         result['skills'] = self.skills
+        result['preferred_cities'] = self.preferred_cities
 
-        # TODO: fix, why is it not auto loaded?
-        result['preferred_cities'] = DBSession.query(City).filter(City.id.in_(self.preferred_cities)).all() if self.preferred_cities else []
-
-        opts = self.get_json_options(request)
-        if opts.get(INCLUDE_WEXP):
-            result['work_experience'] = self.work_experience
-
-        if hasattr(self, 'additional_data'):
-            result.update(self.additional_data)
         return result
+
+
+class WXPCandidate(Candidate):
+    def __json__(self, request):
+        results = super(WXPCandidate, self).__json__(request)
+        results['work_experience'] = self.work_experience
+        return results
+
+
+class FullCandidate(WXPCandidate):
+    def __json__(self, request):
+        results = super(FullCandidate, self).__json__(request)
+        results['email'] = self.email
+        results['traffic_source'] = self.traffic_source
+        results['activation_token'] = self.activation_token
+        results['activation_sent'] = self.activation_sent
+        return results
