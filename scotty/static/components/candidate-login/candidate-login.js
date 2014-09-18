@@ -1,24 +1,29 @@
 define(function(require) {
   'use strict';
-  require('session');
   var module = require('app-module');
 
-  module.controller('CandidateLoginCtrl', function($scope, $state, toaster, Session) {
+  module.controller('CandidateLoginCtrl', function($scope, $location, $state, toaster, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
+    var redirect = $state.params.go;
 
     function submit(email, password) {
       $scope.error = false;
       $scope.loading = true;
 
       Session.login(email, password).then(function() {
-        return Session.isSignupComplete();
+        return Session.isActivated();
       }, function(error) {
         toaster.error('Invalid email or password.');
         throw error;
-      }).then(function(isComplete) {
-        $state.go(isComplete ? 'dashboard' : 'signup');
+      }).then(function(isActivated) {
+        if (redirect) {
+          $location.search('go', null);
+          $location.path(redirect);
+        } else {
+          $state.go(isActivated ? 'dashboard' : 'signup');
+        }
       }).finally(function() {
         $scope.loading = false;
       });
@@ -27,7 +32,7 @@ define(function(require) {
 
 
   return {
-    url: '/login/',
+    url: '/login/?go',
     template: require('text!./candidate-login.html'),
     controller: 'CandidateLoginCtrl',
     controllerAs: 'login',

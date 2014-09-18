@@ -11,7 +11,7 @@ define(function(require) {
 
     $q.all([
       ConfigAPI.benefits(),
-      Session.getUserData(),
+      $q.when(Session.user && Session.user.getData()),
     ]).then(function(result) {
       var benefits = result[0];
       var data = result[1];
@@ -45,7 +45,7 @@ define(function(require) {
           delete $scope.model[key];
       });
 
-      Session.updateData($scope.model).then(function() {
+      Session.user.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();

@@ -1,15 +1,25 @@
 define(function(require) {
   'use strict';
   require('tools/api');
+  var Employer = require('apps/common/employer');
+  var Candidate = require('apps/common/candidate');
 
 
   function EmployerSession(api) {
     this._api = api;
-    this.checkSession = this.checkSession.bind(this);
+    this._setUser = this._setUser.bind(this);
   }
 
   EmployerSession.prototype = {
     constructor: EmployerSession,
+
+    _setUser: function(response) {
+      if (this.user)
+        this.user.dispose();
+
+      this.user = new Employer(this._api, 'me', response);
+      return this.user;
+    },
 
     id: function() {
       return this.user && this.user.id;
@@ -19,48 +29,40 @@ define(function(require) {
       return this._api.post('/employers/login', {
         email: email,
         pwd: password,
-      }).then(this.checkSession);
+      }).then(this._setUser);
     },
 
     logout: function() {
-      return this._api.get('/employers/logout').then(function(data) {
-        if (data.success)
-          this.user = null;
+      return this._api.get('/employers/logout').then(function(response) {
+        if (!response.success) return;
+        this.user.dispose();
+        this.user = null;
       }.bind(this));
     },
 
+    checkSession: function() {
+      return this._api.get('/employers/me')
+        .then(this._setUser)
+        .then(function() { return true })
+        .catch(function(request) {
+          if (request.status === 403)
+            return false;
+          throw request;
+        });
+    },
+
     signup: function(data) {
-      return this._api.post('/employers/', data).then(this.checkSession);
+      return this._api.post('/employers/', data).then(this._setUser);
     },
 
     signupInvited: function(token, password) {
       return this._api.post('/employers/invite/' + token, { pwd: password })
-        .then(this.checkSession);
-    },
-
-    updateData: function(data) {
-      return this._api.put('/employers/me', data).then(this.checkSession);
-    },
-
-    apply: function(data) {
-      return this._api.put('/employers/me/apply', data).then(this.checkSession);
-    },
-
-    listOffices: function() {
-      return this._api.get('/employers/me/offices');
-    },
-
-    addOffice: function(data) {
-      return this._api.post('/employers/me/offices', data);
-    },
-
-    removeOffice: function(data) {
-      return this._api.delete('/employers/me/offices/' + data.id);
+        .then(this._setUser);
     },
 
     getSignupStage: function() {
-      return this._api.get('/employers/me/signup_stage').then(null, function(request) {
-        if (request.status === 403 || request.status === 404)
+      return this._api.get('/employers/me/signup_stage').catch(function(request) {
+        if (request.status === 403)
           return null;
         throw request;
       });
@@ -77,56 +79,30 @@ define(function(require) {
       });
     },
 
-    checkSession: function() {
-      return this._api.get('/employers/me').then(function(response) {
-        this.user = response;
-        return response;
-      }.bind(this), function(request) {
-        if (request.status === 403 || request.status === 404)
-          return null;
-        throw request;
-      });
-    },
-
-    hasSession: function() {
-      return !!this.user;
-    },
-
-    getUserData: function() {
-      return this.checkSession();
+    isActivated: function() {
+      return this.checkSession().then(function(result) {
+        return result && this.user.getData().then(function(data) {
+          return data.status === 'APPROVED';
+        });
+      }.bind(this));
     },
 
     getInvitationData: function(token) {
       return this._api.get('/employers/invite/' + token);
     },
 
-    getSuggestedCandidates: function() {
-      return this._api.get('/employers/me/suggestedcandidates');
-    },
-
-    getCandidates: function() {
-      return this._api.get('/employers/me/interestedcandidates');
-    },
-
-    getOffers: function() {
-      // NOT IMPLEMENTED YET
-      return this._api.get('/i-will-fail');
-    },
-
     searchCandidates: function(tags) {
-      return this._api.get('/candidates', { tags: tags.join() });
+      return this._api.get('/candidates', { tags: tags.join() }).then(function(response) {
+        return response.map(function(data) {
+          return new Candidate(this._api, data.id, data);
+        }.bind(this));
+      }.bind(this));
     },
-    getCandidateData: function(id) {
-      return this._api.get('/candidates/' + id);
-    },
-    getCandidateTargetPositions: function(id) {
-      return this._api.get('/candidates/' + id + '/target_positions');
-    },
-    getCandidateExperience: function(id) {
-      return this._api.get('/candidates/' + id + '/work_experience');
-    },
-    getCandidateEducation: function(id) {
-      return this._api.get('/candidates/' + id + '/education');
+
+    getCandidate: function(id) {
+      return this._api.get('/candidates/' + id).then(function(data) {
+        return new Candidate(this._api, data.id, data);
+      }.bind(this));
     },
   };
 

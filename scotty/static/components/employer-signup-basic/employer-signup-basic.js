@@ -11,9 +11,9 @@ define(function(require) {
     this.searchLocations = ConfigAPI.locationsText;
     this.setLocation = setLocation;
     this.selectFile = selectFile;
-    this.removeOffice = removeOffice;
-    this.editOffice = editOffice;
-    this.submitOffice = submitOffice;
+    // this.removeOffice = removeOffice;
+    // this.editOffice = editOffice;
+    // this.submitOffice = submitOffice;
     this.submit = submit;
     $scope.loading = true;
     $scope.loadingOffice = false;
@@ -21,9 +21,9 @@ define(function(require) {
     $scope.office = {};
     $scope.offices = [];
 
-    listOffices();
+    //listOffices();
 
-    Session.getUserData().then(function(data) {
+    $q.when(Session.user && Session.user.getData()).then(function(data) {
       if (!data) return;
 
       $scope.model = _.pick(data, [
@@ -60,15 +60,16 @@ define(function(require) {
         $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
     }
 
+    /*
     function listOffices() {
-      return Session.listOffices().then(function(offices) {
+      return Session.user.listOffices().then(function(offices) {
         $scope.offices = offices;
       });
     }
 
     function removeOffice(office) {
       $scope.loadingOffice = true;
-      return Session.removeOffice(office)
+      return Session.user.removeOffice(office)
         .then(listOffices)
         .finally(function() {
           $scope.loadingOffice = false;
@@ -89,7 +90,7 @@ define(function(require) {
           delete $scope.office[key];
       });
 
-      return Session.addOffice($scope.office)
+      return Session.user.addOffice($scope.office)
         .then(listOffices)
         .then(function() {
           $scope.office = {};
@@ -99,6 +100,7 @@ define(function(require) {
           $scope.loadingOffice = false;
         });
     }
+    */
 
     function submit() {
       if (!$scope.files || !$scope.files.length) {
@@ -120,7 +122,7 @@ define(function(require) {
         });
 
         $scope.model.logo_url = url;
-        return Session.updateData($scope.model);
+        return Session.user.updateData($scope.model);
       }).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {

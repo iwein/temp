@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('session');
   require('components/directive-target-positions/directive-target-positions');
   require('components/directive-experience/directive-experience');
   require('components/directive-education/directive-education');
@@ -8,8 +7,12 @@ define(function(require) {
 
   module.controller('CandidateProfileCtrl', function($scope, $state, toaster, Session) {
     $scope.id = $state.params.id;
+    $scope.ready = false;
 
-    Session.getCandidateData($scope.id).then(function(data) {
+    Session.getCandidate($scope.id).then(function(candidate) {
+      $scope.candidate = candidate;
+      return candidate.getData();
+    }).then(function(data) {
       $scope.ready = true;
       $scope.cities = data.preferred_cities;
       $scope.languages = data.languages;

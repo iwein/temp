@@ -5,7 +5,7 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupMissionCtrl', function($scope, toaster, Session) {
+  module.controller('SignupMissionCtrl', function($scope, $q, toaster, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = true;
@@ -17,7 +17,7 @@ define(function(require) {
       $scope.missionDirty = $scope.missionDirty || !!value;
     });
 
-    Session.getUserData().then(function(data) {
+    $q.when(Session.user && Session.user.getData()).then(function(data) {
       $scope.model = _.pick(data, 'mission_text');
     }).finally(function() {
       $scope.loading = false;
@@ -35,7 +35,7 @@ define(function(require) {
       });
 
       $scope.loading = true;
-      Session.updateData($scope.model).then(function() {
+      Session.user.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();

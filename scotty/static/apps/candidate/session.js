@@ -1,36 +1,58 @@
 define(function(require) {
   'use strict';
   require('tools/api');
-
-
-  function getHelper(key) {
-    return function() {
-      return this._api.get('/candidates/me/' + key);
-    };
-  }
-  function setHelper(key, method) {
-    return function(data) {
-      return this._api[method]('/candidates/me/' + key, data);
-    };
-  }
-  function deleteHelper(key) {
-    return function(data) {
-      return this._api.delete('/candidates/me/' + key + '/' + data.id);
-    };
-  }
+  var Candidate = require('apps/common/candidate');
+  var Employer = require('apps/common/employer');
 
 
   function CandidateSession(api) {
     this._api = api;
-    this.ready = false;
-    this._onReady = null;
+    this._setUser = this._setUser.bind(this);
   }
 
   CandidateSession.prototype = {
     constructor: CandidateSession,
 
+    _setUser: function(response) {
+      if (this.user)
+        this.user.dispose();
+
+      this.user = new Candidate(this._api, 'me', response);
+      return this.user;
+    },
+
     id: function() {
       return this.user && this.user.id;
+    },
+
+    getUser: function() {
+      return this.user;
+    },
+
+    login: function(email, password) {
+      return this._api.post('/candidates/login', {
+        email: email,
+        pwd: password
+      }).then(this._setUser);
+    },
+
+    logout: function() {
+      return this._api.get('/candidates/logout').then(function(response) {
+        if (!response.success) return;
+        this.user.dispose();
+        this.user = null;
+      }.bind(this));
+    },
+
+    checkSession: function() {
+      return this._api.get('/candidates/me')
+        .then(this._setUser)
+        .then(function() { return true })
+        .catch(function(request) {
+          if (request.status === 403)
+            return false;
+          throw request;
+        });
     },
 
     activate: function(token) {
@@ -38,14 +60,11 @@ define(function(require) {
     },
 
     signup: function(data) {
-      return this._api.post('/candidates/', data).then(function(response) {
-        this.user = response;
-        return response.id;
-      }.bind(this));
+      return this._api.post('/candidates/', data).then(this._setUser);
     },
 
     getSignupStage: function() {
-      return this._api.get('/candidates/me/signup_stage').then(null, function(request) {
+      return this._api.get('/candidates/me/signup_stage').catch(function(request) {
         if (request.status === 403)
           return null;
         throw request;
@@ -63,88 +82,21 @@ define(function(require) {
       });
     },
 
-    login: function(email, password) {
-      return this._api.post('/candidates/login', {
-        email: email,
-        pwd: password
-      }).then(function(response) {
-        this.user = response;
-        return response;
-      }.bind(this));
-    },
-
-    logout: function() {
-      this.user = null;
-      document.cookie = false;
-      return this._api.get('/candidates/logout').then(function() {
-        this.user = null;
-        return null;
-      }.bind(this));
-    },
-
-    checkSession: function() {
-      var checking = this._api.get('/candidates/me').then(function(response) {
-        this.user = response;
-        return response;
-      }.bind(this), function(request) {
-        if (request.status === 403)
-          return null;
-        throw request;
-      });
-
-      this._onReady = checking;
-      this.whenReady(function() {
-        this.ready = true;
-      }.bind(this));
-
-      return checking;
-    },
-
-    hasSession: function() {
-      return !!this.user;
-    },
-
-    whenReady: function(fn) {
-      this._onReady.finally(fn);
-    },
-
-    setPhoto: function(photo) {
-      return this._api.post('/candidates/me/picture', { url: photo });
-    },
-
-    updateData: function(model) {
-      return this._api.put('/candidates/me', model);
-    },
-
-    addTargetPosition: setHelper('target_positions', 'post'),
-    getTargetPositions: getHelper('target_positions'),
-    deleteTargetPosition: deleteHelper('target_positions'),
-
-    addExperience: setHelper('work_experience', 'post'),
-    getExperience: getHelper('work_experience'),
-    deleteExperience: deleteHelper('work_experience'),
-
-    addEducation: setHelper('education', 'post'),
-    getEducation: getHelper('education'),
-    deleteEducation: deleteHelper('education'),
-
-    addBookmark: setHelper('bookmarks', 'post'),
-    getBookmarks: getHelper('bookmarks'),
-    deleteBookmark: deleteHelper('bookmarks'),
-
-    setPreferredCities: setHelper('preferred_cities', 'put'),
-    setSkills: setHelper('skills', 'put'),
-    setLanguages: setHelper('languages', 'put'),
-
-    getUserData: function() {
-      return this.checkSession();
+    isActivated: function() {
+      return this.isSignupComplete();
     },
 
     searchEmployers: function(tags) {
-      return this._api.get('/employers', { tags: tags.join() });
+      return this._api.get('/employers', { tags: tags.join() }).then(function(response) {
+        return response.map(function(data) {
+          return new Employer(this._api, data.id, data);
+        }.bind(this));
+      }.bind(this));
     },
-    getEmployerData: function(id) {
-      return this._api.get('/employers/' + id);
+    getEmployer: function(id) {
+      return this._api.get('/employers/' + id).then(function(data) {
+        return new Employer(this._api, data.id, data);
+      }.bind(this));
     },
   };
 
