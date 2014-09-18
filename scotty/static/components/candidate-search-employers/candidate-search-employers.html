@@ -1,6 +1,6 @@
 <div class="component-candidate-search-employers row">
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Search candidates</h3>
+    <h3>Search employers</h3>
 
     <hc-label-typeahead
       placeholder="Skills"
@@ -8,6 +8,8 @@
       hc-source="searchEmployers.searchSkills($viewValue)"
       on-change="searchEmployers.onTermsChange($value)">
     </hc-label-typeahead>
+
+    <div ng-show="terms.length && !employers.length">No employer found</div>
 
     <div class="panel panel-default" ng-repeat="employer in employers">
       <div class="panel-heading">

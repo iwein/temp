@@ -2,7 +2,8 @@ define(function() {
   'use strict';
 
   function Employer(api, id, data) {
-    this.id = id;
+    this.id = data ? data.id : null;
+    this.key = id || 'me';
     this._api = api;
     this._data = data;
   }
@@ -11,7 +12,7 @@ define(function() {
     constructor: Employer,
 
     _url: function() {
-      return '/employers/' + this.id;
+      return '/employers/' + this.key;
     },
 
     apply: function(data) {
@@ -66,6 +67,10 @@ define(function() {
     getOffers: function() {
       // NOT IMPLEMENTED YET
       return this._api.get('/i-will-fail');
+    },
+
+    makeOffer: function(data) {
+      return this._api.post(this._url() + '/offers', data);
     },
 
     dispose: function() {

@@ -38,7 +38,7 @@ define(function(require) {
           scope.candidate = {
             id: model.id,
             name: model.first_name + ' ' + model.last_name,
-            city: ConfigAPI.locationToText(model.contact_city),
+            city: model.contact_city ? ConfigAPI.locationToText(model.contact_city) : 'Unknown',
             years: calcExperience(model.work_experience),
             skills: model.skills.map(function(item) {
               return item.skill;
