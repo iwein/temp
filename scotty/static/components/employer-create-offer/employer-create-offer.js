@@ -65,6 +65,7 @@ define(function(require) {
 
         Session.user.makeOffer($scope.model).then(function() {
           toaster.success('Offer sent to ' + $scope.candidateName);
+          $state.go('dashboard');
         }).catch(toaster.defaultError);
       }
 
