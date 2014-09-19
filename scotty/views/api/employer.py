@@ -4,7 +4,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer
+from scotty.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
 from scotty.models.candidate import WXPCandidate
 from scotty.models.offer import Offer
 from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
@@ -19,7 +19,7 @@ class EmployerInviteController(RootController):
     @reify
     def invited_employer(self):
         token = self.request.matchdict['token']
-        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
+        employer = DBSession.query(FullEmployer).filter(FullEmployer.invite_token == token).first()
         if not employer:
             raise HTTPNotFound("Unknown Invite Token: %s" % token)
         return employer
