@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -254,6 +254,8 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_accept', **POST)
     def accept(self):
         offer = self.offer
+        if not offer.is_active:
+            raise HTTPBadRequest("Offer already: %s, cant be accepted" % offer.status)
         offer.accepted = datetime.now()
         DBSession.flush()
 
@@ -270,6 +272,8 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_reject', **POST)
     def reject(self):
         offer = self.offer
+        if not offer.is_active:
+            raise HTTPBadRequest("Offer already: %s, cant be rejected" % offer.status)
 
         offer.rejected = datetime.now()
         offer.rejected_reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
