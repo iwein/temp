@@ -27,5 +27,5 @@ def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_fie
             filter_by = name_field.contains(searchterm)
         basequery = basequery.filter(filter_by)
 
-    return run_paginated_query(request, basequery.order_by(order_field or name_field))
+    return run_paginated_query(request, basequery.order_by(order_field if order_field is not None else name_field))
 
