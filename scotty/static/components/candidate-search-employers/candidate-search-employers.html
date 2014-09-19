@@ -11,25 +11,10 @@
 
     <div ng-show="terms.length && !employers.length">No employer found</div>
 
-    <div class="panel panel-default" ng-repeat="employer in employers">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <img class="logo" ng-src="{{ employer.logo_url }}">
-          <a ui-sref="employer({ id: employer.id })">{{ employer.company_name }}</a>
-        </h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>Company size</dt>
-          <dd>{{ employer.no_of_employees }}</dd>
-          <dt>Head Quarters</dt>
-          <dd>{{ employer.address_city.city }}, {{ employer.address_city.country_iso }}</dd>
-          <dd ng-show="employer.linkedin_url">
-            <a ng-href="{{ employer.linkedin_url }}">Linked In</a>
-          </dd>
-        </dl>
-      </div>
-    </div>
-
+    <hc-employer
+      ng-repeat="employer in employers"
+      ng-model="employer"
+      hc-link-profile>
+    </hc-employer>
   </div>
 </div>

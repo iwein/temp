@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  require('components/directive-employer/directive-employer');
   var module = require('app-module');
 
 

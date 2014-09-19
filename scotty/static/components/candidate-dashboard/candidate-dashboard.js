@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/directive-employer/directive-employer');
   var module = require('app-module');
 
 
@@ -7,6 +8,10 @@ define(function(require) {
     $scope.ready = false;
     Permission.requireSignup().then(function() {
       $scope.ready = true;
+
+      Session.user.getBookmarks().then(function(employers) {
+        $scope.employers = employers;
+      });
 
       Session.user.getOffers().then(function(offers) {
         $scope.offers = offers.map(function(offer) {
