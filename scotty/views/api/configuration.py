@@ -28,7 +28,7 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_proficiencies')
     def proficiencies(self):
-        return listing_request(self.request, Proficiency)
+        return listing_request(self.request, Proficiency, order_field=Proficiency.id)
 
     @view_config(route_name='configuration_list_traffic_sources')
     def traffic_sources(self):
