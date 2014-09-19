@@ -5,9 +5,14 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('SearchCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
+  module.controller('SearchCtrl', function($scope, $q, toaster, ConfigAPI, Permission, Session) {
     this.searchSkills = ConfigAPI.skills;
     this.onTermsChange = onTermsChange;
+
+    $scope.ready = false;
+    Permission.requireLogged().then(function() {
+      $scope.ready = true;
+    });
 
     function onTermsChange(terms) {
       Session.searchCandidates(terms).then(function(candidates) {
