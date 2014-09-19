@@ -1,6 +1,6 @@
 {
   "options": {
-    "cleancss": false,
+    "cleancss": true,
     "relativeUrls": true
   },
 
