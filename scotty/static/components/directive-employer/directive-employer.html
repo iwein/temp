@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <img class="logo-small" ng-src="{{ employer.logo_url }}">
+      <a ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">{{ employer.company_name }}</a>
+      <span ng-if="!hcLinkProfile">{{ employer.company_name }}</span>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <dt ng-hide="hide.size">Company size</dt>
+      <dd ng-hide="hide.size">{{ employer.no_of_employees }}</dd>
+      <dt ng-hide="hide.hq">Head Quarters</dt>
+      <dd ng-hide="hide.hq">{{ employer.address_city.city }}, {{ employer.address_city.country_iso }}</dd>
+      <dt ng-hide="hide.tags">Main technologies</dt>
+      <dd ng-hide="hide.tags">{{ employer.tech_tags.join(', ') }}</dd>
+      <dd ng-show="!hide.linkedin && employer.linkedin_url">
+        <a ng-href="{{ employer.linkedin_url }}">Linked In</a>
+      </dd>
+    </dl>
+  </div>
+</div>

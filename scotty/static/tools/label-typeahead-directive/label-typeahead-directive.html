@@ -7,7 +7,7 @@
   ng-blur="input = ''"
   ng-keydown="onKeydown($event, input)"
   typeahead-on-select="add(input)"
-  typeahead="entry for entry in getSource(input)">
+  typeahead="entry for entry in getSource($viewValue)">
 
 <ul class="list-unstyled">
   <li ng-repeat="entry in ngModel" class="label label-default" role="label">

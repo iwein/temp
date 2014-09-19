@@ -1,7 +1,7 @@
 //@import '../../tools/reset.less';
 // Include all bootstrap until we found a simpler way to reference it's folder
+@import (less) '../../bower_components/angularjs-toaster/toaster.css';
 @import '../../bower_components/bootstrap/less/bootstrap.less';
-@import '../../bower_components/angularjs-toaster/toaster.css';
 @import '../../tools/label-typeahead-directive/label-typeahead-directive.less';
 
 ui-view {
@@ -85,9 +85,20 @@ input::-webkit-inner-spin-button {
   float: left;
   margin: 5px;
 }
-  .avatar {
-    max-width: 100px;
-    max-height: 100px;
-    float: left;
-    margin: 5px;
-  }
+.logo-small {
+  .logo();
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.avatar {
+  max-width: 100px;
+  max-height: 100px;
+  float: left;
+  margin: 5px;
+}
+.avatar-small {
+  .avatar();
+  max-width: 50px;
+  max-height: 50px;
+}

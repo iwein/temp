@@ -37,6 +37,7 @@ define(function(require) {
         scope.$watch('model', function(model) {
           scope.candidate = {
             id: model.id,
+            picture_url: model.picture_url,
             name: model.first_name + ' ' + model.last_name,
             city: model.contact_city ? ConfigAPI.locationToText(model.contact_city) : 'Unknown',
             years: calcExperience(model.work_experience),

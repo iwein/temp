@@ -1,6 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">
+      <img class="avatar-small" ng-src="{{ candidate.picture_url }}">
       <a ng-if="hcLinkProfile" ui-sref="candidate({ id: candidate.id })">{{ candidate.name }}</a>
       <span ng-if="!hcLinkProfile">{{ candidate.name }}</span>
     </h3>
