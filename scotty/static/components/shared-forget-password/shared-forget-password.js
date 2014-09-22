@@ -4,8 +4,13 @@ define(function(require) {
 
 
   module.controller('ForgetPasswordCtrl', function($scope, toaster, Session) {
+    this.onChange = onChange;
     this.submit = submit;
     $scope.loading = false;
+
+    function onChange() {
+      $scope.alreadySent = false;
+    }
 
     function submit(email) {
       var params = $scope.alreadySent ? { resend: 1 } : null;

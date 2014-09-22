@@ -60,6 +60,14 @@ define(function(require) {
       return this._api.get('/i-will-fail', params);
     },
 
+    valdiateResetToken: function(token) {
+      return this._api.get('/i-will-fail/' + token);
+    },
+
+    resetPassword: function(token, password) {
+      return this._api.get('/i-will-fail/' + token, { pwd: password });
+    },
+
     checkSession: function() {
       return this.getUser().then(function(user) { return !!user });
     },
