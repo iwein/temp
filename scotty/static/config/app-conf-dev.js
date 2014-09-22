@@ -6,5 +6,6 @@ define(function() {
     'amazon_access_key': 'AKIAI72PUNP77JJ4YMFA',
     'amazon_acl': 'public-read',
     'api_url': 'http://sheltered-meadow-1359.herokuapp.com/api/'
+    //'api_url': 'http://127.0.0.1:8880/api/'
   };
 });

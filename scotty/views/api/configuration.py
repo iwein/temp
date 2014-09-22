@@ -28,7 +28,7 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_proficiencies')
     def proficiencies(self):
-        return listing_request(self.request, Proficiency)
+        return listing_request(self.request, Proficiency, order_field=Proficiency.id)
 
     @view_config(route_name='configuration_list_traffic_sources')
     def traffic_sources(self):
@@ -56,7 +56,7 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_skills')
     def skills(self):
-        return listing_request(self.request, Skill, self.request.params.get("q"), ignorecase=True)
+        return listing_request(self.request, Skill, self.request.params.get("q"), ignorecase=True, order_field=func.length(Skill.name))
 
     @view_config(route_name='configuration_list_job_titles')
     def job_titles(self):
