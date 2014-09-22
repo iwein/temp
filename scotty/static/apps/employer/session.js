@@ -56,6 +56,10 @@ define(function(require) {
       }.bind(this));
     },
 
+    recoverPassword: function(email, params) {
+      return this._api.get('/i-will-fail', params);
+    },
+
     checkSession: function() {
       return this.getUser().then(function(user) { return !!user });
     },
