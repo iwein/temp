@@ -6,6 +6,12 @@ define(function(require) {
   var LAST_THREE_DIGITS = /^(\d+)(\d\d\d)/;
   var module = require('app-module');
 
+  function clean(value) {
+    if (value && !INTEGER.test(value))
+      return parseInt(value.replace(NON_DIGIT, ''));
+    return value;
+  }
+
   function format(value) {
     value = value ? value.toString() : '';
     if (!INTEGER.test(value))
@@ -18,6 +24,10 @@ define(function(require) {
     return value;
   }
 
+  module.filter('dottedInteger', function() {
+    return format;
+  });
+
   module.directive('input', function() {
     return {
       restrict: 'E',
@@ -26,20 +36,24 @@ define(function(require) {
         if (attr.type !== 'dotted-integer') return;
         var element = elem[0];
 
-        element.addEventListener('keyup', function(event) {
-          var key = event.keyCode;
-          // ignore
-          //    command            modifiers                   arrows
-          if (key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40)) return;
-
+        function updateElement() {
           var value = format(element.value);
           if (value !== element.value);
             element.value = value;
+        }
+
+        element.addEventListener('change', updateElement);
+        element.addEventListener('keyup', function(event) {
+          var key = event.keyCode;
+          //            command            modifiers                   arrows
+          var ignore = key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40);
+          if (!ignore)
+            updateElement();
         }, true);
 
         return function(scope, elem, attr, ctrl) {
-          ctrl.$parsers.push(format);
           ctrl.$formatters.push(format);
+          ctrl.$parsers.push(clean);
         };
       }
     };
