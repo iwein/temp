@@ -43,14 +43,18 @@
       name="email"
       required
       ng-disabled="loading || invited"
-      ng-model="model.email">
+      ng-model="model.email"
+      ng-change="signupStart.onEmailChange()">
 
-    <div class="form-error" ng-show="formSignupStart.email.$dirty && formSignupStart.email.$invalid">
+    <div class="form-error" ng-show="errorAlreadyRegistered || (formSignupStart.email.$dirty && formSignupStart.email.$invalid)">
       <span ng-show="formSignupStart.email.$error.required">
         Please insert your email.
       </span>
       <span ng-show="formSignupStart.email.$error.email">
         Please insert a valid email.
+      </span>
+      <span ng-show="errorAlreadyRegistered">
+        Email already registered.
       </span>
     </div>
   </div>
