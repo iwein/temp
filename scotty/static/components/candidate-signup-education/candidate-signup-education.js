@@ -23,11 +23,17 @@ define(function(require) {
     this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
+    this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
     $scope.months = months;
     $scope.model = {};
     $scope.loading = false;
+
+    $scope.ready = false;
+    Session.checkSession().finally(function() {
+      $scope.ready = true;
+    });
 
     bindDate('start');
     bindDate('end');
@@ -38,6 +44,14 @@ define(function(require) {
     ConfigAPI.degrees().then(function(data) {
       $scope.degrees = data;
     });
+
+    function nextStep(event) {
+      event.preventDefault();
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
+    }
 
     function edit(entry) {
       $scope.model = entry;

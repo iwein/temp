@@ -1,4 +1,4 @@
-<div class="component-candidate-signup-education">
+<div class="component-candidate-signup-education" ng-if="ready">
   <form name="formEducation" ng-submit="signupEducation.submit()">
 
     <h3>Sign up - Education</h3>
@@ -122,10 +122,24 @@
     </div>
 
     <div class="form-group">
-      <button type="button" class="btn btn-default" ng-click="signupEducation.addAnother()" ng-disabled="loading">
+      <button type="button"
+        class="btn btn-default"
+        ng-click="signupEducation.addAnother()"
+        ng-disabled="loading">
         Save &amp; add another
       </button>
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Save &amp; continue</button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-disabled="loading">
+        Save &amp; continue
+      </button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-show="list.length"
+        ng-click="signupEducation.nextStep($event)"
+        ng-disabled="loading">
+        Continue
+      </button>
     </div>
   </form>
 

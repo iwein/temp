@@ -15,6 +15,8 @@ define(function(require) {
       },
       template: require('text!./directive-experience.html'),
       controller: function($scope, $attrs) {
+        var self = this;
+
         if ('hcEditable' in $attrs) $scope.hcEditable = true;
         if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
 
@@ -44,6 +46,7 @@ define(function(require) {
           $scope.error = false;
           return $scope.hcSource().then(function(data) {
             $scope.model = data;
+            self.length = data.length;
           }).catch(function() {
             $scope.error = true;
           });
