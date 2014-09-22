@@ -21,8 +21,12 @@ define(function(require) {
         if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
 
         var name = $attrs.name || $attrs.hcEducation;
-        if (name)
-          $scope.$parent[name] = this;
+        if (name) {
+          if ('ngIf' in $attrs)
+            $scope.$parent.$parent[name] = this;
+          else
+            $scope.$parent[name] = this;
+        }
 
         list();
         $scope.edit = edit;

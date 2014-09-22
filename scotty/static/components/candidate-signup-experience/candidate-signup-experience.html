@@ -1,4 +1,4 @@
-<div class="component-candidate-signup-experience" ng-if="ready">
+<div class="component-candidate-signup-experience">
   <form name="formExperience" ng-submit="signupExperience.submit()">
 
     <h3>Sign up - Experience</h3>
@@ -177,6 +177,7 @@
   </form>
 
   <hc-experience
+    ng-if="ready"
     name="list"
     hc-title="Saved"
     hc-source="session.user.getExperience()"
