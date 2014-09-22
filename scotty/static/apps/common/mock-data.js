@@ -89,6 +89,7 @@ define(function(require) {
         });
         setValue('input[type=password]', '123123123');
         setValue('input[type=number]', random.bind(null, 1900, 2100));
+        setValue('input[type=dotted-integer]', random.bind(null, 18000, 100001));
         setValue('input[type=url]', document.location.toString());
         setValue('input[type=tel]', function() {
           return '+' + random(1, 100) + ' ' + random(600000000, 700000000);

@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/api');
+  var throttlePromise = require('./tools/throttle-promise');
   var Employer = require('apps/common/employer');
   var Candidate = require('apps/common/candidate');
 
@@ -14,16 +15,32 @@ define(function(require) {
     constructor: EmployerSession,
 
     _setUser: function(response) {
-      if (this.user)
-        this.user.dispose();
-
+      this._unsetUser();
       this.user = new Employer(this._api, 'me', response);
       return this.user;
+    },
+
+    _unsetUser: function() {
+      if (this.user)
+        this.user.dispose();
+      this.user = null;
     },
 
     id: function() {
       return this.user && this.user.id;
     },
+
+    getUser: throttlePromise(function() {
+      return this._api.get('/employers/me')
+        .then(this._setUser)
+        .catch(function(request) {
+          if (request.status === 403) {
+            this._unsetUser();
+            return null;
+          }
+          throw request;
+        }.bind(this));
+    }),
 
     login: function(email, password) {
       return this._api.post('/employers/login', {
@@ -34,21 +51,13 @@ define(function(require) {
 
     logout: function() {
       return this._api.get('/employers/logout').then(function(response) {
-        if (!response.success) return;
-        this.user.dispose();
-        this.user = null;
+        if (response.success)
+          this._unsetUser();
       }.bind(this));
     },
 
     checkSession: function() {
-      return this._api.get('/employers/me')
-        .then(this._setUser)
-        .then(function() { return true })
-        .catch(function(request) {
-          if (request.status === 403)
-            return false;
-          throw request;
-        });
+      return this.getUser().then(function(user) { return !!user });
     },
 
     signup: function(data) {

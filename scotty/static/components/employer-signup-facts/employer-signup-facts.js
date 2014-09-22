@@ -4,13 +4,15 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupFactsCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
+  module.controller('SignupFactsCtrl', function($scope, toaster, ConfigAPI, Session) {
     this.searchTags = ConfigAPI.skills;
     this.submit = submit;
     $scope.loading = true;
     $scope.model = { tech_tags: [] };
 
-    $q.when(Session.user && Session.user.getData()).then(function(data) {
+    Session.getUser().then(function(user) {
+      return user && user.getData();
+    }).then(function(data) {
       $scope.model = _.pick(data, [
         'founding_year',
         'revenue_pa',

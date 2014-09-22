@@ -13,7 +13,9 @@ define(function(require) {
     $scope.loading = false;
     var languages = $scope.model = [{}];
 
-    Session.user.getData().then(function(data) {
+    Session.getUser().then(function(user) {
+      return user.getData();
+    }).then(function(data) {
       languages = $scope.model = data.languages.concat(languages);
     });
 

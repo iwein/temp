@@ -11,7 +11,9 @@ define(function(require) {
 
     $q.all([
       ConfigAPI.benefits(),
-      $q.when(Session.user && Session.user.getData()),
+      Session.getUser().then(function(user) {
+        return user && user.getData();
+      }),
     ]).then(function(result) {
       var benefits = result[0];
       var data = result[1];
