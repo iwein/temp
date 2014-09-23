@@ -36,7 +36,9 @@
       {'url':'/api/v1/config/countries?q=ger&limit=5', 'title': 'countries-search'},
 
       {'url':'/api/v1/config/locations?limit=5', 'title': 'locations-list'},
-      {'url':'/api/v1/config/locations?q=Berl&limit=5', 'title': 'locations-search'}
+      {'url':'/api/v1/config/locations?q=Berl&limit=5', 'title': 'locations-search'},
+      {'url':'/api/v1/config/locations?q=Berl&limit=5&country_iso=DE', 'title': 'locations-search-with-ciso-DE'},
+      {'url':'/api/v1/config/locations?q=Berl&limit=5&country_iso=US', 'title': 'locations-search-with-ciso-US'}
     ];
 
     $(function(){getTestRunner(tests)(0, {});})

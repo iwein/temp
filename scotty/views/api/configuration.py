@@ -88,6 +88,10 @@ class ConfigurationController(RootController):
             filter = func.lower(City.name).contains(func.lower(searchterm))
             basequery = basequery.filter(filter)
 
+        ciso = self.request.params.get("country_iso")
+        if ciso:
+            basequery = basequery.filter(City.country_iso == ciso)
+
         return run_paginated_query(self.request, basequery)
 
 
