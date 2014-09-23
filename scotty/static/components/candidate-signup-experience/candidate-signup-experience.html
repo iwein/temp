@@ -154,15 +154,30 @@
     </div>
 
     <div class="form-group">
-      <button type="button" class="btn btn-default" ng-click="signupExperience.addAnother()" ng-disabled="loading">
+      <button type="button"
+        class="btn btn-default"
+        ng-click="signupExperience.addAnother()"
+        ng-disabled="loading">
         Save &amp; add another
       </button>
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Save &amp; continue</button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-disabled="loading">
+        Save &amp; continue
+      </button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-show="list.length"
+        ng-click="signupExperience.nextStep($event)"
+        ng-disabled="loading">
+        Continue
+      </button>
     </div>
 
   </form>
 
   <hc-experience
+    ng-if="ready"
     name="list"
     hc-title="Saved"
     hc-source="session.user.getExperience()"

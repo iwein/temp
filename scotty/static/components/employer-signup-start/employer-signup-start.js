@@ -4,11 +4,17 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, Session) {
+    this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.invited = false;
     $scope.loading = true;
     $scope.model = {};
+    $scope.errorAlreadyRegistered = false;
     var token = $state.params.token;
+
+    function onEmailChange() {
+      $scope.errorAlreadyRegistered = false;
+    }
 
     $q.when(token).then(function(token) {
       if (!token) return;
@@ -37,7 +43,7 @@ define(function(require) {
         $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409)
-          toaster.error('Email address already registered.');
+          $scope.errorAlreadyRegistered = true;
         else
           toaster.defaultError();
       }).finally(function() {

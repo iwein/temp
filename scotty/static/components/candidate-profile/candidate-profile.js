@@ -9,14 +9,16 @@ define(function(require) {
     $scope.ready = false;
 
     Permission.requireSignup().then(function() {
-      Session.getUser().getData().then(function(data) {
-        $scope.ready = true;
-        $scope.cities = data.preferred_cities;
-        $scope.languages = data.languages;
-        $scope.skills = data.skills;
-        $scope.user = data;
-      });
-    }.bind(this));
+      return Session.getUser();
+    }).then(function(user) {
+      return user.getData();
+    }).then(function(data) {
+      $scope.ready = true;
+      $scope.cities = data.preferred_cities;
+      $scope.languages = data.languages;
+      $scope.skills = data.skills;
+      $scope.user = data;
+    });
   });
 
 

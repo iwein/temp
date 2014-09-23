@@ -26,13 +26,12 @@
     <label>Annual revenue</label>
     <div class="input-group">
       <span class="input-group-addon">€</span>
-      <input type="number"
+      <input type="dotted-integer"
         class="form-control"
         placeholder="Annual revenue"
         name="revenue_pa"
         ng-disabled="loading"
-        ng-model="model.revenue_pa"
-        ng-pattern="/^[0-9]+$/">
+        ng-model="model.revenue_pa">
       <span class="input-group-addon">.00</span>
     </div>
 
@@ -53,13 +52,12 @@
     <label>VC Founding amount</label>
     <div class="input-group">
       <span class="input-group-addon">€</span>
-      <input type="number"
+      <input type="dotted-integer"
         class="form-control"
         placeholder="VC Founding amount"
         name="funding_amount"
         ng-disabled="loading"
-        ng-model="model.funding_amount"
-        ng-pattern="/^[0-9]+$/">
+        ng-model="model.funding_amount">
         <span class="input-group-addon">.00</span>
     </div>
 

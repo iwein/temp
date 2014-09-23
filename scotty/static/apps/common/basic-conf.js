@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('tools/moment-directive');
   require('tools/extend-directives/input-url-directive');
+  require('tools/extend-directives/input-integer-directive');
   require('tools/label-typeahead-directive/label-typeahead-directive');
 
   return function basicConf(module) {

@@ -12,7 +12,7 @@
         <dt>company type</dt>
         <dd>{{ entry.company_types.join(', ') }}</dd>
         <dt>minimum salary</dt>
-        <dd>{{ entry.minimum_salary }}</dd>
+        <dd>{{ entry.minimum_salary | dottedInteger }}€</dd>
         <dd ng-if="hcEditable">
           <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
           <button type="button" class="btn btn-default" ng-click="remove(entry)">Remove</button>

@@ -2,18 +2,7 @@
 
 module.exports = function(grunt) {
   'use strict';
-  grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-usemin');
-  grunt.loadNpmTasks('grunt-githooks');
-  grunt.loadNpmTasks('grunt-ng-annotate');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-protractor-runner');
-  grunt.loadNpmTasks('grunt-protractor-webdriver');
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -32,6 +21,7 @@ module.exports = function(grunt) {
     usemin: grunt.file.readJSON('config/grunt-usemin.json'),
 
     // tests
+    watch: grunt.file.readJSON('config/grunt-watch.json'),
     karma: grunt.file.readJSON('config/grunt-karma.json'),
     protractor: grunt.file.readJSON('config/grunt-protractor.json'),
     protractor_webdriver: grunt.file.readJSON('config/grunt-protractor_webdriver.json'),

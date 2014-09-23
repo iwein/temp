@@ -57,14 +57,13 @@
       <label>Minimum salary</label>
       <div class="input-group">
         <span class="input-group-addon">€</span>
-        <input type="number"
+        <input type="dotted-integer"
           class="form-control"
           placeholder="Minimum salary",
           name="salary"
           required
           ng-disabled="loading"
-          ng-model="signup.target.minimum_salary"
-          ng-pattern="/^[0-9]+$/">
+          ng-model="signup.target.minimum_salary">
         <span class="input-group-addon">.00</span>
       </div>
 

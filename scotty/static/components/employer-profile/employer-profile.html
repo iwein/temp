@@ -27,9 +27,9 @@
           <dt ng-show="data.founding_year">Founding year</dt>
           <dd ng-show="data.founding_year">{{ data.founding_year }}</dd>
           <dt ng-show="data.funding_amount">Founding amount</dt>
-          <dd ng-show="data.funding_amount">{{ data.funding_amount }}€</dd>
+          <dd ng-show="data.funding_amount">{{ data.funding_amount | dottedInteger }}€</dd>
           <dt ng-show="data.revenue_pa">Revenue</dt>
-          <dd ng-show="data.revenue_pa">{{ data.revenue_pa }}€</dd>
+          <dd ng-show="data.revenue_pa">{{ data.revenue_pa | dottedInteger }}€</dd>
           <dt ng-show="data.no_of_employees">Number of employees</dt>
           <dd ng-show="data.no_of_employees">{{ data.no_of_employees }}</dd>
           <dt ng-show="data.tech_team_size">Tech team size</dt>

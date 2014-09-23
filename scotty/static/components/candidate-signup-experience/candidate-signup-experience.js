@@ -25,11 +25,17 @@ define(function(require) {
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
     this.setLocation = setLocation;
+    this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
     $scope.months = months;
     $scope.model = {};
     $scope.loading = false;
+
+    $scope.ready = false;
+    Session.checkSession().finally(function() {
+      $scope.ready = true;
+    });
 
     bindDate('start');
     bindDate('end');
@@ -38,6 +44,14 @@ define(function(require) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
       $scope.model.location = city;
+    }
+
+    function nextStep(event) {
+      event.preventDefault();
+      $scope.loading = true;
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
 
     function edit(entry) {
@@ -90,9 +104,6 @@ define(function(require) {
     function submit() {
       save().then(function() {
         return $scope.signup.nextStep();
-      }).then(function() {
-        $scope.model = {};
-        $scope.skills = [{}];
       }).finally(function() {
         $scope.loading = false;
       });

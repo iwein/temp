@@ -12,7 +12,9 @@ define(function(require) {
     $scope.loading = false;
     var skills = $scope.model = [{}];
 
-    Session.user.getData().then(function(data) {
+    Session.getUser().then(function(user) {
+      return user.getData();
+    }).then(function(data) {
       skills = $scope.model = data.skills.concat(skills);
     });
 

@@ -1,0 +1,9 @@
+{
+  "e2e": {
+    "files": [
+      "<%= files.components.js %>",
+      "<%= files.components.test.e2e %>"
+    ],
+    "tasks": [ "test:e2e" ]
+  }
+}

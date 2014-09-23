@@ -15,12 +15,18 @@ define(function(require) {
       },
       template: require('text!./directive-experience.html'),
       controller: function($scope, $attrs) {
+        var self = this;
+
         if ('hcEditable' in $attrs) $scope.hcEditable = true;
         if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
 
         var name = $attrs.name || $attrs.hcExperience;
-        if (name)
-          $scope.$parent[name] = this;
+        if (name) {
+          if ('ngIf' in $attrs)
+            $scope.$parent.$parent[name] = this;
+          else
+            $scope.$parent[name] = this;
+        }
 
         list();
         $scope.edit = edit;
@@ -44,6 +50,7 @@ define(function(require) {
           $scope.error = false;
           return $scope.hcSource().then(function(data) {
             $scope.model = data;
+            self.length = data.length;
           }).catch(function() {
             $scope.error = true;
           });

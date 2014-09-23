@@ -22,8 +22,9 @@ define(function(require) {
     $scope.offices = [];
 
     //listOffices();
-
-    $q.when(Session.user && Session.user.getData()).then(function(data) {
+    Session.getUser().then(function(user) {
+      return user && user.getData();
+    }).then(function(data) {
       if (!data) return;
 
       $scope.model = _.pick(data, [

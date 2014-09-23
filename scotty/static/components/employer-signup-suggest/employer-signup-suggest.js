@@ -5,10 +5,14 @@ define(function(require) {
   require('components/directive-candidate/directive-candidate');
   var module = require('app-module');
 
-  module.controller('SignupSuggestCtrl', function($scope, $q, $state, ConfigAPI, Session) {
+  module.controller('SignupSuggestCtrl', function($scope, $state, ConfigAPI, Session) {
     $scope.loading = true;
 
-    $q.when(Session.user && Session.user.getSuggestedCandidates()).then(function(candidates) {
+    Session.getUser().then(function(user) {
+      return user && user.getSuggestedCandidates();
+    }).then(function(candidates) {
+      if (!candidates) return;
+
       $scope.candidates = candidates.map(function(entry) {
         entry.first_name = entry.first_name[0] + '.';
         entry.last_name = entry.last_name[0] + '.';
