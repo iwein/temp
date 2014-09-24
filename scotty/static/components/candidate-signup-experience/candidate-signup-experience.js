@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   var months = [
@@ -20,11 +21,9 @@ define(function(require) {
 
   module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, Session) {
     this.searchCompanies = ConfigAPI.companies;
-    this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
-    this.setLocation = setLocation;
     this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
@@ -33,25 +32,18 @@ define(function(require) {
     $scope.loading = false;
 
     $scope.ready = false;
-    Session.checkSession().finally(function() {
+    Session.getUser().finally(function() {
       $scope.ready = true;
     });
 
+    ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
     bindDate('start');
     bindDate('end');
-
-    function setLocation(location) {
-      var city = ConfigAPI.getLocationFromText(location);
-      $scope.errorInvalidCity = city === null;
-      $scope.model.location = city;
-    }
 
     function nextStep(event) {
       event.preventDefault();
       $scope.loading = true;
-      $scope.signup.nextStep().finally(function() {
-        $scope.loading = false;
-      });
+      $scope.signup.nextStep().finally(fn.set('loading', false, $scope));
     }
 
     function edit(entry) {
@@ -81,6 +73,9 @@ define(function(require) {
         return $q.reject(new Error('Form data not valid'));
       }
 
+      if ($scope.model.current)
+        delete $scope.model.end;
+
       $scope.loading = true;
       return Session.user.addExperience($scope.model);
     }
@@ -90,23 +85,19 @@ define(function(require) {
         return $scope.list.refresh();
       }).then(function() {
         $scope.formExperience.$setPristine();
-        $scope.locationText = '';
+        $scope.skills.setDirty(false);
         $scope.startMonth = '';
         $scope.startYear = '';
         $scope.endMonth = '';
         $scope.endYear = '';
         $scope.model = {};
-      }).finally(function() {
-        $scope.loading = false;
-      });
+      }).finally(fn.set('loading', false, $scope));
     }
 
     function submit() {
       save().then(function() {
         return $scope.signup.nextStep();
-      }).finally(function() {
-        $scope.loading = false;
-      });
+      }).finally(fn.set('loading', false, $scope));
     }
 
     function bindDate(key) {

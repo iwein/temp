@@ -11,8 +11,8 @@
         <dd>{{ entry.location.city }}, {{ entry.location.country_iso }}</dd>
         <dt>start</dt>
         <dd>{{ entry.start }}</dd>
-        <dt>end</dt>
-        <dd>{{ entry.end }}</dd>
+        <dt ng-show="entry.end">end</dt>
+        <dd ng-show="entry.end">{{ entry.end }}</dd>
         <dt>role</dt>
         <dd>{{ entry.role }}</dd>
         <dt>skills</dt>

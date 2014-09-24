@@ -21,16 +21,27 @@
     </div>
 
     <div class="form-group required">
-      <label>Location</label>
+      <label>Country</label>
+
+      <select
+        class="form-control"
+        name="country"
+        required
+        ng-disabled="loading"
+        ng-model="model.location.country_iso"
+        ng-options="country.iso as country.name for country in countries">
+        <option value="">Select...</option>
+      </select>
+    </div>
+
+    <div class="form-group required">
+      <label>City</label>
       <input type="text"
         name="location"
         class="form-control"
         required
         ng-disabled="loading"
-        ng-model="locationText"
-        ng-blur="signupExperience.setLocation(locationText)"
-        typeahead-on-select="signupExperience.setLocation(locationText)"
-        typeahead="location for location in signupExperience.searchLocations($viewValue)">
+        ng-model="model.location.city">
 
       <div class="form-error" ng-show="errorInvalidCity || (formExperience.location.$dirty && formExperience.location.$invalid)">
         <span ng-show="formExperience.location.$error.required">
@@ -95,13 +106,11 @@
 
         <label>
           <input type="checkbox"
-            class="form-control"
             name="current"
             ng-disabled="loading"
             ng-model="model.current">
           Current position
         </label>
-
       </div>
 
       <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
@@ -152,6 +161,7 @@
       <label>Technologies &amp; Skills</label>
 
       <hc-label-typeahead
+        name="skills"
         placeholder="Technologies &amp; skills"
         ng-disabled="loading"
         ng-model="model.skills"
