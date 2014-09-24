@@ -51,12 +51,14 @@ def add_candidate_skill(candidate, params):
 
 
 def add_candidate_education(candidate, params):
-    degree = get_by_name_or_raise(Degree, params['degree'])
+    degree = get_by_name_or_create(Degree, params.get('degree'))
     institution = get_by_name_or_create(Institution, params['institution'])
     course = get_by_name_or_create(Course, params['course'])
 
     start = params['start']
     end = params.get('end')
+    if end and end < start:
+        raise HTTPBadRequest('end must not be smaller than start')
 
     education = Education(candidate_id=candidate.id, institution=institution, degree=degree, start=start, end=end,
                           course=course)
@@ -68,6 +70,8 @@ def add_candidate_education(candidate, params):
 def add_candidate_work_experience(candidate, params):
     start = params['start']
     end = params.get('end')
+    if end and end < start:
+        raise HTTPBadRequest('end must not be smaller than start')
     summary = params['summary']
 
     role = get_by_name_or_create(Role, params["role"])

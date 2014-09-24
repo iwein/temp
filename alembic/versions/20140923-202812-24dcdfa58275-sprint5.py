@@ -43,17 +43,17 @@ def upgrade():
     op.drop_column(u'target_position', 'benefits')
 
     op.create_table('candidate_preferred_location',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('candidate_id', GUID(), nullable=True),
-    sa.Column('country_iso', sa.String(length=2), nullable=True),
-    sa.Column('city_id', sa.Integer(), nullable=True),
-    sa.CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL', name='candidate_preferred_location_has_some_fk'),
-    sa.ForeignKeyConstraint(['candidate_id'], ['candidate.id'], ),
-    sa.ForeignKeyConstraint(['city_id'], ['city.id'], ),
-    sa.ForeignKeyConstraint(['country_iso'], [u'country.iso'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
-    sa.UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique')
+                    sa.Column('id', sa.Integer(), nullable=False),
+                    sa.Column('candidate_id', GUID(), nullable=True),
+                    sa.Column('country_iso', sa.String(length=2), nullable=True),
+                    sa.Column('city_id', sa.Integer(), nullable=True),
+                    sa.CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL', name='candidate_preferred_location_has_some_fk'),
+                    sa.ForeignKeyConstraint(['candidate_id'], ['candidate.id'], ),
+                    sa.ForeignKeyConstraint(['city_id'], ['city.id'], ),
+                    sa.ForeignKeyConstraint(['country_iso'], [u'country.iso'], ),
+                    sa.PrimaryKeyConstraint('id'),
+                    sa.UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
+                    sa.UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique')
     )
 
     op.add_column('work_experience', sa.Column('city', sa.String(length=512), nullable=True))
@@ -61,8 +61,13 @@ def upgrade():
     op.drop_column('work_experience', 'city_id')
 
     op.alter_column('candidate_skill', 'level_id',
-               existing_type=sa.INTEGER(),
-               nullable=True)
+                    existing_type=sa.INTEGER(),
+                    nullable=True)
+
+    op.execute('ALTER TABLE education ALTER COLUMN start TYPE INTEGER USING EXTRACT(YEAR from start)')
+    op.execute('ALTER TABLE education ALTER COLUMN "end" TYPE INTEGER USING EXTRACT(YEAR from "end")')
+    op.execute('ALTER TABLE degree ALTER "name" TYPE VARCHAR(255)')
+    op.alter_column('education', 'degree_id', existing_type=sa.INTEGER(), nullable=True)
     ### end Alembic commands ###
 
 
@@ -83,6 +88,15 @@ def downgrade():
     op.drop_column('work_experience', 'city')
 
     op.alter_column('candidate_skill', 'level_id',
-               existing_type=sa.INTEGER(),
-               nullable=False)
+                    existing_type=sa.INTEGER(),
+                    nullable=False)
+
+    op.alter_column('education', 'degree_id',
+                    existing_type=sa.INTEGER(),
+                    nullable=False)
+
+    op.execute('ALTER TABLE education ALTER COLUMN start TYPE DATE USING to_date(to_char(start, \'9999\'), \'YYYY\')')
+    op.execute('ALTER TABLE education ALTER COLUMN "end" TYPE DATE USING to_date(to_char("end", \'9999\'), \'YYYY\')')
+    op.alter_column('education', 'degree_id', existing_type=sa.INTEGER(), nullable=False)
+    op.execute('ALTER TABLE degree ALTER "name" TYPE VARCHAR(20)')
     ### end Alembic commands ###

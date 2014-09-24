@@ -14,6 +14,8 @@ def get_by_name_or_raise(cls, name):
 
 
 def get_by_name_or_create(cls, name):
+    if not name:
+        return None
     obj = DBSession.query(cls).filter(cls.name == name).first()
     if not obj:
         obj = cls(name=name)

@@ -24,8 +24,8 @@ class Education(Base):
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
-    start = Column(Date, nullable=False)
-    end = Column(Date)
+    start = Column(Integer, nullable=False)
+    end = Column(Integer)
 
     course_id = Column(Integer, ForeignKey(Course.id), nullable=False)
     course = relationship(Course)
@@ -33,7 +33,7 @@ class Education(Base):
     institution_id = Column(Integer, ForeignKey(Institution.id), nullable=False)
     institution = relationship(Institution)
 
-    degree_id = Column(Integer, ForeignKey(Degree.id), nullable=False)
+    degree_id = Column(Integer, ForeignKey(Degree.id), nullable=True)
     degree = relationship(Degree)
 
     def __json__(self, request):
