@@ -92,8 +92,7 @@ class WorkExperience(Base):
 
     def __json__(self, request):
         return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary, "role": self.role,
-                "company": self.company, "skills": self.skills, "location": {'city': self.city,
-                                                                             'country_iso': self.country_iso}}
+                "company": self.company, "skills": self.skills, 'city': self.city, 'country_iso': self.country_iso}
 
 
 target_position_company_type = Table('target_position_company_type', Base.metadata,
