@@ -4,10 +4,9 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
-from scotty.models.candidate import WXPCandidate
-from scotty.models.offer import Offer
-from scotty.services.employerservice import employer_from_signup, employer_from_login, add_employer_office, \
+from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
+from scotty.candidate.models import WXPCandidate
+from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags, add_employer_offer
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -190,20 +189,3 @@ class EmployerOfferController(EmployerController):
         DBSession.delete(self.offer)
         return {"status": "success"}
 
-
-def includeme(config):
-    config.add_route('employers_invite', 'invite/{token}')
-    config.add_route('employer_login', 'login')
-    config.add_route('employer_logout', 'logout')
-
-    config.add_route('employers', '')
-    config.add_route('employer', '{employer_id}')
-    config.add_route('employer_interestedcandidates', '{employer_id}/interestedcandidates')
-    config.add_route('employer_suggested_candidates', '{employer_id}/suggestedcandidates')
-    config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
-    config.add_route('employer_apply', '{employer_id}/apply')
-    config.add_route('employer_offices', '{employer_id}/offices')
-    config.add_route('employer_office', '{employer_id}/offices/{office_id}')
-
-    config.add_route('employer_offers', '{employer_id}/offers')
-    config.add_route('employer_offer', '{employer_id}/offers/{offer_id}')

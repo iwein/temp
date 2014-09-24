@@ -4,7 +4,7 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import FullEmployer
-from scotty.services.adminservice import invite_employer
+from scotty.admin.services import invite_employer
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func
@@ -48,8 +48,3 @@ class AdminController(RootController):
         employer.approved = datetime.now()
         return employer
 
-
-def includeme(config):
-    config.add_route('admin_employer', 'employers')
-    config.add_route('admin_employer_by_status', 'employers/{status}')
-    config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')

@@ -1,7 +1,7 @@
 from collections import Counter
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
-from scotty.models import City
+from scotty.configuration.models import City
 
 
 def get_by_name_or_raise(cls, name):

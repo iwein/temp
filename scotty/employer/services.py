@@ -1,13 +1,12 @@
 import hashlib
 
 from scotty.models.meta import DBSession
-from scotty.models.configuration import TrafficSource, Skill, Benefit, Role
-from scotty.models.employer import employer_address_mapping, Employer, Office
-from scotty.models.offer import Offer, EmployerOffer
-from scotty.services.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
+from scotty.configuration.models import TrafficSource, Skill, Benefit, Role
+from scotty.employer.models import employer_address_mapping, Employer, Office
+from scotty.offer.models import EmployerOffer
+from scotty.models.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection
 from sqlalchemy import text
-from sqlalchemy.orm import joinedload
 
 
 def transform_address(params):

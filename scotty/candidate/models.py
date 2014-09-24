@@ -2,8 +2,8 @@ from uuid import uuid4
 from datetime import datetime
 from scotty.models.tools import json_encoder, PUBLIC
 
-from scotty.models.offer import CandidateOffer
-from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
+from scotty.offer.models import CandidateOffer
+from scotty.configuration.models import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
     Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func

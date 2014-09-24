@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Index, UniqueConstraint, Numeric, func
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Numeric
 from scotty.models.meta import Base, NamedModel
 from sqlalchemy.orm import relationship
 

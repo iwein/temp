@@ -3,11 +3,11 @@ import hashlib
 from uuid import uuid4
 
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty.models.configuration import City, TrafficSource, Skill, Benefit
-from scotty.models.offer import EmployerOffer
+from scotty.configuration.models import City, TrafficSource, Skill, Benefit
+from scotty.offer.models import EmployerOffer
 from scotty.models.meta import Base, GUID
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder
-from sqlalchemy import Column, Text, String, Integer, ForeignKey, DateTime, CheckConstraint, Boolean, Table, DateTime
+from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
 from sqlalchemy.orm import relationship
 
 

@@ -2,11 +2,12 @@ import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
-from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
-    Education, Company, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
-    Language, Seniority, CandidateLanguage, Course, FullCandidate, TravelWillingness
-from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
-    get_or_create_named_lookup
+from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
+    WorkExperience, Education, TargetPosition
+from scotty.configuration.models import Skill, SkillLevel, CompanyType, TravelWillingness, Language, Proficiency, \
+    Company, Role, Degree, Institution, Course, City
+from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
+    get_or_raise_named_collection, get_location_by_name_or_create, get_or_create_named_lookup
 from sqlalchemy import text
 from sqlalchemy.orm import joinedload
 
