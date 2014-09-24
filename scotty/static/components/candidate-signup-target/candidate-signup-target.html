@@ -78,7 +78,7 @@
     </div>
 
     <div class="form-group required">
-      <label>Cities</label>
+      <label>Country</label>
 
       <select
         class="form-control"
@@ -89,6 +89,10 @@
         ng-options="country for country in countries">
         <option value="">Select...</option>
       </select>
+    </div>
+
+    <div class="form-group required">
+      <label>Cities</label>
 
       <hc-label-typeahead
         name="cities"
@@ -110,6 +114,35 @@
       <div class="form-error" ng-show="cities.invalid && !signup.dont_care_location">
         <span>Please type a city you would like to work at and press enter key.</span>
       </div>
+    </div>
+
+    <div class="form-group required">
+      <label>Willingness to travel</label>
+
+      <select
+        class="form-control"
+        name="travel_willingness"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.travel_willingness"
+        ng-options="option for option in willingness">
+        <option value="">Select...</option>
+      </select>
+
+      <div class="form-error" ng-show="formTarget.travel_willingness.$dirty && formTarget.travel_willingness.$invalid">
+        <span ng-show="formTarget.travel_willingness.$error.required">
+          Please insert your expected willingness to travel.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox"
+          name="relocate"
+          ng-model="signup.target.relocate">
+        Willing to relocate
+      </label>
     </div>
 
     <div class="form-group">
