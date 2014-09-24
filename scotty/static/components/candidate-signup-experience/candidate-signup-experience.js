@@ -19,7 +19,7 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, Session) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, toaster, ConfigAPI, Session) {
     this.searchCompanies = ConfigAPI.companies;
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
@@ -77,7 +77,10 @@ define(function(require) {
         delete $scope.model.end;
 
       $scope.loading = true;
-      return Session.user.addExperience($scope.model);
+      return Session.user.addExperience($scope.model).catch(function(error) {
+        toaster.defaultError();
+        throw error;
+      });
     }
 
     function addAnother() {
