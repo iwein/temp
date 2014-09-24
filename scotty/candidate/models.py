@@ -166,7 +166,7 @@ class Candidate(Base):
     __tablename__ = 'candidate'
     __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'title', 'contact_line1', 'contact_line2',
                     'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso', 'contact_phone',
-                    'available_date', 'notice_period_number', 'summary', 'github_url',
+                    'availability', 'summary', 'github_url',
                     'stackoverflow_url', 'contact_skype']
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
@@ -204,9 +204,7 @@ class Candidate(Base):
 
     contact_phone = Column(String(128))
     contact_skype = Column(String(128))
-    available_date = Column(Date)
-    notice_period_number = Column(Integer)
-    notice_period_measure = 'm'
+    availability = Column(Text)
 
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
     status = relationship(CandidateStatus)

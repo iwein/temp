@@ -78,6 +78,10 @@ def upgrade():
     op.drop_column('candidate', 'willing_to_travel')
     op.drop_column('candidate', 'dont_care_location')
 
+    op.add_column('candidate', sa.Column('availability', sa.Text(), nullable=True))
+    op.drop_column('candidate', 'notice_period_number')
+    op.drop_column('candidate', 'available_date')
+
     ### end Alembic commands ###
 
 
@@ -119,5 +123,8 @@ def downgrade():
 
     op.add_column('candidate', sa.Column('dont_care_location', sa.BOOLEAN(), autoincrement=False, nullable=True))
     op.add_column('candidate', sa.Column('willing_to_travel', sa.BOOLEAN(), autoincrement=False, nullable=True))
+    op.add_column('candidate', sa.Column('available_date', sa.DATE(), autoincrement=False, nullable=True))
+    op.add_column('candidate', sa.Column('notice_period_number', sa.INTEGER(), autoincrement=False, nullable=True))
+    op.drop_column('candidate', 'availability')
 
     ### end Alembic commands ###
