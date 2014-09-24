@@ -75,8 +75,8 @@
         <select
           class="form-control"
           name="endMonth"
-          ng-disabled="loading"
-          ng-required="endYear"
+          ng-disabled="loading || model.current"
+          ng-required="!model.current"
           ng-model="endMonth"
           ng-options="month for month in months"
           ng-change="endDateUpdate()">
@@ -88,10 +88,20 @@
           class="form-control"
           name="endYear"
           placeholder="Year"
-          ng-disabled="loading"
-          ng-required="endMonth"
+          ng-disabled="loading || model.current"
+          ng-required="!model.current"
           ng-model="endYear"
           ng-change="endDateUpdate()">
+
+        <label>
+          <input type="checkbox"
+            class="form-control"
+            name="current"
+            ng-disabled="loading"
+            ng-model="model.current">
+          Current position
+        </label>
+
       </div>
 
       <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
@@ -120,6 +130,21 @@
 
       <div class="form-error" ng-show="formExperience.role.$dirty && formExperience.role.$invalid">
         <span ng-show="formExperience.role.$error.required">Please insert the role you had at this position.</span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label>Role Description</label>
+      <textarea
+        class="form-control"
+        name="role_description"
+        required
+        ng-disabled="loading"
+        ng-model="model.role_description">
+      </textarea>
+
+      <div class="form-error" ng-show="formExperience.role_description.$dirty && formExperience.role_description.$invalid">
+        <span ng-show="formExperience.role_description.$error.required">Please insert a description of your role.</span>
       </div>
     </div>
 
