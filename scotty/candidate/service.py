@@ -137,7 +137,7 @@ def set_skills_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of skills as root level.")
     skill_lookup = get_or_create_named_lookup(Skill, [p['skill'] for p in params])
-    level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params],
+    level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params if p.get('level')],
                                                  require_uniqueness=False)
 
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
@@ -145,7 +145,7 @@ def set_skills_on_candidate(candidate, params):
     for p in params:
         skills.append(CandidateSkill(candidate_id=candidate.id,
                                      skill=skill_lookup[p['skill']],
-                                     level=level_lookup[p['level']]))
+                                     level=level_lookup.get(p.get('level'))))
     DBSession.add_all(skills)
     DBSession.flush()
     return candidate

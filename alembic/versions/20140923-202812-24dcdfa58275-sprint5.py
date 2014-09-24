@@ -60,6 +60,9 @@ def upgrade():
     op.add_column('work_experience', sa.Column('country_iso', sa.String(length=2), nullable=False))
     op.drop_column('work_experience', 'city_id')
 
+    op.alter_column('candidate_skill', 'level_id',
+               existing_type=sa.INTEGER(),
+               nullable=True)
     ### end Alembic commands ###
 
 
@@ -79,4 +82,7 @@ def downgrade():
     op.drop_column('work_experience', 'country_iso')
     op.drop_column('work_experience', 'city')
 
+    op.alter_column('candidate_skill', 'level_id',
+               existing_type=sa.INTEGER(),
+               nullable=False)
     ### end Alembic commands ###

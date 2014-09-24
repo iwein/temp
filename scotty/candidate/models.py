@@ -49,11 +49,14 @@ class CandidateSkill(Base):
     skill_id = Column(Integer, ForeignKey(Skill.id), primary_key=True)
     skill = relationship(Skill)
 
-    level_id = Column(Integer, ForeignKey(SkillLevel.id), nullable=False)
+    level_id = Column(Integer, ForeignKey(SkillLevel.id))
     level = relationship(SkillLevel)
 
     def __json__(self, request):
-        return {'skill': self.skill, "level": self.level}
+        result = {'skill': self.skill}
+        if self.level:
+            result["level"] = self.level
+        return result
 
 
 candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,

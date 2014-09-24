@@ -92,7 +92,10 @@
               {"skill": "PHP", "level":"advanced"},
               {"skill": "Java", "level":"advanced"},
               {"skill": "Python", "level":"basic"},
-              {"skill": "Spring", "level":"expert"}],
+              {"skill": "Spring", "level":"expert"},
+              {"skill": "SingStar"},
+              {"skill": "SegaGames", level:null}
+            ],
               extract:   function(r, extr){return {skillId: r.id}}},
 
             {url: function(r, extr){return '/api/v1/candidates/me/skills'},
