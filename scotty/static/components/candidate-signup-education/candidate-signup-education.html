@@ -4,7 +4,7 @@
     <h3>Sign up - Education</h3>
 
     <div class="form-group required">
-      <label>Institution</label>
+      <label>University or Institution</label>
       <input type="text"
         class="form-control"
         name="institution"
@@ -21,93 +21,7 @@
     </div>
 
     <div class="form-group required">
-      <label>Degree</label>
-      <select
-        class="form-control"
-        name="degree"
-        required
-        ng-disabled="loading"
-        ng-model="model.degree"
-        ng-options="degree for degree in degrees"
-        ng-change="startDateUpdate()">
-        <option value="">Select one...</option>
-      </select>
-
-      <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
-        <span ng-show="formEducation.degree.$error.required">
-          Please insert the degree.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Period</label>
-
-      <div class="form-inline">
-        <!-- From month -->
-        <select
-          class="form-control"
-          name="startMonth"
-          required
-          ng-disabled="loading"
-          ng-model="startMonth"
-          ng-options="month for month in months"
-          ng-change="startDateUpdate()">
-          <option value="">Month</option>
-        </select>
-
-        <!-- From year -->
-        <input type="number"
-          class="form-control"
-          name="startYear"
-          placeholder="Year"
-          required
-          ng-disabled="loading"
-          ng-model="startYear"
-          ng-change="startDateUpdate()">
-
-        <!-- Separator -->
-        <span>–</span>
-
-        <!-- To month -->
-        <select
-          class="form-control"
-          name="endMonth"
-          ng-disabled="loading"
-          ng-model="endMonth"
-          ng-required="endYear"
-          ng-options="month for month in months"
-          ng-change="endDateUpdate()">
-          <option value="">Month</option>
-        </select>
-
-        <!-- To year -->
-        <input type="number"
-          class="form-control"
-          name="endYear"
-          placeholder="Year"
-          ng-disabled="loading"
-          ng-model="endYear"
-          ng-required="endMonth"
-          ng-change="endDateUpdate()">
-      </div>
-
-      <div class="form-error" ng-show="formEducation.startMonth.$dirty && formEducation.startMonth.$invalid">
-        <span ng-show="formEducation.startMonth.$error.required">Please insert the month you started at this position.</span>
-      </div>
-      <div class="form-error" ng-show="formEducation.startYear.$dirty && formEducation.startYear.$invalid">
-        <span ng-show="formEducation.startYear.$error.required">Please insert the year you started at this position.</span>
-      </div>
-      <div class="form-error" ng-show="formEducation.endMonth.$dirty && formEducation.endMonth.$invalid">
-        <span ng-show="formEducation.endMonth.$error.required">Please insert the month you leave this position.</span>
-      </div>
-      <div class="form-error" ng-show="formEducation.endYear.$dirty && formEducation.endYear.$invalid">
-        <span ng-show="formEducation.endYear.$error.required">Please insert the year you leave this position.</span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Course</label>
+      <label>Course or Subject</label>
       <input type="text"
         class="form-control"
         name="course"
@@ -118,6 +32,78 @@
 
       <div class="form-error" ng-show="formEducation.course.$dirty && formEducation.course.$invalid">
         <span ng-show="formEducation.course.$error.required">Please insert the course.</span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label>Period</label>
+
+      <div class="form-inline">
+        <!-- From year -->
+        <input type="number"
+          class="form-control"
+          name="start"
+          placeholder="Year"
+          required
+          ng-disabled="loading"
+          ng-model="model.start"
+          ng-change="startDateUpdate()">
+
+        <!-- Separator -->
+        <span>–</span>
+
+        <!-- To year -->
+        <input type="number"
+          class="form-control"
+          name="end"
+          placeholder="Year"
+          ng-disabled="loading || model.current"
+          ng-required="!model.current"
+          ng-model="model.end"
+          ng-change="endDateUpdate()">
+      </div>
+
+      <label>
+        <input type="checkbox"
+          name="current"
+          ng-disabled="loading"
+          ng-model="model.current">
+        I am still studing there
+      </label>
+
+      <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
+        <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
+      </div>
+      <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
+        <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label>Degree</label>
+      <select
+        class="form-control"
+        name="degree"
+        ng-disabled="loading || model.not_completed_degree"
+        ng-required="!model.not_completed_degree"
+        ng-model="model.degree"
+        ng-options="degree for degree in degrees"
+        ng-change="startDateUpdate()">
+        <option value="">Select one...</option>
+      </select>
+
+      <label>
+        <input type="checkbox"
+          name="not_completed_degree"
+          ng-disabled="loading"
+          ng-model="model.not_completed_degree">
+        Did not complete degree
+      </label>
+
+      <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
+        <span ng-show="formEducation.degree.$error.required">
+          Please insert the degree.
+        </span>
       </div>
     </div>
 
