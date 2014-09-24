@@ -9,7 +9,7 @@ GET = dict(request_method="GET", renderer="json")
 
 def run_paginated_query(request, basequery, serializer=list):
     offset = request.params.get('offset', 0)
-    limit = request.params.get('limit', 100)
+    limit = request.params.get('limit', 500)
     query = basequery.offset(int(offset)).limit(int(limit))
     results = serializer(query)
     return {"pagination": {"total": basequery.count(), "offset": offset, "count": len(results)},
