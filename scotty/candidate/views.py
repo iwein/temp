@@ -10,6 +10,8 @@ from scotty.candidate.models import Candidate, Education, WorkExperience, Target
 from scotty.candidate.service import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
+from scotty.configuration.models import RejectionReason
+from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -100,9 +102,10 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.candidate
         workflow = {'active': candidate.activated != None,
-                    'ordering': ['target_positions', 'work_experience', 'skills', 'education', 'languages', 'image',
+                    'ordering': ['target_positions', 'work_experience', 'education', 'skills', 'languages', 'image',
                                  'active', ], 'image': candidate.picture_url is not None,
-                    'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0, 'target_positions': len(candidate.target_positions) > 0,
+                    'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
+                    'target_positions': len(candidate.target_positions) > 0,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
 
@@ -229,7 +232,8 @@ class CandidateBookmarkController(CandidateController):
     def delete(self):
         employer_id = self.request.matchdict['id']
 
-        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) != employer_id]
+        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers
+                                               if str(e.id) != employer_id]
 
         return {"status": "success"}
 

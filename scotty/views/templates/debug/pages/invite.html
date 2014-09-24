@@ -6,22 +6,43 @@
 <script>
   var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
           tests = [
+            {sectionTitle: 'Invite'},
             {url: '/api/v1/admin/employers', title: 'admin-invite-employer',
               data: {company_name: 'Bob Corp ' + guid(), "email": email, 'contact_name': 'Uncle Bob'},
               extract: function (r, extr) {
                 return {invite_token: r.invite_token}
               }},
 
+            {url: '/api/v1/admin/employers/INVITED', title: 'admin-employers-invited'},
+
             {url: function(r, extr) { return '/api/v1/employers/invite/'+ extr.invite_token; },
               title: 'employer-invite-validate'},
 
             {url: function(r, extr) { return '/api/v1/employers/invite/'+ extr.invite_token; },
               data: {pwd: 'helloworld'},
+              extract: function(r, extr){return {emplId: r.id}},
               title: 'employer-invite-respond'},
 
             {url: '/api/v1/employers/login', data: {email: email, pwd: 'helloworld'}, title: 'employer-login'},
             {url: '/api/v1/employers/me', title: 'employer-me'},
 
+            {sectionTitle: 'Approval'},
+            {url: '/api/v1/admin/employers/INVITED', title: 'admin-employers-invited'},
+            {url: '/api/v1/admin/employers/SIGNEDUP', title: 'admin-employers-signedup'},
+            {url: '/api/v1/admin/employers/APPLIED', title: 'admin-employers-applied'},
+            {url: '/api/v1/employers/me/apply', title: 'admin-employer-apply', method:'PUT', data:{agreedTos: true}},
+            {url: '/api/v1/admin/employers/APPLIED', title: 'admin-employers-applied'},
+
+            {url: '/api/v1/admin/employers/APPROVED', title: 'admin-employers-approved'},
+
+            {url: function(r, extr){return '/api/v1/admin/employers/'+extr.emplId+'/approve';},
+              title: 'admin-approve-employer',
+            },
+
+            {url: '/api/v1/admin/employers/APPROVED', title: 'admin-employers-approved-2'},
+
+            {url: '/api/v1/admin/employers/invalid', title: 'admin-employers-invalid',
+              expectedErrors:[400]}
           ];
 
   $(function () {
