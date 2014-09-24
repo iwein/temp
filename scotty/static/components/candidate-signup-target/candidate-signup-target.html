@@ -21,19 +21,16 @@
     </div>
 
     <div class="form-group required">
-      <label>Skill</label>
-      <input type="text"
-        class="form-control"
-        placeholder="Skill"
+      <label>Skills</label>
+      <hc-label-typeahead
         name="skill"
-        required
+        placeholder="Type a skill..."
         ng-disabled="loading"
-        ng-model="signup.target.skill"
-        typeahead="skill for skill in signupTarget.searchSkills($viewValue)">
-
-      <div class="form-error" ng-show="formTarget.skill.$dirty && formTarget.skill.$invalid">
-        <span ng-show="formTarget.skill.$error.required">Please insert your skill.</span>
-      </div>
+        ng-model="signup.target.skills"
+        hc-source="signupTarget.searchSkills($viewValue)"
+        hc-error-message="Please choose at least one skill"
+        hc-allow-new>
+      </hc-label-typeahead>
     </div>
 
     <div class="form-group required">
@@ -44,7 +41,7 @@
           ng-required="errorNoCompanyType"
           ng-disabled="loading"
           ng-model="type.selected"
-          ng-change="signupTarget.companyTypeChange()">
+          ng-change="signupTarget.onCompanyTypeChange()">
         {{ type.value }}
       </label>
 
@@ -81,58 +78,72 @@
     </div>
 
     <div class="form-group required">
+      <label>Country</label>
+
+      <select
+        class="form-control"
+        name="country"
+        required
+        ng-disabled="loading"
+        ng-model="signup.preferred_cities.country"
+        ng-options="country.iso as country.name for country in countries"
+        ng-change="signup.preferred_cities.cities = []">
+        <option value="">Select...</option>
+      </select>
+    </div>
+
+    <div class="form-group required">
       <label>Cities</label>
 
       <hc-label-typeahead
         name="cities"
         placeholder="Type a city..."
-        ng-disabled="loading || signup.dont_care_location"
-        ng-model="signup.cities"
+        ng-disabled="loading || signup.preferred_cities.doesnt_care || !signup.preferred_cities.country"
+        ng-model="signup.preferred_cities.cities"
         hc-source="signupTarget.searchCities($viewValue)"
         hc-render="signupTarget.locationToText($entry)">
       </hc-label-typeahead>
 
       <label class="form-label">
         <input type="checkbox"
-          ng-model="signup.dont_care_location"
-          ng-change="signup.cities.length = 0">
+          ng-disabled="loading || !signup.preferred_cities.country"
+          ng-model="signup.preferred_cities.doesnt_care"
+          ng-change="signup.preferred_cities.cities = []">
         Anywhere
       </label>
 
-      <div class="form-error" ng-show="cities.invalid && !signup.dont_care_location">
+      <div class="form-error" ng-show="cities.invalid && !signup.preferred_cities.doesnt_care">
         <span>Please type a city you would like to work at and press enter key.</span>
       </div>
     </div>
 
     <div class="form-group required">
-      <label>Availability</label>
+      <label>Willingness to travel</label>
 
-      <div class="form-inline">
-        <input type="date"
-          class="form-control"
-          placeholder="YYYY-MM-DD"
-          name="available_date"
-          ng-disabled="loading || available_months"
-          ng-model="available_date"
-          ng-require="!available_months">
+      <select
+        class="form-control"
+        name="travel_willingness"
+        required
+        ng-disabled="loading"
+        ng-model="signup.target.travel_willingness"
+        ng-options="option for option in willingness">
+        <option value="">Select...</option>
+      </select>
 
-        or
-
-        <input type="number"
-          class="form-control"
-          placeholder="Months"
-          name="available_months"
-          ng-disabled="loading || available_date"
-          ng-model="available_months"
-          ng-required="!available_date"
-          ng-pattern="/^\d+$/">
+      <div class="form-error" ng-show="formTarget.travel_willingness.$dirty && formTarget.travel_willingness.$invalid">
+        <span ng-show="formTarget.travel_willingness.$error.required">
+          Please insert your expected willingness to travel.
+        </span>
       </div>
+    </div>
 
-      <div class="form-error" ng-show="formTarget.available_date.$dirty || formTarget.available_months.$dirty">
-        <span ng-show="formTarget.available_months.$error.number">Please insert a number.</span>
-        <span ng-show="formTarget.available_months.$error.pattern">Please enter a integer number.</span>
-        <span ng-show="!available_date && !available_months">Please, fill one of the Availability fields</span>
-      </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox"
+          name="relocate"
+          ng-model="signup.target.relocate">
+        Willing to relocate
+      </label>
     </div>
 
     <div class="form-group">

@@ -1,43 +1,49 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('CandidateSignupTargetCtrl', function($scope, ConfigAPI) {
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
-    this.searchCities = ConfigAPI.locations;
-    this.locationToText = ConfigAPI.locationToText;
-    this.companyTypeChange = companyTypeChange;
+    this.locationToText = fn.get('city');
+    this.searchCities = searchCities;
+    this.onCompanyTypeChange = onCompanyTypeChange;
     this.submit = submit;
     $scope.loading = false;
 
+    ConfigAPI.travelWillingness().then(fn.setTo('willingness', $scope));
+    ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
     ConfigAPI.companyTypes().then(function(data) {
       $scope.companyTypes = data.map(function(type) {
         return { value: type };
       });
     });
 
-    function companyTypeChange() {
+    function searchCities(value) {
+      return ConfigAPI.locations({
+        country_iso: $scope.signup.preferred_cities.country,
+        q: value,
+      });
+    }
+
+    function onCompanyTypeChange() {
       $scope.signup.target.company_types = $scope.companyTypes
-        .filter(function(type) { return type.selected })
-        .map(function(type) { return type.value });
+        .filter(fn.get('selected'))
+        .map(fn.get('value'));
 
       $scope.errorNoCompanyType = !$scope.signup.target.company_types.length;
     }
 
     function submit() {
-      if (!$scope.signup.cities.length && !$scope.signup.dont_care_location) {
-        $scope.cities.setDirty(true);
-        return;
-      }
+      // if (!$scope.signup.cities.length && !$scope.signup.dont_care_location) {
+      //  $scope.cities.setDirty(true);
+      //  return;
+      // }
 
       if ($scope.errorNoCompanyType)
         return;
-
-      $scope.signup.availability = $scope.available_months ?
-        { available_months: $scope.available_months } :
-        { available_date: $scope.available_date };
 
       $scope.loading = true;
       $scope.signup.nextStep().finally(function() {
