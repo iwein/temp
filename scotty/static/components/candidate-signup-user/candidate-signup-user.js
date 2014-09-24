@@ -19,15 +19,13 @@ define(function(require) {
       $scope.loading = true;
 
       Session.signup($scope.model).then(function() {
-        var availability = $scope.signup.availability;
         var position = $scope.signup.target;
-        var cities = $scope.signup.cities;
+        //var cities = $scope.signup.preferred_cities;
 
         return $q.all([
-          Session.user.updateData(availability),
           Session.user.addTargetPosition(position),
-          Session.user.setPreferredCities($scope.signup.dont_care_location ?
-            { dont_care_location: true } : cities),
+          //Session.user.setPreferredCities($scope.signup.dont_care_location ?
+          //  { dont_care_location: true } : cities),
         ]);
       }).then(function() {
         return $scope.signup.nextStep();

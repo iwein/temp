@@ -55,8 +55,9 @@ define(function(require) {
 
     function targetPositionCompleted() {
       return (
-        signup.target.minimum_salary &&
-        (signup.cities.length || signup.dont_care_location)
+        signup.target.minimum_salary
+        // &&
+        // (signup.cities.length || signup.dont_care_location)
       );
     }
   });
