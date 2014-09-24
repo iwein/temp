@@ -26,8 +26,15 @@ def upgrade():
                     sa.UniqueConstraint('name')
     )
 
+    op.create_table('office_type',
+                    sa.Column('id', sa.Integer(), nullable=False),
+                    sa.Column('name', sa.String(length=20), nullable=False),
+                    sa.PrimaryKeyConstraint('id'),
+                    sa.UniqueConstraint('name')
+    )
     bulk_insert_names = csv_inserter(__file__)
     bulk_insert_names("travelwillingness", 'travelwillingness.csv')
+    bulk_insert_names("office_type", 'office_types.csv')
 
     op.create_table('target_position_skills',
                     sa.Column('target_position_id', sa.Integer(), nullable=False),
@@ -82,6 +89,30 @@ def upgrade():
     op.drop_column('candidate', 'notice_period_number')
     op.drop_column('candidate', 'available_date')
 
+    op.execute('alter table title rename to salutation;')
+    op.add_column('candidate', sa.Column('salutation_id', sa.Integer(), nullable=True))
+    op.drop_column('candidate', 'title_id')
+
+    op.add_column('employer', sa.Column('contact_first_name', sa.String(length=255), nullable=True))
+    op.add_column('employer', sa.Column('contact_last_name', sa.String(length=255), nullable=True))
+    op.add_column('employer', sa.Column('contact_salutation_id', sa.Integer(), nullable=True))
+    op.drop_column('employer', 'contact_name')
+
+
+    op.drop_column(u'employer', 'address_line2')
+    op.drop_column(u'employer', 'address_line3')
+    op.drop_column(u'employer', 'address_line1')
+    op.drop_column(u'employer', 'address_city_id')
+    op.drop_column(u'employer', 'contact_position')
+    op.drop_column(u'employer', 'address_zipcode')
+    op.drop_column(u'employer', 'contact_email')
+    op.drop_column(u'employer', 'contact_phone')
+    op.add_column(u'employer_office', sa.Column('contact_first_name', sa.String(length=255), nullable=True))
+    op.add_column(u'employer_office', sa.Column('contact_last_name', sa.String(length=255), nullable=True))
+    op.add_column(u'employer_office', sa.Column('contact_salutation_id', sa.Integer(), nullable=True))
+    op.add_column(u'employer_office', sa.Column('type_id', sa.Integer(), nullable=False, server_default="2"))
+    op.drop_column(u'employer_office', 'contact_name')
+
     ### end Alembic commands ###
 
 
@@ -97,9 +128,10 @@ def downgrade():
 
     op.drop_table('candidate_preferred_location')
 
-    op.add_column('work_experience', sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False))
-    op.drop_column('work_experience', 'country_iso')
+
     op.drop_column('work_experience', 'city')
+    op.drop_column('work_experience', 'country_iso')
+    op.add_column('work_experience', sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False))
 
     op.alter_column('candidate_skill', 'level_id',
                     existing_type=sa.INTEGER(),
@@ -126,5 +158,30 @@ def downgrade():
     op.add_column('candidate', sa.Column('available_date', sa.DATE(), autoincrement=False, nullable=True))
     op.add_column('candidate', sa.Column('notice_period_number', sa.INTEGER(), autoincrement=False, nullable=True))
     op.drop_column('candidate', 'availability')
+
+    op.add_column('candidate', sa.Column('title_id', sa.INTEGER(), autoincrement=False, nullable=True))
+    op.drop_column('candidate', 'salutation_id')
+    op.execute('alter table salutation rename to title;')
+
+
+    op.add_column('employer', sa.Column('contact_name', sa.VARCHAR(length=255), autoincrement=False, nullable=True))
+    op.drop_column('employer', 'contact_salutation_id')
+    op.drop_column('employer', 'contact_last_name')
+    op.drop_column('employer', 'contact_first_name')
+
+    op.add_column(u'employer_office', sa.Column('contact_name', sa.VARCHAR(length=255), autoincrement=False, nullable=False))
+    op.drop_column(u'employer_office', 'type_id')
+    op.drop_column(u'employer_office', 'contact_salutation_id')
+    op.drop_column(u'employer_office', 'contact_last_name')
+    op.drop_column(u'employer_office', 'contact_first_name')
+    op.add_column(u'employer', sa.Column('contact_phone', sa.VARCHAR(length=32), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('contact_email', sa.VARCHAR(length=1024), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('address_zipcode', sa.VARCHAR(length=20), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('contact_position', sa.VARCHAR(length=128), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('address_city_id', sa.INTEGER(), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('address_line1', sa.VARCHAR(length=512), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('address_line3', sa.VARCHAR(length=512), autoincrement=False, nullable=True))
+    op.add_column(u'employer', sa.Column('address_line2', sa.VARCHAR(length=512), autoincrement=False, nullable=True))
+    op.drop_table('office_type')
 
     ### end Alembic commands ###

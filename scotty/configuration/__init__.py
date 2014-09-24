@@ -1,7 +1,7 @@
 
 def includeme(config):
     config.add_route('configuration_list_seniority', 'seniority')
-    config.add_route('configuration_list_titles', 'titles')
+    config.add_route('configuration_list_salutations', 'salutations')
     config.add_route('configuration_list_companytypes', 'company_types')
     config.add_route('configuration_list_skilllevels', 'skill_levels')
     config.add_route('configuration_list_proficiencies', 'proficiencies')

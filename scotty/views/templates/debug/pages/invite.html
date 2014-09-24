@@ -8,7 +8,11 @@
           tests = [
             {sectionTitle: 'Invite'},
             {url: '/api/v1/admin/employers', title: 'admin-invite-employer',
-              data: {company_name: 'Bob Corp ' + guid(), "email": email, 'contact_name': 'Uncle Bob'},
+              data: {company_name: 'Bob Corp ' + guid(), "email": email,
+                'contact_first_name': 'Uncle',
+                'contact_last_name': 'Bob',
+                'contact_salutation': 'Mr'
+              },
               extract: function (r, extr) {
                 return {invite_token: r.invite_token}
               }},

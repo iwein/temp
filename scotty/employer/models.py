@@ -3,7 +3,7 @@ import hashlib
 from uuid import uuid4
 
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty.configuration.models import City, TrafficSource, Skill, Benefit
+from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType
 from scotty.offer.models import EmployerOffer
 from scotty.models.meta import Base, GUID
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder
@@ -20,37 +20,37 @@ APPLIED = 'APPLIED'
 APPROVED = 'APPROVED'
 
 
+
 class Office(Base):
     __tablename__ = 'employer_office'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, info=PUBLIC)
     employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
     created = Column(DateTime, nullable=False, default=datetime.now)
 
-    website = Column(String(512))
-    address_line1 = Column(String(512), nullable=False)
-    address_line2 = Column(String(512))
-    address_line3 = Column(String(512))
-    address_zipcode = Column(String(20), nullable=False)
+    contact_salutation_id = Column(Integer, ForeignKey(Salutation.id))
+    contact_salutation = relationship(Salutation)
+    contact_first_name = Column(String(255), info=PUBLIC)
+    contact_last_name = Column(String(255), info=PUBLIC)
+    contact_phone = Column(String(32), info=PUBLIC)
+    contact_email = Column(String(1024), nullable=False, info=PUBLIC)
+    contact_position = Column(String(128), info=PUBLIC)
+
+    website = Column(String(512), info=PUBLIC)
+    address_line1 = Column(String(512), nullable=False, info=PUBLIC)
+    address_line2 = Column(String(512), info=PUBLIC)
+    address_line3 = Column(String(512), info=PUBLIC)
+    address_zipcode = Column(String(20), nullable=False, info=PUBLIC)
     address_city_id = Column(Integer, ForeignKey(City.id), nullable=False)
     address_city = relationship(City)
 
-    contact_name = Column(String(255), nullable=False)
-    contact_phone = Column(String(32))
-    contact_email = Column(String(1024), nullable=False)
-    contact_position = Column(String(128))
+    type_id = Column(Integer, ForeignKey(OfficeType.id), nullable=False, default=2)
+    type = relationship(OfficeType)
 
     def __json__(self, request):
-        result = {'id': self.id,
-                  'website': self.website,
-                  'contact_name': self.contact_email,
-                  'contact_phone': self.contact_phone,
-                  'contact_email': self.contact_email,
-                  'contact_position': self.contact_position,
-                  'address_line1': self.address_line1,
-                  'address_line2': self.address_line2,
-                  'address_line3': self.address_line3,
-                  'address_zipcode': self.address_zipcode,
-                  'address_city': self.address_city}
+        result = json_encoder(self, request)
+        result['address_city'] = self.address_city
+        result['contact_salutation'] = self.contact_salutation
+        result['type'] = self.type
         return result
 
 
@@ -70,28 +70,20 @@ class Employer(Base):
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     company_name = Column(String(255), unique=True, nullable=False, info=PUBLIC)
 
-    email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
-    pwd = Column(String(128))
-
     invite_token = Column(GUID, info=PRIVATE)
     invite_sent = Column(DateTime, info=PRIVATE)
     created = Column(DateTime, nullable=False, default=datetime.now)
     agreedTos = Column(DateTime)
     approved = Column(DateTime)
 
+    email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
+    pwd = Column(String(128))
+    contact_salutation_id = Column(Integer, ForeignKey(Salutation.id))
+    contact_salutation = relationship(Salutation)
+    contact_first_name = Column(String(255), info=PUBLIC)
+    contact_last_name = Column(String(255), info=PUBLIC)
+
     website = Column(String(512), info=PUBLIC)
-    address_line1 = Column(String(512), info=PUBLIC)
-    address_line2 = Column(String(512), info=PUBLIC)
-    address_line3 = Column(String(512), info=PUBLIC)
-    address_zipcode = Column(String(20), info=PUBLIC)
-    address_city_id = Column(Integer, ForeignKey(City.id))
-    address_city = relationship(City, info=PUBLIC)
-
-    contact_name = Column(String(255), info=PUBLIC)
-    contact_phone = Column(String(32), info=PUBLIC)
-    contact_email = Column(String(1024), info=PUBLIC)
-    contact_position = Column(String(128), info=PUBLIC)
-
     logo_url = Column(String(1024), info=PUBLIC)
     image_video_url = Column(String(1024), info=PUBLIC)
     fb_url = Column(String(1024), info=PUBLIC)
@@ -129,6 +121,10 @@ class Employer(Base):
         self.pwd = hashlib.sha256(pwd).hexdigest()
 
     @property
+    def contact_name(self):
+        return u'%s %s' % (self.contact_first_name, self.contact_last_name)
+
+    @property
     def status(self):
         if self.approved:
             return APPROVED
@@ -156,11 +152,11 @@ class Employer(Base):
     def __json__(self, request):
         result = json_encoder(self, request)
 
+        result['contact_salutation'] = self.contact_salutation
         result['status'] = self.status
         result['offices'] = self.offices
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
-        result['address_city'] = self.address_city
         return result
 
 

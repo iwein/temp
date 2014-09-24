@@ -56,8 +56,8 @@ class EmployerController(RootController):
             employer = employer_from_signup(self.request.json)
             DBSession.add(employer)
             DBSession.flush()
-        except IntegrityError:
-            raise HTTPConflict("company_name of email already registered.")
+        except IntegrityError, e:
+            raise HTTPConflict("company_name or email already registered.")
         self.request.session['employer_id'] = employer.id
         return employer
 
@@ -83,7 +83,7 @@ class EmployerController(RootController):
     def signup_stage(self):
         employer = self.employer
         workflow = {'status': employer.status, 'ordering': ['step1', 'step2', 'step3', 'step4', 'step5'],
-                    'step1': employer.address_line1 is not None, 'step2': employer.mission_text is not None,
+                    'step1': employer.logo_url is not None, 'step2': employer.mission_text is not None,
                     'step3': len(employer.tech_tags) > 0, 'step4': employer.recruitment_process is not None,
                     'step5': employer.agreedTos is not None, }
         return workflow
@@ -152,6 +152,8 @@ class EmployerOfficeController(EmployerController):
         office = DBSession.query(Office).get(id)
         if not office:
             raise HTTPNotFound("Unknown Office ID.")
+        elif office.type.name == 'HQ':
+            raise HTTPBadRequest("Cannot Delete HQ")
         DBSession.delete(office)
         return {"status": "success"}
 

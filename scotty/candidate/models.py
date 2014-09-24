@@ -3,8 +3,8 @@ from datetime import datetime
 from scotty.models.tools import json_encoder, PUBLIC
 
 from scotty.offer.models import CandidateOffer
-from scotty.configuration.models import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
-    Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness
+from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
+    Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness, Salutation
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 from scotty.models.meta import Base, NamedModel, GUID
@@ -163,7 +163,7 @@ class PreferredLocation(Base):
 
 class Candidate(Base):
     __tablename__ = 'candidate'
-    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'title', 'contact_line1', 'contact_line2',
+    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1', 'contact_line2',
                     'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso', 'contact_phone',
                     'availability', 'summary', 'github_url',
                     'stackoverflow_url', 'contact_skype']
@@ -183,8 +183,8 @@ class Candidate(Base):
     pob = Column(String(512))
     picture_url = Column(String(1024), info=PUBLIC)
 
-    title_id = Column(Integer, ForeignKey(Title.id))
-    title = relationship(Title)
+    salutation_id = Column(Integer, ForeignKey(Salutation.id))
+    salutation = relationship(Salutation)
 
     summary = Column(Text(), info=PUBLIC)
     github_url = Column(String(1024), info=PUBLIC)
@@ -242,7 +242,7 @@ class Candidate(Base):
     def __json__(self, request):
         result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
         result['id'] = self.id
-        result['title'] = self.title
+        result['salutation'] = self.salutation
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills

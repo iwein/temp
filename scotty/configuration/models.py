@@ -15,14 +15,19 @@ class Benefit(Base, NamedModel):
     name = Column(String(128), nullable=False, unique=True)
 
 
-class Title(Base, NamedModel):
-    __tablename__ = 'title'
+class Salutation(Base, NamedModel):
+    __tablename__ = 'salutation'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
 
 class CompanyType(Base, NamedModel):
     __tablename__ = 'company_type'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(20), nullable=False, unique=True)
+
+class OfficeType(Base, NamedModel):
+    __tablename__ = 'office_type'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 

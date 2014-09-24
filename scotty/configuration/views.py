@@ -1,6 +1,6 @@
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.configuration.models import Title, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
+from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
     Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason, \
     TravelWillingness
 from scotty.views import RootController
@@ -15,9 +15,9 @@ class ConfigurationController(RootController):
     def seniority(self):
         return listing_request(self.request, Seniority, order_field=Seniority.id)
 
-    @view_config(route_name='configuration_list_titles')
-    def titles(self):
-        return listing_request(self.request, Title, order_field=Title.id)
+    @view_config(route_name='configuration_list_salutations')
+    def salutation(self):
+        return listing_request(self.request, Salutation, order_field=Salutation.id)
 
     @view_config(route_name='configuration_list_companytypes')
     def companytypes(self):
