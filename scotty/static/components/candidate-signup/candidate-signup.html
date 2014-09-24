@@ -7,13 +7,13 @@
         <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Experience</a>
         <span ng-if="!signup.afterStep('signup.experience')">Experience</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.skills') }">
-        <a ng-if="signup.afterStep('signup.skills')" ui-sref="signup.skills">Skills</a>
-        <span ng-if="!signup.afterStep('signup.skills')">Skills</span>
-      </li>
       <li ng-class="{ active: signup.atStep('signup.education') }">
         <a ng-if="signup.afterStep('signup.education')" ui-sref="signup.education">Education</a>
         <span ng-if="!signup.afterStep('signup.education')">Education</span>
+      </li>
+      <li ng-class="{ active: signup.atStep('signup.skills') }">
+        <a ng-if="signup.afterStep('signup.skills')" ui-sref="signup.skills">Skills</a>
+        <span ng-if="!signup.afterStep('signup.skills')">Skills</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.languages') }">
         <a ng-if="signup.afterStep('signup.languages')" ui-sref="signup.languages">Languages</a>
