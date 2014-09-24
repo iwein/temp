@@ -80,8 +80,8 @@ class WorkExperience(Base):
     company_id = Column(Integer, ForeignKey(Company.id), nullable=False)
     company = relationship(Company)
 
-    city_id = Column(Integer, ForeignKey(City.id), nullable=False)
-    location = relationship(City)
+    country_iso = Column(String(2), ForeignKey(Country.iso), nullable=False)
+    city = Column(String(512))
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
@@ -89,7 +89,8 @@ class WorkExperience(Base):
 
     def __json__(self, request):
         return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary, "role": self.role,
-                "company": self.company, "skills": self.skills, "location": self.location}
+                "company": self.company, "skills": self.skills, "location": {'city': self.city,
+                                                                             'country_iso': self.country_iso}}
 
 
 target_position_company_type = Table('target_position_company_type', Base.metadata,

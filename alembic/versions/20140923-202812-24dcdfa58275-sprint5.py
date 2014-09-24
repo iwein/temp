@@ -56,6 +56,10 @@ def upgrade():
     sa.UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique')
     )
 
+    op.add_column('work_experience', sa.Column('city', sa.String(length=512), nullable=True))
+    op.add_column('work_experience', sa.Column('country_iso', sa.String(length=2), nullable=False))
+    op.drop_column('work_experience', 'city_id')
+
     ### end Alembic commands ###
 
 
@@ -70,5 +74,9 @@ def downgrade():
     op.drop_table('travelwillingness')
 
     op.drop_table('candidate_preferred_location')
+
+    op.add_column('work_experience', sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False))
+    op.drop_column('work_experience', 'country_iso')
+    op.drop_column('work_experience', 'city')
 
     ### end Alembic commands ###
