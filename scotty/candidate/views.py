@@ -9,7 +9,7 @@ from scotty.candidate.models import Candidate, Education, WorkExperience, Target
     MatchedCandidate, CandidateOffer
 from scotty.candidate.service import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
+    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise
@@ -101,9 +101,9 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
-        workflow = {'active': candidate.activated != None,
+        workflow = {'active': candidate.activated is not None,
                     'ordering': ['target_positions', 'work_experience', 'education', 'skills', 'languages', 'image',
-                                 'active', ], 'image': candidate.picture_url is not None,
+                                 'active'], 'image': candidate.picture_url is not None,
                     'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
                     'target_positions': len(candidate.target_positions) > 0,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
@@ -130,13 +130,13 @@ class CandidateController(RootController):
     def list_languages(self):
         return self.candidate.languages
 
-    @view_config(route_name='candidate_preferred_cities', **PUT)
+    @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        return set_preferredcities_on_candidate(self.candidate, self.request.json)
+        return set_preferredlocations_on_candidate(self.candidate, self.request.json)
 
-    @view_config(route_name='candidate_preferred_cities', **GET)
+    @view_config(route_name='candidate_preferred_locations', **GET)
     def list_preferred_cities(self):
-        return self.candidate.preferred_cities
+        return self.candidate.get_preferred_locations
 
     @view_config(route_name='candidate_skills', **PUT)
     def set_skills(self):

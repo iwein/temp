@@ -128,3 +128,6 @@ class City(Base):
 
     def __json__(self, request):
         return {'city': self.name, 'country_iso': self.country_iso}
+
+    def __repr__(self):
+        return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.name)

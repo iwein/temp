@@ -10,7 +10,7 @@ def includeme(config):
     config.add_route('candidate', '{candidate_id}')
     config.add_route('candidate_picture', '{candidate_id}/picture')
     config.add_route('candidate_skills', '{candidate_id}/skills')
-    config.add_route('candidate_preferred_cities', '{candidate_id}/preferred_cities')
+    config.add_route('candidate_preferred_locations', '{candidate_id}/preferred_locations')
     config.add_route('candidate_languages', '{candidate_id}/languages')
 
     config.add_route('candidate_educations', '{candidate_id}/education')

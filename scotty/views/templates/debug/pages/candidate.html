@@ -64,20 +64,26 @@
             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-languages'},
 
 
-            {title: 'Preferred Cities'},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_cities'},
-              title: 'set-candidate-preferred_cities-1', method:'PUT', data: [
-              {'city':'Berlin', 'country_iso': 'DE'},
-              {'city':'Leipzig', 'country_iso': 'DE'},
-              {'city':'Hamburg', 'country_iso': 'DE'},
-              {'city':'Uberlândia', 'country_iso': 'BR'}]},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_cities'},
-              title: 'set-candidate-preferred_cities-2', method:'PUT',
-              data: [{'city':'Berlin Schöneberg', 'country_iso': 'DE'}]},
-            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_cities'},
+            {title: 'Preferred Locations'},
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-1', method:'PUT',
+              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-2', method: 'PUT',
+              data: {'DE': ['Berlin Schöneberg']}},
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-dontcare-1', method:'PUT',
+              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: null}},
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-dontcare-2', method:'PUT',
+              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: []}},
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-dontcare-3', method:'PUT',
+              data: {DE: null}},
+            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_locations'},
 
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_cities'},
-              title: 'set-candidate-preferred_cities-2', method:'PUT', data: {'dont_care_location': true}
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-empty', method:'PUT', data: {}
             },
 
             {title: 'Skills'},

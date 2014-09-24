@@ -60,7 +60,6 @@ candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
 
-
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
                               Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
@@ -143,6 +142,22 @@ candidate_bookmark_employer = Table('candidate_bookmark_employer', Base.metadata
                                            server_default=func.now()))
 
 
+class PreferredLocation(Base):
+    __tablename__ = 'candidate_preferred_location'
+    __table_args__ = (UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique'),
+                      UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
+                      CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL',
+                                      name='candidate_preferred_location_has_some_fk'), )
+    id = Column(Integer, primary_key=True)
+    candidate_id = Column(GUID, ForeignKey('candidate.id'))
+    country_iso = Column(String(2), ForeignKey(Country.iso), nullable=True)
+    city_id = Column(Integer, ForeignKey('city.id'), nullable=True)
+    city = relationship(City, lazy="joined")
+
+    def __repr__(self):
+        return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
+
+
 class Candidate(Base):
     __tablename__ = 'candidate'
     __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'title', 'contact_line1', 'contact_line2',
@@ -200,7 +215,9 @@ class Candidate(Base):
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
-    preferred_cities = relationship(City, secondary=candidate_preferred_city, enable_typechecks=False)
+
+    preferred_locations = relationship(PreferredLocation)
+
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
@@ -214,6 +231,18 @@ class Candidate(Base):
     def full_name(self):
         return u'%s %s' % (self.first_name, self.last_name)
 
+
+    def get_preferred_locations(self):
+        if not self.preferred_locations:
+            return None
+        results = {}
+        for pl in self.preferred_locations:
+            if pl.country_iso:
+                results.setdefault(pl.country_iso, [])
+            elif pl.city_id:
+                results.setdefault(pl.city.country_iso, []).append(pl.city.name)
+        return results
+
     def __json__(self, request):
         result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
         result['id'] = self.id
@@ -222,7 +251,7 @@ class Candidate(Base):
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills
-        result['preferred_cities'] = self.preferred_cities
+        result['preferred_location'] = self.get_preferred_locations()
 
         return result
 
