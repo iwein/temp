@@ -165,8 +165,9 @@ class PreferredLocation(Base):
 class Candidate(Base):
     __tablename__ = 'candidate'
     __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'title', 'contact_line1', 'contact_line2',
-                    'contact_line3', 'contact_zipcode', 'contact_phone', 'available_date', 'notice_period_number',
-                    'willing_to_travel', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
+                    'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso', 'contact_phone',
+                    'available_date', 'notice_period_number', 'summary', 'github_url',
+                    'stackoverflow_url', 'contact_skype']
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -186,9 +187,6 @@ class Candidate(Base):
     title_id = Column(Integer, ForeignKey(Title.id))
     title = relationship(Title)
 
-    residence_country_iso = Column(String(2), ForeignKey(Country.iso))
-    residence_country = relationship(Country)
-
     summary = Column(Text(), info=PUBLIC)
     github_url = Column(String(1024), info=PUBLIC)
     stackoverflow_url = Column(String(1024), info=PUBLIC)
@@ -200,21 +198,18 @@ class Candidate(Base):
     contact_line2 = Column(String(512))
     contact_line3 = Column(String(512))
     contact_zipcode = Column(String(20))
-    contact_city_id = Column(Integer, ForeignKey(City.id))
-    contact_city = relationship(City)
+    contact_city = Column(String(512))
+    contact_country_iso = Column(String(2), ForeignKey(Country.iso))
+    contact_country = relationship(Country)
 
     contact_phone = Column(String(128))
     contact_skype = Column(String(128))
     available_date = Column(Date)
     notice_period_number = Column(Integer)
-    notice_period_measure = Column(String(1), CheckConstraint("notice_period_measure in ['w', 'm']"), default='w',
-                                   server_default='w', nullable=False)
+    notice_period_measure = 'm'
 
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
     status = relationship(CandidateStatus)
-
-    willing_to_travel = Column(Boolean)
-    dont_care_location = Column(Boolean)
 
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
@@ -251,7 +246,6 @@ class Candidate(Base):
         result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
         result['id'] = self.id
         result['title'] = self.title
-        result['contact_city'] = self.contact_city
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills

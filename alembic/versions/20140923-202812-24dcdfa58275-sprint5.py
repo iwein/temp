@@ -57,7 +57,7 @@ def upgrade():
     )
 
     op.add_column('work_experience', sa.Column('city', sa.String(length=512), nullable=True))
-    op.add_column('work_experience', sa.Column('country_iso', sa.String(length=2), nullable=False))
+    op.add_column('work_experience', sa.Column('country_iso', sa.String(length=2), nullable=False, server_default='DE'))
     op.drop_column('work_experience', 'city_id')
 
     op.alter_column('candidate_skill', 'level_id',
@@ -68,6 +68,16 @@ def upgrade():
     op.execute('ALTER TABLE education ALTER COLUMN "end" TYPE INTEGER USING EXTRACT(YEAR from "end")')
     op.execute('ALTER TABLE degree ALTER "name" TYPE VARCHAR(255)')
     op.alter_column('education', 'degree_id', existing_type=sa.INTEGER(), nullable=True)
+
+    op.add_column('candidate', sa.Column('contact_city', sa.String(length=512), nullable=True))
+    op.add_column('candidate', sa.Column('contact_country_iso', sa.String(length=2), nullable=True))
+    op.drop_column('candidate', 'notice_period_measure')
+    op.drop_column('candidate', 'contact_city_id')
+
+    op.drop_column('candidate', 'residence_country_iso')
+    op.drop_column('candidate', 'willing_to_travel')
+    op.drop_column('candidate', 'dont_care_location')
+
     ### end Alembic commands ###
 
 
@@ -98,5 +108,16 @@ def downgrade():
     op.execute('ALTER TABLE education ALTER COLUMN start TYPE DATE USING to_date(to_char(start, \'9999\'), \'YYYY\')')
     op.execute('ALTER TABLE education ALTER COLUMN "end" TYPE DATE USING to_date(to_char("end", \'9999\'), \'YYYY\')')
     op.alter_column('education', 'degree_id', existing_type=sa.INTEGER(), nullable=False)
-    op.execute('ALTER TABLE degree ALTER "name" TYPE VARCHAR(20)')
+    op.execute('ALTER TABLE degree ALTER "name" TYPE VARCHAR(20) USING substring("name" from 0 for 20)')
+
+    op.add_column('candidate', sa.Column('contact_city_id', sa.INTEGER(), autoincrement=False, nullable=True))
+    op.add_column('candidate', sa.Column('notice_period_measure', sa.VARCHAR(length=1), server_default="m", autoincrement=False, nullable=False))
+    op.drop_column('candidate', 'contact_country_iso')
+    op.drop_column('candidate', 'contact_city')
+
+    op.add_column('candidate', sa.Column('residence_country_iso', sa.VARCHAR(length=2), autoincrement=False, nullable=True))
+
+    op.add_column('candidate', sa.Column('dont_care_location', sa.BOOLEAN(), autoincrement=False, nullable=True))
+    op.add_column('candidate', sa.Column('willing_to_travel', sa.BOOLEAN(), autoincrement=False, nullable=True))
+
     ### end Alembic commands ###

@@ -26,10 +26,6 @@ def edit_candidate(candidate, params):
     for field in candidate.__editable__:
         if field in params:
             setattr(candidate, field, params[field])
-
-    if 'contact_city' in params:
-        candidate.contact_city = get_location_by_name_or_create(params['contact_city'])
-
     return candidate
 
 
