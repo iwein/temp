@@ -1,7 +1,8 @@
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import Title, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
-    Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason
+    Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason, \
+    TravelWillingness
 from scotty.views import RootController
 from scotty.views.common import listing_request, run_paginated_query
 from sqlalchemy import func
@@ -20,7 +21,7 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_companytypes')
     def companytypes(self):
-        return listing_request(self.request, CompanyType)
+        return listing_request(self.request, CompanyType, order_field=CompanyType.id)
 
     @view_config(route_name='configuration_list_skilllevels')
     def skilllevels(self):
@@ -30,9 +31,13 @@ class ConfigurationController(RootController):
     def proficiencies(self):
         return listing_request(self.request, Proficiency, order_field=Proficiency.id)
 
+    @view_config(route_name='configuration_list_travel_willingness')
+    def travel_willingness(self):
+        return listing_request(self.request, TravelWillingness, order_field=TravelWillingness.id)
+
     @view_config(route_name='configuration_list_traffic_sources')
     def traffic_sources(self):
-        return listing_request(self.request, TrafficSource)
+        return listing_request(self.request, TrafficSource, order_field=TrafficSource.id)
 
     @view_config(route_name='configuration_list_degrees')
     def degrees(self):
@@ -40,7 +45,8 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_rejectionreasons')
     def rejectionreasons(self):
-        return listing_request(self.request, RejectionReason, self.request.params.get("q"), ignorecase=True)
+        return listing_request(self.request, RejectionReason, self.request.params.get("q"), ignorecase=True,
+                               order_field=RejectionReason.id)
 
     @view_config(route_name='configuration_list_benefits')
     def benefits(self):
@@ -86,8 +92,11 @@ class ConfigurationController(RootController):
         searchterm = self.request.params.get("q")
         if searchterm:
             filter = func.lower(City.name).contains(func.lower(searchterm))
-            basequery = basequery.filter(filter)
+            basequery = basequery.filter(filter).order_by(func.length(City.name))
 
+        ciso = self.request.params.get("country_iso")
+        if ciso:
+            basequery = basequery.filter(City.country_iso == ciso)
         return run_paginated_query(self.request, basequery)
 
 
@@ -97,6 +106,7 @@ def includeme(config):
     config.add_route('configuration_list_companytypes', 'company_types')
     config.add_route('configuration_list_skilllevels', 'skill_levels')
     config.add_route('configuration_list_proficiencies', 'proficiencies')
+    config.add_route('configuration_list_travel_willingness', 'travelwillingness')
     config.add_route('configuration_list_traffic_sources', 'traffic_sources')
     config.add_route('configuration_list_degrees', 'degrees')
     config.add_route('configuration_list_rejectionreasons', 'rejectionreasons')

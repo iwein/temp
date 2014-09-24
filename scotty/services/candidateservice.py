@@ -4,7 +4,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
     Education, Company, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
-    Language, Seniority, CandidateLanguage, Course, FullCandidate
+    Language, Seniority, CandidateLanguage, Course, FullCandidate, TravelWillingness
 from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
     get_or_create_named_lookup
 from sqlalchemy import text
@@ -82,19 +82,15 @@ def add_candidate_work_experience(candidate, params):
 
 def add_target_position(candidate, params):
     minimum_salary = params['minimum_salary']
-
     company_types = get_or_raise_named_collection(CompanyType, params['company_types']).values()
-
-    seniority_name = params.get('seniority')
+    travel_willingness = get_by_name_or_raise(TravelWillingness, params['travel_willingness'])
+    relocate = params.get('relocate', False)
 
     role = get_by_name_or_create(Role, params["role"])
-    skill = get_by_name_or_create(Skill, params["skill"])
+    skills = get_or_create_named_collection(Skill, params["skills"])
 
     tp = TargetPosition(candidate_id=candidate.id, minimum_salary=minimum_salary, company_types=company_types,
-                        role=role, skill=skill)
-    if seniority_name:
-        seniority = get_by_name_or_raise(Seniority, seniority_name)
-        tp.seniority = seniority
+                        role=role, skills=skills, travel_willingness=travel_willingness, relocate=relocate)
     DBSession.add(tp)
     DBSession.flush()
     return tp

@@ -288,6 +288,7 @@ class CandidateOfferController(CandidateController):
             candidate_id=self.candidate.id)
         return offer
 
+
 def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')

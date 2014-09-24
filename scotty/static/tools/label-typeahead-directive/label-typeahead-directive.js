@@ -59,8 +59,12 @@ define(function(require) {
           $scope.ngModel = $scope.ngModel || [];
           $scope.input = '';
 
-          if (hasRender)
+          if (hasRender) {
+            if ($scope.ngModel.map(render).indexOf(input) !== -1)
+              return;
+
             input = data[rendered.indexOf(input)];
+          }
 
           if ($scope.ngModel.indexOf(input) !== -1)
             return;

@@ -1,25 +1,26 @@
 define(function(require) {
   'use strict';
   require('tools/api');
-
+  var _ = require('underscore');
 
   function helper(key) {
-    return function(options) {
-      options = options || {};
-      if (typeof options === 'string')
-        options = { term: options };
+    var url = '/config/' + key;
+    request.url = url;
 
-      var params = {};
-      if (options.limit)
-        params.limit = options.limit;
-      if (options.term)
-        params.q = options.term;
+    // This function will be a method so we can use 'this' here
+    //jshint -W040
+    function request(options) {
+      options = typeof options === 'string' ?
+        { q: options } :
+        _.extend({}, options);
 
-      return this._api.get('/config/' + key, params).then(function(response) {
+      return this._api.get(url, options).then(function(response) {
         this._lastResults[key] = response.data;
         return response.data;
       }.bind(this));
-    };
+    }
+
+    return request;
   }
 
 
@@ -43,6 +44,7 @@ define(function(require) {
     proficiencies: helper('proficiencies'),
     benefits: helper('benefits'),
     rejectReasons: helper('rejectionreasons'),
+    travelWillingness: helper('travelwillingness'),
 
     // search
     skills: helper('skills'),
@@ -51,6 +53,7 @@ define(function(require) {
     institutions: helper('institutions'),
     languages: helper('languages'),
     courses: helper('courses'),
+    countries: helper('countries'),
     locations: helper('locations'),
 
     isValidLanguage: function(lang) {
