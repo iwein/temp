@@ -4,7 +4,7 @@ from scotty.models.tools import json_encoder, PUBLIC
 
 from scotty.models.offer import CandidateOffer
 from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
-    Company, Role, Language, Proficiency, CompanyType, Seniority, Course
+    Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 from scotty.models.meta import Base, NamedModel, GUID
@@ -60,6 +60,7 @@ candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
 
+
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
                               Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
@@ -96,6 +97,10 @@ target_position_company_type = Table('target_position_company_type', Base.metada
                                      Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
                                      Column('company_type_id', Integer, ForeignKey('company_type.id'), primary_key=True))
 
+target_position_skills = Table('target_position_skills', Base.metadata,
+                               Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
+                               Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
+
 
 class TargetPosition(Base):
     __tablename__ = 'target_position'
@@ -103,24 +108,20 @@ class TargetPosition(Base):
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
     created = Column(DateTime, nullable=False, default=datetime.now)
+    minimum_salary = Column(Integer, nullable=False)
+    relocate = Column(Boolean)
+
+    travel_willingness_id = Column(Integer, ForeignKey("travelwillingness.id"), nullable=False, server_default='1')
+    travel_willingness = relationship(TravelWillingness)
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
-
-    skill_id = Column(Integer, ForeignKey("skill.id"), nullable=False)
-    skill = relationship(Skill)
-
-    seniority_id = Column(Integer, ForeignKey(Seniority.id))
-    seniority = relationship(Seniority)
-
+    skills = relationship(Skill, secondary=target_position_skills)
     company_types = relationship(CompanyType, secondary=target_position_company_type)
 
-    minimum_salary = Column(Integer, nullable=False)
-    benefits = Column(Text)
-
     def __json__(self, request):
-        return {"id": self.id, 'seniority': self.seniority, "skill": self.skill, "role": self.role,
-                "minimum_salary": self.minimum_salary, "benefits": self.benefits, "company_types": self.company_types}
+        return {"id": self.id, "skills": self.skills, "role": self.role, 'travel_willingness': self.travel_willingness,
+                'relocate': self.relocate, "minimum_salary": self.minimum_salary, "company_types": self.company_types}
 
 
 class CandidateLanguage(Base):
@@ -225,9 +226,11 @@ class Candidate(Base):
 
         return result
 
+
 class EmbeddedCandidate(Candidate):
     def __json__(self, request):
         return json_encoder(self, request)
+
 
 class WXPCandidate(Candidate):
     def __json__(self, request):
