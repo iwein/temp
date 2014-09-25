@@ -5,92 +5,6 @@
   <h3>Sign up - Facts</h3>
 
   <div class="form-group">
-    <label>Founding year</label>
-    <input type="number"
-      class="form-control"
-      placeholder="YYYY"
-      name="founding_year"
-      placeholder="VC Founding amount"
-      name="funding_amount"
-      ng-disabled="loading"
-      ng-model="model.funding_year">
-
-    <div class="form-error" ng-show="formSignupFacts.funding_year.$dirty && formSignupFacts.funding_year.$invalid">
-      <span ng-show="formSignupFacts.funding_year.$error.required">
-        Please select the year your company was founded.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Annual revenue</label>
-    <div class="input-group">
-      <span class="input-group-addon">€</span>
-      <input type="dotted-integer"
-        class="form-control"
-        placeholder="Annual revenue"
-        name="revenue_pa"
-        ng-disabled="loading"
-        ng-model="model.revenue_pa">
-      <span class="input-group-addon">.00</span>
-    </div>
-
-    <div class="form-error" ng-show="formTarget.revenue_pa.$dirty && formTarget.revenue_pa.$invalid">
-      <span ng-show="formTarget.revenue_pa.$error.required">
-        Please insert your expected annual revenue.
-      </span>
-      <span ng-show="formTarget.revenue_pa.$error.number">
-        Please insert a number.
-      </span>
-      <span ng-show="formTarget.revenue_pa.$error.pattern">
-        Decimals are not allowed.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>VC Founding amount</label>
-    <div class="input-group">
-      <span class="input-group-addon">€</span>
-      <input type="dotted-integer"
-        class="form-control"
-        placeholder="VC Founding amount"
-        name="funding_amount"
-        ng-disabled="loading"
-        ng-model="model.funding_amount">
-        <span class="input-group-addon">.00</span>
-    </div>
-
-    <div class="form-error" ng-show="formTarget.funding_amount.$dirty && formTarget.funding_amount.$invalid">
-      <span ng-show="formTarget.funding_amount.$error.required">
-        Please insert your expected annual revenue.
-      </span>
-      <span ng-show="formTarget.funding_amount.$error.number">
-        Please insert a number.
-      </span>
-      <span ng-show="formTarget.funding_amount.$error.pattern">
-        Decimals are not allowed.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Company size</label>
-    <input type="number"
-      class="form-control"
-      placeholder="Company size"
-      name="no_of_employees"
-      ng-disabled="loading"
-      ng-model="model.no_of_employees">
-
-    <div class="form-error" ng-show="formSignupFacts.no_of_employees.$dirty && formSignupFacts.no_of_employees.$invalid">
-      <span ng-show="formSignupFacts.no_of_employees.$error.required">
-        Please insert the number or employees in your company.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
     <label>Tech team size</label>
     <input type="number"
       class="form-control"
@@ -119,6 +33,25 @@
       hc-allow-new>
     </hc-label-typeahead>
   </div>
+
+  <div class="form-group">
+    <label>Technology philosophy</label>
+    <textarea
+      class="form-control"
+      placeholder="Technology philosophy"
+      name="tech_team_philosophy"
+      required
+      ng-disabled="loading"
+      ng-model="model.tech_team_philosophy">
+    </textarea>
+
+    <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
+      <span ng-show="formSignupFacts.tech_team_size.$error.required">
+        Please describe the philosophy of your company's tech.
+      </span>
+    </div>
+  </div>
+
 
   <div class="form-group">
     <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>

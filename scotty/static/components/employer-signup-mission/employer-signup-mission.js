@@ -20,7 +20,13 @@ define(function(require) {
     Session.getUser().then(function(user) {
       return user && user.getData();
     }).then(function(data) {
-      $scope.model = _.pick(data, 'mission_text');
+      $scope.model = _.pick(data, [
+        'founding_year',
+        'revenue_pa',
+        'funding_amount',
+        'no_of_employees',
+        'mission_text',
+      ]);
     }).finally(function() {
       $scope.loading = false;
     });
