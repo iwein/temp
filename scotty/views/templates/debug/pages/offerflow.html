@@ -137,6 +137,8 @@
             data: {'status': 'CONTRACT_SIGNED'}},
           {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
             data: {'status': 'JOB_STARTED'}},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
+            data: {'status': 'REJECTED'}},
 
           ]);
 
