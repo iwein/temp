@@ -28,7 +28,7 @@
       class="form-control"
       name="salutation"
       required
-      ng-disabled="loading"
+      ng-disabled="loading || invited"
       ng-model="model.contact_salutation"
       ng-options="salutation for salutation in salutations">
       <option value="">Salutation...</option>
