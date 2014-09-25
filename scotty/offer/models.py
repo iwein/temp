@@ -92,6 +92,13 @@ class OfferStatusWorkflow(object):
         else:
             raise InvalidStatusError("Offer cant be accepted, it is in state: %s." % self.status)
 
+    def hired(self):
+        if self.status.is_final:
+            raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
+        else:
+            self.job_started = datetime.now()
+
+
     def reject(self, reason, rejected_text=None):
         if self.status != self.statuses[-1]:
             self.rejected = datetime.now()

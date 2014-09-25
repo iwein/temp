@@ -65,6 +65,16 @@ class MandrillEmailer(object):
                               {'content': company_email, 'name': 'company_email'},
                               {'content': str(employer_id), 'name': 'employer_id'}]})
 
+    def send_admin_candidate_hired_email(self, candidate_name, contact_name, company_name, offer_id):
+        url = 'http://%s/admin/#/offer/%s' % (self.frontend, offer_id)
+        return self.send('admin-candidate-hired', [],
+                         {'to': [{'email': email, 'name': 'Admin'} for email in self.admin_emails],
+                          'global_merge_vars': [
+                              {'content': contact_name, 'name': 'contact_name'},
+                              {'content': company_name, 'name': 'company_name'},
+                              {'content': candidate_name, 'name': 'candidate_name'},
+                              {'content': url, 'name': 'url'}]})
+
     def send_employer_was_bookmarked(self, company_email, contact_name, company_name, candidate_name, candidate_id):
         url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
         return self.send('employer-was-bookmarked-by-candidate', [],

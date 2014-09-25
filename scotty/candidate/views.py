@@ -280,7 +280,7 @@ class CandidateOfferController(CandidateController):
         return offer
 
     @view_config(route_name='candidate_offer_hired', **POST)
-    def accept(self):
+    def hired(self):
         offer = self.offer
         offer.hired()
         DBSession.flush()
@@ -288,8 +288,7 @@ class CandidateOfferController(CandidateController):
             candidate_name=self.candidate.full_name,
             contact_name=offer.employer.contact_name,
             company_name=offer.employer.company_name,
-            offer_id=offer.id,
-            candidate_id=self.candidate.id)
+            offer_id=offer.id)
         DBSession.flush()
         return offer
 
