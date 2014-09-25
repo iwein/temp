@@ -23,7 +23,6 @@ define(function(require) {
     this.searchCompanies = ConfigAPI.companies;
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
-    this.addAnother = addAnother;
     this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;

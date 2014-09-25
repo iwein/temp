@@ -23,7 +23,6 @@ define(function(require) {
     this.searchInstitutions = ConfigAPI.institutions;
     this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
-    this.addAnother = addAnother;
     this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
@@ -49,6 +48,12 @@ define(function(require) {
 
     function edit(entry) {
       $scope.model = entry;
+
+      if (!entry.end)
+        $scope.current = true;
+
+      if (!entry.degree)
+        $scope.not_completed_degree = true;
     }
 
     function save() {
@@ -57,21 +62,27 @@ define(function(require) {
     }
 
     function addAnother() {
-      save().then(function() {
+      return save().then(function() {
         return $scope.list.refresh();
       }).then(function() {
         $scope.formEducation.$setPristine();
         $scope.model = {};
-      }).finally(function() {
-        $scope.loading = false;
+      });
+    }
+
+    function saveAndContinue() {
+      return save().then(function() {
+        return $scope.signup.nextStep();
+      }).then(function() {
+        $scope.model = {};
       });
     }
 
     function submit() {
-      save().then(function() {
-        return $scope.signup.nextStep();
-      }).then(function() {
-        $scope.model = {};
+      ( $scope.addAnother ?
+        addAnother() :
+        saveAndContinue()
+      ).finally(function() {
         $scope.loading = false;
       });
     }

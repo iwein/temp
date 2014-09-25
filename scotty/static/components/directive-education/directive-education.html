@@ -7,14 +7,14 @@
       <dl class="dl-horizontal">
         <dt>institution</dt>
         <dd>{{ entry.institution }}</dd>
-        <dt>degree</dt>
-        <dd>{{ entry.degree }}</dd>
         <dt>course</dt>
         <dd>{{ entry.course }}</dd>
         <dt>start</dt>
         <dd>{{ entry.start }}</dd>
-        <dt>end</dt>
-        <dd>{{ entry.end }}</dd>
+        <dt ng-show="entry.end">end</dt>
+        <dd ng-show="entry.end">{{ entry.end }}</dd>
+        <dt ng-show="entry.degree">degree</dt>
+        <dd ng-show="entry.degree">{{ entry.degree }}</dd>
         <dd ng-if="hcEditable">
           <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
           <button type="button" class="btn btn-default" ng-click="remove(entry)">Remove</button>

@@ -86,10 +86,9 @@
         class="form-control"
         name="degree"
         ng-disabled="loading || not_completed_degree"
-        ng-required="!model.not_completed_degree"
+        ng-required="!not_completed_degree"
         ng-model="model.degree"
-        ng-options="degree for degree in degrees"
-        ng-change="startDateUpdate()">
+        ng-options="degree for degree in degrees">
         <option value="">Select one...</option>
       </select>
 
@@ -97,7 +96,8 @@
         <input type="checkbox"
           name="not_completed_degree"
           ng-disabled="loading"
-          ng-model="model.not_completed_degree">
+          ng-model="not_completed_degree"
+          ng-change="model.degree = null">
         Did not complete degree
       </label>
 
@@ -109,14 +109,15 @@
     </div>
 
     <div class="form-group">
-      <button type="button"
-        class="btn btn-default"
-        ng-click="signupEducation.addAnother()"
+      <button type="submit"
+        class="btn btn-primary"
+        ng-click="addAnother = true"
         ng-disabled="loading">
         Save &amp; add another
       </button>
       <button type="submit"
         class="btn btn-primary"
+        ng-click="addAnother = false"
         ng-disabled="loading">
         Save &amp; continue
       </button>
