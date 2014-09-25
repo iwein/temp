@@ -85,9 +85,9 @@
         name="country"
         required
         ng-disabled="loading"
-        ng-model="signup.preferred_cities.country"
+        ng-model="country"
         ng-options="country.iso as country.name for country in countries"
-        ng-change="signup.preferred_cities.cities = []">
+        ng-change="signupTarget.setCountry(country)">
         <option value="">Select...</option>
       </select>
     </div>
@@ -98,21 +98,22 @@
       <hc-label-typeahead
         name="cities"
         placeholder="Type a city..."
-        ng-disabled="loading || signup.preferred_cities.doesnt_care || !signup.preferred_cities.country"
-        ng-model="signup.preferred_cities.cities"
+        ng-disabled="loading || dontCareLocation || !country"
+        ng-model="signup.preferred_locations[country]"
         hc-source="signupTarget.searchCities($viewValue)"
         hc-render="signupTarget.locationToText($entry)">
       </hc-label-typeahead>
 
       <label class="form-label">
         <input type="checkbox"
-          ng-disabled="loading || !signup.preferred_cities.country"
-          ng-model="signup.preferred_cities.doesnt_care"
-          ng-change="signup.preferred_cities.cities = []">
+          ng-disabled="loading || !country"
+          ng-required="!signup.preferred_locations[country].length"
+          ng-model="dontCareLocation"
+          ng-change="signupTarget.setCountry(country)">
         Anywhere
       </label>
 
-      <div class="form-error" ng-show="cities.invalid && !signup.preferred_cities.doesnt_care">
+      <div class="form-error" ng-show="cities.invalid && !dontCareLocation">
         <span>Please type a city you would like to work at and press enter key.</span>
       </div>
     </div>

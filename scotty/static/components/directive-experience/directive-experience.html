@@ -7,17 +7,19 @@
       <dl class="dl-horizontal">
         <dt>company</dt>
         <dd>{{ entry.company }}</dd>
-        <dt>location</dt>
-        <dd>{{ entry.location.city }}, {{ entry.location.country_iso }}</dd>
+        <dt>country</dt>
+        <dd>{{ entry.country_iso }}</dd>
+        <dt>city</dt>
+        <dd>{{ entry.city }}</dd>
         <dt>start</dt>
         <dd>{{ entry.start }}</dd>
-        <dt>end</dt>
-        <dd>{{ entry.end }}</dd>
+        <dt ng-show="entry.end">end</dt>
+        <dd ng-show="entry.end">{{ entry.end }}</dd>
         <dt>role</dt>
         <dd>{{ entry.role }}</dd>
         <dt>skills</dt>
         <dd>{{ entry.skills.join(', ') }}</dd>
-        <dt>summary</dt>
+        <dt>role description</dt>
         <dd>{{ entry.summary }}</dd>
         <dd ng-if="hcEditable">
           <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>

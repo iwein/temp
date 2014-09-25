@@ -2,11 +2,13 @@ import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
-from scotty.models import Candidate, CandidateStatus, Skill, SkillLevel, CandidateSkill, Degree, Institution, \
-    Education, Company, WorkExperience, Role, City, TargetPosition, CompanyType, Proficiency, \
-    Language, Seniority, CandidateLanguage, Course, FullCandidate, TravelWillingness
-from scotty.services.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, get_or_raise_named_collection, get_location_by_name_or_create, \
-    get_or_create_named_lookup
+from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
+    WorkExperience, Education, TargetPosition, PreferredLocation
+from scotty.configuration.models import Skill, SkillLevel, CompanyType, TravelWillingness, Language, Proficiency, \
+    Company, Role, Degree, Institution, Course, City
+from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
+    get_or_raise_named_collection, get_location_by_name_or_create, get_or_create_named_lookup, \
+    get_locations_from_structure
 from sqlalchemy import text
 from sqlalchemy.orm import joinedload
 
@@ -24,10 +26,6 @@ def edit_candidate(candidate, params):
     for field in candidate.__editable__:
         if field in params:
             setattr(candidate, field, params[field])
-
-    if 'contact_city' in params:
-        candidate.contact_city = get_location_by_name_or_create(params['contact_city'])
-
     return candidate
 
 
@@ -49,12 +47,14 @@ def add_candidate_skill(candidate, params):
 
 
 def add_candidate_education(candidate, params):
-    degree = get_by_name_or_raise(Degree, params['degree'])
+    degree = get_by_name_or_create(Degree, params.get('degree'))
     institution = get_by_name_or_create(Institution, params['institution'])
     course = get_by_name_or_create(Course, params['course'])
 
     start = params['start']
     end = params.get('end')
+    if end and end < start:
+        raise HTTPBadRequest('end must not be smaller than start')
 
     education = Education(candidate_id=candidate.id, institution=institution, degree=degree, start=start, end=end,
                           course=course)
@@ -66,15 +66,18 @@ def add_candidate_education(candidate, params):
 def add_candidate_work_experience(candidate, params):
     start = params['start']
     end = params.get('end')
+    if end and end < start:
+        raise HTTPBadRequest('end must not be smaller than start')
     summary = params['summary']
 
     role = get_by_name_or_create(Role, params["role"])
-    city = get_location_by_name_or_create(params['location'])
+
     company = get_by_name_or_create(Company, params['company'])
     skills = get_or_create_named_collection(Skill, params.get('skills'))
 
-    wexp = WorkExperience(candidate_id=candidate.id, start=start, end=end, summary=summary, location=city,
-                          company=company, role=role, skills=skills)
+    wexp = WorkExperience(candidate_id=candidate.id, start=start, end=end, summary=summary,
+                          country_iso=params['country_iso'], city=params['city'], company=company, role=role,
+                          skills=skills)
     DBSession.add(wexp)
     DBSession.flush()
     return wexp
@@ -113,34 +116,25 @@ def set_languages_on_candidate(candidate, params):
     return candidate
 
 
-def set_preferredcities_on_candidate(candidate, params):
-    if not params:
-        cities = []
-    elif isinstance(params, dict):
-        candidate.dont_care_location = params['dont_care_location']
-        cities = []
-    elif isinstance(params, list):
-        cities = DBSession.query(City).options(joinedload("country")).filter(
-            City.name.in_(p['city'] for p in params),
-            City.country_iso.in_(p['country_iso'] for p in params)
-        ).all()
-
-        if len(cities) < len(params):
-            cities = [(c.name, c.country_iso) for c in cities]
-            raise HTTPBadRequest("Unknown Locations Submitted: " % [l for l in params
-                                                                    if (l['city'], l['country_iso']) not in cities])
+def set_preferredlocations_on_candidate(candidate, params):
+    if isinstance(params, dict):
+        try:
+            DBSession.query(PreferredLocation).filter(PreferredLocation.candidate_id == candidate.id).delete()
+            locations = get_locations_from_structure(params)
+            candidate.preferred_locations = locations
+            DBSession.flush()
+            return candidate
+        except (IndexError, KeyError), e:
+            raise HTTPBadRequest("Unknown Locations Submitted: %s" % e)
     else:
-        raise HTTPBadRequest("Must submit list of locations as root level.")
-    candidate.preferred_cities = cities
-    DBSession.flush()
-    return candidate
+        raise HTTPBadRequest("Must submit dictionary of countries with city lists as root level.")
 
 
 def set_skills_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of skills as root level.")
     skill_lookup = get_or_create_named_lookup(Skill, [p['skill'] for p in params])
-    level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params],
+    level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params if p.get('level')],
                                                  require_uniqueness=False)
 
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
@@ -148,7 +142,7 @@ def set_skills_on_candidate(candidate, params):
     for p in params:
         skills.append(CandidateSkill(candidate_id=candidate.id,
                                      skill=skill_lookup[p['skill']],
-                                     level=level_lookup[p['level']]))
+                                     level=level_lookup.get(p.get('level'))))
     DBSession.add_all(skills)
     DBSession.flush()
     return candidate
