@@ -14,7 +14,7 @@
           class="form-control"
           name="skill{{ $index }}"
           ng-disabled="loading"
-          ng-required="$first"
+          ng-required="$first && !skills.length"
           ng-model="entry.skill"
           ng-blur="signupSkills.onBlur(entry, $index, $last)"
           ng-change="signupSkills.onChange(entry, $index, $last)"
@@ -46,6 +46,19 @@
         </div>
       </div>
     </div>
+
+    <div class="form-group">
+      <label>Other skills</label>
+
+      <hc-label-typeahead
+        placeholder="Type a skill..."
+        ng-disabled="loading"
+        ng-model="skills"
+        hc-source="signupSkills.searchSkills($viewValue)"
+        hc-allow-new>
+      </hc-label-typeahead>
+    </div>
+
 
     <div class="form-group">
       <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
