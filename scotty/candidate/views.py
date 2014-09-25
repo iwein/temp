@@ -248,9 +248,11 @@ class CandidateOfferController(CandidateController):
     @reify
     def offer(self):
         offer_id = self.request.matchdict["id"]
-        offer = DBSession.query(CandidateOffer).filter(CandidateOffer.candidate_id == self.candidate.id).get(offer_id)
+        offer = DBSession.query(CandidateOffer).get(offer_id)
         if not offer:
             raise HTTPNotFound("Unknown Candidate ID")
+        elif offer.candidate_id != self.candidate.id:
+            raise HTTPForbidden("Offer not for this candidate.")
         return offer
 
     @view_config(route_name='candidate_offers', **GET)
