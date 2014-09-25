@@ -248,7 +248,7 @@ class CandidateOfferController(CandidateController):
     @reify
     def offer(self):
         offer_id = self.request.matchdict["id"]
-        offer = DBSession.query(CandidateOffer).get(offer_id)
+        offer = DBSession.query(CandidateOffer).filter(CandidateOffer.candidate_id == self.candidate.id).get(offer_id)
         if not offer:
             raise HTTPNotFound("Unknown Candidate ID")
         return offer
@@ -269,6 +269,20 @@ class CandidateOfferController(CandidateController):
 
         self.request.emailer.send_employer_offer_accepted(
             email=offer.employer.email,
+            candidate_name=self.candidate.full_name,
+            contact_name=offer.employer.contact_name,
+            company_name=offer.employer.company_name,
+            offer_id=offer.id,
+            candidate_id=self.candidate.id)
+        DBSession.flush()
+        return offer
+
+    @view_config(route_name='candidate_offer_hired', **POST)
+    def accept(self):
+        offer = self.offer
+        offer.hired()
+        DBSession.flush()
+        self.request.emailer.send_admin_candidate_hired_email(
             candidate_name=self.candidate.full_name,
             contact_name=offer.employer.contact_name,
             company_name=offer.employer.company_name,

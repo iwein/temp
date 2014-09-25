@@ -174,7 +174,7 @@ class EmployerOfferController(EmployerController):
     @reify
     def offer(self):
         offer_id = self.request.matchdict["offer_id"]
-        offer = DBSession.query(EmployerOffer).get(offer_id)
+        offer = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == self.employer.id).get(offer_id)
         if not offer:
             raise HTTPNotFound("Unknown Candidate ID")
         return offer
