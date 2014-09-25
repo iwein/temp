@@ -306,7 +306,6 @@ class CandidatePasswordController(RootController):
         resend = bool(self.request.json.get('resend'))
         return requestpassword(Candidate, email, resend, self.send_email)
 
-
     @view_config(route_name='candidate_resetpassword', **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
