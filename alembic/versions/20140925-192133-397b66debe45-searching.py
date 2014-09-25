@@ -15,11 +15,9 @@ import sqlalchemy as sa
 
 
 def upgrade():
+    op.execute(sa.text("alter table city add geog geography;"))
+    op.execute(sa.text("update city set geog = st_GeogFromText('SRID=4326;POINT(' || longitude || ' ' || latitude || ')');"))
     op.execute(sa.text("""
-        alter table city add geog geography;
-        update city set geog = st_GeogFromText('SRID=4326;POINT(' || longitude || ' ' || latitude || ')');
-
-
         create or replace FUNCTION candidate_search(skills varchar[], p_city_id int) RETURNS table (candidate_id uuid, matched_tags varchar[])
         AS $$
 
@@ -57,10 +55,33 @@ def upgrade():
         END;
         $$ LANGUAGE plpgsql;
     """))
+    op.execute(sa.text("""
+        create or replace FUNCTION employer_search(techs varchar[], city_id int, company_types int[]) RETURNS table (employer_id uuid, matched_tags varchar[])
+        AS $$
+
+        BEGIN
+
+        return query
+        select e.id,
+        array_agg(distinct s.name) as matched_tags
+        from employer e
+        join employer_office eo
+            on eo.employer_id = e.id
+        left join city ci
+            on ci.id = eo.address_city_id
+        join employer_skill es
+            on e.id = es.employer_id
+        join skill s
+            on s.id = es.skill_id
+        where s.name = any(techs)
+        and (ci.id = city_id or city_id is null)
+        group by e.id;
+        END;
+        $$ LANGUAGE plpgsql;
+    """))
 
 
 def downgrade():
-    op.execute(sa.text("""
-        alter table city drop column geog;
-        drop FUNCTION candidate_search(skills varchar[], p_city_id int);
-    """))
+    op.execute(sa.text("alter table city drop column geog;"))
+    op.execute(sa.text("drop FUNCTION candidate_search(skills varchar[], p_city_id int);"))
+    op.execute(sa.text("drop FUNCTION employer_search(techs varchar[], city_id int, company_types int[]);"))

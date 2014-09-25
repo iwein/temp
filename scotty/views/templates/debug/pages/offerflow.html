@@ -19,8 +19,9 @@
               extract: function(r, extr){
                 return {'employers': r}
               }},
-            {url:'/api/v1/employers/?tags=Python,Spring', title: 'employer-search-multi-1'},
+            {url:'/api/v1/employers/?tags=Python', title: 'employer-search'},
             {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE', title: 'employer-search-with-city'},
+            {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE&company_types=top500,startup', title: 'employer-search-city-ctype'},
             {url:'/api/v1/employers/?tags=Python,PHP', title: 'employer-search-multi-3'},
             {url:'/api/v1/employers/?tags=Python&offset=1&limit=1&&city=Berlin&country_iso=DE', title: 'employer-search-limit-offset'},
 
@@ -29,10 +30,10 @@
               extract: function(r, extr){
                 return {'candidates': r}
               }},
-            {url:'/api/v1/candidates/?tags=Python,Spring', title: 'candidates-search-multi-1'},
-            {url:'/api/v1/candidates/?tags=Python,Spring,Apache', title: 'candidates-search-multi-2'},
+            {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search'},
+            {url:'/api/v1/candidates/?tags=Python&city=Berlin&country_iso=DE', title: 'candidates-search-with-city'},
             {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
-            {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1', title: 'candidates-search-limit-offset'},
+            {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1&city=Berlin&country_iso=DE', title: 'candidates-search-limit-offset'},
 
             {'title': 'Employer Signup'}];
 
@@ -139,7 +140,6 @@
             data: {'status': 'JOB_STARTED'}},
           {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
             data: {'status': 'REJECTED'}},
-
           ]);
 
   $(function(){getTestRunner(tests)(0, {});})

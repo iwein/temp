@@ -237,7 +237,6 @@ class CandidateBookmarkController(CandidateController):
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
         employer_id = self.request.matchdict['id']
-
         self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers
                                                if str(e.id) != employer_id]
 

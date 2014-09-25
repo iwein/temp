@@ -5,11 +5,12 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict, HTTPServerError
 from pyramid.view import view_config
 from scotty import DBSession
+from scotty.configuration.models import CompanyType
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags, add_employer_offer
-from scotty.models.common import get_location_by_name_or_raise
+    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, search_employers
+from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -67,13 +68,18 @@ class EmployerController(RootController):
     @view_config(route_name='employers', **GET)
     def search(self):
         params = self.request.params
+
         tags = filter(None, params.get('tags', '').split(','))
+        city_id = None
         if 'country_iso' in params and 'city' in params:
-            city = get_location_by_name_or_raise(params)
+            city_id = get_location_by_name_or_raise(params).id
+        company_type_names = filter(None, params.get('company_type', '').split(','))
+        company_types = get_or_raise_named_collection(CompanyType, company_type_names).values()
+
 
         base_query = DBSession.query(MatchedEmployer).filter(MatchedEmployer.approved != None)
         if tags:
-            employer_lookup = get_employers_by_techtags(tags)
+            employer_lookup = search_employers(tags, city_id, company_types)
             employers = base_query.filter(MatchedEmployer.id.in_(employer_lookup.keys())).limit(20).all()
             for employer in employers:
                 employer.matched_tags = employer_lookup[str(employer.id)]

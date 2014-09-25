@@ -93,26 +93,15 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
             setattr(obj, field, transform(params[field]))
 
 
-def get_employers_by_techtags(tags):
-    params = {'tag_%d' % i: tag.lower() for i, tag in enumerate(tags)}
-
-    query = DBSession.execute(text("""
-            select e.id as id,
-                count(s.id) as noskills,
-                array_agg(s.name) as matched_tags
-                from employer e
-            join employer_skill es
-                on e.id = es.employer_id
-            join skill s
-                on s.id = es.skill_id
-            where e.approved is not null and lower(s.name) in (%s)
-            group by e.id
-            order by noskills desc
-            limit 20
-        """ % ','.join(':%s' % k for k in params.keys())), params)
-
+def search_employers(tags, city_id, company_types):
+    params = {'tags': ','.join(tags), 'city_id': city_id}
+    if company_types:
+        params['company_type'] = ', '.join([ct.name for ct in company_types])
+        query = DBSession.execute(text("""select * from employer_search(array[:tags], :city_id, array[:tags])"""), params)
+    else:
+        query = DBSession.execute(text("""select * from employer_search(array[:tags], :city_id, null)"""), params)
     results = list(query)
-    return {r['id']: r['matched_tags'] for r in results}
+    return {r['employer_id']: r['matched_tags'] for r in results}
 
 
 def get_employer_suggested_candidate_ids(employer_id):

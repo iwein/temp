@@ -147,7 +147,6 @@ def set_skills_on_candidate(candidate, params):
 
 def get_candidates_by_techtags(tags, city_id):
     params = {'tags': ','.join(tags), 'city_id': city_id}
-
     query = DBSession.execute(text("""select * from candidate_search(array[:tags], :city_id )"""), params)
     results = list(query)
     return {r['candidate_id']: r['matched_tags'] for r in results}
