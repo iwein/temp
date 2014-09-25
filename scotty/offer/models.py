@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.models.tools import json_encoder, PUBLIC
-from scotty.models.configuration import City, Role, Benefit, Skill, RejectionReason
+from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason
 from scotty.models.meta import Base, GUID
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint
 from sqlalchemy.orm import relationship

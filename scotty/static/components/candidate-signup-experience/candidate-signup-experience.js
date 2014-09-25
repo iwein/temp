@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   var months = [
@@ -18,13 +19,11 @@ define(function(require) {
     'December',
   ];
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, ConfigAPI, Session) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, toaster, ConfigAPI, Session) {
     this.searchCompanies = ConfigAPI.companies;
-    this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
     this.addAnother = addAnother;
-    this.setLocation = setLocation;
     this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
@@ -33,18 +32,13 @@ define(function(require) {
     $scope.loading = false;
 
     $scope.ready = false;
-    Session.checkSession().finally(function() {
+    Session.getUser().finally(function() {
       $scope.ready = true;
     });
 
+    ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
     bindDate('start');
     bindDate('end');
-
-    function setLocation(location) {
-      var city = ConfigAPI.getLocationFromText(location);
-      $scope.errorInvalidCity = city === null;
-      $scope.model.location = city;
-    }
 
     function nextStep(event) {
       event.preventDefault();
@@ -56,8 +50,6 @@ define(function(require) {
 
     function edit(entry) {
       $scope.model = entry;
-      $scope.locationText = ConfigAPI.locationToText(entry.location);
-
       var start = new Date(entry.start);
       $scope.startMonth = months[start.getMonth()];
       $scope.startYear = start.getFullYear();
@@ -66,45 +58,53 @@ define(function(require) {
         var end = new Date(entry.end);
         $scope.endMonth = months[end.getMonth()];
         $scope.endYear = start.getFullYear();
+      } else {
+        $scope.current = true;
       }
     }
 
     function save() {
-      if (!$scope.model.location || $scope.errorInvalidCity) {
-        $scope.errorInvalidCity = true;
-        return $q.reject(new Error('Form data not valid'));
-      }
-
       if (!$scope.model.skills.length) {
         $scope.formExperience.skill.$dirty = true;
         $scope.currentSkill = '';
         return $q.reject(new Error('Form data not valid'));
       }
 
+      if ($scope.current)
+        $scope.model.end = null;
+
       $scope.loading = true;
-      return Session.user.addExperience($scope.model);
+      return Session.user.addExperience($scope.model).catch(function(error) {
+        toaster.defaultError();
+        throw error;
+      });
     }
 
     function addAnother() {
-      save().then(function() {
+      return save().then(function() {
         return $scope.list.refresh();
       }).then(function() {
         $scope.formExperience.$setPristine();
-        $scope.locationText = '';
+        $scope.skills.setDirty(false);
         $scope.startMonth = '';
         $scope.startYear = '';
         $scope.endMonth = '';
         $scope.endYear = '';
         $scope.model = {};
-      }).finally(function() {
-        $scope.loading = false;
+      });
+    }
+
+    function saveAndContinue() {
+      return save().then(function() {
+        return $scope.signup.nextStep();
       });
     }
 
     function submit() {
-      save().then(function() {
-        return $scope.signup.nextStep();
-      }).finally(function() {
+      ( $scope.addAnother ?
+        addAnother() :
+        saveAndContinue()
+      ).finally(function() {
         $scope.loading = false;
       });
     }

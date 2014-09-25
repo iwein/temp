@@ -5,12 +5,14 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.models import Candidate, Education, WorkExperience, TargetPosition, Employer, FullCandidate, \
-    MatchedCandidate, CandidateOffer, RejectionReason
-from scotty.services.candidateservice import candidate_from_signup, candidate_from_login, add_candidate_education, \
+from scotty.candidate.models import Candidate, Education, WorkExperience, TargetPosition, FullCandidate, \
+    MatchedCandidate, CandidateOffer
+from scotty.candidate.service import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredcities_on_candidate, edit_candidate, get_candidates_by_techtags
-from scotty.services.common import get_by_name_or_raise
+    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags
+from scotty.configuration.models import RejectionReason
+from scotty.employer.models import Employer
+from scotty.models.common import get_by_name_or_raise
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -99,10 +101,11 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
-        workflow = {'active': candidate.activated != None,
-                    'ordering': ['target_positions', 'work_experience', 'skills', 'education', 'languages', 'image',
-                                 'active', ], 'image': candidate.picture_url is not None,
-                    'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0, 'target_positions': len(candidate.target_positions) > 0,
+        workflow = {'active': candidate.activated is not None,
+                    'ordering': ['target_positions', 'work_experience', 'education', 'skills', 'languages', 'image',
+                                 'active'], 'image': candidate.picture_url is not None,
+                    'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
+                    'target_positions': len(candidate.target_positions) > 0,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
 
@@ -127,13 +130,13 @@ class CandidateController(RootController):
     def list_languages(self):
         return self.candidate.languages
 
-    @view_config(route_name='candidate_preferred_cities', **PUT)
+    @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        return set_preferredcities_on_candidate(self.candidate, self.request.json)
+        return set_preferredlocations_on_candidate(self.candidate, self.request.json)
 
-    @view_config(route_name='candidate_preferred_cities', **GET)
+    @view_config(route_name='candidate_preferred_locations', **GET)
     def list_preferred_cities(self):
-        return self.candidate.preferred_cities
+        return self.candidate.get_preferred_locations
 
     @view_config(route_name='candidate_skills', **PUT)
     def set_skills(self):
@@ -229,7 +232,8 @@ class CandidateBookmarkController(CandidateController):
     def delete(self):
         employer_id = self.request.matchdict['id']
 
-        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) != employer_id]
+        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers
+                                               if str(e.id) != employer_id]
 
         return {"status": "success"}
 
@@ -287,34 +291,3 @@ class CandidateOfferController(CandidateController):
             offer_id=offer.id,
             candidate_id=self.candidate.id)
         return offer
-
-
-def includeme(config):
-    config.add_route('candidates', '')
-    config.add_route('candidate_login', 'login')
-    config.add_route('candidate_logout', 'logout')
-    config.add_route('candidate_activate', 'activate/{token}')
-
-    config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
-    config.add_route('candidate', '{candidate_id}')
-    config.add_route('candidate_picture', '{candidate_id}/picture')
-    config.add_route('candidate_skills', '{candidate_id}/skills')
-    config.add_route('candidate_preferred_cities', '{candidate_id}/preferred_cities')
-    config.add_route('candidate_languages', '{candidate_id}/languages')
-
-    config.add_route('candidate_educations', '{candidate_id}/education')
-    config.add_route('candidate_education', '{candidate_id}/education/{id}')
-
-    config.add_route('candidate_bookmarks', '{candidate_id}/bookmarks')
-    config.add_route('candidate_bookmark', '{candidate_id}/bookmarks/{id}')
-
-    config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
-    config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
-
-    config.add_route('target_positions', '{candidate_id}/target_positions')
-    config.add_route('target_position', '{candidate_id}/target_positions/{id}')
-
-    config.add_route('candidate_offers', '{candidate_id}/offers')
-    config.add_route('candidate_offer', '{candidate_id}/offers/{id}')
-    config.add_route('candidate_offer_accept', '{candidate_id}/offers/{id}/accept')
-    config.add_route('candidate_offer_reject', '{candidate_id}/offers/{id}/reject')
