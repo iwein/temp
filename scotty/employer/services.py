@@ -81,7 +81,7 @@ def add_employer_offer(employer, params):
         where ST_Distance(cg.g, city.geog) < 50000 and candidate_id = :candidate_id
         limit 100;
     """), {'candidate_id': candidate_id, 'city_id': location.id})
-    if len(list(matches)) == 0:
+    if sum([m[0] for m in matches]) == 0:
         raise HTTPBadRequest("Location unsuitable.")
 
     blacklisted = DBSession.query(candidate_employer_blacklist).filter(candidate_employer_blacklist.c.candidate_id == candidate_id) \

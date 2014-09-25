@@ -16,8 +16,8 @@ var CANDIDATE_SIGNUP = function(email){
 var CANDIDATE_COMPLETE_PROFILE = function(email) {
     return [
         {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'create-target_position',
-              data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: true,
-                travel_willingness:'>50%', minimum_salary: 100000},
+              data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: false,
+                travel_willingness:'<10%', minimum_salary: 100000},
               extract:   function(r, extr){return {target_positionId: r.id}}},
 
         {url: function(r, extr){return '/api/v1/candidates/me/languages'},
@@ -39,7 +39,7 @@ var CANDIDATE_COMPLETE_PROFILE = function(email) {
         }},
         {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
             title: 'set-preferred_locations-1', method:'PUT',
-            data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
+            data: {DE: ['Berlin', 'Leipzig'], BR: ['Uberlândia']}},
         {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education',
               data: {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland", "degree":null,
                 "start":1999, course:"Design of Intelligent Protoplasma"},
