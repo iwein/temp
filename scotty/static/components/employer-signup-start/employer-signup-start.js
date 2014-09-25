@@ -38,6 +38,8 @@ define(function(require) {
 
     function submit() {
       $scope.loading = true;
+      // TODO: Fix with #199
+      $scope.model.company_type = 'top500';
 
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :

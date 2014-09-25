@@ -5,23 +5,28 @@ define(function(require) {
   require('tools/file-upload/data-url-directive');
   require('tools/file-upload/file-select-directive');
   var _ = require('underscore');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('SignupBasicCtrl', function($scope, $q, toaster, ConfigAPI, Session, Amazon) {
-    this.searchLocations = ConfigAPI.locationsText;
+    this.searchLocations = searchLocations;
     this.setLocation = setLocation;
     this.selectFile = selectFile;
-    // this.removeOffice = removeOffice;
-    // this.editOffice = editOffice;
-    // this.submitOffice = submitOffice;
+    this.removeOffice = removeOffice;
+    this.editOffice = editOffice;
+    this.submitOffice = submitOffice;
     this.submit = submit;
     $scope.loading = true;
     $scope.loadingOffice = false;
     $scope.model = {};
     $scope.office = {};
     $scope.offices = [];
+    var citiesCache = [];
 
-    //listOffices();
+    ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
+    ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
+
+    listOffices();
     Session.getUser().then(function(user) {
       return user && user.getData();
     }).then(function(data) {
@@ -30,14 +35,6 @@ define(function(require) {
       $scope.model = _.pick(data, [
         'logo_url',
         'website',
-        'address_line1',
-        'address_line2',
-        'address_line3',
-        'address_zipcode',
-        'address_city',
-        'contact_name',
-        'contact_phone',
-        'contact_position',
         'fb_url',
         'linkedin_url',
       ]);
@@ -49,10 +46,20 @@ define(function(require) {
       $scope.loading = false;
     });
 
-    function setLocation(model, location) {
-      var city = ConfigAPI.getLocationFromText(location);
-      model.errorInvalidCity = city === null;
-      model.address_city = city;
+    function searchLocations(term, country) {
+      return ConfigAPI.locations({
+        country_iso: country,
+        q: term,
+      }).then(function(locations) {
+        citiesCache = locations.map(fn.get('city'));
+        return citiesCache;
+      });
+    }
+
+    function setLocation(city) {
+      $scope.errorInvalidCity = citiesCache.indexOf(city) === -1;
+      if ($scope.errorInvalidCity)
+        $scope.office.address_city.city = '';
     }
 
     function selectFile(files) {
@@ -61,16 +68,20 @@ define(function(require) {
         $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
     }
 
-    /*
     function listOffices() {
-      return Session.user.listOffices().then(function(offices) {
+      return Session.getUser().then(function(user) {
+        return user && user.listOffices();
+      }).then(function(offices) {
         $scope.offices = offices;
       });
     }
 
     function removeOffice(office) {
       $scope.loadingOffice = true;
-      return Session.user.removeOffice(office)
+      return Session.getUser()
+        .then(function(user) {
+          return user.removeOffice(office);
+        })
         .then(listOffices)
         .finally(function() {
           $scope.loadingOffice = false;
@@ -80,7 +91,6 @@ define(function(require) {
     function editOffice(office) {
       removeOffice(office).then(function() {
         $scope.office = office;
-        $scope.officeLocationText = ConfigAPI.locationToText(office.address_city);
       });
     }
 
@@ -91,17 +101,18 @@ define(function(require) {
           delete $scope.office[key];
       });
 
-      return Session.user.addOffice($scope.office)
+      return Session.getUser()
+        .then(function(user) {
+          return user.addOffice($scope.office);
+        })
         .then(listOffices)
         .then(function() {
           $scope.office = {};
-          $scope.officeLocationText = '';
         })
         .finally(function() {
           $scope.loadingOffice = false;
         });
     }
-    */
 
     function submit() {
       if (!$scope.files || !$scope.files.length) {
@@ -111,21 +122,22 @@ define(function(require) {
       if ($scope.errorFileImage)
         return;
 
+      Object.keys($scope.model).forEach(function(key) {
+        if (!$scope.model[key])
+          delete $scope.model[key];
+      });
+
       $scope.loading = true;
 
-      //$q.when($scope.formSignupBasicOffice.$valid && submitOffice())
-      $q.when(true).then(function() {
+      $q.when($scope.formSignupBasicOffice.$valid && submitOffice()).then(function() {
         return Amazon.upload($scope.files[0], 'logo', Session.id());
       }).then(function(url) {
-        Object.keys($scope.model).forEach(function(key) {
-          if (!$scope.model[key])
-            delete $scope.model[key];
-        });
-
         $scope.model.logo_url = url;
-        return Session.user.updateData($scope.model);
+        return Session.getUser();
+      }).then(function(user) {
+        return user.updateData($scope.model);
       }).then(function() {
-        $scope.signup.nextStep();
+        return $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
