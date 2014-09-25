@@ -7,6 +7,8 @@ Create Date: 2014-09-25 19:21:33.684000
 """
 
 # revision identifiers, used by Alembic.
+from scotty.models import GUID
+
 revision = '397b66debe45'
 down_revision = '24dcdfa58275'
 
@@ -15,6 +17,17 @@ import sqlalchemy as sa
 
 
 def upgrade():
+    op.add_column('offer', sa.Column('message', sa.Text(), nullable=False))
+    op.add_column('offer', sa.Column('rejected_text', sa.Text(), nullable=True))
+    op.create_table('candidate_employer_blacklist',
+                    sa.Column('candidate_id', GUID(), nullable=False),
+                    sa.Column('employer_id', GUID(), nullable=False),
+                    sa.Column('created', sa.DateTime(), server_default='now()', nullable=False),
+                    sa.ForeignKeyConstraint(['candidate_id'], ['candidate.id'], ),
+                    sa.ForeignKeyConstraint(['employer_id'], ['employer.id'], ),
+                    sa.PrimaryKeyConstraint('candidate_id', 'employer_id')
+    )
+
     op.execute(sa.text("alter table city add geog geography;"))
     op.execute(sa.text("update city set geog = st_GeogFromText('SRID=4326;POINT(' || longitude || ' ' || latitude || ')');"))
     op.execute(sa.text("""
@@ -82,6 +95,9 @@ def upgrade():
 
 
 def downgrade():
+    op.drop_table('candidate_employer_blacklist')
+    op.drop_column('offer', 'message')
+    op.drop_column('offer', 'rejected_text')
     op.execute(sa.text("alter table city drop column geog;"))
     op.execute(sa.text("drop FUNCTION candidate_search(skills varchar[], p_city_id int);"))
     op.execute(sa.text("drop FUNCTION employer_search(techs varchar[], city_id int, company_types int[]);"))

@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta
-from uuid import uuid4
+from datetime import datetime
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest, HTTPServerError
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -18,7 +17,9 @@ from scotty.services.pwd_reset import requestpassword, validatepassword, resetpa
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
+import logging
 
+log = logging.getLogger(__name__)
 
 class CandidateController(RootController):
     @reify
@@ -280,8 +281,16 @@ class CandidateOfferController(CandidateController):
     def reject(self):
         offer = self.offer
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
-        offer.reject(reason)
+        offer.reject(reason, self.request.json.get('rejected_text'))
         DBSession.flush()
+
+        if self.request.json.get('blacklist'):
+            employer = DBSession.query(Employer).get(offer.employer.id)
+            try:
+                self.candidate.blacklisted_employers.append(employer)
+            except IntegrityError, e:
+                # alreadyblacklisted
+                log.info(e)
 
         self.request.emailer.send_employer_offer_rejected(
             email=offer.employer.email,

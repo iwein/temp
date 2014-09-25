@@ -92,10 +92,11 @@ class OfferStatusWorkflow(object):
         else:
             raise InvalidStatusError("Offer cant be accepted, it is in state: %s." % self.status)
 
-    def reject(self, reason):
+    def reject(self, reason, rejected_text=None):
         if self.status != self.statuses[-1]:
             self.rejected = datetime.now()
             self.rejected_reason = reason
+            self.rejected_text = rejected_text
         else:
             raise InvalidStatusError("Offer already rejected")
 
@@ -143,6 +144,7 @@ class Offer(Base, OfferStatusWorkflow):
 
     rejected_reason_id = Column(Integer, ForeignKey("rejectionreason.id"))
     rejected_reason = relationship(RejectionReason, info=PUBLIC)
+    rejected_text = Column(Text)
 
     candidate_id = Column(GUID, ForeignKey('candidate.id'), nullable=False)
     employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
@@ -152,6 +154,7 @@ class Offer(Base, OfferStatusWorkflow):
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role, info=PUBLIC)
     annual_salary = Column(Integer, nullable=False, info=PUBLIC)
+    message = Column(Text, nullable=False, info=PUBLIC)
 
     interview_details = Column(Text, info=PUBLIC)
     job_description = Column(Text, info=PUBLIC)

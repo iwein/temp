@@ -141,6 +141,11 @@ candidate_bookmark_employer = Table('candidate_bookmark_employer', Base.metadata
                                     Column('created', DateTime, nullable=False, default=datetime.now,
                                            server_default=func.now()))
 
+candidate_employer_blacklist = Table('candidate_employer_blacklist', Base.metadata,
+                                     Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
+                                     Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
+                                     Column('created', DateTime, nullable=False, default=datetime.now, server_default=func.now()))
+
 
 class PreferredLocation(Base):
     __tablename__ = 'candidate_preferred_location'
@@ -221,6 +226,10 @@ class Candidate(Base):
     bookmarked_employers = relationship("Employer", secondary=candidate_bookmark_employer,
                                         order_by=candidate_bookmark_employer.c.created.desc(),
                                         backref="interested_candidates")
+
+    blacklisted_employers = relationship("Employer", secondary=candidate_employer_blacklist,
+                                         order_by=candidate_employer_blacklist.c.created.desc(),
+                                         backref="blacklisted")
 
     @property
     def full_name(self):

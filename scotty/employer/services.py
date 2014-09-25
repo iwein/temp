@@ -1,4 +1,6 @@
 import hashlib
+from pyramid.httpexceptions import HTTPBadRequest
+from scotty.candidate.models import Candidate, candidate_employer_blacklist
 
 from scotty.models.meta import DBSession
 from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType
@@ -6,7 +8,7 @@ from scotty.employer.models import Employer, Office
 from scotty.offer.models import EmployerOffer
 from scotty.models.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection, get_by_name_or_raise
-from sqlalchemy import text
+from sqlalchemy import text, func
 
 
 ID = lambda x: x
@@ -62,14 +64,37 @@ def add_employer_office(employer, params, lookup=EMPLOYER_OFFICE):
 
 
 def add_employer_offer(employer, params):
-    candidate = params['candidate']
+    candidate_id = params['candidate']['id']
+    candidate = DBSession.query(Candidate).get(candidate_id)
+    if not candidate:
+        raise HTTPBadRequest("Unknown candidate")
+    annual_salary = int(params['annual_salary'])
+    location = get_location_by_name_or_raise(params['location'])
+    for tp in candidate.target_positions:
+        if tp.minimum_salary > annual_salary:
+            raise HTTPBadRequest("Salary too low.")
+    matches = DBSession.execute(text("""
+        select count(distinct cpl.id)
+        from  candidate_preferred_location cpl
+        join city on city.id = cpl.city_id,
+        (select st_GeogFromText('SRID=4326;POINT(' || longitude || ' ' || latitude || ')') as g from city where id=:city_id) cg
+        where ST_Distance(cg.g, city.geog) < 50000 and candidate_id = :candidate_id
+        limit 100;
+    """), {'candidate_id': candidate_id, 'city_id': location.id})
+    if len(list(matches)) == 0:
+        raise HTTPBadRequest("Location unsuitable.")
+
+    blacklisted = DBSession.query(candidate_employer_blacklist).filter(candidate_employer_blacklist.c.candidate_id == candidate_id) \
+        .filter(candidate_employer_blacklist.c.employer_id == employer.id).count()
+    if blacklisted > 0:
+        raise HTTPBadRequest("Employer Blacklisted.")
+
     role = get_by_name_or_create(Role, params["role"])
     benefits = get_or_create_named_collection(Benefit, params['benefits'])
     techs = get_or_create_named_collection(Skill, params['technologies'])
-    location = get_location_by_name_or_create(params['location'])
-    o = EmployerOffer(employer_id=employer.id, candidate_id=candidate['id'], role=role, benefits=benefits, technologies=techs,
-                      location=location, annual_salary=int(params['annual_salary']), interview_details=params.get('interview_details'),
-                      job_description=params.get('job_description'))
+    o = EmployerOffer(employer_id=employer.id, candidate_id=candidate.id, role=role, benefits=benefits, technologies=techs,
+                      location=location, annual_salary=annual_salary, interview_details=params.get('interview_details'),
+                      job_description=params.get('job_description'), message=params['message'])
     DBSession.add(o)
     DBSession.flush()
     return o

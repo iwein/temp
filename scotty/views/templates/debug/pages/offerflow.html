@@ -4,8 +4,8 @@
 <%def name="title()">Offer flow</%def>
 
 <%def name="scripts()">
-  <script src="/debug/static/employer_signup.js"></script>
-  <script src="/debug/static/candidate_signup.js"></script>
+<script src="/debug/static/employer_signup.js"></script>
+<script src="/debug/static/candidate_signup.js"></script>
 </%def>
 
 <%def name="tests()">
@@ -45,7 +45,7 @@
             }
           ])
           .concat([
-              {'title': 'Candidate Signup'}
+            {'title': 'Candidate Signup'}
           ])
           .concat(CANDIDATE_SIGNUP(cand_email))
           .concat(CANDIDATE_COMPLETE_PROFILE(cand_email))
@@ -71,75 +71,146 @@
 
 
             {'title': 'Offering'},
-            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-to-candidate', method:'POST',
-            data: function(r, extr){
-              return {
-                candidate: {id: extr.candidateId},
-                location: {'city': 'Dresden', country_iso:'DE'},
-                benefits: ['Coffee', 'Massages'],
-                technologies: ['PHP', 'Python'],
-                role: 'Senior Artchitect',
-                annual_salary: 2000000,
-                interview_details: 'We will interview you',
-                job_description: 'You will work for us',
-              }
-            }, extract: function(r, extr){return {offer1Id: r.id}}
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer', method:'POST',
+              data: function(r, extr){
+                return {
+                  candidate: {id: extr.candidateId},
+                  location: {'city': 'Dresden', country_iso:'DE'},
+                  benefits: ['Coffee', 'Massages'],
+                  technologies: ['PHP', 'Python'],
+                  role: 'Senior Artchitect',
+                  annual_salary: 2000000,
+                  message: 'Hi There, we like you, so we make this offer to you',
+                  interview_details: 'We will interview you',
+                  job_description: 'You will work for us',
+                }
+              }, extract: function(r, extr){return {offer1Id: r.id}}
             },
 
-            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-to-candidate', method:'POST',
-            data: function(r, extr){
-              return {
-                candidate: {id: extr.candidateId},
-                location: {'city': 'Berlin', country_iso:'DE'},
-                benefits: ['Company car', 'Breakfasts'],
-                technologies: ['Apache', 'Java'],
-                role: 'Senior Artchitect',
-                annual_salary: 3,
-                interview_details: 'We might interview you',
-                job_description: 'you could work for us',
-              }
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer', method:'POST',
+              data: function(r, extr){
+                return {
+                  candidate: {id: extr.candidateId},
+                  location: {'city': 'Berlin', country_iso:'DE'},
+                  benefits: ['Company car', 'Breakfasts'],
+                  technologies: ['Apache', 'Java'],
+                  role: 'Senior Artchitect',
+                  annual_salary: 3000000,
+                  message: 'Hi There, we like you, so we make this offer to you 2',
+                  interview_details: 'We might interview you',
+                  job_description: 'you could work for us',
+                }
+              },
+              extract: function(r, extr){return {offer2Id: r.id}}
             },
-            extract: function(r, extr){return {offer2Id: r.id}}
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-get-my-offers'},
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
+              title: 'candidate-get-my-offers'},
+
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id;},
+              title: 'candidate-get-offer'},
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id;},
+              title: 'employer-get-offer'},
+
+            {'title': 'Offer Responses'},
+
+
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/reject';},
+              method: "POST", data:{reason: 'Salary offer not high enough'}, title: 'candidate-reject-1'},
+
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer2Id+'/accept';},
+              method: "POST", data:{}, title: 'candidate-accept-2'},
+
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
+              title: 'candidate-get-my-offers'},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set_status',
+              data: {'status': 'INTERVIEW'}},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-alreadyset',
+              data: {'status': 'INTERVIEW'}, expectedErrors:[400]},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-cantsetyet',
+              data: {'status': 'CONTRACT_SIGNED'}, expectedErrors:[400]},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+              data: {'status': 'CONTRACT_SENT'}},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+              data: {'status': 'CONTRACT_RECEIVED'}},
+            {url:'/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offer-bystatus'},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+              data: {'status': 'CONTRACT_SIGNED'}},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
+              data: {'status': 'JOB_STARTED'}},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
+              data: {'status': 'REJECTED'}},
+
+
+
+            {'sectionTitle': 'Rejection & Blacklisting'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-too-low', method:'POST',
+              data: function(r, extr){
+                return {
+                  candidate: {id: extr.candidateId},
+                  location: {'city': 'Berlin', country_iso:'DE'},
+                  benefits: ['Company car', 'Breakfasts'],
+                  technologies: ['Apache', 'Java'],
+                  role: 'Senior Artchitect',
+                  annual_salary: 2,
+                  message: 'Hi There, we like you, so we make this offer to you 2',
+                  interview_details: 'We might interview you',
+                  job_description: 'you could work for us',
+                }
+              }, expectedErrors: [400]
             },
 
-          {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-get-my-offers'},
-          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
-            title: 'candidate-get-my-offers'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-elsewhere', method:'POST',
+              data: function(r, extr){
+                return {
+                  candidate: {id: extr.candidateId},
+                  location: {'city': 'London', country_iso:'GB'},
+                  benefits: ['Company car', 'Breakfasts'],
+                  technologies: ['Apache', 'Java'],
+                  role: 'Senior Artchitect',
+                  annual_salary: 2000001,
+                  message: 'Hi There, we like you, so we make this offer to you 2',
+                  interview_details: 'We might interview you',
+                  job_description: 'you could work for us',
+                }
+              }, expectedErrors: [400]
+            },
 
-          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id;},
-            title: 'candidate-get-offer'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-elsewhere', method:'POST',
+              data: function(r, extr){
+                return {
+                  candidate: {id: extr.candidateId},
+                  location: {'city': 'Berlin', country_iso:'DE'},
+                  benefits: ['Company car', 'Breakfasts'],
+                  technologies: ['Apache', 'Java'],
+                  role: 'Senior Artchitect',
+                  annual_salary: 20000020,
+                  message: 'Hi There, we like you, so we make this offer to you 2',
+                  interview_details: 'We might interview you',
+                  job_description: 'you could work for us',
+                }
+              }, extract: function(r, extr){return {offer3Id: r.id}}
+            },
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer3Id+'/reject';},
+              method: "POST", data:{reason: 'Other', 'rejected_text': 'really didnt like this much', blacklist: true}, title: 'candidate-blacklist-employer'},
 
-          {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id;},
-            title: 'employer-get-offer'},
-
-          {'title': 'Offer Responses'},
-
-
-          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/reject';},
-            method: "POST", data:{reason: 'Salary too low'}, title: 'candidate-reject-1'},
-
-          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer2Id+'/accept';},
-            method: "POST", data:{}, title: 'candidate-accept-2'},
-
-          {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
-            title: 'candidate-get-my-offers'},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set_status',
-            data: {'status': 'INTERVIEW'}},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-alreadyset',
-            data: {'status': 'INTERVIEW'}, expectedErrors:[400]},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-cantsetyet',
-            data: {'status': 'CONTRACT_SIGNED'}, expectedErrors:[400]},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
-            data: {'status': 'CONTRACT_SENT'}},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
-            data: {'status': 'CONTRACT_RECEIVED'}},
-          {url:'/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offer-bystatus'},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
-            data: {'status': 'CONTRACT_SIGNED'}},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
-            data: {'status': 'JOB_STARTED'}},
-          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
-            data: {'status': 'REJECTED'}},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer-blacklisted', method:'POST',
+              data: function(r, extr){
+                return {
+                  candidate: {id: extr.candidateId},
+                  location: {'city': 'Berlin', country_iso:'DE'},
+                  benefits: ['Company car', 'Breakfasts'],
+                  technologies: ['Apache', 'Java'],
+                  role: 'Senior Artchitect',
+                  annual_salary: 20000002,
+                  message: 'Hi There, we like you, so we make this offer to you 2',
+                  interview_details: 'We might interview you',
+                  job_description: 'you could work for us',
+                }
+              } , expectedErrors: [400]
+            },
           ]);
 
   $(function(){getTestRunner(tests)(0, {});})
