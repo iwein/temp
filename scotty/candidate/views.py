@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from uuid import uuid4
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest, HTTPServerError
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -42,7 +43,7 @@ class CandidateController(RootController):
         except IntegrityError:
             raise HTTPConflict("User already signed up!")
         self.request.session['candidate_id'] = candidate.id
-        self.request.emailer.send_welcome(candidate.email, candidate.first_name, candidate.activation_token)
+        self.request.emailer.send_candidate_welcome(candidate.email, candidate.first_name, candidate.activation_token)
         candidate.activation_sent = datetime.now()
         return candidate
 
@@ -291,3 +292,50 @@ class CandidateOfferController(CandidateController):
             offer_id=offer.id,
             candidate_id=self.candidate.id)
         return offer
+
+
+class CandidatePasswordController(RootController):
+
+    @view_config(route_name='candidate_requestpassword', **POST)
+    def requestpassword(self):
+        email = self.request.json['email']
+        resend = bool(self.request.json.get('resend'))
+        candidate = DBSession.query(Candidate).filter(Candidate.email == email).first()
+        if not candidate:
+            raise HTTPNotFound('Unknown Email')
+
+        benchtime = datetime.now() - timedelta(1)
+        if not candidate.pwdforgot_sent or resend or candidate.pwdforgot_sent <= benchtime:
+            candidate.pwdforgot_token = uuid4()
+            candidate.pwdforgot_send = datetime.now()
+            self.request.emailer.send_candidate_pwdforgot(candidate.email, candidate.first_name, candidate.pwdforgot_token)
+            return {'success': True, 'token': candidate.pwdforgot_token}
+        elif candidate.pwdforgot_sent > benchtime:
+            raise HTTPConflict("Token was send within last 24 hours")
+        else:
+            raise HTTPServerError("Shouldnt get here")
+
+    @view_config(route_name='candidate_resetpassword', **GET)
+    def validatepassword(self):
+        token = self.request.matchdict['token']
+        candidate = DBSession.query(Candidate).filter(Candidate.pwdforgot_token == token).first()
+        if not candidate:
+            raise HTTPNotFound('Unknown Email')
+        else:
+            return {'success': True}
+
+    @view_config(route_name='candidate_resetpassword', **POST)
+    def resetpassword(self):
+        token = self.request.matchdict['token']
+        candidate = DBSession.query(Candidate).filter(Candidate.pwdforgot_token == token).first()
+        if not candidate:
+            raise HTTPNotFound('Unknown Email')
+        else:
+            candidate.pwdforgot_sent = None
+            candidate.pwdforgot_token = None
+            candidate.password = self.request.json['pwd']
+            return {'success': True}
+
+
+
+

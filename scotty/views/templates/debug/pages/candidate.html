@@ -46,6 +46,15 @@
               }},
             {url: '/api/v1/candidates/me', title: 'candidate-me-2'},
 
+            {title: 'Password Forgot'},
+            {url: '/api/v1/candidates/requestpassword', title: 'candidate-pwd-forgot', data: {email: email},
+            extract: function(r, extr){return {pwdToken: r.token}}},
+            {url: function(r, extr){ return '/api/v1/candidates/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-validate-token'},
+            {url: function(r, extr){ return '/api/v1/candidates/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-reset', data: {pwd: 'helloworld'}},
+            {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after pwd-reset',
+              data: {"email": email, pwd:"helloworld"}
+            },
+
             //{'sectionTitle': 'Set Based Endpoints'},
 
             {title: 'Languages'},

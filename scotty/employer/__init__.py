@@ -3,6 +3,8 @@ def includeme(config):
     config.add_route('employers_invite', 'invite/{token}')
     config.add_route('employer_login', 'login')
     config.add_route('employer_logout', 'logout')
+    config.add_route('employer_requestpassword', 'requestpassword')
+    config.add_route('employer_resetpassword', 'resetpassword/{token}')
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')

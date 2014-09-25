@@ -14,11 +14,10 @@ from sqlalchemy.orm import joinedload
 
 
 def candidate_from_signup(params):
-    pwd = hashlib.sha256(params['pwd']).hexdigest()
-
     status = get_by_name_or_raise(CandidateStatus, "active")
-    candidate = FullCandidate(email=params['email'], pwd=pwd, first_name=params['first_name'], last_name=params['last_name'],
+    candidate = FullCandidate(email=params['email'], first_name=params['first_name'], last_name=params['last_name'],
                               status=status)
+    candidate.password = params['pwd']
     return candidate
 
 

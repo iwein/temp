@@ -4,6 +4,8 @@ def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
     config.add_route('candidate_logout', 'logout')
+    config.add_route('candidate_requestpassword', 'requestpassword')
+    config.add_route('candidate_resetpassword', 'resetpassword/{token}')
     config.add_route('candidate_activate', 'activate/{token}')
 
     config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')

@@ -1,6 +1,7 @@
+import hashlib
 from uuid import uuid4
 from datetime import datetime
-from scotty.models.tools import json_encoder, PUBLIC
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE
 
 from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
@@ -170,9 +171,11 @@ class Candidate(Base):
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
-    activation_token = Column(GUID, unique=True, default=uuid4)
-    activation_sent = Column(DateTime)
-    activated = Column(DateTime)
+    pwdforgot_token = Column(GUID, unique=True, info=PRIVATE)
+    pwdforgot_sent = Column(DateTime, info=PRIVATE)
+    activation_token = Column(GUID, unique=True, default=uuid4, info=PRIVATE)
+    activation_sent = Column(DateTime, info=PRIVATE)
+    activated = Column(DateTime, info=PRIVATE)
 
     email = Column(String(512), nullable=False, unique=True)
     pwd = Column(String(128), nullable=False)
@@ -227,6 +230,13 @@ class Candidate(Base):
     def full_name(self):
         return u'%s %s' % (self.first_name, self.last_name)
 
+    @property
+    def password(self):
+        return self.pwd
+
+    @password.setter
+    def password(self, value):
+        self.pwd = hashlib.sha256(value).hexdigest()
 
     def get_preferred_locations(self):
         if not self.preferred_locations:

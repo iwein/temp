@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from uuid import uuid4
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict, HTTPServerError
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
@@ -190,4 +191,50 @@ class EmployerOfferController(EmployerController):
     def delete(self):
         DBSession.delete(self.offer)
         return {"status": "success"}
+
+
+class EmployerPasswordController(RootController):
+
+    @view_config(route_name='employer_requestpassword', **POST)
+    def requestpassword(self):
+        email = self.request.json['email']
+        resend = bool(self.request.json.get('resend'))
+        employer = DBSession.query(Employer).filter(Employer.email == email).first()
+        if not employer:
+            raise HTTPNotFound('Unknown Email')
+
+        benchtime = datetime.now() - timedelta(1)
+        if not employer.pwdforgot_sent or resend or employer.pwdforgot_sent <= benchtime:
+            employer.pwdforgot_token = uuid4()
+            employer.pwdforgot_send = datetime.now()
+            self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
+                                                         employer.company_name, employer.pwdforgot_token)
+            return {'success': True, 'token': employer.pwdforgot_token}
+        elif employer.pwdforgot_sent > benchtime:
+            raise HTTPConflict("Token was send within last 24 hours")
+        else:
+            raise HTTPServerError("Shouldnt get here")
+
+    @view_config(route_name='employer_resetpassword', **GET)
+    def validatepassword(self):
+        token = self.request.matchdict['token']
+        employer = DBSession.query(Employer).filter(Employer.pwdforgot_token == token).first()
+        if not employer:
+            raise HTTPNotFound('Unknown Email')
+        else:
+            return {'success': True}
+
+    @view_config(route_name='employer_resetpassword', **POST)
+    def resetpassword(self):
+        token = self.request.matchdict['token']
+        employer = DBSession.query(Employer).filter(Employer.pwdforgot_token == token).first()
+        if not employer:
+            raise HTTPNotFound('Unknown Email')
+        else:
+            employer.pwdforgot_sent = None
+            employer.pwdforgot_token = None
+            employer.password = self.request.json['pwd']
+            return {'success': True}
+
+
 
