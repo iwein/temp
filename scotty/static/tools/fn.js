@@ -1,6 +1,12 @@
 define(function() {
   'use strict';
 
+  function not(fn) {
+    return function() {
+      return !fn.apply(this, arguments);
+    };
+  }
+
   function setTo(key, object, value) {
     object[key] = value;
     return value;
@@ -16,6 +22,11 @@ define(function() {
   }
 
   function invoke(key, args, object) {
+    return object[key].apply(object, args);
+  }
+
+  function invokeOn(key, object /*, ...args */) {
+    var args = [].slice.call(arguments, 2);
     return object[key].apply(object, args);
   }
 
@@ -36,10 +47,12 @@ define(function() {
   }
 
   return {
+    not: not,
     setTo: curry(setTo),
     set: curry(set),
     get: curry(get),
     invoke: curry(invoke),
+    invokeOn: curry(invokeOn, 3),
     curry: curry,
   };
 });

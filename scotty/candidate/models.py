@@ -2,9 +2,9 @@ from uuid import uuid4
 from datetime import datetime
 from scotty.models.tools import json_encoder, PUBLIC
 
-from scotty.models.offer import CandidateOffer
-from scotty.models.configuration import Title, Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
-    Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness
+from scotty.offer.models import CandidateOffer
+from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
+    Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness, Salutation
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 from scotty.models.meta import Base, NamedModel, GUID
@@ -24,8 +24,8 @@ class Education(Base):
 
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
-    start = Column(Date, nullable=False)
-    end = Column(Date)
+    start = Column(Integer, nullable=False)
+    end = Column(Integer)
 
     course_id = Column(Integer, ForeignKey(Course.id), nullable=False)
     course = relationship(Course)
@@ -33,7 +33,7 @@ class Education(Base):
     institution_id = Column(Integer, ForeignKey(Institution.id), nullable=False)
     institution = relationship(Institution)
 
-    degree_id = Column(Integer, ForeignKey(Degree.id), nullable=False)
+    degree_id = Column(Integer, ForeignKey(Degree.id), nullable=True)
     degree = relationship(Degree)
 
     def __json__(self, request):
@@ -49,17 +49,19 @@ class CandidateSkill(Base):
     skill_id = Column(Integer, ForeignKey(Skill.id), primary_key=True)
     skill = relationship(Skill)
 
-    level_id = Column(Integer, ForeignKey(SkillLevel.id), nullable=False)
+    level_id = Column(Integer, ForeignKey(SkillLevel.id))
     level = relationship(SkillLevel)
 
     def __json__(self, request):
-        return {'skill': self.skill, "level": self.level}
+        result = {'skill': self.skill}
+        if self.level:
+            result["level"] = self.level
+        return result
 
 
 candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
                                  Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
                                  Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
-
 
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
@@ -81,8 +83,8 @@ class WorkExperience(Base):
     company_id = Column(Integer, ForeignKey(Company.id), nullable=False)
     company = relationship(Company)
 
-    city_id = Column(Integer, ForeignKey(City.id), nullable=False)
-    location = relationship(City)
+    country_iso = Column(String(2), ForeignKey(Country.iso), nullable=False)
+    city = Column(String(512))
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
@@ -90,7 +92,7 @@ class WorkExperience(Base):
 
     def __json__(self, request):
         return {'start': self.start, "end": self.end, "id": self.id, "summary": self.summary, "role": self.role,
-                "company": self.company, "skills": self.skills, "location": self.location}
+                "company": self.company, "skills": self.skills, 'city': self.city, 'country_iso': self.country_iso}
 
 
 target_position_company_type = Table('target_position_company_type', Base.metadata,
@@ -143,11 +145,28 @@ candidate_bookmark_employer = Table('candidate_bookmark_employer', Base.metadata
                                            server_default=func.now()))
 
 
+class PreferredLocation(Base):
+    __tablename__ = 'candidate_preferred_location'
+    __table_args__ = (UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique'),
+                      UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
+                      CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL',
+                                      name='candidate_preferred_location_has_some_fk'), )
+    id = Column(Integer, primary_key=True)
+    candidate_id = Column(GUID, ForeignKey('candidate.id'))
+    country_iso = Column(String(2), ForeignKey(Country.iso), nullable=True)
+    city_id = Column(Integer, ForeignKey('city.id'), nullable=True)
+    city = relationship(City, lazy="joined")
+
+    def __repr__(self):
+        return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
+
+
 class Candidate(Base):
     __tablename__ = 'candidate'
-    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'title', 'contact_line1', 'contact_line2',
-                    'contact_line3', 'contact_zipcode', 'contact_phone', 'available_date', 'notice_period_number',
-                    'willing_to_travel', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
+    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1', 'contact_line2',
+                    'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso', 'contact_phone',
+                    'availability', 'summary', 'github_url',
+                    'stackoverflow_url', 'contact_skype']
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -164,11 +183,8 @@ class Candidate(Base):
     pob = Column(String(512))
     picture_url = Column(String(1024), info=PUBLIC)
 
-    title_id = Column(Integer, ForeignKey(Title.id))
-    title = relationship(Title)
-
-    residence_country_iso = Column(String(2), ForeignKey(Country.iso))
-    residence_country = relationship(Country)
+    salutation_id = Column(Integer, ForeignKey(Salutation.id))
+    salutation = relationship(Salutation)
 
     summary = Column(Text(), info=PUBLIC)
     github_url = Column(String(1024), info=PUBLIC)
@@ -181,26 +197,23 @@ class Candidate(Base):
     contact_line2 = Column(String(512))
     contact_line3 = Column(String(512))
     contact_zipcode = Column(String(20))
-    contact_city_id = Column(Integer, ForeignKey(City.id))
-    contact_city = relationship(City)
+    contact_city = Column(String(512))
+    contact_country_iso = Column(String(2), ForeignKey(Country.iso))
+    contact_country = relationship(Country)
 
     contact_phone = Column(String(128))
     contact_skype = Column(String(128))
-    available_date = Column(Date)
-    notice_period_number = Column(Integer)
-    notice_period_measure = Column(String(1), CheckConstraint("notice_period_measure in ['w', 'm']"), default='w',
-                                   server_default='w', nullable=False)
+    availability = Column(Text)
 
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
     status = relationship(CandidateStatus)
 
-    willing_to_travel = Column(Boolean)
-    dont_care_location = Column(Boolean)
-
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
-    preferred_cities = relationship(City, secondary=candidate_preferred_city, enable_typechecks=False)
+
+    preferred_locations = relationship(PreferredLocation)
+
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
@@ -214,15 +227,26 @@ class Candidate(Base):
     def full_name(self):
         return u'%s %s' % (self.first_name, self.last_name)
 
+
+    def get_preferred_locations(self):
+        if not self.preferred_locations:
+            return None
+        results = {}
+        for pl in self.preferred_locations:
+            if pl.country_iso:
+                results.setdefault(pl.country_iso, [])
+            elif pl.city_id:
+                results.setdefault(pl.city.country_iso, []).append(pl.city.name)
+        return results
+
     def __json__(self, request):
         result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
         result['id'] = self.id
-        result['title'] = self.title
-        result['contact_city'] = self.contact_city
+        result['salutation'] = self.salutation
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills
-        result['preferred_cities'] = self.preferred_cities
+        result['preferred_location'] = self.get_preferred_locations()
 
         return result
 

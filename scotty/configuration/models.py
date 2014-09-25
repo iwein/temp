@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Index, UniqueConstraint, Numeric, func
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Numeric
 from scotty.models.meta import Base, NamedModel
 from sqlalchemy.orm import relationship
 
@@ -15,14 +15,19 @@ class Benefit(Base, NamedModel):
     name = Column(String(128), nullable=False, unique=True)
 
 
-class Title(Base, NamedModel):
-    __tablename__ = 'title'
+class Salutation(Base, NamedModel):
+    __tablename__ = 'salutation'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
 
 class CompanyType(Base, NamedModel):
     __tablename__ = 'company_type'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(20), nullable=False, unique=True)
+
+class OfficeType(Base, NamedModel):
+    __tablename__ = 'office_type'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
@@ -60,7 +65,7 @@ class TrafficSource(Base, NamedModel):
 class Degree(Base, NamedModel):
     __tablename__ = 'degree'
     id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False, unique=True)
+    name = Column(String(255), nullable=False, unique=True)
 
 
 class Course(Base, NamedModel):
@@ -128,3 +133,6 @@ class City(Base):
 
     def __json__(self, request):
         return {'city': self.name, 'country_iso': self.country_iso}
+
+    def __repr__(self):
+        return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.name)

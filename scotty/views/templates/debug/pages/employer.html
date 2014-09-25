@@ -16,12 +16,16 @@
 
             {title: 'Offices'},
 
-            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-office',
+            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-HQ',
               data: {
-                address_line1: "Gruenwald Strasse 104", address_zipcode: "08712", address_city: {city: "Dresden", country_iso: "DE"},
-                contact_name: 'Martha Stweard',
-                contact_phone: "+800-43543-2154",
-                contact_email: 'matha@stewardhome.com'
+                contact_salutation: 'Mr',
+                contact_first_name: 'Martha',
+                contact_last_name: 'Stewart',
+                contact_phone: "+49 232314 2435",
+                contact_email: 'harald@kliockner2.com',
+                address_line1: "Schoenhausener Allee 104",
+                address_zipcode: 'zipcode',
+                address_city: {city: "Dresden", country_iso: "DE"}
               },
               extract: function (r, extr) {
                 return {officeId: r.id}
@@ -31,10 +35,15 @@
               return '/api/v1/employers/' + extr.employerId + '/offices'
             }, title: 'employer-add-office-2',
               data: {
-                address_line1: "Schoenhausener Allee 104", address_zipcode: "08712", address_city: {'city': "Hamburg", country_iso: "DE"},
-                contact_name: 'Harald Klockner',
+                address_line1: "Schoenhausener Allee 104",
+                address_zipcode: "08712",
+                address_city: {'city': "Hamburg", country_iso: "DE"},
+                contact_salutation: 'Mr',
+                contact_first_name: 'Martha',
+                contact_last_name: 'Stewart',
                 contact_phone: "+49 232314 2435",
-                contact_email: 'harald@kliockner.com'
+                contact_email: 'harald@kliockner.com',
+                website: 'welcome'
               },
               extract: function (r, extr) {
                 return {officeId: r.id}

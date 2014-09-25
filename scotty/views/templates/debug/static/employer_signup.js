@@ -2,7 +2,11 @@
 var EMPLOYER_SIGNUP = function(email){
     return [
         {url: '/api/v1/employers/', title: 'employer-signup',
-            data: {company_name: 'Bob Corp '+guid(), "email": email, pwd: "welcomepwd", 'contact_name': 'Uncle Bob'},
+            data: {company_name: 'Bob Corp '+guid(), "email": email, pwd: "welcomepwd",
+                contact_salutation: 'Mr',
+                contact_first_name: 'Uncle',
+                contact_last_name: 'Smith'
+            },
             extract: function (r, extr) {
                 return {employerId: r.id}
             }},
@@ -17,17 +21,9 @@ var EMPLOYER_SIGNUP = function(email){
             data: {
                 logo_url: 'http://logo_url.com',
                 website: "http://website.com",
-                address_line1: "line 1 of address",
-                address_line2: "line 2 of address",
-                address_line3: "line 3 of address",
-                address_zipcode: "zipcode of address",
-                address_city: {city: 'Dresden', country_iso: 'DE'},
-
-                contact_name: 'name of contact',
-                contact_phone: 'phone of contact',
-                contact_email: 'email of contact',
-                contact_position: 'position of contact',
-
+                contact_salutation: 'Mrs',
+                contact_first_name: 'Rob',
+                contact_last_name: 'Stuart',
                 fb_url: 'facebook url of employer',
                 linkedin_url: 'linkedin url of employer'
             }
