@@ -5,6 +5,7 @@ from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
+from scotty.offer.models import Offer, FullOffer
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func
@@ -24,8 +25,7 @@ class AdminController(RootController):
             employer.email,
             employer.contact_name,
             employer.company_name,
-            employer.invite_token
-        )
+            employer.invite_token)
         return employer
 
     @view_config(route_name='admin_employer_by_status', **GET)
@@ -48,3 +48,12 @@ class AdminController(RootController):
         employer.approved = datetime.now()
         return employer
 
+    @view_config(route_name='admin_offers', **GET)
+    def admin_offers(self):
+        query = DBSession.query(FullOffer).order_by(FullOffer.created.desc())
+
+        status = self.request.params.get('status')
+        if status:
+            query.filter(FullOffer.by_status())
+
+        return run_paginated_query(self.request, query)

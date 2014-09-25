@@ -119,6 +119,9 @@ def upgrade():
     op.add_column('employer', sa.Column('pwdforgot_sent', sa.DateTime(), nullable=True))
     op.add_column('employer', sa.Column('pwdforgot_token', GUID(), nullable=True))
     op.create_unique_constraint(None, 'employer', ['pwdforgot_token'])
+
+    op.drop_table('candidate_preferred_city')
+
     ### end Alembic commands ###
 
 
@@ -194,5 +197,13 @@ def downgrade():
     op.drop_column('employer', 'pwdforgot_sent')
     op.drop_column('candidate', 'pwdforgot_token')
     op.drop_column('candidate', 'pwdforgot_sent')
+
+    op.create_table('candidate_preferred_city',
+                    sa.Column('candidate_id', postgresql.UUID(), autoincrement=False, nullable=False),
+                    sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False),
+                    sa.ForeignKeyConstraint(['candidate_id'], [u'candidate.id'], name=u'candidate_preferred_city_candidate_id_fkey'),
+                    sa.ForeignKeyConstraint(['city_id'], [u'city.id'], name=u'candidate_preferred_city_city_id_fkey'),
+                    sa.PrimaryKeyConstraint('candidate_id', 'city_id', name=u'candidate_preferred_city_pkey')
+    )
 
     ### end Alembic commands ###

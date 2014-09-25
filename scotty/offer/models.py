@@ -17,10 +17,37 @@ offer_benefits = Table('offer_benefit', Base.metadata,
 
 OFFER_EXPIRY_DAYS = 14
 
+class OfferStatus(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self): return self.name
+    def __repr__(self): return self.name
+    def __json__(self, request): return self.name
+
+
 ACTIVE = 'ACTIVE'
 ACCEPTED = 'ACCEPTED'
+INTERVIEW = 'INTERVIEW'
+CONTRACT_SENT = 'CONTRACT_SENT'
+CONTRACT_RECEIVED = 'CONTRACT_RECEIVED'
+CONTRACT_SIGNED = 'CONTRACT_SIGNED'
+JOB_STARTED = 'JOB_STARTED'
 REJECTED = 'REJECTED'
 EXPIRED = 'EXPIRED'
+
+
+STATUS_ALL = [
+    ACTIVE,
+    ACCEPTED,
+    INTERVIEW,
+    CONTRACT_SENT,
+    CONTRACT_RECEIVED,
+    CONTRACT_SIGNED,
+    JOB_STARTED,
+    REJECTED,
+    EXPIRED
+]
 
 
 class Offer(Base):
@@ -29,9 +56,16 @@ class Offer(Base):
                                        name='_candidate_employer_offer_unique'),)
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
+
     created = Column(DateTime, nullable=False, default=datetime.now, info=PUBLIC)
     accepted = Column(DateTime)
+    interview = Column(DateTime)
+    contract_sent = Column(DateTime)
+    contract_received = Column(DateTime)
+    contract_signed = Column(DateTime)
+    job_started = Column(DateTime)
     rejected = Column(DateTime)
+
     rejected_reason_id = Column(Integer, ForeignKey("rejectionreason.id"))
     rejected_reason = relationship(RejectionReason, info=PUBLIC)
 
@@ -103,5 +137,15 @@ class CandidateOffer(Offer):
     def __json__(self, request):
         results = super(CandidateOffer, self).__json__(request)
         results['employer'] = self.employer
+        return results
+
+
+class FullOffer(Offer):
+    employer = relationship("EmbeddedEmployer")
+    candidate = relationship("EmbeddedCandidate")
+    def __json__(self, request):
+        results = super(FullOffer, self).__json__(request)
+        results['employer'] = self.employer
+        results['candidate'] = self.candidate
         return results
 
