@@ -21,23 +21,31 @@
     </div>
 
     <div class="form-group required">
-      <label>Location</label>
+      <label>Country</label>
+
+      <select
+        class="form-control"
+        name="country"
+        required
+        ng-disabled="loading"
+        ng-model="model.country_iso"
+        ng-options="country.iso as country.name for country in countries">
+        <option value="">Select...</option>
+      </select>
+    </div>
+
+    <div class="form-group required">
+      <label>City</label>
       <input type="text"
-        name="location"
+        name="city"
         class="form-control"
         required
         ng-disabled="loading"
-        ng-model="locationText"
-        ng-blur="signupExperience.setLocation(locationText)"
-        typeahead-on-select="signupExperience.setLocation(locationText)"
-        typeahead="location for location in signupExperience.searchLocations($viewValue)">
+        ng-model="model.city">
 
-      <div class="form-error" ng-show="errorInvalidCity || (formExperience.location.$dirty && formExperience.location.$invalid)">
-        <span ng-show="formExperience.location.$error.required">
+      <div class="form-error" ng-show="formExperience.city.$dirty && formExperience.city.$invalid">
+        <span ng-show="formExperience.city.$error.required">
           Please insert the city you worked on.
-        </span>
-        <span ng-show="errorInvalidCity">
-          Please choose a city from the menu.
         </span>
       </div>
     </div>
@@ -75,8 +83,8 @@
         <select
           class="form-control"
           name="endMonth"
-          ng-disabled="loading"
-          ng-required="endYear"
+          ng-disabled="loading || current"
+          ng-required="!current"
           ng-model="endMonth"
           ng-options="month for month in months"
           ng-change="endDateUpdate()">
@@ -88,10 +96,18 @@
           class="form-control"
           name="endYear"
           placeholder="Year"
-          ng-disabled="loading"
-          ng-required="endMonth"
+          ng-disabled="loading ||current"
+          ng-required="!current"
           ng-model="endYear"
           ng-change="endDateUpdate()">
+
+        <label>
+          <input type="checkbox"
+            name="current"
+            ng-disabled="loading"
+            ng-model="current">
+          Current position
+        </label>
       </div>
 
       <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
@@ -127,6 +143,7 @@
       <label>Technologies &amp; Skills</label>
 
       <hc-label-typeahead
+        name="skills"
         placeholder="Technologies &amp; skills"
         ng-disabled="loading"
         ng-model="model.skills"
@@ -137,7 +154,7 @@
     </div>
 
     <div class="form-group required">
-      <label>Summary</label>
+      <label>Role description</label>
       <textarea
         class="form-control"
         name="summary"
@@ -154,14 +171,15 @@
     </div>
 
     <div class="form-group">
-      <button type="button"
+      <button type="submit"
         class="btn btn-default"
-        ng-click="signupExperience.addAnother()"
+        ng-click="addAnother = true"
         ng-disabled="loading">
         Save &amp; add another
       </button>
       <button type="submit"
         class="btn btn-primary"
+        ng-click="addAnother = false"
         ng-disabled="loading">
         Save &amp; continue
       </button>
