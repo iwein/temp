@@ -9,6 +9,7 @@ define(function(require) {
     this.searchRoles = ConfigAPI.roles;
     this.locationToText = fn.get('city');
     this.searchCities = searchCities;
+    this.setCountry = setCountry;
     this.onCompanyTypeChange = onCompanyTypeChange;
     this.submit = submit;
     $scope.loading = false;
@@ -23,9 +24,14 @@ define(function(require) {
 
     function searchCities(value) {
       return ConfigAPI.locations({
-        country_iso: $scope.signup.preferred_cities.country,
+        country_iso: $scope.country,
         q: value,
       });
+    }
+
+    function setCountry(country) {
+      var model = $scope.signup.preferred_locations = {};
+      model[country] = [];
     }
 
     function onCompanyTypeChange() {
@@ -37,7 +43,7 @@ define(function(require) {
     }
 
     function submit() {
-      // if (!$scope.signup.cities.length && !$scope.signup.dont_care_location) {
+      // if (!$scope.country) {
       //  $scope.cities.setDirty(true);
       //  return;
       // }
