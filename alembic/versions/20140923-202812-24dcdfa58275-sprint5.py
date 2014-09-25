@@ -113,6 +113,12 @@ def upgrade():
     op.add_column(u'employer_office', sa.Column('type_id', sa.Integer(), nullable=False, server_default="2"))
     op.drop_column(u'employer_office', 'contact_name')
 
+    op.add_column('candidate', sa.Column('pwdforgot_sent', sa.DateTime(), nullable=True))
+    op.add_column('candidate', sa.Column('pwdforgot_token', GUID(), nullable=True))
+    op.create_unique_constraint(None, 'candidate', ['pwdforgot_token'])
+    op.add_column('employer', sa.Column('pwdforgot_sent', sa.DateTime(), nullable=True))
+    op.add_column('employer', sa.Column('pwdforgot_token', GUID(), nullable=True))
+    op.create_unique_constraint(None, 'employer', ['pwdforgot_token'])
     ### end Alembic commands ###
 
 
@@ -131,7 +137,7 @@ def downgrade():
 
     op.drop_column('work_experience', 'city')
     op.drop_column('work_experience', 'country_iso')
-    op.add_column('work_experience', sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False))
+    op.add_column('work_experience', sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=True))
 
     op.alter_column('candidate_skill', 'level_id',
                     existing_type=sa.INTEGER(),
@@ -169,7 +175,7 @@ def downgrade():
     op.drop_column('employer', 'contact_last_name')
     op.drop_column('employer', 'contact_first_name')
 
-    op.add_column(u'employer_office', sa.Column('contact_name', sa.VARCHAR(length=255), autoincrement=False, nullable=False))
+    op.add_column(u'employer_office', sa.Column('contact_name', sa.VARCHAR(length=255), autoincrement=False, nullable=False, server_default='No Name'))
     op.drop_column(u'employer_office', 'type_id')
     op.drop_column(u'employer_office', 'contact_salutation_id')
     op.drop_column(u'employer_office', 'contact_last_name')
@@ -183,5 +189,10 @@ def downgrade():
     op.add_column(u'employer', sa.Column('address_line3', sa.VARCHAR(length=512), autoincrement=False, nullable=True))
     op.add_column(u'employer', sa.Column('address_line2', sa.VARCHAR(length=512), autoincrement=False, nullable=True))
     op.drop_table('office_type')
+
+    op.drop_column('employer', 'pwdforgot_token')
+    op.drop_column('employer', 'pwdforgot_sent')
+    op.drop_column('candidate', 'pwdforgot_token')
+    op.drop_column('candidate', 'pwdforgot_sent')
 
     ### end Alembic commands ###

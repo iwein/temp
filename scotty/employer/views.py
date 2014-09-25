@@ -1,13 +1,15 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from uuid import uuid4
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict, HTTPServerError
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags, add_employer_offer
+from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -190,4 +192,31 @@ class EmployerOfferController(EmployerController):
     def delete(self):
         DBSession.delete(self.offer)
         return {"status": "success"}
+
+
+class EmployerPasswordController(RootController):
+
+    def send_email(self, employer):
+        self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
+                                                     employer.company_name, employer.pwdforgot_token)
+
+    @view_config(route_name='employer_requestpassword', **POST)
+    def requestpassword(self):
+        email = self.request.json['email']
+        resend = bool(self.request.json.get('resend'))
+        return requestpassword(Employer, email, resend, self.send_email)
+
+
+    @view_config(route_name='employer_resetpassword', **GET)
+    def validatepassword(self):
+        token = self.request.matchdict['token']
+        return validatepassword(Employer, token)
+
+    @view_config(route_name='employer_resetpassword', **POST)
+    def resetpassword(self):
+        token = self.request.matchdict['token']
+        pwd = self.request.json['pwd']
+        return resetpassword(Employer, token, pwd)
+
+
 

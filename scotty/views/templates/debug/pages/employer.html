@@ -14,6 +14,15 @@
             {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
             {url: '/api/v1/employers/me/suggestedcandidates', title: 'employer-suggestedcandidates', method: 'GET'},
 
+            {title: 'Password Forgot'},
+            {url: '/api/v1/employers/requestpassword', title: 'candidate-pwd-forgot', data: {email: email},
+            extract: function(r, extr){return {pwdToken: r.token}}},
+            {url: function(r, extr){ return '/api/v1/employers/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-validate-token'},
+            {url: function(r, extr){ return '/api/v1/employers/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-reset', data: {pwd: 'helloworld'}},
+            {url: function(r, extr){return '/api/v1/employers/login'}, title: 'candidate-login-after pwd-reset',
+              data: {"email": email, pwd:"helloworld"}
+            },
+
             {title: 'Offices'},
 
             {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-HQ',

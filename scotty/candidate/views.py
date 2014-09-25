@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from uuid import uuid4
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest, HTTPServerError
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -13,6 +14,7 @@ from scotty.candidate.service import candidate_from_signup, candidate_from_login
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise
+from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -42,7 +44,7 @@ class CandidateController(RootController):
         except IntegrityError:
             raise HTTPConflict("User already signed up!")
         self.request.session['candidate_id'] = candidate.id
-        self.request.emailer.send_welcome(candidate.email, candidate.first_name, candidate.activation_token)
+        self.request.emailer.send_candidate_welcome(candidate.email, candidate.first_name, candidate.activation_token)
         candidate.activation_sent = datetime.now()
         return candidate
 
@@ -215,7 +217,7 @@ class CandidateBookmarkController(CandidateController):
         if employer_id in [str(e.id) for e in self.candidate.bookmarked_employers]:
             raise HTTPConflict("Employer already present.")
 
-        employer = DBSession.query(Employer).get(employer_id)
+        candidate = DBSession.query(Employer).get(employer_id)
         self.candidate.bookmarked_employers.append(employer)
         DBSession.flush()
 
@@ -291,3 +293,26 @@ class CandidateOfferController(CandidateController):
             offer_id=offer.id,
             candidate_id=self.candidate.id)
         return offer
+
+
+class CandidatePasswordController(RootController):
+    def send_email(self, candidate):
+        self.request.emailer.send_candidate_pwdforgot(
+            candidate.email, candidate.first_name, candidate.pwdforgot_token)
+
+    @view_config(route_name='candidate_requestpassword', **POST)
+    def requestpassword(self):
+        email = self.request.json['email']
+        resend = bool(self.request.json.get('resend'))
+        return requestpassword(Candidate, email, resend, self.send_email)
+
+    @view_config(route_name='candidate_resetpassword', **GET)
+    def validatepassword(self):
+        token = self.request.matchdict['token']
+        return validatepassword(Candidate, token)
+
+    @view_config(route_name='candidate_resetpassword', **POST)
+    def resetpassword(self):
+        token = self.request.matchdict['token']
+        pwd = self.request.json['pwd']
+        return resetpassword(Candidate, token, pwd)

@@ -22,13 +22,30 @@ class MandrillEmailer(object):
         else:
             return True
 
-    def send_welcome(self, email, first_name, activation_token):
+    def send_candidate_welcome(self, email, first_name, activation_token):
         url = 'http://%s/candidate#/activate/%s' % (self.frontend, activation_token)
         return self.send('signup-welcome', [],
                          {'to': [{'email': email, 'name': first_name}],
                           'global_merge_vars': [
                               {'content': first_name, 'name': 'first_name'},
                               {'content': url, 'name': 'activation_link'}]})
+
+    def send_candidate_pwdforgot(self, email, first_name, reset_token):
+        url = 'http://%s/candidate#/reset-password/%s' % (self.frontend, reset_token)
+        return self.send('candidate-pwd-reset', [],
+                         {'to': [{'email': email, 'name': first_name}],
+                          'global_merge_vars': [
+                              {'content': first_name, 'name': 'first_name'},
+                              {'content': url, 'name': 'url'}]})
+
+    def send_employer_pwdforgot(self, email, contact_name, company_name, reset_token):
+        url = 'http://%s/employer#/reset-password/%s' % (self.frontend, reset_token)
+        return self.send('employer-pwd-reset', [],
+                         {'to': [{'email': email, 'name': contact_name}],
+                          'global_merge_vars': [
+                              {'content': contact_name, 'name': 'contact_name'},
+                              {'content': company_name, 'name': 'company_name'},
+                              {'content': url, 'name': 'url'}]})
 
     def send_employer_invite(self, email, contact_name, company_name, invite_token):
         url = 'http://%s/employer/#/signup/start/%s' % (self.frontend, invite_token)

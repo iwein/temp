@@ -69,7 +69,8 @@ class Employer(Base):
     __name_field__ = 'company_name'
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     company_name = Column(String(255), unique=True, nullable=False, info=PUBLIC)
-
+    pwdforgot_token = Column(GUID, unique=True, info=PRIVATE)
+    pwdforgot_sent = Column(DateTime, info=PRIVATE)
     invite_token = Column(GUID, info=PRIVATE)
     invite_sent = Column(DateTime, info=PRIVATE)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -116,9 +117,13 @@ class Employer(Base):
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
     offers = relationship(EmployerOffer, backref='employer')
 
+    @property
+    def password(self):
+        return self.pwd
 
-    def set_pwd(self, pwd):
-        self.pwd = hashlib.sha256(pwd).hexdigest()
+    @password.setter
+    def password(self, value):
+        self.pwd = hashlib.sha256(value).hexdigest()
 
     @property
     def contact_name(self):
