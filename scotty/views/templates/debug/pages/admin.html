@@ -11,7 +11,8 @@
               data: {company_name: 'Bob Corp ' + guid(), "email": email,
                 'contact_first_name': 'Uncle',
                 'contact_last_name': 'Bob',
-                'contact_salutation': 'Mr'
+                'contact_salutation': 'Mr',
+                company_type:'startup'
               },
               extract: function (r, extr) {
                 return {invite_token: r.invite_token}
@@ -48,10 +49,15 @@
             {url: '/api/v1/admin/employers/invalid', title: 'admin-employers-invalid', expectedErrors:[400]},
 
             {sectionTitle: 'List Offers'},
-            {url: '/api/v1/admin/offers', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers', title: 'admin-offers'},
-
+            {url: '/api/v1/admin/offers?status=ACTIVE', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=ACCEPTED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=INTERVIEW', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_SENT', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_SIGNED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=JOB_STARTED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=EXPIRED', title: 'admin-offers', expectedErrors:[400]},
+            {url: '/api/v1/admin/offers?status=xyz', title: 'admin-offers', expectedErrors:[400]},
           ];
 
   $(function () {

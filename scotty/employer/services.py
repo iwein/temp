@@ -1,18 +1,18 @@
 import hashlib
 
 from scotty.models.meta import DBSession
-from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType
-from scotty.employer.models import employer_address_mapping, Employer, Office
+from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType
+from scotty.employer.models import Employer, Office
 from scotty.offer.models import EmployerOffer
 from scotty.models.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection, get_by_name_or_raise
 from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
 
 
 ID = lambda x: x
 
 EMPLOYER_SIGNUP = {'company_name': ID, 'contact_salutation': lambda name: get_by_name_or_raise(Salutation, name),
+                   'company_type': lambda name: get_by_name_or_raise(CompanyType, name),
                    'contact_first_name': ID, 'contact_last_name': ID, 'email': ID}
 
 

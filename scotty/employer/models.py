@@ -3,7 +3,7 @@ import hashlib
 from uuid import uuid4
 
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType
+from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer
 from scotty.models.meta import Base, GUID
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder
@@ -76,6 +76,9 @@ class Employer(Base):
     created = Column(DateTime, nullable=False, default=datetime.now)
     agreedTos = Column(DateTime)
     approved = Column(DateTime)
+
+    company_type_id = Column(Integer, ForeignKey(CompanyType.id), nullable=False, server_default='1')
+    company_type = relationship(CompanyType)
 
     email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
     pwd = Column(String(128))
@@ -158,6 +161,7 @@ class Employer(Base):
         result = json_encoder(self, request)
 
         result['contact_salutation'] = self.contact_salutation
+        result['company_type'] = self.company_type
         result['status'] = self.status
         result['offices'] = self.offices
         result['benefits'] = self.benefits
@@ -168,6 +172,7 @@ class Employer(Base):
 class EmbeddedEmployer(Employer):
     def __json__(self, request):
         return json_encoder(self, request)
+
 
 class MatchedEmployer(Employer):
     def __json__(self, request):

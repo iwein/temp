@@ -122,6 +122,13 @@ def upgrade():
 
     op.drop_table('candidate_preferred_city')
 
+    op.add_column('offer', sa.Column('contract_received', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('contract_sent', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('contract_signed', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('interview', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('job_started', sa.DateTime(), nullable=True))
+
+    op.add_column('employer', sa.Column('company_type_id', sa.Integer(), server_default='1', nullable=False))
     ### end Alembic commands ###
 
 
@@ -148,11 +155,10 @@ def downgrade():
 
     op.alter_column('education', 'degree_id',
                     existing_type=sa.INTEGER(),
-                    nullable=False)
+                    nullable=True)
 
     op.execute('ALTER TABLE education ALTER COLUMN start TYPE DATE USING to_date(to_char(start, \'9999\'), \'YYYY\')')
     op.execute('ALTER TABLE education ALTER COLUMN "end" TYPE DATE USING to_date(to_char("end", \'9999\'), \'YYYY\')')
-    op.alter_column('education', 'degree_id', existing_type=sa.INTEGER(), nullable=False)
     op.execute('ALTER TABLE degree ALTER "name" TYPE VARCHAR(20) USING substring("name" from 0 for 20)')
 
     op.add_column('candidate', sa.Column('contact_city_id', sa.INTEGER(), autoincrement=False, nullable=True))
@@ -199,11 +205,17 @@ def downgrade():
     op.drop_column('candidate', 'pwdforgot_sent')
 
     op.create_table('candidate_preferred_city',
-                    sa.Column('candidate_id', postgresql.UUID(), autoincrement=False, nullable=False),
+                    sa.Column('candidate_id', GUID(), autoincrement=False, nullable=False),
                     sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False),
                     sa.ForeignKeyConstraint(['candidate_id'], [u'candidate.id'], name=u'candidate_preferred_city_candidate_id_fkey'),
                     sa.ForeignKeyConstraint(['city_id'], [u'city.id'], name=u'candidate_preferred_city_city_id_fkey'),
                     sa.PrimaryKeyConstraint('candidate_id', 'city_id', name=u'candidate_preferred_city_pkey')
     )
 
+    op.drop_column('offer', 'job_started')
+    op.drop_column('offer', 'interview')
+    op.drop_column('offer', 'contract_signed')
+    op.drop_column('offer', 'contract_sent')
+    op.drop_column('offer', 'contract_received')
+    op.drop_column('employer', 'company_type_id')
     ### end Alembic commands ###
