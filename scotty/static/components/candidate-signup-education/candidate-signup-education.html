@@ -46,8 +46,7 @@
           placeholder="Year"
           required
           ng-disabled="loading"
-          ng-model="model.start"
-          ng-change="startDateUpdate()">
+          ng-model="model.start">
 
         <!-- Separator -->
         <span>–</span>
@@ -57,17 +56,18 @@
           class="form-control"
           name="end"
           placeholder="Year"
-          ng-disabled="loading || model.current"
-          ng-required="!model.current"
+          ng-disabled="loading || current"
+          ng-required="!current"
           ng-model="model.end"
-          ng-change="endDateUpdate()">
+          hc-greater-than="model.start">
       </div>
 
       <label>
         <input type="checkbox"
           name="current"
           ng-disabled="loading"
-          ng-model="model.current">
+          ng-model="current"
+          ng-change="model.end = null">
         I am still studing there
       </label>
 
@@ -76,6 +76,7 @@
       </div>
       <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
         <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
+        <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
       </div>
     </div>
 
@@ -84,7 +85,7 @@
       <select
         class="form-control"
         name="degree"
-        ng-disabled="loading || model.not_completed_degree"
+        ng-disabled="loading || not_completed_degree"
         ng-required="!model.not_completed_degree"
         ng-model="model.degree"
         ng-options="degree for degree in degrees"
