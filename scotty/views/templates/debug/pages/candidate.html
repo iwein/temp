@@ -94,6 +94,9 @@
             {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
               title: 'set-preferred_locations-empty', method:'PUT', data: {}
             },
+            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+              title: 'set-preferred_locations-1', method:'PUT',
+              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
 
             {title: 'Skills'},
             {url: function(r, extr){return '/api/v1/candidates/me/skills'},

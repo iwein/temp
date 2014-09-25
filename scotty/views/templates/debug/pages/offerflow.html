@@ -20,9 +20,9 @@
                 return {'employers': r}
               }},
             {url:'/api/v1/employers/?tags=Python,Spring', title: 'employer-search-multi-1'},
-            {url:'/api/v1/employers/?tags=Python,Spring,Apache', title: 'employer-search-multi-2'},
+            {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE', title: 'employer-search-with-city'},
             {url:'/api/v1/employers/?tags=Python,PHP', title: 'employer-search-multi-3'},
-            {url:'/api/v1/employers/?tags=Python&offset=1&limit=1', title: 'employer-search-limit-offset'},
+            {url:'/api/v1/employers/?tags=Python&offset=1&limit=1&&city=Berlin&country_iso=DE', title: 'employer-search-limit-offset'},
 
             {'title': 'Candidate Search'},
             {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search',

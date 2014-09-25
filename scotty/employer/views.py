@@ -9,6 +9,7 @@ from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedE
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags, add_employer_offer
+from scotty.models.common import get_location_by_name_or_raise
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -65,7 +66,10 @@ class EmployerController(RootController):
 
     @view_config(route_name='employers', **GET)
     def search(self):
-        tags = filter(None, self.request.params.get('tags', '').split(','))
+        params = self.request.params
+        tags = filter(None, params.get('tags', '').split(','))
+        if 'country_iso' in params and 'city' in params:
+            city = get_location_by_name_or_raise(params)
 
         base_query = DBSession.query(MatchedEmployer).filter(MatchedEmployer.approved != None)
         if tags:

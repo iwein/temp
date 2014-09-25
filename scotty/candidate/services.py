@@ -145,24 +145,9 @@ def set_skills_on_candidate(candidate, params):
     DBSession.flush()
     return candidate
 
-def get_candidates_by_techtags(tags):
-    params = {'tag_%d' % i: tag.lower() for i, tag in enumerate(tags)}
+def get_candidates_by_techtags(tags, city_id):
+    params = {'tags': ','.join(tags), 'city_id': city_id}
 
-    query = DBSession.execute(
-        text("""
-            select c.id as id,
-              count(s.id) as noskills,
-              array_agg(s.name) as matched_tags
-            from candidate c
-            join candidate_skill cs
-              on c.id = cs.candidate_id
-            join skill s
-              on s.id = cs.skill_id
-            where c.activated is not null and lower(s.name) in (%s)
-            group by c.id
-            order by noskills desc
-            limit 20
-        """ % ','.join(':%s' % k for k in params.keys())), params)
-
+    query = DBSession.execute(text("""select * from candidate_search(array[:tags], :city_id )"""), params)
     results = list(query)
-    return {r['id']: r['matched_tags'] for r in results}
+    return {r['candidate_id']: r['matched_tags'] for r in results}

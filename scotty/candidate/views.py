@@ -13,7 +13,7 @@ from scotty.candidate.services import candidate_from_signup, candidate_from_logi
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
-from scotty.models.common import get_by_name_or_raise
+from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -50,11 +50,15 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidates', **GET)
     def search(self):
-        tags = self.request.params.get('tags', '').split(',')
+        params = self.request.params
+        tags = filter(None, params.get('tags', '').split(','))
+        city_id = None
+        if 'country_iso' in params and 'city' in params:
+            city_id = get_location_by_name_or_raise(params).id
 
         base_query = DBSession.query(MatchedCandidate)
         if tags:
-            candidate_lookup = get_candidates_by_techtags(tags)
+            candidate_lookup = get_candidates_by_techtags(tags, city_id)
             candidates = base_query.filter(MatchedCandidate.id.in_(candidate_lookup.keys())).limit(20).all()
             for candidate in candidates:
                 candidate.matched_tags = candidate_lookup[str(candidate.id)]
