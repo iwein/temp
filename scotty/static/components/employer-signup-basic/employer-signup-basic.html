@@ -159,8 +159,8 @@
             required
             ng-disabled="loadingOffice || !office.address_city.country_iso"
             ng-model="office.address_city.city"
-            ng-blur="signupBasic.setLocation(office, office.address_city.city)"
-            typeahead-on-select="signupBasic.setLocation(office, office.address_city.city)"
+            ng-blur="signupBasic.setLocation(office.address_city.city)"
+            typeahead-on-select="signupBasic.setLocation(office.address_city.city)"
             typeahead="city for city in signupBasic.searchLocations($viewValue, office.address_city.country_iso)">
 
           <div class="form-error" ng-show="errorInvalidCity || (formBasic.city.$dirty && formBasic.city.$invalid)">

@@ -57,7 +57,9 @@ define(function(require) {
     }
 
     function setLocation(city) {
-      $scope.office.errorInvalidCity = citiesCache.indexOf(city) === -1;
+      $scope.errorInvalidCity = citiesCache.indexOf(city) === -1;
+      if ($scope.errorInvalidCity)
+        $scope.office.address_city.city = '';
     }
 
     function selectFile(files) {
