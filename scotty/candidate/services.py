@@ -5,12 +5,11 @@ from scotty import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
     WorkExperience, Education, TargetPosition, PreferredLocation
 from scotty.configuration.models import Skill, SkillLevel, CompanyType, TravelWillingness, Language, Proficiency, \
-    Company, Role, Degree, Institution, Course, City
+    Company, Role, Degree, Institution, Course
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
-    get_or_raise_named_collection, get_location_by_name_or_create, get_or_create_named_lookup, \
+    get_or_raise_named_collection, get_or_create_named_lookup, \
     get_locations_from_structure
 from sqlalchemy import text
-from sqlalchemy.orm import joinedload
 
 
 def candidate_from_signup(params):

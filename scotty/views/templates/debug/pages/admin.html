@@ -11,7 +11,8 @@
               data: {company_name: 'Bob Corp ' + guid(), "email": email,
                 'contact_first_name': 'Uncle',
                 'contact_last_name': 'Bob',
-                'contact_salutation': 'Mr'
+                'contact_salutation': 'Mr',
+                company_type:'startup'
               },
               extract: function (r, extr) {
                 return {invite_token: r.invite_token}

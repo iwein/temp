@@ -5,7 +5,8 @@ var EMPLOYER_SIGNUP = function(email){
             data: {company_name: 'Bob Corp '+guid(), "email": email, pwd: "welcomepwd",
                 contact_salutation: 'Mr',
                 contact_first_name: 'Uncle',
-                contact_last_name: 'Smith'
+                contact_last_name: 'Smith',
+                company_type:'top500'
             },
             extract: function (r, extr) {
                 return {employerId: r.id}
@@ -31,18 +32,21 @@ var EMPLOYER_SIGNUP = function(email){
         {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post1', method: 'GET'},
 
         {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-2', method: 'PUT',
-            data: {mission_text: 'A VERY LONG TEXT'}
+            data: {
+                mission_text: 'A VERY LONG TEXT',
+                founding_year: 2014,
+                revenue_pa: 2000001,
+                funding_amount: 5688,
+                funding_text: "we received a lot of funding",
+                no_of_employees: 43
+            }
         },
         {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post2', method: 'GET'},
 
         {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-3', method: 'PUT',
             data: {
-                founding_year: 2014,
-                revenue_pa: 2000001,
-                funding_amount: 5688,
-                funding_text: "we received a lot of funding",
-                no_of_employees: 43,
                 tech_team_size: 45,
+                tech_team_philosophy: "We really love tech, that's why we call it lovingly tech.",
                 tech_tags: ['PHP', 'Python', 'Java', 'Apache']
             }
         },
