@@ -43,13 +43,13 @@ define(function(require) {
     function nextStep(event) {
       event.preventDefault();
       $scope.loading = true;
-      $scope.signup.nextStep().finally(fn.set('loading', false, $scope));
+      $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
+      });
     }
 
     function edit(entry) {
       $scope.model = entry;
-      $scope.locationText = ConfigAPI.locationToText(entry.location);
-
       var start = new Date(entry.start);
       $scope.startMonth = months[start.getMonth()];
       $scope.startYear = start.getFullYear();
@@ -58,23 +58,20 @@ define(function(require) {
         var end = new Date(entry.end);
         $scope.endMonth = months[end.getMonth()];
         $scope.endYear = start.getFullYear();
+      } else {
+        $scope.current = true;
       }
     }
 
     function save() {
-      if (!$scope.model.location || $scope.errorInvalidCity) {
-        $scope.errorInvalidCity = true;
-        return $q.reject(new Error('Form data not valid'));
-      }
-
       if (!$scope.model.skills.length) {
         $scope.formExperience.skill.$dirty = true;
         $scope.currentSkill = '';
         return $q.reject(new Error('Form data not valid'));
       }
 
-      if ($scope.model.current)
-        delete $scope.model.end;
+      if ($scope.current)
+        $scope.model.end = null;
 
       $scope.loading = true;
       return Session.user.addExperience($scope.model).catch(function(error) {
@@ -84,7 +81,7 @@ define(function(require) {
     }
 
     function addAnother() {
-      save().then(function() {
+      return save().then(function() {
         return $scope.list.refresh();
       }).then(function() {
         $scope.formExperience.$setPristine();
@@ -94,13 +91,22 @@ define(function(require) {
         $scope.endMonth = '';
         $scope.endYear = '';
         $scope.model = {};
-      }).finally(fn.set('loading', false, $scope));
+      });
+    }
+
+    function saveAndContinue() {
+      return save().then(function() {
+        return $scope.signup.nextStep();
+      });
     }
 
     function submit() {
-      save().then(function() {
-        return $scope.signup.nextStep();
-      }).finally(fn.set('loading', false, $scope));
+      ( $scope.addAnother ?
+        addAnother() :
+        saveAndContinue()
+      ).finally(function() {
+        $scope.loading = false;
+      });
     }
 
     function bindDate(key) {
