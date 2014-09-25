@@ -122,6 +122,11 @@ def upgrade():
 
     op.drop_table('candidate_preferred_city')
 
+    op.add_column('offer', sa.Column('contract_received', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('contract_sent', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('contract_signed', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('interview', sa.DateTime(), nullable=True))
+    op.add_column('offer', sa.Column('job_started', sa.DateTime(), nullable=True))
     ### end Alembic commands ###
 
 
@@ -199,11 +204,16 @@ def downgrade():
     op.drop_column('candidate', 'pwdforgot_sent')
 
     op.create_table('candidate_preferred_city',
-                    sa.Column('candidate_id', postgresql.UUID(), autoincrement=False, nullable=False),
+                    sa.Column('candidate_id', GUID(), autoincrement=False, nullable=False),
                     sa.Column('city_id', sa.INTEGER(), autoincrement=False, nullable=False),
                     sa.ForeignKeyConstraint(['candidate_id'], [u'candidate.id'], name=u'candidate_preferred_city_candidate_id_fkey'),
                     sa.ForeignKeyConstraint(['city_id'], [u'city.id'], name=u'candidate_preferred_city_city_id_fkey'),
                     sa.PrimaryKeyConstraint('candidate_id', 'city_id', name=u'candidate_preferred_city_pkey')
     )
 
+    op.drop_column('offer', 'job_started')
+    op.drop_column('offer', 'interview')
+    op.drop_column('offer', 'contract_signed')
+    op.drop_column('offer', 'contract_sent')
+    op.drop_column('offer', 'contract_received')
     ### end Alembic commands ###

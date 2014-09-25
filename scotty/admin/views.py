@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from pyramid.httpexceptions import HTTPNotFound, HTTPConflict
+from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
-from scotty.offer.models import Offer, FullOffer
+from scotty.offer.models import Offer, FullOffer, InvalidStatusError
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func
@@ -50,10 +50,15 @@ class AdminController(RootController):
 
     @view_config(route_name='admin_offers', **GET)
     def admin_offers(self):
-        query = DBSession.query(FullOffer).order_by(FullOffer.created.desc())
+        query = DBSession.query(FullOffer)
 
         status = self.request.params.get('status')
         if status:
-            query.filter(FullOffer.by_status())
+            try:
+                query = query.filter(FullOffer.by_status(status)).order_by(FullOffer.order_by(status))
+            except InvalidStatusError, e:
+                raise HTTPBadRequest(e.message)
+        else:
+            query = query.order_by(FullOffer.created.desc())
 
         return run_paginated_query(self.request, query)
