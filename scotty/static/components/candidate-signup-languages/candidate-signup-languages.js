@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, Session) {
@@ -13,11 +14,11 @@ define(function(require) {
     $scope.loading = false;
     var languages = $scope.model = [{}];
 
-    Session.getUser().then(function(user) {
-      return user.getData();
-    }).then(function(data) {
-      languages = $scope.model = data.languages.concat(languages);
-    });
+    Session.getUser()
+      .then(fn.invoke('getData', []))
+      .then(function(data) {
+        languages = $scope.model = data.languages.concat(languages);
+      });
 
     ConfigAPI.proficiencies().then(function(data) {
       $scope.proficiencies = data;

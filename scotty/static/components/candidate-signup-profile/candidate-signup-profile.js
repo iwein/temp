@@ -4,6 +4,7 @@ define(function(require) {
   require('tools/file-upload/amazon');
   require('tools/file-upload/data-url-directive');
   require('tools/file-upload/file-select-directive');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('CandidateSignupProfileCtrl', function($scope, $q, ConfigAPI, Session, Amazon) {
@@ -12,6 +13,8 @@ define(function(require) {
     this.selectFile = selectFile;
     this.submit = submit;
     $scope.loading = false;
+
+    ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
 
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
