@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   var months = [
@@ -22,7 +23,6 @@ define(function(require) {
     this.searchInstitutions = ConfigAPI.institutions;
     this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
-    this.addAnother = addAnother;
     this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
@@ -35,15 +35,8 @@ define(function(require) {
       $scope.ready = true;
     });
 
-    bindDate('start');
-    bindDate('end');
-
-    ConfigAPI.skillLevels().then(function(data) {
-      $scope.levels = data;
-    });
-    ConfigAPI.degrees().then(function(data) {
-      $scope.degrees = data;
-    });
+    ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
+    ConfigAPI.degrees().then(fn.setTo('degrees', $scope));
 
     function nextStep(event) {
       event.preventDefault();
@@ -56,15 +49,11 @@ define(function(require) {
     function edit(entry) {
       $scope.model = entry;
 
-      var start = new Date(entry.start);
-      $scope.startMonth = months[start.getMonth()];
-      $scope.startYear = start.getFullYear();
+      if (!entry.end)
+        $scope.current = true;
 
-      if (entry.end) {
-        var end = new Date(entry.end);
-        $scope.endMonth = months[end.getMonth()];
-        $scope.endYear = start.getFullYear();
-      }
+      if (!entry.degree)
+        $scope.not_completed_degree = true;
     }
 
     function save() {
@@ -73,51 +62,29 @@ define(function(require) {
     }
 
     function addAnother() {
-      save().then(function() {
+      return save().then(function() {
         return $scope.list.refresh();
       }).then(function() {
         $scope.formEducation.$setPristine();
-        $scope.startMonth = '';
-        $scope.startYear = '';
-        $scope.endMonth = '';
-        $scope.endYear = '';
         $scope.model = {};
-      }).finally(function() {
-        $scope.loading = false;
+      });
+    }
+
+    function saveAndContinue() {
+      return save().then(function() {
+        return $scope.signup.nextStep();
+      }).then(function() {
+        $scope.model = {};
       });
     }
 
     function submit() {
-      save().then(function() {
-        return $scope.signup.nextStep();
-      }).then(function() {
-        $scope.model = {};
+      ( $scope.addAnother ?
+        addAnother() :
+        saveAndContinue()
+      ).finally(function() {
         $scope.loading = false;
       });
-    }
-
-
-    function bindDate(key) {
-      var month = key + 'Month';
-      var year = key + 'Year';
-      var storedValue = $scope.model[key];
-
-      if (storedValue) {
-        var date = new Date(storedValue);
-        $scope[year] = date.getFullYear();
-        $scope[month] = months[date.getMonth()];
-      }
-
-      $scope[key + 'DateUpdate'] = function() {
-        var value = null;
-
-        if ($scope[month] && $scope[year]) {
-          var date = new Date($scope[year], months.indexOf($scope[month]));
-          value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
-        }
-
-        $scope.model[key] = value;
-      };
     }
   });
 
