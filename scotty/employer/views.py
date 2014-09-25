@@ -9,6 +9,7 @@ from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedE
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, get_employers_by_techtags, add_employer_offer
+from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -195,46 +196,27 @@ class EmployerOfferController(EmployerController):
 
 class EmployerPasswordController(RootController):
 
+    def send_email(self, employer):
+        self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
+                                                     employer.company_name, employer.pwdforgot_token)
+
     @view_config(route_name='employer_requestpassword', **POST)
     def requestpassword(self):
         email = self.request.json['email']
         resend = bool(self.request.json.get('resend'))
-        employer = DBSession.query(Employer).filter(Employer.email == email).first()
-        if not employer:
-            raise HTTPNotFound('Unknown Email')
+        return requestpassword(Employer, email, resend, self.send_email)
 
-        benchtime = datetime.now() - timedelta(1)
-        if not employer.pwdforgot_sent or resend or employer.pwdforgot_sent <= benchtime:
-            employer.pwdforgot_token = uuid4()
-            employer.pwdforgot_send = datetime.now()
-            self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
-                                                         employer.company_name, employer.pwdforgot_token)
-            return {'success': True, 'token': employer.pwdforgot_token}
-        elif employer.pwdforgot_sent > benchtime:
-            raise HTTPConflict("Token was send within last 24 hours")
-        else:
-            raise HTTPServerError("Shouldnt get here")
 
     @view_config(route_name='employer_resetpassword', **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
-        employer = DBSession.query(Employer).filter(Employer.pwdforgot_token == token).first()
-        if not employer:
-            raise HTTPNotFound('Unknown Email')
-        else:
-            return {'success': True}
+        return validatepassword(Employer, token)
 
     @view_config(route_name='employer_resetpassword', **POST)
     def resetpassword(self):
         token = self.request.matchdict['token']
-        employer = DBSession.query(Employer).filter(Employer.pwdforgot_token == token).first()
-        if not employer:
-            raise HTTPNotFound('Unknown Email')
-        else:
-            employer.pwdforgot_sent = None
-            employer.pwdforgot_token = None
-            employer.password = self.request.json['pwd']
-            return {'success': True}
+        pwd = self.request.json['pwd']
+        return resetpassword(Employer, token, pwd)
 
 
 

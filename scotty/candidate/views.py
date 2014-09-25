@@ -14,6 +14,7 @@ from scotty.candidate.service import candidate_from_signup, candidate_from_login
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise
+from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
@@ -216,7 +217,7 @@ class CandidateBookmarkController(CandidateController):
         if employer_id in [str(e.id) for e in self.candidate.bookmarked_employers]:
             raise HTTPConflict("Employer already present.")
 
-        employer = DBSession.query(Employer).get(employer_id)
+        candidate = DBSession.query(Employer).get(employer_id)
         self.candidate.bookmarked_employers.append(employer)
         DBSession.flush()
 
@@ -295,47 +296,24 @@ class CandidateOfferController(CandidateController):
 
 
 class CandidatePasswordController(RootController):
+    def send_email(self, candidate):
+        self.request.emailer.send_candidate_pwdforgot(
+            candidate.email, candidate.first_name, candidate.pwdforgot_token)
 
     @view_config(route_name='candidate_requestpassword', **POST)
     def requestpassword(self):
         email = self.request.json['email']
         resend = bool(self.request.json.get('resend'))
-        candidate = DBSession.query(Candidate).filter(Candidate.email == email).first()
-        if not candidate:
-            raise HTTPNotFound('Unknown Email')
+        return requestpassword(Candidate, email, resend, self.send_email)
 
-        benchtime = datetime.now() - timedelta(1)
-        if not candidate.pwdforgot_sent or resend or candidate.pwdforgot_sent <= benchtime:
-            candidate.pwdforgot_token = uuid4()
-            candidate.pwdforgot_send = datetime.now()
-            self.request.emailer.send_candidate_pwdforgot(candidate.email, candidate.first_name, candidate.pwdforgot_token)
-            return {'success': True, 'token': candidate.pwdforgot_token}
-        elif candidate.pwdforgot_sent > benchtime:
-            raise HTTPConflict("Token was send within last 24 hours")
-        else:
-            raise HTTPServerError("Shouldnt get here")
 
     @view_config(route_name='candidate_resetpassword', **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
-        candidate = DBSession.query(Candidate).filter(Candidate.pwdforgot_token == token).first()
-        if not candidate:
-            raise HTTPNotFound('Unknown Email')
-        else:
-            return {'success': True}
+        return validatepassword(Candidate, token)
 
     @view_config(route_name='candidate_resetpassword', **POST)
     def resetpassword(self):
         token = self.request.matchdict['token']
-        candidate = DBSession.query(Candidate).filter(Candidate.pwdforgot_token == token).first()
-        if not candidate:
-            raise HTTPNotFound('Unknown Email')
-        else:
-            candidate.pwdforgot_sent = None
-            candidate.pwdforgot_token = None
-            candidate.password = self.request.json['pwd']
-            return {'success': True}
-
-
-
-
+        pwd = self.request.json['pwd']
+        return resetpassword(Candidate, token, pwd)
