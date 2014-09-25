@@ -32,7 +32,7 @@ class EmployerInviteController(RootController):
     @view_config(route_name='employers_invite', **POST)
     def respond_invite(self):
         employer = self.invited_employer
-        employer.set_pwd(self.request.json['pwd'])
+        employer.password = self.request.json['pwd']
         self.request.session['employer_id'] = employer.id
         return employer
 

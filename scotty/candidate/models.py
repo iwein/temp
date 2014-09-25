@@ -60,10 +60,6 @@ class CandidateSkill(Base):
         return result
 
 
-candidate_preferred_city = Table('candidate_preferred_city', Base.metadata,
-                                 Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
-                                 Column('city_id', Integer, ForeignKey('city.id'), primary_key=True))
-
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
                               Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
