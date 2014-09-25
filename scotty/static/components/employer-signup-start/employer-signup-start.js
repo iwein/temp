@@ -1,9 +1,10 @@
 define(function(require) {
   'use strict';
   require('session');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, Session) {
+  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.invited = false;
@@ -15,6 +16,8 @@ define(function(require) {
     function onEmailChange() {
       $scope.errorAlreadyRegistered = false;
     }
+
+    ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
 
     $q.when(token).then(function(token) {
       if (!token) return;

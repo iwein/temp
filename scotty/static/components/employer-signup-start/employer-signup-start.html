@@ -5,25 +5,10 @@
   <h3>Sign up</h3>
 
   <div class="form-group required">
-    <label>Contact name</label>
-    <input type="text"
-      class="form-control"
-      name="contactName"
-      required
-      ng-disabled="loading || invited"
-      ng-model="model.contact_name">
-
-    <div class="form-error" ng-show="formSignupStart.contactName.$dirty && formSignupStart.contactName.$invalid">
-      <span ng-show="formSignupStart.contactName.$error.required">
-        Please insert the name of the contact person of your company.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group required">
     <label>Company name</label>
     <input type="text"
       class="form-control"
+      placeholder="Company name"
       name="companyName"
       required
       ng-disabled="loading || invited"
@@ -37,9 +22,64 @@
   </div>
 
   <div class="form-group required">
+    <label>Salutation</label>
+
+    <select
+      class="form-control"
+      name="salutation"
+      required
+      ng-disabled="loading"
+      ng-model="model.contact_salutation"
+      ng-options="salutation for salutation in salutations">
+      <option value="">Salutation...</option>
+    </select>
+
+    <div class="form-error" ng-show="formSignupStart.salutation.$dirty && formSignupStart.salutation.$invalid">
+      <span ng-show="formSignupStart.salutation.$error.required">Please select a salutation</span>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <label>First name</label>
+
+    <input type="text"
+      class="form-control"
+      placeholder="First name"
+      name="contact_first_name"
+      required
+      ng-disabled="loading || invited"
+      ng-model="model.contact_first_name">
+
+    <div class="form-error" ng-show="formSignupStart.contact_first_name.$dirty && formSignupStart.contact_first_name.$invalid">
+      <span ng-show="formSignupStart.contact_first_name.$error.required">
+        Please insert the first name of the contact person of your company.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <label>Last name</label>
+
+    <input type="text"
+      class="form-control"
+      placeholder="Last name"
+      name="contact_last_name"
+      required
+      ng-disabled="loading || invited"
+      ng-model="model.contact_last_name">
+
+    <div class="form-error" ng-show="formSignupStart.contact_last_name.$dirty && formSignupStart.contact_last_name.$invalid">
+      <span ng-show="formSignupStart.contact_last_name.$error.required">
+        Please insert the first name of the contact person of your company.
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group required">
     <label>Email</label>
     <input type="email"
       class="form-control"
+      placeholder="Email"
       name="email"
       required
       ng-disabled="loading || invited"
