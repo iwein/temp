@@ -169,6 +169,7 @@ class EmbeddedEmployer(Employer):
     def __json__(self, request):
         return json_encoder(self, request)
 
+
 class MatchedEmployer(Employer):
     def __json__(self, request):
         result = super(MatchedEmployer, self).__json__(request)

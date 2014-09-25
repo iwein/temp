@@ -40,10 +40,6 @@ class OfferStatusWorkflow(object):
     status_keys = [os.key for os in statuses] + [expired.key]
 
     @property
-    def is_open(self):
-        return not self.status.is_final
-
-    @property
     def _status_time(self):
         for status in self.statuses[::-1]:
             if getattr(self, status.col_name) is not None:
@@ -53,10 +49,15 @@ class OfferStatusWorkflow(object):
     def status(self):
         status, status_time = self._status_time
         expiry_cutoff = datetime.now() - timedelta(self.expiration_days)
-        if status_time > expiry_cutoff:
+        if status_time < expiry_cutoff:
             return self.expired
         else:
             return status
+
+    @property
+    def full_status_flow(self):
+        return [{'status': k.key, 'timestamp': getattr(self, k.col_name, None),
+                 'completed': bool(getattr(self, k.col_name, None))} for k in self.statuses]
 
     @classmethod
     def order_by(cls, status_key):
@@ -84,6 +85,35 @@ class OfferStatusWorkflow(object):
                 filter.append(columns[status.col_name] >= expiry_cutoff)
                 break
         return and_(*filter)
+
+    def accept(self):
+        if self.status == self.statuses[0]:
+            self.accepted = datetime.now()
+        else:
+            raise InvalidStatusError("Offer cant be accepted, it is in state: %s." % self.status)
+
+    def reject(self, reason):
+        if self.status != self.statuses[-1]:
+            self.rejected = datetime.now()
+            self.rejected_reason = reason
+        else:
+            raise InvalidStatusError("Offer already rejected")
+
+    def set_status(self, status_key):
+        columns = class_mapper(self.__class__).columns
+        key = None
+        for k in self.statuses:
+            if getattr(self, k.col_name) is None:
+                key = k
+                break
+            elif k.key == status_key:
+                raise InvalidStatusError("Status %s already set." % status_key)
+        if key and key.key == status_key:
+            setattr(self, key.col_name, datetime.now())
+        elif key:
+            raise InvalidStatusError("Status %s cant be set, since %s has not been set yet." % (status_key, key.key))
+        else:
+            raise InvalidStatusError("Status %s cant be set." % status_key)
 
 
 offer_skills = Table('offer_skill', Base.metadata, Column('offer_id', GUID, ForeignKey('offer.id'), primary_key=True),
@@ -159,6 +189,7 @@ class CandidateOffer(Offer):
 class FullOffer(Offer):
     employer = relationship("EmbeddedEmployer")
     candidate = relationship("EmbeddedCandidate")
+
     def __json__(self, request):
         results = super(FullOffer, self).__json__(request)
         results['employer'] = self.employer

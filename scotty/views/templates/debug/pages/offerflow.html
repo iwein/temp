@@ -122,6 +122,21 @@
 
           {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers';},
             title: 'candidate-get-my-offers'},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set_status',
+            data: {'status': 'INTERVIEW'}},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-alreadyset',
+            data: {'status': 'INTERVIEW'}, expectedErrors:[400]},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-cantsetyet',
+            data: {'status': 'CONTRACT_SIGNED'}, expectedErrors:[400]},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+            data: {'status': 'CONTRACT_SENT'}},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+            data: {'status': 'CONTRACT_RECEIVED'}},
+          {url:'/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offer-bystatus'},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+            data: {'status': 'CONTRACT_SIGNED'}},
+          {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
+            data: {'status': 'JOB_STARTED'}},
 
           ]);
 

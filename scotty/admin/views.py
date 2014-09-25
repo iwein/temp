@@ -62,3 +62,23 @@ class AdminController(RootController):
             query = query.order_by(FullOffer.created.desc())
 
         return run_paginated_query(self.request, query)
+
+    @view_config(route_name='admin_offer_status', **POST)
+    def admin_set_offer_state(self):
+        guid = self.request.matchdict['id']
+        offer = DBSession.query(FullOffer).get(guid)
+        if not offer:
+            raise HTTPNotFound("Offer not found")
+        try:
+            offer.set_status(self.request.json['status'])
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        return offer.full_status_flow
+
+    @view_config(route_name='admin_offer_status', **GET)
+    def admin_get_offer_state(self):
+        guid = self.request.matchdict['id']
+        offer = DBSession.query(FullOffer).get(guid)
+        if not offer:
+            raise HTTPNotFound("Offer not found")
+        return offer.full_status_flow

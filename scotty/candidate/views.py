@@ -217,7 +217,7 @@ class CandidateBookmarkController(CandidateController):
         if employer_id in [str(e.id) for e in self.candidate.bookmarked_employers]:
             raise HTTPConflict("Employer already present.")
 
-        candidate = DBSession.query(Employer).get(employer_id)
+        employer = DBSession.query(Employer).get(employer_id)
         self.candidate.bookmarked_employers.append(employer)
         DBSession.flush()
 
@@ -260,13 +260,11 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_accept', **POST)
     def accept(self):
         offer = self.offer
-        if not offer.is_active:
-            raise HTTPBadRequest("Offer already: %s, cant be accepted" % offer.status)
-        offer.accepted = datetime.now()
+        offer.accept()
         DBSession.flush()
 
         self.request.emailer.send_employer_offer_accepted(
-            email=offer.employer.contact_email,
+            email=offer.employer.email,
             candidate_name=self.candidate.full_name,
             contact_name=offer.employer.contact_name,
             company_name=offer.employer.company_name,
@@ -278,15 +276,12 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_reject', **POST)
     def reject(self):
         offer = self.offer
-        if not offer.is_active:
-            raise HTTPBadRequest("Offer already: %s, cant be rejected" % offer.status)
-
-        offer.rejected = datetime.now()
-        offer.rejected_reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
+        reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
+        offer.reject(reason)
         DBSession.flush()
 
         self.request.emailer.send_employer_offer_rejected(
-            email=offer.employer.contact_email,
+            email=offer.employer.email,
             candidate_name=self.candidate.full_name,
             contact_name=offer.employer.contact_name,
             company_name=offer.employer.company_name,
