@@ -14,12 +14,9 @@ define(function(require) {
       return user && user.getData();
     }).then(function(data) {
       $scope.model = _.pick(data, [
-        'founding_year',
-        'revenue_pa',
-        'funding_amoun',
-        'no_of_employees',
         'tech_team_size',
         'tech_tags',
+        'tech_team_philosophy',
       ]);
     }).finally(function() {
       $scope.loading = false;
