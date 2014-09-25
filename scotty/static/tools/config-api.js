@@ -45,6 +45,7 @@ define(function(require) {
     benefits: helper('benefits'),
     rejectReasons: helper('rejectionreasons'),
     travelWillingness: helper('travelwillingness'),
+    salutations: helper('salutations'),
 
     // search
     skills: helper('skills'),
