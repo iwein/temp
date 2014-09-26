@@ -26,9 +26,11 @@ define(function(require) {
       if (!data) return;
       $scope.invited = true;
       $scope.model = {
-        contact_name: data.contact_name,
         company_name: data.company_name,
-        email: data.email
+        contact_first_name: data.contact_first_name,
+        contact_last_name: data.contact_last_name,
+        contact_salutation: data.contact_salutation,
+        email: data.email,
       };
     }, function() {
       toaster.error('Invalid invitation token.');
