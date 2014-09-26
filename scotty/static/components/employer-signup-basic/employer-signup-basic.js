@@ -44,6 +44,7 @@ define(function(require) {
         'contact_last_name',
         'contact_salutation',
       ]);
+      $scope.office.contact_email = data.email;
 
       $scope.model.contact_email = data.contact_email || data.email;
 
