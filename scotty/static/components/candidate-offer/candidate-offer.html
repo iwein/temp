@@ -24,10 +24,31 @@
                 value="{{ reason }}"
                 ng-disabled="loading"
                 ng-required="!model.reason"
-                ng-model="model.reason">
+                ng-model="model.reason"
+                ng-change="model.rejected_text = null">
               {{ reason }}
             </label>
           </div>
+        </div>
+
+        <div class="form-group required" ng-if="model.reason.toLowerCase() === 'other'">
+          <label>Please describe your reason</label>
+
+          <input type="text"
+            class="form-control"
+            placeholder="Please describe your reason"
+            required
+            ng-disabled="loading"
+            ng-model="model.rejected_text">
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox"
+              ng-disabled="loading"
+              ng-model="model.blacklist">
+            Block employer
+          </label>
         </div>
 
         <div class="form-group">
@@ -49,7 +70,7 @@
               <a ui-sref="employer({ id: offer.employer.id })">{{ offer.employer.company_name }}</a>
             </dd>
             <dt>Created</dt>
-            <dd><a ui-sref="offer({ id: offer.id })">{{ offer.created | timeAgo }}</a></dd>
+            <dd>{{ offer.created | timeAgo }}</dd>
             <dt>Location</dt>
             <dd>{{ offer.location.city }}, {{ offer.location.country_iso }}</dd>
             <dt>Salary</dt>
