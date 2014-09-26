@@ -7,12 +7,12 @@
         <span ng-if="!signup.afterStep('signup.basic')">Basic information</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.mission') }">
-        <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">Mission</a>
-        <span ng-if="!signup.afterStep('signup.mission')">Mission</span>
+        <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">Company Facts</a>
+        <span ng-if="!signup.afterStep('signup.mission')">Company Facts</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.facts') }">
-        <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">Facts</a>
-        <span ng-if="!signup.afterStep('signup.facts')">Facts</span>
+        <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">Tech Facts</a>
+        <span ng-if="!signup.afterStep('signup.facts')">Tech Facts</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.benefits') }">
         <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits">Benefits</a>
