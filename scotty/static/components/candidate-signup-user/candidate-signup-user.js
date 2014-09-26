@@ -20,12 +20,11 @@ define(function(require) {
 
       Session.signup($scope.model).then(function() {
         var position = $scope.signup.target;
-        //var cities = $scope.signup.preferred_cities;
+        var locations = $scope.signup.preferred_locations;
 
         return $q.all([
           Session.user.addTargetPosition(position),
-          //Session.user.setPreferredCities($scope.signup.dont_care_location ?
-          //  { dont_care_location: true } : cities),
+          Session.user.setPreferredLocations(locations),
         ]);
       }).then(function() {
         return $scope.signup.nextStep();

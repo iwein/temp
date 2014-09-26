@@ -72,7 +72,7 @@ define(function() {
     addBookmark: setHelper('bookmarks', 'post'),
     deleteBookmark: deleteHelper('bookmarks'),
 
-    setPreferredCities: setHelper('preferred_cities', 'put'),
+    setPreferredLocations: setHelper('preferred_locations', 'put'),
     setSkills: setHelper('skills', 'put'),
     setLanguages: setHelper('languages', 'put'),
 
