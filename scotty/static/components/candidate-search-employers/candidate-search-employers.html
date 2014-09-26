@@ -2,12 +2,45 @@
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Search employers</h3>
 
-    <hc-label-typeahead
-      placeholder="Skills"
-      ng-model="terms"
-      hc-source="searchEmployers.searchSkills($viewValue)"
-      on-change="searchEmployers.onTermsChange($value)">
-    </hc-label-typeahead>
+    <form name="search">
+      <div class="form-group required">
+        <hc-label-typeahead
+          placeholder="Skills"
+          ng-model="terms"
+          hc-source="searchEmployers.searchSkills($viewValue)"
+          on-change="searchEmployers.search()">
+        </hc-label-typeahead>
+      </div>
+
+      <div class="form-group required">
+        <input type="text"
+          class="form-control"
+          placeholder="Location"
+          ng-disabled="!terms.length"
+          ng-model="locationText"
+          ng-blur="searchEmployers.setLocation(locationText)"
+          typeahead-on-select="searchEmployers.setLocation(locationText)"
+          typeahead="location for location in searchEmployers.searchLocations($viewValue)">
+      </div>
+
+      <div class="form-group">
+        <label>Company Type</label>
+
+        <label class="form-label" ng-repeat="type in companyTypes">
+          <input type="checkbox"
+            ng-required="errorNoCompanyType"
+            ng-disabled="!terms.length"
+            ng-model="type.selected"
+            ng-change="searchEmployers.search()">
+          {{ type.value }}
+        </label>
+
+        <div class="form-error"ng-show="errorNoCompanyType">
+          <span>Please select at least one company type.</span>
+        </div>
+      </div>
+
+    </form>
 
     <div ng-show="terms.length && !employers.length">No employer found</div>
 

@@ -25,7 +25,10 @@ define(function(require) {
       toaster.success = function(message) {
         toaster.pop('success', '', message);
       };
-      toaster.defaultError = function() {
+      toaster.defaultError = function(error) {
+        if (error)
+          console.error(error);
+
         toaster.pop(
           'error',
           'Error',

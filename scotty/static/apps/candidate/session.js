@@ -103,8 +103,8 @@ define(function(require) {
       return this.isSignupComplete();
     },
 
-    searchEmployers: function(tags) {
-      return this._api.get('/employers', { tags: tags.join() }).then(function(response) {
+    searchEmployers: function(query) {
+      return this._api.get('/employers/', query).then(function(response) {
         return response.map(function(data) {
           return new Employer(this._api, data.id, data);
         }.bind(this));
