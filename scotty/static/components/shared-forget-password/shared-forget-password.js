@@ -13,11 +13,14 @@ define(function(require) {
     }
 
     function submit(email) {
-      var params = $scope.alreadySent ? { resend: 1 } : null;
+      var params = { email: email };
+      if ($scope.alreadySent)
+        params.resend = 1;
+
       $scope.loading = true;
       $scope.alreadySent = false;
 
-      Session.recoverPassword(email, params).then(function() {
+      Session.recoverPassword(params).then(function() {
         toaster.success('An email with password reset instruction was sent to ' + email);
         $scope.alreadySent = true;
       }).catch(function(request) {

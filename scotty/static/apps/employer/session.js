@@ -56,16 +56,14 @@ define(function(require) {
       }.bind(this));
     },
 
-    recoverPassword: function(email, params) {
-      return this._api.get('/i-will-fail', params);
+    recoverPassword: function(params) {
+      return this._api.post('/employers/requestpassword', params);
     },
-
     valdiateResetToken: function(token) {
-      return this._api.get('/i-will-fail/' + token);
+      return this._api.get('/employers/resetpassword/' + token);
     },
-
     resetPassword: function(token, password) {
-      return this._api.get('/i-will-fail/' + token, { pwd: password });
+      return this._api.post('/employers/resetpassword/' + token, { pwd: password });
     },
 
     checkSession: function() {
