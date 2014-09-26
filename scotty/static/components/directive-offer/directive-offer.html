@@ -9,21 +9,21 @@
     <span>
       <span ng-if="hcRejectButton && model.canReject()">
         <button type="button" class="btn btn-danger"
-          ng-click="model.reject(hcRejectReason).then(model.refresh).then(onStatusChange)">
+          ng-click="model.reject(hcRejectReason).then(onStatusChange)">
           Reject
         </button>
       </span>
 
       <span ng-if="hcNextStatus && model.getNextStatus()">
         <button type="button" class="btn btn-primary"
-          ng-click="model.nextStatus().then(model.refresh).then(onStatusChange)">
+          ng-click="model.nextStatus().then(onStatusChange)">
           {{ model.getNextStatusText() }}
         </button>
       </span>
 
       <span ng-if="hcHireButton && model.canHire()">
         <button type="button" class="btn btn-success"
-          ng-click="model.hired().then(model.refresh).then(onStatusChange)">
+          ng-click="model.hired().then(onStatusChange)">
           Hired
         </button>
       </span>

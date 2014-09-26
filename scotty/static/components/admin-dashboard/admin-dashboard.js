@@ -5,7 +5,6 @@ define(function(require) {
 
 
   module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Session) {
-    this.nextStatus = nextStatus;
     this.refresh = list;
 
     list();
@@ -21,10 +20,6 @@ define(function(require) {
           });
         });
       }).catch(toaster.defaultError);
-    }
-
-    function nextStatus(offer) {
-      offer.nextStatus().catch(toaster.defaultError);
     }
   });
 
