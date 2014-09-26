@@ -12,6 +12,23 @@
     </hc-candidate>
 
     <div class="form-group required">
+      <label>Personal Message</label>
+      <input type="text"
+        class="form-control"
+        placeholder="Personal message"
+        name="message"
+        required
+        ng-disabled="loading"
+        ng-model="model.message">
+
+      <div class="form-error" ng-show="formCreateOffer.message.$dirty && formCreateOffer.message.$invalid">
+        <span ng-show="formCreateOffer.message.$error.required">
+          Please insert a personal message for the candidate.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group required">
       <label>Annual salary</label>
       <div class="input-group">
         <span class="input-group-addon">€</span>

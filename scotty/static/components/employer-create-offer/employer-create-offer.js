@@ -3,6 +3,7 @@ define(function(require) {
   require('textangular');
   require('tools/config-api');
   require('components/directive-candidate/directive-candidate');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
 
@@ -20,10 +21,8 @@ define(function(require) {
 
       $q.all([
         ConfigAPI.benefits(),
-        Session.user.getData(),
-        Session.getCandidate($state.params.id).then(function(candidate) {
-          return candidate.getData();
-        }),
+        Session.getUser().then(fn.invoke('getData', [])),
+        Session.getCandidate($state.params.id).then(fn.invoke('getData', [])),
       ]).then(function(result) {
         var benefits = result[0];
         var data = result[1];
@@ -32,6 +31,8 @@ define(function(require) {
         $scope.ready = true;
         $scope.candidate = candidate;
         $scope.candidateName = candidate.first_name + ' ' + candidate.last_name;
+        $scope.model.technologies = data.tech_tags;
+        $scope.model.interview_details = data.recruitment_process;
         $scope.benefits = benefits.map(function(value) {
           return {
             value: value,
@@ -66,6 +67,11 @@ define(function(require) {
         Session.user.makeOffer($scope.model).then(function() {
           toaster.success('Offer sent to ' + $scope.candidateName);
           $state.go('dashboard');
+        }).catch(function(request) {
+          if (request && request.data && request.data.db_message)
+            toaster.error(request.data.db_message);
+          else
+            throw request;
         }).catch(toaster.defaultError);
       }
 
