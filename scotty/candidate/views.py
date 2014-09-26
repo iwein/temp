@@ -18,6 +18,7 @@ from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 from sqlalchemy.exc import IntegrityError
 import logging
+from sqlalchemy.orm import joinedload, joinedload_all
 
 log = logging.getLogger(__name__)
 
@@ -57,7 +58,11 @@ class CandidateController(RootController):
         if 'country_iso' in params and 'city' in params:
             city_id = get_location_by_name_or_raise(params).id
 
-        base_query = DBSession.query(MatchedCandidate)
+        base_query = DBSession.query(MatchedCandidate).options(joinedload_all('languages.language'),
+                                                               joinedload_all('languages.proficiency'),
+                                                               joinedload_all("work_experience.skills"),
+                                                               joinedload('skills'),
+                                                               joinedload('preferred_locations'))
         if tags:
             candidate_lookup = get_candidates_by_techtags(tags, city_id)
             candidates = base_query.filter(MatchedCandidate.id.in_(candidate_lookup.keys())).limit(20).all()
