@@ -7,11 +7,12 @@ define(function(require) {
     if (!experience) return 0;
     return experience.reduce(function(sum, entry) {
       var start = new Date(entry.start);
-      var end = new Date(entry.end);
+      var end = entry.end ? new Date(entry.end) : new Date();
       var offset = new Date(0);
       var diff = new Date(end - start);
       var years = diff.getFullYear() - offset.getFullYear();
-      return sum + years;
+      var total = sum + years;
+      return total < 0 ? 0 : total;
     }, 0);
   }
 
