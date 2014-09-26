@@ -9,54 +9,17 @@
       <div class="panel-heading">
         <h3 class="panel-title">Offers</h3>
       </div>
-      <div class="panel-body" ng-show="!offers.length">
-        No offers
-      </div>
+      <div class="panel-body" ng-show="!offers.length">No offers</div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="offer in offers">
-          <h3 class="text-center">
-            <span class="label label-default">{{  stateText[offer.data.status] }}</span>
-            <button type="button"
-              class="btn btn-default"
-              ng-click="offer.reject().then(dashboard.refresh)"
-              ng-if="offer.data.status !== 'REJECTED'">
-              Reject
-            </button>
-            <button type="button"
-              class="btn btn-default"
-              ng-click="offer.nextStatus().then(dashboard.refresh)"
-              ng-if="offer.getNextStatus()">
-              {{ stateText[offer.getNextStatus()] }}
-            </button>
-          </h3>
-
-          <dl class="dl-horizontal">
-
-            <dt><a ui-sref="offer({ id: offer.id })">View Offer Details</a></dt>
-            <dd></dd>
-            <dt>Employer</dt>
-            <dd>
-              <img class="logo" ng-src="{{ offer.data.employer.logo_url }}">
-              <a ui-sref="employer({ id: offer.data.employer.id })">{{ offer.data.employer.company_name }}</a>
-            </dd>
-            <dt>Created</dt>
-            <dd>{{ offer.data.created | timeAgo }}</dd>
-            <dt>Location</dt>
-            <dd>{{ offer.data.location.city }}, {{ offer.data.location.country_iso }}</dd>
-            <dt>Salary</dt>
-            <dd>{{ offer.data.annual_salary }} €/year</dd>
-            <dt>Technologies</dt>
-            <dd>{{ offer.data.technologies.join(', ') }}</dd>
-            <dt>Benefits</dt>
-            <dd>{{ offer.data.benefits.join(', ') }}</dd>
-            <dt>Job Description</dt>
-            <dd ng-bind-html="offer.data.job_description"></dd>
-            <dt>Hiring process</dt>
-            <dd ng-bind-html="offer.data.interview_details"></dd>
-          </dl>
+          <hc-offer ng-model="offer"
+            hc-actions
+            hc-next-status
+            hc-hire-button
+            hc-reject-button>
+          </hc-offer>
         </li>
       </ul>
     </div>
-
   </div>
 </div>

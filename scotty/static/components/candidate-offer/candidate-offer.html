@@ -1,93 +1,74 @@
 <div class="component-candidate-offer row" ng-if="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <div ng-show="active">
-      <button class="btn btn-default"
-        ng-disabled="loading"
-        ng-click="offerDetail.accept()">
-        Accept Offer
-      </button>
+    <hc-offer
+      ng-model="offer"
+      hc-title="Offer details"
+      hc-hide="{{ { candidate: true } }}"
+      on-status-change="offerDetail.onStatusChange()"
+      hc-panel
+      hc-hire-button>
 
-      <button class="btn btn-default"
-        ng-class="{ active: rejecting }"
-        ng-disabled="loading"
-        ng-click="offerDetail.toggleRejecting()">
-        Reject Offer
-      </button>
+      <span>
+        <button class="btn btn-danger"
+          ng-show="offer.canReject()"
+          ng-class="{ active: rejecting }"
+          ng-disabled="loading"
+          ng-click="offerDetail.toggleRejecting()">
+          Reject Offer
+        </button>
 
-      <form name="formReject" ng-show="rejecting" ng-submit="offerDetail.reject(rejectReason)">
-        <div class="form-group">
-          <div ng-repeat="reason in rejectReasons">
+        <button class="btn btn-primary"
+          ng-show="offer.canAccept()"
+          ng-disabled="loading"
+          ng-click="offerDetail.accept()">
+          Accept Offer
+        </button>
+      </span>
+
+      <div ng-show="rejecting">
+        <form name="formReject" ng-submit="offerDetail.reject()">
+          <div class="form-group">
+            <div ng-repeat="reason in rejectReasons">
+              <label>
+                <input type="radio"
+                  name="rejectReason"
+                  value="{{ reason }}"
+                  ng-disabled="loading"
+                  ng-required="!model.reason"
+                  ng-model="model.reason"
+                  ng-change="model.rejected_text = null">
+                {{ reason }}
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group required" ng-if="model.reason.toLowerCase() === 'other'">
+            <label>Please describe your reason</label>
+
+            <input type="text"
+              class="form-control"
+              placeholder="Please describe your reason"
+              required
+              ng-disabled="loading"
+              ng-model="model.rejected_text">
+          </div>
+
+          <div class="form-group">
             <label>
-              <input type="radio"
-                name="rejectReason"
-                value="{{ reason }}"
+              <input type="checkbox"
                 ng-disabled="loading"
-                ng-required="!model.reason"
-                ng-model="model.reason"
-                ng-change="model.rejected_text = null">
-              {{ reason }}
+                ng-model="model.blacklist">
+              Block employer
             </label>
           </div>
-        </div>
 
-        <div class="form-group required" ng-if="model.reason.toLowerCase() === 'other'">
-          <label>Please describe your reason</label>
-
-          <input type="text"
-            class="form-control"
-            placeholder="Please describe your reason"
-            required
-            ng-disabled="loading"
-            ng-model="model.rejected_text">
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="checkbox"
-              ng-disabled="loading"
-              ng-model="model.blacklist">
-            Block employer
-          </label>
-        </div>
-
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
-        </div>
-      </form>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Offer details</h3>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
+          </div>
+        </form>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <dl class="dl-horizontal">
-            <dt>Employer</dt>
-            <dd>
-              <img class="logo" ng-src="{{ offer.employer.logo_url }}">
-              <a ui-sref="employer({ id: offer.employer.id })">{{ offer.employer.company_name }}</a>
-            </dd>
-            <dt>Created</dt>
-            <dd>{{ offer.created | timeAgo }}</dd>
-            <dt>Location</dt>
-            <dd>{{ offer.location.city }}, {{ offer.location.country_iso }}</dd>
-            <dt>Salary</dt>
-            <dd>{{ offer.annual_salary }} €/year</dd>
-            <dt>Technologies</dt>
-            <dd>{{ offer.technologies.join(', ') }}</dd>
-            <dt>Benefits</dt>
-            <dd>{{ offer.benefits.join(', ') }}</dd>
-            <dt>Job Description</dt>
-            <dd ng-bind-html="offer.job_description"></dd>
-            <dt>Hiring process</dt>
-            <dd ng-bind-html="offer.interview_details"></dd>
-          </dl>
-        </li>
-      </ul>
-    </div>
 
-
+    </hc-offer>
   </div>
 </div>

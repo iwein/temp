@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('components/directive-employer/directive-employer');
+  require('components/directive-offer/directive-offer');
   var module = require('app-module');
 
 
@@ -15,10 +16,13 @@ define(function(require) {
       });
 
       user.getOffers().then(function(offers) {
-        $scope.offers = offers.map(function(offer) {
-          offer.interview_details = $sce.trustAsHtml(offer.interview_details);
-          offer.job_description = $sce.trustAsHtml(offer.job_description);
-          return offer;
+        $scope.offers = offers;
+
+        offers.map(function(offer) {
+          offer.setDataParser(function(data) {
+            data.interview_details = $sce.trustAsHtml(data.interview_details);
+            data.job_description = $sce.trustAsHtml(data.job_description);
+          });
         });
       });
     }).catch(toaster.defaultError);

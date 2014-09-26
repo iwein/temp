@@ -1,0 +1,74 @@
+<div ng-class="{ panel: hcPanel, 'panel-default': hcPanel }">
+  <div ng-if="hcPanel" class="panel-heading">
+    <h3 class="panel-title">
+      <a ng-if="hcLink" ui-sref="offer({ id: model.id })">{{ hcTitle }}</a>
+      <span ng-if="!hcLink">{{ hcTitle }}</span>
+    </h3>
+  </div>
+  <div ng-class="{ 'panel-body': hcPanel }">
+    <span>
+      <span ng-if="hcRejectButton && model.canReject()">
+        <button type="button" class="btn btn-danger"
+          ng-click="model.reject(hcRejectReason).then(model.refresh).then(onStatusChange)">
+          Reject
+        </button>
+      </span>
+
+      <span ng-if="hcNextStatus && model.getNextStatus()">
+        <button type="button" class="btn btn-primary"
+          ng-click="model.nextStatus().then(model.refresh).then(onStatusChange)">
+          {{ model.getNextStatusText() }}
+        </button>
+      </span>
+
+      <span ng-if="hcHireButton && model.canHire()">
+        <button type="button" class="btn btn-success"
+          ng-click="model.hired().then(model.refresh).then(onStatusChange)">
+          Hired
+        </button>
+      </span>
+
+      <span ng-transclude></span>
+    </span>
+
+    <span ng-if="hcLink && !hcPanel">
+      <a ui-sref="offer({ id: model.id })">View offer details</a>
+    </span>
+
+    <dl class="dl-horizontal">
+      <dt>Status</dt>
+      <dd><span class="label label-default" ng-class="{
+        'label-success': model.status === 'ACCEPTED' || model.status === 'JOB_STARTED',
+        'label-danger': model.status === 'REJECTED',
+      }">{{ model.statusText }}</span></dd>
+      <dt ng-if="!hide.employer">Employer</dt>
+      <dd ng-if="!hide.employer">
+        <img class="logo" ng-src="{{ model.data.employer.logo_url }}">
+        <a ui-sref="employer({ id: model.data.employer.id })">
+          {{ model.data.employer.company_name }}
+        </a>
+      </dd>
+      <dt ng-if="!hide.candidate">Candidate</dt>
+      <dd ng-if="!hide.candidate">
+        <img class="avatar" ng-src="{{ model.data.candidate.picture_url }}">
+        <a ui-sref="candidate({ id: model.data.candidate.id })">
+          {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
+        </a>
+      </dd>
+      <dt>Created</dt>
+      <dd>{{ model.data.created | timeAgo }}</dd>
+      <dt>Location</dt>
+      <dd>{{ model.data.location.city }}, {{ model.data.location.country_iso }}</dd>
+      <dt>Salary</dt>
+      <dd>{{ model.data.annual_salary }} €/year</dd>
+      <dt>Technologies</dt>
+      <dd>{{ model.data.technologies.join(', ') }}</dd>
+      <dt>Benefits</dt>
+      <dd>{{ model.data.benefits.join(', ') }}</dd>
+      <dt>Job Description</dt>
+      <dd ng-bind-html="model.data.job_description"></dd>
+      <dt>Hiring process</dt>
+      <dd ng-bind-html="model.data.interview_details"></dd>
+    </dl>
+  </div>
+</div>

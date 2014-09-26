@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('components/directive-candidate/directive-candidate');
+  require('components/directive-offer/directive-offer');
   var module = require('app-module');
 
 
@@ -8,23 +9,23 @@ define(function(require) {
     $scope.ready = false;
     Permission.requireSignup().then(function() {
       $scope.ready = true;
-
-      Session.user.getCandidates().then(function(result) {
+      return Session.getUser();
+    }).then(function(user) {
+      user.getCandidates().then(function(result) {
         $scope.candidates = result;
       });
 
-      Session.user.getOffers().then(function(offers) {
-        $scope.offers = offers.map(function(offer) {
-          offer.candidateName = offer.candidate.first_name + ' ' + offer.candidate.last_name;
-          offer.interview_details = $sce.trustAsHtml(offer.interview_details);
-          offer.job_description = $sce.trustAsHtml(offer.job_description);
-          offer.created = new Date(offer.created);
-          return offer;
+      user.getOffers().then(function(offers) {
+        $scope.offers = offers;
+
+        offers.map(function(offer) {
+          offer.setDataParser(function(data) {
+            data.interview_details = $sce.trustAsHtml(data.interview_details);
+            data.job_description = $sce.trustAsHtml(data.job_description);
+          });
         });
-      }).catch(function() {
-        toaster.error('Offers not implemented');
       });
-    });
+    }).catch(toaster.defaultError);
   });
 
 
