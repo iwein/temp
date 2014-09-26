@@ -115,6 +115,7 @@ define(function(require) {
         })
         .then(listOffices)
         .then(function() {
+          $scope.formSignupBasicOffice.$setPristine();
           $scope.office = {};
         })
         .finally(function() {
