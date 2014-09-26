@@ -1,12 +1,15 @@
 define(function(require) {
   'use strict';
   require('angular-sanitize');
+  require('components/directive-office/directive-office');
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $sce, $state, Permission, Session) {
     $scope.ready = false;
     Permission.requireSignup().then(function() {
-      return Session.user.getData();
+      return Session.getUser();
+    }).then(function(user) {
+      return user.getData();
     }).then(function(data) {
       $scope.ready = true;
 

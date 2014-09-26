@@ -61,7 +61,7 @@
     <div class="form-group">
       <button type="submit"
         class="btn btn-primary"
-        ng-disabled="loading || !offices.length">
+        ng-disabled="loading || !list.length">
         Continue
       </button>
     </div>
@@ -280,47 +280,15 @@
         </div>
       </form>
     </div>
-
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="office in offices">
-        <dl class="dl-horizontal">
-          <!-- disabled
-          <dt>Website</dt>
-          <dd>{{ office.website }}</dd>
-          -->
-          <dt>Address</dt>
-          <dd>
-            <address>
-              {{ office.address_line1 }}<br>
-              {{ office.address_line2 }}<br ng-if="office.address_line2">
-              {{ office.address_line3 }}<br ng-if="office.address_line3">
-              {{ office.address_city.city }},
-              {{ office.address_city.country_iso }}
-              {{ office.address_zipcode }}
-            </address>
-          </dd>
-          <dt>Contact name</dt>
-          <dd>{{ office.contact_first_name }} {{ office.contact_last_name }}</dd>
-          <dt>Contact phone</dt>
-          <dd>{{ office.contact_phone }}</dd>
-          <dt>Contact email</dt>
-          <dd>{{ office.contact_email }}</dd>
-          <dt ng-if="office.contact_position">Contact position</dt>
-          <dd ng-if="office.contact_position">{{ office.contact_position }}</dd>
-          <dd ng-if="office.type !== 'HQ'">
-            <button type="button"
-              class="btn btn-default"
-              ng-click="signupBasic.removeOffice(office, $index)">
-              Remove
-            </button>
-            <button type="button"
-              class="btn btn-default"
-              ng-click="signupBasic.editOffice(office, $index)">
-              Edit
-            </button>
-          </dd>
-        </dl>
-      </li>
-    </ul>
   </div>
+
+  <hc-office
+    ng-if="ready"
+    name="list"
+    hc-title="Saved"
+    hc-source="session.user.listOffices()"
+    hc-source-remove="session.user.removeOffice($entry)"
+    on-edit="signupBasic.editOffice($entry)"
+    hc-editable>
+  </hc-office>
 </div>

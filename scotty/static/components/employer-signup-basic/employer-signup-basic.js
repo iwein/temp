@@ -4,6 +4,7 @@ define(function(require) {
   require('tools/file-upload/amazon');
   require('tools/file-upload/data-url-directive');
   require('tools/file-upload/file-select-directive');
+  require('components/directive-office/directive-office');
   var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
@@ -12,7 +13,6 @@ define(function(require) {
     this.searchLocations = searchLocations;
     this.setLocation = setLocation;
     this.selectFile = selectFile;
-    this.removeOffice = removeOffice;
     this.editOffice = editOffice;
     this.submitOffice = submitOffice;
     this.submit = submit;
@@ -20,13 +20,11 @@ define(function(require) {
     $scope.loadingOffice = false;
     $scope.model = {};
     $scope.office = {};
-    $scope.offices = [];
     var citiesCache = [];
 
     ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
 
-    listOffices();
     Session.getUser().then(function(user) {
       return user && user.getData();
     }).then(function(data) {
@@ -46,11 +44,10 @@ define(function(require) {
       ]);
       $scope.office.contact_email = data.email;
 
-      $scope.model.contact_email = data.contact_email || data.email;
-
       if (data.address_city)
         $scope.locationText = ConfigAPI.locationToText(data.address_city);
     }).finally(function() {
+      $scope.ready = true;
       $scope.loading = false;
     });
 
@@ -76,30 +73,8 @@ define(function(require) {
         $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
     }
 
-    function listOffices() {
-      return Session.getUser().then(function(user) {
-        return user && user.listOffices();
-      }).then(function(offices) {
-        $scope.offices = offices;
-      });
-    }
-
-    function removeOffice(office) {
-      $scope.loadingOffice = true;
-      return Session.getUser()
-        .then(function(user) {
-          return user.removeOffice(office);
-        })
-        .then(listOffices)
-        .finally(function() {
-          $scope.loadingOffice = false;
-        });
-    }
-
     function editOffice(office) {
-      removeOffice(office).then(function() {
-        $scope.office = office;
-      });
+      $scope.office = office;
     }
 
     function submitOffice() {
@@ -109,18 +84,16 @@ define(function(require) {
           delete $scope.office[key];
       });
 
-      return Session.getUser()
-        .then(function(user) {
-          return user.addOffice($scope.office);
-        })
-        .then(listOffices)
-        .then(function() {
-          $scope.formSignupBasicOffice.$setPristine();
-          $scope.office = {};
-        })
-        .finally(function() {
-          $scope.loadingOffice = false;
-        });
+      return Session.getUser().then(function(user) {
+        return user.addOffice($scope.office);
+      }).then(function() {
+        return $scope.list.refresh();
+      }).then(function() {
+        $scope.formSignupBasicOffice.$setPristine();
+        $scope.office = {};
+      }).finally(function() {
+        $scope.loadingOffice = false;
+      });
     }
 
     function submit() {
