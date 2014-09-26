@@ -36,7 +36,7 @@ define(function(require) {
 
       function accept() {
         $scope.loading = true;
-        offer.reject($scope.model)
+        offer.accept($scope.model)
           .then(function() { toaster.success('Offer accepted') })
           .catch(toaster.defaultError)
           .finally(function() { $scope.loading = false });
@@ -48,7 +48,10 @@ define(function(require) {
 
         $scope.loading = true;
         offer.reject($scope.model)
-          .then(function() { toaster.success('Offer rejected') })
+          .then(function() {
+            $scope.rejecting = false;
+            toaster.success('Offer rejected');
+          })
           .catch(toaster.defaultError)
           .finally(function() { $scope.loading = false });
       }

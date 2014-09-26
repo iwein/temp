@@ -41,8 +41,10 @@ define(function(require) {
     }
 
     function submit() {
-      $scope.loading = true;
+      if ($scope.formSignupStart.password.$invalid)
+        return;
 
+      $scope.loading = true;
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :
         Session.signup($scope.model)

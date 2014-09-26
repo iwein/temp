@@ -1,0 +1,38 @@
+<div class="panel panel-default" ng-show="model.length || hcShowEmpty">
+  <div ng-if="hcTitle" class="panel-heading">
+    <h3 class="panel-title">{{ hcTitle }}</h3>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="entry in model">
+      <dl class="dl-horizontal">
+        <!-- disabled
+        <dt>Website</dt>
+        <dd>{{ entry.website }}</dd>
+        -->
+        <dt>Address</dt>
+        <dd>
+          <address>
+            {{ entry.address_line1 }}<br>
+            {{ entry.address_line2 }}<br ng-if="entry.address_line2">
+            {{ entry.address_line3 }}<br ng-if="entry.address_line3">
+            {{ entry.address_city.city }},
+            {{ entry.address_city.country_iso }}
+            {{ entry.address_zipcode }}
+          </address>
+        </dd>
+        <dt>Contact name</dt>
+        <dd>{{ entry.contact_first_name }} {{ entry.contact_last_name }}</dd>
+        <dt>Contact phone</dt>
+        <dd>{{ entry.contact_phone }}</dd>
+        <dt>Contact email</dt>
+        <dd>{{ entry.contact_email }}</dd>
+        <dt ng-if="entry.contact_position">Contact position</dt>
+        <dd ng-if="entry.contact_position">{{ entry.contact_position }}</dd>
+        <dd ng-if="hcEditable && entry.type !== 'HQ'">
+          <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
+          <button type="button" class="btn btn-default" ng-click="remove(entry)">Remove</button>
+        </dd>
+      </dl>
+    </li>
+  </ul>
+</div>

@@ -90,17 +90,17 @@ define(function() {
 
     accept: function() {
       return this._api.post(this._url() + '/accept', {})
-        .then(this._updateStatus);
+        .then(this._setData);
     },
 
     reject: function(params) {
       return this._api.post(this._url() + '/reject', params)
-        .then(this._updateStatus);
+        .then(this._setData);
     },
 
     hired: function() {
       return this._api.post(this._url() + '/hired', {})
-        .then(this._updateStatus);
+        .then(this._setData);
     },
 
     getNextStatus: function() {
