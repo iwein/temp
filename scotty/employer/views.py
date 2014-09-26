@@ -43,13 +43,14 @@ class EmployerController(RootController):
     @reify
     def employer(self):
         employer_id = self.request.matchdict["employer_id"]
-
+        cls = Employer
         if employer_id == 'me':
             employer_id = self.request.session.get('employer_id')
             if not employer_id:
                 raise HTTPForbidden("Not logged in.")
-
-        employer = DBSession.query(Employer).get(employer_id)
+            else:
+                cls = FullEmployer
+        employer = DBSession.query(cls).get(employer_id)
         if not employer:
             raise HTTPNotFound("Unknown Employer ID")
         return employer

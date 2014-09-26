@@ -56,7 +56,7 @@ class OfferStatusWorkflow(object):
 
     @property
     def full_status_flow(self):
-        return [{'status': k.key, 'timestamp': getattr(self, k.col_name, None),
+        return [{'status': k.key, 'timestamp': getattr(self, k.col_name, None), 'is_final': k.is_final,
                  'completed': bool(getattr(self, k.col_name, None))} for k in self.statuses]
 
     @classmethod
