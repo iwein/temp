@@ -1,5 +1,7 @@
-define(function() {
+define(function(require) {
   'use strict';
+  var Offer = require('./offer');
+
 
   function getHelper(key) {
     return function() {
@@ -76,20 +78,21 @@ define(function() {
     setSkills: setHelper('skills', 'put'),
     setLanguages: setHelper('languages', 'put'),
 
-
     getOffers: function() {
-      return this._api.get(this._url() + '/offers');
+      var url = this._url() + '/offers';
+      return this._api.get(url).then(function(offers) {
+        return offers.map(function(data) {
+          return new Offer(this._api, url, data);
+        }.bind(this));
+      }.bind(this));
     },
     getOffer: function(id) {
       // This call uses /candidates/<ID>/ instead of /candidates/me/
       //   so it can validate the offer belongs to the user.
-      return this._api.get('/candidates/' + this.id + '/offers/' + id);
-    },
-    acceptOffer: function(id) {
-      return this._api.post(this._url() + '/offers/' + id + '/accept', {});
-    },
-    rejectOffer: function(id, data) {
-      return this._api.post(this._url() + '/offers/' + id + '/reject', data);
+      var url = '/candidates/' + this.id + '/offers/' + id;
+      return this._api.get(url).then(function(data) {
+        return new Offer(this._api, url, data);
+      }.bind(this));
     },
 
     dispose: function() {

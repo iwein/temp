@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('tools/config-api');
   var angular = require('angular');
   var module = require('app-module');
 

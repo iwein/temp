@@ -19,35 +19,36 @@ define(function(require) {
 
       return Session.user.getOffer($scope.id);
     }).then(function(offer) {
-      this.accept = acceptOffer;
-      this.reject = rejectOffer;
+      this.onStatusChange = onStatusChange;
+      this.reject = reject;
+      this.accept = accept;
       $scope.ready = true;
       $scope.offer = offer;
-      $scope.active = offer.status === 'ACTIVE';
-      offer.interview_details = $sce.trustAsHtml(offer.interview_details);
-      offer.job_description = $sce.trustAsHtml(offer.job_description);
 
-      function acceptOffer() {
+      offer.setDataParser(function(data) {
+        data.interview_details = $sce.trustAsHtml(data.interview_details);
+        data.job_description = $sce.trustAsHtml(data.job_description);
+      });
+
+      function onStatusChange() {
+        toaster.success('Offer ' + offer.statusText);
+      }
+
+      function accept() {
         $scope.loading = true;
-        Session.user.acceptOffer($scope.id)
-          .then(function() {
-            toaster.success('Offer accepted');
-            $scope.active = false;
-          })
+        offer.reject($scope.model)
+          .then(function() { toaster.success('Offer accepted') })
           .catch(toaster.defaultError)
           .finally(function() { $scope.loading = false });
       }
 
-      function rejectOffer() {
+      function reject() {
         if (!$scope.model.reason)
           return;
 
         $scope.loading = true;
-        Session.user.rejectOffer($scope.id, $scope.model)
-          .then(function() {
-            toaster.success('Offer rejected');
-            $scope.active = false;
-          })
+        offer.reject($scope.model)
+          .then(function() { toaster.success('Offer rejected') })
           .catch(toaster.defaultError)
           .finally(function() { $scope.loading = false });
       }

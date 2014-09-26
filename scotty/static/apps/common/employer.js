@@ -1,5 +1,7 @@
-define(function() {
+define(function(require) {
   'use strict';
+  var Offer = require('./offer');
+
 
   function Employer(api, id, data) {
     this.id = data ? data.id : null;
@@ -64,16 +66,25 @@ define(function() {
     },
 
     getOffers: function() {
-      return this._api.get(this._url() + '/offers');
+      var url = this._url() + '/offers';
+      return this._api.get(url).then(function(offers) {
+        return offers.map(function(data) {
+          return new Offer(this._api, url, data);
+        }.bind(this));
+      }.bind(this));
     },
     makeOffer: function(data) {
-      return this._api.post(this._url() + '/offers', data);
+      var url = this._url() + '/offers';
+      return this._api.post(url, data).then(function(data) {
+        return new Offer(this._api, url, data);
+      }.bind(this));
     },
 
     dispose: function() {
       // TODO
     },
   };
+
 
   return Employer;
 });
