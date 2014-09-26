@@ -1,15 +1,20 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('tools/config-api');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('AdminInviteEmployerCtrl', function($scope, toaster, Session) {
+  module.controller('AdminInviteEmployerCtrl', function($scope, toaster, ConfigAPI, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
 
+    ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
+
     function submit() {
       $scope.loading = true;
+      $scope.model.company_type = 'top500';
 
       Session.inviteEmployer($scope.model).then(function() {
         $scope.formInviteEmployer.$setPristine();
