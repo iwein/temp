@@ -10,11 +10,11 @@ define(function(require) {
     $scope.loading = false;
     $scope.model = {};
 
+    ConfigAPI.companyTypes().then(fn.setTo('companyTypes', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
 
     function submit() {
       $scope.loading = true;
-      $scope.model.company_type = 'top500';
 
       Session.inviteEmployer($scope.model).then(function() {
         $scope.formInviteEmployer.$setPristine();
