@@ -1,6 +1,8 @@
 define(function(require) {
   'use strict';
   require('tools/api');
+  var fn = require('tools/fn');
+  var Office = require('apps/common/offer');
 
 
   function AdminSession(api, promise) {
@@ -20,11 +22,18 @@ define(function(require) {
     },
 
     getEmployersByStatus: function(status) {
-      return this._api.get('/admin/employers/' + status).then(function(response) {
-        return response.data;
-      });
+      return this._api.get('/admin/employers/' + status).then(fn.get('data'));
+    },
+
+    getOffers: function() {
+      return this._api.get('/admin/offers').then(function(response) {
+        return response.data.map(function(data) {
+          return new Office(this._api, '/admin/offers', data);
+        }.bind(this));
+      }.bind(this));
     },
   };
+
 
   var module = require('app-module');
   module.factory('Session', function(API, $q) {

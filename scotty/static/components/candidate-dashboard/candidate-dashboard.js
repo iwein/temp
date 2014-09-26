@@ -8,21 +8,20 @@ define(function(require) {
     $scope.ready = false;
     Permission.requireSignup().then(function() {
       $scope.ready = true;
-
-      Session.user.getBookmarks().then(function(employers) {
+      return Session.getUser();
+    }).then(function(user) {
+      user.getBookmarks().then(function(employers) {
         $scope.employers = employers;
       });
 
-      Session.user.getOffers().then(function(offers) {
+      user.getOffers().then(function(offers) {
         $scope.offers = offers.map(function(offer) {
           offer.interview_details = $sce.trustAsHtml(offer.interview_details);
           offer.job_description = $sce.trustAsHtml(offer.job_description);
           return offer;
         });
-      }).catch(function() {
-        toaster.error('Offers not implemented');
       });
-    });
+    }).catch(toaster.defaultError);
   });
 
 
