@@ -38,6 +38,13 @@ define(function(require) {
         'fb_url',
         'linkedin_url',
       ]);
+
+      $scope.office = _.pick(data, [
+        'contact_first_name',
+        'contact_last_name',
+        'contact_salutation',
+      ]);
+
       $scope.model.contact_email = data.contact_email || data.email;
 
       if (data.address_city)
