@@ -151,7 +151,7 @@ class Offer(Base, OfferStatusWorkflow):
 
     rejected_reason_id = Column(Integer, ForeignKey("rejectionreason.id"))
     rejected_reason = relationship(RejectionReason, info=PUBLIC)
-    rejected_text = Column(Text)
+    rejected_text = Column(Text, info=PUBLIC)
 
     candidate_id = Column(GUID, ForeignKey('candidate.id'), nullable=False)
     employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
