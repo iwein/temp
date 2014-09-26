@@ -76,9 +76,16 @@ def add_employer_offer(employer, params):
     matches = DBSession.execute(text("""
         select count(distinct cpl.id)
         from  candidate_preferred_location cpl
-        join city on city.id = cpl.city_id,
-        (select st_GeogFromText('SRID=4326;POINT(' || longitude || ' ' || latitude || ')') as g from city where id=:city_id) cg
-        where ST_Distance(cg.g, city.geog) < 50000 and candidate_id = :candidate_id
+        left join city
+            on city.id = cpl.city_id,
+        (
+        select st_GeogFromText('SRID=4326;POINT(' || longitude || ' ' || latitude || ')') as g,
+            country_iso
+        from city 
+        where id=:city_id
+        ) cg
+        where candidate_id =  :candidate_id
+        and (ST_Distance(cg.g, city.geog) < 50000 or cpl.country_iso = cg.country_iso)
         limit 100;
     """), {'candidate_id': candidate_id, 'city_id': location.id})
     if sum([m[0] for m in matches]) == 0:
