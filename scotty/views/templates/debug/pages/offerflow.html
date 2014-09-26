@@ -118,7 +118,7 @@
 
 
             {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/reject';},
-              method: "POST", data:{reason: 'Salary offer not high enough'}, title: 'candidate-reject-1'},
+              method: "POST", data:{reason: 'Salary offer not high enough', rejected_text:null}, title: 'candidate-reject-1'},
 
             {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer2Id+'/accept';},
               method: "POST", data:{}, title: 'candidate-accept-2'},

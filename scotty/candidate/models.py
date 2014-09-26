@@ -221,7 +221,7 @@ class Candidate(Base):
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
     target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
 
-    offers = relationship(CandidateOffer, backref='candidate')
+    offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 
     bookmarked_employers = relationship("Employer", secondary=candidate_bookmark_employer,
                                         order_by=candidate_bookmark_employer.c.created.desc(),

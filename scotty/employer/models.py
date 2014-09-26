@@ -118,7 +118,7 @@ class Employer(Base):
     traffic_source = relationship(TrafficSource, info=PUBLIC)
 
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
-    offers = relationship(EmployerOffer, backref='employer')
+    offers = relationship(EmployerOffer, backref='employer', order_by=EmployerOffer.created.desc())
 
     @property
     def password(self):
