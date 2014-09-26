@@ -56,7 +56,8 @@ define(function() {
     },
 
     canReject: function() {
-      return this.status !== 'REJECTED';
+      return this.status !== 'REJECTED' &&
+        this.status !== 'JOB_STARTED';
     },
 
     canHire: function() {
