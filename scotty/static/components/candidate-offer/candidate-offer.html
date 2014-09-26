@@ -1,12 +1,12 @@
 <div class="component-candidate-offer row" ng-if="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <hc-offer
-      ng-model="offer"
+    <hc-offer ng-model="offer"
       hc-title="Offer details"
       hc-hide="{{ { candidate: true } }}"
       on-status-change="offerDetail.onStatusChange()"
       hc-panel
+      hc-profile-links
       hc-hire-button>
 
       <span>

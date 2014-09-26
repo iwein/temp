@@ -19,6 +19,7 @@ define(function(require) {
 
       $scope.loading = true;
       $scope.alreadySent = false;
+      $scope.unknownEmail = false;
 
       Session.recoverPassword(params).then(function() {
         toaster.success('An email with password reset instruction was sent to ' + email);
@@ -27,7 +28,10 @@ define(function(require) {
         if (request.status === 409) {
           toaster.warning('Instructions already sent to ' + email);
           $scope.alreadySent = true;
-        } else
+        } else if (request.status === 404) {
+          //toaster.error('Unknown email');
+          $scope.unknownEmail = true;
+        } else
           toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;

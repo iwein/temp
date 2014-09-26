@@ -29,6 +29,7 @@ define(function(require) {
         if ('hcHireButton' in attr) scope.hcHireButton = true;
         if ('hcRejectButton' in attr) scope.hcRejectButton = true;
         if ('hcNextStatus' in attr) scope.hcNextStatus = true;
+        if ('hcProfileLinks' in attr) scope.hcProfileLinks = true;
       },
     };
   });

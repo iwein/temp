@@ -41,17 +41,23 @@
         'label-success': model.status === 'ACCEPTED' || model.status === 'JOB_STARTED',
         'label-danger': model.status === 'REJECTED',
       }">{{ model.statusText }}</span></dd>
+      <dt ng-if="model.status === 'REJECTED'">Reason</dt>
+      <dd ng-if="model.status === 'REJECTED'">{{ model.data.rejected_text || model.data.rejected_reason }}</dd>
       <dt ng-if="!hide.employer">Employer</dt>
       <dd ng-if="!hide.employer">
         <img class="logo" ng-src="{{ model.data.employer.logo_url }}">
-        <a ui-sref="employer({ id: model.data.employer.id })">
+        <span ng-if="!hcProfileLinks">{{ model.data.employer.company_name }}</span>
+        <a ng-if="hcProfileLinks" ui-sref="employer({ id: model.data.employer.id })">
           {{ model.data.employer.company_name }}
         </a>
       </dd>
       <dt ng-if="!hide.candidate">Candidate</dt>
       <dd ng-if="!hide.candidate">
         <img class="avatar" ng-src="{{ model.data.candidate.picture_url }}">
-        <a ui-sref="candidate({ id: model.data.candidate.id })">
+        <span ng-if="!hcProfileLinks">
+          {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
+        </span>
+        <a ng-if="hcProfileLinks" ui-sref="candidate({ id: model.data.candidate.id })">
           {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
         </a>
       </dd>
@@ -60,11 +66,13 @@
       <dt>Location</dt>
       <dd>{{ model.data.location.city }}, {{ model.data.location.country_iso }}</dd>
       <dt>Salary</dt>
-      <dd>{{ model.data.annual_salary }} €/year</dd>
+      <dd>{{ model.data.annual_salary | dottedInteger }} €/year</dd>
       <dt>Technologies</dt>
       <dd>{{ model.data.technologies.join(', ') }}</dd>
       <dt>Benefits</dt>
       <dd>{{ model.data.benefits.join(', ') }}</dd>
+      <dt>Message</dt>
+      <dd>{{ model.data.message }}</dd>
       <dt>Job Description</dt>
       <dd ng-bind-html="model.data.job_description"></dd>
       <dt>Hiring process</dt>

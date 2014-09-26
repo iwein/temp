@@ -36,8 +36,8 @@
               {{ user.contact_line1 }}<br>
               {{ user.contact_line2 }}<br ng-if="user.contact_line2">
               {{ user.contact_line3 }}<br ng-if="user.contact_line3">
-              {{ user.contact_city.city }},
-              {{ user.contact_city.country_iso }}
+              {{ user.contact_city }},
+              {{ user.contact_country_iso }}
               {{ user.contact_zipcode }}
             </address>
           </dd>
@@ -51,7 +51,10 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in skills">
-          <span class="value">{{ entry.skill }} ({{ entry.level }})</span>
+          <span class="value">
+            {{ entry.skill }}
+            <span ng-if="entry.level">({{ entry.level }})</span>
+          </span>
         </li>
       </ul>
     </div>

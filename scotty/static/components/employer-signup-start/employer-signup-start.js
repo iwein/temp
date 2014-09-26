@@ -13,10 +13,7 @@ define(function(require) {
     $scope.errorAlreadyRegistered = false;
     var token = $state.params.token;
 
-    function onEmailChange() {
-      $scope.errorAlreadyRegistered = false;
-    }
-
+    ConfigAPI.companyTypes().then(fn.setTo('companyTypes', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
 
     $q.when(token).then(function(token) {
@@ -26,9 +23,12 @@ define(function(require) {
       if (!data) return;
       $scope.invited = true;
       $scope.model = {
-        contact_name: data.contact_name,
         company_name: data.company_name,
-        email: data.email
+        company_type: data.company_type,
+        contact_first_name: data.contact_first_name,
+        contact_last_name: data.contact_last_name,
+        contact_salutation: data.contact_salutation,
+        email: data.email,
       };
     }, function() {
       toaster.error('Invalid invitation token.');
@@ -36,10 +36,12 @@ define(function(require) {
       $scope.loading = false;
     });
 
+    function onEmailChange() {
+      $scope.errorAlreadyRegistered = false;
+    }
+
     function submit() {
       $scope.loading = true;
-      // TODO: Fix with #199
-      $scope.model.company_type = 'top500';
 
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :

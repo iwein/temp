@@ -25,7 +25,7 @@ define(function(require) {
           });
         });
       });
-    }).catch(toaster.defaultError);
+    });
   });
 
 

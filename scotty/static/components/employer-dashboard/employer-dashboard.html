@@ -21,7 +21,9 @@
       <div class="panel-body" ng-show="!offers.length">No offers</div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="offer in offers">
-          <hc-offer ng-model="offer" hc-hide="{{ { employer: true } }}">
+          <hc-offer ng-model="offer"
+            hc-hide="{{ { employer: true } }}"
+            hc-profile-links>
           </hc-offer>
         </li>
       </ul>
