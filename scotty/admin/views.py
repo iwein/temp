@@ -63,6 +63,14 @@ class AdminController(RootController):
 
         return run_paginated_query(self.request, query)
 
+    @view_config(route_name='admin_offer', **GET)
+    def admin_offer(self):
+        guid = self.request.matchdict['id']
+        offer = DBSession.query(FullOffer).get(guid)
+        if not offer:
+            raise HTTPNotFound("Offer not found")
+        return offer
+
     @view_config(route_name='admin_offer_status', **POST)
     def admin_set_offer_state(self):
         guid = self.request.matchdict['id']
