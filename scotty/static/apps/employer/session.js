@@ -112,8 +112,8 @@ define(function(require) {
       return this._api.get('/employers/invite/' + token);
     },
 
-    searchCandidates: function(tags) {
-      return this._api.get('/candidates', { tags: tags.join() }).then(function(response) {
+    searchCandidates: function(query) {
+      return this._api.get('/candidates', query).then(function(response) {
         return response.map(function(data) {
           return new Candidate(this._api, data.id, data);
         }.bind(this));
