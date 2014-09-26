@@ -28,6 +28,7 @@ define(function() {
     this._baseUrl = baseUrl;
     this._parser = function() {};
     this._setData(data);
+    this._updateStatus = this._updateStatus.bind(this);
     this._setData = this._setData.bind(this);
     this.refresh = this.refresh.bind(this);
   }
@@ -36,14 +37,22 @@ define(function() {
     constructor: Offer,
 
     _url: function() {
-      return this._baseUrl + '/' + this.id;
+      return this._baseUrl;
     },
 
     _setData: function(response) {
       this.data = response;
       this.status = response.status;
-      this.statusText = stateText[response.status];
+      this.statusText = stateText[this.status];
       this._parser(response, this);
+      return this;
+    },
+
+    _updateStatus: function(response) {
+      this.status = this.data.status = response.reduce(function(value, current) {
+        return current.completed ? current.status : value;
+      });
+      this.statusText = stateText[this.status];
       return this;
     },
 
@@ -81,17 +90,17 @@ define(function() {
 
     accept: function() {
       return this._api.post(this._url() + '/accept', {})
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     reject: function(params) {
       return this._api.post(this._url() + '/reject', params)
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     hired: function() {
       return this._api.post(this._url() + '/hired', {})
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     getNextStatus: function() {
@@ -106,7 +115,8 @@ define(function() {
       return this._api.when(this.getNextStatus()).then(function(valid) {
         if (!valid)
           throw new Error('Status ' + this.data.status + ' hasn\'t next step');
-        return this._api.post('/admin/offers/' + this.id + '/status', { status: valid });
+        return this._api.post('/admin/offers/' + this.id + '/status', { status: valid })
+        .then(this._updateStatus);
       }.bind(this));
     },
 

@@ -28,7 +28,7 @@ define(function(require) {
     getOffers: function() {
       return this._api.get('/admin/offers').then(function(response) {
         return response.data.map(function(data) {
-          return new Office(this._api, '/admin/offers', data);
+          return new Office(this._api, '/admin/offers/' + data.id, data);
         }.bind(this));
       }.bind(this));
     },

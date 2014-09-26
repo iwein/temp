@@ -82,7 +82,7 @@ define(function(require) {
       var url = this._url() + '/offers';
       return this._api.get(url).then(function(offers) {
         return offers.map(function(data) {
-          return new Offer(this._api, url, data);
+          return new Offer(this._api, url + '/' + data.id, data);
         }.bind(this));
       }.bind(this));
     },
