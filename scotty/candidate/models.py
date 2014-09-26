@@ -202,7 +202,7 @@ class Candidate(Base):
     contact_line3 = Column(String(512))
     contact_zipcode = Column(String(20))
     contact_city = Column(String(512))
-    contact_country_iso = Column(String(2), ForeignKey(Country.iso))
+    contact_country_iso = Column(String(2), ForeignKey(Country.iso), info=PUBLIC)
     contact_country = relationship(Country)
 
     contact_phone = Column(String(128))
@@ -262,6 +262,7 @@ class Candidate(Base):
         result['languages'] = self.languages
         result['skills'] = self.skills
         result['preferred_location'] = self.get_preferred_locations()
+        result['contact_country'] = self.contact_country
 
         return result
 
