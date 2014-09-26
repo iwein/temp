@@ -14,7 +14,7 @@ define(function(require) {
       return candidate.getData();
     }).then(function(data) {
       $scope.ready = true;
-      $scope.cities = data.preferred_cities;
+      $scope.cities = data.preferred_location;
       $scope.languages = data.languages;
       $scope.skills = data.skills;
       $scope.user = data;

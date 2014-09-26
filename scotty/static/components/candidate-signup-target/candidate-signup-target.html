@@ -100,8 +100,7 @@
         placeholder="Type a city..."
         ng-disabled="loading || dontCareLocation || !country"
         ng-model="signup.preferred_locations[country]"
-        hc-source="signupTarget.searchCities($viewValue)"
-        hc-render="signupTarget.locationToText($entry)">
+        hc-source="signupTarget.searchCities($viewValue)">
       </hc-label-typeahead>
 
       <label class="form-label">

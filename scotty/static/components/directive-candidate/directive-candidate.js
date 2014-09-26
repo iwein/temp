@@ -16,7 +16,7 @@ define(function(require) {
     }, 0);
   }
 
-  module.directive('hcCandidate', function(ConfigAPI) {
+  module.directive('hcCandidate', function() {
     return {
       restrict: 'EA',
       template: require('text!./directive-candidate.html'),
@@ -39,7 +39,7 @@ define(function(require) {
             id: model.id,
             picture_url: model.picture_url,
             name: model.first_name + ' ' + model.last_name,
-            city: model.contact_city ? ConfigAPI.locationToText(model.contact_city) : 'Unknown',
+            city: (model.contact_city + ', ' + (model.contact_country || ''))  || 'Unknown',
             years: calcExperience(model.work_experience),
             skills: model.skills.map(function(item) {
               return item.skill;

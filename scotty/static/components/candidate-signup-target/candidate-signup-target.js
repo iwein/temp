@@ -7,7 +7,6 @@ define(function(require) {
   module.controller('CandidateSignupTargetCtrl', function($scope, ConfigAPI) {
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
-    this.locationToText = fn.get('city');
     this.searchCities = searchCities;
     this.setCountry = setCountry;
     this.onCompanyTypeChange = onCompanyTypeChange;
@@ -26,6 +25,8 @@ define(function(require) {
       return ConfigAPI.locations({
         country_iso: $scope.country,
         q: value,
+      }).then(function(locations) {
+        return locations.map(fn.get('city'));
       });
     }
 

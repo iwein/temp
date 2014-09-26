@@ -67,12 +67,11 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Preferred cities</h3>
+        <h3 class="panel-title">Preferred locations</h3>
       </div>
-      <div class="panel-body" ng-if="user.dont_care_location">Anywhere</div>
-      <ul class="list-group" ng-if="!user.dont_care_location">
-        <li class="list-group-item" ng-repeat="entry in cities">
-          <span class="value">{{ entry.city }}, {{ entry.country_iso }}</span>
+      <ul class="list-group" ng-repeat="(country_iso, cities) in cities">
+        <li class="list-group-item" ng-repeat="city in cities">
+          <span class="value">{{ city }}, {{ country_iso }}</span>
         </li>
       </ul>
     </div>
