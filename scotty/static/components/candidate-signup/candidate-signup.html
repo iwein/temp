@@ -2,7 +2,7 @@
   <div class="signup-container" ng-show="ready">
     <ol class="col-sm-3 sidenav">
       <li ng-class="{ active: signup.atStep('signup.target') }">Target position</li>
-      <li ng-class="{ active: signup.atStep('signup.user') }">User data</li>
+      <li ng-class="{ active: signup.atStep('signup.user') }">Free Sign up</li>
       <li ng-class="{ active: signup.atStep('signup.experience') }">
         <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Experience</a>
         <span ng-if="!signup.afterStep('signup.experience')">Experience</span>
