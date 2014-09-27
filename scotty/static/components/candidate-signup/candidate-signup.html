@@ -4,8 +4,8 @@
       <li ng-class="{ active: signup.atStep('signup.target') }">Target position</li>
       <li ng-class="{ active: signup.atStep('signup.user') }">Free Sign up</li>
       <li ng-class="{ active: signup.atStep('signup.experience') }">
-        <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Experience</a>
-        <span ng-if="!signup.afterStep('signup.experience')">Experience</span>
+        <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Work Experience</a>
+        <span ng-if="!signup.afterStep('signup.experience')">Work Experience</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.education') }">
         <a ng-if="signup.afterStep('signup.education')" ui-sref="signup.education">Education</a>
