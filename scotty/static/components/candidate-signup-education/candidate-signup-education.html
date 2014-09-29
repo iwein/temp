@@ -82,15 +82,14 @@
 
     <div class="form-group required">
       <label>Degree</label>
-      <select
+      <input type="text"
         class="form-control"
+        placeholder="Degree"
         name="degree"
         ng-disabled="loading || not_completed_degree"
         ng-required="!not_completed_degree"
         ng-model="model.degree"
-        ng-options="degree for degree in degrees">
-        <option value="">Select one...</option>
-      </select>
+        typeahead="degree for degree in signupEducation.searchDegrees($viewValue)">
 
       <label>
         <input type="checkbox"

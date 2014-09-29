@@ -23,6 +23,7 @@ define(function(require) {
     this.searchInstitutions = ConfigAPI.institutions;
     this.searchCourses = ConfigAPI.courses;
     this.searchRoles = ConfigAPI.roles;
+    this.searchDegrees = ConfigAPI.degrees;
     this.nextStep = nextStep;
     this.edit = edit;
     this.submit = submit;
@@ -36,7 +37,6 @@ define(function(require) {
     });
 
     ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
-    ConfigAPI.degrees().then(fn.setTo('degrees', $scope));
 
     function nextStep(event) {
       event.preventDefault();
