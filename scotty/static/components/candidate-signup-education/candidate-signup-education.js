@@ -5,7 +5,7 @@ define(function(require) {
   require('components/directive-education-form/directive-education-form');
   var module = require('app-module');
 
-  module.controller('CandidateSignupEducationCtrl', function($scope, $state, Session) {
+  module.controller('CandidateSignupEducationCtrl', function($scope, Session) {
     $scope.setAddAnother = setAddAnother;
     $scope.model = {};
     $scope.ready = false;
@@ -16,6 +16,10 @@ define(function(require) {
     Session.checkSession().finally(function() {
       $scope.ready = true;
     });
+
+    function setAddAnother(value) {
+      $scope.addAnother = value;
+    }
 
     function nextStep(event) {
       event.preventDefault();
@@ -37,10 +41,6 @@ define(function(require) {
       return $scope.signup.nextStep().finally(function() {
         $scope.loading = false;
       });
-    }
-
-    function setAddAnother(value) {
-      $scope.addAnother = value;
     }
 
     function submit() {

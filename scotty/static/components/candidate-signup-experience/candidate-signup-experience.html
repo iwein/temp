@@ -1,198 +1,31 @@
 <div class="component-candidate-signup-experience">
-  <form name="formExperience" ng-submit="signupExperience.submit()">
+  <h3>Sign up - Experience</h3>
 
-    <h3>Sign up - Experience</h3>
+  <hc-experience-form
+    ng-if="ready"
+    name="form"
+    on-submit="signupExperience.submit()">
 
-    <div class="form-group required">
-      <label>Company Name</label>
-      <input type="text"
-        class="form-control"
-        name="company"
-        required
-        ng-disabled="loading"
-        ng-model="model.company"
-        typeahead="company for company in signupExperience.searchCompanies($viewValue)">
-
-      <div class="form-error" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
-        <span ng-show="formExperience.company.$error.required">
-          Please insert the company name.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Country</label>
-
-      <select
-        class="form-control"
-        name="country"
-        required
-        ng-disabled="loading"
-        ng-model="model.country_iso"
-        ng-options="country.iso as country.name for country in countries">
-        <option value="">Select...</option>
-      </select>
-    </div>
-
-    <div class="form-group required">
-      <label>City</label>
-      <input type="text"
-        name="city"
-        class="form-control"
-        required
-        ng-disabled="loading"
-        ng-model="model.city">
-
-      <div class="form-error" ng-show="formExperience.city.$dirty && formExperience.city.$invalid">
-        <span ng-show="formExperience.city.$error.required">
-          Please insert the city you worked on.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Period</label>
-
-      <div class="form-inline">
-        <!-- From month -->
-        <select
-          class="form-control"
-          name="startMonth"
-          required
-          ng-disabled="loading"
-          ng-model="startMonth"
-          ng-options="month for month in months"
-          ng-change="startDateUpdate()">
-          <option value="">Month</option>
-        </select>
-
-        <!-- From year -->
-        <input type="number"
-          class="form-control"
-          name="startYear"
-          placeholder="Year"
-          required
-          ng-disabled="loading"
-          ng-model="startYear"
-          ng-change="startDateUpdate()">
-
-        <!-- Separator -->
-        <span>–</span>
-
-        <!-- To month -->
-        <select
-          class="form-control"
-          name="endMonth"
-          ng-disabled="loading || current"
-          ng-required="!current"
-          ng-model="endMonth"
-          ng-options="month for month in months"
-          ng-change="endDateUpdate()">
-          <option value="">Month</option>
-        </select>
-
-        <!-- To year -->
-        <input type="number"
-          class="form-control"
-          name="endYear"
-          placeholder="Year"
-          ng-disabled="loading ||current"
-          ng-required="!current"
-          ng-model="endYear"
-          ng-change="endDateUpdate()">
-
-        <label>
-          <input type="checkbox"
-            name="current"
-            ng-disabled="loading"
-            ng-model="current">
-          Current position
-        </label>
-      </div>
-
-      <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
-        <span ng-show="formExperience.startMonth.$error.required">Please insert the month you started at this position.</span>
-      </div>
-      <div class="form-error" ng-show="formExperience.startYear.$dirty && formExperience.startYear.$invalid">
-        <span ng-show="formExperience.startYear.$error.required">Please insert the year you started at this position.</span>
-      </div>
-      <div class="form-error" ng-show="formExperience.endMonth.$dirty && formExperience.endMonth.$invalid">
-        <span ng-show="formExperience.endMonth.$error.required">Please insert the month you leave this position.</span>
-      </div>
-      <div class="form-error" ng-show="formExperience.endYear.$dirty && formExperience.endYear.$invalid">
-        <span ng-show="formExperience.endYear.$error.required">Please insert the year you leave this position.</span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Role</label>
-      <input type="text"
-        class="form-control"
-        name="role"
-        required
-        ng-disabled="loading"
-        ng-model="model.role"
-        typeahead="role for role in signupExperience.searchRoles($viewValue)">
-
-      <div class="form-error" ng-show="formExperience.role.$dirty && formExperience.role.$invalid">
-        <span ng-show="formExperience.role.$error.required">Please insert the role you had at this position.</span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Technologies &amp; Skills</label>
-
-      <hc-label-typeahead
-        name="skills"
-        placeholder="Technologies &amp; skills"
-        ng-disabled="loading"
-        ng-model="model.skills"
-        hc-source="signupExperience.searchSkills($viewValue)"
-        hc-error-message="Please choose at least one skill"
-        hc-allow-new>
-      </hc-label-typeahead>
-    </div>
-
-    <div class="form-group required">
-      <label>Role description</label>
-      <textarea
-        class="form-control"
-        name="summary"
-        required
-        ng-disabled="loading"
-        ng-model="model.summary">
-      </textarea>
-
-      <div class="form-error" ng-show="formExperience.summary.$dirty && formExperience.summary.$invalid">
-        <span ng-show="formExperience.summary.$error.required">
-          Please insert a summary for this position.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <button type="submit"
-        class="btn btn-primary"
-        ng-click="addAnother = true"
-        ng-disabled="loading">
-        Save &amp; add another
-      </button>
-      <button type="submit"
-        class="btn btn-primary"
-        ng-click="addAnother = false"
-        ng-disabled="loading">
-        Save &amp; continue
-      </button>
-      <button type="submit"
-        class="btn btn-primary"
-        ng-show="list.length"
-        ng-click="signupExperience.nextStep($event)"
-        ng-disabled="loading">
-        Continue
-      </button>
-    </div>
-
-  </form>
+    <button type="submit"
+      class="btn btn-primary"
+      ng-click="setAddAnother(true)"
+      ng-disabled="loading">
+      Save &amp; add another
+    </button>
+    <button type="submit"
+      class="btn btn-primary"
+      ng-click="setAddAnother(false)"
+      ng-disabled="loading">
+      Save &amp; continue
+    </button>
+    <button type="submit"
+      class="btn btn-primary"
+      ng-show="list.length"
+      ng-click="signupExperience.nextStep($event)"
+      ng-disabled="loading">
+      Continue
+    </button>
+  </hc-experience-form>
 
   <hc-experience
     ng-if="ready"
@@ -201,7 +34,7 @@
     hc-source="session.user.getExperience()"
     hc-source-remove="session.user.deleteExperience($entry)"
     on-edit="signupExperience.edit($entry)"
-    hc-editable>
+    hc-editable="true">
   </hc-experience>
 
 </div>

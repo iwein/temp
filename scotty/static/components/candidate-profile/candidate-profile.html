@@ -87,11 +87,40 @@
         hc-show-empty>
       </hc-target-positions>
 
+      <!-- EXPERIENCE -->
+
+      <div ng-show="isEditing && experience.editing">
+        <hc-experience-form
+          hc-scope="experience"
+          name="form"
+          on-submit="experience.save()">
+
+          <button type="button"
+            class="btn btn-primary"
+            ng-click="experience.cancel()"
+            ng-disabled="loading">
+            Cancel
+          </button>
+          <button type="submit"
+            class="btn btn-primary"
+            ng-disabled="loading">
+            Save
+          </button>
+        </hc-experience-form>
+      </div>
+
       <hc-experience
+        hc-scope="experience"
+        name="list"
         hc-title="Experience"
         hc-source="session.user.getExperience()"
-        hc-show-empty>
+        hc-editable="isEditing && !experience.editing"
+        hc-source-remove="session.user.deleteExperience($entry)"
+        on-edit="experience.edit($entry)"
+        hc-show-empty="true">
       </hc-experience>
+
+      <!-- END EXPERIENCE -->
 
       <!-- EDUCATION -->
 

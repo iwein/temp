@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('session');
-  var booleanAttrs = require('tools/boolean-attrs');
   var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
@@ -14,20 +13,18 @@ define(function(require) {
         onRemove: '&',
         hcSource: '&',
         hcSourceRemove: '&',
+        hcEditable: '=',
+        hcShowEmpty: '=',
       },
       template: require('text!./directive-experience.html'),
       controller: function($scope, $attrs) {
         var self = this;
-        nameAttr(this, 'hcExperience', $scope, $attrs);
-        booleanAttrs($scope, $attrs, [
-          'hcEditable',
-          'hcShowEmpty',
-        ]);
-
-        list();
         $scope.edit = edit;
         $scope.remove = remove;
         this.refresh = list;
+
+        nameAttr(this, 'hcExperience', $scope, $attrs);
+        list();
 
         function edit(entry) {
           remove(entry).then(function() {

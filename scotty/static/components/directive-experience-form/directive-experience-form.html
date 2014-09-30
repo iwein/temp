@@ -1,33 +1,48 @@
-<form name="formEducation" ng-submit="educationCtrl.submit()">
+<form name="formExperience" ng-submit="onSubmit({ $model: model })">
   <div class="form-group required">
-    <label>University or Institution</label>
+    <label>Company Name</label>
     <input type="text"
       class="form-control"
-      name="institution"
+      name="company"
       required
       ng-disabled="loading"
-      ng-model="model.institution"
-      typeahead="institution for institution in searchInstitutions($viewValue)">
+      ng-model="model.company"
+      typeahead="company for company in searchCompanies($viewValue)">
 
-    <div class="form-error" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
-      <span ng-show="formEducation.institution.$error.required">
-        Please insert the institution name.
+    <div class="form-error" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
+      <span ng-show="formExperience.company.$error.required">
+        Please insert the company name.
       </span>
     </div>
   </div>
 
   <div class="form-group required">
-    <label>Course or Subject</label>
-    <input type="text"
+    <label>Country</label>
+
+    <select
       class="form-control"
-      name="course"
+      name="country"
       required
       ng-disabled="loading"
-      ng-model="model.course"
-      typeahead="course for course in searchCourses($viewValue)">
+      ng-model="model.country_iso"
+      ng-options="country.iso as country.name for country in countries">
+      <option value="">Select...</option>
+    </select>
+  </div>
 
-    <div class="form-error" ng-show="formEducation.course.$dirty && formEducation.course.$invalid">
-      <span ng-show="formEducation.course.$error.required">Please insert the course.</span>
+  <div class="form-group required">
+    <label>City</label>
+    <input type="text"
+      name="city"
+      class="form-control"
+      required
+      ng-disabled="loading"
+      ng-model="model.city">
+
+    <div class="form-error" ng-show="formExperience.city.$dirty && formExperience.city.$invalid">
+      <span ng-show="formExperience.city.$error.required">
+        Please insert the city you worked on.
+      </span>
     </div>
   </div>
 
@@ -35,93 +50,124 @@
     <label>Period</label>
 
     <div class="form-inline">
+      <!-- From month -->
+      <select
+        class="form-control"
+        name="startMonth"
+        required
+        ng-disabled="loading"
+        ng-model="startMonth"
+        ng-options="month for month in months"
+        ng-change="startDateUpdate()">
+        <option value="">Month</option>
+      </select>
+
       <!-- From year -->
       <input type="number"
         class="form-control"
-        name="start"
+        name="startYear"
         placeholder="Year"
         required
         ng-disabled="loading"
-        ng-model="model.start">
+        ng-model="startYear"
+        ng-change="startDateUpdate()">
 
       <!-- Separator -->
       <span>–</span>
 
+      <!-- To month -->
+      <select
+        class="form-control"
+        name="endMonth"
+        ng-disabled="loading || current"
+        ng-required="!current"
+        ng-model="endMonth"
+        ng-options="month for month in months"
+        ng-change="endDateUpdate()">
+        <option value="">Month</option>
+      </select>
+
       <!-- To year -->
       <input type="number"
         class="form-control"
-        name="end"
+        name="endYear"
         placeholder="Year"
-        ng-disabled="loading || current"
+        ng-disabled="loading ||current"
         ng-required="!current"
-        ng-model="model.end"
-        hc-greater-than="model.start">
+        ng-model="endYear"
+        ng-change="endDateUpdate()">
+
+      <label>
+        <input type="checkbox"
+          name="current"
+          ng-disabled="loading"
+          ng-model="current">
+        Current position
+      </label>
     </div>
 
-    <label>
-      <input type="checkbox"
-        name="current"
-        ng-disabled="loading"
-        ng-model="current"
-        ng-change="model.end = null">
-      I am still studing there
-    </label>
-
-    <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
-      <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
+    <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
+      <span ng-show="formExperience.startMonth.$error.required">Please insert the month you started at this position.</span>
     </div>
-    <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
-      <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
-      <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
+    <div class="form-error" ng-show="formExperience.startYear.$dirty && formExperience.startYear.$invalid">
+      <span ng-show="formExperience.startYear.$error.required">Please insert the year you started at this position.</span>
+    </div>
+    <div class="form-error" ng-show="formExperience.endMonth.$dirty && formExperience.endMonth.$invalid">
+      <span ng-show="formExperience.endMonth.$error.required">Please insert the month you leave this position.</span>
+    </div>
+    <div class="form-error" ng-show="formExperience.endYear.$dirty && formExperience.endYear.$invalid">
+      <span ng-show="formExperience.endYear.$error.required">Please insert the year you leave this position.</span>
     </div>
   </div>
 
   <div class="form-group required">
-    <label>Degree</label>
+    <label>Role</label>
     <input type="text"
       class="form-control"
-      placeholder="Degree"
-      name="degree"
-      ng-disabled="loading || not_completed_degree"
-      ng-required="!not_completed_degree"
-      ng-model="model.degree"
-      typeahead="degree for degree in searchDegrees($viewValue)">
+      name="role"
+      required
+      ng-disabled="loading"
+      ng-model="model.role"
+      typeahead="role for role in searchRoles($viewValue)">
 
-    <label>
-      <input type="checkbox"
-        name="not_completed_degree"
-        ng-disabled="loading"
-        ng-model="not_completed_degree"
-        ng-change="model.degree = null">
-      Did not complete degree
-    </label>
+    <div class="form-error" ng-show="formExperience.role.$dirty && formExperience.role.$invalid">
+      <span ng-show="formExperience.role.$error.required">Please insert the role you had at this position.</span>
+    </div>
+  </div>
 
-    <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
-      <span ng-show="formEducation.degree.$error.required">
-        Please insert the degree.
+  <div class="form-group required">
+    <label>Technologies &amp; Skills</label>
+
+    <hc-label-typeahead
+      name="skills"
+      placeholder="Technologies &amp; skills"
+      ng-disabled="loading"
+      ng-model="model.skills"
+      hc-source="searchSkills($viewValue)"
+      hc-error-message="Please choose at least one skill"
+      hc-allow-new>
+    </hc-label-typeahead>
+  </div>
+
+  <div class="form-group required">
+    <label>Role description</label>
+    <textarea
+      class="form-control"
+      name="summary"
+      required
+      ng-disabled="loading"
+      ng-model="model.summary">
+    </textarea>
+
+    <div class="form-error" ng-show="formExperience.summary.$dirty && formExperience.summary.$invalid">
+      <span ng-show="formExperience.summary.$error.required">
+        Please insert a summary for this position.
       </span>
     </div>
   </div>
 
   <div class="form-group">
-    <button type="submit"
-      class="btn btn-primary"
-      ng-click="addAnother = true"
-      ng-disabled="loading">
-      Save &amp; add another
-    </button>
-    <button type="submit"
-      class="btn btn-primary"
-      ng-click="addAnother = false"
-      ng-disabled="loading">
-      Save &amp; continue
-    </button>
-    <button type="submit"
-      class="btn btn-primary"
-      ng-show="list.length"
-      ng-click="educationCtrl.nextStep($event)"
-      ng-disabled="loading">
-      Continue
-    </button>
+    <div ng-transclude></div>
   </div>
+
 </form>

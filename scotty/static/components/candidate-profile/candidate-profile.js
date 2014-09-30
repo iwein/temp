@@ -14,7 +14,7 @@ define(function(require) {
       $scope.isEditing = true;
     }
 
-    function defaultForm() {
+    function listForm() {
       var self = {
         // injected by directives
         list: null,
@@ -40,7 +40,8 @@ define(function(require) {
       return self;
     }
 
-    $scope.education = defaultForm();
+    $scope.experience = listForm();
+    $scope.education = listForm();
 
     Permission.requireSignup().then(function() {
       return Session.getUser();
