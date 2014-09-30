@@ -9,6 +9,7 @@ define(function(require) {
 
     $stateProvider
       .state('dashboard', require('components/admin-dashboard/admin-dashboard'))
+      .state('offer', require('components/admin-offer/admin-offer'))
       .state('invite-employer', require('components/admin-invite-employer/admin-invite-employer'))
       .state('approve-employers', require('components/admin-approve-employers/admin-approve-employers'))
       ;

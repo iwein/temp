@@ -32,6 +32,13 @@ define(function(require) {
         }.bind(this));
       }.bind(this));
     },
+
+    getOffer: function(id) {
+      var url = '/admin/offers/' + id;
+      return this._api.get(url).then(function(response) {
+        return new Office(this._api, url, response);
+      }.bind(this));
+    },
   };
 
 
