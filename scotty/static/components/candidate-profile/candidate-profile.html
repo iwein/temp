@@ -116,11 +116,13 @@
       </div>
 
       <hc-education
+        hc-scope="education"
+        name="list"
         hc-title="Education"
         hc-source="session.user.getEducation()"
         hc-source-remove="session.user.deleteEducation($entry)"
         on-edit="education.edit($entry)"
-        hc-editable="isEditing"
+        hc-editable="isEditing && !education.editing"
         hc-show-empty="true">
       </hc-education>
 

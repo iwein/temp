@@ -16,8 +16,10 @@ define(function(require) {
 
     function defaultForm() {
       var self = {
-        // injected by the directive
+        // injected by directives
+        list: null,
         form: null,
+
         editing: false,
         edit: function(model) {
           self.form.setModel(model);
@@ -26,10 +28,12 @@ define(function(require) {
         cancel: function() {
           self.form.reset();
           self.editing = false;
+          return self.list.refresh();
         },
         save: function() {
           self.form.save().then(function() {
             self.editing = false;
+            return self.list.refresh();
           });
         }
       };
