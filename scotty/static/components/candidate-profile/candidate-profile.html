@@ -6,6 +6,7 @@
         <img class="avatar" ng-src="{{ user.picture_url }}">
         <small>{{ user.first_name }} {{ user.last_name }}</small>
       </h1>
+      <button class="btn btn-primary" ng-click="profile.edit()">Edit</button>
     </div>
 
     <div class="panel panel-default">
@@ -92,11 +93,38 @@
         hc-show-empty>
       </hc-experience>
 
+      <!-- EDUCATION -->
+
+      <div ng-show="isEditing && education.editing">
+        <hc-education-form
+          hc-scope="education"
+          name="form"
+          on-submit="education.save()">
+
+          <button type="button"
+            class="btn btn-primary"
+            ng-click="education.cancel()"
+            ng-disabled="loading">
+            Cancel
+          </button>
+          <button type="submit"
+            class="btn btn-primary"
+            ng-disabled="loading">
+            Save
+          </button>
+        </hc-education-form>
+      </div>
+
       <hc-education
         hc-title="Education"
         hc-source="session.user.getEducation()"
-        hc-show-empty>
+        hc-source-remove="session.user.deleteEducation($entry)"
+        on-edit="education.edit($entry)"
+        hc-editable="isEditing"
+        hc-show-empty="true">
       </hc-education>
+
+      <!-- END EDUCATION -->
     </div>
   </div>
 </div>

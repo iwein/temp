@@ -6,7 +6,37 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $state, Permission, Session) {
+    this.edit = edit;
     $scope.ready = false;
+    $scope.isEditing = false;
+
+    function edit() {
+      $scope.isEditing = true;
+    }
+
+    function defaultForm() {
+      var self = {
+        // injected by the directive
+        form: null,
+        editing: false,
+        edit: function(model) {
+          self.form.setModel(model);
+          self.editing = true;
+        },
+        cancel: function() {
+          self.form.reset();
+          self.editing = false;
+        },
+        save: function() {
+          self.form.save().then(function() {
+            self.editing = false;
+          });
+        }
+      };
+      return self;
+    }
+
+    $scope.education = defaultForm();
 
     Permission.requireSignup().then(function() {
       return Session.getUser();

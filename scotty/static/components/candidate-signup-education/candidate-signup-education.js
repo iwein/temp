@@ -1,90 +1,55 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  var fn = require('tools/fn');
+  require('components/directive-education/directive-education');
+  require('components/directive-education-form/directive-education-form');
   var module = require('app-module');
 
-  var months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  module.controller('CandidateSignupEducationCtrl', function($scope, $state, ConfigAPI, Session) {
-    this.searchInstitutions = ConfigAPI.institutions;
-    this.searchCourses = ConfigAPI.courses;
-    this.searchRoles = ConfigAPI.roles;
-    this.searchDegrees = ConfigAPI.degrees;
-    this.nextStep = nextStep;
-    this.edit = edit;
-    this.submit = submit;
-    $scope.months = months;
+  module.controller('CandidateSignupEducationCtrl', function($scope, $state, Session) {
+    $scope.setAddAnother = setAddAnother;
     $scope.model = {};
-    $scope.loading = false;
-
     $scope.ready = false;
+    this.nextStep = nextStep;
+    this.submit = submit;
+    this.edit = edit;
+
     Session.checkSession().finally(function() {
       $scope.ready = true;
     });
 
-    ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
-
     function nextStep(event) {
       event.preventDefault();
-      $scope.loading = true;
-      $scope.signup.nextStep().finally(function() {
-        $scope.loading = false;
-      });
+      andContinue();
     }
 
     function edit(entry) {
-      $scope.model = entry;
-
-      if (!entry.end)
-        $scope.current = true;
-
-      if (!entry.degree)
-        $scope.not_completed_degree = true;
-    }
-
-    function save() {
-      $scope.loading = true;
-      return Session.user.addEducation($scope.model);
+      $scope.form.setModel(entry);
     }
 
     function addAnother() {
-      return save().then(function() {
-        return $scope.list.refresh();
-      }).then(function() {
-        $scope.formEducation.$setPristine();
-        $scope.model = {};
+      return $scope.list.refresh().then(function() {
+        return $scope.form.reset();
       });
     }
 
-    function saveAndContinue() {
-      return save().then(function() {
-        return $scope.signup.nextStep();
-      }).then(function() {
-        $scope.model = {};
+    function andContinue() {
+      $scope.loading = true;
+      return $scope.signup.nextStep().finally(function() {
+        $scope.loading = false;
       });
+    }
+
+    function setAddAnother(value) {
+      $scope.addAnother = value;
     }
 
     function submit() {
-      ( $scope.addAnother ?
-        addAnother() :
-        saveAndContinue()
-      ).finally(function() {
-        $scope.loading = false;
-      });
+      $scope.loading = true;
+      $scope.form.save()
+        .then($scope.addAnother ? addAnother : andContinue)
+        .finally(function() {
+          $scope.loading = false;
+        });
     }
   });
 

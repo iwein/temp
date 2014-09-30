@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('tools/config-api');
   var angular = require('angular');
+  var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
 
   module.directive('hcEmployer', function() {
@@ -20,7 +21,7 @@ define(function(require) {
             'Remember to use angular\'s expression {{ { key: "value" } }}');
         }
 
-        if ('hcLinkProfile' in attr) scope.hcLinkProfile = true;
+        booleanAttrs(scope, attr, [ 'hcLinkProfile' ]);
       },
     };
   });

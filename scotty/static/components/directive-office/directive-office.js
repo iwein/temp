@@ -1,6 +1,8 @@
 define(function(require) {
   'use strict';
   require('session');
+  var booleanAttrs = require('tools/boolean-attrs');
+  var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
   module.directive('hcOffice', function() {
@@ -16,18 +18,12 @@ define(function(require) {
       template: require('text!./directive-office.html'),
       controller: function($scope, $attrs) {
         var self = this;
+        booleanAttrs($scope, $attrs, [
+          'hcEditable',
+          'hcShowEmpty',
+        ]);
 
-        if ('hcEditable' in $attrs) $scope.hcEditable = true;
-        if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
-
-        var name = $attrs.name || $attrs.hcEducation;
-        if (name) {
-          if ('ngIf' in $attrs)
-            $scope.$parent.$parent[name] = this;
-          else
-            $scope.$parent[name] = this;
-        }
-
+        nameAttr(this, 'hcOffice', $scope, $attrs);
         list();
         $scope.edit = edit;
         $scope.remove = remove;

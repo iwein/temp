@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   var angular = require('angular');
+  var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
 
   module.directive('hcOffer', function() {
@@ -23,13 +24,15 @@ define(function(require) {
             'Remember to use angular\'s expression {{ { key: "value" } }}');
         }
 
-        if ('hcLink' in attr) scope.hcLink = true;
-        if ('hcPanel' in attr) scope.hcPanel = true;
-        if ('hcActions' in attr) scope.hcActions = true;
-        if ('hcHireButton' in attr) scope.hcHireButton = true;
-        if ('hcRejectButton' in attr) scope.hcRejectButton = true;
-        if ('hcNextStatus' in attr) scope.hcNextStatus = true;
-        if ('hcProfileLinks' in attr) scope.hcProfileLinks = true;
+        booleanAttrs(scope, attr, [
+          'hcLink',
+          'hcPanel',
+          'hcActions',
+          'hcHireButton',
+          'hcRejectButton',
+          'hcNextStatus',
+          'hcProfileLinks',
+        ]);
       },
     };
   });
