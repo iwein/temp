@@ -7,11 +7,15 @@ define(function(require) {
 
   module.controller('ProfileCtrl', function($scope, $state, Permission, Session) {
     this.edit = edit;
+    this.stopEdit = stopEdit;
     $scope.ready = false;
     $scope.isEditing = false;
 
     function edit() {
       $scope.isEditing = true;
+    }
+    function stopEdit() {
+      $scope.isEditing = false;
     }
 
     function listForm() {

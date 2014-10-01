@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   var angular = require('angular');
-  var booleanAttrs = require('boolean-attrs');
+  var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
 
   function calcExperience(experience) {

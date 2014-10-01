@@ -6,7 +6,16 @@
         <img class="avatar" ng-src="{{ user.picture_url }}">
         <small>{{ user.first_name }} {{ user.last_name }}</small>
       </h1>
-      <button class="btn btn-primary" ng-click="profile.edit()">Edit</button>
+      <button class="btn btn-primary"
+        ng-show="!isEditing"
+        ng-click="profile.edit()">
+        Edit
+      </button>
+      <button class="btn btn-primary"
+        ng-show="isEditing"
+        ng-click="profile.stopEdit()">
+        Finish
+      </button>
     </div>
 
     <div class="panel panel-default">
