@@ -90,33 +90,55 @@
     </div>
 
     <div ng-if="ready">
+      <hc-target-position-form
+        ng-show="isEditing && targetPosition.editing"
+        hc-scope="targetPosition"
+        name="form"
+        on-submit="targetPosition.save()">
+        <button type="button"
+          class="btn btn-primary"
+          ng-click="targetPosition.cancel()"
+          ng-disabled="loading">
+          Cancel
+        </button>
+        <button type="submit"
+          class="btn btn-primary"
+          ng-disabled="loading">
+          Save
+        </button>
+      </hc-target-position-form>
+
       <hc-target-positions
+        hc-scope="targetPosition"
+        name="list"
         hc-title="Target positions"
         hc-source="session.user.getTargetPositions()"
-        hc-show-empty>
+        hc-editable="isEditing && !experience.editing"
+        hc-source-remove="session.user.deleteTargetPosition($entry)"
+        on-edit="targetPosition.edit($entry)"
+        hc-show-empty="true">
       </hc-target-positions>
 
       <!-- EXPERIENCE -->
 
-      <div ng-show="isEditing && experience.editing">
-        <hc-experience-form
-          hc-scope="experience"
-          name="form"
-          on-submit="experience.save()">
+      <hc-experience-form
+        ng-show="isEditing && experience.editing"
+        hc-scope="experience"
+        name="form"
+        on-submit="experience.save()">
 
-          <button type="button"
-            class="btn btn-primary"
-            ng-click="experience.cancel()"
-            ng-disabled="loading">
-            Cancel
-          </button>
-          <button type="submit"
-            class="btn btn-primary"
-            ng-disabled="loading">
-            Save
-          </button>
-        </hc-experience-form>
-      </div>
+        <button type="button"
+          class="btn btn-primary"
+          ng-click="experience.cancel()"
+          ng-disabled="loading">
+          Cancel
+        </button>
+        <button type="submit"
+          class="btn btn-primary"
+          ng-disabled="loading">
+          Save
+        </button>
+      </hc-experience-form>
 
       <hc-experience
         hc-scope="experience"
@@ -133,25 +155,24 @@
 
       <!-- EDUCATION -->
 
-      <div ng-show="isEditing && education.editing">
-        <hc-education-form
-          hc-scope="education"
-          name="form"
-          on-submit="education.save()">
+      <hc-education-form
+        ng-show="isEditing && education.editing"
+        hc-scope="education"
+        name="form"
+        on-submit="education.save()">
 
-          <button type="button"
-            class="btn btn-primary"
-            ng-click="education.cancel()"
-            ng-disabled="loading">
-            Cancel
-          </button>
-          <button type="submit"
-            class="btn btn-primary"
-            ng-disabled="loading">
-            Save
-          </button>
-        </hc-education-form>
-      </div>
+        <button type="button"
+          class="btn btn-primary"
+          ng-click="education.cancel()"
+          ng-disabled="loading">
+          Cancel
+        </button>
+        <button type="submit"
+          class="btn btn-primary"
+          ng-disabled="loading">
+          Save
+        </button>
+      </hc-education-form>
 
       <hc-education
         hc-scope="education"

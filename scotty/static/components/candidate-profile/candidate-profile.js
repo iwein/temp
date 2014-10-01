@@ -3,6 +3,7 @@ define(function(require) {
   require('components/directive-target-positions/directive-target-positions');
   require('components/directive-experience/directive-experience');
   require('components/directive-education/directive-education');
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $state, Permission, Session) {
@@ -18,36 +19,58 @@ define(function(require) {
       $scope.isEditing = false;
     }
 
-    function listForm() {
-      var self = {
+    function defaultForm() {
+      return {
         // injected by directives
-        list: null,
         form: null,
-
         editing: false,
         edit: function(model) {
-          self.form.setModel(model);
-          self.editing = true;
+          this.form.setModel(model);
+          this.editing = true;
         },
         cancel: function() {
-          self.form.reset();
-          self.editing = false;
-          return self.list.refresh();
+          this.form.reset();
+          this.editing = false;
         },
         save: function() {
-          self.form.save().then(function() {
-            self.editing = false;
-            return self.list.refresh();
-          });
+          return this.form.save().then(function() {
+            this.editing = false;
+          }.bind(this));
         }
       };
-      return self;
+    }
+
+    function listForm() {
+      var base = defaultForm();
+      return _.extend(Object.create(base), {
+        list: null,
+        cancel: function() {
+          base.cancel.call(this);
+          return this.list.refresh();
+        },
+        save: function() {
+          return base.save.call(this).then(function() {
+            return this.list.refresh();
+          }.bind(this));
+        },
+      });
     }
 
     $scope.experience = listForm();
     $scope.education = listForm();
+    $scope.targetPosition = (function() {
+      var base = listForm();
+      return _.extend(Object.create(base), {
+        edit: function(model) {
+          model.preferred_locations = $scope.cities;
+          return base.edit.call(this, model);
+        },
+      });
+    })();
 
-    Permission.requireSignup().then(function() {
+
+    //Permission.requireSignup().then(function() {
+    Permission.requireLogged().then(function() {
       return Session.getUser();
     }).then(function(user) {
       return user.getData();

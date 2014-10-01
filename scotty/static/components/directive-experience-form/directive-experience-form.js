@@ -29,7 +29,7 @@ define(function(require) {
         this.save = save;
 
         ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
-        nameAttr(this, 'hcEducationForm', $scope, $attrs);
+        nameAttr(this, 'hcExperienceForm', $scope, $attrs);
         bindDate('start');
         bindDate('end');
 
@@ -40,7 +40,7 @@ define(function(require) {
         }
 
         function reset() {
-          $scope.formEducation.$setPristine();
+          $scope.formExperience.$setPristine();
           $scope.model = {};
           $scope.current = false;
           $scope.startMonth = '';
