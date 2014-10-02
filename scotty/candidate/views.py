@@ -165,7 +165,7 @@ class CandidateController(RootController):
 class CandidateEducationController(CandidateController):
     @view_config(route_name='candidate_educations', **GET)
     def list(self):
-        return self.candidate.education
+        return self.candidate.education.order_by(Education.start.desc())
 
     @view_config(route_name='candidate_educations', **POST)
     def create(self):
@@ -184,7 +184,7 @@ class CandidateEducationController(CandidateController):
 class CandidateWorkExperienceController(CandidateController):
     @view_config(route_name='candidate_work_experiences', **GET)
     def list(self):
-        return self.candidate.work_experience
+        return self.candidate.work_experience.order_by(WorkExperience.start.desc())
 
     @view_config(route_name='candidate_work_experiences', **POST)
     def create(self):
