@@ -9,7 +9,7 @@ define(function(require) {
 
   module.controller('SearchCandiatesCtrl', function($scope, $q, toaster, Session) {
     $scope.loadMore = loadMore;
-    $scope.search = _.debounce(search, 100);
+    $scope.search = _.debounce(search, 200);
     $scope.limit = 20;
     var perStep = $scope.limit;
 
@@ -18,6 +18,11 @@ define(function(require) {
     }
 
     function search() {
+      if (!$scope.term) {
+        $scope.candidates = [];
+        return;
+      }
+
       Session.searchCandidates({ q: $scope.term }).then(function(candidates) {
         return $q.all(candidates.map(fn.invoke('getData', [])));
       }).then(function(results) {

@@ -9,7 +9,7 @@ define(function(require) {
 
   module.controller('SearchEmployersCtrl', function($scope, $q, toaster, Session) {
     $scope.loadMore = loadMore;
-    $scope.search = _.debounce(search, 100);
+    $scope.search = _.debounce(search, 200);
     $scope.limit = 20;
     var perStep = $scope.limit;
 
@@ -18,6 +18,11 @@ define(function(require) {
     }
 
     function search() {
+      if (!$scope.term) {
+        $scope.employers = [];
+        return;
+      }
+
       Session.searchEmployers({ q: $scope.term }).then(function(employers) {
         return $q.all(employers.map(fn.invoke('getData', [])));
       }).then(function(results) {
