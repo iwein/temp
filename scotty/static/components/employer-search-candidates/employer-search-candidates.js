@@ -15,7 +15,7 @@ define(function(require) {
     $scope.terms = [];
 
     $scope.ready = false;
-    Permission.requireLogged().then(function() {
+    Permission.requireActivated().then(function() {
       $scope.ready = true;
     });
 

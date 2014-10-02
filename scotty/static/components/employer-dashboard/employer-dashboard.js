@@ -7,7 +7,8 @@ define(function(require) {
 
   module.controller('DashboardCtrl', function($scope, $sce, toaster, Permission, Session) {
     $scope.ready = false;
-    Permission.requireSignup().then(function() {
+
+    Permission.requireActivated().then(function() {
       $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {

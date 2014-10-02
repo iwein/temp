@@ -99,11 +99,11 @@ define(function(require) {
     },
 
     isActivated: function() {
-      return this.checkSession().then(function(result) {
-        return result && this.user.getData().then(function(data) {
+      return this.getUser().then(function(user) {
+        return user && user.getData().then(function(data) {
           return data.status === 'APPROVED';
         });
-      }.bind(this));
+      });
     },
 
     getInvitationData: function(token) {

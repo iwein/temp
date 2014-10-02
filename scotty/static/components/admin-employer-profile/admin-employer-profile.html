@@ -1,0 +1,68 @@
+<div class="component-candidate-employer-profile row" ng-show="ready">
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <div class="page-header">
+      <h1>
+        <img class="logo" ng-show="data.logo_url" ng-src="{{ data.logo_url }}">
+        <small>{{ data.company_name }}</small>
+      </h1>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Company</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Status</dt>
+          <dd>{{ data.status }}</dd>
+          <dt>Website</dt>
+          <dd>{{ data.website }}</dd>
+          <dt ng-show="data.fb_url">Facebook</dt>
+          <dd ng-show="data.fb_url"><a ng-href="{{ data.fb_url }}">{{ data.fb_url }}</a></dd>
+          <dt ng-show="data.linkedin_url">Linked in</dt>
+          <dd ng-show="data.linkedin_url"><a ng-href="{{ data.linkedin_url }}">{{ data.linkedin_url }}</a></dd>
+          <dt ng-show="data.founding_year">Founding year</dt>
+          <dd ng-show="data.founding_year">{{ data.founding_year }}</dd>
+          <dt ng-show="data.funding_amount">Founding amount</dt>
+          <dd ng-show="data.funding_amount">{{ data.funding_amount | dottedInteger }}€</dd>
+          <dt ng-show="data.revenue_pa">Revenue</dt>
+          <dd ng-show="data.revenue_pa">{{ data.revenue_pa | dottedInteger }}€</dd>
+          <dt ng-show="data.no_of_employees">Number of employees</dt>
+          <dd ng-show="data.no_of_employees">{{ data.no_of_employees }}</dd>
+          <dt ng-show="data.tech_team_size">Tech team size</dt>
+          <dd ng-show="data.tech_team_size">{{ data.tech_team_size }}</dd>
+
+          <dt>Company Description</dt>
+          <dd ng-bind-html="data.mission_text"></dd>
+
+          <dt>Recruitment process</dt>
+          <dd>{{ data.recruitment_process }}</dd>
+          <dt ng-show="data.training_policy">Training policy</dt>
+          <dd ng-show="data.training_policy">{{ data.training_policy }}</dd>
+          <dt>Benefits</dt>
+          <dd>{{ data.benefits.join(', ') || 'none' }}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Technologies</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="tag in data.tech_tags">
+          <span class="value">{{ tag }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div ng-if="ready">
+      <hc-office
+        hc-title="Offices"
+        hc-source="employer.listOffices()"
+        hc-show-empty>
+      </hc-office>
+    </div>
+  </div>
+</div>

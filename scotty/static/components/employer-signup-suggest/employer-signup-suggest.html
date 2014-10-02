@@ -4,8 +4,9 @@
 
   <hc-candidate
     ng-repeat="candidate in candidates"
-    ng-model="candidate">
+    ng-model="candidate"
+    hc-hide="{{ { email: true } }}">
   </hc-candidate>
 
-  <a class="btn btn-primary" ui-sref="profile">Continue</a>
+  <a class="btn btn-primary" ui-sref="profile" ng-disabled="!approved">Continue</a>
 </div>

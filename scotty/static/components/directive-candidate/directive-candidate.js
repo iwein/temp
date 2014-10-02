@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var _ = require('underscore');
   var angular = require('angular');
   var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
@@ -36,18 +37,13 @@ define(function(require) {
         booleanAttrs(scope, attr, [ 'hcLinkProfile' ]);
 
         scope.$watch('model', function(model) {
-          scope.candidate = {
-            id: model.id,
-            picture_url: model.picture_url,
-            name: model.first_name + ' ' + model.last_name,
+          _.extend(model, {
+            parsedSkills: model.skills.map(function(a) { return a.skill }).join(', '),
+            years: calcExperience(model.work_experience),
             city: model.contact_city && model.contact_country_iso ?
               (model.contact_city + ', ' + model.contact_country_iso) :
               'Unknown',
-            years: calcExperience(model.work_experience),
-            skills: model.skills.map(function(item) {
-              return item.skill;
-            }).join(', '),
-          };
+          });
         });
       },
     };
