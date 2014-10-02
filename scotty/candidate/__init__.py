@@ -29,7 +29,9 @@ def includeme(config):
 
     config.add_route('candidate_offers', '{candidate_id}/offers')
     config.add_route('candidate_offer', '{candidate_id}/offers/{id}')
+
     config.add_route('candidate_offer_accept', '{candidate_id}/offers/{id}/accept')
-    config.add_route('candidate_offer_hired', '{candidate_id}/offers/{id}/hired')
     config.add_route('candidate_offer_reject', '{candidate_id}/offers/{id}/reject')
+    config.add_route('candidate_offer_status', '{candidate_id}/offers/{id}/status')
+    config.add_route('candidate_offer_signed', '{candidate_id}/offers/{id}/signed')
     config.scan()

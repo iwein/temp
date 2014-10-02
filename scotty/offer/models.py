@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 from scotty.models.tools import json_encoder, PUBLIC
-from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason
+from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason, WithdrawalReason
 from scotty.models.meta import Base, GUID
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_
 from sqlalchemy.orm import relationship, class_mapper
@@ -29,11 +29,10 @@ class OfferStatusWorkflow(object):
     statuses = [OfferStatus('ACTIVE', False, 'created'),
                 OfferStatus('ACCEPTED', False, 'accepted'),
                 OfferStatus('INTERVIEW', False, 'interview'),
-                OfferStatus('CONTRACT_SENT', False, 'contract_sent'),
-                OfferStatus('CONTRACT_RECEIVED', False, 'contract_received'),
-                OfferStatus('CONTRACT_SIGNED', False, 'contract_signed'),
-                OfferStatus('JOB_STARTED', True, 'job_started'),
-                OfferStatus('REJECTED', True, 'rejected')]
+                OfferStatus('CONTRACT_NEGOTIATION', False, 'contract_negotiation'),
+                OfferStatus('CONTRACT_SIGNED', True, 'contract_signed'),
+                OfferStatus('REJECTED', True, 'rejected'),
+                OfferStatus('WITHDRAWN', True, 'withdrawn')]
 
     expired = OfferStatus('EXPIRED', True)
 
@@ -92,20 +91,30 @@ class OfferStatusWorkflow(object):
         else:
             raise InvalidStatusError("Offer cant be accepted, it is in state: %s." % self.status)
 
-    def hired(self):
+    def set_contract_signed(self, start_date, start_salary):
         if self.status.is_final:
             raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
         else:
-            self.job_started = datetime.now()
+            self.contract_signed = datetime.now()
+            self.job_start_date = start_date
+            self.job_start_salary = start_salary
+
+    def set_withdrawn(self, reason, withdrawal_text=None):
+        if self.status.is_final:
+            raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
+        else:
+            self.withdrawn = datetime.now()
+            self.withdrawal_reason = reason
+            self.withdrawal_text = withdrawal_text
 
 
-    def reject(self, reason, rejected_text=None):
-        if self.status != self.statuses[-1]:
+    def set_rejected(self, reason, rejected_text=None):
+        if self.status.is_final:
+            raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
+        else:
             self.rejected = datetime.now()
             self.rejected_reason = reason
             self.rejected_text = rejected_text
-        else:
-            raise InvalidStatusError("Offer already rejected")
 
     def set_status(self, status_key):
         columns = class_mapper(self.__class__).columns
@@ -142,16 +151,24 @@ class Offer(Base, OfferStatusWorkflow):
 
     created = Column(DateTime, nullable=False, default=datetime.now, info=PUBLIC)
     accepted = Column(DateTime)
-    interview = Column(DateTime)
-    contract_sent = Column(DateTime)
-    contract_received = Column(DateTime)
-    contract_signed = Column(DateTime)
-    job_started = Column(DateTime)
+
     rejected = Column(DateTime)
+    withdrawn = Column(DateTime)
+
+    interview = Column(DateTime)
+    contract_negotiation = Column(DateTime)
+
+    contract_signed = Column(DateTime)
+    job_start_date = Column(DateTime)
+    job_start_salary = Column(Integer)
 
     rejected_reason_id = Column(Integer, ForeignKey("rejectionreason.id"))
     rejected_reason = relationship(RejectionReason, info=PUBLIC)
     rejected_text = Column(Text, info=PUBLIC)
+
+    withdrawal_reason_id = Column(Integer, ForeignKey("withdrawalreason.id"))
+    withdrawal_reason = relationship(WithdrawalReason, info=PUBLIC)
+    withdrawal_text = Column(Text, info=PUBLIC)
 
     candidate_id = Column(GUID, ForeignKey('candidate.id'), nullable=False)
     employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)

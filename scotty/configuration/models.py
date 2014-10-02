@@ -50,6 +50,12 @@ class RejectionReason(Base, NamedModel):
     name = Column(String(64), nullable=False, unique=True)
 
 
+class WithdrawalReason(Base, NamedModel):
+    __tablename__ = 'withdrawalreason'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), nullable=False, unique=True)
+
+
 class TravelWillingness(Base, NamedModel):
     __tablename__ = 'travelwillingness'
     id = Column(Integer, primary_key=True)

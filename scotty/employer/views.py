@@ -5,12 +5,13 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict, HTTPServerError
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.configuration.models import CompanyType
+from scotty.configuration.models import CompanyType, WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, add_employer_offer, search_employers
-from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection
+from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
+from scotty.offer.models import InvalidStatusError
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -20,6 +21,7 @@ from sqlalchemy.orm import joinedload
 
 
 class EmployerInviteController(RootController):
+
     @reify
     def invited_employer(self):
         token = self.request.matchdict['token']
@@ -41,6 +43,7 @@ class EmployerInviteController(RootController):
 
 
 class EmployerController(RootController):
+
     @reify
     def employer(self):
         employer_id = self.request.matchdict["employer_id"]
@@ -158,6 +161,7 @@ class EmployerController(RootController):
 
 
 class EmployerOfficeController(EmployerController):
+
     @view_config(route_name='employer_offices', **GET)
     def list(self):
         return self.employer.offices
@@ -179,6 +183,7 @@ class EmployerOfficeController(EmployerController):
 
 
 class EmployerOfferController(EmployerController):
+
     @reify
     def offer(self):
         offer_id = self.request.matchdict["offer_id"]
@@ -213,6 +218,32 @@ class EmployerOfferController(EmployerController):
         DBSession.delete(self.offer)
         return {"status": "success"}
 
+    # ================== OFFER STATUS ===============
+
+    @view_config(route_name='employer_offer_signed', **POST)
+    def contract_signed(self):
+        offer = self.offer
+        start_date = self.request.json['start_date']
+        start_salary = self.request.json['start_salary']
+        offer.set_contract_signed(start_date, start_salary)
+        DBSession.flush()
+        return offer
+
+    @view_config(route_name='employer_offer_withdraw', **POST)
+    def withdraw(self):
+        offer = self.offer
+        reason = get_by_name_or_raise(WithdrawalReason, self.request.json['reason'])
+        offer.set_withdrawn(reason, self.request.json.get('rejected_text'))
+        DBSession.flush()
+        return offer
+
+    @view_config(route_name='employer_offer_status', **POST)
+    def set_status(self):
+        try:
+            self.offer.set_status(self.request.json['status'])
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        return self.offer
 
 class EmployerPasswordController(RootController):
 

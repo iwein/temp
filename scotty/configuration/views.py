@@ -2,7 +2,7 @@ from pyramid.view import view_config
 from scotty import DBSession
 from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
     Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason, \
-    TravelWillingness
+    TravelWillingness, WithdrawalReason
 from scotty.views import RootController
 from scotty.views.common import listing_request, run_paginated_query
 from sqlalchemy import func
@@ -47,6 +47,11 @@ class ConfigurationController(RootController):
     def rejectionreasons(self):
         return listing_request(self.request, RejectionReason, self.request.params.get("q"), ignorecase=True,
                                order_field=RejectionReason.id)
+
+    @view_config(route_name='configuration_list_withdrawalreasons')
+    def withdrawalreasons(self):
+        return listing_request(self.request, WithdrawalReason, self.request.params.get("q"), ignorecase=True,
+                               order_field=WithdrawalReason.id)
 
     @view_config(route_name='configuration_list_benefits')
     def benefits(self):
