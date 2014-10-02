@@ -7,20 +7,24 @@
         class="form-control"
         placeholder="Name or email address"
         ng-model="term"
-        ng-change="search(locationText)">
+        ng-change="search()">
     </form>
 
     <div ng-show="loaded && !candidates.length">No candidate found</div>
 
     <hc-candidate
-      ng-repeat="candidate in candidates | limitTo:limit"
+      ng-repeat="candidate in candidates"
       ng-model="candidate"
-      hc-hide="{{ { years: true } }}"
+      hc-hide="{{ {
+        years: true,
+        skills: true,
+      } }}"
       hc-link-profile>
     </hc-candidate>
 
     <button type="button"
-      ng-show="candidates.length > limit"
+      ng-show="candidates.length < total"
+      ng-disabled="loading"
       ng-click="loadMore()">
       Load more
     </button>

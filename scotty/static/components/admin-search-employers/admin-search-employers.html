@@ -7,20 +7,21 @@
         class="form-control"
         placeholder="Name or email address"
         ng-model="term"
-        ng-change="search(locationText)">
+        ng-change="search()">
     </form>
 
-    <div ng-show="terms.length && !employers.length">No employer found</div>
+    <div ng-show="loaded && !employers.length">No employer found</div>
 
     <hc-employer
-      ng-repeat="employer in employers | limitTo:limit"
+      ng-repeat="employer in employers"
       ng-model="employer"
       hc-link-profile>
     </hc-employer>
 
     <button type="button"
-      ng-show="candidates.length > limit"
-      ng-click="searchCandidates.loadMore()">
+      ng-show="employers.length < total"
+      ng-disabled="loading"
+      ng-click="loadMore()">
       Load more
     </button>
   </div>

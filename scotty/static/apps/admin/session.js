@@ -43,11 +43,7 @@ define(function(require) {
     },
 
     searchEmployers: function(query) {
-      return this._api.get('/employers/', query).then(function(response) {
-        return response.map(function(data) {
-          return new Employer(this._api, data.id, data);
-        }.bind(this));
-      }.bind(this));
+      return this._api.get('/admin/search/employers', query);
     },
 
     getEmployer: function(id) {
@@ -58,11 +54,7 @@ define(function(require) {
 
 
     searchCandidates: function(query) {
-      return this._api.get('/candidates/', query).then(function(response) {
-        return response.map(function(data) {
-          return new Candidate(this._api, data.id, data);
-        }.bind(this));
-      }.bind(this));
+      return this._api.get('/admin/search/candidates', query);
     },
 
     getCandidate: function(id) {
