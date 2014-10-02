@@ -20,7 +20,7 @@
       <dt ng-hide="hide.years">Years of experience</dt>
       <dd ng-hide="hide.years">{{ model.years }}</dd>
       <dt ng-hide="hide.skills">Skills</dt>
-      <dd ng-hide="hide.skills">{{ model.skills.join(', ') }}</dd>
+      <dd ng-hide="hide.skills">{{ model.parsedSkills }}</dd>
     </dl>
   </div>
 </div>

@@ -38,6 +38,7 @@ define(function(require) {
 
         scope.$watch('model', function(model) {
           _.extend(model, {
+            parsedSkills: model.skills.map(function(a) { return a.skill }).join(', '),
             years: calcExperience(model.work_experience),
             city: model.contact_city && model.contact_country_iso ?
               (model.contact_city + ', ' + model.contact_country_iso) :

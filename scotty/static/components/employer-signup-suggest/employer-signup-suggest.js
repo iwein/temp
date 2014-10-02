@@ -7,6 +7,11 @@ define(function(require) {
 
   module.controller('SignupSuggestCtrl', function($scope, $state, ConfigAPI, Session) {
     $scope.loading = true;
+    $scope.approved = false;
+
+    Session.isActivated().then(function(value) {
+      $scope.approved = value;
+    });
 
     Session.getUser().then(function(user) {
       return user && user.getSuggestedCandidates();

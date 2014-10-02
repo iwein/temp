@@ -6,7 +6,7 @@ define(function(require) {
 
   module.controller('ProfileCtrl', function($scope, $sce, $state, Permission, Session) {
     $scope.ready = false;
-    Permission.requireSignup().then(function() {
+    Permission.requireActivated().then(function() {
       return Session.getUser();
     }).then(function(user) {
       return user.getData();

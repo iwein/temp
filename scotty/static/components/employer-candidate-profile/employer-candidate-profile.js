@@ -5,11 +5,13 @@ define(function(require) {
   require('components/directive-education/directive-education');
   var module = require('app-module');
 
-  module.controller('CandidateProfileCtrl', function($scope, $state, toaster, Session) {
+  module.controller('CandidateProfileCtrl', function($scope, $state, toaster, Permission, Session) {
     $scope.id = $state.params.id;
     $scope.ready = false;
 
-    Session.getCandidate($scope.id).then(function(candidate) {
+    Permission.requireActivated().then(function() {
+      return Session.getCandidate($scope.id);
+    }).then(function(candidate) {
       $scope.candidate = candidate;
       return candidate.getData();
     }).then(function(data) {
@@ -18,9 +20,7 @@ define(function(require) {
       $scope.languages = data.languages;
       $scope.skills = data.skills;
       $scope.user = data;
-    }).catch(function() {
-      toaster.defaultError();
-    });
+    }).catch(toaster.defaultError);
   });
 
 

@@ -10,7 +10,8 @@ define(function(require) {
   // jshint maxparams: 7
   module.controller('CreateOfferCtrl', function($scope, $q, $state, toaster, ConfigAPI, Permission, Session) {
     $scope.ready = false;
-    Permission.requireSignup().then(function() {
+
+    Permission.requireActivated().then(function() {
       this.searchLocations = ConfigAPI.locationsText;
       this.searchSkills = ConfigAPI.skills;
       this.searchRoles = ConfigAPI.roles;
