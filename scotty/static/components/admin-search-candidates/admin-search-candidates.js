@@ -9,7 +9,7 @@ define(function(require) {
   module.controller('SearchCandiatesCtrl', function($scope, $q, toaster, Session) {
     $scope.loadMore = loadMore;
     $scope.search = _.debounce(search, 200);
-    var show = 5;
+    var show = 20;
     var counter = 0;
 
     function reset() {
