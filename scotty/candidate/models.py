@@ -263,7 +263,6 @@ class Candidate(Base):
         result['skills'] = self.skills
         result['preferred_location'] = self.get_preferred_locations()
         result['contact_country'] = self.contact_country
-
         return result
 
 

@@ -14,6 +14,7 @@ from scotty.models.common import get_location_by_name_or_raise, get_or_raise_nam
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
+from sqlalchemy import or_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
@@ -69,7 +70,7 @@ class EmployerController(RootController):
     @view_config(route_name='employers', **GET)
     def search(self):
         params = self.request.params
-
+        q = params.get('q')
         tags = filter(None, params.get('tags', '').split(','))
         city_id = None
         if 'country_iso' in params and 'city' in params:
@@ -78,7 +79,14 @@ class EmployerController(RootController):
         company_types = get_or_raise_named_collection(CompanyType, company_type_names).values()
 
         base_query = DBSession.query(MatchedEmployer).filter(MatchedEmployer.approved != None)
-        if tags:
+        if q:
+            q = q.lower()
+            employers = base_query.filter(
+                or_(func.lower(Employer.contact_first_name).startswith(q),
+                    func.lower(Employer.contact_last_name).startswith(q),
+                    func.lower(Employer.email).startswith(q))
+            ).limit(20).all()
+        elif tags:
             employer_lookup = search_employers(tags, city_id, company_types)
             employers = base_query.filter(MatchedEmployer.id.in_(employer_lookup.keys())).limit(20).all()
             for employer in employers:

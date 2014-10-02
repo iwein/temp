@@ -19,6 +19,7 @@
               extract: function(r, extr){
                 return {'employers': r}
               }},
+            {url:'/api/v1/employers/?q=Martin', title: 'employer-search-byname'},
             {url:'/api/v1/employers/?tags=Python', title: 'employer-search'},
             {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE', title: 'employer-search-with-city'},
             {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE&company_types=top500,startup', title: 'employer-search-city-ctype'},
@@ -30,6 +31,7 @@
               extract: function(r, extr){
                 return {'candidates': r}
               }},
+            {url:'/api/v1/candidates/?q=Martin', title: 'candidates-search-by-name'},
             {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search'},
             {url:'/api/v1/candidates/?tags=Python&city=Berlin&country_iso=DE', title: 'candidates-search-with-city'},
             {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
