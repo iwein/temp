@@ -12,6 +12,8 @@ define(function(require) {
       .state('offer', require('components/admin-offer/admin-offer'))
       .state('invite-employer', require('components/admin-invite-employer/admin-invite-employer'))
       .state('approve-employers', require('components/admin-approve-employers/admin-approve-employers'))
+      .state('search-employers', require('components/admin-search-employers/admin-search-employers'))
+      .state('search-candidates', require('components/admin-search-candidates/admin-search-candidates'))
       ;
   });
 
