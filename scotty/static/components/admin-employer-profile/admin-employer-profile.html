@@ -1,12 +1,6 @@
 <div class="component-candidate-employer-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <button class="btn btn-default"
-      ng-class="{ active: isBookmarked }"
-      ng-click="employerProfile.toogleBookmark()">
-      Bookmark
-    </button>
-
     <div class="page-header">
       <h1>
         <img class="logo" ng-show="data.logo_url" ng-src="{{ data.logo_url }}">
