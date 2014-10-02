@@ -14,6 +14,7 @@ from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
+from scotty.offer.services import set_offer_singed
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -321,11 +322,7 @@ class CandidateOfferController(CandidateController):
 
     @view_config(route_name='candidate_offer_signed', **POST)
     def contract_signed(self):
-        offer = self.offer
-
-        start_date = self.request.json['start_date']
-        start_salary = self.request.json['start_salary']
-        offer.set_contract_signed(start_date, start_salary)
+        offer = set_offer_singed(self.offer, self.request.json)
         DBSession.flush()
 
         self.request.emailer.send_admin_candidate_hired_email(

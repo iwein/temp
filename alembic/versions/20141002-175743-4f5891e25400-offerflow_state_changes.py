@@ -25,9 +25,7 @@ def upgrade():
                     sa.UniqueConstraint('name'))
 
     bulk_insert_names = csv_inserter(__file__)
-    bulk_insert_names("withdrawalreasons", 'withdrawal_reasons.csv')
-
-    op.drop_column('city', 'geog')
+    bulk_insert_names("withdrawalreason", 'withdrawal_reasons.csv')
     op.add_column('offer', sa.Column('contract_negotiation', sa.DateTime(), nullable=True))
     op.add_column('offer', sa.Column('job_start_date', sa.DateTime(), nullable=True))
     op.add_column('offer', sa.Column('job_start_salary', sa.Integer(), nullable=True))
@@ -51,6 +49,5 @@ def downgrade():
     op.drop_column('offer', 'job_start_salary')
     op.drop_column('offer', 'job_start_date')
     op.drop_column('offer', 'contract_negotiation')
-    op.add_column('city', sa.Column('geog', sa.NullType(), autoincrement=False, nullable=True))
     op.drop_table('withdrawalreason')
     ### end Alembic commands ###
