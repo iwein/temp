@@ -10,7 +10,6 @@ define(function(require) {
     $scope.loading = false;
     $scope.model = {};
 
-    ConfigAPI.companyTypes().then(fn.setTo('companyTypes', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
 
     function submit() {

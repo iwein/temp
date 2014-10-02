@@ -24,7 +24,6 @@ define(function(require) {
       $scope.invited = true;
       $scope.model = {
         company_name: data.company_name,
-        company_type: data.company_type,
         contact_first_name: data.contact_first_name,
         contact_last_name: data.contact_last_name,
         contact_salutation: data.contact_salutation,
