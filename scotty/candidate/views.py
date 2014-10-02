@@ -54,7 +54,6 @@ class CandidateController(RootController):
     @view_config(route_name='candidates', **GET)
     def search(self):
         params = self.request.params
-        q = params.get('q')
         tags = filter(None, params.get('tags', '').split(','))
         city_id = None
         if 'country_iso' in params and 'city' in params:
@@ -65,14 +64,7 @@ class CandidateController(RootController):
                                                                joinedload_all("work_experience.skills"),
                                                                joinedload('skills'),
                                                                joinedload('preferred_locations'))
-        if q:
-            q = q.lower()
-            candidates = base_query.filter(
-                or_(func.lower(Candidate.first_name).startswith(q),
-                    func.lower(Candidate.last_name).startswith(q),
-                    func.lower(Candidate.email).startswith(q))
-            ).limit(20).all()
-        elif tags:
+        if tags:
             candidate_lookup = get_candidates_by_techtags(tags, city_id)
             candidates = base_query.filter(MatchedCandidate.id.in_(candidate_lookup.keys())).limit(20).all()
             for candidate in candidates:

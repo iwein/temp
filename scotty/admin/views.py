@@ -3,13 +3,30 @@ from datetime import datetime
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 from pyramid.view import view_config
 from scotty import DBSession
+from scotty.employer.models import Employer
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
-from scotty.offer.models import Offer, FullOffer, InvalidStatusError
+from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
+
+
+class SearchResultCandidate(Candidate):
+    def __json__(self, request):
+        result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
+        result['id'] = self.id
+        result['email'] = self.email
+        result['status'] = self.status
+        return result
+
+class SearchResultEmployer(Employer):
+    def __json__(self, request):
+        result = super(SearchResultEmployer, self).__json__(request)
+        result['email'] = self.email
+        return result
+
 
 
 class AdminController(RootController):
@@ -90,3 +107,19 @@ class AdminController(RootController):
         if not offer:
             raise HTTPNotFound("Offer not found")
         return offer.full_status_flow
+
+    @view_config(route_name="admin_search_candidates", **GET)
+    def admin_search_candidates(self):
+        q = self.request.params['q'].lower()
+        base_query = DBSession.query(SearchResultCandidate).filter(or_(func.lower(Candidate.first_name).startswith(q),
+                                                                       func.lower(Candidate.last_name).startswith(q),
+                                                                       func.lower(Candidate.email).startswith(q)))
+        return run_paginated_query(self.request, base_query)
+
+    @view_config(route_name="admin_search_employer", **GET)
+    def admin_search_employer(self):
+        q = self.request.params['q'].lower()
+        base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.contact_first_name).startswith(q),
+                                                              func.lower(Employer.contact_last_name).startswith(q),
+                                                              func.lower(Employer.email).startswith(q)))
+        return run_paginated_query(self.request, base_query)

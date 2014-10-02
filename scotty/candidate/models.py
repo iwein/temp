@@ -273,9 +273,9 @@ class EmbeddedCandidate(Candidate):
 
 class WXPCandidate(Candidate):
     def __json__(self, request):
-        results = super(WXPCandidate, self).__json__(request)
-        results['work_experience'] = self.work_experience
-        return results
+        result = super(WXPCandidate, self).__json__(request)
+        result['work_experience'] = self.work_experience
+        return result
 
 
 class MatchedCandidate(WXPCandidate):
@@ -288,9 +288,9 @@ class MatchedCandidate(WXPCandidate):
 
 class FullCandidate(WXPCandidate):
     def __json__(self, request):
-        results = super(FullCandidate, self).__json__(request)
-        results['email'] = self.email
-        results['traffic_source'] = self.traffic_source
-        results['activation_token'] = self.activation_token
-        results['activation_sent'] = self.activation_sent
-        return results
+        result = super(FullCandidate, self).__json__(request)
+        result['email'] = self.email
+        result['traffic_source'] = self.traffic_source
+        result['activation_token'] = self.activation_token
+        result['activation_sent'] = self.activation_sent
+        return result

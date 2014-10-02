@@ -181,7 +181,6 @@ class MatchedEmployer(Employer):
         result['matched_tags'] = self.matched_tags
         return result
 
-
 class FullEmployer(Employer):
     def __json__(self, request):
         result = super(FullEmployer, self).__json__(request)
