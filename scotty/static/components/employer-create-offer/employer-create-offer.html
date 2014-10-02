@@ -1,25 +1,27 @@
 <form class="component-employer-create-offer row"
   name="formCreateOffer"
-  ng-if="ready"
+  ng-show="ready"
   ng-submit="createOffer.submit()">
   <div class="col-sm-6 col-sm-offset-3">
 
     <h3>Make an offer</h3>
 
     <hc-candidate
+      ng-if="ready"
       ng-model="candidate"
       hc-link-profile>
     </hc-candidate>
 
     <div class="form-group required">
       <label>Personal Message</label>
-      <input type="text"
+      <textarea
         class="form-control"
         placeholder="Personal message"
         name="message"
         required
         ng-disabled="loading"
         ng-model="model.message">
+      </textarea>
 
       <div class="form-error" ng-show="formCreateOffer.message.$dirty && formCreateOffer.message.$invalid">
         <span ng-show="formCreateOffer.message.$error.required">

@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   var angular = require('angular');
+  var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
 
   function calcExperience(experience) {
@@ -32,7 +33,7 @@ define(function(require) {
             'Remember to use angular\'s expression {{ { key: "value" } }}');
         }
 
-        if ('hcLinkProfile' in attr) scope.hcLinkProfile = true;
+        booleanAttrs(scope, attr, [ 'hcLinkProfile' ]);
 
         scope.$watch('model', function(model) {
           scope.candidate = {

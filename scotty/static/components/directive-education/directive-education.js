@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
   module.directive('hcEducation', function() {
@@ -12,26 +13,18 @@ define(function(require) {
         onRemove: '&',
         hcSource: '&',
         hcSourceRemove: '&',
+        hcEditable: '=',
+        hcShowEmpty: '=',
       },
       template: require('text!./directive-education.html'),
       controller: function($scope, $attrs) {
         var self = this;
-
-        if ('hcEditable' in $attrs) $scope.hcEditable = true;
-        if ('hcShowEmpty' in $attrs) $scope.hcShowEmpty = true;
-
-        var name = $attrs.name || $attrs.hcEducation;
-        if (name) {
-          if ('ngIf' in $attrs)
-            $scope.$parent.$parent[name] = this;
-          else
-            $scope.$parent[name] = this;
-        }
-
-        list();
         $scope.edit = edit;
         $scope.remove = remove;
         this.refresh = list;
+
+        nameAttr(this, 'hcEducation', $scope, $attrs);
+        list();
 
         function edit(entry) {
           remove(entry).then(function() {

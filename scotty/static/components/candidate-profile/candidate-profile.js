@@ -3,12 +3,74 @@ define(function(require) {
   require('components/directive-target-positions/directive-target-positions');
   require('components/directive-experience/directive-experience');
   require('components/directive-education/directive-education');
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $state, Permission, Session) {
+    this.edit = edit;
+    this.stopEdit = stopEdit;
     $scope.ready = false;
+    $scope.isEditing = false;
 
-    Permission.requireSignup().then(function() {
+    function edit() {
+      $scope.isEditing = true;
+    }
+    function stopEdit() {
+      $scope.isEditing = false;
+    }
+
+    function defaultForm() {
+      return {
+        // injected by directives
+        form: null,
+        editing: false,
+        edit: function(model) {
+          this.form.setModel(model);
+          this.editing = true;
+        },
+        cancel: function() {
+          this.form.reset();
+          this.editing = false;
+        },
+        save: function() {
+          return this.form.save().then(function() {
+            this.editing = false;
+          }.bind(this));
+        }
+      };
+    }
+
+    function listForm() {
+      var base = defaultForm();
+      return _.extend(Object.create(base), {
+        list: null,
+        cancel: function() {
+          base.cancel.call(this);
+          return this.list.refresh();
+        },
+        save: function() {
+          return base.save.call(this).then(function() {
+            return this.list.refresh();
+          }.bind(this));
+        },
+      });
+    }
+
+    $scope.experience = listForm();
+    $scope.education = listForm();
+    $scope.targetPosition = (function() {
+      var base = listForm();
+      return _.extend(Object.create(base), {
+        edit: function(model) {
+          model.preferred_locations = $scope.cities;
+          return base.edit.call(this, model);
+        },
+      });
+    })();
+
+
+    //Permission.requireSignup().then(function() {
+    Permission.requireLogged().then(function() {
       return Session.getUser();
     }).then(function(user) {
       return user.getData();

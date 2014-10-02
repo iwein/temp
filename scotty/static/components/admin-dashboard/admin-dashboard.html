@@ -13,10 +13,22 @@
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="offer in offers">
           <hc-offer ng-model="offer"
+            hc-hide="{{ {
+              rejectReason: true,
+              employerLogo: true,
+              candidatePicture: true,
+              location: true,
+              salary: true,
+              technologies: true,
+              benefits: true,
+              message: true,
+              hiringProcess: true,
+            } }}"
             hc-actions
             hc-next-status
             hc-hire-button
-            hc-reject-button>
+            hc-reject-button
+            hc-link>
           </hc-offer>
         </li>
       </ul>

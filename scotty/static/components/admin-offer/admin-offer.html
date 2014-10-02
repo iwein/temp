@@ -1,12 +1,11 @@
-<div class="component-candidate-offer row" ng-if="ready">
+<div class="component-admin-offer row" ng-if="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
     <hc-offer ng-model="offer"
       hc-title="Offer details"
-      hc-hide="{{ { candidate: true } }}"
       on-status-change="offerDetail.onStatusChange()"
       hc-panel
-      hc-profile-links
+      hc-next-status
       hc-hire-button>
 
       <span>
@@ -15,14 +14,7 @@
           ng-class="{ active: rejecting }"
           ng-disabled="loading"
           ng-click="offerDetail.toggleRejecting()">
-          Reject Offer
-        </button>
-
-        <button class="btn btn-primary"
-          ng-show="offer.canAccept()"
-          ng-disabled="loading"
-          ng-click="offerDetail.accept()">
-          Accept Offer
+          Reject
         </button>
       </span>
 

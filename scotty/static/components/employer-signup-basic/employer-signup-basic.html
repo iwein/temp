@@ -1,72 +1,6 @@
 <div class="component-employer-signup-basic">
   <h3>Sign up - Basic information</h3>
 
-  <form name="formSignupBasic" ng-submit="signupBasic.submit()">
-
-    <div class="form-group">
-      <label>Logo</label>
-      <img ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
-      <input type="file"
-        name="photo"
-        accept="image/*"
-        required
-        ng-disabled="loading"
-        ng-model="files"
-        hc-file-select="signupBasic.selectFile($files)"
-        hc-data-url="selectedFiles">
-
-      <div class="form-error" ng-show="errorFileRequired || errorFileImage">
-        <span ng-show="errorFileRequired">Please select a photo.</span>
-        <span ng-show="errorFileImage">The file should be an image.</span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Website</label>
-      <input type="url"
-        class="form-control"
-        placeholder="Website"
-        name="website"
-        required
-        ng-disabled="loading"
-        ng-model="model.website">
-
-      <div class="form-error" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
-        <span ng-show="formSignupBasic.website.$error.required">
-          Please insert the name of the contact person of your company.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Facebook page</label>
-      <input type="url"
-        class="form-control"
-        placeholder="Facebook page"
-        name="fb_url"
-        ng-disabled="loading"
-        ng-model="model.fb_url">
-    </div>
-
-    <div class="form-group">
-      <label>LinkedIn URL</label>
-      <input type="url"
-        class="form-control"
-        placeholder="LinkedIn URL"
-        name="linkedin_url"
-        ng-disabled="loading"
-        ng-model="model.linkedin_url">
-    </div>
-
-    <div class="form-group">
-      <button type="submit"
-        class="btn btn-primary"
-        ng-disabled="loading || !list.length">
-        Continue
-      </button>
-    </div>
-  </form>
-
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Offices</h3>
@@ -291,4 +225,70 @@
     on-edit="signupBasic.editOffice($entry)"
     hc-editable>
   </hc-office>
+
+  <form name="formSignupBasic" ng-submit="signupBasic.submit()">
+
+    <div class="form-group">
+      <label>Logo</label>
+      <img ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
+      <input type="file"
+        name="photo"
+        accept="image/*"
+        required
+        ng-disabled="loading"
+        ng-model="files"
+        hc-file-select="signupBasic.selectFile($files)"
+        hc-data-url="selectedFiles">
+
+      <div class="form-error" ng-show="errorFileRequired || errorFileImage">
+        <span ng-show="errorFileRequired">Please select a photo.</span>
+        <span ng-show="errorFileImage">The file should be an image.</span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label>Website</label>
+      <input type="url"
+        class="form-control"
+        placeholder="Website"
+        name="website"
+        required
+        ng-disabled="loading"
+        ng-model="model.website">
+
+      <div class="form-error" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
+        <span ng-show="formSignupBasic.website.$error.required">
+          Please insert the name of the contact person of your company.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Facebook page</label>
+      <input type="url"
+        class="form-control"
+        placeholder="Facebook page"
+        name="fb_url"
+        ng-disabled="loading"
+        ng-model="model.fb_url">
+    </div>
+
+    <div class="form-group">
+      <label>LinkedIn URL</label>
+      <input type="url"
+        class="form-control"
+        placeholder="LinkedIn URL"
+        name="linkedin_url"
+        ng-disabled="loading"
+        ng-model="model.linkedin_url">
+    </div>
+
+    <div class="form-group">
+      <button type="submit"
+        class="btn btn-primary"
+        ng-disabled="loading || !list.length">
+        Continue
+      </button>
+    </div>
+  </form>
 </div>

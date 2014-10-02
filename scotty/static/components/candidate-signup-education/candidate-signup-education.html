@@ -1,135 +1,31 @@
 <div class="component-candidate-signup-education">
-  <form name="formEducation" ng-submit="signupEducation.submit()">
+  <h3>Sign up - Education</h3>
 
-    <h3>Sign up - Education</h3>
+  <hc-education-form
+    ng-show="ready"
+    name="form"
+    on-submit="signupEducation.submit()">
 
-    <div class="form-group required">
-      <label>University or Institution</label>
-      <input type="text"
-        class="form-control"
-        name="institution"
-        required
-        ng-disabled="loading"
-        ng-model="model.institution"
-        typeahead="institution for institution in signupEducation.searchInstitutions($viewValue)">
-
-      <div class="form-error" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
-        <span ng-show="formEducation.institution.$error.required">
-          Please insert the institution name.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Course or Subject</label>
-      <input type="text"
-        class="form-control"
-        name="course"
-        required
-        ng-disabled="loading"
-        ng-model="model.course"
-        typeahead="course for course in signupEducation.searchCourses($viewValue)">
-
-      <div class="form-error" ng-show="formEducation.course.$dirty && formEducation.course.$invalid">
-        <span ng-show="formEducation.course.$error.required">Please insert the course.</span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Period</label>
-
-      <div class="form-inline">
-        <!-- From year -->
-        <input type="number"
-          class="form-control"
-          name="start"
-          placeholder="Year"
-          required
-          ng-disabled="loading"
-          ng-model="model.start">
-
-        <!-- Separator -->
-        <span>–</span>
-
-        <!-- To year -->
-        <input type="number"
-          class="form-control"
-          name="end"
-          placeholder="Year"
-          ng-disabled="loading || current"
-          ng-required="!current"
-          ng-model="model.end"
-          hc-greater-than="model.start">
-      </div>
-
-      <label>
-        <input type="checkbox"
-          name="current"
-          ng-disabled="loading"
-          ng-model="current"
-          ng-change="model.end = null">
-        I am still studing there
-      </label>
-
-      <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
-        <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
-      </div>
-      <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
-        <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
-        <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <label>Degree</label>
-      <select
-        class="form-control"
-        name="degree"
-        ng-disabled="loading || not_completed_degree"
-        ng-required="!not_completed_degree"
-        ng-model="model.degree"
-        ng-options="degree for degree in degrees">
-        <option value="">Select one...</option>
-      </select>
-
-      <label>
-        <input type="checkbox"
-          name="not_completed_degree"
-          ng-disabled="loading"
-          ng-model="not_completed_degree"
-          ng-change="model.degree = null">
-        Did not complete degree
-      </label>
-
-      <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
-        <span ng-show="formEducation.degree.$error.required">
-          Please insert the degree.
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <button type="submit"
-        class="btn btn-primary"
-        ng-click="addAnother = true"
-        ng-disabled="loading">
-        Save &amp; add another
-      </button>
-      <button type="submit"
-        class="btn btn-primary"
-        ng-click="addAnother = false"
-        ng-disabled="loading">
-        Save &amp; continue
-      </button>
-      <button type="submit"
-        class="btn btn-primary"
-        ng-show="list.length"
-        ng-click="signupEducation.nextStep($event)"
-        ng-disabled="loading">
-        Continue
-      </button>
-    </div>
-  </form>
+    <button type="submit"
+      class="btn btn-primary"
+      ng-click="setAddAnother(true)"
+      ng-disabled="loading">
+      Save &amp; add another
+    </button>
+    <button type="submit"
+      class="btn btn-primary"
+      ng-click="setAddAnother(false)"
+      ng-disabled="loading">
+      Save &amp; continue
+    </button>
+    <button type="button"
+      class="btn btn-primary"
+      ng-show="list.length"
+      ng-click="signupEducation.nextStep($event)"
+      ng-disabled="loading">
+      Continue
+    </button>
+  </hc-education-form>
 
   <hc-education
     ng-if="ready"
@@ -138,7 +34,7 @@
     hc-source="session.user.getEducation()"
     hc-source-remove="session.user.deleteEducation($entry)"
     on-edit="signupEducation.edit($entry)"
-    hc-editable>
+    hc-editable="true">
   </hc-education>
 
 </div>

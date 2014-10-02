@@ -11,6 +11,7 @@ requirejs.config({
     'moment': 'bower_components/moment/moment',
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+    'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
     'angular-animate': 'bower_components/angular-animate/angular-animate',
     'angularjs-toaster': 'bower_components/angularjs-toaster/toaster',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
