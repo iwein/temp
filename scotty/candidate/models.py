@@ -280,6 +280,7 @@ class WXPCandidate(Candidate):
 
 
 class MatchedCandidate(WXPCandidate):
+    matched_tags = None
     def __json__(self, request):
         result = super(MatchedCandidate, self).__json__(request)
         result['matched_tags'] = self.matched_tags

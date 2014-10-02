@@ -5,13 +5,16 @@
       <a ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">{{ employer.company_name }}</a>
       <span ng-if="!hcLinkProfile">{{ employer.company_name }}</span>
     </h3>
+    <div class="clearfix"></div>
   </div>
   <div class="panel-body">
     <dl class="dl-horizontal">
+      <dt ng-hide="hide.email">Contact email</dt>
+      <dd ng-hide="hide.email">{{ employer.offices[0].contact_email }}</dd>
       <dt ng-hide="hide.size">Company size</dt>
       <dd ng-hide="hide.size">{{ employer.no_of_employees }}</dd>
       <dt ng-hide="hide.hq">Head Quarters</dt>
-      <dd ng-hide="hide.hq">{{ employer.address_city.city }}, {{ employer.address_city.country_iso }}</dd>
+      <dd ng-hide="hide.hq">{{ employer.offices[0].address_city.city }}, {{ employer.offices[0].address_city.country_iso }}</dd>
       <dt ng-hide="hide.tags">Main technologies</dt>
       <dd ng-hide="hide.tags">{{ employer.tech_tags.join(', ') }}</dd>
       <dd ng-show="!hide.linkedin && employer.linkedin_url">
