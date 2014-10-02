@@ -199,6 +199,7 @@ class Offer(Base, OfferStatusWorkflow):
 
 class EmployerOffer(Offer):
     candidate = relationship("EmbeddedCandidate")
+
     def __json__(self, request):
         results = super(EmployerOffer, self).__json__(request)
         results['candidate'] = self.candidate
@@ -207,6 +208,7 @@ class EmployerOffer(Offer):
 
 class CandidateOffer(Offer):
     employer = relationship("EmbeddedEmployer")
+
     def __json__(self, request):
         results = super(CandidateOffer, self).__json__(request)
         results['employer'] = self.employer
