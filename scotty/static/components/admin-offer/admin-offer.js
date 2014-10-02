@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('angular-sanitize');
+  require('components/directive-offer/directive-offer');
   var module = require('app-module');
 
   // jshint maxparams:7

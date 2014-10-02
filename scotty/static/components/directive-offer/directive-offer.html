@@ -1,84 +1,200 @@
-<div ng-class="{ panel: hcPanel, 'panel-default': hcPanel }">
-  <div ng-if="hcPanel" class="panel-heading">
-    <h3 class="panel-title">
-      <a ng-if="hcLink" ui-sref="offer({ id: model.id })">{{ hcTitle }}</a>
-      <span ng-if="!hcLink">{{ hcTitle }}</span>
-    </h3>
+<div ng-if="!model.isFinalStatus()">
+  <div class="offer-buttons">
+    <button type="button"
+      ng-if="hcWithdrawButton && model.canWithdraw()"
+      class="btn btn-danger"
+      ng-disabled="hcDisabled || rejecting || signing"
+      ng-class="{ active: withdrawing }"
+      ng-click="toggleWithdrawing()">
+      Withdraw
+    </button>
+
+    <button type="button"
+      ng-if="hcRejectButton && model.canReject()"
+      class="btn btn-danger"
+      ng-disabled="hcDisabled || withdrawing || signing"
+      ng-class="{ active: rejecting }"
+      ng-click="toggleRejecting()">
+      Reject
+    </button>
+
+    <button type="button"
+      ng-if="hcAcceptButton && model.canAccept()"
+      class="btn btn-primary"
+      ng-disabled="hcDisabled || rejecting || withdrawing || signing"
+      ng-click="model.accept()">
+      Accept
+    </button>
+
+    <span ng-if="hcNextStatusButton && model.canNextStatus()">
+      <button type="button"
+        class="btn btn-primary"
+        ng-disabled="hcDisabled || rejecting || withdrawing || signing"
+        ng-click="model.nextStatus().then(onStatusChange)">
+        {{ model.getNextStatusText() }}
+      </button>
+    </span>
+
+    <button type="button"
+      ng-if="hcSignedButton && model.canSign()"
+      class="btn btn-success"
+      ng-disabled="hcDisabled || rejecting || withdrawing"
+      ng-class="{ active: signing }"
+      ng-click="toggleSigning()">
+      Contract signed
+    </button>
   </div>
-  <div ng-class="{ 'panel-body': hcPanel }">
-    <span>
-      <span ng-if="hcRejectButton && model.canReject()">
-        <button type="button" class="btn btn-danger"
-          ng-click="model.reject(hcRejectReason).then(onStatusChange)">
-          Reject
-        </button>
-      </span>
 
-      <span ng-if="hcNextStatus && model.getNextStatus()">
-        <button type="button" class="btn btn-primary"
-          ng-click="model.nextStatus().then(onStatusChange)">
-          {{ model.getNextStatusText() }}
-        </button>
-      </span>
+  <div class="offer-forms">
+    <form name="formReject" ng-show="rejecting" ng-submit="model.reject(rejection)">
+      <div class="form-group">
+        <div ng-repeat="reason in rejectReasons">
+          <label>
+            <input type="radio"
+              name="rejectReason"
+              value="{{ reason }}"
+              ng-disabled="hcDisabled"
+              ng-required="!rejection.reason"
+              ng-model="rejection.reason"
+              ng-change="rejection.rejected_text = null">
+            {{ reason }}
+          </label>
+        </div>
+      </div>
 
-      <span ng-if="hcHireButton && model.canHire()">
-        <button type="button" class="btn btn-success"
-          ng-click="model.hired().then(onStatusChange)">
-          Hired
-        </button>
-      </span>
+      <div class="form-group required"
+        ng-if="rejection.reason.toLowerCase() === 'other'">
+        <label>Please describe your reason</label>
 
-      <span ng-transclude></span>
-    </span>
+        <textarea
+          class="form-control"
+          placeholder="Please describe your reason"
+          required
+          ng-disabled="hcDisabled"
+          ng-model="rejection.rejected_text">
+        </textarea>
+      </div>
 
-    <span ng-if="hcLink && !hcPanel">
-      <a ui-sref="offer({ id: model.id })">View offer details</a>
-    </span>
+      <div class="form-group">
+        <label>
+          <input type="checkbox"
+            ng-disabled="hcDisabled"
+            ng-model="rejection.blacklist">
+          Block employer
+        </label>
+      </div>
 
-    <dl class="dl-horizontal">
-      <dt>Status</dt>
-      <dd><span class="label label-default" ng-class="{
-        'label-success': model.status === 'ACCEPTED' || model.status === 'JOB_STARTED',
-        'label-danger': model.status === 'REJECTED',
-      }">{{ model.statusText }}</span></dd>
-      <dt ng-if="!hide.rejectReason && model.status === 'REJECTED'">Reason</dt>
-      <dd ng-if="!hide.rejectReason && model.status === 'REJECTED'">
-        {{ model.data.rejected_text || model.data.rejected_reason }}
-      </dd>
-      <dt ng-if="!hide.employer">Employer</dt>
-      <dd ng-if="!hide.employer">
-        <img class="logo" ng-if="!hide.employerLogo" ng-src="{{ model.data.employer.logo_url }}">
-        <span ng-if="!hcProfileLinks">{{ model.data.employer.company_name }}</span>
-        <a ng-if="hcProfileLinks" ui-sref="employer({ id: model.data.employer.id })">
-          {{ model.data.employer.company_name }}
-        </a>
-      </dd>
-      <dt ng-if="!hide.candidate">Candidate</dt>
-      <dd ng-if="!hide.candidate">
-        <img class="avatar" ng-if="!hide.candidatePicture" ng-src="{{ model.data.candidate.picture_url }}">
-        <span ng-if="!hcProfileLinks">
-          {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
-        </span>
-        <a ng-if="hcProfileLinks" ui-sref="candidate({ id: model.data.candidate.id })">
-          {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
-        </a>
-      </dd>
-      <dt>Created</dt>
-      <dd>{{ model.data.created | timeAgo }}</dd>
-      <dt ng-if="!hide.location">Location</dt>
-      <dd ng-if="!hide.location">{{ model.data.location.city }}, {{ model.data.location.country_iso }}</dd>
-      <dt ng-if="!hide.salary">Salary</dt>
-      <dd ng-if="!hide.salary">{{ model.data.annual_salary | dottedInteger }} €/year</dd>
-      <dt ng-if="!hide.technologies">Technologies</dt>
-      <dd ng-if="!hide.technologies">{{ model.data.technologies.join(', ') }}</dd>
-      <dt ng-if="!hide.benefits">Benefits</dt>
-      <dd ng-if="!hide.benefits">{{ model.data.benefits.join(', ') }}</dd>
-      <dt ng-if="!hide.message">Message</dt>
-      <dd ng-if="!hide.message">{{ model.data.message }}</dd>
-      <dt>Job Description</dt>
-      <dd ng-bind-html="model.data.job_description"></dd>
-      <dt ng-if="!hide.hiringProcess">Hiring process</dt>
-      <dd ng-if="!hide.hiringProcess" ng-bind-html="model.data.interview_details"></dd>
-    </dl>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+      </div>
+    </form>
+
+    <form name="formWithdraw" ng-show="withdrawing" ng-submit="model.withdraw(withdrawal)">
+      <div class="form-group">
+        <div ng-repeat="reason in withdrawReasons">
+          <label>
+            <input type="radio"
+              name="rejectReason"
+              value="{{ reason }}"
+              ng-disabled="hcDisabled"
+              ng-required="!withdrawal.reason"
+              ng-model="withdrawal.reason"
+              ng-change="withdrawal.rejected_text = null">
+            {{ reason }}
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group required"
+        ng-if="withdrawal.reason.toLowerCase() === 'other'">
+        <label>Please describe your reason</label>
+
+        <textarea
+          class="form-control"
+          placeholder="Please describe your reason"
+          required
+          ng-disabled="hcDisabled"
+          ng-model="withdrawal.withdrawal_reason">
+        </textarea>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+      </div>
+    </form>
+
+    <form name="formSigned" ng-show="signing" ng-submit="model.sign(signedData)">
+      <div class="form-group required">
+        <label>Start date</label>
+
+        <input type="date"
+          class="form-control"
+          placeholder="YYYY-MM-DD"
+          ng-disabled="hcDisabled"
+          ng-model="signedData.start_date">
+      </div>
+
+      <div class="form-group required">
+        <label>Start salary</label>
+
+        <input type="dotted-integer"
+          class="form-control"
+          placeholder="Start salary"
+          ng-disabled="hcDisabled"
+          ng-model="signedData.start_salary">
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+      </div>
+    </form>
   </div>
 </div>
+
+<a ng-if="hcLink" ui-sref="offer({ id: model.id })">View offer details</a>
+
+<dl class="dl-horizontal">
+  <dt>Status</dt>
+  <dd><span class="label label-default" ng-class="{
+    'label-success': model.status === 'ACCEPTED' || model.status === 'JOB_STARTED',
+    'label-danger': model.status === 'REJECTED',
+  }">{{ model.statusText }}</span></dd>
+  <dt ng-if="!hide.rejectReason && model.status === 'REJECTED'">Reason</dt>
+  <dd ng-if="!hide.rejectReason && model.status === 'REJECTED'">
+    {{ model.data.rejected_text || model.data.rejected_reason }}
+  </dd>
+  <dt ng-if="!hide.employer">Employer</dt>
+  <dd ng-if="!hide.employer">
+    <img class="logo" ng-if="!hide.employerLogo" ng-src="{{ model.data.employer.logo_url }}">
+    <span ng-if="!hcProfileLinks">{{ model.data.employer.company_name }}</span>
+    <a ng-if="hcProfileLinks" ui-sref="employer({ id: model.data.employer.id })">
+      {{ model.data.employer.company_name }}
+    </a>
+  </dd>
+  <dt ng-if="!hide.candidate">Candidate</dt>
+  <dd ng-if="!hide.candidate">
+    <img class="avatar" ng-if="!hide.candidatePicture" ng-src="{{ model.data.candidate.picture_url }}">
+    <span ng-if="!hcProfileLinks">
+      {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
+    </span>
+    <a ng-if="hcProfileLinks" ui-sref="candidate({ id: model.data.candidate.id })">
+      {{ model.data.candidate.first_name }} {{ model.data.candidate.last_name }}
+    </a>
+  </dd>
+  <dt>Created</dt>
+  <dd>{{ model.data.created | timeAgo }}</dd>
+  <dt ng-if="!hide.location">Location</dt>
+  <dd ng-if="!hide.location">{{ model.data.location.city }}, {{ model.data.location.country_iso }}</dd>
+  <dt ng-if="!hide.salary">Salary</dt>
+  <dd ng-if="!hide.salary">{{ model.data.annual_salary | dottedInteger }} €/year</dd>
+  <dt ng-if="!hide.technologies">Technologies</dt>
+  <dd ng-if="!hide.technologies">{{ model.data.technologies.join(', ') }}</dd>
+  <dt ng-if="!hide.benefits">Benefits</dt>
+  <dd ng-if="!hide.benefits">{{ model.data.benefits.join(', ') }}</dd>
+  <dt ng-if="!hide.message">Message</dt>
+  <dd ng-if="!hide.message">{{ model.data.message }}</dd>
+  <dt>Job Description</dt>
+  <dd ng-bind-html="model.data.job_description"></dd>
+  <dt ng-if="!hide.hiringProcess">Hiring process</dt>
+  <dd ng-if="!hide.hiringProcess" ng-bind-html="model.data.interview_details"></dd>
+</dl>

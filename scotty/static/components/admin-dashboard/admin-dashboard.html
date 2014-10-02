@@ -14,7 +14,8 @@
       <div class="panel-body" ng-show="!offers.length">No offers</div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="offer in offers">
-          <hc-offer ng-model="offer"
+          <hc-offer
+            ng-model="offer"
             hc-hide="{{ {
               rejectReason: true,
               employerLogo: true,
@@ -26,11 +27,13 @@
               message: true,
               hiringProcess: true,
             } }}"
-            hc-actions
-            hc-next-status
-            hc-hire-button
-            hc-reject-button
-            hc-link>
+            hc-withdraw-button="true"
+            hc-reject-button="true"
+            hc-accept-button="true"
+            hc-next-status-button="true"
+            hc-signed-button="true"
+            hc-profile-links="true"
+            hc-link="true">
           </hc-offer>
         </li>
       </ul>

@@ -1,67 +1,22 @@
 <div class="component-admin-offer row" ng-if="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <hc-offer ng-model="offer"
-      hc-title="Offer details"
-      on-status-change="offerDetail.onStatusChange()"
-      hc-panel
-      hc-next-status
-      hc-hire-button>
-
-      <span>
-        <button class="btn btn-danger"
-          ng-show="offer.canReject()"
-          ng-class="{ active: rejecting }"
-          ng-disabled="loading"
-          ng-click="offerDetail.toggleRejecting()">
-          Reject
-        </button>
-      </span>
-
-      <div ng-show="rejecting">
-        <form name="formReject" ng-submit="offerDetail.reject()">
-          <div class="form-group">
-            <div ng-repeat="reason in rejectReasons">
-              <label>
-                <input type="radio"
-                  name="rejectReason"
-                  value="{{ reason }}"
-                  ng-disabled="loading"
-                  ng-required="!model.reason"
-                  ng-model="model.reason"
-                  ng-change="model.rejected_text = null">
-                {{ reason }}
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group required" ng-if="model.reason.toLowerCase() === 'other'">
-            <label>Please describe your reason</label>
-
-            <textarea
-              class="form-control"
-              placeholder="Please describe your reason"
-              required
-              ng-disabled="loading"
-              ng-model="model.rejected_text">
-            </textarea>
-          </div>
-
-          <div class="form-group">
-            <label>
-              <input type="checkbox"
-                ng-disabled="loading"
-                ng-model="model.blacklist">
-              Block employer
-            </label>
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
-          </div>
-        </form>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Offer details</h3>
       </div>
+      <div class="panel-body">
+        <hc-offer ng-model="offer"
+          on-status-change="offerDetail.onStatusChange()"
+          hc-withdraw-button="true"
+          hc-reject-button="true"
+          hc-accept-button="true"
+          hc-next-status-button="true"
+          hc-signed-button="true"
+          hc-profile-links="true">
+        </hc-offer>
+      </div>
+    </div>
 
-    </hc-offer>
   </div>
 </div>
