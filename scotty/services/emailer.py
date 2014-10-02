@@ -86,12 +86,13 @@ class MandrillEmailer(object):
                               {'content': candidate_name, 'name': 'candidate_name'},
                               {'content': url, 'name': 'candidate_url'}]})
 
-    def send_candidate_received_offer(self, email, candidate_name, company_name, offer_id):
+    def send_candidate_received_offer(self, email, personal_message, candidate_name, company_name, offer_id):
         url = 'http://%s/candidate/#/offer/%s' % (self.frontend, offer_id)
         return self.send('candidate-received-offer', [],
                          {'to': [{'email': email, 'name': candidate_name}],
                           'global_merge_vars': [
                               {'content': candidate_name, 'name': 'candidate_name'},
+                              {'content': personal_message, 'name': 'personal_message'},
                               {'content': company_name, 'name': 'company_name'},
                               {'content': url, 'name': 'offer_url'}]})
 

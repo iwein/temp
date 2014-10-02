@@ -204,6 +204,7 @@ class EmployerOfferController(EmployerController):
         offer = add_employer_offer(self.employer, self.request.json)
         self.request.emailer.send_candidate_received_offer(
             offer.candidate.email,
+            offer.message,
             offer.candidate.first_name,
             self.employer.company_name,
             offer.id
