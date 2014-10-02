@@ -77,7 +77,6 @@ class EmployerController(RootController):
         company_type_names = filter(None, params.get('company_type', '').split(','))
         company_types = get_or_raise_named_collection(CompanyType, company_type_names).values()
 
-
         base_query = DBSession.query(MatchedEmployer).filter(MatchedEmployer.approved != None)
         if tags:
             employer_lookup = search_employers(tags, city_id, company_types)
