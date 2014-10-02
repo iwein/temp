@@ -1,0 +1,104 @@
+<div class="component-employer-candidate-profile row" ng-show="ready">
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <a ui-sref="create-offer({ id: id })" class="btn btn-primary">Make an Offer</a>
+
+    <div class="page-header">
+      <h1>
+        <img class="avatar" ng-src="{{ user.picture_url }}">
+        <small>{{ user.first_name }} {{ user.last_name }}</small>
+      </h1>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Personal data</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>email</dt>
+          <dd>{{ user.email }}</dd>
+          <dt>Availabilty</dt>
+          <dd>{{ user.available_date || (user.available_months + ' months') }}</dd>
+          <dt ng-if="user.contact_skype">Skype</dt>
+          <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
+          <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
+          <dd ng-if="user.stackoverflow_url">
+            <a ng-href="{{ user.stackoverflow_url }}">{{ user.stackoverflow_url }}</a>
+          </dd>
+          <dt ng-if="user.github_url">Github</dt>
+          <dd ng-if="user.github_url">
+            <a ng-href="{{ user.github_url }}">{{ user.github_url }}</a>
+          </dd>
+          <dt>Address</dt>
+          <dd>
+            <address>
+              {{ user.contact_line1 }}<br>
+              {{ user.contact_line2 }}<br ng-if="user.contact_line2">
+              {{ user.contact_line3 }}<br ng-if="user.contact_line3">
+              {{ user.contact_city }},
+              {{ user.contact_country_iso }}
+              {{ user.contact_zipcode }}
+            </address>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Skills</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in skills">
+          <span class="value">
+            {{ entry.skill }}
+            <span ng-if="entry.level">({{ entry.level }})</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Languages</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in languages">
+          <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Preferred locations</h3>
+      </div>
+      <ul class="list-group" ng-repeat="(country_iso, cities) in cities">
+        <li class="list-group-item" ng-repeat="city in cities">
+          <span class="value">{{ city }}, {{ country_iso }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div ng-if="ready">
+      <hc-target-positions
+        hc-title="Target positions"
+        hc-source="candidate.getTargetPositions()"
+        hc-show-empty>
+      </hc-target-positions>
+
+      <hc-experience
+        hc-title="Experience"
+        hc-source="candidate.getExperience()"
+        hc-show-empty>
+      </hc-experience>
+
+      <hc-education
+        hc-title="Education"
+        hc-source="candidate.getEducation()"
+        hc-show-empty>
+      </hc-education>
+    </div>
+  </div>
+</div>
