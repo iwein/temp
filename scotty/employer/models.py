@@ -175,6 +175,7 @@ class EmbeddedEmployer(Employer):
 
 
 class MatchedEmployer(Employer):
+    matched_tags = {}
     def __json__(self, request):
         result = super(MatchedEmployer, self).__json__(request)
         result['matched_tags'] = self.matched_tags
