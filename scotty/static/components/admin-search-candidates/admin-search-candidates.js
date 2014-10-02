@@ -7,36 +7,30 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('SearchCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
-    this.searchLocations = ConfigAPI.locationsText;
-    this.searchSkills = ConfigAPI.skills;
-    this.setLocation = setLocation;
-    this.search = search;
-    $scope.terms = [];
+  module.controller('SearchCandiatesCtrl', function($scope, $q, toaster, Session) {
+    $scope.loadMore = loadMore;
+    $scope.search = _.debounce(search, 100);
+    $scope.limit = 20;
+    var perStep = $scope.limit;
 
-    function setLocation(text) {
-      $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
-      search();
+    function loadMore() {
+      $scope.limit += perStep;
     }
 
     function search() {
-      var tags = $scope.terms && $scope.terms.join();
-      var params = _.extend({}, $scope.location, tags ? { tags: tags } : null);
-
-      Session.searchCandidates(params).then(function(candidates) {
+      Session.searchCandidates({ q: $scope.term }).then(function(candidates) {
         return $q.all(candidates.map(fn.invoke('getData', [])));
       }).then(function(results) {
         $scope.candidates = results;
       }).catch(toaster.defaultError);
     }
-
   });
 
 
   return {
     url: '/search-candidates/',
     template: require('text!./admin-search-candidates.html'),
-    controller: 'SearchCtrl',
+    controller: 'SearchCandiatesCtrl',
     controllerAs: 'searchCandidates',
   };
 });

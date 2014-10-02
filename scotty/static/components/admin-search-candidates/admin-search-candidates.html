@@ -2,32 +2,28 @@
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Search candidates</h3>
 
-    <form name="search">
-      <hc-label-typeahead
-        placeholder="Skills"
-        ng-model="terms"
-        hc-source="searchCandidates.searchSkills($viewValue)"
-        on-change="searchCandidates.search()">
-      </hc-label-typeahead>
-
+    <form>
       <input type="text"
         class="form-control"
-        placeholder="Location"
-        ng-disabled="!terms.length"
-        ng-model="locationText"
-        ng-blur="searchCandidates.setLocation(locationText)"
-        typeahead-on-select="searchCandidates.setLocation(locationText)"
-        typeahead="location for location in searchCandidates.searchLocations($viewValue)">
+        placeholder="Name or email address"
+        ng-model="term"
+        ng-change="search(locationText)">
     </form>
 
-    <div ng-show="terms.length && !candidates.length">No candidate found</div>
+    <div ng-show="loaded && !candidates.length">No candidate found</div>
 
     <hc-candidate
-      ng-repeat="candidate in candidates"
+      ng-repeat="candidate in candidates | limitTo:limit"
       ng-model="candidate"
       hc-hide="{{ { years: true } }}"
       hc-link-profile>
     </hc-candidate>
+
+    <button type="button"
+      ng-show="candidates.length > limit"
+      ng-click="loadMore()">
+      Load more
+    </button>
 
   </div>
 </div>
