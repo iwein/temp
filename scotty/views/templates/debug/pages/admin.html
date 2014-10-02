@@ -6,6 +6,23 @@
 <script>
   var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
           tests = [
+
+            {sectionTitle: 'Search'},
+            {url: '/api/v1/admin/search/employers?q=Hack', title: 'admin-search-employers'},
+            {url: '/api/v1/admin/search/candidates?q=Mapa', title: 'admin-search-candidates'},
+
+            {sectionTitle: 'List Offers'},
+            {url: '/api/v1/admin/offers?status=ACTIVE', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=ACCEPTED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=INTERVIEW', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_SENT', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_SIGNED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=JOB_STARTED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=EXPIRED', title: 'admin-offers', expectedErrors:[400]},
+            {url: '/api/v1/admin/offers?status=xyz', title: 'admin-offers', expectedErrors:[400]},
+
+
             {sectionTitle: 'Invite'},
             {url: '/api/v1/admin/employers', title: 'admin-invite-employer',
               data: {company_name: 'Bob Corp ' + guid(), "email": email,
@@ -43,21 +60,8 @@
             {url: function(r, extr){return '/api/v1/admin/employers/'+extr.emplId+'/approve';},
               title: 'admin-approve-employer',
             },
-
             {url: '/api/v1/admin/employers/APPROVED', title: 'admin-employers-approved-2'},
-
             {url: '/api/v1/admin/employers/invalid', title: 'admin-employers-invalid', expectedErrors:[400]},
-
-            {sectionTitle: 'List Offers'},
-            {url: '/api/v1/admin/offers?status=ACTIVE', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=ACCEPTED', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=INTERVIEW', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_SENT', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_SIGNED', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=JOB_STARTED', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=EXPIRED', title: 'admin-offers', expectedErrors:[400]},
-            {url: '/api/v1/admin/offers?status=xyz', title: 'admin-offers', expectedErrors:[400]},
           ];
 
   $(function () {

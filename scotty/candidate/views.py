@@ -16,6 +16,7 @@ from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_r
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
+from sqlalchemy import or_, func
 from sqlalchemy.exc import IntegrityError
 import logging
 from sqlalchemy.orm import joinedload, joinedload_all
