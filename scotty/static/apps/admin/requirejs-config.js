@@ -27,6 +27,7 @@ requirejs.config({
     'ui.bootstrap': [ 'angular' ],
     'angular-router': [ 'angular' ],
     'angular-animate': [ 'angular' ],
+    'angular-sanitize': [ 'angular' ],
     'angularjs-toaster': [ 'angular-animate' ],
   }
 
