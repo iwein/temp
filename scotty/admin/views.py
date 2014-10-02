@@ -3,6 +3,7 @@ from datetime import datetime
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 from pyramid.view import view_config
 from scotty import DBSession
+from scotty.candidate.models import Candidate
 from scotty.employer.models import Employer
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
