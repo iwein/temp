@@ -2,8 +2,9 @@
   class="component-candidate-signup-user"
   ng-submit="signupUser.submit()">
 
-  <h3>Sign up - User data</h3>
+  <h3>Signup for free</h3>
 
+  <div class="form-group required">
   <div class="form-group">
     <button type="button" ng-show="!linkedin.isConnected" ng-click="linkedin.connect()">
       Connect with linked in
@@ -13,7 +14,7 @@
     </button>
   </div>
 
-  <div class="form-group">
+  <div class="form-group required">
     <label class="required">First Name</label>
     <input type="text"
       class="form-control"
@@ -29,7 +30,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group required">
     <label class="required">Last Name</label>
     <input type="text"
       class="form-control"
@@ -45,7 +46,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group required">
     <label class="required">Email</label>
     <input type="email"
       class="form-control"
@@ -69,12 +70,11 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group required">
     <label class="required">Password</label>
     <input type="password"
       class="form-control"
       name="password"
-      placeholder="Password"
       required
       ng-minlength="8"
       ng-disabled="loading"

@@ -34,6 +34,12 @@ def includeme(config):
     SETTINGS.update({'apikey': settings['linkedin.apikey'], 'apisecret': settings['linkedin.apisecret']})
 
 
+@view_config(context=SocialNetworkException)
+def soc_error(exc, request):
+    return Response(json.dumps({'db_message': exc.detail}), status_code=403,
+                    headers=[('Content-Type', 'application/json')])
+
+
 class SocialResource(object):
     def __init__(self, request):
         self.request = request
@@ -91,12 +97,6 @@ def callback_view(context, request):
     raise HTTPFound(location=result.get_redirection(request))
 
 
-@view_config(context=SocialNetworkException)
-def soc_error(exc, request):
-    return Response(json.dumps({'db_message': exc.detail}), status_code=403,
-                    headers=[('Content-Type', 'application/json')])
-
-
 def view_my_profile(ctxt, request):
     if 'accessToken' not in request.session.get('linkedin', {}):
         raise HTTPForbidden("Not Connected Yet")
@@ -133,7 +133,6 @@ def view_my_positions(context, request):
                     'role': p.get('title'),
                     'company': p.get('company', {}).get('name'),
                     'summary': p.get('summary')})
-
             return experiences
 
 def view_my_education(context, request):
@@ -146,7 +145,7 @@ def view_my_education(context, request):
                                headers={'x-li-format': 'json'})
         exp = results.json()
         if results.status_code != 200:
-            raise HTTPForbidden("Some Error from Linkedin, %s:%s" %(results.status_code, results.text))
+            raise HTTPForbidden("Some Error from Linkedin, %s:%s" % (results.status_code, results.text))
         elif exp.get('_total', 0) <= 0:
             return []
         else:
@@ -158,5 +157,4 @@ def view_my_education(context, request):
                     'course': p.get('fieldOfStudy'),
                     'start': p.get('startDate', {}).get('year'),
                     'end': p.get('endDate', {}).get('year')})
-
             return education

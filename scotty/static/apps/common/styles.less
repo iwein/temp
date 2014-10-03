@@ -21,21 +21,12 @@ dt {
 }
 
 .form-group {
-  &.required label:nth-child(1),
-  label.required {
-    &:after {
-      content: ' *';
-      color: red;
-    }
-  }
-
   label.form-label {
     display: block;
     font-weight: normal;
   }
-
   .form-control ~ .form-control {
-    margin-top: 10px;
+    margin-left: 10px;
   }
 }
 
@@ -101,4 +92,16 @@ input::-webkit-inner-spin-button {
   .avatar();
   max-width: 50px;
   max-height: 50px;
+}
+
+.form-group > label {font-weight: normal;}
+
+.form-control::-moz-placeholder           { font-style: italic; color: lighten(@input-color-placeholder, 5%); opacity: 1; } // See https://github.com/twbs/bootstrap/pull/11526
+.form-control:-ms-input-placeholder       { font-style: italic; color: lighten(@input-color-placeholder, 5%);} // Internet Explorer 10+
+.form-control::-webkit-input-placeholder  { font-style: italic; color: lighten(@input-color-placeholder, 5%);} // Safari and Chrome
+.form-group.required {
+  > label {font-weight: bold;}
+  .form-control::-moz-placeholder           { font-style: normal; color: darken(@input-color-placeholder, 10%); opacity: 1; } // See https://github.com/twbs/bootstrap/pull/11526
+  .form-control:-ms-input-placeholder       { font-style: normal; color: darken(@input-color-placeholder, 10%); } // Internet Explorer 10+
+  .form-control::-webkit-input-placeholder  { font-style: normal; color: darken(@input-color-placeholder, 10%);  } // Safari and Chrome
 }

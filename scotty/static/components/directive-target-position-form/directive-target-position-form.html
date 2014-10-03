@@ -4,7 +4,6 @@
     <label>Role</label>
     <input type="text"
       class="form-control"
-      placeholder="Role"
       name="role"
       required
       ng-disabled="loading"
@@ -17,7 +16,7 @@
   </div>
 
   <div class="form-group required">
-    <label>Skills</label>
+    <label>Technologies & Skills you want to work with</label>
     <hc-label-typeahead
       name="skill"
       placeholder="Type a skill..."
@@ -30,7 +29,7 @@
   </div>
 
   <div class="form-group required">
-    <label>Company Type</label>
+    <label>In which type of company do you prefer to work?</label>
 
     <label class="form-label" ng-repeat="type in companyTypes">
       <input type="checkbox"
@@ -47,12 +46,11 @@
   </div>
 
   <div class="form-group required">
-    <label>Minimum salary</label>
+    <label>What is your minimum annual salary expectation</label>
     <div class="input-group">
       <span class="input-group-addon">€</span>
       <input type="dotted-integer"
         class="form-control"
-        placeholder="Minimum salary",
         name="salary"
         required
         ng-disabled="loading"
