@@ -41,7 +41,10 @@ define(function(require) {
 
     function nextImported() {
       $scope.importForm.reset();
-      $scope.importForm.setModel(experience[current]);
+      if (current < experience.length)
+        $scope.importForm.setModel(experience[current]);
+      else
+        $scope.importing = false;
     }
 
     function importLinkedin() {

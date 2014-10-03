@@ -47,7 +47,7 @@ define(function(require) {
 
         function setModel(model) {
           model = JSON.parse(JSON.stringify(model));
-          $scope.editing = true;
+          $scope.editing = !!model.id;
           $scope.model = model;
           $scope.current = model.start && !model.end;
           $scope.not_completed_degree = model.start && !model.degree;
