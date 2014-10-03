@@ -64,7 +64,7 @@ define(function() {
     },
 
     refresh: function() {
-      this._api.get(this._baseUrl).then(this._setData);
+      this._api.get(this._url()).then(this._setData);
     },
 
     getData: function() {
@@ -123,13 +123,17 @@ define(function() {
       return this._api.when(this.getNextStatus()).then(function(valid) {
         if (!valid)
           throw new Error('Status ' + this.data.status + ' hasn\'t next step');
-        return this._api.post('/admin/offers/' + this.id + '/status', { status: valid })
+        return this._api.post(this._url() + '/status', { status: valid })
           .then(this._updateStatus);
       }.bind(this));
     },
 
+    getNextStatus: function() {
+      return validStatus[this.data.status][0] || null;
+    },
+
     getNextStatusText: function() {
-      return stateText[validStatus[this.data.status][0]] || null;
+      return stateText[this.getNextStatus()] || null;
     },
 
     dispose: function() {
