@@ -10,7 +10,7 @@ from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException,
 
 
 log = logging.getLogger(__name__)
-SETTINGS = {}
+SETTINGS = {'network': 'linkedin', 'default_picture': "//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"}
 
 
 def includeme(config):
@@ -23,8 +23,9 @@ def includeme(config):
     config.add_route("api_connect_linkedin_me", pattern="linkedin/me", factory=SocialResource)
     config.add_view(view_my_profile, route_name="api_connect_linkedin_me")
 
-    SETTINGS.update({'apikey': '77mfukgnlfygi6', 'apisecret': 'ImMqEjI0PmNc6uCB', 'network': 'linkedin',
-                     'default_picture': "//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"})
+    settings = config.registry.settings
+
+    SETTINGS.update({'apikey': settings['linkedin.apikey'], 'apisecret': settings['linkedin.apisecret']})
 
 
 class SocialResource(object):
