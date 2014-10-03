@@ -27,7 +27,12 @@
         <dd>{{ entry.summary }}</dd>
         <dd ng-if="hcEditable">
           <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
-          <button type="button" class="btn btn-default" ng-click="remove(entry)">Remove</button>
+          <button type="button"
+            class="btn btn-default"
+            ng-hide="model.length === 1 && !hcRemoveLast"
+            ng-click="remove(entry)">
+            Remove
+          </button>
         <dd>
       </dl>
     </li>

@@ -1,12 +1,17 @@
 <div class="component-candidate-signup-education" ng-show="ready">
   <h3>Sign up - Education</h3>
 
-
   <div class="form-group">
-    <button type="button" ng-show="!linkedin.isConnected" ng-click="linkedin.connect()">
+    <button type="button"
+      ng-show="!linkedin.isConnected"
+      ng-disabled="loading"
+      ng-click="linkedin.connect()">
       Connect with linked in
     </button>
-    <button type="button" ng-show="linkedin.isConnected" ng-click="importLinkedin()">
+    <button type="button"
+      ng-show="linkedin.isConnected"
+      ng-disabled="loading"
+      ng-click="importLinkedin()">
       Import data from linked in
     </button>
   </div>
@@ -62,7 +67,8 @@
     hc-source="session.user.getEducation()"
     hc-source-remove="session.user.deleteEducation($entry)"
     on-edit="signupEducation.edit($entry)"
-    hc-editable="true">
+    hc-editable="true"
+    hc-remove-last="true">
   </hc-education>
 
 </div>
