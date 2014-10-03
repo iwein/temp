@@ -25,7 +25,8 @@ requires = [
     'beaker', 'pyramid_beaker',
 
     'psycopg2',
-    'mandrill'
+    'mandrill',
+    'httplib2==0.9'
     ]
 
 setup(name='scotty',

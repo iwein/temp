@@ -1,0 +1,26 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">Admin</%def>
+<%def name="scripts()">
+<script>
+  $(function(){
+    $("#nav").append('<a href="/api/v1/connect/linkedin?furl='+ window.location.href +'">Connect with Linkedin</a>')
+  });
+</script>
+</%def>
+
+<%def name="tests()">
+<script>
+  var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+          tests = [
+
+            {sectionTitle: 'Search'},
+            {url: '/api/v1/connect/linkedin/me', title: 'linkedin-my-base-data'},
+          ];
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>
