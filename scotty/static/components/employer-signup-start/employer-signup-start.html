@@ -8,7 +8,6 @@
     <label>Company name</label>
     <input type="text"
       class="form-control"
-      placeholder="Company name"
       name="companyName"
       required
       ng-disabled="loading || invited"
@@ -49,7 +48,7 @@
       ng-disabled="loading || invited"
       ng-model="model.contact_salutation"
       ng-options="salutation for salutation in salutations">
-      <option value="">Salutation...</option>
+      <option value="">Please select...</option>
     </select>
 
     <div class="form-error" ng-show="formSignupStart.salutation.$dirty && formSignupStart.salutation.$invalid">
@@ -62,7 +61,6 @@
 
     <input type="text"
       class="form-control"
-      placeholder="First name"
       name="contact_first_name"
       required
       ng-disabled="loading || invited"
@@ -80,7 +78,6 @@
 
     <input type="text"
       class="form-control"
-      placeholder="Last name"
       name="contact_last_name"
       required
       ng-disabled="loading || invited"
@@ -97,7 +94,6 @@
     <label>Email</label>
     <input type="email"
       class="form-control"
-      placeholder="Email"
       name="email"
       required
       ng-disabled="loading || invited"
@@ -123,7 +119,6 @@
     <input type="password"
       class="form-control"
       name="password"
-      placeholder="Password"
       required
       ng-minlength="8"
       ng-disabled="loading"
