@@ -57,7 +57,7 @@
           <dt>email</dt>
           <dd>{{ user.email }}</dd>
           <dt>Availabilty</dt>
-          <dd>{{ user.available_date || (user.available_months + ' months') }}</dd>
+          <dd>{{ user.availability }}</dd>
           <dt ng-if="user.contact_skype">Skype</dt>
           <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
           <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
