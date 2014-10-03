@@ -17,4 +17,8 @@ def includeme(config):
 
     config.add_route('employer_offers', '{employer_id}/offers')
     config.add_route('employer_offer', '{employer_id}/offers/{offer_id}')
+
+    config.add_route('employer_offer_signed', '{employer_id}/offers/{offer_id}/signed')
+    config.add_route('employer_offer_withdraw', '{employer_id}/offers/{offer_id}/withdraw')
+    config.add_route('employer_offer_status', '{employer_id}/offers/{offer_id}/status')
     config.scan()

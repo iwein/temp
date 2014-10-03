@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -13,6 +13,8 @@ from scotty.candidate.services import candidate_from_signup, candidate_from_logi
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
+from scotty.offer.models import InvalidStatusError
+from scotty.offer.services import set_offer_singed
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -163,7 +165,7 @@ class CandidateController(RootController):
 class CandidateEducationController(CandidateController):
     @view_config(route_name='candidate_educations', **GET)
     def list(self):
-        return self.candidate.education
+        return self.candidate.education.order_by(Education.start.desc())
 
     @view_config(route_name='candidate_educations', **POST)
     def create(self):
@@ -182,7 +184,7 @@ class CandidateEducationController(CandidateController):
 class CandidateWorkExperienceController(CandidateController):
     @view_config(route_name='candidate_work_experiences', **GET)
     def list(self):
-        return self.candidate.work_experience
+        return self.candidate.work_experience.order_by(WorkExperience.start.desc())
 
     @view_config(route_name='candidate_work_experiences', **POST)
     def create(self):
@@ -269,6 +271,8 @@ class CandidateOfferController(CandidateController):
     def get(self):
         return self.offer
 
+    # ================== OFFER STATUS ===============
+
     @view_config(route_name='candidate_offer_accept', **POST)
     def accept(self):
         offer = self.offer
@@ -282,27 +286,13 @@ class CandidateOfferController(CandidateController):
             company_name=offer.employer.company_name,
             offer_id=offer.id,
             candidate_id=self.candidate.id)
-        DBSession.flush()
-        return offer
-
-    @view_config(route_name='candidate_offer_hired', **POST)
-    def hired(self):
-        offer = self.offer
-        offer.hired()
-        DBSession.flush()
-        self.request.emailer.send_admin_candidate_hired_email(
-            candidate_name=self.candidate.full_name,
-            contact_name=offer.employer.contact_name,
-            company_name=offer.employer.company_name,
-            offer_id=offer.id)
-        DBSession.flush()
         return offer
 
     @view_config(route_name='candidate_offer_reject', **POST)
     def reject(self):
         offer = self.offer
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
-        offer.reject(reason, self.request.json.get('rejected_text'))
+        offer.set_rejected(reason, self.request.json.get('rejected_text'))
         DBSession.flush()
 
         if self.request.json.get('blacklist'):
@@ -320,6 +310,26 @@ class CandidateOfferController(CandidateController):
             company_name=offer.employer.company_name,
             offer_id=offer.id,
             candidate_id=self.candidate.id)
+        return offer
+
+    @view_config(route_name='candidate_offer_status', **POST)
+    def set_status(self):
+        try:
+            self.offer.set_status(self.request.json['status'])
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        return self.offer
+
+    @view_config(route_name='candidate_offer_signed', **POST)
+    def contract_signed(self):
+        offer = set_offer_singed(self.offer, self.request.json)
+        DBSession.flush()
+
+        self.request.emailer.send_admin_candidate_hired_email(
+            candidate_name=self.candidate.full_name,
+            contact_name=offer.employer.contact_name,
+            company_name=offer.employer.company_name,
+            offer_id=offer.id)
         return offer
 
 

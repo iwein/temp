@@ -1,8 +1,10 @@
 from datetime import datetime
 
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
+
 from pyramid.view import view_config
-from scotty import DBSession
+from scotty.models.meta import DBSession
+from scotty.models.tools import json_encoder
 from scotty.candidate.models import Candidate
 from scotty.employer.models import Employer
 from scotty.models import FullEmployer
@@ -22,12 +24,15 @@ class SearchResultCandidate(Candidate):
         result['status'] = self.status
         return result
 
+
 class SearchResultEmployer(Employer):
     def __json__(self, request):
-        result = super(SearchResultEmployer, self).__json__(request)
+        result = json_encoder(self, request)
+        result['contact_salutation'] = self.contact_salutation
+        result['company_type'] = self.company_type
+        result['status'] = self.status
         result['email'] = self.email
         return result
-
 
 
 class AdminController(RootController):
@@ -121,6 +126,6 @@ class AdminController(RootController):
     def admin_search_employer(self):
         q = self.request.params['q'].lower()
         base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.contact_first_name).startswith(q),
-                                                              func.lower(Employer.contact_last_name).startswith(q),
-                                                              func.lower(Employer.email).startswith(q)))
+                                                                      func.lower(Employer.contact_last_name).startswith(q),
+                                                                      func.lower(Employer.email).startswith(q)))
         return run_paginated_query(self.request, base_query)
