@@ -1,8 +1,11 @@
 from datetime import datetime
+from pyramid.decorator import reify
 
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 
 from pyramid.view import view_config
+from scotty.configuration.models import WithdrawalReason, RejectionReason
+from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
 from scotty.models.tools import json_encoder
 from scotty.candidate.models import Candidate
@@ -10,6 +13,7 @@ from scotty.employer.models import Employer
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
+from scotty.offer.services import set_offer_signed
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func, or_
@@ -71,49 +75,6 @@ class AdminController(RootController):
         employer.approved = datetime.now()
         return employer
 
-    @view_config(route_name='admin_offers', **GET)
-    def admin_offers(self):
-        query = DBSession.query(FullOffer)
-
-        status = self.request.params.get('status')
-        if status:
-            try:
-                query = query.filter(FullOffer.by_status(status)).order_by(FullOffer.order_by(status))
-            except InvalidStatusError, e:
-                raise HTTPBadRequest(e.message)
-        else:
-            query = query.order_by(FullOffer.created.desc())
-
-        return run_paginated_query(self.request, query)
-
-    @view_config(route_name='admin_offer', **GET)
-    def admin_offer(self):
-        guid = self.request.matchdict['id']
-        offer = DBSession.query(FullOffer).get(guid)
-        if not offer:
-            raise HTTPNotFound("Offer not found")
-        return offer
-
-    @view_config(route_name='admin_offer_status', **POST)
-    def admin_set_offer_state(self):
-        guid = self.request.matchdict['id']
-        offer = DBSession.query(FullOffer).get(guid)
-        if not offer:
-            raise HTTPNotFound("Offer not found")
-        try:
-            offer.set_status(self.request.json['status'])
-        except InvalidStatusError, e:
-            raise HTTPBadRequest(e.message)
-        return offer.full_status_flow
-
-    @view_config(route_name='admin_offer_status', **GET)
-    def admin_get_offer_state(self):
-        guid = self.request.matchdict['id']
-        offer = DBSession.query(FullOffer).get(guid)
-        if not offer:
-            raise HTTPNotFound("Offer not found")
-        return offer.full_status_flow
-
     @view_config(route_name="admin_search_candidates", **GET)
     def admin_search_candidates(self):
         q = self.request.params['q'].lower()
@@ -129,3 +90,80 @@ class AdminController(RootController):
                                                                       func.lower(Employer.contact_last_name).startswith(q),
                                                                       func.lower(Employer.email).startswith(q)))
         return run_paginated_query(self.request, base_query)
+
+class AdminOfferController(RootController):
+    @reify
+    def offer(self):
+        guid = self.request.matchdict['id']
+        offer = DBSession.query(FullOffer).get(guid)
+        if not offer:
+            raise HTTPNotFound("Offer not found")
+        return offer
+
+    @view_config(route_name='admin_offers', **GET)
+    def admin_offers(self):
+        query = DBSession.query(FullOffer)
+        status = self.request.params.get('status')
+        if status:
+            try:
+                query = query.filter(FullOffer.by_status(status)).order_by(FullOffer.order_by(status))
+            except InvalidStatusError, e:
+                raise HTTPBadRequest(e.message)
+        else:
+            query = query.order_by(FullOffer.created.desc())
+
+        return run_paginated_query(self.request, query)
+
+    @view_config(route_name='admin_offer', **GET)
+    def admin_offer(self):
+        return self.offer
+
+    @view_config(route_name='admin_offer_status', **POST)
+    def admin_set_offer_status(self):
+        try:
+            self.offer.set_status(self.request.json['status'])
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        return self.offer.full_status_flow
+
+    @view_config(route_name='admin_offer_status', **GET)
+    def admin_get_offer_status(self):
+        return self.offer.full_status_flow
+
+    @view_config(route_name='admin_offer_signed', **POST)
+    def contract_signed(self):
+        try:
+            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        DBSession.flush()
+        return offer.full_status_flow
+
+    @view_config(route_name='admin_offer_withdraw', **POST)
+    def withdraw(self):
+        reason = get_by_name_or_raise(WithdrawalReason, self.request.json['reason'])
+        try:
+            self.offer.set_withdrawn(reason, self.request.json.get('withdrawal_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        DBSession.flush()
+        return self.offer.full_status_flow
+
+    @view_config(route_name='admin_offer_accept', **POST)
+    def accept(self):
+        try:
+            self.offer.accept()
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        DBSession.flush()
+        return self.offer.full_status_flow
+
+    @view_config(route_name='admin_offer_reject', **POST)
+    def reject(self):
+        reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
+        try:
+            self.offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        DBSession.flush()
+        return self.offer.full_status_flow

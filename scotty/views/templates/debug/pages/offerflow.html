@@ -134,8 +134,18 @@
             {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer2Id+'/signed';},
               method: "POST", data:{'start_date':(new Date().toISOString()), 'start_salary':199999}, title: 'candidate-signed'},
 
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set-status',
-              data: {'status': 'REJECTED'}},
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/reject';}, title: 'admin-offer-reject',
+              data: {reason: 'Other', 'rejected_text': 'Candidate said: he no like'}, expectedErrors: [400]
+            },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/accept';}, title: 'admin-offer-accept',
+              data: {}, expectedErrors: [400]
+            },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw';}, title: 'admin-offer-withdraw',
+              data: {reason: 'Other', 'withdrawal_text': 'Employer said: he no like'}, expectedErrors: [400]
+            },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/signed';}, title: 'admin-offer-signed',
+              data: {start_date: '2014-12-31', 'start_salary': 240000}, expectedErrors: [400]
+            },
 
             {'sectionTitle': 'Withdrawal'},
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer', method:'POST',

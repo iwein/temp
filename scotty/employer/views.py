@@ -12,7 +12,7 @@ from scotty.employer.services import employer_from_signup, employer_from_login, 
     update_employer, get_employer_suggested_candidate_ids, add_employer_offer, search_employers
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
-from scotty.offer.services import set_offer_singed
+from scotty.offer.services import set_offer_signed
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
@@ -224,17 +224,23 @@ class EmployerOfferController(EmployerController):
 
     @view_config(route_name='employer_offer_signed', **POST)
     def contract_signed(self):
-        offer = set_offer_singed(self.offer, self.request.json)
+        try:
+            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='employer_offer_withdraw', **POST)
     def withdraw(self):
         offer = self.offer
         reason = get_by_name_or_raise(WithdrawalReason, self.request.json['reason'])
-        offer.set_withdrawn(reason, self.request.json.get('rejected_text'))
+        try:
+            offer.set_withdrawn(reason, self.request.json.get('withdrawal_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='employer_offer_status', **POST)
     def set_status(self):
@@ -242,7 +248,7 @@ class EmployerOfferController(EmployerController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
-        return self.offer
+        return self.offer.full_status_flow
 
 class EmployerPasswordController(RootController):
 

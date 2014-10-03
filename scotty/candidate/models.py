@@ -4,8 +4,8 @@ from datetime import datetime
 from scotty.models.tools import json_encoder, PUBLIC, PRIVATE
 
 from scotty.offer.models import CandidateOffer
-from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, \
-    Company, Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness, Salutation
+from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
+    Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness, Salutation
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 from scotty.models.meta import Base, NamedModel, GUID
@@ -149,10 +149,10 @@ candidate_employer_blacklist = Table('candidate_employer_blacklist', Base.metada
 
 class PreferredLocation(Base):
     __tablename__ = 'candidate_preferred_location'
-    __table_args__ = (UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique'),
-                      UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
-                      CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL',
-                                      name='candidate_preferred_location_has_some_fk'), )
+    __table_args__ = (
+        UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique'),
+        UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
+        CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL', name='candidate_preferred_location_has_some_fk'), )
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey('candidate.id'))
     country_iso = Column(String(2), ForeignKey(Country.iso), nullable=True)
@@ -165,10 +165,9 @@ class PreferredLocation(Base):
 
 class Candidate(Base):
     __tablename__ = 'candidate'
-    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1', 'contact_line2',
-                    'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso', 'contact_phone',
-                    'availability', 'summary', 'github_url',
-                    'stackoverflow_url', 'contact_skype']
+    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1',
+                    'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso',
+                    'contact_phone', 'availability', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -213,13 +212,16 @@ class Candidate(Base):
     status = relationship(CandidateStatus)
 
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
-    education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan")
+    education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan",
+                             order_by=Education.start.desc())
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
 
     preferred_locations = relationship(PreferredLocation)
 
-    work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan")
-    target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan")
+    work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan",
+                                   order_by=WorkExperience.start.desc())
+    target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan",
+                                    order_by=TargetPosition.created.desc())
 
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 
@@ -228,8 +230,7 @@ class Candidate(Base):
                                         backref="interested_candidates")
 
     blacklisted_employers = relationship("Employer", secondary=candidate_employer_blacklist,
-                                         order_by=candidate_employer_blacklist.c.created.desc(),
-                                         backref="blacklisted")
+                                         order_by=candidate_employer_blacklist.c.created.desc(), backref="blacklisted")
 
     @property
     def full_name(self):
@@ -280,6 +281,7 @@ class WXPCandidate(Candidate):
 
 class MatchedCandidate(WXPCandidate):
     matched_tags = None
+
     def __json__(self, request):
         result = super(MatchedCandidate, self).__json__(request)
         result['matched_tags'] = self.matched_tags
