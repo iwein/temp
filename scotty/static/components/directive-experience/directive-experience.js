@@ -16,6 +16,7 @@ define(function(require) {
         hcSourceRemove: '&',
         hcEditable: '=',
         hcShowEmpty: '=',
+        hcRemoveLast: '=',
       },
       template: require('text!./directive-experience.html'),
       controller: function($scope, $attrs) {

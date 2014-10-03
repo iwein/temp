@@ -2,10 +2,16 @@
   <h3>Education</h3>
 
   <div class="form-group">
-    <button type="button" ng-show="!linkedin.isConnected" ng-click="linkedin.connect()">
+    <button type="button"
+      ng-show="!linkedin.isConnected"
+      ng-disabled="loading"
+      ng-click="linkedin.connect()">
       Connect with linked in
     </button>
-    <button type="button" ng-show="linkedin.isConnected" ng-click="importLinkedin()">
+    <button type="button"
+      ng-show="linkedin.isConnected"
+      ng-disabled="loading"
+      ng-click="importLinkedin()">
       Import data from linked in
     </button>
   </div>
@@ -13,11 +19,12 @@
   <hc-education-form
     ng-show="importing"
     name="importForm"
-    on-submit="signupEducation.submit(importForm)">
+    hc-disabled="loading"
+    on-submit="saveImported()">
 
-    <button type="cancel"
+    <button type="button"
       class="btn btn-primary"
-      ng-click="ignore()"
+      ng-click="skipImported()"
       ng-disabled="loading">
       Skip
     </button>
@@ -61,7 +68,8 @@
     hc-source="session.user.getEducation()"
     hc-source-remove="session.user.deleteEducation($entry)"
     on-edit="signupEducation.edit($entry)"
-    hc-editable="true">
+    hc-editable="true"
+    hc-remove-last="true">
   </hc-education>
 
 </div>

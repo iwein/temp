@@ -57,7 +57,7 @@ define(function(require) {
 
         function setModel(model) {
           model = JSON.parse(JSON.stringify(model));
-          $scope.editing = model.id;
+          $scope.editing = !!model.id;
           $scope.model = model;
 
           if (model.start) {

@@ -6,16 +6,57 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateSignupEducationCtrl', function($scope, Session) {
+    $scope.importLinkedin = importLinkedin;
+    $scope.saveImported = saveImported;
+    $scope.skipImported = skipImported;
     $scope.setAddAnother = setAddAnother;
     $scope.model = {};
     $scope.ready = false;
     this.nextStep = nextStep;
     this.submit = submit;
     this.edit = edit;
+    var linkedin = Session.getLinkedIn();
+    var current, education;
 
     Session.checkSession().finally(function() {
       $scope.ready = true;
     });
+
+    function saveImported() {
+      $scope.loading = true;
+      $scope.importForm.save()
+        .then(skipImported)
+        .then(function() {
+          $scope.list.refresh();
+        })
+        .finally(function() {
+          $scope.loading = false;
+        });
+    }
+
+    function skipImported() {
+      current++;
+      nextImported();
+    }
+
+    function nextImported() {
+      $scope.importForm.reset();
+      if (current < education.length)
+        $scope.importForm.setModel(education[current]);
+      else
+        $scope.importing = false;
+    }
+
+    function importLinkedin() {
+      $scope.loading = true;
+      linkedin.getEducation().then(function(_education) {
+        $scope.loading = false;
+        $scope.importing = true;
+        education = _education;
+        current = 0;
+        nextImported();
+      });
+    }
 
     function setAddAnother(value) {
       $scope.addAnother = value;
