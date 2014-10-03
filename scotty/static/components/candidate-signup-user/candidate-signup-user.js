@@ -7,9 +7,20 @@ define(function(require) {
   module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
+    $scope.importLinkedin = importLinkedin;
     $scope.loading = false;
     $scope.model = {};
     $scope.errorAlreadyRegistered = false;
+    var linkedin = Session.getLinkedIn();
+
+    function importLinkedin() {
+      linkedin.getData().then(function(data) {
+        var name = data.name.split(' ');
+        $scope.model.first_name = name.shift();
+        $scope.model.last_name = name.join(' ');
+        $scope.model.email = data.email;
+      });
+    }
 
     function onEmailChange() {
       $scope.errorAlreadyRegistered = false;
@@ -27,6 +38,7 @@ define(function(require) {
           Session.user.setPreferredLocations(locations),
         ]);
       }).then(function() {
+        localStorage.removeItem('scotty:target_position');
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409)

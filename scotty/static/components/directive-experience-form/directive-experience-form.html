@@ -1,4 +1,4 @@
-<form name="formExperience" ng-submit="onSubmit({ $model: model })">
+<form name="formExperience" ng-submit="submit()">
   <div class="form-group required">
     <label>Company Name</label>
     <input type="text"
@@ -8,7 +8,6 @@
            ng-disabled="loading"
            ng-model="model.company"
            typeahead="company for company in searchCompanies($viewValue)">
-
     <div class="form-error" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
       <span ng-show="formExperience.company.$error.required">
         Please insert the company name.
@@ -78,7 +77,6 @@
              ng-disabled="loading"
              ng-model="startYear"
              ng-change="startDateUpdate()">
-
       <!-- Separator -->
       <span>–</span>
 
@@ -146,12 +144,13 @@
     <label>Technologies &amp; Skills</label>
 
     <hc-label-typeahead
-            name="skills"
-            ng-disabled="loading"
-            ng-model="model.skills"
-            hc-source="searchSkills($viewValue)"
-            hc-error-message="Please choose at least one skill"
-            hc-allow-new>
+      name="skills"
+      placeholder="Technologies &amp; skills"
+      ng-disabled="hcDisabled"
+      ng-model="model.skills"
+      hc-source="searchSkills($viewValue)"
+      hc-error-message="Please choose at least one skill"
+      hc-allow-new>
     </hc-label-typeahead>
   </div>
 

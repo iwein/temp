@@ -9,6 +9,7 @@ define(function(require) {
     $scope.onSubmit = onSubmit;
 
     function onSubmit(model) {
+      localStorage.setItem('scotty:target_position', JSON.stringify(model));
       $scope.signup.target = _.omit(model, 'preferred_locations');
       $scope.signup.preferred_locations = model.preferred_locations;
 

@@ -1,10 +1,37 @@
-<div class="component-candidate-signup-education">
+<div class="component-candidate-signup-education" ng-show="ready">
   <h3>Education</h3>
 
+  <div class="form-group">
+    <button type="button" ng-show="!linkedin.isConnected" ng-click="linkedin.connect()">
+      Connect with linked in
+    </button>
+    <button type="button" ng-show="linkedin.isConnected" ng-click="importLinkedin()">
+      Import data from linked in
+    </button>
+  </div>
+
   <hc-education-form
-    ng-show="ready"
+    ng-show="importing"
+    name="importForm"
+    on-submit="signupEducation.submit(importForm)">
+
+    <button type="cancel"
+      class="btn btn-primary"
+      ng-click="ignore()"
+      ng-disabled="loading">
+      Skip
+    </button>
+    <button type="submit"
+      class="btn btn-primary"
+      ng-disabled="loading">
+      Save
+    </button>
+  </hc-education-form>
+
+  <hc-education-form
+    ng-show="!importing"
     name="form"
-    on-submit="signupEducation.submit()">
+    on-submit="signupEducation.submit(form)">
 
     <button type="submit"
       class="btn btn-primary"

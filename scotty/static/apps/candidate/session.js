@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('tools/api');
   var throttlePromise = require('./tools/throttle-promise');
+  var LinkedInConnector = require('apps/candidate/linked-in-connector');
   var Candidate = require('apps/common/candidate');
   var Employer = require('apps/common/employer');
 
@@ -112,6 +113,10 @@ define(function(require) {
       return this._api.get('/employers/' + id).then(function(data) {
         return new Employer(this._api, data.id, data);
       }.bind(this));
+    },
+
+    getLinkedIn: function() {
+      return new LinkedInConnector(this._api);
     },
   };
 
