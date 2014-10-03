@@ -101,22 +101,22 @@ define(function() {
 
     accept: function() {
       return this._api.post(this._url() + '/accept', {})
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     sign: function(params) {
       return this._api.post(this._url() + '/signed', params)
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     reject: function(params) {
       return this._api.post(this._url() + '/reject', params)
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     withdraw: function(params) {
       return this._api.post(this._url() + '/withdraw', params)
-        .then(this._setData);
+        .then(this._updateStatus);
     },
 
     nextStatus: function() {
