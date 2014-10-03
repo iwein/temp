@@ -16,7 +16,7 @@ define(function(require) {
       transclude: true,
       template: require('text!./directive-education-form.html'),
       controllerAs: 'educationCtrl',
-      controller: function($scope, $attrs, ConfigAPI, Session) {
+      controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.searchInstitutions = ConfigAPI.institutions;
         $scope.searchCourses = ConfigAPI.courses;
         $scope.searchDegrees = ConfigAPI.degrees;
@@ -31,11 +31,14 @@ define(function(require) {
 
         function save() {
           return Session.getUser().then(function(user) {
-            return user.addEducation($scope.model);
+            return $q.when($scope.editing ? user.deleteEducation($scope.model) : null).then(function() {
+              return user.addEducation($scope.model);
+            });
           });
         }
 
         function reset() {
+          $scope.editing = false;
           $scope.formEducation.$setPristine();
           $scope.model = {};
           $scope.current = false;
@@ -43,6 +46,8 @@ define(function(require) {
         }
 
         function setModel(model) {
+          model = JSON.parse(JSON.stringify(model));
+          $scope.editing = true;
           $scope.model = model;
           $scope.current = model.start && !model.end;
           $scope.not_completed_degree = model.start && !model.degree;

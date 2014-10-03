@@ -61,15 +61,21 @@ define(function(require) {
         }
 
         function save() {
-          var model = _.omit($scope.model, 'preferred_locations');
-          var preferred_locations = $scope.model.preferred_locations;
-          return $q.all([
-            Session.user.addTargetPosition(model),
-            Session.user.setPreferredLocations(preferred_locations),
-          ]);
+          return Session.getUser().then(function(user) {
+            var model = _.omit($scope.model, 'preferred_locations');
+            var preferred_locations = $scope.model.preferred_locations;
+
+            return $q.all([
+              user.setPreferredLocations(preferred_locations),
+              $q.when($scope.editing ? user.deleteTargetPosition(model) : null).then(function() {
+                return user.addTargetPosition(model);
+              }),
+            ]);
+          });
         }
 
         function reset() {
+          $scope.editing = false;
           $scope.model = {};
           $scope.country = '';
           $scope.dontCareLocation = false;
@@ -78,6 +84,8 @@ define(function(require) {
         }
 
         function setModel(model) {
+          model = JSON.parse(JSON.stringify(model));
+          $scope.editing = true;
           $scope.model = model;
           $scope.country = Object.keys(model.preferred_locations)[0];
           $scope.dontCareLocation = !model.preferred_locations[$scope.country].length;

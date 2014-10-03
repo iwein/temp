@@ -17,7 +17,7 @@ define(function(require) {
       transclude: true,
       template: require('text!./directive-experience-form.html'),
       controllerAs: 'experienceCtrl',
-      controller: function($scope, $attrs, ConfigAPI, Session) {
+      controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.searchCompanies = ConfigAPI.companies;
         $scope.searchSkills = ConfigAPI.skills;
         $scope.searchRoles = ConfigAPI.roles;
@@ -35,11 +35,14 @@ define(function(require) {
 
         function save() {
           return Session.getUser().then(function(user) {
-            return user.addExperience($scope.model);
+            return $q.when($scope.editing ? user.deleteExperience($scope.model) : null).then(function() {
+              return user.addExperience($scope.model);
+            });
           });
         }
 
         function reset() {
+          $scope.editing = false;
           $scope.formExperience.$setPristine();
           $scope.model = {};
           $scope.current = false;
@@ -50,7 +53,10 @@ define(function(require) {
         }
 
         function setModel(model) {
+          model = JSON.parse(JSON.stringify(model));
+          $scope.editing = true;
           $scope.model = model;
+
           if (model.start) {
             var start = new Date(model.start);
             $scope.startMonth = months[start.getMonth()];

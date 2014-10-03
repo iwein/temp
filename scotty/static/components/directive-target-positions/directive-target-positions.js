@@ -26,9 +26,7 @@ define(function(require) {
         list();
 
         function edit(entry) {
-          remove(entry).then(function() {
-            $scope.onEdit({ $entry: entry });
-          });
+          return $scope.onEdit({ $entry: entry });
         }
 
         function remove(entry) {
