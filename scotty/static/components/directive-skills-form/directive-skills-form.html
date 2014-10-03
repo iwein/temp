@@ -1,0 +1,61 @@
+<form name="formSkills" ng-submit="onSubmit({ $model: model })">
+
+  <div class="form-group required">
+    <label>Enter your technical skills:</label>
+  </div>
+
+  <div class="form-group" ng-repeat="entry in model">
+    <div class="form-inline">
+      <input type="text"
+        class="form-control"
+        name="skill{{ $index }}"
+        ng-disabled="hcDisabled"
+        ng-required="$first && !skills.length"
+        ng-model="entry.skill"
+        ng-blur="onBlur(entry, $index, $last)"
+        ng-change="onChange(entry, $index, $last)"
+        typeahead="skill for skill in searchSkills($viewValue)">
+
+      <select
+        class="form-control"
+        name="level{{ $index }}"
+        ng-disabled="hcDisabled"
+        ng-required="entry.skill"
+        ng-model="entry.level"
+        ng-options="level for level in levels">
+        <option value="">Select...</option>
+      </select>
+
+      <span class="close"
+        ng-if="!$last"
+        ng-click="remove($index)">
+        &times;
+      </span>
+
+      <!-- TODO: This doesn't work yet -->
+      <div class="form-error" ng-show="
+        formSkills['skill' + $index].$dirty &&
+        formSkills['skill' + $index].$invalid">
+        <span ng-show="formSkills['skill' + $index].$error.required">
+          Please insert the skill level.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Other skills</label>
+
+    <hc-label-typeahead
+      placeholder="Type a skill..."
+      ng-disabled="hcDisabled"
+      ng-model="skills"
+      hc-source="searchSkills($viewValue)"
+      hc-allow-new>
+    </hc-label-typeahead>
+  </div>
+
+  <div class="form-group">
+    <div ng-transclude></div>
+  </div>
+</form>

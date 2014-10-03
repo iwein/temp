@@ -53,9 +53,39 @@
       </div>
     </div>
 
+    <hc-skills-form
+      ng-show="isEditing && skillsForm.editing"
+      hc-scope="skillsForm"
+      name="form"
+      hc-disabled="loading"
+      on-submit="skillsForm.save()">
+
+      <button type="button"
+        class="btn btn-primary"
+        ng-click="skillsForm.cancel()"
+        ng-disabled="loading">
+        Cancel
+      </button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-disabled="loading">
+        Save
+      </button>
+    </hc-skills-form>
+
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Skills</h3>
+        <h3 class="panel-title">
+          Skills
+          <button type="submit"
+            class="btn btn-default pull-right"
+            ng-show="isEditing"
+            ng-disabled="loading"
+            ng-click="skillsForm.edit(skills)">
+            Edit
+          </button>
+          <div class="clearfix"></div>
+        </h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in skills">
@@ -67,9 +97,39 @@
       </ul>
     </div>
 
+    <hc-languages-form
+      ng-show="isEditing && languagesForm.editing"
+      hc-scope="languagesForm"
+      name="form"
+      hc-disabled="loading"
+      on-submit="languagesForm.save()">
+
+      <button type="button"
+        class="btn btn-primary"
+        ng-click="languagesForm.cancel()"
+        ng-disabled="loading">
+        Cancel
+      </button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-disabled="loading">
+        Save
+      </button>
+    </hc-languages-form>
+
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Languages</h3>
+        <h3 class="panel-title">
+          Languages
+          <button type="submit"
+            class="btn btn-default pull-right"
+            ng-show="isEditing"
+            ng-disabled="loading"
+            ng-click="languagesForm.edit(languages)">
+            Edit
+          </button>
+          <div class="clearfix"></div>
+        </h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in languages">
@@ -80,7 +140,9 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Preferred locations</h3>
+        <h3 class="panel-title">
+          Preferred locations
+        </h3>
       </div>
       <ul class="list-group" ng-repeat="(country_iso, cities) in cities">
         <li class="list-group-item" ng-repeat="city in cities">
@@ -151,7 +213,7 @@
         hc-show-empty="true">
 
         <button type="submit"
-          class="btn btn-primary pull-right"
+          class="btn btn-default pull-right"
           ng-show="isEditing"
           ng-disabled="loading"
           ng-click="experience.add()">
@@ -193,7 +255,7 @@
         hc-show-empty="true">
 
         <button type="submit"
-          class="btn btn-primary pull-right"
+          class="btn btn-default pull-right"
           ng-show="isEditing"
           ng-disabled="loading"
           ng-click="education.add()">

@@ -1,8 +1,13 @@
 define(function(require) {
   'use strict';
+  require('components/directive-target-position-form/directive-target-position-form');
   require('components/directive-target-positions/directive-target-positions');
+  require('components/directive-experience-form/directive-experience-form');
   require('components/directive-experience/directive-experience');
+  require('components/directive-education-form/directive-education-form');
   require('components/directive-education/directive-education');
+  require('components/directive-languages-form/directive-languages-form');
+  require('components/directive-skills-form/directive-skills-form');
   var _ = require('underscore');
   var module = require('app-module');
 
@@ -10,6 +15,7 @@ define(function(require) {
     this.edit = edit;
     this.stopEdit = stopEdit;
     $scope.ready = false;
+    $scope.loading = false;
     $scope.isEditing = false;
 
     function edit() {
@@ -33,7 +39,9 @@ define(function(require) {
           this.editing = false;
         },
         save: function() {
+          $scope.loading = true;
           return this.form.save().then(function() {
+            $scope.loading = false;
             this.editing = false;
           }.bind(this));
         }
@@ -61,6 +69,7 @@ define(function(require) {
 
     $scope.experience = listForm();
     $scope.education = listForm();
+
     $scope.targetPosition = (function() {
       var base = listForm();
       return _.extend(Object.create(base), {
@@ -71,19 +80,45 @@ define(function(require) {
       });
     })();
 
+    $scope.skillsForm = (function() {
+      var base = defaultForm();
+      return _.extend(Object.create(base), {
+        save: function() {
+          return base.save.call(this)
+            .then(getUserData)
+            .then(function(data) { $scope.skills = data.skills });
+        }
+      });
+    })();
+
+    $scope.languagesForm = (function() {
+      var base = defaultForm();
+      return _.extend(Object.create(base), {
+        save: function() {
+          return base.save.call(this)
+            .then(getUserData)
+            .then(function(data) { $scope.languages = data.languages });
+        }
+      });
+    })();
+
 
     //Permission.requireSignup().then(function() {
-    Permission.requireLogged().then(function() {
-      return Session.getUser();
-    }).then(function(user) {
-      return user.getData();
-    }).then(function(data) {
-      $scope.ready = true;
-      $scope.cities = data.preferred_location;
-      $scope.languages = data.languages;
-      $scope.skills = data.skills;
-      $scope.user = data;
-    });
+    Permission.requireLogged()
+      .then(getUserData)
+      .then(function(data) {
+        $scope.ready = true;
+        $scope.cities = data.preferred_location;
+        $scope.languages = data.languages;
+        $scope.skills = data.skills;
+        $scope.user = data;
+      });
+
+    function getUserData() {
+      return Session.getUser().then(function(user) {
+        return user.getData();
+      });
+    }
   });
 
 
