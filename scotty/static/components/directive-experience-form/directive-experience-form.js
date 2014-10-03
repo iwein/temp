@@ -13,6 +13,7 @@ define(function(require) {
         //model: '=ngModel',
         onSubmit: '&',
         hcShowEmpty: '=',
+        hcDisabled: '=',
       },
       transclude: true,
       template: require('text!./directive-experience-form.html'),
@@ -24,6 +25,7 @@ define(function(require) {
         $scope.model = $scope.model || {};
         $scope.months = months;
         $scope.loading = false;
+        $scope.submit = submit;
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
@@ -43,6 +45,7 @@ define(function(require) {
 
         function reset() {
           $scope.editing = false;
+          $scope.skills.setDirty(false);
           $scope.formExperience.$setPristine();
           $scope.model = {};
           $scope.current = false;
@@ -54,7 +57,7 @@ define(function(require) {
 
         function setModel(model) {
           model = JSON.parse(JSON.stringify(model));
-          $scope.editing = true;
+          $scope.editing = model.id;
           $scope.model = model;
 
           if (model.start) {
@@ -72,6 +75,10 @@ define(function(require) {
           } else {
             $scope.current = false;
           }
+        }
+
+        function submit() {
+          $scope.onSubmit({ $model: $scope.model });
         }
 
         function bindDate(key) {
