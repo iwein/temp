@@ -31,12 +31,12 @@ dt {
 }
 
 input[type='number'] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 .signup-form-mixin() {
@@ -104,4 +104,13 @@ input::-webkit-inner-spin-button {
   .form-control::-moz-placeholder           { font-style: normal; color: darken(@input-color-placeholder, 10%); opacity: 1; } // See https://github.com/twbs/bootstrap/pull/11526
   .form-control:-ms-input-placeholder       { font-style: normal; color: darken(@input-color-placeholder, 10%); } // Internet Explorer 10+
   .form-control::-webkit-input-placeholder  { font-style: normal; color: darken(@input-color-placeholder, 10%);  } // Safari and Chrome
+}
+
+.panel-middle-title {
+  padding: 0 @panel-body-padding;
+  border-bottom: 1px solid #ddd;
+  padding-top: 15px;
+  font-weight: bold;
+  margin: 20px -@panel-body-padding;
+  font-size: 15px;
 }
