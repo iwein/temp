@@ -57,7 +57,6 @@ def includeme(config):
     config.include("scotty.candidate", route_prefix='/api/v1/candidates')
     config.include("scotty.employer", route_prefix='/api/v1/employers')
     config.include("scotty.admin", route_prefix='/api/v1/admin')
-
     config.include("scotty.connect.linkedin", route_prefix='/api/v1/connect')
 
 
