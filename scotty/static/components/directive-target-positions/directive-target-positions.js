@@ -7,6 +7,7 @@ define(function(require) {
   module.directive('hcTargetPositions', function() {
     return {
       restrict: 'EA',
+      transclude: true,
       scope: {
         hcTitle: '@',
         onEdit: '&',

@@ -7,6 +7,7 @@ define(function(require) {
   module.directive('hcExperience', function() {
     return {
       restrict: 'EA',
+      transclude: true,
       scope: {
         hcTitle: '@',
         onEdit: '&',

@@ -1,6 +1,10 @@
 <div class="panel panel-default" ng-show="model.length || hcShowEmpty">
   <div ng-if="hcTitle" class="panel-heading">
-    <h3 class="panel-title">{{ hcTitle }}</h3>
+    <h3 class="panel-title">
+      {{ hcTitle }}
+      <span ng-transclude></span>
+      <div class="clearfix"></div>
+    </h3>
   </div>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="entry in model">

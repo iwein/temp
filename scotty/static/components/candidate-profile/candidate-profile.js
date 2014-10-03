@@ -44,6 +44,9 @@ define(function(require) {
       var base = defaultForm();
       return _.extend(Object.create(base), {
         list: null,
+        add: function() {
+          this.editing = true;
+        },
         cancel: function() {
           base.cancel.call(this);
           return this.list.refresh();

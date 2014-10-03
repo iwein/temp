@@ -149,6 +149,14 @@
         hc-source-remove="session.user.deleteExperience($entry)"
         on-edit="experience.edit($entry)"
         hc-show-empty="true">
+
+        <button type="submit"
+          class="btn btn-primary pull-right"
+          ng-show="isEditing"
+          ng-disabled="loading"
+          ng-click="experience.add()">
+          Add
+        </button>
       </hc-experience>
 
       <!-- END EXPERIENCE -->
@@ -183,6 +191,14 @@
         on-edit="education.edit($entry)"
         hc-editable="isEditing && !education.editing"
         hc-show-empty="true">
+
+        <button type="submit"
+          class="btn btn-primary pull-right"
+          ng-show="isEditing"
+          ng-disabled="loading"
+          ng-click="education.add()">
+          Add
+        </button>
       </hc-education>
 
       <!-- END EDUCATION -->
