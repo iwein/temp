@@ -7,6 +7,7 @@ define(function(require) {
   require('components/directive-education-form/directive-education-form');
   require('components/directive-education/directive-education');
   require('components/directive-languages-form/directive-languages-form');
+  require('components/directive-profile-form/directive-profile-form');
   require('components/directive-skills-form/directive-skills-form');
   var _ = require('underscore');
   var module = require('app-module');
@@ -98,6 +99,27 @@ define(function(require) {
           return base.save.call(this)
             .then(getUserData)
             .then(function(data) { $scope.languages = data.languages });
+        }
+      });
+    })();
+
+    $scope.profileForm = (function() {
+      var base = defaultForm();
+      return _.extend(Object.create(base), {
+        edit: function(model) {
+          return base.edit.call(this, _.omit(model, [
+            'skills',
+            'languages',
+            'preferred_location',
+            'work_experience',
+            'activation_token',
+            'status',
+          ]));
+        },
+        save: function() {
+          return base.save.call(this)
+            .then(getUserData)
+            .then(function(data) { $scope.user = data });
         }
       });
     })();

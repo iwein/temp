@@ -17,7 +17,7 @@ define(function(require) {
       transclude: true,
       template: require('text!./directive-languages-form.html'),
       controllerAs: 'skillsCtrl',
-      controller: function($scope, $attrs, $q, ConfigAPI, Session) {
+      controller: function($scope, $attrs, ConfigAPI, Session) {
         $scope.searchLanguages = ConfigAPI.languages;
         $scope.remove = remove;
         $scope.setLanguage = validateLang;

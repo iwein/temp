@@ -18,7 +18,7 @@ define(function(require) {
       transclude: true,
       template: require('text!./directive-skills-form.html'),
       controllerAs: 'skillsCtrl',
-      controller: function($scope, $attrs, $q, ConfigAPI, Session) {
+      controller: function($scope, $attrs, ConfigAPI, Session) {
         $scope.searchSkills = searchSkills;
         $scope.remove = remove;
         $scope.onChange = onChange;
