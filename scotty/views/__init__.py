@@ -25,13 +25,6 @@ def http_error(exc, request):
                     headers=[('Content-Type', 'application/json')])
 
 
-def pass_request(f):
-    @wraps(f)
-    def __inner__(self):
-        return f(self, self.request)
-    return __inner__
-
-
 class RootController(object):
     def __init__(self, request):
         self.request = request
@@ -58,7 +51,6 @@ def includeme(config):
     config.include("scotty.employer", route_prefix='/api/v1/employers')
     config.include("scotty.admin", route_prefix='/api/v1/admin')
     config.include("scotty.connect.linkedin", route_prefix='/api/v1/connect')
-
 
     config.add_view(context=DBAPIError, view=db_error)
     #config.add_view(context=Exception, view=all_error)
