@@ -38,6 +38,7 @@ define(function(require) {
           Session.user.setPreferredLocations(locations),
         ]);
       }).then(function() {
+        localStorage.removeItem('scotty:target_position');
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409)
