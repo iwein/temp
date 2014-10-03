@@ -12,11 +12,12 @@ define(function(require) {
     $scope.setAddAnother = setAddAnother;
     $scope.model = {};
     $scope.ready = false;
+    $scope.experience = null;
+    $scope.current = 0;
     this.nextStep = nextStep;
     this.submit = submit;
     this.edit = edit;
     var linkedin = Session.getLinkedIn();
-    var current, experience;
 
     Session.checkSession().finally(function() {
       $scope.ready = true;
@@ -35,25 +36,25 @@ define(function(require) {
     }
 
     function skipImported() {
-      current++;
+      $scope.current++;
       nextImported();
     }
 
     function nextImported() {
       $scope.importForm.reset();
-      if (current < experience.length)
-        $scope.importForm.setModel(experience[current]);
+      if ($scope.current < $scope.experience.length)
+        $scope.importForm.setModel($scope.experience[$scope.current]);
       else
         $scope.importing = false;
     }
 
     function importLinkedin() {
       $scope.loading = true;
-      linkedin.getExperience().then(function(_experience) {
+      linkedin.getExperience().then(function(experience) {
         $scope.loading = false;
         $scope.importing = true;
-        experience = _experience;
-        current = 0;
+        $scope.experience = experience;
+        $scope.current = 0;
         nextImported();
       });
     }
