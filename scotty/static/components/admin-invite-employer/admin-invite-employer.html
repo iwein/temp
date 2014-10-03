@@ -1,20 +1,20 @@
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
     <form name="formInviteEmployer"
-      class="component-employer-invite-employer"
-      ng-submit="inviteEmployer.submit()">
+          class="component-employer-invite-employer"
+          ng-submit="inviteEmployer.submit()">
 
       <h3>Invite employer</h3>
 
-      <div class="form-group">
+      <div class="form-group required">
         <label class="required">Company name</label>
         <input type="text"
-          class="form-control"
-          placeholder="Company name"
-          name="companyName"
-          required
-          ng-disabled="loading"
-          ng-model="model.company_name">
+               class="form-control"
+               placeholder="Company name"
+               name="companyName"
+               required
+               ng-disabled="loading"
+               ng-model="model.company_name">
 
         <div class="form-error" ng-show="formInviteEmployer.companyName.$dirty && formInviteEmployer.companyName.$invalid">
           <span ng-show="formInviteEmployer.companyName.$error.required">
@@ -27,65 +27,65 @@
         <label>Salutation</label>
 
         <select
-          class="form-control"
-          name="salutation"
-          required
-          ng-disabled="loading"
-          ng-model="model.contact_salutation"
-          ng-options="salutation for salutation in salutations">
-          <option value="">Salutation...</option>
+                class="form-control"
+                name="salutation"
+                required
+                ng-disabled="loading"
+                ng-model="model.contact_salutation"
+                ng-options="salutation for salutation in salutations">
+          <option value="">Please Select...</option>
         </select>
-
         <div class="form-error" ng-show="formInviteEmployer.salutation.$dirty && formInviteEmployer.salutation.$invalid">
           <span ng-show="formInviteEmployer.salutation.$error.required">Please select a salutation</span>
         </div>
       </div>
 
-      <div class="form-group required">
-        <label>First name</label>
 
-        <input type="text"
-          class="form-control"
-          placeholder="First name"
-          name="contact_first_name"
-          required
-          ng-disabled="loading"
-          ng-model="model.contact_first_name">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group required">
+            <label>First name</label>
+            <input type="text"
+                   class="form-control"
+                   name="contact_first_name"
+                   required
+                   ng-disabled="loading"
+                   ng-model="model.contact_first_name">
 
-        <div class="form-error" ng-show="formInviteEmployer.contact_first_name.$dirty && formInviteEmployer.contact_first_name.$invalid">
+            <div class="form-error" ng-show="formInviteEmployer.contact_first_name.$dirty && formInviteEmployer.contact_first_name.$invalid">
           <span ng-show="formInviteEmployer.contact_first_name.$error.required">
             Please insert the first name of the contact person of your company.
           </span>
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="col-sm-6">
+          <div class="form-group required">
+            <label>Last name</label>
+            <input type="text"
+                   class="form-control"
+                   name="contact_last_name"
+                   required
+                   ng-disabled="loading"
+                   ng-model="model.contact_last_name">
 
-      <div class="form-group required">
-        <label>Last name</label>
-
-        <input type="text"
-          class="form-control"
-          placeholder="Last name"
-          name="contact_last_name"
-          required
-          ng-disabled="loading"
-          ng-model="model.contact_last_name">
-
-        <div class="form-error" ng-show="formInviteEmployer.contact_last_name.$dirty && formInviteEmployer.contact_last_name.$invalid">
+            <div class="form-error" ng-show="formInviteEmployer.contact_last_name.$dirty && formInviteEmployer.contact_last_name.$invalid">
           <span ng-show="formInviteEmployer.contact_last_name.$error.required">
             Please insert the first name of the contact person of your company.
           </span>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <div class="form-group">
+      <div class="form-group required">
         <label class="required">Email</label>
         <input type="email"
-          class="form-control"
-          placeholder="Email"
-          name="email"
-          required
-          ng-disabled="loading"
-          ng-model="model.email">
+               class="form-control"
+               name="email"
+               required
+               ng-disabled="loading"
+               ng-model="model.email">
 
         <div class="form-error" ng-show="formInviteEmployer.email.$dirty && formInviteEmployer.email.$invalid">
           <span ng-show="formInviteEmployer.email.$error.required">
