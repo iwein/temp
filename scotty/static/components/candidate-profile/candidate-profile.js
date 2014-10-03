@@ -6,6 +6,7 @@ define(function(require) {
   require('components/directive-experience/directive-experience');
   require('components/directive-education-form/directive-education-form');
   require('components/directive-education/directive-education');
+  require('components/directive-languages-form/directive-languages-form');
   require('components/directive-skills-form/directive-skills-form');
   var _ = require('underscore');
   var module = require('app-module');
@@ -83,30 +84,41 @@ define(function(require) {
       var base = defaultForm();
       return _.extend(Object.create(base), {
         save: function() {
-          return base.save.call(this).then(function() {
-            return Session.getUser();
-          }).then(function(user) {
-            return user.getData();
-          }).then(function(data) {
-            $scope.skills = data.skills;
-          });
+          return base.save.call(this)
+            .then(getUserData)
+            .then(function(data) { $scope.skills = data.skills });
+        }
+      });
+    })();
+
+    $scope.languagesForm = (function() {
+      var base = defaultForm();
+      return _.extend(Object.create(base), {
+        save: function() {
+          return base.save.call(this)
+            .then(getUserData)
+            .then(function(data) { $scope.languages = data.languages });
         }
       });
     })();
 
 
     //Permission.requireSignup().then(function() {
-    Permission.requireLogged().then(function() {
-      return Session.getUser();
-    }).then(function(user) {
-      return user.getData();
-    }).then(function(data) {
-      $scope.ready = true;
-      $scope.cities = data.preferred_location;
-      $scope.languages = data.languages;
-      $scope.skills = data.skills;
-      $scope.user = data;
-    });
+    Permission.requireLogged()
+      .then(getUserData)
+      .then(function(data) {
+        $scope.ready = true;
+        $scope.cities = data.preferred_location;
+        $scope.languages = data.languages;
+        $scope.skills = data.skills;
+        $scope.user = data;
+      });
+
+    function getUserData() {
+      return Session.getUser().then(function(user) {
+        return user.getData();
+      });
+    }
   });
 
 

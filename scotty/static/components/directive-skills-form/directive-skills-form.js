@@ -49,6 +49,7 @@ define(function(require) {
 
         function setModel(model) {
           var hasLevel = fn.get('level');
+          model = JSON.parse(JSON.stringify(model));
 
           $scope.model = model
             .filter(hasLevel);

@@ -1,0 +1,41 @@
+<form name="formLanguages" ng-submit="submit() ">
+  <div class="form-group" ng-repeat="entry in model">
+    <div class="form-inline">
+      <input type="text"
+        class="form-control"
+        name="language{{ $index }}"
+        placeholder="Language"
+        ng-disabled="loading"
+        ng-required="$first"
+        ng-model="entry.language"
+        ng-blur="onBlur(entry, $index, $last)"
+        ng-change="onChange(entry, $index, $last)"
+        typeahead-on-select="setLanguage(entry)"
+        typeahead="language for language in searchLanguages($viewValue)">
+
+      <select
+        class="form-control"
+        name="proficiency{{ $index }}"
+        ng-disabled="loading"
+        ng-required="entry.language"
+        ng-model="entry.proficiency"
+        ng-options="proficiency for proficiency in proficiencies">
+        <option value="">Select...</option>
+      </select>
+
+      <span class="close"
+        ng-if="!$last"
+        ng-click="remove($index)">
+        &times;
+      </span>
+
+      <div class="form-error" ng-show="!$last && entry.$dirty && entry.errorInvalidLanguage">
+        <span ng-show="entry.errorInvalidLanguage">Please choose a language from the menu.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div ng-transclude></div>
+  </div>
+</form>
