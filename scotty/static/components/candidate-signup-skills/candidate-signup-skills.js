@@ -20,8 +20,9 @@ define(function(require) {
     function submit() {
       $scope.loading = true;
       $scope.form.save().then(function() {
+        return $scope.signup.nextStep();
+      }).finally(function() {
         $scope.loading = false;
-        $scope.signup.nextStep();
       });
     }
   });

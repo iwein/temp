@@ -5,7 +5,7 @@
         class="form-control"
         name="language{{ $index }}"
         placeholder="Language"
-        ng-disabled="loading"
+        ng-disabled="hcDisabled"
         ng-required="$first"
         ng-model="entry.language"
         ng-blur="onBlur(entry, $index, $last)"
@@ -16,7 +16,7 @@
       <select
         class="form-control"
         name="proficiency{{ $index }}"
-        ng-disabled="loading"
+        ng-disabled="hcDisabled"
         ng-required="entry.language"
         ng-model="entry.proficiency"
         ng-options="proficiency for proficiency in proficiencies">
