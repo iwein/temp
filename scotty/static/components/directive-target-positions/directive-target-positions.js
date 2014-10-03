@@ -22,9 +22,15 @@ define(function(require) {
         $scope.edit = edit;
         $scope.remove = remove;
         this.refresh = list;
+        this.forceEdit = forceEdit;
 
         nameAttr(this, 'hcTargetPositions', $scope, $attrs);
         list();
+
+        // HACK!
+        function forceEdit(index) {
+          edit($scope.model[index]);
+        }
 
         function edit(entry) {
           return $scope.onEdit({ $entry: entry });

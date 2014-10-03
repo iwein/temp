@@ -209,6 +209,14 @@
         hc-source-remove="session.user.deleteTargetPosition($entry)"
         on-edit="targetPosition.edit($entry)"
         hc-show-empty="true">
+
+        <button type="submit"
+          class="btn btn-default pull-right"
+          ng-show="isEditing"
+          ng-disabled="loading"
+          ng-click="targetPosition.forceEdit()">
+          Edit
+        </button>
       </hc-target-positions>
 
       <!-- EXPERIENCE -->

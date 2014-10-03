@@ -74,9 +74,17 @@ define(function(require) {
     $scope.targetPosition = (function() {
       var base = listForm();
       return _.extend(Object.create(base), {
+        forceEdit: function() {
+          this.list.forceEdit(0);
+        },
         edit: function(model) {
           model.preferred_locations = $scope.cities;
           return base.edit.call(this, model);
+        },
+        save: function() {
+          return base.save.call(this)
+            .then(getUserData)
+            .then(function(data) { $scope.cities = data.preferred_location });
         },
       });
     })();
