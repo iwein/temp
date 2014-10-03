@@ -93,7 +93,7 @@ class OfferStatusWorkflow(object):
 
     def set_contract_signed(self, start_date, start_salary):
         if self.status.is_final:
-            raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
+            raise InvalidStatusError("Cannot Status cannot be set to %s, this offer is already finalised in %s." % (reason, self.status))
         else:
             self.contract_signed = datetime.now()
             self.job_start_date = start_date
@@ -101,7 +101,7 @@ class OfferStatusWorkflow(object):
 
     def set_withdrawn(self, reason, withdrawal_text=None):
         if self.status.is_final:
-            raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
+            raise InvalidStatusError("Cannot Status cannot be set to %s, this offer is already finalised in %s." % (reason, self.status))
         else:
             self.withdrawn = datetime.now()
             self.withdrawal_reason = reason
@@ -110,7 +110,7 @@ class OfferStatusWorkflow(object):
 
     def set_rejected(self, reason, rejected_text=None):
         if self.status.is_final:
-            raise InvalidStatusError("Cannot Status cannot be set to Hired, this offer is already finalised." % self.status)
+            raise InvalidStatusError("Cannot Status cannot be set to %s, this offer is already finalised in %s." % (reason, self.status))
         else:
             self.rejected = datetime.now()
             self.rejected_reason = reason

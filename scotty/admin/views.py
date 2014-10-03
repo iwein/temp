@@ -132,26 +132,38 @@ class AdminOfferController(RootController):
 
     @view_config(route_name='admin_offer_signed', **POST)
     def contract_signed(self):
-        offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        try:
+            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='admin_offer_withdraw', **POST)
     def withdraw(self):
         reason = get_by_name_or_raise(WithdrawalReason, self.request.json['reason'])
-        self.offer.set_withdrawn(reason, self.request.json.get('rejected_text'))
+        try:
+            self.offer.set_withdrawn(reason, self.request.json.get('withdrawal_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return self.offer
+        return self.offer.full_status_flow
 
     @view_config(route_name='admin_offer_accept', **POST)
     def accept(self):
-        self.offer.accept()
+        try:
+            self.offer.accept()
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return self.offer
+        return self.offer.full_status_flow
 
     @view_config(route_name='admin_offer_reject', **POST)
     def reject(self):
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
-        self.offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        try:
+            self.offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return self.offer
+        return self.offer.full_status_flow

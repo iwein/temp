@@ -276,7 +276,10 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_accept', **POST)
     def accept(self):
         offer = self.offer
-        offer.accept()
+        try:
+            offer.accept()
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
 
         self.request.emailer.send_employer_offer_accepted(
@@ -286,13 +289,17 @@ class CandidateOfferController(CandidateController):
             company_name=offer.employer.company_name,
             offer_id=offer.id,
             candidate_id=self.candidate.id)
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='candidate_offer_reject', **POST)
     def reject(self):
         offer = self.offer
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
-        offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        try:
+            offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+
         DBSession.flush()
 
         if self.request.json.get('blacklist'):
@@ -310,7 +317,7 @@ class CandidateOfferController(CandidateController):
             company_name=offer.employer.company_name,
             offer_id=offer.id,
             candidate_id=self.candidate.id)
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='candidate_offer_status', **POST)
     def set_status(self):
@@ -318,13 +325,16 @@ class CandidateOfferController(CandidateController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
-        return self.offer
+        return self.offer.full_status_flow
 
     @view_config(route_name='candidate_offer_signed', **POST)
     def contract_signed(self):
-        offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        try:
+            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return offer
+        return offer.full_status_flow
 
 
 class CandidatePasswordController(RootController):

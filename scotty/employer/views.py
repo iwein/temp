@@ -224,17 +224,23 @@ class EmployerOfferController(EmployerController):
 
     @view_config(route_name='employer_offer_signed', **POST)
     def contract_signed(self):
-        offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        try:
+            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='employer_offer_withdraw', **POST)
     def withdraw(self):
         offer = self.offer
         reason = get_by_name_or_raise(WithdrawalReason, self.request.json['reason'])
-        offer.set_withdrawn(reason, self.request.json.get('rejected_text'))
+        try:
+            offer.set_withdrawn(reason, self.request.json.get('withdrawal_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
         DBSession.flush()
-        return offer
+        return offer.full_status_flow
 
     @view_config(route_name='employer_offer_status', **POST)
     def set_status(self):
@@ -242,7 +248,7 @@ class EmployerOfferController(EmployerController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
-        return self.offer
+        return self.offer.full_status_flow
 
 class EmployerPasswordController(RootController):
 
