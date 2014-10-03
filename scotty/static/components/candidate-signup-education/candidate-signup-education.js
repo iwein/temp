@@ -12,11 +12,12 @@ define(function(require) {
     $scope.setAddAnother = setAddAnother;
     $scope.model = {};
     $scope.ready = false;
+    $scope.education = null;
+    $scope.current = 0;
     this.nextStep = nextStep;
     this.submit = submit;
     this.edit = edit;
     var linkedin = Session.getLinkedIn();
-    var current, education;
 
     Session.checkSession().finally(function() {
       $scope.ready = true;
@@ -35,25 +36,25 @@ define(function(require) {
     }
 
     function skipImported() {
-      current++;
+      $scope.current++;
       nextImported();
     }
 
     function nextImported() {
       $scope.importForm.reset();
-      if (current < education.length)
-        $scope.importForm.setModel(education[current]);
+      if ($scope.current < $scope.education.length)
+        $scope.importForm.setModel($scope.education[$scope.current]);
       else
         $scope.importing = false;
     }
 
     function importLinkedin() {
       $scope.loading = true;
-      linkedin.getEducation().then(function(_education) {
+      linkedin.getEducation().then(function(education) {
         $scope.loading = false;
         $scope.importing = true;
-        education = _education;
-        current = 0;
+        $scope.education = education;
+        $scope.current = 0;
         nextImported();
       });
     }
