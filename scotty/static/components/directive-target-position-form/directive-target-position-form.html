@@ -3,12 +3,12 @@
   <div class="form-group required">
     <label>Role</label>
     <input type="text"
-      class="form-control"
-      name="role"
-      required
-      ng-disabled="loading"
-      ng-model="model.role"
-      typeahead="role for role in searchRoles($viewValue)">
+           class="form-control"
+           name="role"
+           required
+           ng-disabled="loading"
+           ng-model="model.role"
+           typeahead="role for role in searchRoles($viewValue)">
 
     <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
       <span ng-show="formTarget.role.$error.required">Please insert your role.</span>
@@ -18,13 +18,13 @@
   <div class="form-group required">
     <label>Technologies & Skills you want to work with</label>
     <hc-label-typeahead
-      name="skill"
-      placeholder="Type a skill..."
-      ng-disabled="loading"
-      ng-model="model.skills"
-      hc-source="searchSkills($viewValue)"
-      hc-error-message="Please choose at least one skill"
-      hc-allow-new>
+            name="skill"
+            placeholder="Type a skill..."
+            ng-disabled="loading"
+            ng-model="model.skills"
+            hc-source="searchSkills($viewValue)"
+            hc-error-message="Please choose at least one skill"
+            hc-allow-new>
     </hc-label-typeahead>
   </div>
 
@@ -33,10 +33,10 @@
 
     <label class="form-label" ng-repeat="type in companyTypes">
       <input type="checkbox"
-        ng-required="errorNoCompanyType"
-        ng-disabled="loading"
-        ng-model="type.selected"
-        ng-change="onCompanyTypeChange()">
+             ng-required="errorNoCompanyType"
+             ng-disabled="loading"
+             ng-model="type.selected"
+             ng-change="onCompanyTypeChange()">
       {{ type.value }}
     </label>
 
@@ -50,11 +50,11 @@
     <div class="input-group">
       <span class="input-group-addon">€</span>
       <input type="dotted-integer"
-        class="form-control"
-        name="salary"
-        required
-        ng-disabled="loading"
-        ng-model="model.minimum_salary">
+             class="form-control"
+             name="salary"
+             required
+             ng-disabled="loading"
+             ng-model="model.minimum_salary">
       <span class="input-group-addon">.00</span>
     </div>
 
@@ -71,74 +71,92 @@
     </div>
   </div>
 
-  <div class="form-group required">
-    <label>Country</label>
+  <div class="row">
+    <div class="col-sm-6">
 
-    <select
-      class="form-control"
-      name="country"
-      required
-      ng-disabled="loading"
-      ng-model="country"
-      ng-options="country.iso as country.name for country in countries"
-      ng-change="setCountry(country)">
-      <option value="">Select...</option>
-    </select>
-  </div>
+      <div class="form-group required">
+        <label>Country</label>
 
-  <div class="form-group required">
-    <label>Cities</label>
-
-    <hc-label-typeahead
-      name="cities"
-      placeholder="Type a city..."
-      ng-disabled="loading || dontCareLocation || !country"
-      ng-model="model.preferred_locations[country]"
-      hc-source="searchCities($viewValue)">
-    </hc-label-typeahead>
-
-    <label class="form-label">
-      <input type="checkbox"
-        ng-disabled="loading || !country"
-        ng-required="!model.preferred_locations[country].length"
-        ng-model="dontCareLocation"
-        ng-change="setCountry(country)">
-      Anywhere
-    </label>
-
-    <div class="form-error" ng-show="cities.invalid && !dontCareLocation">
-      <span>Please type a city you would like to work at and press enter key.</span>
+        <select
+                class="form-control"
+                name="country"
+                required
+                ng-disabled="loading"
+                ng-model="country"
+                ng-options="country.iso as country.name for country in countries"
+                ng-change="setCountry(country)">
+          <option value="">Select...</option>
+        </select>
+      </div>
     </div>
+    <div class="col-sm-6">
+
+      <div class="form-group required">
+        <label>Cities</label>
+
+        <hc-label-typeahead
+                name="cities"
+                placeholder="Type a city..."
+                ng-disabled="loading || dontCareLocation || !country"
+                ng-model="model.preferred_locations[country]"
+                hc-source="searchCities($viewValue)">
+        </hc-label-typeahead>
+
+        <label class="form-label">
+          <input type="checkbox"
+                 ng-disabled="loading || !country"
+                 ng-required="!model.preferred_locations[country].length"
+                 ng-model="dontCareLocation"
+                 ng-change="setCountry(country)">
+          Anywhere
+        </label>
+
+        <div class="form-error" ng-show="cities.invalid && !dontCareLocation">
+          <span>Please type a city you would like to work at and press enter key.</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="form-group required">
-    <label>Willingness to travel</label>
+  <label>Willingness to travel</label>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group required">
+        <select
+                class="form-control"
+                name="travel_willingness"
+                required
+                ng-disabled="loading"
+                ng-model="model.travel_willingness"
+                ng-options="option for option in willingness">
+          <option value="">Select...</option>
+        </select>
 
-    <select
-      class="form-control"
-      name="travel_willingness"
-      required
-      ng-disabled="loading"
-      ng-model="model.travel_willingness"
-      ng-options="option for option in willingness">
-      <option value="">Select...</option>
-    </select>
-
-    <div class="form-error" ng-show="formTarget.travel_willingness.$dirty && formTarget.travel_willingness.$invalid">
+        <div class="form-error" ng-show="formTarget.travel_willingness.$dirty && formTarget.travel_willingness.$invalid">
       <span ng-show="formTarget.travel_willingness.$error.required">
         Please insert your expected willingness to travel.
       </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"
+                   name="relocate"
+                   ng-model="model.relocate">
+            Willing to relocate
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="form-group">
-    <label>
-      <input type="checkbox"
-        name="relocate"
-        ng-model="model.relocate">
-      Willing to relocate
-    </label>
-  </div>
+
+
+
 
   <div class="form-group">
     <div ng-transclude></div>
