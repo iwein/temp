@@ -1,9 +1,9 @@
 <div class="component-candidate-signup-education" ng-show="ready">
-  <h3>Education</h3>
+  <h3>Education <span ng-show="importing">- Importing {{ current + 1 }} from {{ education.length }}</span></h3>
 
-  <h4 ng-show="importing">Importing {{ current + 1 }} from {{ education.length }}</h4>
 
-  <div class="form-group">
+
+  <div class="form-group" ng-show="!importing">
     <button type="button"
       ng-show="!linkedin.isConnected"
       ng-disabled="loading"

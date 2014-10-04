@@ -126,12 +126,17 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
 
 
 def search_employers(tags, city_id, company_types):
-    params = {'tags': ','.join(tags), 'city_id': city_id}
+    params = {'city_id': city_id}
+    tags = {'tag_%d' % i: tag for i, tag in enumerate(tags)}
+    params.update(tags)
     if company_types:
         params['company_type'] = ', '.join([ct.name for ct in company_types])
-        query = DBSession.execute(text("""select * from employer_search(array[:tags], :city_id, array[:tags])"""), params)
+        query = DBSession.execute(text(
+            """select * from employer_search(array[:%s], :city_id, array[:company_type]) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())),
+                                  params)
     else:
-        query = DBSession.execute(text("""select * from employer_search(array[:tags], :city_id, null)"""), params)
+        query = DBSession.execute(text(
+            """select * from employer_search(array[:%s], :city_id, null) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())), params)
     results = list(query)
     return {r['employer_id']: r['matched_tags'] for r in results}
 

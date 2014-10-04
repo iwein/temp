@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
@@ -146,7 +147,11 @@ def set_skills_on_candidate(candidate, params):
     return candidate
 
 def get_candidates_by_techtags(tags, city_id):
-    params = {'tags': ','.join(tags), 'city_id': city_id}
-    query = DBSession.execute(text("""select * from candidate_search(array[:tags], :city_id )"""), params)
+    params = {'city_id': city_id}
+    tags = {'tag_%d' % i: tag for i, tag in enumerate(tags)}
+    params.update(tags)
+
+    query = DBSession.execute(
+        text("""select * from candidate_search(array[:%s], :city_id ) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())), params)
     results = list(query)
-    return {r['candidate_id']: r['matched_tags'] for r in results}
+    return OrderedDict([(r['candidate_id'], r['matched_tags']) for r in results])
