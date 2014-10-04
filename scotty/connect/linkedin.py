@@ -6,7 +6,8 @@ from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 from pyramid.response import Response
 from pyramid.view import view_config
 import requests
-from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs
+from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, \
+    UserRejectedNotice
 
 
 log = logging.getLogger(__name__)
@@ -39,6 +40,11 @@ def includeme(config):
 
 @view_config(context=SocialNetworkException)
 def soc_error(exc, request):
+    return Response(json.dumps({'db_message': exc.detail}), status_code=403,
+                    headers=[('Content-Type', 'application/json')])
+
+@view_config(context=UserRejectedNotice)
+def user_reject_error(exc, request):
     return Response(json.dumps({'db_message': exc.detail}), status_code=403,
                     headers=[('Content-Type', 'application/json')])
 
