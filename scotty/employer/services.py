@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import hashlib
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.candidate.models import Candidate, candidate_employer_blacklist
@@ -138,7 +139,7 @@ def search_employers(tags, city_id, company_types):
         query = DBSession.execute(text(
             """select * from employer_search(array[:%s], :city_id, null) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())), params)
     results = list(query)
-    return {r['employer_id']: r['matched_tags'] for r in results}
+    return [(r['employer_id'], r['matched_tags']) for r in results]
 
 
 def get_employer_suggested_candidate_ids(employer_id):

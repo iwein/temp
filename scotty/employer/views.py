@@ -91,10 +91,16 @@ class EmployerController(RootController):
                     func.lower(Employer.email).startswith(q))
             ).limit(20).all()
         elif tags:
-            employer_lookup = search_employers(tags, city_id, company_types)
-            employers = base_query.filter(MatchedEmployer.id.in_(employer_lookup.keys())).limit(20).all()
-            for employer in employers:
-                employer.matched_tags = employer_lookup[str(employer.id)]
+            employer_tags = search_employers(tags, city_id, company_types)
+            employer_ids = [e[0] for e in employer_tags]
+            employer_query = base_query.filter(MatchedEmployer.id.in_(employer_ids)).limit(20)
+            employer_lookup = {str(e.id): e for e in employer_query.all()}
+            employers = []
+            for employer_id, matched_tags in employer_tags:
+                if employer_id in employer_lookup:
+                    c = employer_lookup[employer_id]
+                    c.matched_tags = matched_tags
+                    employers.append(c)
         else:
             employers = base_query.limit(20).all()
         return employers

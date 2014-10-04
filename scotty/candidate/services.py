@@ -154,4 +154,4 @@ def get_candidates_by_techtags(tags, city_id):
     query = DBSession.execute(
         text("""select * from candidate_search(array[:%s], :city_id ) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())), params)
     results = list(query)
-    return OrderedDict([(r['candidate_id'], r['matched_tags']) for r in results])
+    return [(r['candidate_id'], r['matched_tags']) for r in results]
