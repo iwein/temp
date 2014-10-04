@@ -23,7 +23,7 @@ def includeme(config):
     config.add_route("api_connect_linkedin_me", pattern="linkedin/me", factory=SocialResource)
     config.add_view(view_my_profile, route_name="api_connect_linkedin_me")
 
-    config.add_route("api_connect_linkedin_me", pattern="linkedin/me/forget", factory=SocialResource)
+    config.add_route("api_connect_linkedin_me_forget", pattern="linkedin/me/forget", factory=SocialResource)
     config.add_view(forget_my_profile, route_name="api_connect_linkedin_me_forget")
 
     config.add_route("api_connect_linkedin_wxp", pattern="linkedin/work_experience", factory=SocialResource)
