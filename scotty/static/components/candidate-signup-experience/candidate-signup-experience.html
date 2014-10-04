@@ -11,7 +11,7 @@
       Connect with linked in
     </button>
     <button type="button"
-      ng-show="linkedin.isConnected"
+      ng-show="linkedin.isConnected && !importing"
       ng-disabled="loading"
       ng-click="importLinkedin()">
       Import data from linked in

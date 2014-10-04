@@ -5,7 +5,7 @@ define(function(require) {
   require('components/directive-experience-form/directive-experience-form');
   var module = require('app-module');
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, Session) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $state, Session) {
     $scope.importLinkedin = importLinkedin;
     $scope.saveImported = saveImported;
     $scope.skipImported = skipImported;
@@ -22,6 +22,9 @@ define(function(require) {
     Session.checkSession().finally(function() {
       $scope.ready = true;
     });
+
+    if ($state.params.import)
+      importLinkedin();
 
     function saveImported() {
       $scope.loading = true;
@@ -96,7 +99,7 @@ define(function(require) {
   });
 
   return {
-    url: '/experience/',
+    url: '/experience/:import',
     template: require('text!./candidate-signup-experience.html'),
     controller: 'CandidateSignupExperienceCtrl',
     controllerAs: 'signupExperience',
