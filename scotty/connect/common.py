@@ -44,13 +44,17 @@ class WebsiteSettings(object):
         return json.dumps(result) if stringify else result
 
 
+def get_redirection(request):
+    redirections = request.session.pop_flash('redirections')
+    if redirections:
+        return redirections[-1]
+    else:
+        return '/'
+
+
 class SocialResult(Exception):
     def get_redirection(self, request):
-        redirections = request.session.pop_flash('redirections')
-        if redirections:
-            return redirections[-1]
-        else:
-            return '/'
+        return get_redirection(request)
 
 
 class SocialLoginFailed(SocialResult):
@@ -86,10 +90,11 @@ def assemble_profile_procs(settings, token_func, profile_func, parse_profile_fun
     def get_profile_inner(context, request):
         if request.params.get("error"):
             if 'denied' in request.params.get("error"):
-                raise UserRejectedNotice("You need to accept {} permissions to use {}.".format(settings.network.title(),
-                                                                                               request.globals.project_name))
+                raise HTTPFound(location=get_redirection(request))
+                #raise UserRejectedNotice("You need to accept {} permissions.".format(settings['network'].title()))
             else:
-                raise SocialNetworkException("{} login failed.".format(context.network.title()))
+                #raise SocialNetworkException("{} login failed.".format(context.network.title()))
+                raise HTTPFound(location=get_redirection(request))
         resp = token_func(context, request)
         if resp.status_code not in [200, 201]:
             raise SocialNetworkException("{} login failed.".format(settings.network.title()))
