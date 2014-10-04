@@ -118,8 +118,7 @@ define(function(require) {
     getLinkedIn: function() {
       var value = new LinkedInConnector(this._api);
       this.getLinkedIn = function() { return value };
-      // Offending line
-      //value.checkConnection();
+      value.checkConnection();
       return value;
     },
   };
