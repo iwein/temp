@@ -67,10 +67,16 @@ class CandidateController(RootController):
                                                                joinedload('skills'),
                                                                joinedload('preferred_locations'))
         if tags:
-            candidate_lookup = get_candidates_by_techtags(tags, city_id)
-            candidates = base_query.filter(MatchedCandidate.id.in_(candidate_lookup.keys())).limit(20).all()
-            for candidate in candidates:
-                candidate.matched_tags = candidate_lookup[str(candidate.id)]
+            candidate_tags = get_candidates_by_techtags(tags, city_id)
+            candidate_ids = [c[0] for c in candidate_tags]
+            candidate_query = base_query.filter(MatchedCandidate.id.in_(candidate_ids)).limit(20)
+            candidate_lookup = {str(c.id): c for c in candidate_query.all()}
+            candidates = []
+            for candidate_id, matched_tags in candidate_tags:
+                if candidate_id in candidate_lookup:
+                    c = candidate_lookup[candidate_id]
+                    c.matched_tags = matched_tags
+                    candidates.append(c)
         else:
             candidates = base_query.limit(20).all()
         return candidates

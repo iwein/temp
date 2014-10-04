@@ -46,7 +46,6 @@ def upgrade():
         from city
         where id = p_city_id;
 
-
         return query
         select c.id as id,
         array_agg(distinct s.name) as matched_tags

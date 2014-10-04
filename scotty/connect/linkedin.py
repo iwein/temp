@@ -23,6 +23,9 @@ def includeme(config):
     config.add_route("api_connect_linkedin_me", pattern="linkedin/me", factory=SocialResource)
     config.add_view(view_my_profile, route_name="api_connect_linkedin_me")
 
+    config.add_route("api_connect_linkedin_me_forget", pattern="linkedin/me/forget", factory=SocialResource)
+    config.add_view(forget_my_profile, route_name="api_connect_linkedin_me_forget")
+
     config.add_route("api_connect_linkedin_wxp", pattern="linkedin/work_experience", factory=SocialResource)
     config.add_view(view_my_positions, route_name="api_connect_linkedin_wxp")
 
@@ -102,6 +105,12 @@ def view_my_profile(ctxt, request):
         raise HTTPForbidden("Not Connected Yet")
     else:
         return request.session['linkedin']
+
+
+def forget_my_profile(ctxt, request):
+    if 'linkedin' in request.session:
+        del request.session['linkedin']
+    return {'success': True}
 
 
 def view_my_positions(context, request):
