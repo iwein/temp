@@ -116,7 +116,10 @@ define(function(require) {
     },
 
     getLinkedIn: function() {
-      return new LinkedInConnector(this._api);
+      var value = new LinkedInConnector(this._api);
+      this.getLinkedIn = function() { return value };
+      value.checkConnection();
+      return value;
     },
   };
 

@@ -13,6 +13,9 @@ define(function(require) {
     $scope.errorAlreadyRegistered = false;
     var linkedin = Session.getLinkedIn();
 
+    if ($state.params.import)
+      importLinkedin();
+
     function importLinkedin() {
       linkedin.getData().then(function(data) {
         var name = data.name.split(' ');
@@ -52,7 +55,7 @@ define(function(require) {
   });
 
   return {
-    url: '/user/',
+    url: '/user/:import',
     template: require('text!./candidate-signup-user.html'),
     controller: 'CandidateSignupUserCtrl',
     controllerAs: 'signupUser',
