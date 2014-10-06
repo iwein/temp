@@ -4,9 +4,10 @@ define(function(require) {
   require('components/directive-office/directive-office');
   var module = require('app-module');
 
-  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Session) {
+  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Loader, Session) {
     $scope.ready = false;
     $scope.id = $state.params.id;
+    Loader.page(true);
 
     Session.getEmployer($scope.id).then(function(employer) {
       $scope.employer = employer;
@@ -17,6 +18,8 @@ define(function(require) {
       $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
     }).catch(function() {
       toaster.defaultError();
+    }).finally(function() {
+      Loader.page(false);
     });
   });
 

@@ -5,15 +5,19 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('AdminInviteEmployerCtrl', function($scope, toaster, ConfigAPI, Session) {
+  module.controller('AdminInviteEmployerCtrl', function($scope, toaster, ConfigAPI, Loader, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
+    Loader.page(true);
 
-    ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
+    ConfigAPI.salutations()
+      .then(fn.setTo('salutations', $scope))
+      .finally(function() { Loader.page(false) });
 
     function submit() {
       $scope.loading = true;
+      Loader.add('admin-invite-employer');
 
       Session.inviteEmployer($scope.model).then(function() {
         $scope.formInviteEmployer.$setPristine();
@@ -26,6 +30,7 @@ define(function(require) {
           toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('admin-invite-employer');
       });
     }
   });

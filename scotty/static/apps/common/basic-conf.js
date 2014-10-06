@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('tools/loader-service');
   require('tools/moment-directive');
   require('tools/greater-than-directive');
   require('tools/extend-directives/input-url-directive');

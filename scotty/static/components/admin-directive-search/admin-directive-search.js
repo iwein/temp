@@ -50,16 +50,20 @@ define(function(require) {
           if (offset)
             params.offset = offset;
 
-          return $scope.onSearch({ $params: params }).then(function(response) {
-            // if another call was made after this one...
-            if (instance !== counter)
-              return null;
+          return $scope.onSearch({ $params: params })
+            .then(function(response) {
+              // if another call was made after this one...
+              if (instance !== counter)
+                return null;
 
-            $scope.total = response.pagination.total;
-            $scope.loading = false;
-            $scope.loaded = true;
-            return response.data;
-          }).catch(toaster.defaultError);
+              $scope.total = response.pagination.total;
+              $scope.loaded = true;
+              return response.data;
+            })
+            .catch(toaster.defaultError)
+            .finally(function() {
+              $scope.loading = false;
+            });
         }
 
         function loadMore() {
@@ -78,7 +82,7 @@ define(function(require) {
           getResults().then(function(results) {
             if (results)
               setResults(results);
-          }).catch(toaster.defaultError);
+          });
         }
       },
     };

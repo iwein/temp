@@ -4,22 +4,27 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Session) {
+  module.controller('DashboardCtrl', function($scope, $sce, toaster, Loader, Session) {
     this.refresh = list;
 
-    list();
+    list().finally(function() {
+      Loader.page(false);
+    });
 
     function list() {
-      Session.getOffers().then(function(offers) {
-        $scope.offers = offers;
-
-        offers.map(function(offer) {
-          offer.setDataParser(function(data) {
-            data.interview_details = $sce.trustAsHtml(data.interview_details);
-            data.job_description = $sce.trustAsHtml(data.job_description);
+      Loader.add('admin-dashboard-offers');
+      return Session.getOffers()
+        .then(function(offers) {
+          $scope.offers = offers;
+          offers.map(function(offer) {
+            offer.setDataParser(function(data) {
+              data.interview_details = $sce.trustAsHtml(data.interview_details);
+              data.job_description = $sce.trustAsHtml(data.job_description);
+            });
           });
-        });
-      }).catch(toaster.defaultError);
+        })
+        .catch(toaster.defaultError)
+        .finally(function() { Loader.remove('admin-dashboard-offers') });
     }
   });
 

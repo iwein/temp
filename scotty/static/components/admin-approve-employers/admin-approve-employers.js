@@ -3,25 +3,33 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('AdminApproveEmployers', function($scope, Session) {
+  module.controller('AdminApproveEmployers', function($scope, Loader, Session) {
     this.filterEmployers = filterEmployers;
     this.approve = approve;
     $scope.status = 'APPLIED';
 
     function filterEmployers(status) {
       $scope.employers = [];
-      Session.getEmployersByStatus(status).then(function(employers) {
+      Loader.add('admin-approve-employers-filter');
+      return Session.getEmployersByStatus(status).then(function(employers) {
         $scope.employers = employers;
+      }).finally(function() {
+        Loader.remove('admin-approve-employers-filter');
       });
     }
 
     function approve(employer) {
-      Session.approveEmployer(employer).then(function() {
+      Loader.add('admin-approve-employers-approve');
+      return Session.approveEmployer(employer).then(function() {
         employer.status = 'APPROVED';
+      }).finally(function() {
+        Loader.remove('admin-approve-employers-approve');
       });
     }
 
-    filterEmployers($scope.status);
+    filterEmployers($scope.status).finally(function() {
+      Loader.page(false);
+    });
   });
 
   return {

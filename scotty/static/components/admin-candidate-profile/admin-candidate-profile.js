@@ -5,9 +5,10 @@ define(function(require) {
   require('components/directive-education/directive-education');
   var module = require('app-module');
 
-  module.controller('CandidateProfileCtrl', function($scope, $state, toaster, Session) {
+  module.controller('CandidateProfileCtrl', function($scope, $state, toaster, Loader, Session) {
     $scope.id = $state.params.id;
     $scope.ready = false;
+    Loader.page(true);
 
     Session.getCandidate($scope.id).then(function(candidate) {
       $scope.candidate = candidate;
@@ -20,6 +21,8 @@ define(function(require) {
       $scope.user = data;
     }).catch(function() {
       toaster.defaultError();
+    }).finally(function() {
+      Loader.page(false);
     });
   });
 
