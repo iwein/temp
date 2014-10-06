@@ -1,28 +1,13 @@
-<div class="component-candidate-search-employers row">
+<div class="component-admin-search-employers row">
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Search employers</h3>
 
-    <form>
-      <input type="text"
-        class="form-control"
-        placeholder="Name or email address"
-        ng-model="term"
-        ng-change="search()">
-    </form>
-
-    <div ng-show="loaded && !employers.length">No employer found</div>
-
-    <hc-employer
-      ng-repeat="employer in employers"
-      ng-model="employer"
-      hc-link-profile>
-    </hc-employer>
-
-    <button type="button"
-      ng-show="employers.length < total"
-      ng-disabled="loading"
-      ng-click="loadMore()">
-      Load more
-    </button>
+    <hc-admin-search on-search="executeSearch($params)">
+      <hc-employer
+        ng-repeat="employer in results"
+        ng-model="employer"
+        hc-link-profile>
+      </hc-employer>
+    </hc-admin-search>
   </div>
 </div>
