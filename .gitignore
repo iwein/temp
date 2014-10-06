@@ -57,3 +57,4 @@ docs/_build/
 
 # Mac files
 .DS_Store
+scotty/static/config/app-conf-local.js

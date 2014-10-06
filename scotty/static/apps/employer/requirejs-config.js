@@ -18,7 +18,7 @@ requirejs.config({
     'textangular': 'bower_components/textAngular/dist/textAngular.min',
 
     // aliases
-    'conf': 'config/app-conf-dev',
+    'conf': 'config/app-conf-local',
     'app-module': 'apps/employer/employer-module',
     'session': 'apps/employer/session',
   },
