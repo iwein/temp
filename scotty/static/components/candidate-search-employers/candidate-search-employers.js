@@ -7,16 +7,20 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('SearchCtrl', function($scope, $q, toaster, ConfigAPI, Permission, Session) {
+  // jshint maxparams:7
+  module.controller('SearchCtrl', function($scope, $q, toaster, Loader, ConfigAPI, Permission, Session) {
     this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.setLocation = setLocation;
     this.search = search;
     $scope.terms = [];
-
     $scope.ready = false;
+    $scope.loading = false;
+    Loader.page(true);
+
     Permission.requireLogged().then(function() {
       $scope.ready = true;
+      Loader.page(false);
     });
 
     ConfigAPI.companyTypes().then(function(data) {
@@ -43,11 +47,16 @@ define(function(require) {
         companyTypes && { company_types: companyTypes }
       );
 
-      Session.searchEmployers(params).then(function(employers) {
-        return $q.all(employers.map(fn.invoke('getData', [])));
-      }).then(function(results) {
-        $scope.employers = results;
-      }).catch(toaster.defaultError);
+      $scope.loading = true;
+      return Session.searchEmployers(params)
+        .then(function(employers) {
+          return $q.all(employers.map(fn.invoke('getData', [])));
+        })
+        .then(function(results) { $scope.employers = results })
+        .catch(toaster.defaultError)
+        .finally(function() {
+          $scope.loading = false;
+        });
     }
   });
 

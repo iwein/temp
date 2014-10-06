@@ -4,7 +4,7 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.importLinkedin = importLinkedin;
@@ -12,16 +12,24 @@ define(function(require) {
     $scope.model = {};
     $scope.errorAlreadyRegistered = false;
     var linkedin = Session.getLinkedIn();
+    Loader.page(false);
 
-    if ($state.params.import)
-      importLinkedin();
+    if ($state.params.import) {
+      Loader.page(true);
+      $q.when(importLinkedin()).finally(function() {
+        Loader.page(false);
+      });
+    }
 
     function importLinkedin() {
-      linkedin.getData().then(function(data) {
+      Loader.add('signup-user-import');
+      return linkedin.getData().then(function(data) {
         var name = data.name.split(' ');
         $scope.model.first_name = name.shift();
         $scope.model.last_name = name.join(' ');
         $scope.model.email = data.email;
+      }).finally(function() {
+        Loader.remove('signup-user-import');
       });
     }
 
@@ -31,6 +39,7 @@ define(function(require) {
 
     function submit() {
       $scope.loading = true;
+      Loader.add('signup-user-saving');
 
       Session.signup($scope.model).then(function() {
         var position = $scope.signup.target;
@@ -50,6 +59,7 @@ define(function(require) {
           toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-user-saving');
       });
     }
   });

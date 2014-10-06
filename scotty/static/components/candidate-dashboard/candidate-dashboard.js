@@ -5,26 +5,31 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('DashboardCtrl', function($scope, $sce, toaster, Permission, Session) {
+  // jshint maxparams:7
+  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, Permission, Session) {
+    Loader.page(true);
     $scope.ready = false;
+
     Permission.requireSignup().then(function() {
       $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {
-      user.getBookmarks().then(function(employers) {
-        $scope.employers = employers;
-      });
+      return $q.all([
+        user.getBookmarks(),
+        user.getOffers(),
+      ]);
+    }).then(function(results) {
+      $scope.employers = results[0];
 
-      user.getOffers().then(function(offers) {
-        $scope.offers = offers;
-
-        offers.map(function(offer) {
-          offer.setDataParser(function(data) {
-            data.interview_details = $sce.trustAsHtml(data.interview_details);
-            data.job_description = $sce.trustAsHtml(data.job_description);
-          });
+      $scope.offers = results[1].map(function(offer) {
+        offer.setDataParser(function(data) {
+          data.interview_details = $sce.trustAsHtml(data.interview_details);
+          data.job_description = $sce.trustAsHtml(data.job_description);
         });
+        return offer;
       });
+    }).finally(function() {
+      Loader.page(false);
     });
   });
 

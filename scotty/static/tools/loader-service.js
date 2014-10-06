@@ -2,7 +2,7 @@ define(function(require) {
   'use strict';
 
   function Loader(scope, key) {
-    this.enabled = {};
+    window.a = this.enabled = {};
     this.scope = scope;
     this.key = key;
     this._reduce = this._reduce.bind(this);

@@ -5,24 +5,29 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('CandidateSignupLanguageCtrl', function($scope, ConfigAPI, Session) {
+  module.controller('CandidateSignupLanguageCtrl', function($scope, Loader, ConfigAPI, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.ready = false;
+    Loader.page(true);
 
     Session.getUser()
       .then(fn.invoke('getData', []))
-      .then(function(data) {
+      .then(function(data) { $scope.form.setModel(data.languages) })
+      .finally(function() {
         $scope.ready = true;
-        $scope.form.setModel(data.languages);
+        Loader.page(false);
       });
 
     function submit() {
       $scope.loading = true;
+      Loader.add('signup-languages-saving');
+
       $scope.form.save().then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-languages-saving');
       });
     }
   });

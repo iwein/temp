@@ -5,8 +5,9 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTargetCtrl', function($scope) {
+  module.controller('CandidateSignupTargetCtrl', function($scope, Loader) {
     $scope.onSubmit = onSubmit;
+    Loader.page(false);
 
     function onSubmit(model) {
       localStorage.setItem('scotty:target_position', JSON.stringify(model));
@@ -14,8 +15,11 @@ define(function(require) {
       $scope.signup.preferred_locations = model.preferred_locations;
 
       $scope.loading = true;
+      Loader.add('signup-target-saving');
+
       $scope.signup.nextStep().finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-target-saving');
       });
     }
   });

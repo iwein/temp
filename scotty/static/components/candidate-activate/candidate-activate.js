@@ -2,7 +2,9 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-  module.controller('CandidateActivateCtrl', function($scope, $state, toaster, Session) {
+  module.controller('CandidateActivateCtrl', function($scope, $state, toaster, Loader, Session) {
+    Loader.page(true);
+
     Session.activate($state.params.token).then(function() {
       return Session.isActivated();
     }).then(function(result) {
@@ -14,6 +16,8 @@ define(function(require) {
         $scope.failed = true;
       } else
         toaster.defaultError();
+    }).finally(function() {
+      Loader.page(false);
     });
   });
 

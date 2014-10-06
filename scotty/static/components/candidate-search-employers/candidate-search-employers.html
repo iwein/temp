@@ -42,7 +42,9 @@
 
     </form>
 
-    <div ng-show="terms.length && !employers.length">No employer found</div>
+    <div class="spinner" ng-show="loading"></div>
+
+    <div ng-show="terms.length && !loading && !employers.length">No employer found</div>
 
     <hc-employer
       ng-repeat="employer in employers"

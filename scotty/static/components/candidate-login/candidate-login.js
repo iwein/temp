@@ -2,7 +2,7 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-  module.controller('CandidateLoginCtrl', function($scope, $location, $state, toaster, Session) {
+  module.controller('CandidateLoginCtrl', function($scope, $location, $state, toaster, Loader, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
@@ -11,6 +11,7 @@ define(function(require) {
     function submit(email, password) {
       $scope.error = false;
       $scope.loading = true;
+      Loader.add('candidate-login');
 
       Session.login(email, password).then(function() {
         return Session.isActivated();
@@ -26,6 +27,7 @@ define(function(require) {
         }
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('candidate-login');
       });
     }
   });

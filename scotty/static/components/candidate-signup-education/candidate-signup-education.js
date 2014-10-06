@@ -5,7 +5,8 @@ define(function(require) {
   require('components/directive-education-form/directive-education-form');
   var module = require('app-module');
 
-  module.controller('CandidateSignupEducationCtrl', function($scope, $state, Session) {
+
+  module.controller('CandidateSignupEducationCtrl', function($scope, $state, Loader, Session) {
     $scope.importLinkedin = importLinkedin;
     $scope.saveImported = saveImported;
     $scope.skipImported = skipImported;
@@ -18,23 +19,26 @@ define(function(require) {
     this.submit = submit;
     this.edit = edit;
     var linkedin = Session.getLinkedIn();
+    Loader.page(true);
 
-    Session.checkSession().finally(function() {
+    Session.checkSession().then(function() {
+      if ($state.params.import)
+        return importLinkedin();
+    }).finally(function() {
       $scope.ready = true;
+      Loader.page(false);
     });
-
-    if ($state.params.import)
-      importLinkedin();
 
     function saveImported() {
       $scope.loading = true;
+      Loader.add('signup-education-saving');
+
       $scope.importForm.save()
         .then(skipImported)
-        .then(function() {
-          $scope.list.refresh();
-        })
+        .then(function() { $scope.list.refresh() })
         .finally(function() {
           $scope.loading = false;
+          Loader.remove('signup-education-saving');
         });
     }
 
@@ -53,12 +57,16 @@ define(function(require) {
 
     function importLinkedin() {
       $scope.loading = true;
+      Loader.add('signup-education-import');
+
       linkedin.getEducation().then(function(education) {
         $scope.loading = false;
         $scope.importing = true;
         $scope.education = education;
         $scope.current = 0;
         nextImported();
+      }).finally(function() {
+        Loader.remove('signup-education-import');
       });
     }
 
@@ -90,13 +98,17 @@ define(function(require) {
 
     function submit() {
       $scope.loading = true;
+      Loader.add('signup-education-saving');
+
       $scope.form.save()
         .then($scope.addAnother ? addAnother : andContinue)
         .finally(function() {
           $scope.loading = false;
+          Loader.remove('signup-education-saving');
         });
     }
   });
+
 
   return {
     url: '/education/:import',

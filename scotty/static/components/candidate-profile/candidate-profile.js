@@ -12,12 +12,13 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $state, Permission, Session) {
+  module.controller('ProfileCtrl', function($scope, $state, Loader, Permission, Session) {
     this.edit = edit;
     this.stopEdit = stopEdit;
     $scope.ready = false;
     $scope.loading = false;
     $scope.isEditing = false;
+    Loader.page(true);
 
     function edit() {
       $scope.isEditing = true;
@@ -142,7 +143,8 @@ define(function(require) {
         $scope.languages = data.languages;
         $scope.skills = data.skills;
         $scope.user = data;
-      });
+      })
+      .finally(function() { Loader.page(false) });
 
     function getUserData() {
       return Session.getUser().then(function(user) {

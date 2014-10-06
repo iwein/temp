@@ -4,7 +4,10 @@ define(function(require) {
   require('components/directive-office/directive-office');
   var module = require('app-module');
 
-  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Permission, Session) {
+
+  // jshint maxparams:7
+  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Loader, Permission, Session) {
+    Loader.page(true);
     $scope.ready = false;
 
     Permission.requireLogged().then(function() {
@@ -22,28 +25,39 @@ define(function(require) {
         $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
       }).catch(function() {
         toaster.defaultError();
+      }).finally(function() {
+        Loader.page(false);
       });
 
 
       function getIsBookmarked() {
-        return Session.user.getBookmarks().then(function(results) {
+        Loader.add('candidate-employer-profile-isbookmarked');
+        return Session.getUser().then(function(user) {
+          return user.getBookmarks();
+        }).then(function(results) {
           $scope.isBookmarked = results.some(function(employer) {
             return employer.id === $scope.id;
           });
           return $scope.isBookmarked;
+        }).finally(function() {
+          Loader.remove('candidate-employer-profile-isbookmarked');
         });
       }
 
       function toogleBookmark() {
-        ($scope.isBookmarked ?
-          Session.user.deleteBookmark({ id: $scope.id }) :
-          Session.user.addBookmark({ id: $scope.id })
-        ).then(function() {
+        Loader.add('candidate-employer-profile-toggle');
+        return Session.getUser().then(function(user) {
+          return $scope.isBookmarked ?
+            user.deleteBookmark({ id: $scope.id }) :
+            user.addBookmark({ id: $scope.id });
+        }).then(function() {
           return getIsBookmarked();
         }).then(function(isBookmarked) {
           toaster.success(isBookmarked ? 'Employer bookmarked' : 'Bookmark removed');
         }).catch(function() {
           toaster.defaultError();
+        }).finally(function() {
+          Loader.remove('candidate-employer-profile-toggle');
         });
       }
     }.bind(this));
