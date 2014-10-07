@@ -3,13 +3,14 @@ define(function(require) {
   require('session');
   var module = require('app-module');
 
-  module.controller('SignupTermsCtrl', function($scope, toaster, Session) {
+  module.controller('SignupTermsCtrl', function($scope, toaster, Loader, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
 
     function submit() {
       $scope.loading = true;
+      Loader.add('signup-terms-saving');
 
       Session.user.apply($scope.model).then(function() {
         $scope.signup.nextStep();
@@ -17,6 +18,7 @@ define(function(require) {
         toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-terms-saving');
       });
     }
   });

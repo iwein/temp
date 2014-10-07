@@ -20,7 +20,9 @@
         typeahead="location for location in searchCandidates.searchLocations($viewValue)">
     </form>
 
-    <div ng-show="terms.length && !candidates.length">No candidate found</div>
+    <div class="spinner" ng-show="loading"></div>
+
+    <div ng-show="terms.length && !loading && !candidates.length">No candidate found</div>
 
     <hc-candidate
       ng-repeat="candidate in candidates"

@@ -5,9 +5,10 @@ define(function(require) {
   require('components/directive-candidate/directive-candidate');
   var module = require('app-module');
 
-  module.controller('SignupSuggestCtrl', function($scope, $state, ConfigAPI, Session) {
+  module.controller('SignupSuggestCtrl', function($scope, $state, Loader, ConfigAPI, Session) {
     $scope.loading = true;
     $scope.approved = false;
+    Loader.page(true);
 
     Session.isActivated().then(function(value) {
       $scope.approved = value;
@@ -23,6 +24,8 @@ define(function(require) {
         entry.last_name = entry.last_name[0] + '.';
         return entry;
       });
+
+      Loader.page(false);
     });
   });
 

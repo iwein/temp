@@ -9,7 +9,9 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('SignupBasicCtrl', function($scope, $q, toaster, ConfigAPI, Session, Amazon) {
+
+  // jshint maxparams:7
+  module.controller('SignupBasicCtrl', function($scope, $q, toaster, Loader, ConfigAPI, Session, Amazon) {
     this.searchLocations = searchLocations;
     this.setLocation = setLocation;
     this.selectFile = selectFile;
@@ -21,6 +23,7 @@ define(function(require) {
     $scope.model = {};
     $scope.office = {};
     var citiesCache = [];
+    Loader.page(true);
 
     ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
@@ -49,6 +52,7 @@ define(function(require) {
     }).finally(function() {
       $scope.ready = true;
       $scope.loading = false;
+      Loader.page(false);
     });
 
     function searchLocations(term, country) {
@@ -84,6 +88,7 @@ define(function(require) {
           delete $scope.office[key];
       });
 
+      Loader.add('signup-basic-office');
       return Session.getUser().then(function(user) {
         return user.addOffice($scope.office);
       }).then(function() {
@@ -93,6 +98,7 @@ define(function(require) {
         $scope.office = {};
       }).finally(function() {
         $scope.loadingOffice = false;
+        Loader.remove('signup-basic-office');
       });
     }
 
@@ -110,6 +116,7 @@ define(function(require) {
       });
 
       $scope.loading = true;
+      Loader.add('signup-basic-saving');
 
       $q.when($scope.formSignupBasicOffice.$valid && submitOffice()).then(function() {
         return Amazon.upload($scope.files[0], 'logo', Session.id());
@@ -124,6 +131,7 @@ define(function(require) {
         toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-basic-saving');
       });
     }
   });

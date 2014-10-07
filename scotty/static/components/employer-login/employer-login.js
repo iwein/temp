@@ -2,7 +2,7 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-  module.controller('EmployerLoginCtrl', function($scope, $state, toaster, Session) {
+  module.controller('EmployerLoginCtrl', function($scope, $state, toaster, Loader, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = false;
@@ -10,6 +10,7 @@ define(function(require) {
     function submit(email, password) {
       $scope.error = false;
       $scope.loading = true;
+      Loader.add('employer-login');
 
       Session.login(email, password).then(function() {
         return Session.isSignupComplete();
@@ -20,6 +21,7 @@ define(function(require) {
         $state.go(isComplete ? 'dashboard' : 'signup');
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('employer-login');
       });
     }
   });

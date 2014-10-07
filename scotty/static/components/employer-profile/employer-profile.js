@@ -4,8 +4,10 @@ define(function(require) {
   require('components/directive-office/directive-office');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $sce, $state, Permission, Session) {
+  module.controller('ProfileCtrl', function($scope, $sce, $state, Loader, Permission, Session) {
     $scope.ready = false;
+    Loader.page(true);
+
     Permission.requireActivated().then(function() {
       return Session.getUser();
     }).then(function(user) {
@@ -19,6 +21,8 @@ define(function(require) {
       $scope.ready = true;
       $scope.data = data;
       $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
+    }).finally(function() {
+      Loader.page(false);
     });
   });
 

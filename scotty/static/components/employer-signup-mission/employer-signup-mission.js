@@ -5,12 +5,13 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupMissionCtrl', function($scope, toaster, Session) {
+  module.controller('SignupMissionCtrl', function($scope, toaster, Loader, Session) {
     this.submit = submit;
     $scope.error = false;
     $scope.loading = true;
     $scope.missionDirty = false;
     $scope.model = {};
+    Loader.page(true);
 
     $scope.$watch('model.mission_text', function(value) {
       $scope.errorMissionEmpty = !value;
@@ -29,6 +30,7 @@ define(function(require) {
       ]);
     }).finally(function() {
       $scope.loading = false;
+      Loader.page(false);
     });
 
     function submit() {
@@ -43,12 +45,15 @@ define(function(require) {
       });
 
       $scope.loading = true;
+      Loader.add('signup-mission-saving');
+
       Session.user.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-mission-saving');
       });
     }
   });

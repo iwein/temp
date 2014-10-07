@@ -4,7 +4,9 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, ConfigAPI, Session) {
+
+  // jshint maxparams:7
+  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.invited = false;
@@ -12,6 +14,7 @@ define(function(require) {
     $scope.model = {};
     $scope.errorAlreadyRegistered = false;
     var token = $state.params.token;
+    Loader.page(true);
 
     ConfigAPI.companyTypes().then(fn.setTo('companyTypes', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
@@ -33,6 +36,7 @@ define(function(require) {
       toaster.error('Invalid invitation token.');
     }).finally(function() {
       $scope.loading = false;
+      Loader.page(false);
     });
 
     function onEmailChange() {
@@ -44,6 +48,8 @@ define(function(require) {
         return;
 
       $scope.loading = true;
+      Loader.add('signup-start-saving');
+
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :
         Session.signup($scope.model)
@@ -56,6 +62,7 @@ define(function(require) {
           toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-start-saving');
       });
     }
   });

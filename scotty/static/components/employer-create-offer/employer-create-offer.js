@@ -7,40 +7,19 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams: 7
-  module.controller('CreateOfferCtrl', function($scope, $q, $state, toaster, ConfigAPI, Permission, Session) {
+  // jshint maxparams:8
+  module.controller('CreateOfferCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+    this.searchLocations = ConfigAPI.locationsText;
+    this.searchSkills = ConfigAPI.skills;
+    this.searchRoles = ConfigAPI.roles;
+    this.setLocation = setLocation;
+    this.submit = submit;
     $scope.ready = false;
+    Loader.page(true);
 
     Permission.requireActivated().then(function() {
-      this.searchLocations = ConfigAPI.locationsText;
-      this.searchSkills = ConfigAPI.skills;
-      this.searchRoles = ConfigAPI.roles;
-      this.setLocation = setLocation;
-      this.submit = submit;
       $scope.loading = false;
       $scope.model = {};
-
-      $q.all([
-        ConfigAPI.benefits(),
-        Session.getUser().then(fn.invoke('getData', [])),
-        Session.getCandidate($state.params.id).then(fn.invoke('getData', [])),
-      ]).then(function(result) {
-        var benefits = result[0];
-        var data = result[1];
-        var candidate = result[2];
-
-        $scope.ready = true;
-        $scope.candidate = candidate;
-        $scope.candidateName = candidate.first_name + ' ' + candidate.last_name;
-        $scope.model.technologies = data.tech_tags;
-        $scope.model.interview_details = data.recruitment_process;
-        $scope.benefits = benefits.map(function(value) {
-          return {
-            value: value,
-            selected: data.benefits.indexOf(value) !== -1,
-          };
-        });
-      });
 
       $scope.$watch('model.job_description', function(value) {
         $scope.model.job_description = value && value.trim();
@@ -49,34 +28,63 @@ define(function(require) {
         $scope.model.interview_details = value && value.trim();
       });
 
-      function setLocation(location) {
-        var city = ConfigAPI.getLocationFromText(location);
-        $scope.errorInvalidCity = city === null;
-        $scope.model.location = city;
-      }
+      return $q.all([
+        ConfigAPI.benefits(),
+        Session.getUser().then(fn.invoke('getData', [])),
+        Session.getCandidate($state.params.id).then(fn.invoke('getData', [])),
+      ]);
+    }).then(function(result) {
+      var benefits = result[0];
+      var data = result[1];
+      var candidate = result[2];
 
-      function submit() {
-        $scope.dirty = true;
-        if (!$scope.model.job_description || !$scope.model.interview_details)
-          return;
+      $scope.ready = true;
+      $scope.candidate = candidate;
+      $scope.candidateName = candidate.first_name + ' ' + candidate.last_name;
+      $scope.model.technologies = data.tech_tags;
+      $scope.model.interview_details = data.recruitment_process;
+      $scope.benefits = benefits.map(function(value) {
+        return {
+          value: value,
+          selected: data.benefits.indexOf(value) !== -1,
+        };
+      });
+    }).finally(function() {
+      Loader.page(false);
+    });
 
-        $scope.model.candidate = { id: $scope.candidate.id };
-        $scope.model.benefits = $scope.benefits
-          .filter(function(benefit) { return benefit.selected })
-          .map(function(benefit) { return benefit.value });
+    function setLocation(location) {
+      var city = ConfigAPI.getLocationFromText(location);
+      $scope.errorInvalidCity = city === null;
+      $scope.model.location = city;
+    }
 
-        Session.user.makeOffer($scope.model).then(function() {
+    function submit() {
+      $scope.dirty = true;
+      if (!$scope.model.job_description || !$scope.model.interview_details)
+        return;
+
+      Loader.add('employer-create-offer-saving');
+      $scope.model.candidate = { id: $scope.candidate.id };
+      $scope.model.benefits = $scope.benefits
+        .filter(function(benefit) { return benefit.selected })
+        .map(function(benefit) { return benefit.value });
+
+      Session.getUser()
+        .then(function(user) { return user.makeOffer($scope.model) })
+        .then(function() {
           toaster.success('Offer sent to ' + $scope.candidateName);
           $state.go('dashboard');
-        }).catch(function(request) {
+        })
+        .catch(function(request) {
           if (request && request.data && request.data.db_message)
             toaster.error(request.data.db_message);
           else
             throw request;
-        }).catch(toaster.defaultError);
-      }
-
-    }.bind(this));
+        })
+        .catch(toaster.defaultError)
+        .finally(function() { Loader.remove('employer-create-offer-saving') });
+    }
   });
 
 

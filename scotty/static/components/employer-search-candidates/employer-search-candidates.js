@@ -7,16 +7,19 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('SearchCtrl', function($scope, $q, toaster, ConfigAPI, Permission, Session) {
+  // jshint maxparams:7
+  module.controller('SearchCtrl', function($scope, $q, toaster, Loader, ConfigAPI, Permission, Session) {
     this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.setLocation = setLocation;
     this.search = search;
     $scope.terms = [];
+    Loader.page(true);
 
     $scope.ready = false;
     Permission.requireActivated().then(function() {
       $scope.ready = true;
+      Loader.page(false);
     });
 
     function setLocation(text) {
@@ -28,11 +31,18 @@ define(function(require) {
       var tags = $scope.terms && $scope.terms.join();
       var params = _.extend({}, $scope.location, tags ? { tags: tags } : null);
 
-      Session.searchCandidates(params).then(function(candidates) {
-        return $q.all(candidates.map(fn.invoke('getData', [])));
-      }).then(function(results) {
-        $scope.candidates = results;
-      }).catch(toaster.defaultError);
+      $scope.loading = true;
+      Session.searchCandidates(params)
+        .then(function(candidates) {
+          return $q.all(candidates.map(fn.invoke('getData', [])));
+        })
+        .then(function(results) {
+          $scope.candidates = results;
+        })
+        .catch(toaster.defaultError)
+        .finally(function() {
+          $scope.loading = false;
+        });
     }
 
   });

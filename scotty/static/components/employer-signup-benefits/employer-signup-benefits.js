@@ -4,10 +4,11 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupBenefitsCtrl', function($scope, $q, toaster, ConfigAPI, Session) {
+  module.controller('SignupBenefitsCtrl', function($scope, $q, toaster, Loader, ConfigAPI, Session) {
     this.submit = submit;
     $scope.loading = true;
     $scope.model = {};
+    Loader.page(true);
 
     $q.all([
       ConfigAPI.benefits(),
@@ -33,6 +34,7 @@ define(function(require) {
       });
     }).finally(function() {
       $scope.loading = false;
+      Loader.page(false);
     });
 
     function submit() {
@@ -47,12 +49,14 @@ define(function(require) {
           delete $scope.model[key];
       });
 
+      Loader.add('signup-benefits-saving');
       Session.user.updateData($scope.model).then(function() {
         $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-benefits-saving');
       });
     }
   });

@@ -4,11 +4,12 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('SignupFactsCtrl', function($scope, toaster, ConfigAPI, Session) {
+  module.controller('SignupFactsCtrl', function($scope, toaster, Loader, ConfigAPI, Session) {
     this.searchTags = ConfigAPI.skills;
     this.submit = submit;
     $scope.loading = true;
     $scope.model = { tech_tags: [] };
+    Loader.page(true);
 
     Session.getUser().then(function(user) {
       return user && user.getData();
@@ -20,6 +21,7 @@ define(function(require) {
       ]);
     }).finally(function() {
       $scope.loading = false;
+      Loader.page(false);
     });
 
     function submit() {
@@ -29,6 +31,7 @@ define(function(require) {
       }
 
       $scope.loading = true;
+      Loader.add('signup-facts-saving');
 
       Object.keys($scope.model).forEach(function(key) {
         if (!$scope.model[key])
@@ -41,6 +44,7 @@ define(function(require) {
         toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
+        Loader.remove('signup-facts-saving');
       });
     }
   });
