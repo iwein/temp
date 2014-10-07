@@ -17,7 +17,7 @@ requirejs.config({
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
 
     // aliases
-    'conf': 'config/app-conf-local',
+    'conf': 'config/config',
     'app-module': 'apps/candidate/candidate-module',
     'session': 'apps/candidate/session',
   },
