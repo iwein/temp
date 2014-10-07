@@ -28,6 +28,7 @@ define(function(require) {
         $scope.model.first_name = name.shift();
         $scope.model.last_name = name.join(' ');
         $scope.model.email = data.email;
+        $scope.imported = true;
       }).finally(function() {
         Loader.remove('signup-user-import');
       });

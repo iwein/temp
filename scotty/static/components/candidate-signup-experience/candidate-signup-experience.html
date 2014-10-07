@@ -1,9 +1,10 @@
 <div class="component-candidate-signup-experience" ng-show="ready">
-  <h3>Work Experience <span ng-show="importing">- Importing {{ current + 1 }} from {{ experience.length }}</span></h3>
+  <h3>
+    Work Experience
+    <span ng-show="importing">- Importing {{ current + 1 }} from {{ experience.length }}</span>
+  </h3>
 
-
-
-  <div class="form-group" ng-show="!importing">
+  <div class="form-group" ng-show="!imported && !importing">
     <button type="button"
       ng-show="!linkedin.isConnected"
       ng-disabled="loading"

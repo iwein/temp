@@ -66,6 +66,7 @@ define(function(require) {
         $scope.experience = experience;
         $scope.current = 0;
         nextImported();
+        $scope.imported = true;
       }).finally(function() {
         Loader.remove('signup-experience-import');
       });

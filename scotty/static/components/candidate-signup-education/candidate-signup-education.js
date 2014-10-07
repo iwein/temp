@@ -65,6 +65,7 @@ define(function(require) {
         $scope.education = education;
         $scope.current = 0;
         nextImported();
+        $scope.imported = true;
       }).finally(function() {
         Loader.remove('signup-education-import');
       });
