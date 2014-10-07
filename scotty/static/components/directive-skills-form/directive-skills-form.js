@@ -25,14 +25,36 @@ define(function(require) {
         $scope.onBlur = onBlur;
         $scope.submit = submit;
         $scope.model = $scope.model || [];
-        $scope.model.push({});
         $scope.skills = [];
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
 
+        recheck();
+
         nameAttr(this, 'hcSkillsForm', $scope, $attrs);
         ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
+
+        function recheck() {
+          $scope.model = $scope.model.filter(function(skill) {
+            return !!skill.skill;
+          });
+
+          if ($scope.model.length > 2)
+            $scope.model.push({});
+          else while ($scope.model.length < 3)
+            $scope.model.push({});
+        }
+
+        function getSkills() {
+          var withLevel = $scope.model.filter(function(skill) {
+            return !!skill.skill;
+          });
+          var withoutLevel = $scope.skills.map(function(skill) {
+            return { skill: skill, level: null };
+          });
+          return withLevel.concat(withoutLevel);
+        }
 
         function save() {
           return Session.getUser().then(function(user) {
@@ -43,8 +65,9 @@ define(function(require) {
         function reset() {
           $scope.editing = false;
           $scope.formSkills.$setPristine();
-          $scope.model = [{}];
+          $scope.model = [];
           $scope.skills = [];
+          recheck();
         }
 
         function setModel(model) {
@@ -58,7 +81,7 @@ define(function(require) {
             .filter(fn.not(hasLevel))
             .map(fn.get('skill'));
 
-          $scope.model.push({});
+          recheck();
         }
 
         function searchSkills(term) {
@@ -73,24 +96,17 @@ define(function(require) {
 
         function remove(index) {
           $scope.model.splice(index, 1);
+          recheck();
         }
 
-        function onBlur(entry, index, isLast) {
-          if (!entry.skill && !isLast)
+        function onBlur(entry, index) {
+          if (!entry.skill)
             remove(index);
+          recheck();
         }
 
-        function onChange(entry, index, isLast) {
-          if (entry.skill && isLast)
-            $scope.model.push({});
-        }
-
-        function getSkills() {
-          var withLevel = $scope.model.slice(0, -1);
-          var withoutLevel = $scope.skills.map(function(skill) {
-            return { skill: skill, level: null };
-          });
-          return withLevel.concat(withoutLevel);
+        function onChange() {
+          recheck();
         }
 
         function submit() {

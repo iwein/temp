@@ -10,7 +10,7 @@
         class="form-control"
         name="skill{{ $index }}"
         ng-disabled="hcDisabled"
-        ng-required="$first && !skills.length"
+        ng-required="model.length < 4"
         ng-model="entry.skill"
         ng-blur="onBlur(entry, $index, $last)"
         ng-change="onChange(entry, $index, $last)"
@@ -27,7 +27,7 @@
       </select>
 
       <span class="close"
-        ng-if="!$last"
+        ng-if="entry.skill"
         ng-click="remove($index)">
         &times;
       </span>
