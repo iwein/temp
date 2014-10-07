@@ -10,6 +10,7 @@ define(function(require) {
       transclude: true,
       scope: {
         hcTitle: '@',
+        onLoad: '&',
         onEdit: '&',
         onRemove: '&',
         hcSource: '&',
@@ -26,7 +27,9 @@ define(function(require) {
         this.refresh = list;
 
         nameAttr(this, 'hcExperience', $scope, $attrs);
-        list();
+        list().then(function() {
+          $scope.onLoad();
+        });
 
         function edit(entry) {
           return $scope.onEdit({ $entry: entry });

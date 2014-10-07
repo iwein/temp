@@ -67,6 +67,7 @@
   <hc-education
     ng-if="ready"
     name="list"
+    on-load="listReady()"
     hc-title="Saved"
     hc-source="session.user.getEducation()"
     hc-source-remove="session.user.deleteEducation($entry)"

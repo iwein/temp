@@ -6,11 +6,12 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupEducationCtrl', function($scope, $state, Loader, Session) {
+  module.controller('CandidateSignupEducationCtrl', function($scope, $q, $state, Loader, Session) {
     $scope.importLinkedin = importLinkedin;
     $scope.saveImported = saveImported;
     $scope.skipImported = skipImported;
     $scope.setAddAnother = setAddAnother;
+    $scope.listReady = listReady;
     $scope.model = {};
     $scope.ready = false;
     $scope.education = null;
@@ -21,13 +22,28 @@ define(function(require) {
     var linkedin = Session.getLinkedIn();
     Loader.page(true);
 
-    Session.checkSession().then(function() {
-      if ($state.params.import)
-        return importLinkedin();
-    }).finally(function() {
-      $scope.ready = true;
-      Loader.page(false);
+    Session.checkSession().then(function(session) {
+      $scope.ready = session;
     });
+
+    function listReady() {
+      $q.when($scope.list.length).then(function(length) {
+        if (length > 0) {
+          $scope.imported = true;
+          return false;
+        }
+
+        if ($state.params.import)
+          return true;
+
+        return linkedin.checkConnection();
+      }).then(function(load) {
+        if (load)
+          return importLinkedin();
+      }).finally(function() {
+        Loader.page(false);
+      });
+    }
 
     function saveImported() {
       $scope.loading = true;

@@ -68,6 +68,7 @@
   <hc-experience
     ng-if="ready"
     name="list"
+    on-load="listReady()"
     hc-title="Saved"
     hc-source="session.user.getExperience()"
     hc-source-remove="session.user.deleteExperience($entry)"
