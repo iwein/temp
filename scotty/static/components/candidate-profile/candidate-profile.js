@@ -42,10 +42,10 @@ define(function(require) {
         },
         save: function() {
           $scope.loading = true;
-          return this.form.save().then(function() {
-            $scope.loading = false;
-            this.editing = false;
-          }.bind(this));
+          Loader.add('candidate-profile-saving');
+          return this.form.save()
+            .then(function() { this.editing = false }.bind(this))
+            .finally(function() { $scope.loading = false });
         }
       };
     }
@@ -62,9 +62,9 @@ define(function(require) {
           return this.list.refresh();
         },
         save: function() {
-          return base.save.call(this).then(function() {
-            return this.list.refresh();
-          }.bind(this));
+          return base.save.call(this)
+            .then(function() { return this.list.refresh() }.bind(this))
+            .finally(function() { Loader.remove('candidate-profile-saving') });
         },
       });
     }
@@ -85,7 +85,8 @@ define(function(require) {
         save: function() {
           return base.save.call(this)
             .then(getUserData)
-            .then(function(data) { $scope.cities = data.preferred_location });
+            .then(function(data) { $scope.cities = data.preferred_location })
+            .finally(function() { Loader.remove('candidate-profile-saving') });
         },
       });
     })();
@@ -96,7 +97,8 @@ define(function(require) {
         save: function() {
           return base.save.call(this)
             .then(getUserData)
-            .then(function(data) { $scope.skills = data.skills });
+            .then(function(data) { $scope.skills = data.skills })
+            .finally(function() { Loader.remove('candidate-profile-saving') });
         }
       });
     })();
@@ -107,7 +109,8 @@ define(function(require) {
         save: function() {
           return base.save.call(this)
             .then(getUserData)
-            .then(function(data) { $scope.languages = data.languages });
+            .then(function(data) { $scope.languages = data.languages })
+            .finally(function() { Loader.remove('candidate-profile-saving') });
         }
       });
     })();
@@ -128,7 +131,8 @@ define(function(require) {
         save: function() {
           return base.save.call(this)
             .then(getUserData)
-            .then(function(data) { $scope.user = data });
+            .then(function(data) { $scope.user = data })
+            .finally(function() { Loader.remove('candidate-profile-saving') });
         }
       });
     })();
