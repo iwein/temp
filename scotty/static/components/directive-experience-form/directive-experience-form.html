@@ -2,12 +2,12 @@
   <div class="form-group required">
     <label>Company Name</label>
     <input type="text"
-           class="form-control"
-           name="company"
-           required
-           ng-disabled="loading"
-           ng-model="model.company"
-           typeahead="company for company in searchCompanies($viewValue)">
+      class="form-control"
+      name="company"
+      ng-required="hcRequired"
+      ng-disabled="hcDisabled"
+      ng-model="model.company"
+      typeahead="company for company in searchCompanies($viewValue)">
     <div class="form-error" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
       <span ng-show="formExperience.company.$error.required">
         Please insert the company name.
@@ -20,13 +20,12 @@
     <div class="col-sm-5">
       <div class="form-group required">
         <label>Country</label>
-        <select
-                class="form-control"
-                name="country"
-                required
-                ng-disabled="loading"
-                ng-model="model.country_iso"
-                ng-options="country.iso as country.name for country in countries">
+        <select class="form-control"
+          name="country"
+          ng-required="hcRequired"
+          ng-disabled="hcDisabled"
+          ng-model="model.country_iso"
+          ng-options="country.iso as country.name for country in countries">
           <option value="">Select...</option>
         </select>
       </div>
@@ -35,20 +34,18 @@
       <div class="form-group required">
         <label>City</label>
         <input type="text"
-               name="city"
-               class="form-control"
-               required
-               ng-disabled="loading"
-               ng-model="model.city">
+          name="city"
+          class="form-control"
+          ng-required="hcRequired"
+          ng-disabled="hcDisabled"
+          ng-model="model.city">
         <div class="form-error" ng-show="formExperience.city.$dirty && formExperience.city.$invalid">
       <span ng-show="formExperience.city.$error.required">
         Please insert the city you worked on.
       </span>
         </div>
       </div>
-
     </div>
-
   </div>
 
 
@@ -57,56 +54,54 @@
 
     <div class="form-inline">
       <!-- From month -->
-      <select
-              class="form-control"
-              name="startMonth"
-              required
-              ng-disabled="loading"
-              ng-model="startMonth"
-              ng-options="month for month in months"
-              ng-change="startDateUpdate()">
+      <select class="form-control"
+        name="startMonth"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="startMonth"
+        ng-options="month for month in months"
+        ng-change="startDateUpdate()">
         <option value="">Month</option>
       </select>
 
       <!-- From year -->
       <input type="number"
-             class="form-control"
-             name="startYear"
-             placeholder="Year"
-             required
-             ng-disabled="loading"
-             ng-model="startYear"
-             ng-change="startDateUpdate()">
+        class="form-control"
+        name="startYear"
+        placeholder="Year"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="startYear"
+        ng-change="startDateUpdate()">
       <!-- Separator -->
       <span>–</span>
 
       <!-- To month -->
-      <select
-              class="form-control"
-              name="endMonth"
-              ng-disabled="loading || current"
-              ng-required="!current"
-              ng-model="endMonth"
-              ng-options="month for month in months"
-              ng-change="endDateUpdate()">
+      <select class="form-control"
+        name="endMonth"
+        ng-disabled="hcDisabled || current"
+        ng-required="hcRequired && !current"
+        ng-model="endMonth"
+        ng-options="month for month in months"
+        ng-change="endDateUpdate()">
         <option value="">Month</option>
       </select>
 
       <!-- To year -->
       <input type="number"
-             class="form-control"
-             name="endYear"
-             placeholder="Year"
-             ng-disabled="loading ||current"
-             ng-required="!current"
-             ng-model="endYear"
-             ng-change="endDateUpdate()">
+        class="form-control"
+        name="endYear"
+        placeholder="Year"
+        ng-disabled="hcDisabled ||current"
+        ng-required="hcRequired && !current"
+        ng-model="endYear"
+        ng-change="endDateUpdate()">
 
       <label>
         <input type="checkbox"
-               name="current"
-               ng-disabled="loading"
-               ng-model="current">
+          name="current"
+          ng-disabled="hcDisabled"
+          ng-model="current">
         Current position
       </label>
     </div>
@@ -128,12 +123,12 @@
   <div class="form-group required">
     <label>Role</label>
     <input type="text"
-           class="form-control"
-           name="role"
-           required
-           ng-disabled="loading"
-           ng-model="model.role"
-           typeahead="role for role in searchRoles($viewValue)">
+      class="form-control"
+      name="role"
+      ng-required="hcRequired"
+      ng-disabled="hcDisabled"
+      ng-model="model.role"
+      typeahead="role for role in searchRoles($viewValue)">
 
     <div class="form-error" ng-show="formExperience.role.$dirty && formExperience.role.$invalid">
       <span ng-show="formExperience.role.$error.required">Please insert the role you had at this position.</span>
@@ -156,12 +151,11 @@
 
   <div class="form-group required">
     <label>Role description</label>
-    <textarea
-            class="form-control"
-            name="summary"
-            required
-            ng-disabled="loading"
-            ng-model="model.summary">
+    <textarea class="form-control"
+      name="summary"
+      ng-required="hcRequired"
+      ng-disabled="hcDisabled"
+      ng-model="model.summary">
     </textarea>
 
     <div class="form-error" ng-show="formExperience.summary.$dirty && formExperience.summary.$invalid">

@@ -12,6 +12,8 @@ define(function(require) {
         //model: '=ngModel',
         onSubmit: '&',
         hcShowEmpty: '=',
+        hcRequired: '=',
+        hcDisabled: '=',
       },
       transclude: true,
       template: require('text!./directive-education-form.html'),
@@ -23,6 +25,7 @@ define(function(require) {
         $scope.model = $scope.model || {};
         $scope.months = months;
         $scope.loading = false;
+        this.isPristine = isPristine;
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
@@ -43,6 +46,10 @@ define(function(require) {
           $scope.model = {};
           $scope.current = false;
           $scope.not_completed_degree = false;
+        }
+
+        function isPristine() {
+          return $scope.formEducation.$pristine;
         }
 
         function setModel(model) {

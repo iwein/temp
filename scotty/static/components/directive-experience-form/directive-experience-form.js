@@ -13,6 +13,7 @@ define(function(require) {
         //model: '=ngModel',
         onSubmit: '&',
         hcShowEmpty: '=',
+        hcRequired: '=',
         hcDisabled: '=',
       },
       transclude: true,
@@ -26,6 +27,7 @@ define(function(require) {
         $scope.months = months;
         $scope.loading = false;
         $scope.submit = submit;
+        this.isPristine = isPristine;
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
@@ -75,6 +77,10 @@ define(function(require) {
           } else {
             $scope.current = false;
           }
+        }
+
+        function isPristine() {
+          return $scope.formExperience.$pristine;
         }
 
         function submit() {

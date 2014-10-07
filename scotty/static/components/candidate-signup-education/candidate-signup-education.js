@@ -114,10 +114,13 @@ define(function(require) {
     }
 
     function submit() {
+      if ($scope.form.isPristine())
+        return andContinue();
+
       $scope.loading = true;
       Loader.add('signup-education-saving');
 
-      $scope.form.save()
+      return $scope.form.save()
         .then($scope.addAnother ? addAnother : andContinue)
         .finally(function() {
           $scope.loading = false;

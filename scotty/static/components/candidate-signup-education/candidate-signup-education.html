@@ -41,12 +41,14 @@
   <hc-education-form
     ng-show="!importing"
     name="form"
+    hc-required="list.length === 0 || !form.isPristine()"
+    hc-disabled="loading"
     on-submit="signupEducation.submit(form)">
 
     <button type="submit"
       class="btn btn-primary"
       ng-click="setAddAnother(true)"
-      ng-disabled="loading">
+      ng-disabled="loading || form.isPristine()">
       Save &amp; add another
     </button>
     <button type="submit"
@@ -54,13 +56,6 @@
       ng-click="setAddAnother(false)"
       ng-disabled="loading">
       Save &amp; continue
-    </button>
-    <button type="button"
-      class="btn btn-primary"
-      ng-show="list.length"
-      ng-click="signupEducation.nextStep($event)"
-      ng-disabled="loading">
-      Continue
     </button>
   </hc-education-form>
 
