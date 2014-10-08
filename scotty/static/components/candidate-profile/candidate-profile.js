@@ -35,16 +35,21 @@ define(function(require) {
         edit: function(model) {
           this.form.setModel(model);
           this.editing = true;
+          $scope.formOpen = true;
         },
         cancel: function() {
           this.form.reset();
           this.editing = false;
+          $scope.formOpen = false;
         },
         save: function() {
           $scope.loading = true;
           Loader.add('candidate-profile-saving');
           return this.form.save()
-            .then(function() { this.editing = false }.bind(this))
+            .then(function() {
+              this.editing = false;
+              $scope.formOpen = false;
+            }.bind(this))
             .finally(function() { $scope.loading = false });
         }
       };
@@ -138,8 +143,7 @@ define(function(require) {
     })();
 
 
-    //Permission.requireSignup().then(function() {
-    Permission.requireLogged()
+    Permission.requireSignup()
       .then(getUserData)
       .then(function(data) {
         $scope.ready = true;
