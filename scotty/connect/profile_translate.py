@@ -32,9 +32,9 @@ def extract_location(value):
 
 
 def extract_date(value, name='dob'):
-    if not value:
+    if not value or not value.get('year'):
         return {}
-    return {name: date(value.get('year'), value.get('month'), value.get('day'))}
+    return {name: date(value['year'], value.get('month') or 1, value.get('day') or 1)}
 
 
 def rename(to_name):
