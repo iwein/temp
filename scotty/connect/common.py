@@ -68,7 +68,10 @@ class UserRejectedNotice(SocialLoginFailed): pass
 class InvalidSignatureException(SocialLoginFailed): pass
 
 
-class SocialNetworkException(SocialLoginFailed): pass
+class SocialNetworkException(SocialLoginFailed):
+    @property
+    def detail(self):
+        return self.message
 
 
 class ExpiredException(SocialLoginFailed): pass

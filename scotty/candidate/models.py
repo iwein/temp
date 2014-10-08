@@ -167,7 +167,8 @@ class Candidate(Base):
     __tablename__ = 'candidate'
     __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1',
                     'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso',
-                    'contact_phone', 'availability', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype']
+                    'contact_phone', 'availability', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype',
+                    'eu_work_visa', 'cv_upload_url']
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -192,6 +193,8 @@ class Candidate(Base):
     summary = Column(Text(), info=PUBLIC)
     github_url = Column(String(1024), info=PUBLIC)
     stackoverflow_url = Column(String(1024), info=PUBLIC)
+    eu_work_visa = Column(Boolean, info=PUBLIC)
+    cv_upload_url = Column(String(1024))
 
     traffic_source_id = Column(Integer, ForeignKey(TrafficSource.id))
     traffic_source = relationship(TrafficSource)
