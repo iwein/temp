@@ -9,11 +9,22 @@ define(function(require) {
     this.submit = submit;
     $scope.loading = false;
     $scope.ready = false;
+    var modelLoaded = false;
     Loader.page(true);
+
+    ConfigAPI.featuredLanguages().then(function(langs) {
+      if (!modelLoaded)
+        $scope.form.setModel(langs.map(function(value) { return { language: value } }));
+    });
 
     Session.getUser()
       .then(fn.invoke('getData', []))
-      .then(function(data) { $scope.form.setModel(data.languages) })
+      .then(function(data) {
+        if (data.languages.length) {
+          modelLoaded = true;
+          $scope.form.setModel(data.languages);
+        }
+      })
       .finally(function() {
         $scope.ready = true;
         Loader.page(false);

@@ -47,6 +47,7 @@ define(function(require) {
     withdrawReasons: helper('withdrawalreasons'),
     travelWillingness: helper('travelwillingness'),
     salutations: helper('salutations'),
+    featuredLanguages: helper('languages/featured'),
 
     // search
     skills: helper('skills'),
