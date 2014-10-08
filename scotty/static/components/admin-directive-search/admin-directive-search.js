@@ -11,11 +11,14 @@ define(function(require) {
       template: require('text!./admin-directive-search.html'),
       scope: {
         onSearch: '&',
+        hcShowSkills: '=',
       },
-      controller: function($scope, $attrs, toaster) {
+      controller: function($scope, $attrs, toaster, ConfigAPI) {
+        $scope.searchSkills = ConfigAPI.skills;
         $scope.loadMore = loadMore;
         $scope.search = _.debounce(search, 200);
         $scope.output = [];
+        $scope.tags = [];
         var show = 20;
         var counter = 0;
 
@@ -46,6 +49,9 @@ define(function(require) {
             q: $scope.term,
             limit: show,
           };
+
+          if ($scope.tags.length)
+            params.tags = $scope.tags;
 
           if (offset)
             params.offset = offset;

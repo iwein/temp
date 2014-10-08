@@ -95,6 +95,11 @@ define(function() {
         this.status !== 'CONTRACT_NEGOTIATION';
     },
 
+    canRollback: function() {
+      return this.status !== 'ACTIVE' &&
+        this.status !== 'EXPIRED';
+    },
+
     canSign: function() {
       return !this.isFinalStatus();
     },
@@ -116,6 +121,11 @@ define(function() {
 
     withdraw: function(params) {
       return this._api.post(this._url() + '/withdraw', params)
+        .then(this._updateStatus);
+    },
+
+    rollback: function() {
+      return this._api.post(this._url() + '/rollback', {})
         .then(this._updateStatus);
     },
 
