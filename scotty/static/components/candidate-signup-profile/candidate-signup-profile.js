@@ -31,10 +31,6 @@ define(function(require) {
           $scope.imported = true;
           return false;
         }
-
-        if ($state.params.import)
-          return true;
-
         return linkedin.checkConnection();
       })
       .then(function(load) {
@@ -70,7 +66,7 @@ define(function(require) {
   });
 
   return {
-    url: '/profile/:import',
+    url: '/profile/',
     template: require('text!./candidate-signup-profile.html'),
     controller: 'CandidateSignupProfileCtrl',
     controllerAs: 'signupProfile',

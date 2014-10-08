@@ -29,7 +29,7 @@ define(function() {
     connect: function() {
       return this.checkConnection().then(function(connected) {
         if (!connected)
-          window.location = this._connectUrl + encodeURIComponent(window.location.toString() + 'import');
+          window.location = this._connectUrl + encodeURIComponent(window.location.toString());
       }.bind(this));
     },
 
