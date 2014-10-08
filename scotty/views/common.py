@@ -29,3 +29,7 @@ def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_fie
 
     return run_paginated_query(request, basequery.order_by(order_field if order_field is not None else name_field))
 
+
+def list_featured(request, cls):
+    query = DBSession.query(cls).filter(cls.featured_order != None).order_by(cls.featured_order.asc())
+    return run_paginated_query(request, query)
