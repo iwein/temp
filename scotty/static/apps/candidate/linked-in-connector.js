@@ -39,6 +39,12 @@ define(function() {
       }.bind(this));
     },
 
+    getProfileData: function() {
+      return this.connect().then(function() {
+        return this._api.get('/i-will-fail');
+      }.bind(this));
+    },
+
     getExperience: function() {
       return this.connect().then(function() {
         return this._api.get('/connect/linkedin/work_experience');
