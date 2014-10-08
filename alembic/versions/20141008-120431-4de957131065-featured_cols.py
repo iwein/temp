@@ -50,6 +50,8 @@ def upgrade():
     op.add_column('language', sa.Column('featured_order', sa.Integer(), nullable=True))
     op.add_column('role', sa.Column('featured_order', sa.Integer(), nullable=True))
     op.add_column('skill', sa.Column('featured_order', sa.Integer(), nullable=True))
+    op.add_column('candidate', sa.Column('eu_work_visa', sa.Boolean(), nullable=True))
+    op.add_column('candidate', sa.Column('cv_upload_url', sa.String(length=1024), nullable=True))
 
     skills = ['Java', '.Net', 'PHP', 'Python', 'Ruby', 'C/C++', 'JavaScript', 'HTML/CSS', 'Android', 'iOS', 'Linux', 'Salesforce', 'SAP']
     set_featured_order(skills, 'skill')
@@ -75,15 +77,7 @@ def upgrade():
     for i, (city, country_iso) in enumerate(cities):
         op.execute(sa.text("update city set featured_order=%s where lower(name) = lower('%s') and country_iso = '%s'" %
                            (i+1, city, country_iso)))
-
-
-
-
-
         ### end Alembic commands ###
-
-
-
 
 
 def downgrade():
@@ -92,5 +86,7 @@ def downgrade():
     op.drop_column('role', 'featured_order')
     op.drop_column('language', 'featured_order')
     op.drop_column('city', 'featured_order')
+    op.drop_column('candidate', 'eu_work_visa')
+    op.drop_column('candidate', 'cv_upload_url')
     ### end Alembic commands ###
 

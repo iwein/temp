@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import logging
 import urllib
@@ -8,6 +9,7 @@ from pyramid.view import view_config
 import requests
 from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, \
     UserRejectedNotice
+from scotty.connect.profile_translate import translate
 
 
 log = logging.getLogger(__name__)
@@ -22,7 +24,7 @@ def includeme(config):
     config.add_view(callback_view, route_name="api_connect_linkedin_cb")
 
     config.add_route("api_connect_linkedin_me", pattern="linkedin/me", factory=SocialResource)
-    config.add_view(view_my_profile, route_name="api_connect_linkedin_me")
+    config.add_view(view_me, route_name="api_connect_linkedin_me")
 
     config.add_route("api_connect_linkedin_me_forget", pattern="linkedin/me/forget", factory=SocialResource)
     config.add_view(forget_my_profile, route_name="api_connect_linkedin_me_forget")
@@ -32,6 +34,9 @@ def includeme(config):
 
     config.add_route("api_connect_linkedin_edu", pattern="linkedin/education", factory=SocialResource)
     config.add_view(view_my_education, route_name="api_connect_linkedin_edu")
+
+    config.add_route("api_connect_linkedin_profile", pattern="linkedin/profile", factory=SocialResource)
+    config.add_view(view_my_profile, route_name="api_connect_linkedin_profile")
 
     settings = config.registry.settings
 
@@ -55,7 +60,9 @@ class SocialResource(object):
 
     getCodeEndpoint = "https://www.linkedin.com/uas/oauth2/authorization"
     getTokenEndpoint = "https://www.linkedin.com/uas/oauth2/accessToken"
-    profileEndpoint = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,picture-url,email-address)"
+    profileEndpoint = "https://api.linkedin.com/v1/people/~:(" \
+                      "id,first-name,last-name,picture-url,email-address,date-of-birth,im-accounts,main-address,location:(name,country:(code))" \
+                      ")"
     positionsEndpoint = "https://api.linkedin.com/v1/people/~/positions"
     educationEndpoint = "https://api.linkedin.com/v1/people/~/educations"
 
@@ -106,11 +113,19 @@ def callback_view(context, request):
     raise HTTPFound(location=result.get_redirection(request))
 
 
-def view_my_profile(ctxt, request):
-    if 'accessToken' not in request.session.get('linkedin', {}):
-        raise HTTPForbidden("Not Connected Yet")
-    else:
-        return request.session['linkedin']
+def logged_in_with_linkedin(view):
+    def inner_view(ctxt, req):
+        if 'accessToken' not in req.session.get('linkedin', {}):
+            raise HTTPForbidden("Not Connected Yet")
+        else:
+            return view(ctxt, req)
+    return inner_view
+
+
+@logged_in_with_linkedin
+def view_me(ctxt, request):
+    return request.session['linkedin']
+
 
 
 def forget_my_profile(ctxt, request):
@@ -119,57 +134,67 @@ def forget_my_profile(ctxt, request):
     return {'success': True}
 
 
+@logged_in_with_linkedin
 def view_my_positions(context, request):
-    if 'accessToken' not in request.session.get('linkedin', {}):
-        raise HTTPForbidden("Not Connected Yet")
+    profile = request.session['linkedin']
+    access_token = profile['accessToken']
+    results = requests.get(context.positionsEndpoint, params={'oauth2_access_token': access_token},
+                           headers={'x-li-format': 'json'})
+    exp = results.json()
+    if results.status_code != 200:
+        raise HTTPForbidden("Some Error from Linkedin, %s:%s" %(results.status_code, results.text))
+    elif exp.get('_total', 0) <= 0:
+        return []
     else:
-        profile = request.session['linkedin']
-        access_token = profile['accessToken']
-        results = requests.get(context.positionsEndpoint, params={'oauth2_access_token': access_token},
-                               headers={'x-li-format': 'json'})
-        exp = results.json()
-        if results.status_code != 200:
-            raise HTTPForbidden("Some Error from Linkedin, %s:%s" %(results.status_code, results.text))
-        elif exp.get('_total', 0) <= 0:
-            return []
-        else:
-            experiences = []
-            for p in exp.get('values', []):
+        experiences = []
+        for p in exp.get('values', []):
 
-                p['startDate'].setdefault('day', 1)
-                p['startDate'].setdefault('month', 1)
-                if p.get('endDate'):
-                    p['endDate'].setdefault('day', 1)
-                    p['endDate'].setdefault('month', 1)
+            p['startDate'].setdefault('day', 1)
+            p['startDate'].setdefault('month', 1)
+            if p.get('endDate'):
+                p['endDate'].setdefault('day', 1)
+                p['endDate'].setdefault('month', 1)
 
-                experiences.append({
-                    'start':  '%(year)04d-%(month)02d-%(day)02d' % p['startDate'],
-                    'end': '%(year)04d-%(month)02d-%(day)02d' % p['endDate'] if p.get('endDate') else None,
-                    'role': p.get('title'),
-                    'company': p.get('company', {}).get('name'),
-                    'summary': p.get('summary')})
-            return experiences
+            experiences.append({
+                'start':  '%(year)04d-%(month)02d-%(day)02d' % p['startDate'],
+                'end': '%(year)04d-%(month)02d-%(day)02d' % p['endDate'] if p.get('endDate') else None,
+                'role': p.get('title'),
+                'company': p.get('company', {}).get('name'),
+                'summary': p.get('summary')})
+        return experiences
 
+
+@logged_in_with_linkedin
 def view_my_education(context, request):
-    if 'accessToken' not in request.session.get('linkedin', {}):
-        raise HTTPForbidden("Not Connected Yet")
+    profile = request.session['linkedin']
+    access_token = profile['accessToken']
+    results = requests.get(context.educationEndpoint, params={'oauth2_access_token': access_token},
+                           headers={'x-li-format': 'json'})
+    exp = results.json()
+    if results.status_code != 200:
+        raise HTTPForbidden("Some Error from Linkedin, %s:%s" % (results.status_code, results.text))
+    elif exp.get('_total', 0) <= 0:
+        return []
     else:
-        profile = request.session['linkedin']
-        access_token = profile['accessToken']
-        results = requests.get(context.educationEndpoint, params={'oauth2_access_token': access_token},
-                               headers={'x-li-format': 'json'})
-        exp = results.json()
-        if results.status_code != 200:
-            raise HTTPForbidden("Some Error from Linkedin, %s:%s" % (results.status_code, results.text))
-        elif exp.get('_total', 0) <= 0:
-            return []
-        else:
-            education = []
-            for p in exp.get('values', []):
-                education.append({
-                    'institution': p.get('schoolName'),
-                    'degree': p.get('degree'),
-                    'course': p.get('fieldOfStudy'),
-                    'start': p.get('startDate', {}).get('year'),
-                    'end': p.get('endDate', {}).get('year')})
-            return education
+        education = []
+        for p in exp.get('values', []):
+            education.append({
+                'institution': p.get('schoolName'),
+                'degree': p.get('degree'),
+                'course': p.get('fieldOfStudy'),
+                'start': p.get('startDate', {}).get('year'),
+                'end': p.get('endDate', {}).get('year')})
+        return education
+
+
+
+@logged_in_with_linkedin
+def view_my_profile(context, request):
+    profile = request.session['linkedin']
+    access_token = profile['accessToken']
+    results = requests.get(context.profileEndpoint, params={'oauth2_access_token': access_token},
+                           headers={'x-li-format': 'json'})
+    exp = results.json()
+    if results.status_code != 200:
+        raise HTTPForbidden("Some Error from Linkedin, %s:%s" %(results.status_code, results.text))
+    return translate(exp)
