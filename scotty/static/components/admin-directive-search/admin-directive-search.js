@@ -12,7 +12,8 @@ define(function(require) {
       scope: {
         onSearch: '&',
       },
-      controller: function($scope, $attrs, toaster) {
+      controller: function($scope, $attrs, toaster, ConfigAPI) {
+        $scope.searchSkills = ConfigAPI.skills;
         $scope.loadMore = loadMore;
         $scope.search = _.debounce(search, 200);
         $scope.output = [];
@@ -44,6 +45,7 @@ define(function(require) {
           var instance = ++counter;
           var params = {
             q: $scope.term,
+            tags: $scope.tags,
             limit: show,
           };
 
