@@ -41,7 +41,7 @@ define(function() {
 
     getProfileData: function() {
       return this.connect().then(function() {
-        return this._api.get('/i-will-fail');
+        return this._api.get('/connect/linkedin/profile');
       }.bind(this));
     },
 
