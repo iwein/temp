@@ -10,6 +10,7 @@
 
     <div class="form-group required">
       <hc-label-typeahead
+        ng-if="hcShowSkills"
         placeholder="Skills"
         ng-model="tags"
         hc-source="searchSkills($viewValue)"

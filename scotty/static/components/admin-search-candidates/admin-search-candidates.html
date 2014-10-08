@@ -2,7 +2,7 @@
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Search candidates</h3>
 
-    <hc-admin-search on-search="executeSearch($params)">
+    <hc-admin-search on-search="executeSearch($params)" hc-show-skills="true">
       <hc-candidate
         ng-repeat="candidate in results"
         ng-model="candidate"
