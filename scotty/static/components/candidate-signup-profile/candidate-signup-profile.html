@@ -1,6 +1,15 @@
 <div class="component-candidate-signup-profile">
   <h3>Sign up - Profile</h3>
 
+  <div class="form-group required" ng-show="!imported">
+    <button type="button" ng-show="!linkedin.isConnected" ng-click="linkedin.connect()">
+      Connect with linked in
+    </button>
+    <button type="button" ng-show="linkedin.isConnected" ng-click="importLinkedin()">
+      Import data from linked in
+    </button>
+  </div>
+
   <hc-profile-form
     name="form"
     hc-disabled="loading"

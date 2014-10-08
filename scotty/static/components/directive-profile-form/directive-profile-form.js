@@ -20,7 +20,7 @@ define(function(require) {
       transclude: true,
       template: require('text!./directive-profile-form.html'),
       controllerAs: 'skillsCtrl',
-      controller: function($scope, $attrs, ConfigAPI, Session, Amazon) {
+      controller: function($scope, $q, $attrs, ConfigAPI, Session, Amazon) {
         $scope.selectFile = selectFile;
         $scope.submit = submit;
         this.setModel = setModel;
@@ -36,9 +36,13 @@ define(function(require) {
               if ($scope.model.picture_url)
                 return;
 
-              return Amazon.upload($scope.files[0], 'users', Session.id()).then(function(file) {
-                return user.setPhoto(file);
-              });
+              return $q.all([
+                Amazon.upload($scope.files[0], 'users', Session.id()),
+                Amazon.upload($scope.cv_file[0], 'cv', Session.id()),
+              ]);
+            }).then(function(files) {
+              // TODO: save cv url
+              return user.setPhoto(files[0]);
             });
           });
         }
