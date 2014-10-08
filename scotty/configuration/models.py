@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Numeric
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Numeric, Boolean
 from scotty.models.meta import Base, NamedModel
 from sqlalchemy.orm import relationship
 
@@ -84,6 +84,7 @@ class Skill(Base, NamedModel):
     __tablename__ = 'skill'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
+    featured_order = Column(Integer)
 
 
 class Language(Base, NamedModel):
@@ -91,12 +92,14 @@ class Language(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     iso_639_2 = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False, unique=True)
+    featured_order = Column(Integer)
 
 
 class Role(Base, NamedModel):
     __tablename__ = 'role'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
+    featured_order = Column(Integer)
 
 
 class JobTitle(Base, NamedModel):
@@ -136,6 +139,7 @@ class City(Base):
     name = Column(String(255), nullable=False)
     longitude = Column(Numeric)
     latitude = Column(Numeric)
+    featured_order = Column(Integer)
 
     def __json__(self, request):
         return {'city': self.name, 'country_iso': self.country_iso}

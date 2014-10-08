@@ -4,10 +4,9 @@ from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Pro
     Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason, \
     TravelWillingness, WithdrawalReason, Role
 from scotty.views import RootController
-from scotty.views.common import listing_request, run_paginated_query
+from scotty.views.common import listing_request, run_paginated_query, list_featured
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
-
 
 
 class ConfigurationController(RootController):
@@ -55,27 +54,43 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_degrees')
     def degrees(self):
-        return listing_request(self.request, Degree, self.request.params.get("q"), ignorecase=True, order_field=func.length(Degree.name))
+        return listing_request(self.request, Degree, self.request.params.get("q"), ignorecase=True, order_field=func
+                               .length(Degree.name))
 
     @view_config(route_name='configuration_list_courses')
     def courses(self):
-        return listing_request(self.request, Course, self.request.params.get("q"), ignorecase=True, order_field=func.length(Course.name))
+        return listing_request(self.request, Course, self.request.params.get("q"), ignorecase=True, order_field=func
+                               .length(Course.name))
 
     @view_config(route_name='configuration_list_languages')
     def languages(self):
         return listing_request(self.request, Language, self.request.params.get("q"), ignorecase=True)
 
+    @view_config(route_name='configuration_list_featured_languages')
+    def featured_languages(self):
+        return list_featured(self.request, Language)
+
     @view_config(route_name='configuration_list_skills')
     def skills(self):
-        return listing_request(self.request, Skill, self.request.params.get("q"), ignorecase=True, order_field=func.length(Skill.name))
+        return listing_request(self.request, Skill, self.request.params.get("q"), ignorecase=True, order_field=func
+                               .length(Skill.name))
+
+    @view_config(route_name='configuration_list_featured_skills')
+    def featured_skills(self):
+        return list_featured(self.request, Skill)
 
     @view_config(route_name='configuration_list_job_titles')
     def job_titles(self):
-        return listing_request(self.request, JobTitle, self.request.params.get("q"), ignorecase=True, order_field=func.length(JobTitle.name))
+        return listing_request(self.request, JobTitle, self.request.params.get("q"), ignorecase=True, order_field
+        =func.length(JobTitle.name))
 
     @view_config(route_name='configuration_list_roles')
     def roles(self):
         return listing_request(self.request, Role, self.request.params.get("q"), ignorecase=True, order_field=func.length(Role.name))
+
+    @view_config(route_name='configuration_list_featured_roles')
+    def featured_roles(self):
+        return list_featured(self.request, Role)
 
     @view_config(route_name='configuration_list_institutions')
     def institutions(self):
@@ -104,3 +119,6 @@ class ConfigurationController(RootController):
             basequery = basequery.filter(City.country_iso == ciso)
         return run_paginated_query(self.request, basequery)
 
+    @view_config(route_name='configuration_list_featured_locations')
+    def featured_locations(self):
+        return list_featured(self.request, City)

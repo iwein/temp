@@ -22,10 +22,13 @@
       {'url':'/api/v1/config/courses?q=alg', 'title': 'course-search'},
       {'url':'/api/v1/config/languages?offset=450&limit=50', 'title': 'languages'},
       {'url':'/api/v1/config/languages?q=rit', 'title': 'language-search'},
+      {'url':'/api/v1/config/languages/featured', 'title': 'language-featured'},
       {'url':'/api/v1/config/skills', 'title': 'skills'},
       {'url':'/api/v1/config/skills?q=en', 'title': 'skills-search'},
+      {'url':'/api/v1/config/skills/featured', 'title': 'skills-featured'},
       {'url':'/api/v1/config/roles', 'title': 'roles'},
       {'url':'/api/v1/config/roles?q=an', 'title': 'roles-search'},
+      {'url':'/api/v1/config/roles/featured', 'title': 'roles-featured'},
       {'url':'/api/v1/config/job_titles', 'title': 'job_titles'},
       {'url':'/api/v1/config/job_titles?q=an', 'title': 'job_titles-search'},
 
@@ -41,7 +44,8 @@
       {'url':'/api/v1/config/locations?limit=5', 'title': 'locations-list'},
       {'url':'/api/v1/config/locations?q=Berl&limit=5', 'title': 'locations-search'},
       {'url':'/api/v1/config/locations?q=Berl&limit=5&country_iso=DE', 'title': 'locations-search-with-ciso-DE'},
-      {'url':'/api/v1/config/locations?q=Berl&limit=5&country_iso=US', 'title': 'locations-search-with-ciso-US'}
+      {'url':'/api/v1/config/locations?q=Berl&limit=5&country_iso=US', 'title': 'locations-search-with-ciso-US'},
+      {'url':'/api/v1/config/locations/featured', 'title': 'locations-featured'}
     ];
 
     $(function(){getTestRunner(tests)(0, {});})
