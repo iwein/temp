@@ -37,6 +37,7 @@ def includeme(config):
     config.add_route('admin_offer_status', 'offers/{id}/status')
     config.add_route('admin_offer_signed', 'offers/{id}/signed')
     config.add_route('admin_offer_withdraw', 'offers/{id}/withdraw')
+    config.add_route('admin_offer_rollback', 'offers/{id}/rollback')
     config.scan()
 
 
@@ -199,6 +200,15 @@ class AdminOfferController(RootController):
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
         try:
             self.offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        DBSession.flush()
+        return self.offer.full_status_flow
+
+    @view_config(route_name='admin_offer_rollback', **POST)
+    def rollback(self):
+        try:
+            self.offer.rollback()
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()
