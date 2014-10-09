@@ -32,3 +32,8 @@ def json_encoder(val, request, level=PUBLIC):
     # then we return their values in a dict
     result = {c: getattr(val, c) for c in columns if getattr(val, c) is not None}
     return result
+
+class JsonSerialisable(object):
+
+    def to_json(self, request):
+        return getattr(self, '__extra__', {})

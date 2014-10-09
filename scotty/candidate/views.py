@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
@@ -6,24 +7,63 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, TargetPosition, FullCandidate, \
-    MatchedCandidate, CandidateOffer
+    CandidateOffer, WXPCandidate
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags
+    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed
+from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
-from scotty.views.common import POST, GET, DELETE, PUT
-from sqlalchemy import or_, func
+from scotty.views.common import POST, GET, DELETE, PUT, run_paginated_query
 from sqlalchemy.exc import IntegrityError
-import logging
 from sqlalchemy.orm import joinedload, joinedload_all
 
 log = logging.getLogger(__name__)
+
+
+
+
+def includeme(config):
+    config.add_route('candidates', '')
+    config.add_route('candidate_login', 'login')
+    config.add_route('candidate_logout', 'logout')
+    config.add_route('candidate_requestpassword', 'requestpassword')
+    config.add_route('candidate_resetpassword', 'resetpassword/{token}')
+    config.add_route('candidate_activate', 'activate/{token}')
+
+    config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
+    config.add_route('candidate', '{candidate_id}')
+    config.add_route('candidate_picture', '{candidate_id}/picture')
+    config.add_route('candidate_skills', '{candidate_id}/skills')
+    config.add_route('candidate_preferred_locations', '{candidate_id}/preferred_locations')
+    config.add_route('candidate_languages', '{candidate_id}/languages')
+
+    config.add_route('candidate_educations', '{candidate_id}/education')
+    config.add_route('candidate_education', '{candidate_id}/education/{id}')
+
+    config.add_route('candidate_bookmarks', '{candidate_id}/bookmarks')
+    config.add_route('candidate_bookmark', '{candidate_id}/bookmarks/{id}')
+
+    config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
+    config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
+
+    config.add_route('target_positions', '{candidate_id}/target_positions')
+    config.add_route('target_position', '{candidate_id}/target_positions/{id}')
+
+    config.add_route('candidate_offers', '{candidate_id}/offers')
+    config.add_route('candidate_offer', '{candidate_id}/offers/{id}')
+
+    config.add_route('candidate_offer_accept', '{candidate_id}/offers/{id}/accept')
+    config.add_route('candidate_offer_reject', '{candidate_id}/offers/{id}/reject')
+    config.add_route('candidate_offer_status', '{candidate_id}/offers/{id}/status')
+    config.add_route('candidate_offer_signed', '{candidate_id}/offers/{id}/signed')
+    config.scan()
+
 
 class CandidateController(RootController):
     @reify
@@ -61,25 +101,20 @@ class CandidateController(RootController):
         if 'country_iso' in params and 'city' in params:
             city_id = get_location_by_name_or_raise(params).id
 
-        base_query = DBSession.query(MatchedCandidate).options(joinedload_all('languages.language'),
-                                                               joinedload_all('languages.proficiency'),
-                                                               joinedload_all("work_experience.skills"),
-                                                               joinedload('skills'),
-                                                               joinedload('preferred_locations'))
+        def optimise_query(q):
+            return q.options(joinedload_all('languages.language'),
+                             joinedload_all('languages.proficiency'),
+                             joinedload_all('skills.skill'),
+                             joinedload_all('skills.level'),
+                             joinedload('preferred_locations'))
+
         if tags:
-            candidate_tags = get_candidates_by_techtags(tags, city_id)
-            candidate_ids = [c[0] for c in candidate_tags]
-            candidate_query = base_query.filter(MatchedCandidate.id.in_(candidate_ids)).limit(20)
-            candidate_lookup = {str(c.id): c for c in candidate_query.all()}
-            candidates = []
-            for candidate_id, matched_tags in candidate_tags:
-                if candidate_id in candidate_lookup:
-                    c = candidate_lookup[candidate_id]
-                    c.matched_tags = matched_tags
-                    candidates.append(c)
+            pager = get_candidates_by_techtags_pager(tags, city_id)
+            result = ObjectBuilder(Candidate).serialize(pager, adjust_query=optimise_query)
         else:
-            candidates = base_query.limit(20).all()
-        return candidates
+            basequery = optimise_query(DBSession.query(Candidate))
+            result = run_paginated_query(self.request, basequery)
+        return result
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):

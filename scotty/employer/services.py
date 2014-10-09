@@ -10,6 +10,7 @@ from scotty.offer.models import EmployerOffer
 from scotty.models.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection, get_by_name_or_raise
 from sqlalchemy import text, func
+from scotty.services.pagingservice import Pager
 
 
 ID = lambda x: x
@@ -126,20 +127,21 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
             setattr(obj, field, transform(params[field]))
 
 
-def search_employers(tags, city_id, company_types):
+def get_employers_pager(tags, city_id, company_types):
     params = {'city_id': city_id}
     tags = {'tag_%d' % i: tag for i, tag in enumerate(tags)}
     params.update(tags)
     if company_types:
         params['company_type'] = ', '.join([ct.name for ct in company_types])
-        query = DBSession.execute(text(
-            """select * from employer_search(array[:%s], :city_id, array[:company_type]) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())),
-                                  params)
+        query = """select employer_id as id, matched_tags, count(*) over() as total
+                   from employer_search(array[:%s], :city_id, array[:company_type])
+                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
+
     else:
-        query = DBSession.execute(text(
-            """select * from employer_search(array[:%s], :city_id, null) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())), params)
-    results = list(query)
-    return [(r['employer_id'], r['matched_tags']) for r in results]
+        query = """select employer_id as id, matched_tags, count(*) over() as total
+                   from employer_search(array[:%s], :city_id, null)
+                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
+    return Pager(query, params)
 
 
 def get_employer_suggested_candidate_ids(employer_id):

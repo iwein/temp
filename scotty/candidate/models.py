@@ -1,7 +1,7 @@
 import hashlib
 from uuid import uuid4
 from datetime import datetime
-from scotty.models.tools import json_encoder, PUBLIC, PRIVATE
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable
 
 from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
@@ -163,7 +163,7 @@ class PreferredLocation(Base):
         return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
 
 
-class Candidate(Base):
+class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
     __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1',
                     'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso',
@@ -259,7 +259,8 @@ class Candidate(Base):
         return results
 
     def __json__(self, request):
-        result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
+        result = self.to_json(request)
+        result.update({k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None})
         result['id'] = self.id
         result['salutation'] = self.salutation
         result['status'] = self.status
@@ -281,14 +282,6 @@ class WXPCandidate(Candidate):
         result['work_experience'] = self.work_experience
         return result
 
-
-class MatchedCandidate(WXPCandidate):
-    matched_tags = None
-
-    def __json__(self, request):
-        result = super(MatchedCandidate, self).__json__(request)
-        result['matched_tags'] = self.matched_tags
-        return result
 
 
 class FullCandidate(WXPCandidate):

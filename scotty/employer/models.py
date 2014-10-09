@@ -6,7 +6,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer
 from scotty.models.meta import Base, GUID
-from scotty.models.tools import PUBLIC, PRIVATE, json_encoder
+from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
 from sqlalchemy.orm import relationship
 
@@ -64,7 +64,7 @@ employer_benefits = Table('employer_benefit', Base.metadata,
 
 
 
-class Employer(Base):
+class Employer(Base, JsonSerialisable):
     __tablename__ = 'employer'
     __name_field__ = 'company_name'
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
@@ -158,8 +158,8 @@ class Employer(Base):
             return EMPLOYER_STATUS[status]
 
     def __json__(self, request):
-        result = json_encoder(self, request)
-
+        result = self.to_json(request)
+        result.update(json_encoder(self, request))
         result['contact_salutation'] = self.contact_salutation
         result['company_type'] = self.company_type
         result['status'] = self.status
@@ -173,13 +173,6 @@ class EmbeddedEmployer(Employer):
     def __json__(self, request):
         return json_encoder(self, request)
 
-
-class MatchedEmployer(Employer):
-    matched_tags = {}
-    def __json__(self, request):
-        result = super(MatchedEmployer, self).__json__(request)
-        result['matched_tags'] = self.matched_tags
-        return result
 
 class FullEmployer(Employer):
     def __json__(self, request):

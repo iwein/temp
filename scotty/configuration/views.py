@@ -1,3 +1,5 @@
+from sqlalchemy import func
+
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
@@ -5,8 +7,34 @@ from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Pro
     TravelWillingness, WithdrawalReason, Role
 from scotty.views import RootController
 from scotty.views.common import listing_request, run_paginated_query, list_featured
-from sqlalchemy import func
 from sqlalchemy.orm import joinedload
+
+
+def includeme(config):
+    config.add_route('configuration_list_seniority', 'seniority')
+    config.add_route('configuration_list_salutations', 'salutations')
+    config.add_route('configuration_list_companytypes', 'company_types')
+    config.add_route('configuration_list_skilllevels', 'skill_levels')
+    config.add_route('configuration_list_proficiencies', 'proficiencies')
+    config.add_route('configuration_list_travel_willingness', 'travelwillingness')
+    config.add_route('configuration_list_traffic_sources', 'traffic_sources')
+    config.add_route('configuration_list_rejectionreasons', 'rejectionreasons')
+    config.add_route('configuration_list_withdrawalreasons', 'withdrawalreasons')
+    config.add_route('configuration_list_degrees', 'degrees')
+    config.add_route('configuration_list_courses', 'courses')
+    config.add_route('configuration_list_benefits', 'benefits')
+    config.add_route('configuration_list_languages', 'languages')
+    config.add_route('configuration_list_featured_languages', 'languages/featured')
+    config.add_route('configuration_list_skills', 'skills')
+    config.add_route('configuration_list_featured_skills', 'skills/featured')
+    config.add_route('configuration_list_job_titles', 'job_titles')
+    config.add_route('configuration_list_roles', 'roles')
+    config.add_route('configuration_list_featured_roles', 'roles/featured')
+    config.add_route('configuration_list_institutions', 'institutions')
+    config.add_route('configuration_list_companies', 'companies')
+    config.add_route('configuration_list_countries', 'countries')
+    config.add_route('configuration_list_locations', 'locations')
+    config.add_route('configuration_list_featured_locations', 'locations/featured')
 
 
 class ConfigurationController(RootController):

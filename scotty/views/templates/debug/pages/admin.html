@@ -9,16 +9,16 @@
 
             {sectionTitle: 'Search'},
             {url: '/api/v1/admin/search/employers?q=Hack', title: 'admin-search-employers'},
-            {url: '/api/v1/admin/search/candidates?q=Mapa', title: 'admin-search-candidates'},
+            {url: '/api/v1/admin/search/candidates?q=Mapa', title: 'search-candidates-byname'},
+            {url: '/api/v1/admin/search/candidates?q=Ma&tags=Python', title: 'search-candidates-byname-tags'},
+            {url: '/api/v1/admin/search/candidates?tags=Python,PHP', title: 'search-candidates-bytags'},
 
             {sectionTitle: 'List Offers'},
             {url: '/api/v1/admin/offers?status=ACTIVE', title: 'admin-offers'},
             {url: '/api/v1/admin/offers?status=ACCEPTED', title: 'admin-offers'},
             {url: '/api/v1/admin/offers?status=INTERVIEW', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_SENT', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_RECEIVED', title: 'admin-offers'},
+            {url: '/api/v1/admin/offers?status=CONTRACT_NEGOTIATION', title: 'admin-offers'},
             {url: '/api/v1/admin/offers?status=CONTRACT_SIGNED', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=JOB_STARTED', title: 'admin-offers'},
             {url: '/api/v1/admin/offers?status=EXPIRED', title: 'admin-offers', expectedErrors:[400]},
             {url: '/api/v1/admin/offers?status=xyz', title: 'admin-offers', expectedErrors:[400]},
 
