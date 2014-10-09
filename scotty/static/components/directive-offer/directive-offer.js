@@ -7,13 +7,13 @@ define(function(require) {
   module.directive('hcOffer', function() {
     return {
       restrict: 'EA',
-      transclude: true,
       template: require('text!./directive-offer.html'),
       scope: {
         model: '=ngModel',
         hcTitle: '@',
         hcHide: '@',
         onStatusChange: '&',
+        hcRollbackButton: '=',
         hcWithdrawButton: '=',
         hcRejectButton: '=',
         hcAcceptButton: '=',

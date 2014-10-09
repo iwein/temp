@@ -29,7 +29,7 @@ define(function() {
     connect: function() {
       return this.checkConnection().then(function(connected) {
         if (!connected)
-          window.location = this._connectUrl + encodeURIComponent(window.location.toString() + 'import');
+          window.location = this._connectUrl + encodeURIComponent(window.location.toString());
       }.bind(this));
     },
 
@@ -41,7 +41,7 @@ define(function() {
 
     getProfileData: function() {
       return this.connect().then(function() {
-        return this._api.get('/i-will-fail');
+        return this._api.get('/connect/linkedin/profile');
       }.bind(this));
     },
 

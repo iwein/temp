@@ -1,5 +1,13 @@
-<div ng-if="!model.isFinalStatus()">
+<div>
   <div class="offer-buttons">
+    <button type="button"
+      ng-if="hcRollbackButton && model.canRollback()"
+      class="btn btn-primary"
+      ng-disabled="hcDisabled || rejecting || withdrawing || signing"
+      ng-click="model.rollback()">
+      Rollback
+    </button>
+
     <button type="button"
       ng-if="hcWithdrawButton && model.canWithdraw()"
       class="btn btn-danger"

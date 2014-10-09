@@ -31,10 +31,6 @@ define(function(require) {
           $scope.imported = true;
           return false;
         }
-
-        if ($state.params.import)
-          return true;
-
         return linkedin.checkConnection();
       })
       .then(function(load) {
@@ -49,11 +45,7 @@ define(function(require) {
     function importLinkedin() {
       Loader.add('signup-profile-import');
       return linkedin.getProfileData().then(function(data) {
-        // TODO: Split address
-        $scope.model.address = data.address;
-        $scope.model.photo = data.photo;
-        $scope.model.dof = data.dof;
-        $scope.model.skype = data.skype;
+        $scope.form.setModel(data);
         $scope.imported = true;
       }).finally(function() {
         Loader.remove('signup-profile-import');

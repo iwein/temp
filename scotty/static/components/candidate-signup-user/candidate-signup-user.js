@@ -12,14 +12,14 @@ define(function(require) {
     $scope.model = {};
     $scope.errorAlreadyRegistered = false;
     var linkedin = Session.getLinkedIn();
-    Loader.page(false);
+    Loader.page(true);
 
-    if ($state.params.import) {
-      Loader.page(true);
-      $q.when(importLinkedin()).finally(function() {
-        Loader.page(false);
-      });
-    }
+    linkedin.checkConnection().then(function(isConnected) {
+      if (isConnected)
+        return importLinkedin();
+    }).finally(function() {
+      Loader.page(false);
+    });
 
     function importLinkedin() {
       Loader.add('signup-user-import');
@@ -66,7 +66,7 @@ define(function(require) {
   });
 
   return {
-    url: '/user/:import',
+    url: '/user/',
     template: require('text!./candidate-signup-user.html'),
     controller: 'CandidateSignupUserCtrl',
     controllerAs: 'signupUser',

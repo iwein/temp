@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, $state, Loader, Session) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, Loader, Session) {
     $scope.importLinkedin = importLinkedin;
     $scope.saveImported = saveImported;
     $scope.skipImported = skipImported;
@@ -32,10 +32,6 @@ define(function(require) {
           $scope.imported = true;
           return false;
         }
-
-        if ($state.params.import)
-          return true;
-
         return linkedin.checkConnection();
       }).then(function(load) {
         if (load)
@@ -130,7 +126,7 @@ define(function(require) {
   });
 
   return {
-    url: '/experience/:import',
+    url: '/experience/',
     template: require('text!./candidate-signup-experience.html'),
     controller: 'CandidateSignupExperienceCtrl',
     controllerAs: 'signupExperience',
