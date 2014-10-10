@@ -1,17 +1,19 @@
 <form name="formSignupStart"
-  class="component-employer-signup-start"
+  class="component-employer-signup-start form-horizontal"
   ng-submit="signupStart.submit()">
 
   <h3>Sign up</h3>
 
   <div class="form-group required">
-    <label>Company name</label>
-    <input type="text"
-      class="form-control"
-      name="companyName"
-      required
-      ng-disabled="loading || invited"
-      ng-model="model.company_name">
+    <label class="col-sm-3">Company name</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="companyName"
+        required
+        ng-disabled="loading || invited"
+        ng-model="model.company_name">
+    </div>
 
     <div class="form-error" ng-show="formSignupStart.companyName.$dirty && formSignupStart.companyName.$invalid">
       <span ng-show="formSignupStart.companyName.$error.required">
@@ -21,17 +23,19 @@
   </div>
 
   <div class="form-group required">
-    <label>Company Type</label>
+    <label class="col-sm-3">Company Type</label>
 
-    <label class="form-label" ng-repeat="type in companyTypes">
-      <input type="radio"
-        name="companyType"
-        value="{{ type }}"
-        required
-        ng-disabled="loading"
-        ng-model="model.company_type">
-      {{ type }}
-    </label>
+    <div class="col-sm-9">
+      <label class="form-label" ng-repeat="type in companyTypes">
+        <input type="radio"
+          name="companyType"
+          value="{{ type }}"
+          required
+          ng-disabled="loading"
+          ng-model="model.company_type">
+        {{ type }}
+      </label>
+    </div>
 
     <div class="form-error"ng-show="errorNoCompanyType">
       <span>Please select at least one company type.</span>
@@ -39,17 +43,19 @@
   </div>
 
   <div class="form-group required">
-    <label>Salutation</label>
+    <label class="col-sm-3">Salutation</label>
 
-    <select
-      class="form-control"
-      name="salutation"
-      required
-      ng-disabled="loading || invited"
-      ng-model="model.contact_salutation"
-      ng-options="salutation for salutation in salutations">
-      <option value="">Please select...</option>
-    </select>
+    <div class="col-sm-9">
+      <select
+        class="form-control"
+        name="salutation"
+        required
+        ng-disabled="loading || invited"
+        ng-model="model.contact_salutation"
+        ng-options="salutation for salutation in salutations">
+        <option value="">Please select...</option>
+      </select>
+    </div>
 
     <div class="form-error" ng-show="formSignupStart.salutation.$dirty && formSignupStart.salutation.$invalid">
       <span ng-show="formSignupStart.salutation.$error.required">Please select a salutation</span>
@@ -57,14 +63,16 @@
   </div>
 
   <div class="form-group required">
-    <label>First name</label>
+    <label class="col-sm-3">First name</label>
 
-    <input type="text"
-      class="form-control"
-      name="contact_first_name"
-      required
-      ng-disabled="loading || invited"
-      ng-model="model.contact_first_name">
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="contact_first_name"
+        required
+        ng-disabled="loading || invited"
+        ng-model="model.contact_first_name">
+    </div>
 
     <div class="form-error" ng-show="formSignupStart.contact_first_name.$dirty && formSignupStart.contact_first_name.$invalid">
       <span ng-show="formSignupStart.contact_first_name.$error.required">
@@ -74,14 +82,16 @@
   </div>
 
   <div class="form-group required">
-    <label>Last name</label>
+    <label class="col-sm-3">Last name</label>
 
-    <input type="text"
-      class="form-control"
-      name="contact_last_name"
-      required
-      ng-disabled="loading || invited"
-      ng-model="model.contact_last_name">
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="contact_last_name"
+        required
+        ng-disabled="loading || invited"
+        ng-model="model.contact_last_name">
+    </div>
 
     <div class="form-error" ng-show="formSignupStart.contact_last_name.$dirty && formSignupStart.contact_last_name.$invalid">
       <span ng-show="formSignupStart.contact_last_name.$error.required">
@@ -91,14 +101,16 @@
   </div>
 
   <div class="form-group required">
-    <label>Email</label>
-    <input type="email"
-      class="form-control"
-      name="email"
-      required
-      ng-disabled="loading || invited"
-      ng-model="model.email"
-      ng-change="signupStart.onEmailChange()">
+    <label class="col-sm-3">Email</label>
+    <div class="col-sm-9">
+      <input type="email"
+        class="form-control"
+        name="email"
+        required
+        ng-disabled="loading || invited"
+        ng-model="model.email"
+        ng-change="signupStart.onEmailChange()">
+    </div>
 
     <div class="form-error" ng-show="errorAlreadyRegistered || (formSignupStart.email.$dirty && formSignupStart.email.$invalid)">
       <span ng-show="formSignupStart.email.$error.required">
@@ -115,14 +127,16 @@
   </div>
 
   <div class="form-group required">
-    <label>Password</label>
-    <input type="password"
-      class="form-control"
-      name="password"
-      required
-      ng-minlength="8"
-      ng-disabled="loading"
-      ng-model="model.pwd">
+    <label class="col-sm-3">Password</label>
+    <div class="col-sm-9">
+      <input type="password"
+        class="form-control"
+        name="password"
+        required
+        ng-minlength="8"
+        ng-disabled="loading"
+        ng-model="model.pwd">
+    </div>
 
     <div class="form-error"ng-show="formSignupStart.password.$dirty && formSignupStart.password.$invalid">
       <span ng-show="formSignupStart.password.$error.required">Please choose a password.</span>

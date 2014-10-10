@@ -1,13 +1,15 @@
-<form name="formEducation" ng-submit="onSubmit({ $model: model })">
+<form name="formEducation" class="form-horizontal" ng-submit="onSubmit({ $model: model })">
   <div class="form-group required">
-    <label>University or Institution</label>
-    <input type="text"
-      class="form-control"
-      name="institution"
-      ng-required="hcRequired"
-      ng-disabled="hcDisabled"
-      ng-model="model.institution"
-      typeahead="institution for institution in searchInstitutions($viewValue)">
+    <label class="col-sm-3">University or Institution</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="institution"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.institution"
+        typeahead="institution for institution in searchInstitutions($viewValue)">
+    </div>
 
     <div class="form-error" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
       <span ng-show="formEducation.institution.$error.required">
@@ -17,14 +19,16 @@
   </div>
 
   <div class="form-group required">
-    <label>Course or Subject</label>
-    <input type="text"
-      class="form-control"
-      name="course"
-      ng-required="hcRequired"
-      ng-disabled="hcDisabled"
-      ng-model="model.course"
-      typeahead="course for course in searchCourses($viewValue)">
+    <label class="col-sm-3">Course or Subject</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="course"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.course"
+        typeahead="course for course in searchCourses($viewValue)">
+    </div>
 
     <div class="form-error" ng-show="formEducation.course.$dirty && formEducation.course.$invalid">
       <span ng-show="formEducation.course.$error.required">Please insert the course.</span>
@@ -33,9 +37,9 @@
 
 
   <div class="form-group required">
-    <label>Period</label>
+    <label class="col-sm-3">Period</label>
 
-    <div class="form-inline">
+    <div class="col-sm-4">
       <!-- From year -->
       <input type="number"
         class="form-control"
@@ -44,10 +48,14 @@
         ng-required="hcRequired"
         ng-disabled="hcDisabled"
         ng-model="model.start">
+    </div>
 
+    <div class="col-sm-1">
       <!-- Separator -->
       <span>–</span>
+    </div>
 
+    <div class="col-sm-4">
       <!-- To year -->
       <input type="number"
         class="form-control"
@@ -57,6 +65,9 @@
         ng-required="hcRequired && !current"
         ng-model="model.end"
         hc-greater-than="model.start">
+    </div>
+
+    <div class="col-sm-offset-8 col-sm-4">
       <div class="checkbox">
         <label>
           <input type="checkbox"
@@ -68,42 +79,37 @@
         </label>
       </div>
     </div>
-  </div>
 
-  <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
-    <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
+    <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
+      <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
+    </div>
+    <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
+      <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
+      <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
+    </div>
   </div>
-  <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
-    <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
-    <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
-  </div>
-  </div>
-
-
 
   <div class="form-group required">
-    <label>Degree</label>
-    <div class="row">
-      <div class="col-sm-7">
-        <input type="text"
-          class="form-control"
-          name="degree"
-          ng-disabled="hcDisabled || not_completed_degree"
-          ng-required="hcRequired && !not_completed_degree"
-          ng-model="model.degree"
-          typeahead="degree for degree in searchDegrees($viewValue)">
-      </div>
-      <div class="col-sm-5">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"
-              name="not_completed_degree"
-              ng-disabled="hcDisabled"
-              ng-model="not_completed_degree"
-              ng-change="model.degree = null">
-            Did not complete degree
-          </label>
-        </div>
+    <label class="col-sm-3">Degree</label>
+    <div class="col-sm-5">
+      <input type="text"
+        class="form-control"
+        name="degree"
+        ng-disabled="hcDisabled || not_completed_degree"
+        ng-required="hcRequired && !not_completed_degree"
+        ng-model="model.degree"
+        typeahead="degree for degree in searchDegrees($viewValue)">
+    </div>
+    <div class="col-sm-4">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"
+            name="not_completed_degree"
+            ng-disabled="hcDisabled"
+            ng-model="not_completed_degree"
+            ng-change="model.degree = null">
+          Did not complete degree
+        </label>
       </div>
     </div>
 

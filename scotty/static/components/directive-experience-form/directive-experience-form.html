@@ -1,13 +1,16 @@
-<form name="formExperience" ng-submit="submit()">
+<form name="formExperience" class="form-horizontal" ng-submit="submit()">
   <div class="form-group required">
-    <label>Company Name</label>
-    <input type="text"
-      class="form-control"
-      name="company"
-      ng-required="hcRequired"
-      ng-disabled="hcDisabled"
-      ng-model="model.company"
-      typeahead="company for company in searchCompanies($viewValue)">
+    <label class="col-sm-3">Company Name</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="company"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.company"
+        typeahead="company for company in searchCompanies($viewValue)">
+    </div>
+
     <div class="form-error" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
       <span ng-show="formExperience.company.$error.required">
         Please insert the company name.
@@ -15,44 +18,38 @@
     </div>
   </div>
 
-
-  <div class="row">
-    <div class="col-sm-5">
-      <div class="form-group required">
-        <label>Country</label>
-        <select class="form-control"
-          name="country"
-          ng-required="hcRequired"
-          ng-disabled="hcDisabled"
-          ng-model="model.country_iso"
-          ng-options="country.iso as country.name for country in countries">
-          <option value="">Select...</option>
-        </select>
-      </div>
+  <div class="form-group required">
+    <label class="col-sm-3">Location</label>
+    <div class="col-sm-4">
+      <select class="form-control"
+        name="country"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.country_iso"
+        ng-options="country.iso as country.name for country in countries">
+        <option value="">Select...</option>
+      </select>
     </div>
-    <div class="col-sm-7">
-      <div class="form-group required">
-        <label>City</label>
-        <input type="text"
-          name="city"
-          class="form-control"
-          ng-required="hcRequired"
-          ng-disabled="hcDisabled"
-          ng-model="model.city">
-        <div class="form-error" ng-show="formExperience.city.$dirty && formExperience.city.$invalid">
+    <div class="col-sm-5">
+      <input type="text"
+        name="city"
+        class="form-control"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.city">
+    </div>
+
+    <div class="form-error" ng-show="formExperience.city.$dirty && formExperience.city.$invalid">
       <span ng-show="formExperience.city.$error.required">
         Please insert the city you worked on.
       </span>
-        </div>
-      </div>
     </div>
   </div>
 
-
   <div class="form-group required">
-    <label>Period</label>
+    <label class="col-sm-3">Period</label>
 
-    <div class="form-inline">
+    <div class="col-sm-2">
       <!-- From month -->
       <select class="form-control"
         name="startMonth"
@@ -63,7 +60,9 @@
         ng-change="startDateUpdate()">
         <option value="">Month</option>
       </select>
+    </div>
 
+    <div class="col-sm-2">
       <!-- From year -->
       <input type="number"
         class="form-control"
@@ -73,9 +72,14 @@
         ng-disabled="hcDisabled"
         ng-model="startYear"
         ng-change="startDateUpdate()">
+    </div>
+
+    <div class="col-sm-1">
       <!-- Separator -->
       <span>–</span>
+    </div>
 
+    <div class="col-sm-2">
       <!-- To month -->
       <select class="form-control"
         name="endMonth"
@@ -86,7 +90,9 @@
         ng-change="endDateUpdate()">
         <option value="">Month</option>
       </select>
+    </div>
 
+    <div class="col-sm-2">
       <!-- To year -->
       <input type="number"
         class="form-control"
@@ -96,15 +102,15 @@
         ng-required="hcRequired && !current"
         ng-model="endYear"
         ng-change="endDateUpdate()">
-
-      <label>
-        <input type="checkbox"
-          name="current"
-          ng-disabled="hcDisabled"
-          ng-model="current">
-        Current position
-      </label>
     </div>
+
+    <label class="col-sm-offset-8 col-sm-4">
+      <input type="checkbox"
+        name="current"
+        ng-disabled="hcDisabled"
+        ng-model="current">
+      Current position
+    </label>
 
     <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
       <span ng-show="formExperience.startMonth.$error.required">Please insert the month you started at this position.</span>
@@ -121,14 +127,16 @@
   </div>
 
   <div class="form-group required">
-    <label>Role</label>
-    <input type="text"
-      class="form-control"
-      name="role"
-      ng-required="hcRequired"
-      ng-disabled="hcDisabled"
-      ng-model="model.role"
-      typeahead="role for role in searchRoles($viewValue)">
+    <label class="col-sm-3">Role</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="role"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.role"
+        typeahead="role for role in searchRoles($viewValue)">
+    </div>
 
     <div class="form-error" ng-show="formExperience.role.$dirty && formExperience.role.$invalid">
       <span ng-show="formExperience.role.$error.required">Please insert the role you had at this position.</span>
@@ -136,27 +144,31 @@
   </div>
 
   <div class="form-group required">
-    <label>Technologies &amp; Skills</label>
+    <label class="col-sm-3">Technologies &amp; Skills</label>
 
-    <hc-label-typeahead
-      name="skills"
-      placeholder="Technologies &amp; skills"
-      ng-disabled="hcDisabled"
-      ng-model="model.skills"
-      hc-source="searchSkills($viewValue)"
-      hc-error-message="Please choose at least one skill"
-      hc-allow-new>
-    </hc-label-typeahead>
+    <div class="col-sm-9">
+      <hc-label-typeahead
+        name="skills"
+        placeholder="Technologies &amp; skills"
+        ng-disabled="hcDisabled"
+        ng-model="model.skills"
+        hc-source="searchSkills($viewValue)"
+        hc-error-message="Please choose at least one skill"
+        hc-allow-new>
+      </hc-label-typeahead>
+    </div>
   </div>
 
   <div class="form-group required">
-    <label>Role description</label>
-    <textarea class="form-control"
-      name="summary"
-      ng-required="hcRequired"
-      ng-disabled="hcDisabled"
-      ng-model="model.summary">
-    </textarea>
+    <label class="col-sm-3">Role description</label>
+    <div class="col-sm-9">
+      <textarea class="form-control"
+        name="summary"
+        ng-required="hcRequired"
+        ng-disabled="hcDisabled"
+        ng-model="model.summary">
+      </textarea>
+    </div>
 
     <div class="form-error" ng-show="formExperience.summary.$dirty && formExperience.summary.$invalid">
       <span ng-show="formExperience.summary.$error.required">
@@ -168,5 +180,4 @@
   <div class="form-group">
     <div ng-transclude></div>
   </div>
-
 </form>

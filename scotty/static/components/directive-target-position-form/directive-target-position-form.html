@@ -1,7 +1,8 @@
-<form role="form" name="formTarget" ng-submit="submit()">
+<form role="form" name="formTarget" class="form-horizontal" ng-submit="submit()">
 
   <div class="form-group required">
-    <label>Role</label>
+    <label class="col-sm-3">Role</label>
+    <div class="col-sm-9">
     <select class="form-control"
       name="country"
       required
@@ -17,39 +18,45 @@
   </div>
 
   <div class="form-group required">
-    <label>Technologies & Skills you want to work with</label>
-    <div class="checkbox" ng-repeat="skill in featuredSkills">
-      <label class="form-label">
-        <input type="checkbox"
-          ng-disabled="loading"
-          ng-model="skill.selected"
-          ng-change="onFeaturedSkillChange()">
-        {{ skill.value }}
-      </label>
+    <label class="col-sm-3">Technologies & Skills you want to work with</label>
+    <div class="col-sm-9">
+      <div class="checkbox" ng-repeat="skill in featuredSkills">
+        <label class="form-label">
+          <input type="checkbox"
+            ng-disabled="loading"
+            ng-model="skill.selected"
+            ng-change="onFeaturedSkillChange()">
+          {{ skill.value }}
+        </label>
+      </div>
     </div>
 
-    <hc-label-typeahead
-      name="skill"
-      placeholder="Type a skill..."
-      ng-disabled="loading"
-      ng-model="model.skills"
-      hc-source="searchSkills($viewValue)"
-      hc-error-message="Please choose at least one skill"
-      hc-allow-new>
-    </hc-label-typeahead>
+    <div class="col-sm-offset-3 col-sm-9">
+      <hc-label-typeahead
+        name="skill"
+        placeholder="Type a skill..."
+        ng-disabled="loading"
+        ng-model="model.skills"
+        hc-source="searchSkills($viewValue)"
+        hc-error-message="Please choose at least one skill"
+        hc-allow-new>
+      </hc-label-typeahead>
+    </div>
   </div>
 
   <div class="form-group required">
-    <label>What is your minimum annual salary expectation</label>
-    <div class="input-group">
-      <span class="input-group-addon">€</span>
-      <input type="dotted-integer"
-        class="form-control"
-        name="salary"
-        required
-        ng-disabled="loading"
-        ng-model="model.minimum_salary">
-      <span class="input-group-addon">.00</span>
+    <label class="col-sm-3">What is your minimum annual salary expectation</label>
+    <div class="col-sm-9">
+      <div class="input-group">
+        <span class="input-group-addon">€</span>
+        <input type="dotted-integer"
+          class="form-control"
+          name="salary"
+          required
+          ng-disabled="loading"
+          ng-model="model.minimum_salary">
+        <span class="input-group-addon">.00</span>
+      </div>
     </div>
 
     <div class="form-error" ng-show="formTarget.salary.$dirty && formTarget.salary.$invalid">
@@ -66,59 +73,55 @@
   </div>
 
   <div class="form-group required">
-    <label>Location</label>
-    <div class="checkbox" ng-repeat="location in featuredLocations">
-      <label class="form-label">
-        <input type="checkbox"
-          ng-disabled="loading"
-          ng-model="location.selected"
-          ng-change="onFeaturedLocationChange()">
-        {{ location.value.city }}, {{ location.value.country_iso }}
-      </label>
+    <label class="col-sm-3">Location</label>
+
+    <div class="col-sm-4">
+      <select class="form-control"
+        name="country"
+        required
+        ng-disabled="loading"
+        ng-model="country"
+        ng-options="country.iso as country.name for country in countries"
+        ng-change="setCountry(country)">
+        <option value="">Select...</option>
+      </select>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="form-group required">
-        <label>Country</label>
-        <select class="form-control"
-          name="country"
-          required
-          ng-disabled="loading"
-          ng-model="country"
-          ng-options="country.iso as country.name for country in countries"
-          ng-change="setCountry(country)">
-          <option value="">Select...</option>
-        </select>
-      </div>
+    <div class="col-sm-5">
+      <hc-label-typeahead
+        name="cities"
+        placeholder="Type a city..."
+        ng-disabled="loading || dontCareLocation || !country"
+        ng-model="model.preferred_locations[country]"
+        hc-source="searchCities($viewValue)">
+      </hc-label-typeahead>
     </div>
-    <div class="col-sm-6">
 
-      <div class="form-group required">
-        <label>Cities</label>
-
-        <hc-label-typeahead
-          name="cities"
-          placeholder="Type a city..."
-          ng-disabled="loading || dontCareLocation || !country"
-          ng-model="model.preferred_locations[country]"
-          hc-source="searchCities($viewValue)">
-        </hc-label-typeahead>
-
+    <div class="col-sm-offset-3 col-sm-4">
+      <div class="checkbox" ng-repeat="location in featuredLocations">
         <label class="form-label">
           <input type="checkbox"
-            ng-disabled="loading || !country"
-            ng-required="!model.preferred_locations[country].length"
-            ng-model="dontCareLocation"
-            ng-change="setCountry(country)">
-          Anywhere
+            ng-disabled="loading"
+            ng-model="location.selected"
+            ng-change="onFeaturedLocationChange()">
+          {{ location.value.city }}, {{ location.value.country_iso }}
         </label>
-
-        <div class="form-error" ng-show="cities.invalid && !dontCareLocation">
-          <span>Please type a city you would like to work at and press enter key.</span>
-        </div>
       </div>
+    </div>
+
+    <div class="col-sm-5">
+      <label class="form-label">
+        <input type="checkbox"
+          ng-disabled="loading || !country"
+          ng-required="!model.preferred_locations[country].length"
+          ng-model="dontCareLocation"
+          ng-change="setCountry(country)">
+        Anywhere
+      </label>
+    </div>
+
+    <div class="form-error" ng-show="cities.invalid && !dontCareLocation">
+      <span>Please type a city you would like to work at and press enter key.</span>
     </div>
   </div>
 

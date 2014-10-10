@@ -23,7 +23,10 @@
     <toaster-container></toaster-container>
     <ng-include src="'navbar.html'"></ng-include>
 
-    <ui-view class="container"></ui-view>
+    <div id="content">
+      <ui-view class="container"></ui-view>
+      <div class="clearfix"></div>
+    </div>
 
     <!-- build:js build.js -->
     <script src="../../bower_components/requirejs/require.js"></script>

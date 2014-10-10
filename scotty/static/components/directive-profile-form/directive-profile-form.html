@@ -1,13 +1,15 @@
-<form name="formProfile" ng-submit="submit()">
+<form name="formProfile" class="form-horizontal" ng-submit="submit()">
   <div class="form-group required address">
-    <label>Address</label>
-    <input type="text"
-      class="form-control"
-      placeholder="Address Line 1"
-      name="contact_line1"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_line1">
+    <label class="col-sm-3">Address</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        placeholder="Address Line 1"
+        name="contact_line1"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_line1">
+    </div>
 
     <div class="form-error" ng-show="formProfile.contact_line1.$dirty && formProfile.contact_line1.$invalid">
       <span ng-show="formProfile.contact_line1.$error.required">Please insert your address.</span>
@@ -15,12 +17,14 @@
   </div>
 
   <div class="form-group">
-    <input type="text"
-      class="form-control"
-      placeholder="Address Line 2"
-      name="contact_line2"
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_line2">
+    <div class="col-sm-offset-3 col-sm-9">
+      <input type="text"
+        class="form-control"
+        placeholder="Address Line 2"
+        name="contact_line2"
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_line2">
+    </div>
 
     <div class="form-error" ng-show="formProfile.contact_line2.$dirty && formProfile.contact_line2.$invalid">
       <span ng-show="formProfile.contact_line2.$error.required">Please insert your address.</span>
@@ -28,14 +32,16 @@
   </div>
 
   <div class="form-group required">
-    <input type="text"
-      class="form-control"
-      placeholder="Zip code"
-      name="zipcode"
-      maxlength="20"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_zipcode">
+    <div class="col-sm-offset-3 col-sm-9">
+      <input type="text"
+        class="form-control"
+        placeholder="Zip code"
+        name="zipcode"
+        maxlength="20"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_zipcode">
+    </div>
 
     <div class="form-error" ng-show="formProfile.zipcode.$dirty && formProfile.zipcode.$invalid">
       <span ng-show="formProfile.zipcode.$error.required">Please insert your zip code.</span>
@@ -43,13 +49,15 @@
   </div>
 
   <div class="form-group required">
-    <input type="text"
-      placeholder="City"
-      name="contact_city"
-      class="form-control"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_city">
+    <div class="col-sm-offset-3 col-sm-9">
+      <input type="text"
+        placeholder="City"
+        name="contact_city"
+        class="form-control"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_city">
+    </div>
 
     <div class="form-error" ng-show="formProfile.location.$dirty && formProfile.location.$invalid">
       <span ng-show="formProfile.location.$error.required">Please insert your city.</span>
@@ -57,14 +65,16 @@
   </div>
 
   <div class="form-group required">
-    <select class="form-control"
-      name="country"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_country_iso"
-      ng-options="country.iso as country.name for country in countries">
-      <option value="">Country...</option>
-    </select>
+    <div class="col-sm-offset-3 col-sm-9">
+      <select class="form-control"
+        name="country"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_country_iso"
+        ng-options="country.iso as country.name for country in countries">
+        <option value="">Country...</option>
+      </select>
+    </div>
 
     <div class="form-error" ng-show="formProfile.country.$dirty && formProfile.country.$invalid">
       <span ng-show="formProfile.country.$error.required">Please insert your country.</span>
@@ -72,14 +82,16 @@
   </div>
 
   <div class="form-group">
-    <label>Phone</label>
-    <input type="tel"
-      class="form-control"
-      name="contact_phone"
-      pattern="^\+?[0-9 /()-]+$"
-      ng-pattern="/^\+?[0-9 /()-]+$/"
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_phone">
+    <label class="col-sm-3">Phone</label>
+    <div class="col-sm-9">
+      <input type="tel"
+        class="form-control"
+        name="contact_phone"
+        pattern="^\+?[0-9 /()-]+$"
+        ng-pattern="/^\+?[0-9 /()-]+$/"
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_phone">
+    </div>
 
     <div class="form-error" ng-show="formProfile.contact_phone.$dirty && formProfile.contact_phone.$invalid">
       <span ng-show="formProfile.contact_phone.$error.required">Please insert your phone.</span>
@@ -88,14 +100,16 @@
   </div>
 
   <div class="form-group required">
-    <label>Birth date</label>
-    <input type="date"
-      class="form-control"
-      placeholder="YYYY-MM-DD"
-      name="birth"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.dob">
+    <label class="col-sm-3">Birth date</label>
+    <div class="col-sm-9">
+      <input type="date"
+        class="form-control"
+        placeholder="YYYY-MM-DD"
+        name="birth"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.dob">
+    </div>
 
     <div class="form-error" ng-show="formProfile.birth.$dirty && formProfile.birth.$invalid">
       <span ng-show="formProfile.birth.$error.required">Please insert your birth date.</span>
@@ -103,16 +117,20 @@
   </div>
 
   <div class="form-group required">
-    <label>Photo</label>
-    <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
-    <input type="file"
-      name="photo"
-      accept="image/*"
-      ng-required="!model.picture_url"
-      ng-disabled="hcDisabled"
-      ng-model="files"
-      hc-file-select="selectFile($files)"
-      hc-data-url="selectedFiles">
+    <label class="col-sm-3">Photo</label>
+    <div class="col-sm-9">
+      <input type="file"
+        name="photo"
+        accept="image/*"
+        ng-required="!model.picture_url"
+        ng-disabled="hcDisabled"
+        ng-model="files"
+        hc-file-select="selectFile($files)"
+        hc-data-url="selectedFiles">
+    </div>
+    <div class="col-sm-offset-3 col-sm-9">
+      <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
+    </div>
 
     <div class="form-error" ng-show="errorFileRequired || errorFileImage">
       <span ng-show="errorFileRequired">Please select a photo.</span>
@@ -121,41 +139,49 @@
   </div>
 
   <div class="form-group">
-    <label>Skype ID</label>
-    <input type="text"
-      class="form-control"
-      name="skype"
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_skype">
+    <label class="col-sm-3">Skype ID</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="skype"
+        ng-disabled="hcDisabled"
+        ng-model="model.contact_skype">
+    </div>
   </div>
 
   <div class="form-group">
-    <label>Stackoverflow URL (Starting with  http://...)</label>
-    <input type="url"
-      class="form-control"
-      name="stackoverflow"
-      ng-disabled="hcDisabled"
-      ng-model="model.stackoverflow_url">
+    <label class="col-sm-3">Stackoverflow URL (Starting with  http://...)</label>
+    <div class="col-sm-9">
+      <input type="url"
+        class="form-control"
+        name="stackoverflow"
+        ng-disabled="hcDisabled"
+        ng-model="model.stackoverflow_url">
+    </div>
   </div>
 
   <div class="form-group">
-    <label>Github URL (Starting with  http://...)</label>
-    <input type="url"
-      class="form-control"
-      name="github"
-      ng-disabled="hcDisabled"
-      ng-model="model.github_url">
+    <label class="col-sm-3">Github URL (Starting with  http://...)</label>
+    <div class="col-sm-9">
+      <input type="url"
+        class="form-control"
+        name="github"
+        ng-disabled="hcDisabled"
+        ng-model="model.github_url">
+    </div>
   </div>
 
   <div class="form-group required">
-    <label>Availability</label>
+    <label class="col-sm-3">Availability</label>
 
-    <textarea class="form-control"
-      name="availability"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.availability">
-    </textarea>
+    <div class="col-sm-9">
+      <textarea class="form-control"
+        name="availability"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.availability">
+      </textarea>
+    </div>
 
     <div class="form-error" ng-show="formProfile.available_date.$dirty && formProfile.availability.$invalid">
       <span ng-show="formProfile.availability.$error.number">Please insert a number.</span>
@@ -164,15 +190,16 @@
   </div>
 
   <div class="form-group required">
-    <label>CV</label>
-      <!---->
-    <input type="file"
-      name="photo"
-      accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ng-required="!model.cv_upload_url"
-      ng-disabled="hcDisabled"
-      hc-file-select
-      ng-model="cv_file">
+    <label class="col-sm-3">CV</label>
+    <div class="col-sm-9">
+      <input type="file"
+        name="photo"
+        accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ng-required="!model.cv_upload_url"
+        ng-disabled="hcDisabled"
+        hc-file-select
+        ng-model="cv_file">
+    </div>
 
     <div class="form-error" ng-show="false && (errorFileRequired || errorFileImage)">
       <span ng-show="errorFileRequired">Please select a photo.</span>
@@ -181,14 +208,16 @@
   </div>
 
   <div class="form-group required">
-    <label>What else is important about you?</label>
+    <label class="col-sm-3">What else is important about you?</label>
 
-    <textarea class="form-control"
-      name="summary"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.summary">
-    </textarea>
+    <div class="col-sm-9">
+      <textarea class="form-control"
+        name="summary"
+        required
+        ng-disabled="hcDisabled"
+        ng-model="model.summary">
+      </textarea>
+    </div>
 
     <div class="form-error" ng-show="formProfile.available_date.$dirty && formProfile.summary.$invalid">
       <span ng-show="formProfile.summary.$error.required">Please insert some description.</span>
@@ -196,13 +225,15 @@
   </div>
 
   <div class="form-group required">
-    <label>
-      <input type="checkbox"
-        name="eu_work_visa"
-        ng-disabled="hcDisabled"
-        ng-model="model.eu_work_visa">
-      EU Work Visa
-    </label>
+    <div class="col-sm-offset-3 col-sm-9">
+      <label>
+        <input type="checkbox"
+          name="eu_work_visa"
+          ng-disabled="hcDisabled"
+          ng-model="model.eu_work_visa">
+        EU Work Visa
+      </label>
+    </div>
   </div>
 
   <div class="form-group">

@@ -1,5 +1,5 @@
 <form name="formSignupUser"
-  class="component-candidate-signup-user"
+  class="component-candidate-signup-user form-horizontal"
   ng-submit="signupUser.submit()">
 
   <h3>Signup for free</h3>
@@ -14,13 +14,15 @@
   </div>
 
   <div class="form-group required">
-    <label class="required">First Name</label>
-    <input type="text"
-      class="form-control"
-      name="firstName"
-      required
-      ng-disabled="loading"
-      ng-model="model.first_name">
+    <label class="col-sm-3">First Name</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="firstName"
+        required
+        ng-disabled="loading"
+        ng-model="model.first_name">
+    </div>
 
     <div class="form-error" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
       <span ng-show="formSignupUser.firstName.$error.required">
@@ -30,13 +32,15 @@
   </div>
 
   <div class="form-group required">
-    <label class="required">Last Name</label>
-    <input type="text"
-      class="form-control"
-      name="lastName"
-      required
-      ng-disabled="loading"
-      ng-model="model.last_name">
+    <label class="col-sm-3">Last Name</label>
+    <div class="col-sm-9">
+      <input type="text"
+        class="form-control"
+        name="lastName"
+        required
+        ng-disabled="loading"
+        ng-model="model.last_name">
+    </div>
 
     <div class="form-error" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
       <span ng-show="formSignupUser.lastName.$error.required">
@@ -46,14 +50,16 @@
   </div>
 
   <div class="form-group required">
-    <label class="required">Email</label>
-    <input type="email"
-      class="form-control"
-      name="email"
-      required
-      ng-disabled="loading"
-      ng-model="model.email"
-      ng-change="signupUser.onEmailChange()">
+    <label class="col-sm-3">Email</label>
+    <div class="col-sm-9">
+      <input type="email"
+        class="form-control"
+        name="email"
+        required
+        ng-disabled="loading"
+        ng-model="model.email"
+        ng-change="signupUser.onEmailChange()">
+    </div>
 
     <div class="form-error" ng-show="errorAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
       <span ng-show="formSignupUser.email.$error.required">
@@ -70,14 +76,16 @@
   </div>
 
   <div class="form-group required">
-    <label class="required">Password</label>
-    <input type="password"
-      class="form-control"
-      name="password"
-      required
-      ng-minlength="8"
-      ng-disabled="loading"
-      ng-model="model.pwd">
+    <label class="col-sm-3">Password</label>
+    <div class="col-sm-9">
+      <input type="password"
+        class="form-control"
+        name="password"
+        required
+        ng-minlength="8"
+        ng-disabled="loading"
+        ng-model="model.pwd">
+    </div>
 
     <div class="form-error"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
       <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
