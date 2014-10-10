@@ -19,18 +19,19 @@ define(function(require) {
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.onFeaturedLocationChange = onFeaturedLocationChange;
         $scope.onFeaturedSkillChange = onFeaturedSkillChange;
+        $scope.onSalaryChange = onSalaryChange;
         $scope.searchSkills = searchSkills;
         $scope.searchCities = searchCities;
         $scope.setCountry = setCountry;
         $scope.submit = submit;
-        $scope.model = $scope.model || {};
+        $scope.model = $scope.model || {};
         this.save = save;
         this.reset = reset;
         this.setModel = setModel;
 
         nameAttr(this, 'hcTargetPositionForm', $scope, $attrs);
         ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
-        ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
+        ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
         ConfigAPI.featuredSkills().then(toCheckboxModel('featuredSkills'));
         ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations'));
 
@@ -48,7 +49,7 @@ define(function(require) {
 
         function toCheckboxModel(key) {
           return function(data) {
-            $scope[key] = data.map(function(type) {
+            $scope[key] = data.map(function(type) {
               return { value: type };
             });
           };
@@ -65,7 +66,7 @@ define(function(require) {
 
         function setCountry(country) {
           var model = $scope.model.preferred_locations = {};
-          model[country] = [];
+          model[country] = [];
           onFeaturedLocationChange();
         }
 
@@ -145,7 +146,14 @@ define(function(require) {
           // TODO: prefill featuredLanguages
         }
 
+        function onSalaryChange() {
+          $scope.errorSalaryTooHigh = $scope.model.minimum_salary > 99000000;
+        }
+
         function submit() {
+          if ($scope.errorSalaryTooHigh)
+            return;
+
           $scope.onSubmit({ $model: $scope.model });
         }
       }
