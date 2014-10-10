@@ -47,7 +47,7 @@ define(function(require) {
         var locations = $scope.signup.preferred_locations;
 
         return $q.all([
-          Session.user.addTargetPosition(position),
+          Session.user.setTargetPosition(position),
           Session.user.setPreferredLocations(locations),
         ]);
       }).then(function() {

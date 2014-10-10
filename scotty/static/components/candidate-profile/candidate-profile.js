@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('components/directive-target-position-form/directive-target-position-form');
-  require('components/directive-target-positions/directive-target-positions');
   require('components/directive-experience-form/directive-experience-form');
   require('components/directive-experience/directive-experience');
   require('components/directive-education-form/directive-education-form');
@@ -12,7 +11,7 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $state, Loader, Permission, Session) {
+  module.controller('ProfileCtrl', function($scope, $q, $state, Loader, Permission, Session) {
     this.edit = edit;
     this.stopEdit = stopEdit;
     $scope.ready = false;
@@ -77,21 +76,31 @@ define(function(require) {
     $scope.experience = listForm();
     $scope.education = listForm();
 
-    $scope.targetPosition = (function() {
-      var base = listForm();
+    $scope.targetPositionForm = (function() {
+      var base = defaultForm();
       return _.extend(Object.create(base), {
         forceEdit: function() {
           this.list.forceEdit(0);
         },
-        edit: function(model) {
-          model.preferred_locations = $scope.cities;
+        edit: function(model, cities) {
+          model.preferred_locations = cities;
           return base.edit.call(this, model);
         },
         save: function() {
-          return base.save.call(this)
-            .then(getUserData)
-            .then(function(data) { $scope.cities = data.preferred_location })
-            .finally(function() { Loader.remove('candidate-profile-saving') });
+          return base.save.call(this).then(function() {
+            return Session.getUser();
+          }).then(function(user) {
+            return $q.all([
+              user.getData(),
+              user.getTargetPosition(),
+            ]);
+          }).then(function(data) {
+            var user = data[0];
+            $scope.targetPosition = data[1];
+            $scope.cities = user.preferred_location;
+          }).finally(function() {
+            Loader.remove('candidate-profile-saving');
+          });
         },
       });
     })();
@@ -143,16 +152,24 @@ define(function(require) {
     })();
 
 
-    Permission.requireSignup()
-      .then(getUserData)
-      .then(function(data) {
-        $scope.ready = true;
-        $scope.cities = data.preferred_location;
-        $scope.languages = data.languages;
-        $scope.skills = data.skills;
-        $scope.user = data;
-      })
-      .finally(function() { Loader.page(false) });
+    Permission.requireSignup().then(function() {
+      return Session.getUser();
+    }).then(function(user) {
+      return $q.all([
+        user.getData(),
+        user.getTargetPosition(),
+      ]);
+    }).then(function(data) {
+      var user = data[0];
+      $scope.targetPosition = data[1];
+      $scope.cities = user.preferred_location;
+      $scope.languages = user.languages;
+      $scope.skills = user.skills;
+      $scope.user = user;
+      $scope.ready = true;
+    }).finally(function() {
+      Loader.page(false);
+    });
 
     function getUserData() {
       return Session.getUser().then(function(user) {

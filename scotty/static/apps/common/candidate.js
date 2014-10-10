@@ -58,10 +58,6 @@ define(function(require) {
       return this._api.post(this._url() + '/picture', { url: photo });
     },
 
-    getTargetPositions: getHelper('target_positions'),
-    addTargetPosition: setHelper('target_positions', 'post'),
-    deleteTargetPosition: deleteHelper('target_positions'),
-
     getExperience: getHelper('work_experience'),
     addExperience: setHelper('work_experience', 'post'),
     deleteExperience: deleteHelper('work_experience'),
@@ -74,9 +70,16 @@ define(function(require) {
     addBookmark: setHelper('bookmarks', 'post'),
     deleteBookmark: deleteHelper('bookmarks'),
 
+    getTargetPosition: getHelper('target_position'),
+    setTargetPosition: setHelper('target_position', 'post'),
+
     setPreferredLocations: setHelper('preferred_locations', 'put'),
     setSkills: setHelper('skills', 'put'),
     setLanguages: setHelper('languages', 'put'),
+
+    setCVUrl: function(url) {
+      return this.updateData({ cv_upload_url: url });
+    },
 
     getOffers: function() {
       var url = this._url() + '/offers';

@@ -18,11 +18,11 @@ define(function(require) {
       template: require('text!./directive-target-position-form.html'),
       controllerAs: 'targetPositionForm',
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
+        $scope.onFeaturedLocationChange = onFeaturedLocationChange;
+        $scope.onFeaturedSkillChange = onFeaturedSkillChange;
         $scope.searchSkills = ConfigAPI.skills;
-        $scope.searchRoles = ConfigAPI.roles;
         $scope.searchCities = searchCities;
         $scope.setCountry = setCountry;
-        $scope.onCompanyTypeChange = onCompanyTypeChange;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
         this.save = save;
@@ -30,13 +30,18 @@ define(function(require) {
         this.setModel = setModel;
 
         nameAttr(this, 'hcTargetPositionForm', $scope, $attrs);
-        ConfigAPI.travelWillingness().then(fn.setTo('willingness', $scope));
+        ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
         ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
-        ConfigAPI.companyTypes().then(function(data) {
-          $scope.companyTypes = data.map(function(type) {
-            return { value: type };
-          });
-        });
+        ConfigAPI.featuredSkills().then(toCheckboxModel('featuredSkills'));
+        ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations'));
+
+        function toCheckboxModel(key) {
+          return function(data) {
+            $scope[key] = data.map(function(type) {
+              return { value: type };
+            });
+          };
+        }
 
         function searchCities(value) {
           return ConfigAPI.locations({
@@ -50,14 +55,46 @@ define(function(require) {
         function setCountry(country) {
           var model = $scope.model.preferred_locations = {};
           model[country] = [];
+          onFeaturedLocationChange();
         }
 
-        function onCompanyTypeChange() {
-          $scope.model.company_types = $scope.companyTypes
-            .filter(fn.get('selected'))
-            .map(fn.get('value'));
+        function onFeaturedSkillChange() {
+          if (!$scope.model.skills) $scope.model.skills = [];
 
-          $scope.errorNoCompanyType = !$scope.model.company_types.length;
+          $scope.featuredSkills.forEach(function(entry) {
+            var index = $scope.model.skills.indexOf(entry.value);
+            if (index === -1 && entry.selected)
+              $scope.model.skills.push(entry.value);
+            else if (index !== -1 && !entry.selected)
+              $scope.model.skills.splice(index, 1);
+          });
+        }
+
+        function onFeaturedLocationChange() {
+          if (!$scope.model.preferred_locations)
+            $scope.model.preferred_locations = {};
+
+          var locations = $scope.model.preferred_locations;
+          $scope.featuredLocations.forEach(function(entry) {
+            var country = locations[entry.value.country_iso];
+            if (!country) {
+              if (entry.selected)
+                locations[entry.value.country_iso] = [ entry.value.city ];
+              return;
+            }
+
+            var index = country.indexOf(entry.value.city);
+
+            if (entry.selected) {
+              if (index === -1)
+                country.push(entry.value.city);
+            } else {
+              if (index === 0 && country.length === 1)
+                delete locations[entry.value.country_iso];
+              else if (index !== -1 && !entry.selected)
+                country.splice(index, 1);
+            }
+          });
         }
 
         function save() {
@@ -67,9 +104,7 @@ define(function(require) {
 
             return $q.all([
               user.setPreferredLocations(preferred_locations),
-              $q.when($scope.editing ? user.deleteTargetPosition(model) : null).then(function() {
-                return user.addTargetPosition(model);
-              }),
+              user.setTargetPosition(model),
             ]);
           });
         }
@@ -79,7 +114,8 @@ define(function(require) {
           $scope.model = {};
           $scope.country = '';
           $scope.dontCareLocation = false;
-          $scope.companyTypes.forEach(fn.set('selected', false));
+          $scope.featuredSkills.forEach(fn.set('selected', false));
+          $scope.featuredLocations.forEach(fn.set('selected', false));
           $scope.formTarget.$setPristine();
         }
 
@@ -89,14 +125,14 @@ define(function(require) {
           $scope.model = model;
           $scope.country = Object.keys(model.preferred_locations)[0];
           $scope.dontCareLocation = !model.preferred_locations[$scope.country].length;
-          $scope.companyTypes.forEach(function(item) {
-            item.selected = model.company_types.indexOf(item.value) !== -1;
+          $scope.featuredSkills.forEach(function(item) {
+            item.selected = model.skills.indexOf(item.value) !== -1;
           });
+          // TODO: prefill featuredLanguages
         }
 
         function submit() {
-          if (!$scope.errorNoCompanyType)
-            $scope.onSubmit({ $model: $scope.model });
+          $scope.onSubmit({ $model: $scope.model });
         }
       }
     };

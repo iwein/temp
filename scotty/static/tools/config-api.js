@@ -48,6 +48,9 @@ define(function(require) {
     travelWillingness: helper('travelwillingness'),
     salutations: helper('salutations'),
     featuredLanguages: helper('languages/featured'),
+    featuredRoles: helper('roles/featured'),
+    featuredSkills: helper('skills/featured'),
+    featuredLocations: helper('locations/featured'),
 
     // search
     skills: helper('skills'),
