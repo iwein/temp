@@ -92,10 +92,6 @@ class WorkExperience(Base):
                 "company": self.company, "skills": self.skills, 'city': self.city, 'country_iso': self.country_iso}
 
 
-target_position_company_type = Table('target_position_company_type', Base.metadata,
-                                     Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
-                                     Column('company_type_id', Integer, ForeignKey('company_type.id'), primary_key=True))
-
 target_position_skills = Table('target_position_skills', Base.metadata,
                                Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
                                Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
