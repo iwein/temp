@@ -33,16 +33,19 @@ define(function(require) {
         function save() {
           return Session.getUser().then(function(user) {
             return user.updateData($scope.model).then(function() {
-              if ($scope.model.picture_url)
-                return;
+              var promises = [];
 
-              return $q.all([
-                Amazon.upload($scope.files[0], 'users', Session.id()),
-                Amazon.upload($scope.cv_file[0], 'cv', Session.id()),
-              ]);
-            }).then(function(files) {
-              // TODO: save cv url
-              return user.setPhoto(files[0]);
+              if ($scope.files && $scope.files.length) {
+                promises.push(Amazon.upload($scope.files[0], 'users', Session.id())
+                  .then(user.setPhoto.bind(user)));
+              }
+
+              if ($scope.cv_file && $scope.cv_file.length) {
+                promises.push(Amazon.upload($scope.cv_file[0], 'cv', Session.id())
+                  .then(user.setCVUrl.bind(user)));
+              }
+
+              return $q.all(promises);
             });
           });
         }

@@ -19,7 +19,7 @@ define(function(require) {
   Amazon.prototype = {
     constructor: Amazon,
 
-    upload: function(file, folder, filename) {
+    upload: function(file, folder, filename, mime) {
       filename = filename || file.name;
       folder = folder ? folder + '/' : '';
       var key = folder + filename;
@@ -32,7 +32,7 @@ define(function(require) {
           { 'key': key },
           { 'bucket': this._bucket },
           { 'x-amz-meta-filename': filename },
-          [ 'starts-with', '$Content-Type', 'image/' ]
+          [ 'starts-with', '$Content-Type', mime || file.type ]
         ]
       };
 

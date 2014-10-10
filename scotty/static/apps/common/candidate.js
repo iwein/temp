@@ -77,6 +77,10 @@ define(function(require) {
     setSkills: setHelper('skills', 'put'),
     setLanguages: setHelper('languages', 'put'),
 
+    setCVUrl: function(url) {
+      return this.updateData({ cv_upload_url: url });
+    },
+
     getOffers: function() {
       var url = this._url() + '/offers';
       return this._api.get(url).then(function(offers) {

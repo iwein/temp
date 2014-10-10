@@ -165,9 +165,10 @@
 
   <div class="form-group required">
     <label>CV</label>
-      <!--accept="image/*"-->
+      <!---->
     <input type="file"
       name="photo"
+      accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       ng-required="!model.cv_url"
       ng-disabled="hcDisabled"
       hc-file-select
