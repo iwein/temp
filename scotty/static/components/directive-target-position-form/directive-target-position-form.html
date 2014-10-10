@@ -62,15 +62,9 @@
     </div>
 
     <div class="form-error" ng-show="formTarget.salary.$dirty && formTarget.salary.$invalid">
-      <span ng-show="formTarget.salary.$error.required">
-        Please insert your expected salary.
-      </span>
-      <span ng-show="formTarget.salary.$error.number">
-        Please insert a number.
-      </span>
-      <span ng-show="formTarget.salary.$error.pattern">
-        Decimals are not allowed.
-      </span>
+      <span ng-show="formTarget.salary.$error.required">Please insert your expected salary.</span>
+      <span ng-show="formTarget.salary.$error.number">Please insert a number.</span>
+      <span ng-show="formTarget.salary.$error.pattern">Decimals are not allowed.</span>
     </div>
   </div>
 
