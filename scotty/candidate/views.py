@@ -69,12 +69,11 @@ class CandidateController(RootController):
     @reify
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
-        cls = Candidate
+        cls = FullCandidate
         if candidate_id == 'me':
             candidate_id = self.request.session.get('candidate_id')
             if not candidate_id:
                 raise HTTPForbidden("Not logged in.")
-            cls = FullCandidate
         candidate = DBSession.query(cls).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")

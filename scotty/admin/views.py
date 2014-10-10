@@ -128,6 +128,7 @@ class AdminController(RootController):
                                                                       func.lower(Employer.email).startswith(q)))
         return run_paginated_query(self.request, base_query)
 
+
 class AdminOfferController(RootController):
     @reify
     def offer(self):
