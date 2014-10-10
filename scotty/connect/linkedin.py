@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 import logging
+from operator import itemgetter
 import urllib
 
 from pyramid.httpexceptions import HTTPFound, HTTPForbidden
@@ -10,6 +11,7 @@ import requests
 from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, \
     UserRejectedNotice
 from scotty.connect.profile_translate import translate
+from scotty.tools import ensure_list
 
 
 log = logging.getLogger(__name__)
@@ -65,6 +67,7 @@ class SocialResource(object):
                       ")"
     positionsEndpoint = "https://api.linkedin.com/v1/people/~/positions"
     educationEndpoint = "https://api.linkedin.com/v1/people/~/educations"
+    companyEndpoint = "https://api.linkedin.com/v1/companies/%(id)s:(locations)"
 
     def start_process(self, request):
         furl = request.params.get('furl')
@@ -155,10 +158,24 @@ def view_my_positions(context, request):
                 p['endDate'].setdefault('day', 1)
                 p['endDate'].setdefault('month', 1)
 
+            # guess city iof work experience (country is not available
+            cid = p.get('company', {}).get('id')
+            if cid:
+                locs = requests.get(context.companyEndpoint % {'id': cid}, params={'oauth2_access_token': access_token},
+                                       headers={'x-li-format': 'json'})
+                locations = filter(itemgetter('address'), ensure_list(locs.json(), ['locations', 'values']))
+                if len(locations):
+                    cities = [l['address']['city'] for l in locations if l.get('address',{}).get('city')]
+                    if len(cities):
+                        p['city'] = cities[0]
+                        p['country_iso'] = 'DE'
+
             experiences.append({
                 'start':  '%(year)04d-%(month)02d-%(day)02d' % p['startDate'],
                 'end': '%(year)04d-%(month)02d-%(day)02d' % p['endDate'] if p.get('endDate') else None,
                 'role': p.get('title'),
+                'city': p.get('city'),
+                'country_iso': p.get('country_iso'),
                 'company': p.get('company', {}).get('name'),
                 'summary': p.get('summary')})
         return experiences
