@@ -1,7 +1,6 @@
-// jshint camelcase:false
-
 define(function(require) {
   'use strict';
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, Session) {
@@ -43,8 +42,9 @@ define(function(require) {
       Loader.add('signup-user-saving');
 
       Session.signup($scope.model).then(function() {
-        var position = $scope.signup.target;
+        var position = _.omit($scope.signup.target, 'preferred_locations', 'featuredSkills');
         var locations = $scope.signup.preferred_locations;
+        position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills);
 
         return $q.all([
           Session.user.setTargetPosition(position),

@@ -10,7 +10,6 @@ define(function(require) {
     return {
       restrict: 'EA',
       scope: {
-        //model: '=ngModel',
         onSubmit: '&',
         hcShowEmpty: '=',
       },
@@ -20,7 +19,7 @@ define(function(require) {
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.onFeaturedLocationChange = onFeaturedLocationChange;
         $scope.onFeaturedSkillChange = onFeaturedSkillChange;
-        $scope.searchSkills = ConfigAPI.skills;
+        $scope.searchSkills = searchSkills;
         $scope.searchCities = searchCities;
         $scope.setCountry = setCountry;
         $scope.submit = submit;
@@ -34,6 +33,18 @@ define(function(require) {
         ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
         ConfigAPI.featuredSkills().then(toCheckboxModel('featuredSkills'));
         ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations'));
+
+        function searchSkills(term) {
+          var skills = $scope.featuredSkills
+            .filter(fn.get('selected'))
+            .map(fn.get('value'));
+
+          return ConfigAPI.skills(term).then(function(data) {
+            return data.filter(function(entry) {
+              return skills.indexOf(entry) === -1;
+            });
+          });
+        }
 
         function toCheckboxModel(key) {
           return function(data) {
@@ -59,18 +70,20 @@ define(function(require) {
         }
 
         function onFeaturedSkillChange() {
-          if (!$scope.model.skills) $scope.model.skills = [];
-
-          $scope.featuredSkills.forEach(function(entry) {
-            var index = $scope.model.skills.indexOf(entry.value);
-            if (index === -1 && entry.selected)
-              $scope.model.skills.push(entry.value);
-            else if (index !== -1 && !entry.selected)
-              $scope.model.skills.splice(index, 1);
+          $scope.skillSelected = $scope.featuredSkills.some(function(entry) {
+            return entry.selected;
           });
+
+          $scope.model.featuredSkills = $scope.featuredSkills
+            .filter(fn.get('selected'))
+            .map(fn.get('value'));
         }
 
         function onFeaturedLocationChange() {
+          $scope.locationSelected = $scope.featuredSkills.some(function(entry) {
+            return entry.selected;
+          });
+
           if (!$scope.model.preferred_locations)
             $scope.model.preferred_locations = {};
 
@@ -99,8 +112,9 @@ define(function(require) {
 
         function save() {
           return Session.getUser().then(function(user) {
-            var model = _.omit($scope.model, 'preferred_locations');
+            var model = _.omit($scope.model, 'preferred_locations', 'featuredSkills');
             var preferred_locations = $scope.model.preferred_locations;
+            model.skills = [].concat(model.skills, $scope.model.featuredSkills);
 
             return $q.all([
               user.setPreferredLocations(preferred_locations),

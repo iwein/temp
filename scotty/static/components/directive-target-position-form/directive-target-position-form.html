@@ -38,6 +38,7 @@
               placeholder="Type a skill..."
               ng-disabled="loading"
               ng-model="model.skills"
+              hc-required="!skillSelected"
               hc-source="searchSkills($viewValue)"
               hc-error-message="Please choose at least one skill"
               hc-allow-new>
@@ -61,15 +62,9 @@
     </div>
 
     <div class="form-error" ng-show="formTarget.salary.$dirty && formTarget.salary.$invalid">
-      <span ng-show="formTarget.salary.$error.required">
-        Please insert your expected salary.
-      </span>
-      <span ng-show="formTarget.salary.$error.number">
-        Please insert a number.
-      </span>
-      <span ng-show="formTarget.salary.$error.pattern">
-        Decimals are not allowed.
-      </span>
+      <span ng-show="formTarget.salary.$error.required">Please insert your expected salary.</span>
+      <span ng-show="formTarget.salary.$error.number">Please insert a number.</span>
+      <span ng-show="formTarget.salary.$error.pattern">Decimals are not allowed.</span>
     </div>
   </div>
 
@@ -79,7 +74,7 @@
     <div class="col-sm-4">
       <select class="form-control"
               name="country"
-              required
+              ng-required="!locationSelected"
               ng-disabled="loading"
               ng-model="country"
               ng-options="country.iso as country.name for country in countries"

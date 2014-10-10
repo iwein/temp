@@ -17,6 +17,7 @@ define(function(require) {
         disabled: '@',
         hcErrorMessage: '@',
         ngModel: '=',
+        hcRequired: '=',
         hcSource: '&',
         hcRender: '&',
         onAdd: '&',
