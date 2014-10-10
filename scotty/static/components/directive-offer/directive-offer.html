@@ -54,7 +54,7 @@
   </div>
 
   <div class="offer-forms">
-    <form name="formReject" ng-show="rejecting" ng-submit="model.reject(rejection)">
+    <form name="formReject" ng-show="rejecting" ng-submit="reject(model, rejection)">
       <div class="form-group">
         <div ng-repeat="reason in rejectReasons">
           <label>
@@ -97,7 +97,7 @@
       </div>
     </form>
 
-    <form name="formWithdraw" ng-show="withdrawing" ng-submit="model.withdraw(withdrawal)">
+    <form name="formWithdraw" ng-show="withdrawing" ng-submit="withdraw(model, withdrawal)">
       <div class="form-group">
         <div ng-repeat="reason in withdrawReasons">
           <label>
@@ -131,7 +131,7 @@
       </div>
     </form>
 
-    <form name="formSigned" ng-show="signing" ng-submit="model.sign(signedData)">
+    <form name="formSigned" ng-show="signing" ng-submit="sign(model, signedData)">
       <div class="form-group required">
         <label>Start date</label>
 
