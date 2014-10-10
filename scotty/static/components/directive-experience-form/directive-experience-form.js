@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  var _ = require('underscore');
   var nameAttr = require('tools/name-attr');
   var months = require('tools/months');
   var fn = require('tools/fn');
@@ -20,8 +21,9 @@ define(function(require) {
       template: require('text!./directive-experience-form.html'),
       controllerAs: 'experienceCtrl',
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
+        $scope.onFeaturedSkillChange = onFeaturedSkillChange;
         $scope.searchCompanies = ConfigAPI.companies;
-        $scope.searchSkills = ConfigAPI.skills;
+        $scope.searchSkills = searchSkills;
         $scope.searchRoles = ConfigAPI.roles;
         $scope.model = $scope.model || {};
         $scope.months = months;
@@ -37,10 +39,41 @@ define(function(require) {
         bindDate('start');
         bindDate('end');
 
+        ConfigAPI.featuredSkills().then(function(data) {
+          $scope.featuredSkills = data.map(function(type) {
+            return { value: type };
+          });
+        });
+
+        function searchSkills(term) {
+          var skills = $scope.featuredSkills
+            .filter(fn.get('selected'))
+            .map(fn.get('value'));
+
+          return ConfigAPI.skills(term).then(function(data) {
+            return data.filter(function(entry) {
+              return skills.indexOf(entry) === -1;
+            });
+          });
+        }
+
+        function onFeaturedSkillChange() {
+          $scope.skillSelected = $scope.featuredSkills.some(function(entry) {
+            return entry.selected;
+          });
+
+          $scope.model.featuredSkills = $scope.featuredSkills
+            .filter(fn.get('selected'))
+            .map(fn.get('value'));
+        }
+
         function save() {
           return Session.getUser().then(function(user) {
-            return $q.when($scope.editing ? user.deleteExperience($scope.model) : null).then(function() {
-              return user.addExperience($scope.model);
+            var model = _.omit($scope.model, 'featuredSkills');
+            model.skills = [].concat(model.skills || [], $scope.model.featuredSkills, []);
+
+            return $q.when($scope.editing ? user.deleteExperience(model) : null).then(function() {
+              return user.addExperience(model);
             });
           });
         }
@@ -48,6 +81,7 @@ define(function(require) {
         function reset() {
           $scope.editing = false;
           $scope.skills.setDirty(false);
+          $scope.featuredSkills.forEach(fn.set('selected', false));
           $scope.formExperience.$setPristine();
           $scope.model = {};
           $scope.current = false;

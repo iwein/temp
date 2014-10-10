@@ -147,11 +147,24 @@
     <label class="col-sm-3">Technologies &amp; Skills</label>
 
     <div class="col-sm-9">
+      <div class="checkbox" ng-repeat="skill in featuredSkills">
+        <label class="form-label">
+          <input type="checkbox"
+            ng-disabled="loading"
+            ng-model="skill.selected"
+            ng-change="onFeaturedSkillChange()">
+          {{ skill.value }}
+        </label>
+      </div>
+    </div>
+
+    <div class="col-sm-offset-3 col-sm-9">
       <hc-label-typeahead
         name="skills"
         placeholder="Technologies &amp; skills"
-        ng-disabled="hcDisabled"
+        ng-disabled="loading"
         ng-model="model.skills"
+        hc-required="!skillSelected"
         hc-source="searchSkills($viewValue)"
         hc-error-message="Please choose at least one skill"
         hc-allow-new>

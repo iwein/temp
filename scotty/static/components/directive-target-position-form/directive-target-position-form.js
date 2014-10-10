@@ -115,7 +115,7 @@ define(function(require) {
           return Session.getUser().then(function(user) {
             var model = _.omit($scope.model, 'preferred_locations', 'featuredSkills');
             var preferred_locations = $scope.model.preferred_locations;
-            model.skills = [].concat(model.skills, $scope.model.featuredSkills);
+            model.skills = [].concat(model.skills || [], $scope.model.featuredSkills);
 
             return $q.all([
               user.setPreferredLocations(preferred_locations),
