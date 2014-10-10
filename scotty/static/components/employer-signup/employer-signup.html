@@ -23,8 +23,8 @@
         <span ng-if="!signup.afterStep('signup.terms')">6. Terms &amp; services</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.suggest') }">
-        <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">7. Suggested candidates</a>
-        <span ng-if="!signup.afterStep('signup.suggest')">7. Suggested candidates</span>
+        <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">7. Approval</a>
+        <span ng-if="!signup.afterStep('signup.suggest')">7. Approval</span>
       </li>
     </ol>
     <ui-view class="col-sm-6"></ui-view>
