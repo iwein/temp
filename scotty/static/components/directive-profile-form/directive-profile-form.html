@@ -189,13 +189,12 @@
     </div>
   </div>
 
-  <div class="form-group required">
+  <div class="form-group">
     <label class="col-sm-3">CV</label>
     <div class="col-sm-9">
       <input type="file"
         name="photo"
         accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ng-required="!model.cv_upload_url"
         ng-disabled="hcDisabled"
         hc-file-select
         ng-model="cv_file">
@@ -207,13 +206,12 @@
     </div>
   </div>
 
-  <div class="form-group required">
+  <div class="form-group">
     <label class="col-sm-3">What else is important about you?</label>
 
     <div class="col-sm-9">
       <textarea class="form-control"
         name="summary"
-        required
         ng-disabled="hcDisabled"
         ng-model="model.summary">
       </textarea>
@@ -224,15 +222,17 @@
     </div>
   </div>
 
-  <div class="form-group required">
+  <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
-      <label>
-        <input type="checkbox"
-          name="eu_work_visa"
-          ng-disabled="hcDisabled"
-          ng-model="model.eu_work_visa">
-        EU Work Visa
-      </label>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"
+            name="eu_work_visa"
+            ng-disabled="hcDisabled"
+            ng-model="model.eu_work_visa">
+          EU Work Visa
+        </label>
+      </div>
     </div>
   </div>
 
