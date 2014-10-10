@@ -44,7 +44,7 @@ define(function(require) {
       Session.signup($scope.model).then(function() {
         var position = _.omit($scope.signup.target, 'preferred_locations', 'featuredSkills');
         var locations = $scope.signup.preferred_locations;
-        position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills);
+        position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills || []);
 
         return $q.all([
           Session.user.setTargetPosition(position),

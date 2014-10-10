@@ -70,7 +70,7 @@ define(function(require) {
         function save() {
           return Session.getUser().then(function(user) {
             var model = _.omit($scope.model, 'featuredSkills');
-            model.skills = [].concat(model.skills || [], $scope.model.featuredSkills, []);
+            model.skills = [].concat(model.skills || [], $scope.model.featuredSkills || []);
 
             return $q.when($scope.editing ? user.deleteExperience(model) : null).then(function() {
               return user.addExperience(model);

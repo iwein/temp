@@ -1,7 +1,7 @@
 <input type="text"
   class="form-control"
   name="{{ name }}"
-  ng-required="hcRequired"
+  ng-required="hcRequired && !ngModel.length"
   placeholder="{{ placeholder }}"
   ng-disabled="disabled"
   ng-model="input"
