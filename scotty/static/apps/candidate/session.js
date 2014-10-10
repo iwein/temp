@@ -104,7 +104,7 @@ define(function(require) {
 
     searchEmployers: function(query) {
       return this._api.get('/employers/', query).then(function(response) {
-        return response.map(function(data) {
+        return response.data.map(function(data) {
           return new Employer(this._api, data.id, data);
         }.bind(this));
       }.bind(this));
