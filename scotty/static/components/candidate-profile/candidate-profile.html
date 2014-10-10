@@ -58,6 +58,17 @@
           <dd>{{ user.email }}</dd>
           <dt>Availabilty</dt>
           <dd>{{ user.availability }}</dd>
+          <dt>EU Work Visa</dt>
+          <dd>
+            <span ng-show="user.eu_work_visa">Yes</span>
+            <span ng-show="!user.eu_work_visa">No</span>
+          </dd>
+          <dt ng-if="user.summary">Summary</dt>
+          <dd ng-if="user.summary">{{ user.summary }}</dd>
+          <dt ng-if="user.cv_upload_url">CV</dt>
+          <dd ng-if="user.cv_upload_url">
+            <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
+          </dd>
           <dt ng-if="user.contact_skype">Skype</dt>
           <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
           <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
