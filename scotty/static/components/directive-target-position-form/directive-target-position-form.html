@@ -3,17 +3,18 @@
   <div class="form-group required">
     <label class="col-sm-3">Role</label>
     <div class="col-sm-9">
-    <select class="form-control"
-      name="country"
-      required
-      ng-disabled="loading"
-      ng-model="model.role"
-      ng-options="role for role in featuredRoles">
-      <option value="">Select...</option>
-    </select>
+      <select class="form-control"
+              name="country"
+              required
+              ng-disabled="loading"
+              ng-model="model.role"
+              ng-options="role for role in featuredRoles">
+        <option value="">Select...</option>
+      </select>
 
-    <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
-      <span ng-show="formTarget.role.$error.required">Please insert your role.</span>
+      <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
+        <span ng-show="formTarget.role.$error.required">Please insert your role.</span>
+      </div>
     </div>
   </div>
 
@@ -23,9 +24,9 @@
       <div class="checkbox" ng-repeat="skill in featuredSkills">
         <label class="form-label">
           <input type="checkbox"
-            ng-disabled="loading"
-            ng-model="skill.selected"
-            ng-change="onFeaturedSkillChange()">
+                 ng-disabled="loading"
+                 ng-model="skill.selected"
+                 ng-change="onFeaturedSkillChange()">
           {{ skill.value }}
         </label>
       </div>
@@ -33,14 +34,14 @@
 
     <div class="col-sm-offset-3 col-sm-9">
       <hc-label-typeahead
-        name="skill"
-        placeholder="Type a skill..."
-        ng-disabled="loading"
-        ng-model="model.skills"
-        hc-required="!skillSelected"
-        hc-source="searchSkills($viewValue)"
-        hc-error-message="Please choose at least one skill"
-        hc-allow-new>
+              name="skill"
+              placeholder="Type a skill..."
+              ng-disabled="loading"
+              ng-model="model.skills"
+              hc-required="!skillSelected"
+              hc-source="searchSkills($viewValue)"
+              hc-error-message="Please choose at least one skill"
+              hc-allow-new>
       </hc-label-typeahead>
     </div>
   </div>
@@ -51,11 +52,11 @@
       <div class="input-group">
         <span class="input-group-addon">€</span>
         <input type="dotted-integer"
-          class="form-control"
-          name="salary"
-          required
-          ng-disabled="loading"
-          ng-model="model.minimum_salary">
+               class="form-control"
+               name="salary"
+               required
+               ng-disabled="loading"
+               ng-model="model.minimum_salary">
         <span class="input-group-addon">.00</span>
       </div>
     </div>
@@ -78,23 +79,23 @@
 
     <div class="col-sm-4">
       <select class="form-control"
-        name="country"
-        ng-required="!locationSelected"
-        ng-disabled="loading"
-        ng-model="country"
-        ng-options="country.iso as country.name for country in countries"
-        ng-change="setCountry(country)">
+              name="country"
+              ng-required="!locationSelected"
+              ng-disabled="loading"
+              ng-model="country"
+              ng-options="country.iso as country.name for country in countries"
+              ng-change="setCountry(country)">
         <option value="">Select...</option>
       </select>
     </div>
 
     <div class="col-sm-5">
       <hc-label-typeahead
-        name="cities"
-        placeholder="Type a city..."
-        ng-disabled="loading || dontCareLocation || !country"
-        ng-model="model.preferred_locations[country]"
-        hc-source="searchCities($viewValue)">
+              name="cities"
+              placeholder="Type a city..."
+              ng-disabled="loading || dontCareLocation || !country"
+              ng-model="model.preferred_locations[country]"
+              hc-source="searchCities($viewValue)">
       </hc-label-typeahead>
     </div>
 
@@ -102,9 +103,9 @@
       <div class="checkbox" ng-repeat="location in featuredLocations">
         <label class="form-label">
           <input type="checkbox"
-            ng-disabled="loading"
-            ng-model="location.selected"
-            ng-change="onFeaturedLocationChange()">
+                 ng-disabled="loading"
+                 ng-model="location.selected"
+                 ng-change="onFeaturedLocationChange()">
           {{ location.value.city }}, {{ location.value.country_iso }}
         </label>
       </div>
@@ -113,10 +114,10 @@
     <div class="col-sm-5">
       <label class="form-label">
         <input type="checkbox"
-          ng-disabled="loading || !country"
-          ng-required="!model.preferred_locations[country].length"
-          ng-model="dontCareLocation"
-          ng-change="setCountry(country)">
+               ng-disabled="loading || !country"
+               ng-required="!model.preferred_locations[country].length"
+               ng-model="dontCareLocation"
+               ng-change="setCountry(country)">
         Anywhere
       </label>
     </div>

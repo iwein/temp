@@ -168,14 +168,13 @@ def view_my_positions(context, request):
                     cities = [l['address']['city'] for l in locations if l.get('address',{}).get('city')]
                     if len(cities):
                         p['city'] = cities[0]
-                        p['country_iso'] = 'DE'
 
             experiences.append({
                 'start':  '%(year)04d-%(month)02d-%(day)02d' % p['startDate'],
                 'end': '%(year)04d-%(month)02d-%(day)02d' % p['endDate'] if p.get('endDate') else None,
                 'role': p.get('title'),
                 'city': p.get('city'),
-                'country_iso': p.get('country_iso'),
+                'country_iso': 'DE',
                 'company': p.get('company', {}).get('name'),
                 'summary': p.get('summary')})
         return experiences

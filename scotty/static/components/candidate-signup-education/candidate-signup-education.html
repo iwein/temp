@@ -6,69 +6,73 @@
 
   <div class="form-group" ng-show="!imported && !importing">
     <button type="button"
-      ng-show="!linkedin.isConnected"
-      ng-disabled="loading"
-      ng-click="linkedin.connect()">
+            ng-show="!linkedin.isConnected"
+            ng-disabled="loading"
+            ng-click="linkedin.connect()">
       Connect with linked in
     </button>
     <button type="button"
-      ng-show="linkedin.isConnected && !importing"
-      ng-disabled="loading"
-      ng-click="importLinkedin()">
+            ng-show="linkedin.isConnected && !importing"
+            ng-disabled="loading"
+            ng-click="importLinkedin()">
       Import data from linked in
     </button>
   </div>
 
   <hc-education-form
-    ng-show="importing"
-    name="importForm"
-    hc-disabled="loading"
-    on-submit="saveImported()">
+          ng-show="importing"
+          name="importForm"
+          hc-disabled="loading"
+          on-submit="saveImported()">
 
-    <button type="button"
-      class="btn btn-primary"
-      ng-click="skipImported()"
-      ng-disabled="loading">
-      Skip
-    </button>
-    <button type="submit"
-      class="btn btn-primary"
-      ng-disabled="loading">
-      Save
-    </button>
+    <div class="col-sm-12">
+      <button type="button"
+              class="btn btn-primary"
+              ng-click="skipImported()"
+              ng-disabled="loading">
+        Skip
+      </button>
+      <button type="submit"
+              class="btn btn-primary"
+              ng-disabled="loading">
+        Save
+      </button>
+    </div>
   </hc-education-form>
 
   <hc-education-form
-    ng-show="!importing"
-    name="form"
-    hc-required="list.length === 0 || !form.isPristine()"
-    hc-disabled="loading"
-    on-submit="signupEducation.submit(form)">
+          ng-show="!importing"
+          name="form"
+          hc-required="list.length === 0 || !form.isPristine()"
+          hc-disabled="loading"
+          on-submit="signupEducation.submit(form)">
 
-    <button type="submit"
-      class="btn btn-primary"
-      ng-click="setAddAnother(true)"
-      ng-disabled="loading || form.isPristine()">
-      Save &amp; add another
-    </button>
-    <button type="submit"
-      class="btn btn-primary"
-      ng-click="setAddAnother(false)"
-      ng-disabled="loading">
-      Save &amp; continue
-    </button>
+    <div class="col-sm-12">
+      <button type="submit"
+              class="btn btn-primary"
+              ng-click="setAddAnother(true)"
+              ng-disabled="loading || form.isPristine()">
+        Save &amp; add another
+      </button>
+      <button type="submit"
+              class="btn btn-primary"
+              ng-click="setAddAnother(false)"
+              ng-disabled="loading">
+        Save &amp; continue
+      </button>
+    </div>
   </hc-education-form>
 
   <hc-education
-    ng-if="ready"
-    name="list"
-    on-load="listReady()"
-    hc-title="Saved"
-    hc-source="session.user.getEducation()"
-    hc-source-remove="session.user.deleteEducation($entry)"
-    on-edit="signupEducation.edit($entry)"
-    hc-editable="true"
-    hc-remove-last="true">
+          ng-if="ready"
+          name="list"
+          on-load="listReady()"
+          hc-title="Saved"
+          hc-source="session.user.getEducation()"
+          hc-source-remove="session.user.deleteEducation($entry)"
+          on-edit="signupEducation.edit($entry)"
+          hc-editable="true"
+          hc-remove-last="true">
   </hc-education>
 
 </div>
