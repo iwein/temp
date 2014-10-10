@@ -83,20 +83,17 @@ def add_candidate_work_experience(candidate, params):
     return wexp
 
 
-def add_target_position(candidate, params):
-    minimum_salary = params['minimum_salary']
-    company_types = get_or_raise_named_collection(CompanyType, params['company_types']).values()
-    travel_willingness = get_by_name_or_raise(TravelWillingness, params['travel_willingness'])
-    relocate = params.get('relocate', False)
-
-    role = get_by_name_or_create(Role, params["role"])
-    skills = get_or_create_named_collection(Skill, params["skills"])
-
-    tp = TargetPosition(candidate_id=candidate.id, minimum_salary=minimum_salary, company_types=company_types,
-                        role=role, skills=skills, travel_willingness=travel_willingness, relocate=relocate)
-    DBSession.add(tp)
+def set_target_position(candidate, params):
+    if params:
+        minimum_salary = params['minimum_salary']
+        role = get_by_name_or_create(Role, params["role"])
+        skills = get_or_create_named_collection(Skill, params["skills"])
+        tp = TargetPosition(minimum_salary=minimum_salary, role=role, skills=skills)
+    else:
+        tp = None
+    candidate.target_position = tp
     DBSession.flush()
-    return tp
+    return candidate.target_position
 
 
 def set_languages_on_candidate(candidate, params):

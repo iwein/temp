@@ -72,9 +72,10 @@ def add_employer_offer(employer, params):
         raise HTTPBadRequest("Unknown candidate")
     annual_salary = int(params['annual_salary'])
     location = get_location_by_name_or_raise(params['location'])
-    for tp in candidate.target_positions:
-        if tp.minimum_salary > annual_salary:
-            raise HTTPBadRequest("Salary too low.")
+
+    if candidate.target_position.minimum_salary > annual_salary:
+        raise HTTPBadRequest("Salary too low.")
+
     matches = DBSession.execute(text("""
         select count(distinct cpl.id)
         from  candidate_preferred_location cpl

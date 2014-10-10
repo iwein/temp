@@ -9,7 +9,7 @@ from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, TargetPosition, FullCandidate, \
     CandidateOffer, WXPCandidate
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
-    add_candidate_work_experience, add_target_position, set_languages_on_candidate, set_skills_on_candidate, \
+    add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
@@ -41,6 +41,8 @@ def includeme(config):
     config.add_route('candidate_picture', '{candidate_id}/picture')
     config.add_route('candidate_skills', '{candidate_id}/skills')
     config.add_route('candidate_preferred_locations', '{candidate_id}/preferred_locations')
+    config.add_route('target_position', '{candidate_id}/target_position')
+
     config.add_route('candidate_languages', '{candidate_id}/languages')
 
     config.add_route('candidate_educations', '{candidate_id}/education')
@@ -52,8 +54,7 @@ def includeme(config):
     config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
 
-    config.add_route('target_positions', '{candidate_id}/target_positions')
-    config.add_route('target_position', '{candidate_id}/target_positions/{id}')
+
 
     config.add_route('candidate_offers', '{candidate_id}/offers')
     config.add_route('candidate_offer', '{candidate_id}/offers/{id}')
@@ -66,15 +67,15 @@ def includeme(config):
 
 
 class CandidateController(RootController):
+    model_cls = FullCandidate
     @reify
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
-        cls = FullCandidate
         if candidate_id == 'me':
             candidate_id = self.request.session.get('candidate_id')
             if not candidate_id:
                 raise HTTPForbidden("Not logged in.")
-        candidate = DBSession.query(cls).get(candidate_id)
+        candidate = DBSession.query(self.model_cls).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
@@ -157,10 +158,10 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.candidate
         workflow = {'active': candidate.activated is not None,
-                    'ordering': ['target_positions', 'work_experience', 'education', 'skills', 'languages', 'image',
+                    'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'image',
                                  'active'], 'image': candidate.picture_url is not None,
                     'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
-                    'target_positions': len(candidate.target_positions) > 0,
+                    'target_position': candidate.target_position is not None,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
 
@@ -241,22 +242,14 @@ class CandidateWorkExperienceController(CandidateController):
 
 
 class CandidateTargetPositionController(CandidateController):
-    @view_config(route_name='target_positions', **GET)
-    def list(self):
-        return self.candidate.target_positions
+    model_cls = Candidate
+    @view_config(route_name='target_position', **GET)
+    def get(self):
+        return self.candidate.target_position
 
-    @view_config(route_name='target_positions', **POST)
-    def create(self):
-        return add_target_position(self.candidate, self.request.json)
-
-    @view_config(route_name='target_position', **DELETE)
-    def delete(self):
-        id = self.request.matchdict["id"]
-        we = DBSession.query(TargetPosition).get(id)
-        if not we:
-            raise HTTPNotFound("Unknown TargetPosition ID.")
-        DBSession.delete(we)
-        return {"status": "success"}
+    @view_config(route_name='target_position', **POST)
+    def set(self):
+        return set_target_position(self.candidate, self.request.json)
 
 
 class CandidateBookmarkController(CandidateController):

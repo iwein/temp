@@ -108,19 +108,12 @@ class TargetPosition(Base):
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
     created = Column(DateTime, nullable=False, default=datetime.now)
     minimum_salary = Column(Integer, nullable=False)
-    relocate = Column(Boolean)
-
-    travel_willingness_id = Column(Integer, ForeignKey("travelwillingness.id"), nullable=False, server_default='1')
-    travel_willingness = relationship(TravelWillingness)
-
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
     skills = relationship(Skill, secondary=target_position_skills)
-    company_types = relationship(CompanyType, secondary=target_position_company_type)
 
     def __json__(self, request):
-        return {"id": self.id, "skills": self.skills, "role": self.role, 'travel_willingness': self.travel_willingness,
-                'relocate': self.relocate, "minimum_salary": self.minimum_salary, "company_types": self.company_types}
+        return {"skills": self.skills, "role": self.role, "minimum_salary": self.minimum_salary}
 
 
 class CandidateLanguage(Base):
@@ -223,8 +216,8 @@ class Candidate(Base, JsonSerialisable):
 
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan",
                                    order_by=WorkExperience.start.desc())
-    target_positions = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan",
-                                    order_by=TargetPosition.created.desc())
+    target_position = relationship(TargetPosition, backref="candidate",  cascade="all, delete, delete-orphan",
+                                   uselist=False, order_by=TargetPosition.created.desc())
 
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 

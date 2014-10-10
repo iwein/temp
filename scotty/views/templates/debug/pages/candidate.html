@@ -59,6 +59,15 @@
 
             //{'sectionTitle': 'Set Based Endpoints'},
 
+
+            {title: 'Target Position'},
+            {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'get-target_position'},
+            {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'set-target_position',
+              data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: true,
+                travel_willingness:'>50%', minimum_salary: 100000},
+              extract:   function(r, extr){return {target_positionId: r.id}}},
+            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition'},
+
             {title: 'Languages'},
             {url: function(r, extr){return '/api/v1/candidates/me/languages'},
               title: 'set-languages-1', method:'PUT', data: [
@@ -158,21 +167,7 @@
 
             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-WorkExperience'},
 
-            {title: 'Target Position'},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'list-target_position'},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'create-target_position',
-              data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: true,
-                travel_willingness:'>50%', minimum_salary: 100000},
-              extract:   function(r, extr){return {target_positionId: r.id}}},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'create-target_position-2',
-              data: {"company_types": ["large", "top500"], "role":"Senior Designer", 'skill': "Java", minimum_salary: 40000,
-                'skills': ["Spring", "Java"], relocate: false, travel_willingness:'<10%'
-              }},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'list-target_position-2'},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_positions/'+extr.target_positionId}, title: 'delete-target_position', method:"DELETE"},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'list-target_position-3'},
-
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition'},
+            {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'unset-target_position', data: {} },
 
             {'sectionTitle': 'Cleanup'},
             {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
