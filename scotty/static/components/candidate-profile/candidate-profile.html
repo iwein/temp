@@ -168,66 +168,75 @@
       </ul>
     </div>
 
+    <hc-target-position-form
+      ng-show="isEditing && targetPositionForm.editing"
+      hc-scope="targetPositionForm"
+      name="form"
+      on-submit="targetPositionForm.save()">
+      <button type="button"
+        class="btn btn-primary"
+        ng-click="targetPositionForm.cancel()"
+        ng-disabled="loading">
+        Cancel
+      </button>
+      <button type="submit"
+        class="btn btn-primary"
+        ng-disabled="loading">
+        Save
+      </button>
+    </hc-target-position-form>
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          Preferred locations
-
+          Target position
           <button type="submit"
             class="btn btn-default pull-right"
             ng-show="isEditing && !formOpen"
             ng-disabled="loading"
-            ng-click="targetPosition.forceEdit()">
+            ng-click="targetPositionForm.edit(targetPosition, cities)">
             Edit
           </button>
           <div class="clearfix"></div>
         </h3>
       </div>
-      <ul class="list-group" ng-repeat="(country_iso, cities) in cities">
-        <li class="list-group-item" ng-repeat="city in cities">
-          <span class="value">{{ city }}, {{ country_iso }}</span>
-        </li>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>role</dt>
+          <dd>{{ targetPosition.role }}</dd>
+          <dt>skills</dt>
+          <dd>{{ targetPosition.skills.join(', ') }}</dd>
+          <dt>minimum salary</dt>
+          <dd>{{ targetPosition.minimum_salary | dottedInteger }}€</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Preferred locations
+          <button type="submit"
+            class="btn btn-default pull-right"
+            ng-show="isEditing && !formOpen"
+            ng-disabled="loading"
+            ng-click="targetPositionForm.edit(targetPosition, cities)">
+            Edit
+          </button>
+          <div class="clearfix"></div>
+        </h3>
+      </div>
+      <ul class="list-group">
+        <div ng-repeat="(country_iso, cities) in cities">
+          <li class="list-group-item" ng-show="!cities.length">{{ country_iso }} (Anywhere)</li>
+          <li class="list-group-item" ng-repeat="city in cities">
+            <span class="value">{{ city }}, {{ country_iso }}</span>
+          </li>
+        </div>
       </ul>
     </div>
 
     <div ng-if="ready">
-      <hc-target-position-form
-        ng-show="isEditing && targetPosition.editing"
-        hc-scope="targetPosition"
-        name="form"
-        on-submit="targetPosition.save()">
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="targetPosition.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-target-position-form>
-
-      <hc-target-positions
-        hc-scope="targetPosition"
-        name="list"
-        hc-title="Target positions"
-        hc-source="session.user.getTargetPositions()"
-        hc-editable="isEditing && !experience.editing"
-        hc-source-remove="session.user.deleteTargetPosition($entry)"
-        on-edit="targetPosition.edit($entry)"
-        hc-show-empty="true">
-
-        <button type="submit"
-          class="btn btn-default pull-right"
-          ng-show="isEditing && !formOpen"
-          ng-disabled="loading"
-          ng-click="targetPosition.forceEdit()">
-          Edit
-        </button>
-      </hc-target-positions>
-
       <!-- EXPERIENCE -->
 
       <hc-experience-form

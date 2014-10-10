@@ -58,10 +58,6 @@ define(function(require) {
       return this._api.post(this._url() + '/picture', { url: photo });
     },
 
-    getTargetPositions: getHelper('target_positions'),
-    addTargetPosition: setHelper('target_positions', 'post'),
-    deleteTargetPosition: deleteHelper('target_positions'),
-
     getExperience: getHelper('work_experience'),
     addExperience: setHelper('work_experience', 'post'),
     deleteExperience: deleteHelper('work_experience'),
@@ -73,6 +69,9 @@ define(function(require) {
     getBookmarks: getHelper('bookmarks'),
     addBookmark: setHelper('bookmarks', 'post'),
     deleteBookmark: deleteHelper('bookmarks'),
+
+    getTargetPosition: getHelper('target_position'),
+    setTargetPosition: setHelper('target_position', 'post'),
 
     setPreferredLocations: setHelper('preferred_locations', 'put'),
     setSkills: setHelper('skills', 'put'),
