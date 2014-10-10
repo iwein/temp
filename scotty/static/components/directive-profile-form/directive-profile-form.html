@@ -169,7 +169,7 @@
     <input type="file"
       name="photo"
       accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ng-required="!model.cv_url"
+      ng-required="!model.cv_upload_url"
       ng-disabled="hcDisabled"
       hc-file-select
       ng-model="cv_file">
@@ -184,24 +184,23 @@
     <label>What else is important about you?</label>
 
     <textarea class="form-control"
-      name="important"
+      name="summary"
       required
       ng-disabled="hcDisabled"
-      ng-model="model.important">
+      ng-model="model.summary">
     </textarea>
 
-    <div class="form-error" ng-show="formProfile.available_date.$dirty && formProfile.important.$invalid">
-      <span ng-show="formProfile.important.$error.number">Please insert a number.</span>
-      <span ng-show="formProfile.important.$error.pattern">Please enter a integer number.</span>
+    <div class="form-error" ng-show="formProfile.available_date.$dirty && formProfile.summary.$invalid">
+      <span ng-show="formProfile.summary.$error.required">Please insert some description.</span>
     </div>
   </div>
 
   <div class="form-group required">
     <label>
       <input type="checkbox"
-        name="work_visa"
+        name="eu_work_visa"
         ng-disabled="hcDisabled"
-        ng-model="work_visa">
+        ng-model="model.eu_work_visa">
       EU Work Visa
     </label>
   </div>
