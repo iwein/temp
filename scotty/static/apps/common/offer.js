@@ -4,20 +4,22 @@ define(function() {
     'ACTIVE': 'Active',
     'REJECTED': 'Rejected',
     'ACCEPTED': 'Accept',
-    'WITHDRAWN': 'Withdrawn',
     'INTERVIEW': 'Interview',
     'CONTRACT_NEGOTIATION': 'Contract negotiation',
     'CONTRACT_SIGNED': 'Contract signed',
+    'WITHDRAWN': 'Withdrawn',
+    'EXPIRED': 'Expired',
   };
 
   var validStatus = {
     'ACTIVE': [ 'ACCEPTED', 'REJECTED' ],
     'REJECTED': [],
     'ACCEPTED': [ 'INTERVIEW' ],
-    'WITHDRAWN': [],
     'INTERVIEW': [ 'CONTRACT_NEGOTIATION' ],
     'CONTRACT_NEGOTIATION': [ 'CONTRACT_SIGNED' ],
     'CONTRACT_SIGNED': [],
+    'WITHDRAWN': [],
+    'EXPIRED': [],
   };
 
   function Offer(api, baseUrl, data) {
@@ -49,7 +51,7 @@ define(function() {
     _updateStatus: function(response) {
       this.status = this.data.status = response.reduce(function(value, current) {
         return current.completed ? current.status : value;
-      });
+      }, null);
       this.statusText = stateText[this.status];
       return this;
     },
@@ -139,6 +141,7 @@ define(function() {
     },
 
     getNextStatus: function() {
+      if (!validStatus[this.data.status]) debugger;
       return validStatus[this.data.status][0] || null;
     },
 

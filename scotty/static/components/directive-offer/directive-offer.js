@@ -35,6 +35,9 @@ define(function(require) {
         $scope.toggleWithdrawing = toggleWithdrawing;
         $scope.toggleRejecting = toggleRejecting;
         $scope.toggleSigning = toggleSigning;
+        $scope.reject = reject;
+        $scope.withdraw = withdraw;
+        $scope.sign = sign;
         $scope.withdrawal = {};
         $scope.rejection = {};
         $scope.signedData = {};
@@ -52,6 +55,24 @@ define(function(require) {
 
         function toggleSigning() {
           $scope.signing = !$scope.signing;
+        }
+
+        function reject(model, data) {
+          model.reject(data).then(function() {
+            $scope.rejecting = false;
+          });
+        }
+
+        function withdraw(model, data) {
+          model.withdraw(data).then(function() {
+            $scope.withdrawing = false;
+          });
+        }
+
+        function sign(model, data) {
+          model.sign(data).then(function() {
+            $scope.signing = false;
+          });
         }
       },
     };
