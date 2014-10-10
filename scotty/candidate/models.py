@@ -80,7 +80,7 @@ class WorkExperience(Base):
     company_id = Column(Integer, ForeignKey(Company.id), nullable=False)
     company = relationship(Company)
 
-    country_iso = Column(String(2), ForeignKey(Country.iso), nullable=False)
+    country_iso = Column(String(2), ForeignKey(Country.iso))
     city = Column(String(512))
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
