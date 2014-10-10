@@ -1,24 +1,49 @@
-from datetime import datetime, timedelta
-from uuid import uuid4
+from datetime import datetime
+from sqlalchemy import or_, func
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict, HTTPServerError
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.configuration.models import CompanyType, WithdrawalReason
-from scotty.employer.models import Employer, Office, APPLIED, APPROVED, MatchedEmployer, EmployerOffer, FullEmployer
+from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, search_employers
+    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed
+from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
-from scotty.views.common import POST, GET, DELETE, PUT
-from sqlalchemy import or_, func
+from scotty.views.common import POST, GET, DELETE, PUT, run_paginated_query
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, joinedload_all
+
+
+def includeme(config):
+    config.add_route('employers_invite', 'invite/{token}')
+    config.add_route('employer_login', 'login')
+    config.add_route('employer_logout', 'logout')
+    config.add_route('employer_requestpassword', 'requestpassword')
+    config.add_route('employer_resetpassword', 'resetpassword/{token}')
+
+    config.add_route('employers', '')
+    config.add_route('employer', '{employer_id}')
+    config.add_route('employer_interestedcandidates', '{employer_id}/interestedcandidates')
+    config.add_route('employer_suggested_candidates', '{employer_id}/suggestedcandidates')
+    config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
+    config.add_route('employer_apply', '{employer_id}/apply')
+    config.add_route('employer_offices', '{employer_id}/offices')
+    config.add_route('employer_office', '{employer_id}/offices/{office_id}')
+
+    config.add_route('employer_offers', '{employer_id}/offers')
+    config.add_route('employer_offer', '{employer_id}/offers/{offer_id}')
+
+    config.add_route('employer_offer_signed', '{employer_id}/offers/{offer_id}/signed')
+    config.add_route('employer_offer_withdraw', '{employer_id}/offers/{offer_id}/withdraw')
+    config.add_route('employer_offer_status', '{employer_id}/offers/{offer_id}/status')
+    config.scan()
 
 
 class EmployerInviteController(RootController):
@@ -74,7 +99,6 @@ class EmployerController(RootController):
     @view_config(route_name='employers', **GET)
     def search(self):
         params = self.request.params
-        q = params.get('q')
         tags = filter(None, params.get('tags', '').split(','))
         city_id = None
         if 'country_iso' in params and 'city' in params:
@@ -82,28 +106,26 @@ class EmployerController(RootController):
         company_type_names = filter(None, params.get('company_type', '').split(','))
         company_types = get_or_raise_named_collection(CompanyType, company_type_names).values()
 
-        base_query = DBSession.query(MatchedEmployer).filter(MatchedEmployer.approved != None)
-        if q:
-            q = q.lower()
-            employers = base_query.filter(
-                or_(func.lower(Employer.contact_first_name).startswith(q),
-                    func.lower(Employer.contact_last_name).startswith(q),
-                    func.lower(Employer.email).startswith(q))
-            ).limit(20).all()
-        elif tags:
-            employer_tags = search_employers(tags, city_id, company_types)
-            employer_ids = [e[0] for e in employer_tags]
-            employer_query = base_query.filter(MatchedEmployer.id.in_(employer_ids)).limit(20)
-            employer_lookup = {str(e.id): e for e in employer_query.all()}
-            employers = []
-            for employer_id, matched_tags in employer_tags:
-                if employer_id in employer_lookup:
-                    c = employer_lookup[employer_id]
-                    c.matched_tags = matched_tags
-                    employers.append(c)
+        def adjust_query(query, q=None):
+            if q:
+                query = query.filter(
+                    or_(func.lower(Employer.contact_first_name).startswith(q),
+                        func.lower(Employer.contact_last_name).startswith(q),
+                        func.lower(Employer.email).startswith(q))
+                )
+            return query.options(joinedload('contact_salutation'),
+                                 joinedload_all('offices.address_city'),
+                                 joinedload('benefits'),
+                                 joinedload('tech_tags'),
+                                 joinedload('company_type'))
+
+        if tags:
+            pager = get_employers_pager(tags, city_id, company_types)
+            result = ObjectBuilder(Employer).serialize(pager, adjust_query=adjust_query)
         else:
-            employers = base_query.limit(20).all()
-        return employers
+            basequery = adjust_query(DBSession.query(Employer))
+            result = run_paginated_query(self.request, basequery)
+        return result
 
     @view_config(route_name='employer_interestedcandidates', **GET)
     def employer_interestedcandidates(self):
@@ -144,7 +166,7 @@ class EmployerController(RootController):
 
         candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
         candidates = DBSession.query(WXPCandidate).options(joinedload("languages"), joinedload("skills"),
-                                                        joinedload("work_experience"))\
+                                                           joinedload("work_experience")) \
             .filter(WXPCandidate.id.in_(candidate_ids)).all()
         return candidates
 

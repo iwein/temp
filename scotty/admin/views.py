@@ -4,6 +4,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 
 from pyramid.view import view_config
+from scotty.candidate.services import get_candidates_by_techtags_pager
 from scotty.configuration.models import WithdrawalReason, RejectionReason
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
@@ -14,18 +15,36 @@ from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.offer.services import set_offer_signed
+from scotty.services.pagingservice import ObjectBuilder
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload_all, joinedload
+
+
+def includeme(config):
+    config.add_route('admin_employer', 'employers')
+    config.add_route('admin_search_employer', 'search/employers')
+    config.add_route('admin_search_candidates', 'search/candidates')
+    config.add_route('admin_employer_by_status', 'employers/{status}')
+    config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')
+
+    config.add_route('admin_offers', 'offers')
+    config.add_route('admin_offer', 'offers/{id}')
+    config.add_route('admin_offer_accept', 'offers/{id}/accept')
+    config.add_route('admin_offer_reject', 'offers/{id}/reject')
+    config.add_route('admin_offer_status', 'offers/{id}/status')
+    config.add_route('admin_offer_signed', 'offers/{id}/signed')
+    config.add_route('admin_offer_withdraw', 'offers/{id}/withdraw')
+    config.add_route('admin_offer_rollback', 'offers/{id}/rollback')
+    config.scan()
 
 
 class SearchResultCandidate(Candidate):
     def __json__(self, request):
-        result = {k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None}
-        result['id'] = self.id
+        result = super(SearchResultCandidate, self).__json__(request)
         result['email'] = self.email
-        result['status'] = self.status
         return result
 
 
@@ -77,11 +96,29 @@ class AdminController(RootController):
 
     @view_config(route_name="admin_search_candidates", **GET)
     def admin_search_candidates(self):
-        q = self.request.params['q'].lower()
-        base_query = DBSession.query(SearchResultCandidate).filter(or_(func.lower(Candidate.first_name).startswith(q),
-                                                                       func.lower(Candidate.last_name).startswith(q),
-                                                                       func.lower(Candidate.email).startswith(q)))
-        return run_paginated_query(self.request, base_query)
+        params = self.request.params
+        q = params.get('q')
+        tags = filter(None, params.get('tags', '').split(','))
+
+        def adjust_query(query, q=None):
+            if q:
+                q = q.lower()
+                query = query.filter(or_(func.lower(Candidate.first_name).startswith(q),
+                                         func.lower(Candidate.last_name).startswith(q),
+                                         func.lower(Candidate.email).startswith(q)))
+            return query.options(joinedload_all('languages.language'),
+                                 joinedload_all('languages.proficiency'),
+                                 joinedload_all('skills.skill'),
+                                 joinedload_all('skills.level'),
+                                 joinedload('preferred_locations'))
+
+        if tags:
+            pager = get_candidates_by_techtags_pager(tags, None)
+            result = ObjectBuilder(SearchResultCandidate).serialize(pager, adjust_query=adjust_query)
+        else:
+            basequery = adjust_query(DBSession.query(SearchResultCandidate), q)
+            result = run_paginated_query(self.request, basequery)
+        return result
 
     @view_config(route_name="admin_search_employer", **GET)
     def admin_search_employer(self):
@@ -163,6 +200,15 @@ class AdminOfferController(RootController):
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
         try:
             self.offer.set_rejected(reason, self.request.json.get('rejected_text'))
+        except InvalidStatusError, e:
+            raise HTTPBadRequest(e.message)
+        DBSession.flush()
+        return self.offer.full_status_flow
+
+    @view_config(route_name='admin_offer_rollback', **POST)
+    def rollback(self):
+        try:
+            self.offer.rollback()
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()

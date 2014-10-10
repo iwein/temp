@@ -41,7 +41,7 @@
           .concat(EMPLOYER_SIGNUP(emp_email))
           .concat([
             {url: function(r, extr){return '/api/v1/admin/employers/'+extr.employerId+'/approve';},
-              title: 'admin-approve-employer',
+              title: 'admin-approve-employer'
             }
           ])
           .concat([
@@ -82,7 +82,7 @@
                   annual_salary: 2000000,
                   message: 'Hi There, we like you, so we make this offer to you',
                   interview_details: 'We will interview you',
-                  job_description: 'You will work for us',
+                  job_description: 'You will work for us'
                 }
               }, extract: function(r, extr){return {offer1Id: r.id}}
             },
@@ -98,7 +98,7 @@
                   annual_salary: 3000000,
                   message: 'Hi There, we like you, so we make this offer to you 2',
                   interview_details: 'We might interview you',
-                  job_description: 'you could work for us',
+                  job_description: 'you could work for us'
                 }
               },
               extract: function(r, extr){return {offer2Id: r.id}}
@@ -147,6 +147,22 @@
               data: {start_date: '2014-12-31', 'start_salary': 240000}, expectedErrors: [400]
             },
 
+            {'sectionTitle': 'Rollback'},
+
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'offer-ROLLBACK-contract-signed', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-contract-nego', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-interview', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-accept', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-no-more', data: {}, expectedErrors: [400] },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/reject';}, title: 'admin-offer-reject',
+              data:{reason: 'Salary offer not high enough', rejected_text:null} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-reject', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw';}, title: 'admin-offer-withdraw',
+              data: {'reason': 'No Culture Fit', withdrawal_text: 'WE DONT LIKE THIS ONE'} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-withdraw', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-no-more', data: {}, expectedErrors: [400] },
+
+
             {'sectionTitle': 'Withdrawal'},
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer', method:'POST',
               data: function(r, extr){
@@ -159,7 +175,7 @@
                   annual_salary: 3003400,
                   message: 'Hi There, we like you, so we make this offer to you 2',
                   interview_details: 'We might interview you',
-                  job_description: 'you could work for us',
+                  job_description: 'you could work for us'
                 }
               },
               extract: function(r, extr){return {offer3Id: r.id}}
@@ -182,7 +198,7 @@
                   annual_salary: 2,
                   message: 'Hi There, we like you, so we make this offer to you 2',
                   interview_details: 'We might interview you',
-                  job_description: 'you could work for us',
+                  job_description: 'you could work for us'
                 }
               }, expectedErrors: [400]
             },
@@ -198,7 +214,7 @@
                   annual_salary: 2000001,
                   message: 'Hi There, we like you, so we make this offer to you 2',
                   interview_details: 'We might interview you',
-                  job_description: 'you could work for us',
+                  job_description: 'you could work for us'
                 }
               }, expectedErrors: [400]
             },
@@ -214,7 +230,7 @@
                   annual_salary: 20000020,
                   message: 'Hi There, we like you, so we make this offer to you 2',
                   interview_details: 'We might interview you',
-                  job_description: 'you could work for us',
+                  job_description: 'you could work for us'
                 }
               }, extract: function(r, extr){return {offer4Id: r.id}}
             },
@@ -232,10 +248,10 @@
                   annual_salary: 20000002,
                   message: 'Hi There, we like you, so we make this offer to you 2',
                   interview_details: 'We might interview you',
-                  job_description: 'you could work for us',
+                  job_description: 'you could work for us'
                 }
               } , expectedErrors: [400]
-            },
+            }
           ]);
 
   $(function(){getTestRunner(tests)(0, {});})

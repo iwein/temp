@@ -23,18 +23,29 @@ class InvalidStatusError(Exception):
     pass
 
 
+
+OFFER_STATUS_ACTIVE_KEY = 'ACTIVE'
+OFFER_STATUS_ACCEPTED_KEY = 'ACCEPTED'
+OFFER_STATUS_INTERVIEW_KEY = 'INTERVIEW'
+OFFER_STATUS_CONTRACT_NEGOTIATION_KEY = 'CONTRACT_NEGOTIATION'
+OFFER_STATUS_CONTRACT_SIGNED_KEY = 'CONTRACT_SIGNED'
+OFFER_STATUS_REJECTED_KEY = 'REJECTED'
+OFFER_STATUS_WITHDRAWN_KEY = 'WITHDRAWN'
+OFFER_STATUS_EXPIRED_KEY = 'EXPIRED'
+
+
 class OfferStatusWorkflow(object):
     expiration_days = 14
 
-    statuses = [OfferStatus('ACTIVE', False, 'created'),
-                OfferStatus('ACCEPTED', False, 'accepted'),
-                OfferStatus('INTERVIEW', False, 'interview'),
-                OfferStatus('CONTRACT_NEGOTIATION', False, 'contract_negotiation'),
-                OfferStatus('CONTRACT_SIGNED', True, 'contract_signed'),
-                OfferStatus('REJECTED', True, 'rejected'),
-                OfferStatus('WITHDRAWN', True, 'withdrawn')]
+    statuses = [OfferStatus(OFFER_STATUS_ACTIVE_KEY, False, 'created'),
+                OfferStatus(OFFER_STATUS_ACCEPTED_KEY, False, 'accepted'),
+                OfferStatus(OFFER_STATUS_INTERVIEW_KEY, False, 'interview'),
+                OfferStatus(OFFER_STATUS_CONTRACT_NEGOTIATION_KEY, False, 'contract_negotiation'),
+                OfferStatus(OFFER_STATUS_CONTRACT_SIGNED_KEY, True, 'contract_signed'),
+                OfferStatus(OFFER_STATUS_REJECTED_KEY, True, 'rejected'),
+                OfferStatus(OFFER_STATUS_WITHDRAWN_KEY, True, 'withdrawn')]
 
-    expired = OfferStatus('EXPIRED', True)
+    expired = OfferStatus(OFFER_STATUS_EXPIRED_KEY, True)
 
     status_keys = [os.key for os in statuses] + [expired.key]
 
@@ -134,6 +145,27 @@ class OfferStatusWorkflow(object):
             raise InvalidStatusError("Status %s cant be set, since %s has not been set yet." % (status_key, key.key))
         else:
             raise InvalidStatusError("Status %s cant be set." % status_key)
+
+    def rollback(self):
+        status = self.status
+        if status.key == OFFER_STATUS_EXPIRED_KEY:
+            raise InvalidStatusError("Offer is expired.")
+        elif status.key == OFFER_STATUS_ACTIVE_KEY:
+            raise InvalidStatusError("Offer is active, there is no previous state.")
+        elif status.key == OFFER_STATUS_REJECTED_KEY:
+            self.rejected = None
+            self.rejected_reason = None
+            self.rejected_text = None
+        elif status.key == OFFER_STATUS_WITHDRAWN_KEY:
+            self.withdrawn = None
+            self.withdrawal_reason = None
+            self.withdrawal_text = None
+        elif status.key == OFFER_STATUS_CONTRACT_SIGNED_KEY:
+            self.contract_signed = None
+            self.job_start_date = None
+            self.job_start_salary = None
+        else:
+            setattr(self, status.col_name, None)
 
 
 offer_skills = Table('offer_skill', Base.metadata, Column('offer_id', GUID, ForeignKey('offer.id'), primary_key=True),

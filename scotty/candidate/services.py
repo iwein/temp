@@ -11,6 +11,7 @@ from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, ge
     get_or_raise_named_collection, get_or_create_named_lookup, \
     get_locations_from_structure
 from sqlalchemy import text
+from scotty.services.pagingservice import Pager
 
 
 def candidate_from_signup(params):
@@ -146,12 +147,13 @@ def set_skills_on_candidate(candidate, params):
     DBSession.flush()
     return candidate
 
-def get_candidates_by_techtags(tags, city_id):
+
+def get_candidates_by_techtags_pager(tags, city_id):
     params = {'city_id': city_id}
     tags = {'tag_%d' % i: tag for i, tag in enumerate(tags)}
     params.update(tags)
-
-    query = DBSession.execute(
-        text("""select * from candidate_search(array[:%s], :city_id ) order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())), params)
-    results = list(query)
-    return [(r['candidate_id'], r['matched_tags']) for r in results]
+    query = """select candidate_id as id, matched_tags,
+                  count(*) over() as total from
+                  candidate_search(array[:%s], :city_id )
+                  order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
+    return Pager(query, params)
