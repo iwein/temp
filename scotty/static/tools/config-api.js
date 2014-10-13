@@ -23,11 +23,27 @@ define(function(require) {
     return request;
   }
 
+  function cached(key) {
+    var url = '/config/' + key;
+    wrapper.url = url;
+
+    // This function will be a method so we can use 'this' here
+    //jshint -W040
+    function wrapper() {
+      if (!this._promises[key])
+        this._promises[key] = this._api.get(url).then(function(response) { return response.data });
+      return this._promises[key];
+    }
+
+    return wrapper;
+  }
+
 
   function ConfigAPI(api) {
     this._api = api;
     this._locations = {};
     this._lastResults = {};
+    this._promises = {};
 
     Object.keys(ConfigAPI.prototype).forEach(function(method) {
       if (method !== 'constructor')
@@ -38,19 +54,19 @@ define(function(require) {
   ConfigAPI.prototype = {
     constructor: ConfigAPI,
     // no search
-    degrees: helper('degrees'),
-    companyTypes: helper('company_types'),
-    skillLevels: helper('skill_levels'),
-    proficiencies: helper('proficiencies'),
-    benefits: helper('benefits'),
-    rejectReasons: helper('rejectionreasons'),
-    withdrawReasons: helper('withdrawalreasons'),
-    travelWillingness: helper('travelwillingness'),
-    salutations: helper('salutations'),
-    featuredLanguages: helper('languages/featured'),
-    featuredRoles: helper('roles/featured'),
-    featuredSkills: helper('skills/featured'),
-    featuredLocations: helper('locations/featured'),
+    degrees: cached('degrees'),
+    companyTypes: cached('company_types'),
+    skillLevels: cached('skill_levels'),
+    proficiencies: cached('proficiencies'),
+    benefits: cached('benefits'),
+    rejectReasons: cached('rejectionreasons'),
+    withdrawReasons: cached('withdrawalreasons'),
+    travelWillingness: cached('travelwillingness'),
+    salutations: cached('salutations'),
+    featuredLanguages: cached('languages/featured'),
+    featuredRoles: cached('roles/featured'),
+    featuredSkills: cached('skills/featured'),
+    featuredLocations: cached('locations/featured'),
 
     // search
     skills: helper('skills'),
