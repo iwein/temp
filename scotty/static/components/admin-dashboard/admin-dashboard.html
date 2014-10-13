@@ -4,6 +4,27 @@
       <div class="panel-heading">
         <h3 class="panel-title">Offers</h3>
       </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <select class="form-control"
+                ng-model="query.status"
+                ng-change="filter()"
+                ng-options="status as text for (status, text) in statuses">
+                <option value="">Status...</option>
+              </select>
+            </div>
+            <div class="col-sm-8">
+              <input type="text"
+                class="form-control"
+                placeholder="Company..."
+                ng-model="query.company"
+                ng-change="filter()">
+            </div>
+          </div>
+        </form>
+      </div>
       <div class="panel-body" ng-show="!offers.length">No offers</div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="offer in offers">
@@ -29,6 +50,9 @@
             hc-profile-links="true"
             hc-link="true">
           </hc-offer>
+        </li>
+        <li class="list-group-item" ng-show="total > offers.length">
+          <button type="button" class="btn btn-default" ng-click="loadMore()">Load more</button>
         </li>
       </ul>
     </div>
