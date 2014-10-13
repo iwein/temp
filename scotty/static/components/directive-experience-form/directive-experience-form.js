@@ -22,6 +22,7 @@ define(function(require) {
       controllerAs: 'experienceCtrl',
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.onFeaturedSkillChange = onFeaturedSkillChange;
+        $scope.onCurrentChange = onCurrentChange;
         $scope.searchCompanies = ConfigAPI.companies;
         $scope.searchSkills = searchSkills;
         $scope.searchRoles = ConfigAPI.roles;
@@ -119,6 +120,12 @@ define(function(require) {
 
         function submit() {
           $scope.onSubmit({ $model: $scope.model });
+        }
+
+        function onCurrentChange() {
+          $scope.model = _.omit($scope.model, 'end');
+          $scope.endMonth = '';
+          $scope.endYear = '';
         }
 
         function bindDate(key) {
