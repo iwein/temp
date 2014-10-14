@@ -25,6 +25,7 @@ define(function(require) {
         $scope.searchSkills = searchSkills;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
+        $scope.model.preferred_locations = $scope.model.preferred_locations || {};
         $scope.locationRadio = 'anywhere';
         $scope.preferred_locations = [];
         this.save = save;
@@ -116,12 +117,23 @@ define(function(require) {
           model = JSON.parse(JSON.stringify(model));
           $scope.editing = true;
           $scope.model = model;
-          $scope.country = Object.keys(model.preferred_locations)[0];
-          $scope.dontCareLocation = !model.preferred_locations[$scope.country].length;
           $scope.featuredSkills.forEach(function(item) {
             item.selected = model.skills.indexOf(item.value) !== -1;
           });
+
+          var countries = Object.keys(model.preferred_locations);
+          $scope.locationRadio = countries.length ? 'other' : 'anywhere';
+          $scope.preferred_locations = [];
           // TODO: prefill featuredLanguages
+
+          countries.forEach(function(country) {
+            model.preferred_locations[country].forEach(function(city) {
+              $scope.preferred_locations.push({
+                country_iso: country,
+                city: city,
+              });
+            });
+          });
         }
 
         function onSalaryChange() {
