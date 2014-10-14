@@ -2,22 +2,29 @@ define(function(require) {
   'use strict';
   require('tools/config-api');
   require('components/directive-skills-form/directive-skills-form');
-  var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('CandidateSignupSkillsCtrl', function($scope, Loader, ConfigAPI, Session) {
+  module.controller('CandidateSignupSkillsCtrl', function($scope, $q, Loader, ConfigAPI, Session) {
     this.submit = submit;
     $scope.loading = false;
     $scope.ready = false;
     Loader.page(true);
 
-    Session.getUser()
-      .then(fn.invoke('getData', []))
-      .then(function(data) { $scope.form.setModel(data.skills) })
-      .finally(function() {
-        $scope.ready = true;
-        Loader.page(false);
+    Session.getUser().then(function(user) {
+      return $q.all([
+        user.getData(),
+        user.getTargetPosition(),
+      ]);
+    }).then(function(data) {
+      var skills = data[0].skills;
+      var tpSkills = data[1].skills.map(function(skill) {
+        return { skill: skill, level: true };
       });
+      return $scope.form.setModel(skills.length ? skills : tpSkills);
+    }).finally(function() {
+      $scope.ready = true;
+      Loader.page(false);
+    });
 
     function submit() {
       $scope.loading = true;

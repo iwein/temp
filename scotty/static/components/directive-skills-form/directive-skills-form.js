@@ -35,12 +35,6 @@ define(function(require) {
         nameAttr(this, 'hcSkillsForm', $scope, $attrs);
         ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
 
-        ConfigAPI.featuredSkills().then(function(data) {
-          $scope.model = data.map(function(skill) {
-            return { skill: skill, level: null };
-          });
-        });
-
         function recheck() {
           $scope.model = $scope.model.filter(function(skill) {
             return !!skill.skill;
