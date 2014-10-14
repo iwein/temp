@@ -17,23 +17,47 @@ define(function(require) {
       template: require('text!./directive-target-position-form.html'),
       controllerAs: 'targetPositionForm',
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
-        $scope.onFeaturedLocationChange = onFeaturedLocationChange;
         $scope.onFeaturedSkillChange = onFeaturedSkillChange;
         $scope.onSalaryChange = onSalaryChange;
+        $scope.locationToText = ConfigAPI.locationToText;
+        $scope.searchCities = ConfigAPI.locations;
+        $scope.updateLocations = updateLocations;
         $scope.searchSkills = searchSkills;
-        $scope.searchCities = searchCities;
-        $scope.setCountry = setCountry;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
+        $scope.locationRadio = 'anywhere';
+        $scope.preferred_locations = [];
         this.save = save;
         this.reset = reset;
         this.setModel = setModel;
 
         nameAttr(this, 'hcTargetPositionForm', $scope, $attrs);
         ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
-        ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
         ConfigAPI.featuredSkills().then(toCheckboxModel('featuredSkills'));
         ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations'));
+
+        function addLocation(locations, entry) {
+          if (!locations[entry.country_iso])
+            locations[entry.country_iso] = [ entry.city ];
+          else
+            locations[entry.country_iso].push(entry.city);
+        }
+
+        function updateLocations() {
+          var locations = {};
+          var add = addLocation.bind(null, locations);
+          $scope.errorLocationRequired = false;
+          $scope.model.preferred_locations = locations;
+
+          $scope.featuredLocations
+            .filter(fn.get('selected'))
+            .forEach(add);
+
+          if ($scope.locationRadio !== 'anywhere') {
+            $scope.preferred_locations.forEach(add);
+            $scope.errorLocationRequired = !Object.keys(locations).length;
+          }
+        }
 
         function searchSkills(term) {
           var skills = $scope.featuredSkills
@@ -55,21 +79,6 @@ define(function(require) {
           };
         }
 
-        function searchCities(value) {
-          return ConfigAPI.locations({
-            country_iso: $scope.country,
-            q: value,
-          }).then(function(locations) {
-            return locations.map(fn.get('city'));
-          });
-        }
-
-        function setCountry(country) {
-          var model = $scope.model.preferred_locations = {};
-          model[country] = [];
-          onFeaturedLocationChange();
-        }
-
         function onFeaturedSkillChange() {
           $scope.skillSelected = $scope.featuredSkills.some(function(entry) {
             return entry.selected;
@@ -78,37 +87,6 @@ define(function(require) {
           $scope.model.featuredSkills = $scope.featuredSkills
             .filter(fn.get('selected'))
             .map(fn.get('value'));
-        }
-
-        function onFeaturedLocationChange() {
-          $scope.locationSelected = $scope.featuredSkills.some(function(entry) {
-            return entry.selected;
-          });
-
-          if (!$scope.model.preferred_locations)
-            $scope.model.preferred_locations = {};
-
-          var locations = $scope.model.preferred_locations;
-          $scope.featuredLocations.forEach(function(entry) {
-            var country = locations[entry.value.country_iso];
-            if (!country) {
-              if (entry.selected)
-                locations[entry.value.country_iso] = [ entry.value.city ];
-              return;
-            }
-
-            var index = country.indexOf(entry.value.city);
-
-            if (entry.selected) {
-              if (index === -1)
-                country.push(entry.value.city);
-            } else {
-              if (index === 0 && country.length === 1)
-                delete locations[entry.value.country_iso];
-              else if (index !== -1 && !entry.selected)
-                country.splice(index, 1);
-            }
-          });
         }
 
         function save() {

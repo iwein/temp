@@ -21,7 +21,7 @@
   <div class="form-group required">
     <label class="col-sm-3">Technologies & Skills you want to work with</label>
     <div class="col-sm-9">
-      <div class="checkbox" ng-repeat="skill in featuredSkills">
+      <div class="checkbox col-sm-6" ng-repeat="skill in featuredSkills">
         <label class="form-label">
           <input type="checkbox"
                  ng-disabled="loading"
@@ -31,7 +31,9 @@
         </label>
       </div>
     </div>
+  </div>
 
+  <div class="form-group required">
     <div class="col-sm-offset-3 col-sm-9">
       <hc-label-typeahead
               name="skill"
@@ -74,34 +76,12 @@
     <label class="col-sm-3">Location</label>
 
     <div class="col-sm-4">
-      <select class="form-control"
-              name="country"
-              ng-required="!locationSelected"
-              ng-disabled="loading"
-              ng-model="country"
-              ng-options="country.iso as country.name for country in countries"
-              ng-change="setCountry(country)">
-        <option value="">Select...</option>
-      </select>
-    </div>
-
-    <div class="col-sm-5">
-      <hc-label-typeahead
-              name="cities"
-              placeholder="Type a city..."
-              ng-disabled="loading || dontCareLocation || !country"
-              ng-model="model.preferred_locations[country]"
-              hc-source="searchCities($viewValue)">
-      </hc-label-typeahead>
-    </div>
-
-    <div class="col-sm-offset-3 col-sm-4">
       <div class="checkbox" ng-repeat="location in featuredLocations">
         <label class="form-label">
           <input type="checkbox"
                  ng-disabled="loading"
                  ng-model="location.selected"
-                 ng-change="onFeaturedLocationChange()">
+                 ng-change="updateLocations()">
           {{ location.value.city }}, {{ location.value.country_iso }}
         </label>
       </div>
@@ -109,17 +89,42 @@
 
     <div class="col-sm-5">
       <label class="form-label">
-        <input type="checkbox"
-               ng-disabled="loading || !country"
-               ng-required="!model.preferred_locations[country].length"
-               ng-model="dontCareLocation"
-               ng-change="setCountry(country)">
+        <input type="radio"
+               name="location-radio"
+               value="anywhere"
+               ng-disabled="loading"
+               ng-required="errorLocationRequired"
+               ng-model="locationRadio"
+               ng-change="updateLocations()">
         Anywhere
       </label>
+
+      <label class="form-label">
+        <input type="radio"
+               name="location-radio"
+               value="other"
+               ng-disabled="loading"
+               ng-required="errorLocationRequired"
+               ng-model="locationRadio"
+               ng-change="updateLocations()">
+        Other
+      </label>
+
+      <hc-label-typeahead
+              name="cities"
+              placeholder="Type a city..."
+              ng-show="locationRadio === 'other'"
+              ng-disabled="loading"
+              ng-model="preferred_locations"
+              hc-required="errorLocationRequired"
+              hc-render="locationToText($entry)"
+              hc-source="searchCities($viewValue)"
+              on-change="updateLocations()">
+      </hc-label-typeahead>
     </div>
 
-    <div class="form-error" ng-show="cities.invalid && !dontCareLocation">
-      <span>Please type a city you would like to work at and press enter key.</span>
+    <div class="form-error" ng-show="errorLocationRequired">
+      <span>Please type a city you would like to work at.</span>
     </div>
   </div>
 
