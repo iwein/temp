@@ -4,19 +4,8 @@
     <span ng-show="importing">- Importing {{ current + 1 }} from {{ education.length }}</span>
   </h3>
 
-  <div class="form-group" ng-show="!imported && !importing">
-    <button type="button"
-            ng-show="!linkedin.isConnected"
-            ng-disabled="loading"
-            ng-click="linkedin.connect()">
-      Connect with linked in
-    </button>
-    <button type="button"
-            ng-show="linkedin.isConnected && !importing"
-            ng-disabled="loading"
-            ng-click="importLinkedin()">
-      Import data from linked in
-    </button>
+  <div class="form-group" ng-show="!imported && !importing && !linkedin.isConnected">
+    <hc-linkedin-connect ng-click="linkedin.connect()"></hc-linkedin-connect>
   </div>
 
   <hc-education-form

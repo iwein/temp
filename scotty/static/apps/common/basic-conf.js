@@ -3,6 +3,7 @@ define(function(require) {
   require('tools/loader-service');
   require('tools/moment-directive');
   require('tools/greater-than-directive');
+  require('tools/linkedin-connect/linkedin-connect');
   require('tools/extend-directives/input-url-directive');
   require('tools/extend-directives/input-integer-directive');
   require('tools/label-typeahead-directive/label-typeahead-directive');
