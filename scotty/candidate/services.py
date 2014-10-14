@@ -169,9 +169,9 @@ def get_candidate_newsfeed(c):
         events.append({'name':'OFFER_RECEIVED',  'date' : offer.created, 'note' : ('Awesome, you received an interview offer from %s', offer.employer.company_name) })
         events.append({'name':'OFFER_REJECTED',  'date' : offer.rejected, 'note' : ('You have turned down the offer from %s', offer.employer.company_name) })
         events.append({'name':'OFFER_ACCEPTED',  'date' : offer.accepted, 'note' : ('Brilliant you have accepted an interview with  %s', offer.employer.company_name) })
-        events.append({'name':'OFFER_NEGOCIATION',  'date' : offer.contract_received, 'note' : ('Nearly there you have started negociating the details with %s', offer.employer.company_name) })
+        events.append({'name':'OFFER_NEGOCIATION',  'date' : offer.contract_negotiation, 'note' : ('Nearly there you have started negociating the details with %s', offer.employer.company_name) })
         events.append({'name':'OFFER_SIGNED',  'date' : offer.contract_signed, 'note' : ('Winning! you have signed a contract with  %s and will receive you golden handshake soon', offer.employer.company_name) })
-        events.append({'name':'OFFER_START_DATE',  'date' : offer.job_started, 'note' : ('Good luck! you have set a start date of %s with %s', offer.job_started, offer.employer.company_name) })
+        events.append({'name':'OFFER_START_DATE',  'date' : offer.job_start_date, 'note' : ('Good luck! you have set a start date of %s with %s', offer.job_start_date, offer.employer.company_name) })
 
     for b in candidate.bookmarked_employers:
         employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
