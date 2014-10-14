@@ -154,3 +154,32 @@ def get_candidates_by_techtags_pager(tags, city_id):
                   candidate_search(array[:%s], :city_id )
                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
     return Pager(query, params)
+
+
+def get_candidate_newsfeed(c):
+    candidate = DBSession.query(Candidate).filter(Candidate.id == c.id).first()
+
+    events = []
+    events.append({'name':'SIGN_UP',  'date' : candidate.created, 'note' : 'Congrats you joined Scotty'})
+    events.append({'name':'PROFILE_PENDING',  'date' : candidate.activation_sent, 'note' : 'Your profile is done, just waiting for you to click the activation email'})
+    events.append({'name':'PROFILE_LIVE',  'date' : candidate.activated, 'note' : 'Nicely done, you are now live and can start receiving great offers'})
+
+    for o in candidate.offers:
+        offer = DBSession.query(FullOffer).filter(offer.id == o.id).first()
+        events.append({'name':'OFFER_RECEIVED',  'date' : offer.created, 'note' : ('Awesome, you received an interview offer from %s', offer.employer.company_name) })
+        events.append({'name':'OFFER_REJECTED',  'date' : offer.rejected, 'note' : ('You have turned down the offer from %s', offer.employer.company_name) })
+        events.append({'name':'OFFER_ACCEPTED',  'date' : offer.accepted, 'note' : ('Brilliant you have accepted an interview with  %s', offer.employer.company_name) })
+        events.append({'name':'OFFER_NEGOCIATION',  'date' : offer.contract_received, 'note' : ('Nearly there you have started negociating the details with %s', offer.employer.company_name) })
+        events.append({'name':'OFFER_SIGNED',  'date' : offer.contract_signed, 'note' : ('Winning! you have signed a contract with  %s and will receive you golden handshake soon', offer.employer.company_name) })
+        events.append({'name':'OFFER_START_DATE',  'date' : offer.job_started, 'note' : ('Good luck! you have set a start date of %s with %s', offer.job_started, offer.employer.company_name) })
+
+    for b in candidate.bookmarked_employers:
+        employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
+        events.append({'name':'BOOKMARKED_EMPLOYER',  'date' : offer.created, 'note' : ('You liked %s they have been notified and should get in touch', offer.employer.company_name) })
+
+    for b in candidate.blacklisted_employers:
+        employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
+        events.append({'name':'BOOKMARKED_EMPLOYER',  'date' : offer.created, 'note' : ('You liked %s they have been notified and should get in touch', offer.employer.company_name) })
+
+    return events.sort(key=lambda item:item['date'], reverse=True)
+

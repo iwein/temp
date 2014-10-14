@@ -1,0 +1,24 @@
+<%inherit file="../debug.html"/>
+
+<%def name="scripts()">
+<script src="/debug/static/employer_signup.js"></script>
+<script src="/debug/static/candidate_signup.js"></script>
+</%def>
+<%def name="title()">Newsfeed</%def>
+<%def name="tests()">
+<script>
+  var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+
+            mytests = [
+            {sectionTitle: 'Newsfeed'},
+            {url: '/api/v1/candidates/me/newsfeed', title: 'candidate-newsfeed'},
+            ],
+
+          tests = CANDIDATE_SIGNUP(email).concat(mytests )
+
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>
