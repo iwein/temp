@@ -8,120 +8,88 @@ define(function(require) {
 
   module.controller('CandidateSignupExperienceCtrl', function($scope, $q, Loader, Session) {
     $scope.importLinkedin = importLinkedin;
-    $scope.saveImported = saveImported;
-    $scope.skipImported = skipImported;
-    $scope.setAddAnother = setAddAnother;
-    $scope.listReady = listReady;
+    $scope.listExperience = listExperience;
+    $scope.update = update;
+    $scope.add = add;
+    $scope.submit = submit;
     $scope.model = {};
     $scope.ready = false;
-    $scope.experience = null;
-    $scope.current = 0;
-    this.nextStep = nextStep;
-    this.submit = submit;
-    this.edit = edit;
+    var list = [];
     var linkedin = Session.getLinkedIn();
     Loader.page(true);
 
-    Session.checkSession().then(function(session) {
-      $scope.ready = session;
+    Session.getUser().then(function(user) {
+      return user.getExperience();
+    }).then(function(_list) {
+      list = _list;
+
+      if (list.length > 0) {
+        $scope.imported = true;
+        return false;
+      }
+
+      return linkedin.checkConnection();
+    }).then(function(load) {
+      if (load)
+        return importLinkedin();
+    }).then(function() {
+      if (!list.length)
+        $scope.list.add();
+    }).finally(function() {
+      $scope.list.refresh();
+      Loader.page(false);
+      $scope.ready = true;
     });
 
-    function listReady() {
-      $q.when($scope.list.length).then(function(length) {
-        if (length > 0) {
-          $scope.imported = true;
-          return false;
-        }
-        return linkedin.checkConnection();
-      }).then(function(load) {
-        if (load)
-          return importLinkedin();
-      }).finally(function() {
-        Loader.page(false);
-      });
+    function listExperience() {
+      return $q.when(list);
     }
 
-    function saveImported() {
-      $scope.loading = true;
-      Loader.add('signup-experience-saving');
-
-      $scope.importForm.save()
-        .then(skipImported)
-        .then(function() { $scope.list.refresh() })
-        .finally(function() {
-          $scope.loading = false;
-          Loader.remove('signup-experience-saving');
-        });
+    function update(entry, index) {
+      entry.import = true;
+      list[index] = entry;
+      return $q.when(true);
     }
 
-    function skipImported() {
-      $scope.current++;
-      nextImported();
-    }
-
-    function nextImported() {
-      $scope.importForm.reset();
-      if ($scope.current < $scope.experience.length)
-        $scope.importForm.setModel($scope.experience[$scope.current]);
-      else
-        $scope.importing = false;
+    function add(entry) {
+      list.push(entry);
+      return $q.when(true);
     }
 
     function importLinkedin() {
       $scope.loading = true;
       Loader.add('signup-experience-import');
 
-      linkedin.getExperience().then(function(experience) {
-        $scope.loading = false;
-        $scope.importing = true;
-        $scope.experience = experience;
-        $scope.current = 0;
-        nextImported();
+      return linkedin.getExperience().then(function(experience) {
+        list = experience.map(function(entry) {
+          entry.imported = true;
+          entry.import = true;
+          return entry;
+        });
         $scope.imported = true;
+        $scope.list.refresh();
       }).finally(function() {
+        $scope.loading = false;
         Loader.remove('signup-experience-import');
       });
     }
 
-    function setAddAnother(value) {
-      $scope.addAnother = value;
-    }
-
-    function nextStep(event) {
-      event.preventDefault();
-      andContinue();
-    }
-
-    function edit(entry) {
-      $scope.form.setModel(entry);
-    }
-
-    function addAnother() {
-      return $scope.list.refresh().then(function() {
-        return $scope.form.reset();
-      });
-    }
-
-    function andContinue() {
+    function submit() {
+      // TODO
       $scope.loading = true;
-      return $scope.signup.nextStep().finally(function() {
+      Session.getUser().then(function(user) {
+        return $q.all(list.map(function(entry) {
+          if (!entry.summary)
+            entry.summary = 'ASDF';
+
+          if (entry.import)
+            return user.addExperience(entry);
+        }));
+      }).then(function() {
+        return $scope.signup.nextStep();
+      }).finally(function() {
         $scope.loading = false;
       });
-    }
-
-    function submit(form) {
-      if ($scope.form.isPristine())
-        return andContinue();
-
-      $scope.loading = true;
-      Loader.add('signup-experience-saving');
-
-      return form.save()
-        .then($scope.addAnother ? addAnother : andContinue)
-        .finally(function() {
-          $scope.loading = false;
-          Loader.remove('signup-experience-saving');
-        });
     }
   });
 

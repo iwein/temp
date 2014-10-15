@@ -1,40 +1,78 @@
-<div class="panel panel-default" ng-show="model.length || hcShowEmpty">
+<div class="panel panel-default">
   <div ng-if="hcTitle" class="panel-heading">
     <h3 class="panel-title">
       {{ hcTitle }}
-      <span ng-transclude></span>
+      <span class="pull-right" ng-transclude></span>
       <div class="clearfix"></div>
     </h3>
   </div>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="entry in model">
-      <dl class="dl-horizontal">
-        <dt>company</dt>
-        <dd>{{ entry.company }}</dd>
-        <dt>country</dt>
-        <dd>{{ entry.country_iso }}</dd>
-        <dt>city</dt>
-        <dd>{{ entry.city }}</dd>
-        <dt>start</dt>
-        <dd>{{ entry.start }}</dd>
-        <dt ng-show="entry.end">end</dt>
-        <dd ng-show="entry.end">{{ entry.end }}</dd>
-        <dt>role</dt>
-        <dd>{{ entry.role }}</dd>
-        <dt>skills</dt>
-        <dd>{{ entry.skills.join(', ') }}</dd>
-        <dt>role description</dt>
-        <dd>{{ entry.summary }}</dd>
-        <dd ng-if="hcEditable">
-          <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
+      <div ng-hide="active === $index">
+        {{ entry.company }} -
+        {{ entry.start }} -
+        <span ng-if="entry.end">{{ entry.end }}</span>
+        <span ng-if="!entry.end">Current</span>
+        <button type="button"
+          ng-if="hcEditable"
+          ng-show="!editing"
+          ng-click="hcExperienceCtrl.setActive($index)">
+          Expand
+        </button>
+          <label ng-show="entry.imported">
+            <input type="checkbox" ng-model="entry.import">
+            Import
+          </label>
+      </div>
+
+      <hc-experience-form
+        ng-if="active === $index"
+        ng-model="entry"
+        hc-required="true"
+        hc-disabled="loading"
+        on-submit="edit($model, $form, $index)">
+
+        <div class="col-sm-12">
           <button type="button"
             class="btn btn-default"
-            ng-hide="model.length === 1 && !hcRemoveLast"
-            ng-click="remove(entry)">
-            Remove
+            ng-disabled="loading"
+            ng-click="hcExperienceCtrl.setActive(-1)">
+            Cancel
           </button>
-        <dd>
-      </dl>
+          <button type="submit"
+            class="btn btn-primary"
+            ng-disabled="loading">
+            Done
+          </button>
+        </div>
+      </hc-experience-form>
+    </li>
+
+    <li class="list-group-item" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
+      <button type="button"
+        class="btn btn-primary"
+        ng-disabled="loading"
+        ng-click="hcExperienceCtrl.add()">
+        Add More
+      </button>
+    </li>
+
+    <li class="list-group-item" ng-if="adding || (!editing && hcAutomaticAdd)">
+      <hc-experience-form
+        hc-scope="formContainer"
+        name="form"
+        hc-required="model.length === 0 || !form.isPristine()"
+        hc-disabled="loading"
+        on-submit="submit($model, $form, model.length)">
+
+        <div class="col-sm-12">
+          <button type="submit"
+            class="btn btn-primary"
+            ng-disabled="loading">
+            Save
+          </button>
+        </div>
+      </hc-experience-form>
     </li>
   </ul>
 </div>

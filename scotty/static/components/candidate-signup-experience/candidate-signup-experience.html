@@ -1,68 +1,17 @@
 <div class="component-candidate-signup-experience" ng-show="ready">
-  <h3>
-    Work Experience
-    <span ng-show="importing">- Importing {{ current + 1 }} from {{ experience.length }}</span>
-  </h3>
-
-  <div class="form-group" ng-show="!imported && !importing && !linkedin.isConnected">
-    <hc-linkedin-connect ng-click="linkedin.connect()"></hc-linkedin-connect>
-  </div>
-
-  <hc-experience-form
-          ng-show="importing"
-          name="importForm"
-          hc-required="true"
-          hc-disabled="loading"
-          on-submit="saveImported()">
-
-    <div class="col-sm-12">
-      <button type="button"
-              class="btn btn-primary"
-              ng-click="skipImported()"
-              ng-disabled="loading">
-        Skip
-      </button>
-      <button type="submit"
-              class="btn btn-primary"
-              ng-disabled="loading">
-        Save
-      </button>
-    </div>
-  </hc-experience-form>
-
-  <hc-experience-form
-          ng-show="!importing"
-          name="form"
-          hc-required="list.length === 0 || !form.isPristine()"
-          hc-disabled="loading"
-          on-submit="signupExperience.submit(form)">
-
-    <div class="col-sm-12">
-      <button type="submit"
-              class="btn btn-primary"
-              ng-click="setAddAnother(true)"
-              ng-disabled="loading || form.isPristine()">
-        Save &amp; add another
-      </button>
-      <button type="submit"
-              class="btn btn-primary"
-              ng-click="setAddAnother(false)"
-              ng-disabled="loading">
-        Save &amp; continue
-      </button>
-    </div>
-  </hc-experience-form>
+  <h3>Work Experience</h3>
 
   <hc-experience
-          ng-if="ready"
-          name="list"
-          on-load="listReady()"
-          hc-title="Saved"
-          hc-source="session.user.getExperience()"
-          hc-source-remove="session.user.deleteExperience($entry)"
-          on-edit="signupExperience.edit($entry)"
-          hc-editable="true"
-          hc-remove-last="true">
+    name="list"
+    on-load="listReady()"
+    hc-source="listExperience()"
+    on-edit="update($entry, $index)"
+    on-add="add($entry)"
+    hc-editable="true"
+    hc-remove-last="true">
   </hc-experience>
 
+  <button type="button" class="btn btn-primary" ng-click="submit()">
+    Continue
+  </button>
 </div>
