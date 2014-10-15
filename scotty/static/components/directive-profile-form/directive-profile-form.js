@@ -5,7 +5,6 @@ define(function(require) {
   require('tools/file-upload/data-url-directive');
   require('tools/file-upload/file-select-directive');
   var nameAttr = require('tools/name-attr');
-  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.directive('hcProfileForm', function() {
@@ -21,14 +20,20 @@ define(function(require) {
       template: require('text!./directive-profile-form.html'),
       controllerAs: 'skillsCtrl',
       controller: function($scope, $q, $attrs, ConfigAPI, Session, Amazon) {
+        $scope.searchLocations = ConfigAPI.locationsText;
+        $scope.setLocation = setLocation;
         $scope.selectFile = selectFile;
         $scope.submit = submit;
+        $scope.model = { eu_work_visa: true };
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
 
         nameAttr(this, 'hcProfileForm', $scope, $attrs);
-        ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
+
+        function setLocation(text) {
+          $scope.model.location = ConfigAPI.getLocationFromText(text);
+        }
 
         function save() {
           return Session.getUser().then(function(user) {
@@ -52,12 +57,17 @@ define(function(require) {
 
         function reset() {
           $scope.formProfile.$setPristine();
-          $scope.model = {};
+          $scope.model = { eu_work_visa: true };
         }
 
         function setModel(model) {
           $scope.model = JSON.parse(JSON.stringify(model));
           $scope.selectedFiles = [ model.picture_url ];
+
+          if ('dob' in $scope.model)
+            $scope.model.dob = new Date($scope.model.dob);
+          if (!('eu_work_visa' in $scope.model))
+            $scope.model.eu_work_visa = true;
         }
 
         function selectFile(files) {
