@@ -7,121 +7,81 @@ define(function(require) {
 
 
   module.controller('CandidateSignupEducationCtrl', function($scope, $q, Loader, Session) {
-    $scope.importLinkedin = importLinkedin;
-    $scope.saveImported = saveImported;
-    $scope.skipImported = skipImported;
-    $scope.setAddAnother = setAddAnother;
-    $scope.listReady = listReady;
+    $scope.listEducation = listEducation;
+    $scope.update = update;
+    $scope.add = add;
+    $scope.submit = submit;
     $scope.model = {};
     $scope.ready = false;
-    $scope.education = null;
-    $scope.current = 0;
-    this.nextStep = nextStep;
-    this.submit = submit;
-    this.edit = edit;
+    var list = [];
     var linkedin = Session.getLinkedIn();
     Loader.page(true);
 
-    Session.checkSession().then(function(session) {
-      $scope.ready = session;
+    Session.getUser().then(function(user) {
+      return user.getEducation();
+    }).then(function(_list) {
+      list = _list;
+      if (list.length > 0)
+        return false;
+      return linkedin.checkConnection();
+    }).then(function(load) {
+      if (load)
+        return importLinkedin();
+    }).then(function() {
+      if (!list.length)
+        $scope.list.add();
+    }).finally(function() {
+      $scope.list.refresh();
+      Loader.page(false);
+      $scope.ready = true;
     });
 
-    function listReady() {
-      $q.when($scope.list.length).then(function(length) {
-        if (length > 0) {
-          $scope.imported = true;
-          return false;
-        }
-        return linkedin.checkConnection();
-      }).then(function(load) {
-        if (load)
-          return importLinkedin();
-      }).finally(function() {
-        Loader.page(false);
-      });
+    function listEducation() {
+      return $q.when(list);
     }
 
-    function saveImported() {
-      $scope.loading = true;
-      Loader.add('signup-education-saving');
-
-      $scope.importForm.save()
-        .then(skipImported)
-        .then(function() { $scope.list.refresh() })
-        .finally(function() {
-          $scope.loading = false;
-          Loader.remove('signup-education-saving');
-        });
+    function update(entry, index) {
+      entry.import = true;
+      list[index] = entry;
+      return $q.when(true);
     }
 
-    function skipImported() {
-      $scope.current++;
-      nextImported();
-    }
-
-    function nextImported() {
-      $scope.importForm.reset();
-      if ($scope.current < $scope.education.length)
-        $scope.importForm.setModel($scope.education[$scope.current]);
-      else
-        $scope.importing = false;
+    function add(entry) {
+      list.push(entry);
+      return $q.when(true);
     }
 
     function importLinkedin() {
-      $scope.loading = true;
       Loader.add('signup-education-import');
 
-      linkedin.getEducation().then(function(education) {
-        $scope.loading = false;
-        $scope.importing = true;
-        $scope.education = education;
-        $scope.current = 0;
-        nextImported();
-        $scope.imported = true;
+      return linkedin.getEducation().then(function(education) {
+        list = education.filter(function(entry) {
+          return entry.start && entry.institution;
+        }).map(function(entry) {
+          entry.imported = true;
+          entry.import = true;
+          return entry;
+        });
+        return $scope.list.refresh();
       }).finally(function() {
         Loader.remove('signup-education-import');
       });
     }
 
-    function setAddAnother(value) {
-      $scope.addAnother = value;
-    }
-
-    function nextStep(event) {
-      event.preventDefault();
-      andContinue();
-    }
-
-    function edit(entry) {
-      $scope.form.setModel(entry);
-    }
-
-    function addAnother() {
-      return $scope.list.refresh().then(function() {
-        return $scope.form.reset();
-      });
-    }
-
-    function andContinue() {
-      $scope.loading = true;
-      return $scope.signup.nextStep().finally(function() {
-        $scope.loading = false;
-      });
-    }
-
     function submit() {
-      if ($scope.form.isPristine())
-        return andContinue();
-
-      $scope.loading = true;
+      // TODO
       Loader.add('signup-education-saving');
 
-      return $scope.form.save()
-        .then($scope.addAnother ? addAnother : andContinue)
-        .finally(function() {
-          $scope.loading = false;
-          Loader.remove('signup-education-saving');
-        });
+      Session.getUser().then(function(user) {
+        return $q.all(list.map(function(entry) {
+          if (entry.import)
+            return user.addEducation(entry);
+        }));
+      }).then(function() {
+        return $scope.signup.nextStep();
+      }).finally(function() {
+        Loader.remove('signup-education-saving');
+      });
     }
   });
 

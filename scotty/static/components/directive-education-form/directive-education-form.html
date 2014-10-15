@@ -1,4 +1,4 @@
-<form name="formEducation" class="form-horizontal" ng-submit="onSubmit({ $model: model })">
+<form name="formEducation" class="form-horizontal" ng-submit="submit()">
   <div class="form-group required">
     <label class="col-sm-3">University or Institution</label>
     <div class="col-sm-9">
@@ -18,20 +18,15 @@
     </div>
   </div>
 
-  <div class="form-group required">
+  <div class="form-group">
     <label class="col-sm-3">Course or Subject</label>
     <div class="col-sm-9">
       <input type="text"
         class="form-control"
         name="course"
-        ng-required="hcRequired"
         ng-disabled="hcDisabled"
         ng-model="model.course"
         typeahead="course for course in searchCourses($viewValue)">
-    </div>
-
-    <div class="form-error" ng-show="formEducation.course.$dirty && formEducation.course.$invalid">
-      <span ng-show="formEducation.course.$error.required">Please insert the course.</span>
     </div>
   </div>
 

@@ -31,7 +31,6 @@ define(function(require) {
         $scope.searchCompanies = ConfigAPI.companies;
         $scope.searchSkills = searchSkills;
         $scope.searchRoles = ConfigAPI.roles;
-
         $scope.months = months;
         $scope.loading = false;
         $scope.submit = submit;
@@ -93,7 +92,8 @@ define(function(require) {
           $scope.editing = false;
           $scope.skills.setDirty(false);
           $scope.featuredSkills.forEach(fn.set('selected', false));
-          $scope.formExperience.$setPristine();
+          if ($scope.formExperience)
+            $scope.formExperience.$setPristine();
           $scope.model = {};
           $scope.current = false;
           $scope.startMonth = '';

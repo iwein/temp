@@ -2,16 +2,14 @@
   <div ng-if="hcTitle" class="panel-heading">
     <h3 class="panel-title">
       {{ hcTitle }}
-      <span class="pull-right" ng-transclude></span>
-      <div class="clearfix"></div>
     </h3>
   </div>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="entry in model">
       <div ng-hide="active === $index">
         {{ entry.company }} -
-        {{ entry.start }} -
-        <span ng-if="entry.end">{{ entry.end }}</span>
+        {{ entry.start }}
+        <span ng-if="entry.end">- {{ entry.end }}</span>
         <span ng-if="!entry.end">Current</span>
         <button type="button"
           ng-if="hcEditable"

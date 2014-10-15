@@ -3,7 +3,6 @@
 
   <hc-experience
     name="list"
-    on-load="listReady()"
     hc-source="listExperience()"
     on-edit="update($entry, $index)"
     on-add="add($entry)"
@@ -11,7 +10,10 @@
     hc-remove-last="true">
   </hc-experience>
 
-  <button type="button" class="btn btn-primary" ng-click="submit()">
+  <button type="button"
+    class="btn btn-primary"
+    ng-disabled="list.length === 0"
+    ng-click="submit()">
     Continue
   </button>
 </div>

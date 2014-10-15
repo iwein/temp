@@ -260,49 +260,17 @@
         hc-show-empty="true">
       </hc-experience>
 
-      <!-- END EXPERIENCE -->
-
-      <!-- EDUCATION -->
-
-      <hc-education-form
-        ng-show="isEditing && education.editing"
-        hc-scope="education"
-        name="form"
-        on-submit="education.save()">
-
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="education.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-education-form>
-
       <hc-education
         hc-scope="education"
         name="list"
         hc-title="Education"
         hc-source="session.user.getEducation()"
         hc-source-remove="session.user.deleteEducation($entry)"
-        on-edit="education.edit($entry)"
+        on-edit="education.save($entry, $form)"
+        on-add="education.save($entry, $form)"
         hc-editable="isEditing && !education.editing"
         hc-show-empty="true">
-
-        <button type="submit"
-          class="btn btn-default pull-right"
-          ng-show="isEditing && !formOpen"
-          ng-disabled="loading"
-          ng-click="education.add()">
-          Add
-        </button>
       </hc-education>
-
-      <!-- END EDUCATION -->
     </div>
   </div>
 </div>

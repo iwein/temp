@@ -5,11 +5,16 @@ define(function(require) {
   var months = require('tools/months');
   var module = require('app-module');
 
-  module.directive('hcEducationForm', function() {
+  module.directive('hcEducationForm', function($parse) {
+    function getModel(ngModel, scope) {
+      var model = $parse(ngModel);
+      var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
+      return JSON.parse(JSON.stringify(value));
+    }
+
     return {
       restrict: 'EA',
       scope: {
-        //model: '=ngModel',
         onSubmit: '&',
         hcShowEmpty: '=',
         hcRequired: '=',
@@ -22,15 +27,17 @@ define(function(require) {
         $scope.searchInstitutions = ConfigAPI.institutions;
         $scope.searchCourses = ConfigAPI.courses;
         $scope.searchDegrees = ConfigAPI.degrees;
-        $scope.model = $scope.model || {};
+        $scope.submit = submit;
         $scope.months = months;
         $scope.loading = false;
         this.isPristine = isPristine;
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
+        var ctrl = this;
 
         nameAttr(this, 'hcEducationForm', $scope, $attrs);
+        setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
 
         function save() {
           return Session.getUser().then(function(user) {
@@ -40,9 +47,14 @@ define(function(require) {
           });
         }
 
+        function submit() {
+          $scope.onSubmit({ $model: $scope.model, $form: ctrl });
+        }
+
         function reset() {
           $scope.editing = false;
-          $scope.formEducation.$setPristine();
+          if ($scope.formEducation)
+            $scope.formEducation.$setPristine();
           $scope.model = {};
           $scope.current = false;
           $scope.not_completed_degree = false;

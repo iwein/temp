@@ -7,7 +7,6 @@ define(function(require) {
   module.directive('hcExperience', function() {
     return {
       restrict: 'EA',
-      transclude: true,
       scope: {
         hcTitle: '@',
         onAdd: '&',
@@ -29,7 +28,6 @@ define(function(require) {
         $scope.submit = submit;
         $scope.formContainer = {};
         $scope.active = -1;
-        $scope.meta = [];
         this.setActive = setActive;
         this.refresh = list;
         this.add = add;
@@ -42,7 +40,6 @@ define(function(require) {
         function setActive(index) {
           if ($scope.formContainer.form)
             $scope.formContainer.form.reset();
-
           $scope.active = index;
           $scope.editing = index !== -1;
         }
@@ -87,7 +84,6 @@ define(function(require) {
           $scope.error = false;
           return $scope.hcSource().then(function(data) {
             $scope.model = data;
-            $scope.meta = data.map(function() { return {} });
             self.length = data.length;
           }).catch(function() {
             $scope.error = true;

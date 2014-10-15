@@ -3,11 +3,11 @@ define(function(require) {
   require('tools/config-api');
   require('components/directive-experience/directive-experience');
   require('components/directive-experience-form/directive-experience-form');
+  var _ = require('underscore');
   var module = require('app-module');
 
 
   module.controller('CandidateSignupExperienceCtrl', function($scope, $q, Loader, Session) {
-    $scope.importLinkedin = importLinkedin;
     $scope.listExperience = listExperience;
     $scope.update = update;
     $scope.add = add;
@@ -22,12 +22,8 @@ define(function(require) {
       return user.getExperience();
     }).then(function(_list) {
       list = _list;
-
-      if (list.length > 0) {
-        $scope.imported = true;
+      if (list.length > 0)
         return false;
-      }
-
       return linkedin.checkConnection();
     }).then(function(load) {
       if (load)
@@ -57,7 +53,6 @@ define(function(require) {
     }
 
     function importLinkedin() {
-      $scope.loading = true;
       Loader.add('signup-experience-import');
 
       return linkedin.getExperience().then(function(experience) {
@@ -66,29 +61,31 @@ define(function(require) {
           entry.import = true;
           return entry;
         });
-        $scope.imported = true;
-        $scope.list.refresh();
+        return $scope.list.refresh();
       }).finally(function() {
-        $scope.loading = false;
         Loader.remove('signup-experience-import');
       });
     }
 
     function submit() {
       // TODO
-      $scope.loading = true;
+      Loader.add('signup-education-saving');
+
       Session.getUser().then(function(user) {
         return $q.all(list.map(function(entry) {
-          if (!entry.summary)
-            entry.summary = 'ASDF';
+          var model = _.omit(entry, 'featuredSkills');
+          model.skills = [].concat(model.skills || [], entry.featuredSkills || []);
 
-          if (entry.import)
-            return user.addExperience(entry);
+          if (!model.summary)
+            model.summary = 'ASDF';
+
+          if (model.import)
+            return user.addExperience(model);
         }));
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {
-        $scope.loading = false;
+        Loader.remove('signup-education-saving');
       });
     }
   });
