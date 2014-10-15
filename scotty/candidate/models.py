@@ -1,13 +1,13 @@
 import hashlib
 from uuid import uuid4
 from datetime import datetime
-from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable
-
-from scotty.offer.models import CandidateOffer
-from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
-    Role, Language, Proficiency, CompanyType, Seniority, Course, TravelWillingness, Salutation
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
+
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable
+from scotty.offer.models import CandidateOffer
+from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
+    Role, Language, Proficiency, Course, Salutation
 from scotty.models.meta import Base, NamedModel, GUID
 from sqlalchemy.orm import relationship
 
@@ -75,15 +75,15 @@ class WorkExperience(Base):
 
     start = Column(Date, nullable=False)
     end = Column(Date)
-    summary = Column(Text, nullable=False)
+    summary = Column(Text)
 
-    company_id = Column(Integer, ForeignKey(Company.id), nullable=False)
+    company_id = Column(Integer, ForeignKey(Company.id))
     company = relationship(Company)
 
     country_iso = Column(String(2), ForeignKey(Country.iso))
     city = Column(String(512))
 
-    role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
+    role_id = Column(Integer, ForeignKey("role.id"))
     role = relationship(Role)
     skills = relationship(Skill, secondary=work_experience_skill)
 
@@ -152,12 +152,13 @@ class PreferredLocation(Base):
         return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
 
 
+EDITABLES = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1',
+             'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso',
+             'contact_phone', 'availability', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype',
+             'eu_work_visa', 'cv_upload_url']
+
 class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
-    __editable__ = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1',
-                    'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso',
-                    'contact_phone', 'availability', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype',
-                    'eu_work_visa', 'cv_upload_url']
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -249,7 +250,7 @@ class Candidate(Base, JsonSerialisable):
 
     def __json__(self, request):
         result = self.to_json(request)
-        result.update({k: getattr(self, k) for k in self.__editable__ if getattr(self, k) is not None})
+        result.update({k: getattr(self, k) for k in EDITABLES if getattr(self, k) is not None})
         result['id'] = self.id
         result['salutation'] = self.salutation
         result['status'] = self.status

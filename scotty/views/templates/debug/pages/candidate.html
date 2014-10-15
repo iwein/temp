@@ -68,6 +68,38 @@
               extract:   function(r, extr){return {target_positionId: r.id}}},
             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition'},
 
+
+            {title: 'Work Experience'},
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience'},
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience',
+              data: {"company": "Intel Corp.", "role":"Project Architect",
+                "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+                "start":"2004-01-01", summary:"Design of Intelligent Protoplasma"},
+              extract:   function(r, extr){return {work_experienceId: r.id}}},
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience-2',
+              data: {"company": "Intel Corp.", "role":"Architect",
+                skills : ['Skill1', 'Skill2', 'Skill3'],
+                "city": "Berlin", country_iso: 'DE', "start":"2004-04-01", "end": "2004-05-01", summary:"Design of Intelligent Protoplasma"}},
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-2'},
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience/'+extr.work_experienceId}, title: 'delete-work_experience', method:"DELETE"},
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-3'},
+
+
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'SET-work_experience',
+              method: 'PUT',
+              data: [ {"company": "Intel Corp.", "role":"Project Architect",
+                       "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+                       "start":"2000-02-29", summary:"Design of Intelligent Protoplasma"},
+                      {"company": "Alpha Corp.", "start":"2004-03-31"},
+                      {"company": "Sigma Corp.", "start":"2005-12-31", summary: 'SUMMARY', end:'2006-01-31'},
+                      {"company": "Omega Corp.", "start":"2010-01-01", role: 'MD'},
+                      ],
+              extract:   function(r, extr){return {work_experienceId: r.id}}},
+
+            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-4'},
+            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-WorkExperience'},
+
+
             {title: 'Languages'},
             {url: function(r, extr){return '/api/v1/candidates/me/languages'},
               title: 'set-languages-1', method:'PUT', data: [
@@ -130,7 +162,6 @@
 
             //{'sectionTitle': 'Restful Endpoints'},
 
-
             {title: 'Education'},
             {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education'},
             {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education',
@@ -149,29 +180,12 @@
 
             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-Education'},
 
-            {title: 'Work Experience'},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience'},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience',
-              data: {"company": "Intel Corp.", "role":"Project Architect",
-                "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
-                "start":"2004-01-01", summary:"Design of Intelligent Protoplasma"},
-              extract:   function(r, extr){return {work_experienceId: r.id}}},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience-2',
-              data: {"company": "Intel Corp.", "role":"Architect",
-                skills : ['Skill1', 'Skill2', 'Skill3'],
-                "city": "Berlin", country_iso: 'DE', "start":"2004-04-01", "end": "2004-05-01", summary:"Design of Intelligent Protoplasma"}},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-2'},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience/'+extr.work_experienceId}, title: 'delete-work_experience', method:"DELETE"},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-3'},
-
-
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-WorkExperience'},
 
             {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'unset-target_position', data: {} },
 
             {'sectionTitle': 'Cleanup'},
-            {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
-            {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"}
+            //{url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
+            //{url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"}
           ])
           ;
 

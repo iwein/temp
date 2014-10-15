@@ -10,7 +10,8 @@ from scotty.candidate.models import Candidate, Education, WorkExperience, Target
     CandidateOffer, WXPCandidate
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed
+    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
+    set_candidate_work_experiences, set_candidate_education
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
@@ -69,6 +70,7 @@ def includeme(config):
 
 class CandidateController(RootController):
     model_cls = FullCandidate
+
     @reify
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
@@ -205,6 +207,8 @@ class CandidateController(RootController):
 
 
 class CandidateEducationController(CandidateController):
+    model_cls = Candidate
+
     @view_config(route_name='candidate_educations', **GET)
     def list(self):
         return self.candidate.education
@@ -222,8 +226,14 @@ class CandidateEducationController(CandidateController):
         DBSession.delete(education)
         return {"status": "success"}
 
+    @view_config(route_name='candidate_educations', **PUT)
+    def set(self):
+        return set_candidate_education(self.candidate, self.request.json)
+
 
 class CandidateWorkExperienceController(CandidateController):
+    model_cls = Candidate
+
     @view_config(route_name='candidate_work_experiences', **GET)
     def list(self):
         return self.candidate.work_experience
@@ -241,6 +251,9 @@ class CandidateWorkExperienceController(CandidateController):
         DBSession.delete(we)
         return {"status": "success"}
 
+    @view_config(route_name='candidate_work_experiences', **PUT)
+    def set(self):
+        return set_candidate_work_experiences(self.candidate, self.request.json)
 
 class CandidateTargetPositionController(CandidateController):
     model_cls = Candidate
