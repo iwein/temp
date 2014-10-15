@@ -7,10 +7,12 @@ from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSki
     WorkExperience, Education, TargetPosition, PreferredLocation
 from scotty.configuration.models import Skill, SkillLevel, CompanyType, TravelWillingness, Language, Proficiency, \
     Company, Role, Degree, Institution, Course
+from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, \
     get_locations_from_structure
 from sqlalchemy import text
+from scotty.offer.models import FullOffer
 from scotty.services.pagingservice import Pager
 
 
@@ -181,5 +183,6 @@ def get_candidate_newsfeed(c):
         employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
         events.append({'name':'BOOKMARKED_EMPLOYER',  'date' : offer.created, 'note' : ('You liked %s they have been notified and should get in touch', offer.employer.company_name) })
 
-    return events.sort(key=lambda item:item['date'], reverse=True)
+
+    return sorted(events, key=lambda k: k['date'], reverse= True)
 
