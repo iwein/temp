@@ -248,27 +248,6 @@
     </div>
 
     <div ng-if="ready">
-      <!-- EXPERIENCE -->
-
-      <hc-experience-form
-        ng-show="isEditing && experience.editing"
-        hc-scope="experience"
-        name="form"
-        on-submit="experience.save()">
-
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="experience.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-experience-form>
-
       <hc-experience
         hc-scope="experience"
         name="list"
@@ -276,16 +255,9 @@
         hc-source="session.user.getExperience()"
         hc-editable="isEditing && !experience.editing"
         hc-source-remove="session.user.deleteExperience($entry)"
-        on-edit="experience.edit($entry)"
+        on-edit="experience.save($entry, $form)"
+        on-add="experience.save($entry, $form)"
         hc-show-empty="true">
-
-        <button type="submit"
-          class="btn btn-default pull-right"
-          ng-show="isEditing && !formOpen"
-          ng-disabled="loading"
-          ng-click="experience.add()">
-          Add
-        </button>
       </hc-experience>
 
       <!-- END EXPERIENCE -->

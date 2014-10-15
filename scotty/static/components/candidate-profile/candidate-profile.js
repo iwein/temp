@@ -55,22 +55,16 @@ define(function(require) {
     }
 
     function listForm() {
-      var base = defaultForm();
-      return _.extend(Object.create(base), {
-        list: null,
-        add: function() {
-          this.editing = true;
-        },
-        cancel: function() {
-          base.cancel.call(this);
-          return this.list.refresh();
-        },
-        save: function() {
-          return base.save.call(this)
-            .then(function() { return this.list.refresh() }.bind(this))
-            .finally(function() { Loader.remove('candidate-profile-saving') });
-        },
-      });
+      return {
+        save: function(edit, form) {
+          Loader.add('candidate-profile-saving');
+          return form.save().then(function() {
+            return this.list.refresh();
+          }.bind(this)).finally(function() {
+            Loader.remove('candidate-profile-saving');
+          });
+        }
+      };
     }
 
     $scope.experience = listForm();

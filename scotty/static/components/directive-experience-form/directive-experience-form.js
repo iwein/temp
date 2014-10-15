@@ -7,11 +7,16 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.directive('hcExperienceForm', function() {
+  module.directive('hcExperienceForm', function($parse) {
+    function getModel(ngModel, scope) {
+      var model = $parse(ngModel);
+      var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
+      return JSON.parse(JSON.stringify(value));
+    }
+
     return {
       restrict: 'EA',
       scope: {
-        //model: '=ngModel',
         onSubmit: '&',
         hcShowEmpty: '=',
         hcRequired: '=',
@@ -26,7 +31,7 @@ define(function(require) {
         $scope.searchCompanies = ConfigAPI.companies;
         $scope.searchSkills = searchSkills;
         $scope.searchRoles = ConfigAPI.roles;
-        $scope.model = $scope.model || {};
+
         $scope.months = months;
         $scope.loading = false;
         $scope.submit = submit;
@@ -34,16 +39,21 @@ define(function(require) {
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
+        var ctrl = this;
+
 
         ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
         nameAttr(this, 'hcExperienceForm', $scope, $attrs);
-        bindDate('start');
-        bindDate('end');
 
         ConfigAPI.featuredSkills().then(function(data) {
           $scope.featuredSkills = data.map(function(type) {
             return { value: type };
           });
+        }).then(function() {
+          setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
+          bindDate('start');
+          bindDate('end');
+          $scope.ready = true;
         });
 
         function searchSkills(term) {
@@ -96,6 +106,19 @@ define(function(require) {
           model = JSON.parse(JSON.stringify(model));
           $scope.editing = !!model.id;
           $scope.model = model;
+          $scope.featuredSkills.forEach(fn.set('selected', false));
+
+          if (model.skills && model.skills.length) {
+            $scope.featuredSkills.some(function(featured) {
+              var index = $scope.model.skills.indexOf(featured.value);
+              if (index === -1)
+                return;
+
+              featured.selected = true;
+              $scope.model.skills.splice(index, 1);
+            });
+
+          }
 
           if (model.start) {
             var start = new Date(model.start);
@@ -119,7 +142,7 @@ define(function(require) {
         }
 
         function submit() {
-          $scope.onSubmit({ $model: $scope.model });
+          $scope.onSubmit({ $model: $scope.model, $form: ctrl });
         }
 
         function onCurrentChange() {

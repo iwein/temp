@@ -1,101 +1,20 @@
 <form name="formProfile" class="form-horizontal" ng-submit="submit()">
   <div class="form-group required address">
-    <label class="col-sm-3">Address</label>
+    <label class="col-sm-3">Location</label>
+
     <div class="col-sm-9">
       <input type="text"
         class="form-control"
-        placeholder="Address Line 1"
-        name="contact_line1"
-        required
+        placeholder="Location"
         ng-disabled="hcDisabled"
-        ng-model="model.contact_line1">
-    </div>
-
-    <div class="form-error" ng-show="formProfile.contact_line1.$dirty && formProfile.contact_line1.$invalid">
-      <span ng-show="formProfile.contact_line1.$error.required">Please insert your address.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-9">
-      <input type="text"
-        class="form-control"
-        placeholder="Address Line 2"
-        name="contact_line2"
-        ng-disabled="hcDisabled"
-        ng-model="model.contact_line2">
-    </div>
-
-    <div class="form-error" ng-show="formProfile.contact_line2.$dirty && formProfile.contact_line2.$invalid">
-      <span ng-show="formProfile.contact_line2.$error.required">Please insert your address.</span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <div class="col-sm-offset-3 col-sm-9">
-      <input type="text"
-        class="form-control"
-        placeholder="Zip code"
-        name="zipcode"
-        maxlength="20"
-        required
-        ng-disabled="hcDisabled"
-        ng-model="model.contact_zipcode">
-    </div>
-
-    <div class="form-error" ng-show="formProfile.zipcode.$dirty && formProfile.zipcode.$invalid">
-      <span ng-show="formProfile.zipcode.$error.required">Please insert your zip code.</span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <div class="col-sm-offset-3 col-sm-9">
-      <input type="text"
-        placeholder="City"
-        name="contact_city"
-        class="form-control"
-        required
-        ng-disabled="hcDisabled"
-        ng-model="model.contact_city">
+        ng-model="locationText"
+        ng-blur="setLocation(locationText)"
+        typeahead-on-select="setLocation(locationText)"
+        typeahead="location for location in searchLocations($viewValue)">
     </div>
 
     <div class="form-error" ng-show="formProfile.location.$dirty && formProfile.location.$invalid">
       <span ng-show="formProfile.location.$error.required">Please insert your city.</span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <div class="col-sm-offset-3 col-sm-9">
-      <select class="form-control"
-        name="country"
-        required
-        ng-disabled="hcDisabled"
-        ng-model="model.contact_country_iso"
-        ng-options="country.iso as country.name for country in countries">
-        <option value="">Country...</option>
-      </select>
-    </div>
-
-    <div class="form-error" ng-show="formProfile.country.$dirty && formProfile.country.$invalid">
-      <span ng-show="formProfile.country.$error.required">Please insert your country.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="col-sm-3">Phone</label>
-    <div class="col-sm-9">
-      <input type="tel"
-        class="form-control"
-        name="contact_phone"
-        pattern="^\+?[0-9 /()-]+$"
-        ng-pattern="/^\+?[0-9 /()-]+$/"
-        ng-disabled="hcDisabled"
-        ng-model="model.contact_phone">
-    </div>
-
-    <div class="form-error" ng-show="formProfile.contact_phone.$dirty && formProfile.contact_phone.$invalid">
-      <span ng-show="formProfile.contact_phone.$error.required">Please insert your phone.</span>
-      <span ng-show="formProfile.contact_phone.$error.pattern">Valid chacters are: Numbers - / ( )</span>
     </div>
   </div>
 
@@ -139,17 +58,6 @@
   </div>
 
   <div class="form-group">
-    <label class="col-sm-3">Skype ID</label>
-    <div class="col-sm-9">
-      <input type="text"
-        class="form-control"
-        name="skype"
-        ng-disabled="hcDisabled"
-        ng-model="model.contact_skype">
-    </div>
-  </div>
-
-  <div class="form-group">
     <label class="col-sm-3">Stackoverflow URL (Starting with  http://...)</label>
     <div class="col-sm-9">
       <input type="url"
@@ -171,24 +79,6 @@
     </div>
   </div>
 
-  <div class="form-group required">
-    <label class="col-sm-3">Availability</label>
-
-    <div class="col-sm-9">
-      <textarea class="form-control"
-        name="availability"
-        required
-        ng-disabled="hcDisabled"
-        ng-model="model.availability">
-      </textarea>
-    </div>
-
-    <div class="form-error" ng-show="formProfile.available_date.$dirty && formProfile.availability.$invalid">
-      <span ng-show="formProfile.availability.$error.number">Please insert a number.</span>
-      <span ng-show="formProfile.availability.$error.pattern">Please enter a integer number.</span>
-    </div>
-  </div>
-
   <div class="form-group">
     <label class="col-sm-3">CV</label>
     <div class="col-sm-9">
@@ -207,22 +97,6 @@
   </div>
 
   <div class="form-group">
-    <label class="col-sm-3">What else is important about you?</label>
-
-    <div class="col-sm-9">
-      <textarea class="form-control"
-        name="summary"
-        ng-disabled="hcDisabled"
-        ng-model="model.summary">
-      </textarea>
-    </div>
-
-    <div class="form-error" ng-show="formProfile.available_date.$dirty && formProfile.summary.$invalid">
-      <span ng-show="formProfile.summary.$error.required">Please insert some description.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
       <div class="checkbox">
         <label>
@@ -230,7 +104,7 @@
             name="eu_work_visa"
             ng-disabled="hcDisabled"
             ng-model="model.eu_work_visa">
-          EU Work Visa
+          Permitted to work in EU
         </label>
       </div>
     </div>
