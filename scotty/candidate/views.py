@@ -55,6 +55,7 @@ def includeme(config):
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
 
 
+    config.add_route('candidate_newsfeed', '{candidate_id}/newsfeed')
 
     config.add_route('candidate_offers', '{candidate_id}/offers')
     config.add_route('candidate_offer', '{candidate_id}/offers/{id}')
@@ -391,3 +392,10 @@ class CandidatePasswordController(RootController):
         token = self.request.matchdict['token']
         pwd = self.request.json['pwd']
         return resetpassword(Candidate, token, pwd)
+
+class CandidateNewsfeedController(CandidateController):
+    @view_config(route_name='candidate_newsfeed', **GET)
+    def get_newsfeed(self):
+        candidate = self.candidate
+        results = get_candidate_newsfeed(candidate)
+        return results
