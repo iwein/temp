@@ -1,17 +1,14 @@
-from collections import OrderedDict
 import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, TargetPosition, PreferredLocation
-from scotty.configuration.models import Skill, SkillLevel, CompanyType, TravelWillingness, Language, Proficiency, \
-    Company, Role, Degree, Institution, Course
+    WorkExperience, Education, TargetPosition, PreferredLocation, EDITABLES, work_experience_skill
+from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
+    Course
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
-    get_or_raise_named_collection, get_or_create_named_lookup, \
-    get_locations_from_structure
-from sqlalchemy import text
+    get_or_raise_named_collection, get_or_create_named_lookup, get_locations_from_structure
 from scotty.offer.models import FullOffer
 from scotty.services.pagingservice import Pager
 
@@ -24,8 +21,8 @@ def candidate_from_signup(params):
     return candidate
 
 
-def edit_candidate(candidate, params):
-    for field in candidate.__editable__:
+def edit_candidate(candidate, params, editables=EDITABLES):
+    for field in editables:
         if field in params:
             setattr(candidate, field, params[field])
     return candidate
@@ -65,6 +62,24 @@ def add_candidate_education(candidate, params):
     return education
 
 
+def set_candidate_education(candidate, params):
+    candidate.education = []
+    for edu in params:
+        start = edu['start']
+        institution = get_by_name_or_create(Institution, edu['institution'])
+
+        degree = get_by_name_or_create(Degree, edu.get('degree'))
+        course = get_by_name_or_create(Course, edu.get('course'))
+        end = edu.get('end')
+        if end and end < start:
+            raise HTTPBadRequest('end must not be smaller than start')
+        education = Education(institution=institution, degree=degree, start=start, end=end, course=course)
+        candidate.education.append(education)
+
+    DBSession.flush()
+    return candidate.education
+
+
 def add_candidate_work_experience(candidate, params):
     start = params['start']
     end = params.get('end')
@@ -83,6 +98,24 @@ def add_candidate_work_experience(candidate, params):
     DBSession.add(wexp)
     DBSession.flush()
     return wexp
+
+
+def set_candidate_work_experiences(candidate, params):
+    candidate.work_experience = []
+    for wxp_params in params:
+        start = wxp_params['start']
+        end = wxp_params.get('end')
+        if end and end < start:
+            raise HTTPBadRequest('end must not be smaller than start')
+        summary = wxp_params.get('summary')
+        role = get_by_name_or_create(Role, wxp_params.get("role"))
+        company = get_by_name_or_create(Company, wxp_params['company'])
+        skills = get_or_create_named_collection(Skill, wxp_params.get('skills'))
+        wexp = WorkExperience(company=company, start=start, end=end, summary=summary, country_iso=wxp_params.get('country_iso'),
+                              city=wxp_params.get('city'), role=role, skills=skills)
+        candidate.work_experience.append(wexp)
+    DBSession.flush()
+    return candidate.work_experience
 
 
 def set_target_position(candidate, params):
@@ -107,8 +140,7 @@ def set_languages_on_candidate(candidate, params):
     DBSession.query(CandidateLanguage).filter(CandidateLanguage.candidate_id == candidate.id).delete()
     languages = []
     for p in params:
-        languages.append(CandidateLanguage(candidate_id=candidate.id,
-                                           language_id=language_lookup[p['language']].id,
+        languages.append(CandidateLanguage(candidate_id=candidate.id, language_id=language_lookup[p['language']].id,
                                            proficiency_id=proficiency_lookup[p['proficiency']].id))
     DBSession.add_all(languages)
     DBSession.flush()
@@ -139,8 +171,7 @@ def set_skills_on_candidate(candidate, params):
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
     skills = []
     for p in params:
-        skills.append(CandidateSkill(candidate_id=candidate.id,
-                                     skill=skill_lookup[p['skill']],
+        skills.append(CandidateSkill(candidate_id=candidate.id, skill=skill_lookup[p['skill']],
                                      level=level_lookup.get(p.get('level'))))
     DBSession.add_all(skills)
     DBSession.flush()
@@ -162,27 +193,33 @@ def get_candidate_newsfeed(c):
     candidate = DBSession.query(Candidate).filter(Candidate.id == c.id).first()
 
     events = []
-    events.append({'name':'SIGN_UP',  'date' : candidate.created, 'note' : 'Congrats you joined Scotty'})
-    events.append({'name':'PROFILE_PENDING',  'date' : candidate.activation_sent, 'note' : 'Your profile is done, just waiting for you to click the activation email'})
-    events.append({'name':'PROFILE_LIVE',  'date' : candidate.activated, 'note' : 'Nicely done, you are now live and can start receiving great offers'})
+    events.append({'name': 'SIGN_UP', 'date': candidate.created, 'note': 'Congrats you joined Scotty'})
+    events.append({'name': 'PROFILE_PENDING', 'date': candidate.activation_sent, 'note': 'Your profile is done, just '
+                                                                                         'waiting for you to click the activation email'})
+
+    events.append({'name': 'PROFILE_LIVE', 'date': candidate.activated, 'note': 'Nicely done, you are now live and can start receiving great offers'})
 
     for o in candidate.offers:
         offer = DBSession.query(FullOffer).filter(offer.id == o.id).first()
-        events.append({'name':'OFFER_RECEIVED',  'date' : offer.created, 'note' : ('Awesome, you received an interview offer from %s', offer.employer.company_name) })
-        events.append({'name':'OFFER_REJECTED',  'date' : offer.rejected, 'note' : ('You have turned down the offer from %s', offer.employer.company_name) })
-        events.append({'name':'OFFER_ACCEPTED',  'date' : offer.accepted, 'note' : ('Brilliant you have accepted an interview with  %s', offer.employer.company_name) })
-        events.append({'name':'OFFER_NEGOCIATION',  'date' : offer.contract_negotiation, 'note' : ('Nearly there you have started negociating the details with %s', offer.employer.company_name) })
-        events.append({'name':'OFFER_SIGNED',  'date' : offer.contract_signed, 'note' : ('Winning! you have signed a contract with  %s and will receive you golden handshake soon', offer.employer.company_name) })
-        events.append({'name':'OFFER_START_DATE',  'date' : offer.job_start_date, 'note' : ('Good luck! you have set a start date of %s with %s', offer.job_start_date, offer.employer.company_name) })
+        events.append({'name': 'OFFER_RECEIVED', 'date': offer.created, 'note': ('Awesome, you received an interview offer from %s', offer.employer.company_name)})
+        events.append({'name': 'OFFER_REJECTED', 'date': offer.rejected, 'note': ('You have turned down the offer from %s', offer.employer.company_name)})
+        events.append({'name': 'OFFER_ACCEPTED', 'date': offer.accepted, 'note': ('Brilliant you have accepted an interview with  %s', offer.employer.company_name)})
+        events.append({'name': 'OFFER_NEGOCIATION', 'date': offer.contract_negotiation, 'note': (
+            'Nearly there you have started negociating the details with %s', offer.employer.company_name)})
+        events.append({'name': 'OFFER_SIGNED', 'date': offer.contract_signed, 'note': (
+            'Winning! you have signed a contract with  %s and will receive you golden handshake soon', offer.employer.company_name)})
+        events.append({'name': 'OFFER_START_DATE', 'date': offer.job_start_date, 'note': (
+            'Good luck! you have set a start date of %s with %s', offer.job_start_date, offer.employer.company_name)})
 
     for b in candidate.bookmarked_employers:
         employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
-        events.append({'name':'BOOKMARKED_EMPLOYER',  'date' : offer.created, 'note' : ('You liked %s they have been notified and should get in touch', offer.employer.company_name) })
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'date': offer.created, 'note': (
+            'You liked %s they have been notified and should get in touch', offer.employer.company_name)})
 
     for b in candidate.blacklisted_employers:
         employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
-        events.append({'name':'BOOKMARKED_EMPLOYER',  'date' : offer.created, 'note' : ('You liked %s they have been notified and should get in touch', offer.employer.company_name) })
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'date': offer.created, 'note': (
+            'You liked %s they have been notified and should get in touch', offer.employer.company_name)})
 
-
-    return sorted(events, key=lambda k: k['date'], reverse= True)
+    return sorted(events, key=lambda k: k['date'], reverse=True)
 
