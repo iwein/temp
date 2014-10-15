@@ -65,10 +65,11 @@ def add_candidate_education(candidate, params):
 def set_candidate_education(candidate, params):
     candidate.education = []
     for edu in params:
-        degree = get_by_name_or_create(Degree, edu.get('degree'))
-        institution = get_by_name_or_create(Institution, edu['institution'])
-        course = get_by_name_or_create(Course, edu['course'])
         start = edu['start']
+        institution = get_by_name_or_create(Institution, edu['institution'])
+
+        degree = get_by_name_or_create(Degree, edu.get('degree'))
+        course = get_by_name_or_create(Course, edu.get('course'))
         end = edu.get('end')
         if end and end < start:
             raise HTTPBadRequest('end must not be smaller than start')

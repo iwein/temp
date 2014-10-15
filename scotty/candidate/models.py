@@ -28,13 +28,13 @@ class Education(Base):
     start = Column(Integer, nullable=False)
     end = Column(Integer)
 
-    course_id = Column(Integer, ForeignKey(Course.id), nullable=False)
+    course_id = Column(Integer, ForeignKey(Course.id))
     course = relationship(Course)
 
     institution_id = Column(Integer, ForeignKey(Institution.id), nullable=False)
     institution = relationship(Institution)
 
-    degree_id = Column(Integer, ForeignKey(Degree.id), nullable=True)
+    degree_id = Column(Integer, ForeignKey(Degree.id))
     degree = relationship(Degree)
 
     def __json__(self, request):
