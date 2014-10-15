@@ -73,10 +73,10 @@ define(function(require) {
       Loader.add('signup-education-saving');
 
       Session.getUser().then(function(user) {
-        return $q.all(list.map(function(entry) {
-          if (entry.import)
-            return user.addEducation(entry);
-        }));
+        var toSave = list.filter(function(entry) {
+          return entry.import;
+        });
+        return user.setEducation(toSave);
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {

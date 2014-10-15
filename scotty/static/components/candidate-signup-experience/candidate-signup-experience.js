@@ -72,16 +72,12 @@ define(function(require) {
       Loader.add('signup-education-saving');
 
       Session.getUser().then(function(user) {
-        return $q.all(list.map(function(entry) {
+        var toSave = list.filter(function(entry) {
           var model = _.omit(entry, 'featuredSkills');
           model.skills = [].concat(model.skills || [], entry.featuredSkills || []);
-
-          if (!model.summary)
-            model.summary = 'ASDF';
-
-          if (model.import)
-            return user.addExperience(model);
-        }));
+          return model.import;
+        });
+        return user.setExperience(toSave);
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {

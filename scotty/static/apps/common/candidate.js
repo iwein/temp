@@ -59,10 +59,12 @@ define(function(require) {
     },
 
     getExperience: getHelper('work_experience'),
+    setExperience: setHelper('work_experience', 'put'),
     addExperience: setHelper('work_experience', 'post'),
     deleteExperience: deleteHelper('work_experience'),
 
     getEducation: getHelper('education'),
+    setEducation: setHelper('education', 'put'),
     addEducation: setHelper('education', 'post'),
     deleteEducation: deleteHelper('education'),
 
