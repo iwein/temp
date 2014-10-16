@@ -14,6 +14,7 @@ from scotty.candidate.services import candidate_from_signup, candidate_from_logi
     set_candidate_work_experiences, set_candidate_education
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
+from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed
@@ -55,7 +56,7 @@ def includeme(config):
     config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
 
-
+    config.add_route('candidate_suggested_companies', '{candidate_id}/suggested_companies')
     config.add_route('candidate_newsfeed', '{candidate_id}/newsfeed')
 
     config.add_route('candidate_offers', '{candidate_id}/offers')
@@ -406,9 +407,18 @@ class CandidatePasswordController(RootController):
         pwd = self.request.json['pwd']
         return resetpassword(Candidate, token, pwd)
 
-class CandidateNewsfeedController(CandidateController):
+class CandidateDashboardController(CandidateController):
     @view_config(route_name='candidate_newsfeed', **GET)
     def get_newsfeed(self):
         candidate = self.candidate
         results = get_candidate_newsfeed(candidate)
         return results
+
+    @view_config(route_name='candidate_suggested_companies', **GET)
+    def candidate_suggested_companies(self):
+        skills = [skill.name for skill in self.candidate.skills]
+        if not skills:
+            return {'data': [], 'pagination': {'total':0}}
+
+        pager = get_employers_pager(skills, self.candidate.location_id, None)
+        return ObjectBuilder(Employer).serialize(pager)

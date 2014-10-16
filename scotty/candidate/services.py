@@ -3,12 +3,13 @@ import hashlib
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, TargetPosition, PreferredLocation, EDITABLES, work_experience_skill
+    WorkExperience, Education, TargetPosition, PreferredLocation
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
     Course
 from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
-    get_or_raise_named_collection, get_or_create_named_lookup, get_locations_from_structure
+    get_or_raise_named_collection, get_or_create_named_lookup, get_locations_from_structure, \
+    get_location_by_name_or_raise
 from scotty.offer.models import FullOffer
 from scotty.services.pagingservice import Pager
 
@@ -21,10 +22,18 @@ def candidate_from_signup(params):
     return candidate
 
 
+ID = lambda x: x
+
+EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
+             'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID, 'contact_zipcode': ID, 'location': get_location_by_name_or_raise,
+             'contact_phone': ID, 'availability': ID, 'summary': ID, 'github_url': ID, 'stackoverflow_url': ID, 'contact_skype': ID,
+             'eu_work_visa': ID, 'cv_upload_url': ID}
+
+
 def edit_candidate(candidate, params, editables=EDITABLES):
-    for field in editables:
+    for field, transform in editables.items():
         if field in params:
-            setattr(candidate, field, params[field])
+            setattr(candidate, field, transform(params[field]))
     return candidate
 
 
@@ -170,9 +179,11 @@ def set_skills_on_candidate(candidate, params):
 
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
     skills = []
+
+    def get_level(p):
+        return level_lookup.get(p['level']) if p.get('level') else None
     for p in params:
-        skills.append(CandidateSkill(candidate_id=candidate.id, skill=skill_lookup[p['skill']],
-                                     level=level_lookup.get(p.get('level'))))
+        skills.append(CandidateSkill(candidate_id=candidate.id, skill=skill_lookup[p['skill']], level=get_level(p)))
     DBSession.add_all(skills)
     DBSession.flush()
     return candidate
@@ -197,7 +208,8 @@ def get_candidate_newsfeed(c):
     events.append({'name': 'PROFILE_PENDING', 'date': candidate.activation_sent, 'note': 'Your profile is done, just '
                                                                                          'waiting for you to click the activation email'})
 
-    events.append({'name': 'PROFILE_LIVE', 'date': candidate.activated, 'note': 'Nicely done, you are now live and can start receiving great offers'})
+    events.append({'name': 'PROFILE_LIVE', 'date': candidate.activated, 'note': 'Nicely done, you are now live and '
+                                                                                'can start receiving great offers'})
 
     for o in candidate.offers:
         offer = DBSession.query(FullOffer).filter(offer.id == o.id).first()

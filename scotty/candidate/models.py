@@ -59,6 +59,13 @@ class CandidateSkill(Base):
             result["level"] = self.level
         return result
 
+    @property
+    def name(self):
+        return self.skill.name
+
+    def __repr__(self):
+        return self.skill.name
+
 
 work_experience_skill = Table('work_experience_skill', Base.metadata,
                               Column('work_experience_id', Integer, ForeignKey('work_experience.id'), primary_key=True),
@@ -152,11 +159,6 @@ class PreferredLocation(Base):
         return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
 
 
-EDITABLES = ['first_name', 'last_name', 'pob', 'dob', 'picture_url', 'salutation', 'contact_line1',
-             'contact_line2', 'contact_line3', 'contact_zipcode', 'contact_city', 'contact_country_iso',
-             'contact_phone', 'availability', 'summary', 'github_url', 'stackoverflow_url', 'contact_skype',
-             'eu_work_visa', 'cv_upload_url']
-
 class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
 
@@ -173,12 +175,12 @@ class Candidate(Base, JsonSerialisable):
 
     first_name = Column(String(512), nullable=False, info=PUBLIC)
     last_name = Column(String(512), nullable=False, info=PUBLIC)
-    dob = Column(Date)
-    pob = Column(String(512))
+    dob = Column(Date, info=PUBLIC)
+    pob = Column(String(512), info=PUBLIC)
     picture_url = Column(String(1024), info=PUBLIC)
 
     salutation_id = Column(Integer, ForeignKey(Salutation.id))
-    salutation = relationship(Salutation)
+    salutation = relationship(Salutation, info=PUBLIC)
 
     summary = Column(Text(), info=PUBLIC)
     github_url = Column(String(1024), info=PUBLIC)
@@ -189,17 +191,16 @@ class Candidate(Base, JsonSerialisable):
     traffic_source_id = Column(Integer, ForeignKey(TrafficSource.id))
     traffic_source = relationship(TrafficSource)
 
-    contact_line1 = Column(String(512))
-    contact_line2 = Column(String(512))
-    contact_line3 = Column(String(512))
-    contact_zipcode = Column(String(20))
-    contact_city = Column(String(512))
-    contact_country_iso = Column(String(2), ForeignKey(Country.iso), info=PUBLIC)
-    contact_country = relationship(Country)
+    contact_line1 = Column(String(512), info=PUBLIC)
+    contact_line2 = Column(String(512), info=PUBLIC)
+    contact_line3 = Column(String(512), info=PUBLIC)
+    contact_zipcode = Column(String(20), info=PUBLIC)
+    location_id = Column(Integer, ForeignKey(City.id))
+    location = relationship(City, info=PUBLIC)
 
-    contact_phone = Column(String(128))
-    contact_skype = Column(String(128))
-    availability = Column(Text)
+    contact_phone = Column(String(128), info=PUBLIC)
+    contact_skype = Column(String(128), info=PUBLIC)
+    availability = Column(Text, info=PUBLIC)
 
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
     status = relationship(CandidateStatus)
@@ -250,14 +251,14 @@ class Candidate(Base, JsonSerialisable):
 
     def __json__(self, request):
         result = self.to_json(request)
-        result.update({k: getattr(self, k) for k in EDITABLES if getattr(self, k) is not None})
+        result.update(json_encoder(self, request))
         result['id'] = self.id
         result['salutation'] = self.salutation
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills
         result['preferred_location'] = self.get_preferred_locations()
-        result['contact_country'] = self.contact_country
+        result['location'] = self.location
         return result
 
 
