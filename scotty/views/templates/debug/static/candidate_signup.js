@@ -15,7 +15,7 @@ var CANDIDATE_SIGNUP = function(email){
 
 var CANDIDATE_COMPLETE_PROFILE = function(email) {
     return [
-        {url: function(r, extr){return '/api/v1/candidates/me/target_positions'}, title: 'create-target_position',
+        {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'create-target_position',
               data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: false,
                 travel_willingness:'<10%', minimum_salary: 100000},
               extract:   function(r, extr){return {target_positionId: r.id}}},

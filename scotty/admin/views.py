@@ -190,7 +190,7 @@ class AdminOfferController(RootController):
     @view_config(route_name='admin_offer_accept', **POST)
     def accept(self):
         try:
-            self.offer.accept()
+            self.offer.accept(**self.request.json)
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()

@@ -139,7 +139,7 @@ class ConfigurationController(RootController):
 
         city_name = self.request.params.get("q")
         country_iso = None
-        if ',' in city_name:
+        if city_name and ',' in city_name:
             city_name, country_iso = city_name.split(',', 1)
 
         if city_name:

@@ -325,7 +325,7 @@ class CandidateOfferController(CandidateController):
     def accept(self):
         offer = self.offer
         try:
-            offer.accept()
+            offer.accept(**self.request.json)
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()

@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
+from paste.httpexceptions import HTTPBadRequest
 
 from scotty.models.tools import json_encoder, PUBLIC
 from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason, WithdrawalReason
 from scotty.models.meta import Base, GUID
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String
 from sqlalchemy.orm import relationship, class_mapper
 
 
@@ -96,9 +97,11 @@ class OfferStatusWorkflow(object):
                 break
         return and_(*filter)
 
-    def accept(self):
+    def accept(self, email, phone=None):
         if self.status == self.statuses[0]:
             self.accepted = datetime.now()
+            self.email = email
+            self.phone = phone
         else:
             raise InvalidStatusError("Offer cannot be set to ACCEPTED, it is in state: %s." % self.status)
 
@@ -186,6 +189,8 @@ class Offer(Base, OfferStatusWorkflow):
 
     created = Column(DateTime, nullable=False, default=datetime.now, info=PUBLIC)
     accepted = Column(DateTime)
+    email = Column(String(1024), info=PUBLIC)
+    phone = Column(String(128), info=PUBLIC)
 
     rejected = Column(DateTime)
     withdrawn = Column(DateTime)

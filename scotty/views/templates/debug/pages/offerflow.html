@@ -121,7 +121,7 @@
               method: "POST", data:{reason: 'Salary offer not high enough', rejected_text:null}, title: 'candidate-reject-1'},
 
             {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer2Id+'/accept';},
-              method: "POST", data:{}, title: 'candidate-accept-2'},
+              method: "POST", data:{'email': cand_email, phone: 'my-phone'}, title: 'candidate-accept-2'},
 
             {url:function(r, extr){ return '/api/v1/candidates/me/offers';},
               title: 'candidate-get-my-offers'},
@@ -138,7 +138,7 @@
               data: {reason: 'Other', 'rejected_text': 'Candidate said: he no like'}, expectedErrors: [400]
             },
             {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/accept';}, title: 'admin-offer-accept',
-              data: {}, expectedErrors: [400]
+              data: {email: cand_email}, expectedErrors: [400]
             },
             {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw';}, title: 'admin-offer-withdraw',
               data: {reason: 'Other', 'withdrawal_text': 'Employer said: he no like'}, expectedErrors: [400]
@@ -181,7 +181,7 @@
               extract: function(r, extr){return {offer3Id: r.id}}
             },
             {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer3Id+'/accept';},
-              method: "POST", data:{}, title: 'candidate-accept-3'},
+              method: "POST", data:{email: cand_email}, title: 'candidate-accept-3'},
             {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer3Id+'/status';}, title: 'candidate-offer-set_status', data: {'status': 'INTERVIEW'}},
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer3Id+'/withdraw';}, title: 'employer-offer-withdraw',
               data: {'reason': 'No Culture Fit', withdrawal_text: 'WE DONT LIKE THIS ONE'}},
