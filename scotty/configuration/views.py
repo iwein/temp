@@ -140,7 +140,7 @@ class ConfigurationController(RootController):
         city_name = self.request.params.get("q")
         country_iso = None
         if city_name and ',' in city_name:
-            city_name, country_iso = city_name.split(',', 1)
+            city_name, country_iso = [x.strip() for x in city_name.split(',', 1)]
 
         if city_name:
             filter = func.lower(City.name).contains(func.lower(city_name))
