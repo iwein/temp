@@ -10,7 +10,7 @@ from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_locations_from_structure, \
     get_location_by_name_or_raise
-from scotty.offer.models import FullOffer
+from scotty.offer.models import FullOffer, Offer
 from scotty.services.pagingservice import Pager
 
 
@@ -212,26 +212,25 @@ def get_candidate_newsfeed(c):
                                                                                 'can start receiving great offers'})
 
     for o in candidate.offers:
-        offer = DBSession.query(FullOffer).filter(offer.id == o.id).first()
+        offer = DBSession.query(FullOffer).filter(Offer.id == o.id).first()
         events.append({'name': 'OFFER_RECEIVED', 'date': offer.created, 'note': ('Awesome, you received an interview offer from %s', offer.employer.company_name)})
         events.append({'name': 'OFFER_REJECTED', 'date': offer.rejected, 'note': ('You have turned down the offer from %s', offer.employer.company_name)})
         events.append({'name': 'OFFER_ACCEPTED', 'date': offer.accepted, 'note': ('Brilliant you have accepted an interview with  %s', offer.employer.company_name)})
-        events.append({'name': 'OFFER_NEGOCIATION', 'date': offer.contract_negotiation, 'note': (
-            'Nearly there you have started negociating the details with %s', offer.employer.company_name)})
+        events.append({'name': 'OFFER_NEGOTIATION', 'date': offer.contract_negotiation, 'note': (
+            'Nearly there you have started negotiating the details with %s', offer.employer.company_name)})
         events.append({'name': 'OFFER_SIGNED', 'date': offer.contract_signed, 'note': (
             'Winning! you have signed a contract with  %s and will receive you golden handshake soon', offer.employer.company_name)})
         events.append({'name': 'OFFER_START_DATE', 'date': offer.job_start_date, 'note': (
             'Good luck! you have set a start date of %s with %s', offer.job_start_date, offer.employer.company_name)})
 
     for b in candidate.bookmarked_employers:
-        employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
         events.append({'name': 'BOOKMARKED_EMPLOYER', 'date': offer.created, 'note': (
             'You liked %s they have been notified and should get in touch', offer.employer.company_name)})
 
     for b in candidate.blacklisted_employers:
-        employer = DBSession.query(Employer).filter(employer.id == b.employer_id).first()
         events.append({'name': 'BOOKMARKED_EMPLOYER', 'date': offer.created, 'note': (
             'You liked %s they have been notified and should get in touch', offer.employer.company_name)})
 
-    return sorted(events, key=lambda k: k['date'], reverse=True)
+    events_with_dates = filter(lambda x: x.get('date'), events)
+    return sorted(events_with_dates, key=lambda k: k['date'], reverse=True)
 
