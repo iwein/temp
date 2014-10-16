@@ -1,12 +1,15 @@
 <div class="component-candidate-employer-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <button class="btn btn-default"
-      ng-if="activated"
-      ng-class="{ active: isBookmarked }"
-      ng-click="employerProfile.toogleBookmark()">
-      Bookmark
-    </button>
+    <div ng-if="activated">
+      <button type="button"
+        class="btn btn-default"
+        ng-show="!isBookmarked"
+        ng-click="employerProfile.toogleBookmark()">
+        Request offer
+      </button>
+      <div ng-show="isBookmarked">Offer requested</div>
+    </div>
 
     <div class="page-header">
       <h1>

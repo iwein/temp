@@ -4,16 +4,6 @@
 
     <a ui-sref="search-employers">Search employers</a>
 
-    <div ng-show="employers.length">
-      <h4>Employers I've bookmarked</h4>
-
-      <hc-employer
-        ng-repeat="employer in employers"
-        ng-model="employer"
-        hc-link-profile>
-      </hc-employer>
-    </div>
-
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Offers</h3>

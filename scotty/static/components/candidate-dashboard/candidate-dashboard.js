@@ -14,14 +14,9 @@ define(function(require) {
       $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {
-      return $q.all([
-        user.getBookmarks(),
-        user.getOffers(),
-      ]);
+      return user.getOffers();
     }).then(function(results) {
-      $scope.employers = results[0];
-
-      $scope.offers = results[1].map(function(offer) {
+      $scope.offers = results.map(function(offer) {
         offer.setDataParser(function(data) {
           data.interview_details = $sce.trustAsHtml(data.interview_details);
           data.job_description = $sce.trustAsHtml(data.job_description);

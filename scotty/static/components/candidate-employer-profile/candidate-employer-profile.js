@@ -57,7 +57,7 @@ define(function(require) {
         }).then(function() {
           return getIsBookmarked();
         }).then(function(isBookmarked) {
-          toaster.success(isBookmarked ? 'Employer bookmarked' : 'Bookmark removed');
+          toaster.success(isBookmarked ? 'Offer requested' : 'Request removed');
         }).catch(function() {
           toaster.defaultError();
         }).finally(function() {
