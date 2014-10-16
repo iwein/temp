@@ -14,6 +14,7 @@ define(function(require) {
   module.controller('ProfileCtrl', function($scope, $q, $state, Loader, Permission, Session) {
     this.edit = edit;
     this.stopEdit = stopEdit;
+    $scope.sendCompletion = sendCompletion;
     $scope.ready = false;
     $scope.loading = false;
     $scope.isEditing = false;
@@ -146,24 +147,47 @@ define(function(require) {
     })();
 
 
-    Permission.requireSignup().then(function() {
-      return Session.getUser();
-    }).then(function(user) {
+    Permission.requireSignup()
+      .then(refresh)
+      .finally(function() { Loader.page(false) });
+
+    function refresh() {
       return $q.all([
-        user.getData(),
-        user.getTargetPosition(),
+        updateData(),
+        updateCompletionStage(),
       ]);
-    }).then(function(data) {
-      var user = data[0];
-      $scope.targetPosition = data[1];
-      $scope.cities = user.preferred_location;
-      $scope.languages = user.languages;
-      $scope.skills = user.skills;
-      $scope.user = user;
-      $scope.ready = true;
-    }).finally(function() {
-      Loader.page(false);
-    });
+    }
+
+    function updateData() {
+      return Session.getUser().then(function(user) {
+        return $q.all([
+          user.getData(),
+          user.getTargetPosition(),
+        ]);
+      }).then(function(data) {
+        var user = data[0];
+        $scope.targetPosition = data[1];
+        $scope.cities = user.preferred_location;
+        $scope.languages = user.languages;
+        $scope.skills = user.skills;
+        $scope.user = user;
+        $scope.ready = true;
+      });
+    }
+
+    function sendCompletion(model) {
+      Loader.add('profile-completion');
+      return Session.getUser()
+        .then(function(user) { return user.updateData(model) })
+        .then(refresh)
+        .finally(function() { Loader.remove('profile-completion') });
+    }
+
+    function updateCompletionStage() {
+      return Session.getCompletionStage().then(function(result) {
+        $scope.completionStage = result;
+      });
+    }
 
     function getUserData() {
       return Session.getUser().then(function(user) {
