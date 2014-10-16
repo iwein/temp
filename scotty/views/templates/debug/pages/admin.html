@@ -4,8 +4,15 @@
 <%def name="title()">Admin</%def>
 <%def name="tests()">
 <script>
-  var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+  var email = '${email.replace('@', "+employer-'+guid()+'@")|n}', icode='INVITE-'+guid(),
           tests = [
+
+            {sectionTitle: 'Invite Codes'},
+            {url: '/api/v1/admin/invite_codes', title: 'list-invite-codes'},
+            {url: '/api/v1/admin/invite_codes', title: 'create-invite-code', data:{'code': icode}},
+            {url: '/api/v1/admin/invite_codes', title: 'duplicate-invite-code', data:{'code': icode}, expectedErrors:[409]},
+            {url: '/api/v1/admin/invite_codes', title: 'list-invite-codes'},
+
 
             {sectionTitle: 'Search'},
             {url: '/api/v1/admin/search/employers?q=Hack', title: 'admin-search-employers'},
