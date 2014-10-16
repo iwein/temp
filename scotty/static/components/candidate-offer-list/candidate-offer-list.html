@@ -1,0 +1,25 @@
+<div class="component-candidate-offer-list row">
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Offers</h3>
+      </div>
+      <div class="panel-body" ng-show="!offers.length">No offers</div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="offer in offers">
+          <hc-offer ng-model="offer"
+            hc-hide="{{ { candidate: true } }}"
+            hc-reject-button="true"
+            hc-accept-button="true"
+            hc-next-status-button="true"
+            hc-signed-button="true"
+            hc-profile-links="true"
+            hc-link="true">
+          </hc-offer>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
