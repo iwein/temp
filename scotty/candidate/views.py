@@ -195,7 +195,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **GET)
     def list_preferred_cities(self):
-        return self.candidate.get_preferred_locations
+        return self.candidate.get_preferred_locations()
 
     @view_config(route_name='candidate_skills', **PUT)
     def set_skills(self):
