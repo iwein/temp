@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
-from paste.httpexceptions import HTTPBadRequest
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String, Sequence
 
 from scotty.models.tools import json_encoder, PUBLIC
 from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason, WithdrawalReason
 from scotty.models.meta import Base, GUID
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String
 from sqlalchemy.orm import relationship, class_mapper
 
 
@@ -186,6 +185,7 @@ class Offer(Base, OfferStatusWorkflow):
                                        name='_candidate_employer_offer_unique'),)
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
+    reference = Column(Integer, Sequence("offer_reference_seq", start=7021), nullable=False, unique=True, info=PUBLIC)
 
     created = Column(DateTime, nullable=False, default=datetime.now, info=PUBLIC)
     accepted = Column(DateTime)

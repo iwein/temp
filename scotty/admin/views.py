@@ -9,7 +9,7 @@ from scotty.configuration.models import WithdrawalReason, RejectionReason
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
 from scotty.models.tools import json_encoder
-from scotty.candidate.models import Candidate
+from scotty.candidate.models import Candidate, InviteCode
 from scotty.employer.models import Employer
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
@@ -29,6 +29,8 @@ def includeme(config):
     config.add_route('admin_search_candidates', 'search/candidates')
     config.add_route('admin_employer_by_status', 'employers/{status}')
     config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')
+
+    config.add_route('admin_invite_codes', 'invite_codes')
 
     config.add_route('admin_offers', 'offers')
     config.add_route('admin_offer', 'offers/{id}')
@@ -57,6 +59,24 @@ class SearchResultEmployer(Employer):
         result['email'] = self.email
         return result
 
+
+class AdminInviteCodeController(RootController):
+    @view_config(route_name='admin_invite_codes', **GET)
+    def list(self):
+        return run_paginated_query(self.request, DBSession.query(InviteCode))
+
+    @view_config(route_name='admin_invite_codes', **POST)
+    def create(self):
+        code = self.request.json.get('code')
+        if not code:
+            raise HTTPBadRequest("Code required.")
+        icode = InviteCode(code=code, description=self.request.json.get('description'))
+        DBSession.add(icode)
+        try:
+            DBSession.flush()
+        except IntegrityError:
+            raise HTTPConflict("Code already created!")
+        return icode
 
 class AdminController(RootController):
 
