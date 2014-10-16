@@ -3,7 +3,7 @@
     <button type="button"
       ng-if="hcRollbackButton && model.canRollback()"
       class="btn btn-primary"
-      ng-disabled="hcDisabled || rejecting || withdrawing || signing"
+      ng-disabled="hcDisabled || rejecting || withdrawing || accepting || signing"
       ng-click="model.rollback()">
       Rollback
     </button>
@@ -11,7 +11,7 @@
     <button type="button"
       ng-if="hcWithdrawButton && model.canWithdraw()"
       class="btn btn-danger"
-      ng-disabled="hcDisabled || rejecting || signing"
+      ng-disabled="hcDisabled || rejecting || accepting || signing"
       ng-class="{ active: withdrawing }"
       ng-click="toggleWithdrawing()">
       Withdraw
@@ -20,7 +20,7 @@
     <button type="button"
       ng-if="hcRejectButton && model.canReject()"
       class="btn btn-danger"
-      ng-disabled="hcDisabled || withdrawing || signing"
+      ng-disabled="hcDisabled || withdrawing || accepting || signing"
       ng-class="{ active: rejecting }"
       ng-click="toggleRejecting()">
       Reject
@@ -29,15 +29,15 @@
     <button type="button"
       ng-if="hcAcceptButton && model.canAccept()"
       class="btn btn-primary"
-      ng-disabled="hcDisabled || rejecting || withdrawing || signing"
-      ng-click="model.accept()">
+      ng-disabled="hcDisabled || withdrawing || rejecting || signing"
+      ng-click="toggleAccepting()">
       Accept
     </button>
 
     <span ng-if="hcNextStatusButton && model.canNextStatus()">
       <button type="button"
         class="btn btn-primary"
-        ng-disabled="hcDisabled || rejecting || withdrawing || signing"
+        ng-disabled="hcDisabled || withdrawing || rejecting || accepting || signing"
         ng-click="model.nextStatus().then(onStatusChange)">
         {{ model.getNextStatusText() }}
       </button>
@@ -46,7 +46,7 @@
     <button type="button"
       ng-if="hcSignedButton && model.canSign()"
       class="btn btn-success"
-      ng-disabled="hcDisabled || rejecting || withdrawing"
+      ng-disabled="hcDisabled || withdrawing || accepting || rejecting"
       ng-class="{ active: signing }"
       ng-click="toggleSigning()">
       Contract signed
@@ -90,6 +90,41 @@
             ng-model="rejection.blacklist">
           Block employer
         </label>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+      </div>
+    </form>
+
+    <form name="formReject" ng-show="accepting" ng-submit="accept(model, acceptance)">
+      <div class="form-group required">
+        <label>Email address</label>
+        <input type="email"
+          class="form-control"
+          name="contactEmail"
+          required
+          ng-model="acceptance.email">
+
+        <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+          <span ng-show="formProfile.contactEmail.$error.required">Please insert your phone.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Phone number</label>
+        <input type="tel"
+          class="form-control"
+          name="phoneNumber"
+          pattern="^\+?[0-9 /()-]+$"
+          ng-pattern="/^\+?[0-9 /()-]+$/"
+          ng-disabled="hcDisabled"
+          ng-model="acceptance.phone">
+
+        <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+          <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+          <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+        </div>
       </div>
 
       <div class="form-group">
@@ -169,6 +204,8 @@
     'label-success': model.status === 'ACCEPTED' || model.status === 'CONTRACT_SIGNED',
     'label-danger': model.status === 'REJECTED',
   }">{{ model.statusText }}</span></dd>
+  <dt ng-if="!hide.email && model.data.email">Contact email</dt>
+  <dd ng-if="!hide.email && model.data.email">{{ model.data.email }}</dd>
   <dt ng-if="!hide.rejectReason && model.status === 'REJECTED'">Reason</dt>
   <dd ng-if="!hide.rejectReason && model.status === 'REJECTED'">
     {{ model.data.rejected_text || model.data.rejected_reason }}

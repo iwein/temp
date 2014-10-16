@@ -64,6 +64,11 @@ define(function(require) {
           $scope.model = JSON.parse(JSON.stringify(model));
           $scope.selectedFiles = [ model.picture_url ];
 
+          Object.keys($scope.model).forEach(function(key) {
+            if ($scope.model[key] == null)
+              delete $scope.model[key];
+          });
+
           if ('dob' in $scope.model)
             $scope.model.dob = new Date($scope.model.dob);
           if (!('eu_work_visa' in $scope.model))

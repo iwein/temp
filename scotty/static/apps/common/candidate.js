@@ -79,6 +79,9 @@ define(function(require) {
     setSkills: setHelper('skills', 'put'),
     setLanguages: setHelper('languages', 'put'),
 
+    getNewsFeed: getHelper('newsfeed'),
+    getSuggestedCompanies: getHelper('suggested_companies'),
+
     setCVUrl: function(url) {
       return this.updateData({ cv_upload_url: url });
     },
