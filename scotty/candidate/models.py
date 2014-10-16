@@ -182,7 +182,6 @@ class Candidate(Base, JsonSerialisable):
     salutation_id = Column(Integer, ForeignKey(Salutation.id))
     salutation = relationship(Salutation, info=PUBLIC)
 
-    summary = Column(Text(), info=PUBLIC)
     github_url = Column(String(1024), info=PUBLIC)
     stackoverflow_url = Column(String(1024), info=PUBLIC)
     eu_work_visa = Column(Boolean, info=PUBLIC)
@@ -200,6 +199,8 @@ class Candidate(Base, JsonSerialisable):
 
     contact_phone = Column(String(128), info=PUBLIC)
     contact_skype = Column(String(128), info=PUBLIC)
+
+    summary = Column(Text, info=PUBLIC)
     availability = Column(Text, info=PUBLIC)
 
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
