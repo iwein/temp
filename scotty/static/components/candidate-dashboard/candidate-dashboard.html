@@ -6,20 +6,23 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Offers</h3>
+        <h3 class="panel-title">News</h3>
       </div>
-      <div class="panel-body" ng-show="!offers.length">No offers</div>
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="offer in offers">
-          <hc-offer ng-model="offer"
-            hc-hide="{{ { candidate: true } }}"
-            hc-reject-button="true"
-            hc-accept-button="true"
-            hc-next-status-button="true"
-            hc-signed-button="true"
-            hc-profile-links="true"
-            hc-link="true">
-          </hc-offer>
+        <li class="list-group-item" ng-repeat="entry in news">
+          <span>{{ entry.date | timeAgo }}</span> -
+          <span>{{ entry.note }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Companies working with your technology</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="employer in suggested">
+          <a ui-sref="employer({ id: employer.id })">{{ employer.company_name }}</a>
         </li>
       </ul>
     </div>
