@@ -6,14 +6,15 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
-from scotty.candidate.models import Candidate, Education, WorkExperience, TargetPosition, FullCandidate, \
-    CandidateOffer, WXPCandidate
+from scotty.candidate.models import Candidate, Education, WorkExperience, TargetPosition, FullCandidate, CandidateOffer, \
+    WXPCandidate
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
     set_candidate_work_experiences, set_candidate_education
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
+from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed
@@ -27,8 +28,6 @@ from sqlalchemy.orm import joinedload, joinedload_all
 log = logging.getLogger(__name__)
 
 
-
-
 def includeme(config):
     config.add_route('candidates', '')
     config.add_route('candidate_login', 'login')
@@ -38,6 +37,7 @@ def includeme(config):
     config.add_route('candidate_activate', 'activate/{token}')
 
     config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
+    config.add_route('candidate_profile_completion', '{candidate_id}/profile_completion')
     config.add_route('candidate', '{candidate_id}')
     config.add_route('candidate_picture', '{candidate_id}/picture')
     config.add_route('candidate_skills', '{candidate_id}/skills')
@@ -55,7 +55,7 @@ def includeme(config):
     config.add_route('candidate_work_experiences', '{candidate_id}/work_experience')
     config.add_route('candidate_work_experience', '{candidate_id}/work_experience/{id}')
 
-
+    config.add_route('candidate_suggested_companies', '{candidate_id}/suggested_companies')
     config.add_route('candidate_newsfeed', '{candidate_id}/newsfeed')
 
     config.add_route('candidate_offers', '{candidate_id}/offers')
@@ -105,10 +105,8 @@ class CandidateController(RootController):
             city_id = get_location_by_name_or_raise(params).id
 
         def optimise_query(q):
-            return q.options(joinedload_all('languages.language'),
-                             joinedload_all('languages.proficiency'),
-                             joinedload_all('skills.skill'),
-                             joinedload_all('skills.level'),
+            return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
+                             joinedload_all('skills.skill'), joinedload_all('skills.level'),
                              joinedload('preferred_locations'))
 
         if tags:
@@ -167,6 +165,14 @@ class CandidateController(RootController):
                     'target_position': candidate.target_position is not None,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
+
+    @view_config(route_name='candidate_profile_completion', **GET)
+    def profile_completion(self):
+        candidate = self.candidate
+        workflow = {'active': candidate.activated is not None, 'ordering': ['summary', 'availability'],
+                    'summary': bool(candidate.summary), 'availability': bool(candidate.availability)}
+        return workflow
+
 
     @view_config(route_name='candidate_picture', **GET)
     def get_picture(self):
@@ -255,8 +261,10 @@ class CandidateWorkExperienceController(CandidateController):
     def set(self):
         return set_candidate_work_experiences(self.candidate, self.request.json)
 
+
 class CandidateTargetPositionController(CandidateController):
     model_cls = Candidate
+
     @view_config(route_name='target_position', **GET)
     def get(self):
         return self.candidate.target_position
@@ -281,20 +289,16 @@ class CandidateBookmarkController(CandidateController):
         self.candidate.bookmarked_employers.append(employer)
         DBSession.flush()
 
-        self.request.emailer.send_employer_was_bookmarked(
-            employer.email,
-            employer.contact_name,
-            employer.company_name,
-            candidate_name=self.candidate.full_name,
-            candidate_id=self.candidate.id
-        )
+        self.request.emailer.send_employer_was_bookmarked(employer.email, employer.contact_name, employer.company_name,
+                                                          candidate_name=self.candidate.full_name, candidate_id=self
+                                                          .candidate.id)
         return self.candidate.bookmarked_employers
 
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
         employer_id = self.request.matchdict['id']
-        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers
-                                               if str(e.id) != employer_id]
+        self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) !=
+                                               employer_id]
 
         return {"status": "success"}
 
@@ -324,18 +328,16 @@ class CandidateOfferController(CandidateController):
     def accept(self):
         offer = self.offer
         try:
-            offer.accept()
+            offer.accept(**self.request.json)
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()
 
-        self.request.emailer.send_employer_offer_accepted(
-            email=offer.employer.email,
-            candidate_name=self.candidate.full_name,
-            contact_name=offer.employer.contact_name,
-            company_name=offer.employer.company_name,
-            offer_id=offer.id,
-            candidate_id=self.candidate.id)
+        self.request.emailer.send_employer_offer_accepted(email=offer.employer.email, candidate_name=self.candidate
+                                                          .full_name,
+                                                          contact_name=offer.employer.contact_name, company_name
+            =offer.employer.company_name,
+                                                          offer_id=offer.id, candidate_id=self.candidate.id)
         return offer.full_status_flow
 
     @view_config(route_name='candidate_offer_reject', **POST)
@@ -357,13 +359,10 @@ class CandidateOfferController(CandidateController):
                 # alreadyblacklisted
                 log.info(e)
 
-        self.request.emailer.send_employer_offer_rejected(
-            email=offer.employer.email,
-            candidate_name=self.candidate.full_name,
-            contact_name=offer.employer.contact_name,
-            company_name=offer.employer.company_name,
-            offer_id=offer.id,
-            candidate_id=self.candidate.id)
+        self.request.emailer.send_employer_offer_rejected(email=offer.employer.email, candidate_name=self.candidate.full_name,
+                                                          contact_name=offer.employer.contact_name, company_name
+            =offer.employer.company_name,
+                                                          offer_id=offer.id, candidate_id=self.candidate.id)
         return offer.full_status_flow
 
     @view_config(route_name='candidate_offer_status', **POST)
@@ -386,8 +385,7 @@ class CandidateOfferController(CandidateController):
 
 class CandidatePasswordController(RootController):
     def send_email(self, candidate):
-        self.request.emailer.send_candidate_pwdforgot(
-            candidate.email, candidate.first_name, candidate.pwdforgot_token)
+        self.request.emailer.send_candidate_pwdforgot(candidate.email, candidate.first_name, candidate.pwdforgot_token)
 
     @view_config(route_name='candidate_requestpassword', **POST)
     def requestpassword(self):
@@ -406,9 +404,19 @@ class CandidatePasswordController(RootController):
         pwd = self.request.json['pwd']
         return resetpassword(Candidate, token, pwd)
 
-class CandidateNewsfeedController(CandidateController):
+
+class CandidateDashboardController(CandidateController):
     @view_config(route_name='candidate_newsfeed', **GET)
     def get_newsfeed(self):
         candidate = self.candidate
         results = get_candidate_newsfeed(candidate)
         return results
+
+    @view_config(route_name='candidate_suggested_companies', **GET)
+    def candidate_suggested_companies(self):
+        skills = [skill.name for skill in self.candidate.skills]
+        if not skills:
+            return {'data': [], 'pagination': {'total': 0}}
+
+        pager = get_employers_pager(skills, self.candidate.location_id, None)
+        return ObjectBuilder(Employer).serialize(pager)

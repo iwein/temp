@@ -137,14 +137,19 @@ class ConfigurationController(RootController):
     def locations(self):
         basequery = DBSession.query(City).options(joinedload('country'))
 
-        searchterm = self.request.params.get("q")
-        if searchterm:
-            filter = func.lower(City.name).contains(func.lower(searchterm))
+        city_name = self.request.params.get("q")
+        country_iso = None
+        if city_name and ',' in city_name:
+            city_name, country_iso = city_name.split(',', 1)
+
+        if city_name:
+            filter = func.lower(City.name).contains(func.lower(city_name))
             basequery = basequery.filter(filter).order_by(func.length(City.name))
 
-        ciso = self.request.params.get("country_iso")
-        if ciso:
-            basequery = basequery.filter(City.country_iso == ciso)
+        country_iso = self.request.params.get("country_iso", country_iso)
+        if country_iso:
+            basequery = basequery.filter(City.country_iso == country_iso)
+
         return run_paginated_query(self.request, basequery)
 
     @view_config(route_name='configuration_list_featured_locations')

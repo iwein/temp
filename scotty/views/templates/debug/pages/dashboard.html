@@ -12,9 +12,10 @@
             mytests = [
             {sectionTitle: 'Newsfeed'},
             {url: '/api/v1/candidates/me/newsfeed', title: 'candidate-newsfeed'},
+            {url: '/api/v1/candidates/me/suggested_companies', title: 'candidate-suggested_companies'},
             ],
 
-          tests = CANDIDATE_SIGNUP(email).concat(mytests )
+          tests = CANDIDATE_SIGNUP(email).concat(mytests)
 
 
   $(function () {

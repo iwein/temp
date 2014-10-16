@@ -130,7 +130,7 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
 
 def get_employers_pager(tags, city_id, company_types):
     params = {'city_id': city_id}
-    tags = {'tag_%d' % i: tag for i, tag in enumerate(tags)}
+    tags = {'tag_%d' % i: unicode(tag) for i, tag in enumerate(tags)}
     params.update(tags)
     if company_types:
         params['company_type'] = ', '.join([ct.name for ct in company_types])
