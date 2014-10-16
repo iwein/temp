@@ -106,8 +106,8 @@ define(function() {
       return !this.isFinalStatus();
     },
 
-    accept: function() {
-      return this._api.post(this._url() + '/accept', {})
+    accept: function(params) {
+      return this._api.post(this._url() + '/accept', params)
         .then(this._updateStatus);
     },
 
