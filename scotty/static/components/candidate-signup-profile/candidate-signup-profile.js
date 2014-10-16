@@ -8,10 +8,8 @@ define(function(require) {
 
   module.controller('CandidateSignupProfileCtrl', function($scope, $q, $state, Loader, ConfigAPI, Session) {
     this.submit = submit;
-    $scope.importLinkedin = importLinkedin;
     $scope.loading = false;
     $scope.ready = false;
-    var linkedin = Session.getLinkedIn();
     Loader.page(true);
 
     Session.getUser()
@@ -26,31 +24,11 @@ define(function(require) {
           'email',
           'status',
         ]));
-
-        if (data.contact_line1) {
-          $scope.imported = true;
-          return false;
-        }
-        return linkedin.checkConnection();
-      })
-      .then(function(load) {
-        if (load)
-          return importLinkedin();
       })
       .finally(function() {
         $scope.ready = true;
         Loader.page(false);
       });
-
-    function importLinkedin() {
-      Loader.add('signup-profile-import');
-      return linkedin.getProfileData().then(function(data) {
-        $scope.form.setModel(data);
-        $scope.imported = true;
-      }).finally(function() {
-        Loader.remove('signup-profile-import');
-      });
-    }
 
     function submit() {
       $scope.loading = true;

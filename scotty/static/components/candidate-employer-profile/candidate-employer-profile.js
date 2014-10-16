@@ -10,7 +10,11 @@ define(function(require) {
     Loader.page(true);
     $scope.ready = false;
 
-    Permission.requireLogged().then(function() {
+    Session.isActivated().then(function(activated) {
+      $scope.activated = activated;
+    });
+
+    Permission.requireSignup().then(function() {
       this.toogleBookmark = toogleBookmark;
       $scope.id = $state.params.id;
 

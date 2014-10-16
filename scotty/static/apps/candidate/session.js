@@ -93,13 +93,23 @@ define(function(require) {
           return false;
 
         return stage.ordering.every(function(item) {
-          return stage[item];
+          return item === 'active' ? true : stage[item];
         });
       });
     },
 
     isActivated: function() {
-      return this.isSignupComplete();
+      return this.getSignupStage().then(function(stage) {
+        if (!stage)
+          return false;
+
+        return stage.ordering.every(function(item) {
+          return stage[item];
+        });
+      }).then(function(value) {
+        this.activated = value;
+        return value;
+      }.bind(this));
     },
 
     searchEmployers: function(query) {

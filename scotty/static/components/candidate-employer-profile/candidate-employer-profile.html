@@ -2,6 +2,7 @@
   <div class="col-sm-6 col-sm-offset-3">
 
     <button class="btn btn-default"
+      ng-if="activated"
       ng-class="{ active: isBookmarked }"
       ng-click="employerProfile.toogleBookmark()">
       Bookmark
