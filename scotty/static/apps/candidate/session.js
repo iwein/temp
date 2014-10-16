@@ -112,6 +112,19 @@ define(function(require) {
       }.bind(this));
     },
 
+    getCompletionWorkflow: function() {
+      return this._api.get('/candidates/me/profile_completion');
+    },
+
+    getCompletionStage: function() {
+      return this.getCompletionWorkflow().then(function(stage) {
+        return stage.ordering.reduce(function(value, item) {
+          if (value) return value;
+          return stage[item] ? null : item;
+        }, null);
+      });
+    },
+
     searchEmployers: function(query) {
       return this._api.get('/employers/', query).then(function(response) {
         return response.data.map(function(data) {
