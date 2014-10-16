@@ -52,6 +52,7 @@ define(function(require) {
 
           $scope.featuredLocations
             .filter(fn.get('selected'))
+            .map(fn.get('value'))
             .forEach(add);
 
           if ($scope.locationRadio !== 'anywhere') {
