@@ -88,43 +88,29 @@
     </div>
 
     <div class="col-sm-5">
-      <label class="form-label">
-        <input type="radio"
-               name="location-radio"
-               value="anywhere"
-               ng-disabled="loading"
-               ng-required="errorLocationRequired"
-               ng-model="locationRadio"
-               ng-change="updateLocations()">
-        Anywhere
-      </label>
-
-      <label class="form-label">
-        <input type="radio"
-               name="location-radio"
-               value="other"
-               ng-disabled="loading"
-               ng-required="errorLocationRequired"
-               ng-model="locationRadio"
-               ng-change="updateLocations()">
-        Other
-      </label>
+      <div class="checkbox">
+        <label class="form-label">
+          <input type="checkbox"
+                 name="location-radio"
+                 ng-disabled="loading"
+                 ng-required="errorLocationRequired"
+                 ng-model="locationOther"
+                 ng-change="updateLocations()">
+          Other
+        </label>
+      </div>
 
       <hc-label-typeahead
               name="cities"
               placeholder="Type a city..."
-              ng-show="locationRadio === 'other'"
+              ng-show="locationOther"
               ng-disabled="loading"
               ng-model="preferred_locations"
-              hc-required="errorLocationRequired"
+              hc-required="locationOther"
               hc-render="locationToText($entry)"
               hc-source="searchCities($viewValue)"
               on-change="updateLocations()">
       </hc-label-typeahead>
-    </div>
-
-    <div class="form-error" ng-show="errorLocationRequired">
-      <span>Please type a city you would like to work at.</span>
     </div>
   </div>
 

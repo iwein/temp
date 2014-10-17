@@ -26,7 +26,6 @@ define(function(require) {
         $scope.submit = submit;
         $scope.model = $scope.model || {};
         $scope.model.preferred_locations = $scope.model.preferred_locations || {};
-        $scope.locationRadio = 'anywhere';
         $scope.preferred_locations = [];
         this.save = save;
         this.reset = reset;
@@ -55,7 +54,7 @@ define(function(require) {
             .map(fn.get('value'))
             .forEach(add);
 
-          if ($scope.locationRadio !== 'anywhere') {
+          if ($scope.locationOther) {
             $scope.preferred_locations.forEach(add);
             $scope.errorLocationRequired = !Object.keys(locations).length;
           }
@@ -123,7 +122,7 @@ define(function(require) {
           });
 
           var countries = Object.keys(model.preferred_locations);
-          $scope.locationRadio = countries.length ? 'other' : 'anywhere';
+          $scope.locationOther = !!countries.length;
           $scope.preferred_locations = [];
           // TODO: prefill featuredLanguages
 
