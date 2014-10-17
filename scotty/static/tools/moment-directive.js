@@ -5,7 +5,7 @@ define(function(require) {
 
   module.filter('timeAgo', function () {
     return function (value) {
-      return value ? moment(value).utc().fromNow() : '';
+      return value ? moment.utc(value).fromNow() : '';
     };
   });
 });

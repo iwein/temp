@@ -6,7 +6,6 @@ define(function(require) {
   if (DEBUG) {
     var angular = require('angular');
     var module = require('app-module');
-    var moment = require('moment');
 
     function $(selector) {
       var elements = document.querySelectorAll(selector);
@@ -97,9 +96,7 @@ define(function(require) {
         setValue('select', function(element) {
           return randomElement(element.children, 1).innerHTML;
         });
-        setValue('input[type=date]', function() {
-          return moment().format('YYYY-MM-DD');
-        });
+        setValue('input[type=date]', new Date());
         setValue('input[name=zipcode]', random.bind(null, 10000, 99999));
         setValue('hc-label-typeahead input', '');
 
