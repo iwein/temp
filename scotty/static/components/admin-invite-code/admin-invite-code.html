@@ -1,0 +1,33 @@
+<div class="component-employer-invite-codes row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h3>Invite codes</h3>
+
+    <form name="formInviteCode" ng-submit="submit()">
+      <div class="form-group required">
+        <label>Invite code</label>
+
+        <input type="text"
+          class="form-control"
+          name="inviteCode"
+          require
+          ng-model="model.code">
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Vouchers</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="entry in vauchers">
+          <span>{{ entry.created | timeAgo }}</span> -
+          <span>{{ entry.code }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

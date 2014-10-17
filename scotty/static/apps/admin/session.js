@@ -62,6 +62,24 @@ define(function(require) {
         return new Candidate(this._api, data.id, data);
       }.bind(this));
     },
+
+    getInviteCodes: function() {
+      return this._api.get('/admin/invite_codes').then(function(response) {
+        return response.data;
+      });
+    },
+
+    addInviteCode: function(data) {
+      return this._api.post('/admin/invite_codes', data).then(function(response) {
+        if (response.db_message === 'Code already created!')
+          throw new Error('DUPLICATED_ENTRY');
+        return response;
+      }, function(request) {
+        if (request.status === 409)
+          throw new Error('DUPLICATED_ENTRY');
+        throw request;
+      });
+    },
   };
 
 
