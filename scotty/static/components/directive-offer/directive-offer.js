@@ -13,6 +13,7 @@ define(function(require) {
         hcTitle: '@',
         hcHide: '@',
         onStatusChange: '&',
+        hcShowId: '=',
         hcRollbackButton: '=',
         hcWithdrawButton: '=',
         hcRejectButton: '=',
@@ -42,11 +43,13 @@ define(function(require) {
         $scope.sign = sign;
 
         var email;
-        Session.getUser().then(function(user) {
-          return user.getData();
-        }).then(function(data) {
-          email = data.email;
-        });
+        if (Session.getUser) {
+          Session.getUser().then(function(user) {
+            return user.getData();
+          }).then(function(data) {
+            email = data.email;
+          });
+        }
 
         ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
         ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));

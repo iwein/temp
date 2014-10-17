@@ -199,6 +199,8 @@
 <a ng-if="hcLink" ui-sref="offer({ id: model.id })">View offer details</a>
 
 <dl class="dl-horizontal">
+  <dt ng-if="hcShowId">Offer Number</dt>
+  <dd ng-if="hcShowId">{{ model.data.reference }}</dd>
   <dt>Status</dt>
   <dd><span class="label label-default" ng-class="{
     'label-success': model.status === 'ACCEPTED' || model.status === 'CONTRACT_SIGNED',
