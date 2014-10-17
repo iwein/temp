@@ -1,6 +1,6 @@
 <form name="formSignupBenefits"
-  class="component-employer-signup-benefits form-horizontal"
-  ng-submit="signupBenefits.submit()">
+      class="component-employer-signup-benefits form-horizontal"
+      ng-submit="signupBenefits.submit()">
 
   <h3>Sign up - Benefits</h3>
 
@@ -10,16 +10,18 @@
         <h3 class="panel-title">Benefits</h3>
       </div>
 
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="benefit in benefits">
-          <label>
-            <input type="checkbox"
-              ng-disabled="loading"
-              ng-model="benefit.selected">
-            {{ benefit.value }}
-          </label>
-        </li>
-      </ul>
+      <div class="col-sm-12">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="benefit in benefits">
+            <label>
+              <input type="checkbox"
+                     ng-disabled="loading"
+                     ng-model="benefit.selected">
+              {{ benefit.value }}
+            </label>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -27,12 +29,12 @@
     <label class="col-sm-3">Recruitment process</label>
     <div class="col-sm-9">
       <textarea
-        class="form-control"
-        placeholder="Recruitment process",
-        name="recruitment"
-        required
-        ng-disabled="loading"
-        ng-model="model.recruitment_process">
+              class="form-control"
+              placeholder="Recruitment process",
+      name="recruitment"
+      required
+      ng-disabled="loading"
+      ng-model="model.recruitment_process">
       </textarea>
     </div>
 
@@ -47,16 +49,18 @@
     <label class="col-sm-3">Training policy</label>
     <div class="col-sm-9">
       <textarea
-        class="form-control"
-        placeholder="Training policy",
-        name="training"
-        ng-disabled="loading"
-        ng-model="model.training_policy">
+              class="form-control"
+              placeholder="Training policy",
+      name="training"
+      ng-disabled="loading"
+      ng-model="model.training_policy">
       </textarea>
     </div>
   </div>
 
   <div class="form-group">
-    <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+    </div>
   </div>
 </form>

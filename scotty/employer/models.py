@@ -3,6 +3,7 @@ import hashlib
 from uuid import uuid4
 
 from pyramid.httpexceptions import HTTPBadRequest
+from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer
 from scotty.models.meta import Base, GUID
@@ -116,6 +117,8 @@ class Employer(Base, JsonSerialisable):
 
     traffic_source_id = Column(Integer, ForeignKey(TrafficSource.id))
     traffic_source = relationship(TrafficSource, info=PUBLIC)
+
+    interested_candidates = association_proxy('candidate_bookmarks', 'candidate')
 
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
     offers = relationship(EmployerOffer, backref='employer', order_by=EmployerOffer.created.desc())

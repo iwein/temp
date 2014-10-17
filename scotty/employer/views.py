@@ -127,7 +127,6 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_interestedcandidates', **GET)
     def employer_interestedcandidates(self):
-        # TODO: fix
         return self.employer.interested_candidates
 
     @view_config(route_name='employer_signup_stage', **GET)

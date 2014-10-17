@@ -33,7 +33,11 @@ def json_encoder(val, request, level=PUBLIC):
     result = {c: getattr(val, c) for c in columns if getattr(val, c) is not None}
     return result
 
-class JsonSerialisable(object):
 
+class JsonSerialisable(object):
     def to_json(self, request):
         return getattr(self, '__extra__', {})
+
+
+def association_proxy(val, request):
+    return list(val)

@@ -143,17 +143,28 @@ class CandidateLanguage(Base):
 class CandidateBookmarkEmployer(Base):
     __tablename__ = 'candidate_bookmark_employer'
     candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
+    candidate = relationship('Candidate', backref='bookmarks')
     employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
-    employer = relationship("Employer")
+    employer = relationship("Employer", backref='candidate_bookmarks')
     created = Column(DateTime, nullable=False, default=datetime.now, server_default=func.now())
+
+    def __init__(self, candidate=None, employer=None):
+        self.candidate = candidate
+        self.employer = employer
 
 
 class CandidateEmployerBlacklist(Base):
     __tablename__ = 'candidate_employer_blacklist'
     candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
+    candidate = relationship("Candidate", backref="blacklist")
+
     employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
     employer = relationship("Employer")
     created = Column(DateTime, nullable=False, default=datetime.now, server_default=func.now())
+
+    def __init__(self, candidate=None, employer=None):
+        self.candidate = candidate
+        self.employer = employer
 
 
 class PreferredLocation(Base):
@@ -233,12 +244,7 @@ class Candidate(Base, JsonSerialisable):
 
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 
-    bookmarks = relationship(CandidateBookmarkEmployer, backref='candidate', cascade="all, delete-orphan",
-                             order_by=CandidateBookmarkEmployer.created.desc())
     bookmarked_employers = association_proxy('bookmarks', 'employer')
-
-    blacklist = relationship(CandidateEmployerBlacklist, order_by=CandidateEmployerBlacklist.created.desc(),
-                             backref="candidate")
     blacklisted_employers = association_proxy('blacklist', 'employer')
 
     @property

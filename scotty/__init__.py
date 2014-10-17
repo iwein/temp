@@ -8,8 +8,9 @@ from pyramid.config import Configurator
 from pyramid.renderers import JSON
 from pyramid_beaker import session_factory_from_settings
 import pyramid_mako
+from sqlalchemy.ext.associationproxy import _AssociationList
 from scotty.auth.provider import AuthProvider, RootResource
-from scotty.models.tools import json_encoder
+from scotty.models.tools import json_encoder, association_proxy
 from scotty.predicates import ContentTypePredicate
 from scotty.services.emailer import emailer_factory
 from sqlalchemy import engine_from_config
@@ -38,6 +39,7 @@ jsonRenderer.add_adapter(datetime, format_datetime)
 jsonRenderer.add_adapter(date, format_date)
 jsonRenderer.add_adapter(UUID, format_uuid)
 jsonRenderer.add_adapter(Base, json_encoder)
+jsonRenderer.add_adapter(_AssociationList, association_proxy)
 
 
 class CORS(object):
