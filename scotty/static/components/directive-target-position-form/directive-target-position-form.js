@@ -32,9 +32,14 @@ define(function(require) {
         this.setModel = setModel;
 
         nameAttr(this, 'hcTargetPositionForm', $scope, $attrs);
-        ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
-        ConfigAPI.featuredSkills().then(toCheckboxModel('featuredSkills'));
-        ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations'));
+
+        $q.all([
+          ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope)),
+          ConfigAPI.featuredSkills().then(toCheckboxModel('featuredSkills')),
+          ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations')),
+        ]).finally(function() {
+          $scope.ready = true;
+        });
 
         function addLocation(locations, entry) {
           if (!locations[entry.country_iso])
@@ -124,7 +129,6 @@ define(function(require) {
           var countries = Object.keys(model.preferred_locations);
           $scope.locationOther = !!countries.length;
           $scope.preferred_locations = [];
-          // TODO: prefill featuredLanguages
 
           countries.forEach(function(country) {
             model.preferred_locations[country].forEach(function(city) {
