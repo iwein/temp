@@ -3,10 +3,11 @@ define(function(require) {
   require('tools/config-api');
   require('components/directive-education/directive-education');
   require('components/directive-education-form/directive-education-form');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupEducationCtrl', function($scope, $q, Loader, Session) {
+  module.controller('CandidateSignupEducationCtrl', function($scope, $q, toaster, Loader, Session) {
     $scope.listEducation = listEducation;
     $scope.update = update;
     $scope.add = add;
@@ -60,7 +61,6 @@ define(function(require) {
           return entry.start && entry.institution;
         }).map(function(entry) {
           entry.imported = true;
-          entry.import = true;
           return entry;
         });
         return $scope.list.refresh();
@@ -70,14 +70,15 @@ define(function(require) {
     }
 
     function submit() {
-      // TODO
-      Loader.add('signup-education-saving');
+      var data = list.filter(fn.get('import'));
+      if (!data.length) {
+        toaster.error('No entry selected to add');
+        return;
+      }
 
+      Loader.add('signup-education-saving');
       Session.getUser().then(function(user) {
-        var toSave = list.filter(function(entry) {
-          return entry.import;
-        });
-        return user.setEducation(toSave);
+        return user.setEducation(data);
       }).then(function() {
         return $scope.signup.nextStep();
       }).finally(function() {

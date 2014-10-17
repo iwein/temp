@@ -28,14 +28,19 @@ define(function(require) {
         $scope.submit = submit;
         $scope.formContainer = {};
         $scope.active = -1;
+        this.setAdding = setAdding;
         this.setActive = setActive;
         this.refresh = list;
-        this.add = add;
 
         nameAttr(this, 'hcEducation', $scope, $attrs);
         list().then(function() {
           $scope.onLoad();
         });
+
+        function setAdding(value) {
+          setActive(-1);
+          $scope.adding = value;
+        }
 
         function setActive(index) {
           if ($scope.formContainer.form)
@@ -43,11 +48,6 @@ define(function(require) {
 
           $scope.active = index;
           $scope.editing = index !== -1;
-        }
-
-        function add() {
-          setActive(-1);
-          $scope.adding = true;
         }
 
         function edit(model, form, index) {

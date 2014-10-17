@@ -4,10 +4,11 @@ define(function(require) {
   require('components/directive-experience/directive-experience');
   require('components/directive-experience-form/directive-experience-form');
   var _ = require('underscore');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, Loader, Session) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, toaster, Loader, Session) {
     $scope.listExperience = listExperience;
     $scope.update = update;
     $scope.add = add;
@@ -59,7 +60,6 @@ define(function(require) {
       return linkedin.getExperience().then(function(experience) {
         list = experience.map(function(entry) {
           entry.imported = true;
-          entry.import = true;
           return entry;
         });
         return $scope.list.refresh();
@@ -69,14 +69,18 @@ define(function(require) {
     }
 
     function submit() {
-      // TODO
-      Loader.add('signup-education-saving');
+      var data = list.filter(fn.get('import'));
+      if (!data.length) {
+        toaster.error('No entry selected to add');
+        return;
+      }
 
+      Loader.add('signup-education-saving');
       Session.getUser().then(function(user) {
-        var toSave = list.filter(function(entry) {
+        var toSave = data.map(function(entry) {
           var model = _.omit(entry, 'featuredSkills');
           model.skills = [].concat(model.skills || [], entry.featuredSkills || []);
-          return model.import;
+          return model;
         });
         return user.setExperience(toSave);
       }).then(function() {

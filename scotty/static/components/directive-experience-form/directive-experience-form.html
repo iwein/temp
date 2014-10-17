@@ -41,69 +41,72 @@
   <div class="form-group required">
     <label class="col-sm-3">Period</label>
 
-    <div class="col-sm-2">
-      <!-- From month -->
-      <select class="form-control"
-        name="startMonth"
-        ng-required="hcRequired"
-        ng-disabled="hcDisabled"
-        ng-model="startMonth"
-        ng-options="month for month in months"
-        ng-change="startDateUpdate()">
-        <option value="">Month</option>
-      </select>
-    </div>
+    <div class="col-sm-9">
+      <div class="form-group">
+        <div class="col-sm-6">
+          <!-- From month -->
+          <select class="form-control"
+            name="startMonth"
+            ng-required="hcRequired"
+            ng-disabled="hcDisabled"
+            ng-model="startMonth"
+            ng-options="month for month in months"
+            ng-change="startDateUpdate()">
+            <option value="">Month</option>
+          </select>
+        </div>
 
-    <div class="col-sm-2">
-      <!-- From year -->
-      <input type="number"
-        class="form-control"
-        name="startYear"
-        placeholder="Year"
-        ng-required="hcRequired"
-        ng-disabled="hcDisabled"
-        ng-model="startYear"
-        ng-change="startDateUpdate()">
-    </div>
+        <div class="col-sm-6">
+          <!-- From year -->
+          <input type="number"
+            class="form-control"
+            name="startYear"
+            placeholder="Year"
+            ng-required="hcRequired"
+            ng-disabled="hcDisabled"
+            ng-model="startYear"
+            ng-change="startDateUpdate()">
+        </div>
+      </div>
 
-    <div class="col-sm-1 text-center">
-      <!-- Separator -->
-      <span>–</span>
-    </div>
+      <div class="form-group">
+        <div class="col-sm-6">
+          <!-- To month -->
+          <select class="form-control"
+            name="endMonth"
+            ng-disabled="hcDisabled || current"
+            ng-required="!current"
+            ng-model="endMonth"
+            ng-options="month for month in months"
+            ng-change="endDateUpdate()">
+            <option value="">Month</option>
+          </select>
+        </div>
 
-    <div class="col-sm-2">
-      <!-- To month -->
-      <select class="form-control"
-        name="endMonth"
-        ng-disabled="hcDisabled || current"
-        ng-required="!current"
-        ng-model="endMonth"
-        ng-options="month for month in months"
-        ng-change="endDateUpdate()">
-        <option value="">Month</option>
-      </select>
-    </div>
+        <div class="col-sm-6">
+          <!-- To year -->
+          <input type="number"
+            class="form-control"
+            name="endYear"
+            placeholder="Year"
+            ng-disabled="hcDisabled ||current"
+            ng-required="!current"
+            ng-model="endYear"
+            ng-change="endDateUpdate()">
+        </div>
+      </div>
 
-    <div class="col-sm-2">
-      <!-- To year -->
-      <input type="number"
-        class="form-control"
-        name="endYear"
-        placeholder="Year"
-        ng-disabled="hcDisabled ||current"
-        ng-required="!current"
-        ng-model="endYear"
-        ng-change="endDateUpdate()">
+      <div class="form-group">
+        <label class="col-sm-12">
+          <input type="checkbox"
+            name="current"
+            ng-disabled="hcDisabled"
+            ng-model="current"
+            ng-change="onCurrentChange()">
+          Current position
+        </label>
+      </div>
     </div>
-
-    <label class="col-sm-offset-8 col-sm-4">
-      <input type="checkbox"
-        name="current"
-        ng-disabled="hcDisabled"
-        ng-model="current"
-        ng-change="onCurrentChange()">
-      Current position
-    </label>
 
     <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
       <span ng-show="formExperience.startMonth.$error.required">Please insert the month you started at this position.</span>
@@ -134,8 +137,8 @@
   <div class="form-group">
     <label class="col-sm-3">Technologies &amp; Skills</label>
 
-    <div class="col-sm-9">
-      <div class="checkbox" ng-repeat="skill in featuredSkills">
+    <div class="col-sm-9 row">
+      <div class="checkbox col-sm-6" ng-repeat="skill in featuredSkills">
         <label class="form-label">
           <input type="checkbox"
             ng-disabled="loading"

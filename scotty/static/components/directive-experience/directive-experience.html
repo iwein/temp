@@ -5,22 +5,26 @@
     </h3>
   </div>
   <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row">
+        <strong>
+          <span class="col-sm-offset-1 col-sm-4">Company</span>
+          <span class="col-sm-5">Duration</span>
+          <span class="col-sm-2 text-right">Add</span>
+        </strong>
+      </div>
+    </li>
+
     <li class="list-group-item" ng-repeat="entry in model">
-      <div ng-hide="active === $index">
-        {{ entry.company }} -
-        {{ entry.start }}
-        <span ng-if="entry.end">- {{ entry.end }}</span>
-        <span ng-if="!entry.end">Current</span>
-        <button type="button"
-          ng-if="hcEditable"
-          ng-show="!editing"
-          ng-click="hcExperienceCtrl.setActive($index)">
-          Expand
-        </button>
-          <label ng-show="entry.imported">
-            <input type="checkbox" ng-model="entry.import">
-            Import
-          </label>
+      <div class="row" ng-hide="active === $index">
+        <span class="col-sm-1" ng-click="hcExperienceCtrl.setActive($index)">
+          <i class="fa fa-chevron-right"></i>
+        </span>
+        <span class="col-sm-4">{{ entry.company }}</span>
+        <span class="col-sm-6">{{ entry.start }} ({{ entry.end || 'current' }})</span>
+        <span class="col-sm-1" ng-show="entry.imported">
+          <input type="checkbox" ng-model="entry.import">
+        </span>
       </div>
 
       <hc-experience-form
@@ -48,11 +52,12 @@
 
     <li class="list-group-item" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
       <button type="button"
-        class="btn btn-primary"
+        class="btn btn-primary pull-right"
         ng-disabled="loading"
-        ng-click="hcExperienceCtrl.add()">
+        ng-click="hcExperienceCtrl.setAdding(true)">
         Add More
       </button>
+      <div class="clearfix">
     </li>
 
     <li class="list-group-item" ng-if="adding || (!editing && hcAutomaticAdd)">
@@ -64,6 +69,13 @@
         on-submit="submit($model, $form, model.length)">
 
         <div class="col-sm-12">
+          <button type="button"
+            ng-show="adding"
+            class="btn btn-default"
+            ng-disabled="loading"
+            ng-click="hcExperienceCtrl.setAdding(false)">
+            Cancel
+          </button>
           <button type="submit"
             class="btn btn-primary"
             ng-disabled="loading">
