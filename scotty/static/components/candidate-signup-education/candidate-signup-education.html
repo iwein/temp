@@ -1,19 +1,32 @@
-<div class="component-candidate-signup-education" ng-show="ready">
-  <h3>Education</h3>
+<div class="component-candidate-signup-education row" ng-show="ready">
+  <div class="col-sm-8">
+    <h3>Education</h3>
 
-  <hc-education
-    name="list"
-    hc-source="listEducation()"
-    on-edit="update($entry, $index)"
-    on-add="add($entry)"
-    hc-editable="true"
-    hc-remove-last="true">
-  </hc-education>
+    <hc-education
+      name="list"
+      hc-source="listEducation()"
+      on-edit="update($entry, $index)"
+      on-add="add($entry)"
+      hc-editable="true"
+      hc-remove-last="true">
+    </hc-education>
 
-  <button type="button"
-    class="btn btn-primary"
-    ng-disabled="list.length === 0"
-    ng-click="submit()">
-    Continue
-  </button>
+    <button type="button"
+      class="btn btn-primary"
+      ng-disabled="list.length === 0"
+      ng-click="submit()">
+      Continue
+    </button>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Title</h3>
+      </div>
+      <div class="panel-body">
+        Content...
+      </div>
+    </div>
+  </div>
 </div>

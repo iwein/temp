@@ -1,10 +1,23 @@
-  <div class="component-candidate-signup-skills" ng-show="ready">
-    <h3>Sign up - Skills</h3>
+  <div class="component-candidate-signup-skills row" ng-show="ready">
+    <div class="col-sm-8">
+      <h3>Sign up - Skills</h3>
 
-    <hc-skills-form
-      name="form"
-      hc-disabled="loading"
-      on-submit="signupSkills.submit()">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
-    </form>
+      <hc-skills-form
+        name="form"
+        hc-disabled="loading"
+        on-submit="signupSkills.submit()">
+        <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      </form>
+    </div>
+
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Title</h3>
+      </div>
+      <div class="panel-body">
+        Content...
+      </div>
+    </div>
   </div>
+</div>

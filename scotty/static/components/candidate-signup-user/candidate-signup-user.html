@@ -1,99 +1,113 @@
-<form name="formSignupUser"
-      class="component-candidate-signup-user form-horizontal"
-      ng-submit="signupUser.submit()">
+<div class="component-candidate-signup-user row">
 
-  <h3>Signup for free</h3>
+  <form name="formSignupUser"
+        class="col-sm-8 form-horizontal"
+        ng-submit="signupUser.submit()">
 
-  <div class="form-group" ng-show="!imported && !linkedin.isConnected">
-    <div class="col-sm-12">
-      <hc-linkedin-connect ng-click="linkedin.connect()"></hc-linkedin-connect>
+    <h3>Signup for free</h3>
+
+    <div class="form-group" ng-show="!imported && !linkedin.isConnected">
+      <div class="col-sm-12">
+        <hc-linkedin-connect ng-click="linkedin.connect()"></hc-linkedin-connect>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="form-group required">
+      <label class="col-sm-3">First Name</label>
+      <div class="col-sm-9">
+        <input type="text"
+               class="form-control"
+               name="firstName"
+               required
+               ng-disabled="loading"
+               ng-model="model.first_name">
+      </div>
+
+      <div class="form-error" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
+        <span ng-show="formSignupUser.firstName.$error.required">
+          Please insert your first name.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label class="col-sm-3">Last Name</label>
+      <div class="col-sm-9">
+        <input type="text"
+               class="form-control"
+               name="lastName"
+               required
+               ng-disabled="loading"
+               ng-model="model.last_name">
+      </div>
+
+      <div class="form-error" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
+        <span ng-show="formSignupUser.lastName.$error.required">
+          Please insert your last name.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label class="col-sm-3">Email</label>
+      <div class="col-sm-9">
+        <input type="email"
+               class="form-control"
+               name="email"
+               required
+               ng-disabled="loading"
+               ng-model="model.email"
+               ng-change="signupUser.onEmailChange()">
+      </div>
+
+      <div class="form-error" ng-show="errorAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
+        <span ng-show="formSignupUser.email.$error.required">
+          Please insert your email.
+        </span>
+        <span ng-show="formSignupUser.email.$error.email">
+          Please insert a valid email.
+        </span>
+        <span ng-show="errorAlreadyRegistered">
+          Email already registered.
+          <a ui-sref="forget-password">Forgot your password?</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <label class="col-sm-3">Password</label>
+      <div class="col-sm-9">
+        <input type="password"
+               class="form-control"
+               name="password"
+               required
+               ng-minlength="8"
+               ng-disabled="loading"
+               ng-model="model.pwd">
+      </div>
+
+      <div class="form-error"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
+        <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
+        <span ng-show="formSignupUser.password.$error.minlength">Password must have at least 8 characters.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Title</h3>
+      </div>
+      <div class="panel-body">
+        Content...
+      </div>
     </div>
   </div>
-  <hr/>
-
-  <div class="form-group required">
-    <label class="col-sm-3">First Name</label>
-    <div class="col-sm-9">
-      <input type="text"
-             class="form-control"
-             name="firstName"
-             required
-             ng-disabled="loading"
-             ng-model="model.first_name">
-    </div>
-
-    <div class="form-error" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
-      <span ng-show="formSignupUser.firstName.$error.required">
-        Please insert your first name.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label class="col-sm-3">Last Name</label>
-    <div class="col-sm-9">
-      <input type="text"
-             class="form-control"
-             name="lastName"
-             required
-             ng-disabled="loading"
-             ng-model="model.last_name">
-    </div>
-
-    <div class="form-error" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
-      <span ng-show="formSignupUser.lastName.$error.required">
-        Please insert your last name.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label class="col-sm-3">Email</label>
-    <div class="col-sm-9">
-      <input type="email"
-             class="form-control"
-             name="email"
-             required
-             ng-disabled="loading"
-             ng-model="model.email"
-             ng-change="signupUser.onEmailChange()">
-    </div>
-
-    <div class="form-error" ng-show="errorAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
-      <span ng-show="formSignupUser.email.$error.required">
-        Please insert your email.
-      </span>
-      <span ng-show="formSignupUser.email.$error.email">
-        Please insert a valid email.
-      </span>
-      <span ng-show="errorAlreadyRegistered">
-        Email already registered.
-        <a ui-sref="forget-password">Forgot your password?</a>
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label class="col-sm-3">Password</label>
-    <div class="col-sm-9">
-      <input type="password"
-             class="form-control"
-             name="password"
-             required
-             ng-minlength="8"
-             ng-disabled="loading"
-             ng-model="model.pwd">
-    </div>
-
-    <div class="form-error"ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
-      <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
-      <span ng-show="formSignupUser.password.$error.minlength">Password must have at least 8 characters.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
-    </div>
-  </div>
-</form>
+</div>

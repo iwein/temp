@@ -1,10 +1,23 @@
-<div class="component-candidate-signup-languages">
-  <h3>Sign up - Languages</h3>
+<div class="component-candidate-signup-languages row">
+  <div class="col-sm-8">
+    <h3>Sign up - Languages</h3>
 
-  <hc-languages-form
-    name="form"
-    hc-disabled="loading"
-    on-submit="signupLanguages.submit()">
-    <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
-  </hc-languages-form>
+    <hc-languages-form
+      name="form"
+      hc-disabled="loading"
+      on-submit="signupLanguages.submit()">
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+    </hc-languages-form>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Title</h3>
+      </div>
+      <div class="panel-body">
+        Content...
+      </div>
+    </div>
+  </div>
 </div>
