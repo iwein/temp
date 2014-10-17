@@ -48,6 +48,7 @@ define(function(require) {
     }
 
     function add(entry) {
+      entry.import = true;
       list.push(entry);
       return $q.when(true);
     }
