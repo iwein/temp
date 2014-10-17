@@ -31,7 +31,7 @@ define(function(require) {
         return importLinkedin();
     }).then(function() {
       if (!list.length)
-        $scope.list.add();
+        $scope.list.setAdding(true);
     }).finally(function() {
       $scope.list.refresh();
       Loader.page(false);
