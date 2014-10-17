@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('tools/loader-service');
   require('tools/moment-directive');
+  require('tools/recency-directive');
   require('tools/greater-than-directive');
   require('tools/linkedin-connect/linkedin-connect');
   require('tools/extend-directives/input-url-directive');

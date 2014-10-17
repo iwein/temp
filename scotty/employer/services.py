@@ -1,15 +1,16 @@
-from collections import OrderedDict
 import hashlib
+from sqlalchemy import text
+
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty.candidate.models import Candidate, candidate_employer_blacklist
+
+from scotty.candidate.models import Candidate, CandidateEmployerBlacklist
 
 from scotty.models.meta import DBSession
 from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType
 from scotty.employer.models import Employer, Office
 from scotty.offer.models import EmployerOffer
-from scotty.models.common import get_location_by_name_or_create, get_location_by_name_or_raise, get_by_name_or_create, \
+from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection, get_by_name_or_raise
-from sqlalchemy import text, func
 from scotty.services.pagingservice import Pager
 
 
@@ -94,8 +95,8 @@ def add_employer_offer(employer, params):
     if sum([m[0] for m in matches]) == 0:
         raise HTTPBadRequest("Location unsuitable.")
 
-    blacklisted = DBSession.query(candidate_employer_blacklist).filter(candidate_employer_blacklist.c.candidate_id == candidate_id) \
-        .filter(candidate_employer_blacklist.c.employer_id == employer.id).count()
+    blacklisted = DBSession.query(CandidateEmployerBlacklist).filter(CandidateEmployerBlacklist.candidate_id == candidate_id) \
+        .filter(CandidateEmployerBlacklist.employer_id == employer.id).count()
     if blacklisted > 0:
         raise HTTPBadRequest("Employer Blacklisted.")
 

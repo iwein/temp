@@ -9,6 +9,7 @@ from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
 from scotty.models.meta import Base, NamedModel, GUID
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
 
@@ -139,16 +140,20 @@ class CandidateLanguage(Base):
         return {"language": self.language, "proficiency": self.proficiency}
 
 
-candidate_bookmark_employer = Table('candidate_bookmark_employer', Base.metadata,
-                                    Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
-                                    Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
-                                    Column('created', DateTime, nullable=False, default=datetime.now,
-                                           server_default=func.now()))
+class CandidateBookmarkEmployer(Base):
+    __tablename__ = 'candidate_bookmark_employer'
+    candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
+    employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
+    employer = relationship("Employer")
+    created = Column(DateTime, nullable=False, default=datetime.now, server_default=func.now())
 
-candidate_employer_blacklist = Table('candidate_employer_blacklist', Base.metadata,
-                                     Column('candidate_id', GUID, ForeignKey('candidate.id'), primary_key=True),
-                                     Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
-                                     Column('created', DateTime, nullable=False, default=datetime.now, server_default=func.now()))
+
+class CandidateEmployerBlacklist(Base):
+    __tablename__ = 'candidate_employer_blacklist'
+    candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
+    employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
+    employer = relationship("Employer")
+    created = Column(DateTime, nullable=False, default=datetime.now, server_default=func.now())
 
 
 class PreferredLocation(Base):
@@ -228,12 +233,13 @@ class Candidate(Base, JsonSerialisable):
 
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 
-    bookmarked_employers = relationship("Employer", secondary=candidate_bookmark_employer,
-                                        order_by=candidate_bookmark_employer.c.created.desc(),
-                                        backref="interested_candidates")
+    bookmarks = relationship(CandidateBookmarkEmployer, backref='candidate', cascade="all, delete-orphan",
+                             order_by=CandidateBookmarkEmployer.created.desc())
+    bookmarked_employers = association_proxy('bookmarks', 'employer')
 
-    blacklisted_employers = relationship("Employer", secondary=candidate_employer_blacklist,
-                                         order_by=candidate_employer_blacklist.c.created.desc(), backref="blacklisted")
+    blacklist = relationship(CandidateEmployerBlacklist, order_by=CandidateEmployerBlacklist.created.desc(),
+                             backref="candidate")
+    blacklisted_employers = association_proxy('blacklist', 'employer')
 
     @property
     def full_name(self):
@@ -281,7 +287,6 @@ class WXPCandidate(Candidate):
         result = super(WXPCandidate, self).__json__(request)
         result['work_experience'] = self.work_experience
         return result
-
 
 
 class FullCandidate(WXPCandidate):
