@@ -8,12 +8,8 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in news">
-<<<<<<< HEAD
-          <span>{{ entry.date | timeAgo }}</span> -
-=======
->>>>>>> 9bea7302559382d2dca4ab44be030ee5aec9e370
           <span>{{ entry.note }}</span>
-          <span class="pull-right">{{ entry.recency | recency }}</span>
+          <span class="pull-right">{{ entry.date | timeAgo }}</span>
         </li>
       </ul>
     </div>
