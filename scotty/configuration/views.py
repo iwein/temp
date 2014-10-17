@@ -141,6 +141,7 @@ class ConfigurationController(RootController):
         country_iso = None
         if city_name and ',' in city_name:
             city_name, country_iso = [x.strip() for x in city_name.split(',', 1)]
+            country_iso = country_iso.upper()
 
         if city_name:
             filter = func.lower(City.name).contains(func.lower(city_name))
@@ -148,7 +149,7 @@ class ConfigurationController(RootController):
 
         country_iso = self.request.params.get("country_iso", country_iso)
         if country_iso:
-            basequery = basequery.filter(City.country_iso == country_iso)
+            basequery = basequery.filter(func.lower(City.country_iso) == country_iso)
 
         return run_paginated_query(self.request, basequery)
 
