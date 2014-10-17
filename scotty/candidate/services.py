@@ -214,36 +214,36 @@ def get_candidate_newsfeed(c):
             return None
         return (now - t).total_seconds()
 
-    events.append({'name': 'SIGN_UP', 'recency': recency(candidate.created),
+    events.append({'name': 'SIGN_UP', 'recency': recency(candidate.created), 'date':candidate.created,
                    'note': 'Congrats you joined Scotty'})
-    events.append({'name': 'PROFILE_PENDING', 'recency': recency(candidate.activation_sent),
+    events.append({'name': 'PROFILE_PENDING', 'recency': recency(candidate.activation_sent), 'date': candidate.activation_sent,
                    'note': 'Your profile is done, just waiting for you to click the activation email'})
-    events.append({'name': 'PROFILE_LIVE', 'recency': recency(candidate.activated),
+    events.append({'name': 'PROFILE_LIVE', 'recency': recency(candidate.activated), 'date': candidate.activated,
                    'note': 'Nicely done, you are now live and can start receiving great offers'})
 
     offers = DBSession.query(FullOffer).filter(FullOffer.candidate_id == c.id).options(
         joinedload_all("employer.benefits"), joinedload_all("candidate.skills")).all()
     for o in offers:
-        events.append({'name': 'OFFER_RECEIVED', 'recency': recency(o.created),
+        events.append({'name': 'OFFER_RECEIVED', 'recency': recency(o.created), 'date': o.created,
                        'note': 'Awesome, you received an interview offer from %s' % o.employer.company_name})
-        events.append({'name': 'OFFER_REJECTED', 'recency': recency(o.rejected),
+        events.append({'name': 'OFFER_REJECTED', 'recency': recency(o.rejected), 'date': o.rejected,
                        'note': 'You have turned down the offer from %s' % o.employer.company_name})
-        events.append({'name': 'OFFER_ACCEPTED', 'recency': recency(o.accepted),
+        events.append({'name': 'OFFER_ACCEPTED', 'recency': recency(o.accepted), 'date': o.accepted,
                        'note': 'Brilliant you have accepted an interview with %s' % o.employer.company_name})
-        events.append({'name': 'OFFER_NEGOTIATION', 'recency': recency(o.contract_negotiation),
+        events.append({'name': 'OFFER_NEGOTIATION', 'recency': recency(o.contract_negotiation), 'date': o.contract_negotiation,
                        'note': 'Nearly there you have started negotiating the details with %s'
                                % o.employer.company_name})
-        events.append({'name': 'OFFER_SIGNED', 'recency': recency(o.contract_signed),
+        events.append({'name': 'OFFER_SIGNED', 'recency': recency(o.contract_signed), 'date': o.contract_signed,
                        'note': 'Winning! you have signed a contract with  %s and will receive you golden handshake soon'
                                % o.employer.company_name})
-        events.append({'name': 'OFFER_START_DATE', 'recency': recency(o.job_start_date),
+        events.append({'name': 'OFFER_START_DATE', 'recency': recency(o.job_start_date), 'date': o.job_start_date,
                        'note': 'Good luck! you have set a start date of %s with %s' % (o.job_start_date,
                                                                                        o.employer.company_name)})
     for bookmark in candidate.bookmarks:
-        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(bookmark.created),
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(bookmark.created), 'date': bookmark.created,
                        'note': 'You liked %s they have been notified and should get in touch' % bookmark.employer.company_name})
     for blacklisted in candidate.blacklist:
-        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(blacklisted.created),
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(blacklisted.created), 'date': blacklisted.created,
                        'note': 'You liked %s they have been notified and should get in touch' % blacklisted.employer.company_name})
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
