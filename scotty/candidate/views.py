@@ -5,9 +5,12 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload, joinedload_all
+
 from scotty import DBSession
-from scotty.candidate.models import Candidate, Education, WorkExperience, TargetPosition, FullCandidate, CandidateOffer, \
-    WXPCandidate
+from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
+    CandidateBookmarkEmployer, CandidateEmployerBlacklist
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
@@ -22,8 +25,7 @@ from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT, run_paginated_query
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import joinedload, joinedload_all
+
 
 log = logging.getLogger(__name__)
 
@@ -290,7 +292,10 @@ class CandidateBookmarkController(CandidateController):
             raise HTTPConflict("Employer already present.")
 
         employer = DBSession.query(Employer).get(employer_id)
-        self.candidate.bookmarked_employers.append(employer)
+        bm = CandidateBookmarkEmployer(employer=employer)
+        # special treatment, because of sub-classed candidate
+        bm.candidate_id = self.candidate.id
+        DBSession.add(bm)
         DBSession.flush()
 
         self.request.emailer.send_employer_was_bookmarked(employer.email, employer.contact_name, employer.company_name,
@@ -358,14 +363,19 @@ class CandidateOfferController(CandidateController):
         if self.request.json.get('blacklist'):
             employer = DBSession.query(Employer).get(offer.employer.id)
             try:
-                self.candidate.blacklisted_employers.append(employer)
+                b = CandidateEmployerBlacklist(employer=employer)
+                # special treatment, because of sub-classed candidate
+                b.candidate_id = self.candidate.id
+                DBSession.add(b)
+                DBSession.flush()
             except IntegrityError, e:
                 # alreadyblacklisted
                 log.info(e)
 
-        self.request.emailer.send_employer_offer_rejected(email=offer.employer.email, candidate_name=self.candidate.full_name,
-                                                          contact_name=offer.employer.contact_name, company_name
-            =offer.employer.company_name,
+        self.request.emailer.send_employer_offer_rejected(email=offer.employer.email,
+                                                          candidate_name=self.candidate.full_name,
+                                                          contact_name=offer.employer.contact_name,
+                                                          company_name=offer.employer.company_name,
                                                           offer_id=offer.id, candidate_id=self.candidate.id)
         return offer.full_status_flow
 
