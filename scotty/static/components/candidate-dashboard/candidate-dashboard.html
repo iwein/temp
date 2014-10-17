@@ -1,20 +1,22 @@
 <div class="component-candidate-dashboard row" ng-if="ready">
-  <div class="col-sm-8 col-sm-offset-2">
-    <h3>Dashboard</h3>
+  <h3>Dashboard</h3>
 
-    <a ui-sref="search-employers">Search employers</a>
-
+  <div class="col-sm-8">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">News</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in news">
-          <span>{{ entry.recency | recency }}</span> -
           <span>{{ entry.note }}</span>
+          <span class="pull-right">{{ entry.recency | recency }}</span>
         </li>
       </ul>
     </div>
+  </div>
+
+  <div class="col-sm-4">
+    <a class="btn-primary btn-search-employers" ui-sref="search-employers">Search employers</a>
 
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -26,6 +28,5 @@
         </li>
       </ul>
     </div>
-
   </div>
 </div>
