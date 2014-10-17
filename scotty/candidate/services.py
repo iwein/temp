@@ -207,7 +207,7 @@ def get_candidate_newsfeed(c):
     candidate = DBSession.query(Candidate).filter(Candidate.id == c.id).first()
 
     events = []
-    now = datetime.now()
+    now = datetime.utcnow()
 
     def recency(t):
         if not t:
