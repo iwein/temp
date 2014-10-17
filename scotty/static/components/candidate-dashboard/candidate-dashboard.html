@@ -10,7 +10,7 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="entry in news">
-          <span>{{ entry.date | timeAgo }}</span> -
+          <span>{{ entry.recency | recency }}</span> -
           <span>{{ entry.note }}</span>
         </li>
       </ul>
