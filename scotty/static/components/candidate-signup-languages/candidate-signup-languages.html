@@ -1,22 +1,28 @@
 <div class="component-candidate-signup-languages row">
   <div class="col-sm-8">
-    <h3>Sign up - Languages</h3>
+    <h3>Languages</h3>
 
     <hc-languages-form
-      name="form"
-      hc-disabled="loading"
-      on-submit="signupLanguages.submit()">
+            name="form"
+            hc-disabled="loading"
+            on-submit="signupLanguages.submit()">
       <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
     </hc-languages-form>
   </div>
 
   <div class="col-sm-4">
-    <div class="panel panel-default">
+    <div class="panel panel-default helpbox">
       <div class="panel-heading">
-        <h3 class="panel-title">Title</h3>
+        <h3 class="panel-title">Help</h3>
       </div>
       <div class="panel-body">
-        Content...
+        <p>Which languages do you speak and how well?</p>
+        <dl>
+          <dt>Native</dt><dd>Your first language.</dd>
+          <dt>Fluent</dt><dd>You professionally master the language in both written and spoken word.</dd>
+          <dt>Advanced</dt><dd>You can conduct business in the language.</dd>
+          <dt>Basic</dt><dd>You can express yourself in the language with limited working proficiency.</dd>
+        </dl>
       </div>
     </div>
   </div>

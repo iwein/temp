@@ -83,7 +83,9 @@ class CandidateController(RootController):
         candidate = DBSession.query(self.model_cls).options(joinedload_all('skills.skill'),
                                                             joinedload_all('skills.level'),
                                                             joinedload_all('languages.language'),
-                                                            joinedload_all('languages.proficiency')
+                                                            joinedload_all('languages.proficiency'),
+                                                            joinedload_all('work_experience.company'),
+                                                            joinedload_all('work_experience.skills'),
         ).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")

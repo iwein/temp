@@ -1,22 +1,31 @@
-  <div class="component-candidate-signup-skills row" ng-show="ready">
-    <div class="col-sm-8">
-      <h3>Sign up - Skills</h3>
+<div class="component-candidate-signup-skills row" ng-show="ready">
+  <div class="col-sm-8">
+    <h3>Skills</h3>
 
-      <hc-skills-form
-        name="form"
-        hc-disabled="loading"
-        on-submit="signupSkills.submit()">
-        <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+    <hc-skills-form
+            name="form"
+            hc-disabled="loading"
+            on-submit="signupSkills.submit()">
+      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
       </form>
-    </div>
+  </div>
 
   <div class="col-sm-4">
-    <div class="panel panel-default">
+    <div class="panel panel-default helpbox">
       <div class="panel-heading">
-        <h3 class="panel-title">Title</h3>
+        <h3 class="panel-title">Help</h3>
       </div>
       <div class="panel-body">
-        Content...
+        <p>
+          Add any programming languages, software technologies or methodologies you have experience with.
+          Please only list the skills with relevant working experience and define your knowledge level.
+        </p>
+
+        <dl>
+          <dt>basic</dt><dd>worked with that but rather short or not extensively</dd>
+          <dt>advanced</dt><dd>several years of practical experience</dd>
+          <dt>master</dt><dd>in-depth knowledge and comprehensive multi-project experience</dd>
+        </dl>
       </div>
     </div>
   </div>
