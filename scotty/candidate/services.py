@@ -96,7 +96,7 @@ def add_candidate_work_experience(candidate, params):
     end = params.get('end')
     if end and end < start:
         raise HTTPBadRequest('end must not be smaller than start')
-    summary = params['summary']
+    summary = params.get('summary')
 
     role = get_by_name_or_create(Role, params["role"])
 
