@@ -29,6 +29,7 @@ define(function(require) {
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
+        var enabled = false;
 
         recheck();
 
@@ -36,9 +37,10 @@ define(function(require) {
         ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
 
         function recheck() {
-          $scope.model = $scope.model.filter(function(skill) {
-            return !!skill.skill;
-          });
+          for (var i = $scope.model.length; i--; ) {
+            if (!$scope.model[i].skill)
+              $scope.model.splice(i, 1);
+          }
 
           if ($scope.model.length > 2)
             $scope.model.push({});
@@ -85,6 +87,9 @@ define(function(require) {
         }
 
         function searchSkills(term) {
+          if (!enabled)
+            return [];
+
           var skills = getSkills().map(fn.get('skill'));
 
           return ConfigAPI.skills(term).then(function(data) {
@@ -106,6 +111,7 @@ define(function(require) {
         }
 
         function onChange() {
+          enabled = true;
           recheck();
         }
 
