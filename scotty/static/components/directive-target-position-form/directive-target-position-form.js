@@ -23,6 +23,7 @@ define(function(require) {
         $scope.searchCities = ConfigAPI.locations;
         $scope.updateLocations = updateLocations;
         $scope.searchSkills = searchSkills;
+        $scope.anywhereInGermany = true;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
         $scope.model.preferred_locations = $scope.model.preferred_locations || {};
@@ -58,6 +59,9 @@ define(function(require) {
             .filter(fn.get('selected'))
             .map(fn.get('value'))
             .forEach(add);
+
+          if ($scope.anywhereInGermany)
+            locations.DE = [];
 
           if ($scope.locationOther) {
             $scope.preferred_locations.forEach(add);
@@ -113,6 +117,7 @@ define(function(require) {
           $scope.model = {};
           $scope.country = '';
           $scope.dontCareLocation = false;
+          $scope.anywhereInGermany = true;
           $scope.featuredSkills.forEach(fn.set('selected', false));
           $scope.featuredLocations.forEach(fn.set('selected', false));
           $scope.formTarget.$setPristine();
@@ -129,6 +134,9 @@ define(function(require) {
           var countries = Object.keys(model.preferred_locations);
           $scope.locationOther = !!countries.length;
           $scope.preferred_locations = [];
+
+          var germany = model.preferred_locations.DE;
+          $scope.anywhereInGermany = germany && germany.length === 0;
 
           countries.forEach(function(country) {
             model.preferred_locations[country].forEach(function(city) {
@@ -147,6 +155,9 @@ define(function(require) {
         function submit() {
           if ($scope.errorSalaryTooHigh)
             return;
+
+          if (!$scope.model.preferred_locations && $scope.anywhereInGermany)
+            $scope.model.preferred_locations.DE = [];
 
           $scope.onSubmit({ $model: $scope.model });
         }

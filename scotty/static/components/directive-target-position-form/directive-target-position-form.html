@@ -76,10 +76,19 @@
     <label class="col-sm-3">Location</label>
 
     <div class="col-sm-4">
+      <div class="checkbox">
+        <label class="form-label">
+          <input type="checkbox"
+                 ng-disabled="loading || locationOther"
+                 ng-model="anywhereInGermany"
+                 ng-change="updateLocations()">
+          Anywhere in Germany
+        </label>
+      </div>
       <div class="checkbox" ng-repeat="location in featuredLocations">
         <label class="form-label">
           <input type="checkbox"
-                 ng-disabled="loading"
+                 ng-disabled="loading || anywhereInGermany"
                  ng-model="location.selected"
                  ng-change="updateLocations()">
           {{ location.value.city }}, {{ location.value.country_iso }}
@@ -92,7 +101,7 @@
         <label class="form-label">
           <input type="checkbox"
                  name="location-radio"
-                 ng-disabled="loading"
+                 ng-disabled="loading || anywhereInGermany"
                  ng-required="errorLocationRequired"
                  ng-model="locationOther"
                  ng-change="updateLocations()">
