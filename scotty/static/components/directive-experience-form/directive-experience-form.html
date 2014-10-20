@@ -1,5 +1,10 @@
 <form name="formExperience" class="form-horizontal" ng-show="ready" ng-submit="submit()">
+
   <div class="form-group required">
+    <div class="form-error" ng-show="duplicatedError">
+      <span>You already have a company with this name starting on the same month.</span>
+    </div>
+
     <label class="col-sm-3">Company Name</label>
     <div class="col-sm-9">
       <input type="text"
