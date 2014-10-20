@@ -34,24 +34,29 @@ define(function(require) {
       require: 'ngModel',
       compile: function(elem, attr) {
         if (attr.type !== 'dotted-integer') return;
-        var element = elem[0];
 
-        function updateElement() {
+        function updateElement(element) {
           var value = format(element.value);
           if (value !== element.value);
             element.value = value;
         }
 
-        element.addEventListener('change', updateElement);
-        element.addEventListener('keyup', function(event) {
+        function onChange(event) {
+          updateElement(event.target);
+        }
+
+        function onKeyUp(event) {
           var key = event.keyCode;
           //            command            modifiers                   arrows
           var ignore = key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40);
           if (!ignore)
-            updateElement();
-        }, true);
+            updateElement(event.target);
+        }
 
         return function(scope, elem, attr, ctrl) {
+          var element = elem[0];
+          element.addEventListener('keyup', onKeyUp, true);
+          element.addEventListener('change', onChange);
           ctrl.$formatters.push(format);
           ctrl.$parsers.push(clean);
         };
