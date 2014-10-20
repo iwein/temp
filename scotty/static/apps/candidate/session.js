@@ -32,6 +32,9 @@ define(function(require) {
     },
 
     getUser: throttlePromise(function() {
+      if (this.user)
+        return this._api.when(this.user);
+
       return this._api.get('/candidates/me')
         .then(this._setUser)
         .catch(function(request) {
