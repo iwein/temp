@@ -20,8 +20,8 @@
         <span ng-if="!signup.afterStep('signup.languages')">5. Languages</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.profile') }">
-        <a ng-if="signup.afterStep('signup.profile')" ui-sref="signup.profile">6. Profile</a>
-        <span ng-if="!signup.afterStep('signup.profile')">6. Profile</span>
+        <a ng-if="signup.afterStep('signup.profile')" ui-sref="signup.profile">6. Final step</a>
+        <span ng-if="!signup.afterStep('signup.profile')">6. Final step</span>
       </li>
       <div class="clearfix"></div>
     </ol>
