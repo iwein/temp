@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  var fn = require('tools/fn');
   var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
@@ -100,6 +101,7 @@ define(function(require) {
           $scope.error = false;
           return $scope.hcSource().then(function(data) {
             $scope.model = data;
+            $scope.importing = data.some(fn.get('imported'));
             self.length = data.length;
           }).catch(function() {
             $scope.error = true;

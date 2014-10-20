@@ -4,6 +4,7 @@
 
     <div class="col-sm-9">
       <input type="text"
+        name="location"
         class="form-control"
         placeholder="Location"
         ng-disabled="hcDisabled"
@@ -15,6 +16,9 @@
 
     <div class="form-error" ng-show="formProfile.location.$dirty && formProfile.location.$invalid">
       <span ng-show="formProfile.location.$error.required">Please insert your city.</span>
+    </div>
+    <div class="form-error" ng-show="formProfile.location.$dirty && errorNoLocation">
+      <span>Please select a entry from the menu.</span>
     </div>
   </div>
 
