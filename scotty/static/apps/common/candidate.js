@@ -39,7 +39,7 @@ define(function(require) {
     },
 
     getData: function() {
-      return this._api.when(this._data || this.refreshData());
+      return this.refreshData();
     },
 
     refreshData: function() {
