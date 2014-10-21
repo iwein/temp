@@ -10,7 +10,7 @@ from sqlalchemy.orm import joinedload, joinedload_all
 
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
-    CandidateBookmarkEmployer, CandidateEmployerBlacklist
+    CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
@@ -160,7 +160,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate', **DELETE)
     def delete(self):
-        DBSession.delete(self.candidate)
+        self.candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.DELETED)
         return {"status": "success"}
 
     @view_config(route_name='candidate_signup_stage', **GET)

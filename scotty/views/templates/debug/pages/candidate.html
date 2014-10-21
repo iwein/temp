@@ -155,13 +155,13 @@
               title: 'set-preferred_locations-2', method: 'PUT',
               data: {'DE': ['Berlin Schöneberg']}},
             {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-dontcare-1', method:'PUT',
+              title: 'set-locations-dontcare-1', method:'PUT',
               data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: null}},
             {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-dontcare-2', method:'PUT',
+              title: 'set-locations-dontcare-2', method:'PUT',
               data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: []}},
             {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-dontcare-3', method:'PUT',
+              title: 'set-locations-dontcare-3', method:'PUT',
               data: {DE: null}},
             {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_locations'},
 
@@ -204,8 +204,12 @@
 
 
             {'sectionTitle': 'Cleanup'},
-            //{url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
-            //{url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"}
+            {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
+            {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"},
+            {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after-delete',
+              data: {"email": email, pwd:"helloworld"}, expectedErrors:[404]
+            },
+
           ])
           ;
 
