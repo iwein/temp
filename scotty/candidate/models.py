@@ -26,6 +26,11 @@ class CandidateStatus(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
+    ACTIVE = "active"
+    SLEEPING = "sleeping"
+    SUSPENDED = "suspended"
+    DELETED = "deleted"
+
 
 class Education(Base):
     __tablename__ = 'education'
@@ -109,7 +114,8 @@ class WorkExperience(Base):
 
 
 target_position_skills = Table('target_position_skills', Base.metadata,
-                               Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key=True),
+                               Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key
+                               =True),
                                Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
 
 
@@ -239,7 +245,7 @@ class Candidate(Base, JsonSerialisable):
 
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan",
                                    order_by=WorkExperience.start.desc())
-    target_position = relationship(TargetPosition, backref="candidate",  cascade="all, delete, delete-orphan",
+    target_position = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan",
                                    uselist=False, order_by=TargetPosition.created.desc())
 
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())

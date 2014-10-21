@@ -9,7 +9,7 @@ from scotty.configuration.models import WithdrawalReason, RejectionReason
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
 from scotty.models.tools import json_encoder
-from scotty.candidate.models import Candidate, InviteCode
+from scotty.candidate.models import Candidate, InviteCode, CandidateStatus
 from scotty.employer.models import Employer
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
@@ -17,16 +17,18 @@ from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.offer.services import set_offer_signed
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.views import RootController
-from scotty.views.common import POST, run_paginated_query, GET
+from scotty.views.common import POST, run_paginated_query, GET, DELETE
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload_all, joinedload
 
 
 def includeme(config):
-    config.add_route('admin_employer', 'employers')
+    config.add_route('admin_candidate', 'candidate/{id}')
     config.add_route('admin_search_employer', 'search/employers')
     config.add_route('admin_search_candidates', 'search/candidates')
+
+    config.add_route('admin_employer', 'employers')
     config.add_route('admin_employer_by_status', 'employers/{status}')
     config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')
 
@@ -92,6 +94,16 @@ class AdminController(RootController):
             employer.contact_name,
             employer.company_name,
             employer.invite_token)
+        return employer
+
+    @view_config(route_name='admin_candidate', **DELETE)
+    def delete_candidate(self):
+        cid = self.request.matchdict['id']
+        candidate = DBSession.query(Candidate).get(cid)
+        if not candidate:
+            raise HTTPNotFound("Candidate doesnt exist")
+        else:
+            candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.DE)
         return employer
 
     @view_config(route_name='admin_employer_by_status', **GET)
