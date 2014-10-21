@@ -35,7 +35,7 @@ OFFER_STATUS_EXPIRED_KEY = 'EXPIRED'
 
 
 class OfferStatusWorkflow(object):
-    expiration_days = 14
+    expiration_days = 4
 
     statuses = [OfferStatus(OFFER_STATUS_ACTIVE_KEY, False, 'created'),
                 OfferStatus(OFFER_STATUS_ACCEPTED_KEY, False, 'accepted'),
@@ -59,10 +59,10 @@ class OfferStatusWorkflow(object):
     def status(self):
         status, status_time = self._status_time
         expiry_cutoff = datetime.now() - timedelta(self.expiration_days)
-        if status_time < expiry_cutoff:
-            return self.expired
-        else:
+        if status.is_final or status_time > expiry_cutoff:
             return status
+        else:
+            return self.expired
 
     @property
     def full_status_flow(self):

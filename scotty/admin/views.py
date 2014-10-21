@@ -9,7 +9,7 @@ from scotty.configuration.models import WithdrawalReason, RejectionReason
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
 from scotty.models.tools import json_encoder
-from scotty.candidate.models import Candidate, InviteCode
+from scotty.candidate.models import Candidate, InviteCode, CandidateStatus
 from scotty.employer.models import Employer
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
@@ -17,16 +17,17 @@ from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.offer.services import set_offer_signed
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.views import RootController
-from scotty.views.common import POST, run_paginated_query, GET
+from scotty.views.common import POST, run_paginated_query, GET, DELETE
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload_all, joinedload
 
 
 def includeme(config):
-    config.add_route('admin_employer', 'employers')
     config.add_route('admin_search_employer', 'search/employers')
     config.add_route('admin_search_candidates', 'search/candidates')
+
+    config.add_route('admin_employer', 'employers')
     config.add_route('admin_employer_by_status', 'employers/{status}')
     config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')
 
@@ -143,7 +144,8 @@ class AdminController(RootController):
     @view_config(route_name="admin_search_employer", **GET)
     def admin_search_employer(self):
         q = self.request.params['q'].lower()
-        base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.contact_first_name).startswith(q),
+        base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.company_name).startswith(q),
+                                                                      func.lower(Employer.contact_first_name).startswith(q),
                                                                       func.lower(Employer.contact_last_name).startswith(q),
                                                                       func.lower(Employer.email).startswith(q)))
         return run_paginated_query(self.request, base_query)
@@ -160,7 +162,10 @@ class AdminOfferController(RootController):
 
     @view_config(route_name='admin_offers', **GET)
     def admin_offers(self):
-        query = DBSession.query(FullOffer)
+        query = DBSession.query(FullOffer).options(joinedload('technologies'), joinedload('role'),
+                                                   joinedload('location'), joinedload('benefits'),
+                                                   joinedload('rejected_reason'), joinedload('withdrawal_reason'),
+                                                   joinedload('candidate'), joinedload('employer'))
         status = self.request.params.get('status')
         if status:
             try:
@@ -170,7 +175,7 @@ class AdminOfferController(RootController):
         else:
             query = query.order_by(FullOffer.created.desc())
 
-        return run_paginated_query(self.request, query)
+        return run_paginated_query(self.request, query, default_limit=50)
 
     @view_config(route_name='admin_offer', **GET)
     def admin_offer(self):

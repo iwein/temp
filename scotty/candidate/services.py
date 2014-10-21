@@ -42,7 +42,9 @@ def edit_candidate(candidate, params, editables=EDITABLES):
 def candidate_from_login(params):
     email = params['email']
     pwd = hashlib.sha256(params['pwd']).hexdigest()
-    candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd).first()
+    candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd)\
+        .join(CandidateStatus).filter(CandidateStatus.name.notin_([CandidateStatus.DELETED,
+                                                                   CandidateStatus.SUSPENDED])).first()
     return candidate
 
 
@@ -192,13 +194,13 @@ def set_skills_on_candidate(candidate, params):
     return candidate
 
 
-def get_candidates_by_techtags_pager(tags, city_id):
-    params = {'city_id': city_id}
+def get_candidates_by_techtags_pager(tags, city_id, status_id=1):
+    params = {'city_id': city_id, 'status_id': status_id}
     tags = {'tag_%d' % i: tag for i, tag in enumerate(tags)}
     params.update(tags)
     query = """select candidate_id as id, matched_tags,
                   count(*) over() as total from
-                  candidate_search(array[:%s], :city_id )
+                  candidate_search(array[:%s], :city_id, :status_id )
                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
     return Pager(query, params)
 
@@ -247,5 +249,5 @@ def get_candidate_newsfeed(c):
                        'note': 'You liked %s they have been notified and should get in touch' % blacklisted.employer.company_name})
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
-    return sorted(events_with_recency, key=lambda k: k['recency'], reverse=True)
+    return sorted(events_with_recency, key=lambda k: k['recency'])
 
