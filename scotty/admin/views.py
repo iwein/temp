@@ -144,7 +144,8 @@ class AdminController(RootController):
     @view_config(route_name="admin_search_employer", **GET)
     def admin_search_employer(self):
         q = self.request.params['q'].lower()
-        base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.contact_first_name).startswith(q),
+        base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.company_name).startswith(q),
+                                                                      func.lower(Employer.contact_first_name).startswith(q),
                                                                       func.lower(Employer.contact_last_name).startswith(q),
                                                                       func.lower(Employer.email).startswith(q)))
         return run_paginated_query(self.request, base_query)
