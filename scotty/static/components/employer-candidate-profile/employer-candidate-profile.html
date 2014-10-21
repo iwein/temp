@@ -39,15 +39,10 @@
           <dd ng-if="user.github_url">
             <a ng-href="{{ user.github_url }}">{{ user.github_url }}</a>
           </dd>
-          <dt>Address</dt>
+          <dt>Location</dt>
           <dd>
             <address>
-              {{ user.contact_line1 }}<br>
-              {{ user.contact_line2 }}<br ng-if="user.contact_line2">
-              {{ user.contact_line3 }}<br ng-if="user.contact_line3">
-              {{ user.contact_city }},
-              {{ user.contact_country_iso }}
-              {{ user.contact_zipcode }}
+              {{ user.location.city }}, {{ user.location.country_iso }}
             </address>
           </dd>
         </dl>
