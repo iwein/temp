@@ -247,5 +247,5 @@ def get_candidate_newsfeed(c):
                        'note': 'You liked %s they have been notified and should get in touch' % blacklisted.employer.company_name})
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
-    return sorted(events_with_recency, key=lambda k: k['recency'], reverse=True)
+    return sorted(events_with_recency, key=lambda k: k['recency'])
 
