@@ -85,6 +85,7 @@ class AdminInviteCodeController(RootController):
             raise HTTPConflict("Code already created!")
         return icode
 
+
 class AdminController(RootController):
 
     @view_config(route_name='admin_employer', **POST)
