@@ -64,7 +64,13 @@ class SearchResultEmployer(Employer):
 class AdminInviteCodeController(RootController):
     @view_config(route_name='admin_invite_codes', **GET)
     def list(self):
-        return run_paginated_query(self.request, DBSession.query(InviteCode))
+        candidate_count = func.count(Candidate.id).label("candidate_count")
+        codes_query = DBSession.query(InviteCode.id, InviteCode.code, InviteCode.description, candidate_count) \
+            .join(Candidate, Candidate.invite_code_id == InviteCode.id).group_by(InviteCode.id,
+                                                                                 InviteCode.code,
+                                                                                 InviteCode.description)
+
+        return run_paginated_query(self.request, codes_query)
 
     @view_config(route_name='admin_invite_codes', **POST)
     def create(self):

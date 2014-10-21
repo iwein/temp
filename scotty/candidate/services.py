@@ -3,16 +3,16 @@ import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
 from sqlalchemy.orm import joinedload_all
+
 from scotty import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, TargetPosition, PreferredLocation
+    WorkExperience, Education, TargetPosition, PreferredLocation, InviteCode
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
     Course
-from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_locations_from_structure, \
     get_location_by_name_or_raise
-from scotty.offer.models import FullOffer, Offer
+from scotty.offer.models import FullOffer
 from scotty.services.pagingservice import Pager
 
 
@@ -27,6 +27,7 @@ def candidate_from_signup(params):
 ID = lambda x: x
 
 EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
+             'invite_code': lambda x: get_by_name_or_raise(InviteCode, x), 'admin_comment': ID,
              'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID, 'contact_zipcode': ID, 'location': get_location_by_name_or_raise,
              'contact_phone': ID, 'availability': ID, 'summary': ID, 'github_url': ID, 'stackoverflow_url': ID, 'contact_skype': ID,
              'eu_work_visa': ID, 'cv_upload_url': ID}
@@ -42,7 +43,7 @@ def edit_candidate(candidate, params, editables=EDITABLES):
 def candidate_from_login(params):
     email = params['email']
     pwd = hashlib.sha256(params['pwd']).hexdigest()
-    candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd)\
+    candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd) \
         .join(CandidateStatus).filter(CandidateStatus.name.notin_([CandidateStatus.DELETED,
                                                                    CandidateStatus.SUSPENDED])).first()
     return candidate
@@ -200,7 +201,7 @@ def get_candidates_by_techtags_pager(tags, city_id, status_id=1):
     params.update(tags)
     query = """select candidate_id as id, matched_tags,
                   count(*) over() as total from
-                  candidate_search(array[:%s], :city_id, :status_id )
+                  candidate_search(array[:%s], :city_id, :status_id)
                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
     return Pager(query, params)
 
