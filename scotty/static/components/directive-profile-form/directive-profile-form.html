@@ -1,9 +1,10 @@
 <form name="formProfile" class="form-horizontal" ng-submit="submit()">
   <div class="form-group required address">
-    <label class="col-sm-3">Location</label>
+    <label class="col-sm-3">Current place of residence</label>
 
     <div class="col-sm-9">
       <input type="text"
+        name="location"
         class="form-control"
         placeholder="Location"
         ng-disabled="hcDisabled"
@@ -15,6 +16,9 @@
 
     <div class="form-error" ng-show="formProfile.location.$dirty && formProfile.location.$invalid">
       <span ng-show="formProfile.location.$error.required">Please insert your city.</span>
+    </div>
+    <div class="form-error" ng-show="formProfile.location.$dirty && errorNoLocation">
+      <span>Please select a entry from the menu.</span>
     </div>
   </div>
 
@@ -50,6 +54,8 @@
     <div class="col-sm-offset-3 col-sm-9">
       <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
     </div>
+
+    <p class="help-block col-sm-offset-3 col-sm-9">Photo will always be shown.</p>
 
     <div class="form-error" ng-show="errorFileRequired || errorFileImage">
       <span ng-show="errorFileRequired">Please select a photo.</span>
@@ -89,6 +95,8 @@
         hc-file-select
         ng-model="cv_file">
     </div>
+
+    <p class="help-block col-sm-offset-3 col-sm-9">Upload CV if you have one. It will be disclosed to employers when you accept a job offer.</p>
 
     <div class="form-error" ng-show="false && (errorFileRequired || errorFileImage)">
       <span ng-show="errorFileRequired">Please select a photo.</span>

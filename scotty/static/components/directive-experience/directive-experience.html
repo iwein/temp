@@ -8,9 +8,12 @@
     <li class="list-group-item">
       <div class="row">
         <strong>
-          <span class="col-sm-offset-1 col-sm-4">Company</span>
+          <span class="col-sm-offset-1" ng-class="{
+            'col-sm-4': importing,
+            'col-sm-5': !importing
+          }">Company</span>
           <span class="col-sm-5">Duration</span>
-          <span class="col-sm-2 text-right">Add</span>
+          <span class="col-sm-2 text-right" ng-show="importing">Add</span>
         </strong>
       </div>
     </li>
@@ -22,7 +25,10 @@
             ng-show="hcEditable"
             ng-click="hcExperienceCtrl.setActive($index)"></i>
         </span>
-        <span class="col-sm-4">{{ entry.company }}</span>
+        <span ng-class="{
+            'col-sm-4': importing,
+            'col-sm-5': !importing
+        }">{{ entry.company }}</span>
         <span class="col-sm-6">{{ entry.start }} ({{ entry.end || 'current' }})</span>
         <span class="col-sm-1" ng-show="entry.imported">
           <input type="checkbox" ng-model="entry.import">

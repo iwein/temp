@@ -34,6 +34,7 @@ define(function(require) {
         $scope.months = months;
         $scope.loading = false;
         $scope.submit = submit;
+        this.showDuplicatedError = showDuplicatedError;
         this.isPristine = isPristine;
         this.setModel = setModel;
         this.reset = reset;
@@ -77,6 +78,10 @@ define(function(require) {
             .map(fn.get('value'));
         }
 
+        function showDuplicatedError(value) {
+          $scope.duplicatedError = value;
+        }
+
         function save() {
           return Session.getUser().then(function(user) {
             var model = _.omit($scope.model, 'featuredSkills');
@@ -95,6 +100,7 @@ define(function(require) {
           if ($scope.formExperience)
             $scope.formExperience.$setPristine();
           $scope.model = {};
+          $scope.duplicatedError = false;
           $scope.current = false;
           $scope.startMonth = '';
           $scope.startYear = '';

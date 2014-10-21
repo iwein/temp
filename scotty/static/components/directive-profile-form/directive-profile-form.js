@@ -24,6 +24,7 @@ define(function(require) {
         $scope.setLocation = setLocation;
         $scope.selectFile = selectFile;
         $scope.submit = submit;
+        $scope.errorNoLocation = false;
         $scope.model = { eu_work_visa: true };
         this.setModel = setModel;
         this.reset = reset;
@@ -33,6 +34,7 @@ define(function(require) {
 
         function setLocation(text) {
           $scope.model.location = ConfigAPI.getLocationFromText(text);
+          $scope.errorNoLocation = !$scope.model.location;
         }
 
         function save() {
@@ -85,6 +87,14 @@ define(function(require) {
         function submit() {
           if ((!$scope.files || !$scope.files.length) && !$scope.model.picture_url) {
             $scope.errorFileRequired = true;
+            return;
+          }
+
+          if (!$scope.model.location)
+            $scope.errorNoLocation = true;
+
+          if ($scope.errorNoLocation) {
+            $scope.formProfile.location.$dirty = true;
             return;
           }
 

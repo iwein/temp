@@ -18,7 +18,7 @@ define(function(require) {
       template: require('text!./directive-languages-form.html'),
       controllerAs: 'skillsCtrl',
       controller: function($scope, $attrs, ConfigAPI, Session) {
-        $scope.searchLanguages = ConfigAPI.languages;
+        $scope.searchLanguages = searchLanguages;
         $scope.remove = remove;
         $scope.setLanguage = validateLang;
         $scope.onBlur = onBlur;
@@ -29,9 +29,14 @@ define(function(require) {
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
+        var enabled = false;
 
         nameAttr(this, 'hcLanguagesForm', $scope, $attrs);
         ConfigAPI.proficiencies().then(fn.setTo('proficiencies', $scope));
+
+        function searchLanguages(term) {
+          return enabled ? ConfigAPI.languages(term) : [];
+        }
 
         function save() {
           return Session.getUser().then(function(user) {
@@ -67,6 +72,7 @@ define(function(require) {
         }
 
         function onChange(entry, index, isLast) {
+          enabled = true;
           validateLang(entry);
           if (entry.language && isLast)
             $scope.model.push({});
