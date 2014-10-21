@@ -14,7 +14,6 @@ addStepDefinitions(function (scenario) {
 
 
   scenario.When(/^I post a new candidate$/, function(callback) {
-    console.log('CACA');
     email = generateEmail();
 
     AJAX.post('/candidates/', {
@@ -26,13 +25,15 @@ addStepDefinitions(function (scenario) {
       console.log('superpolla');
       lastResponse = response;
       callback();
+    }).catch(function(error) {
+      console.error(error);
+      throw error;
     });
   });
 
   scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key, callback) {
-    console.log('POLLAMAN');
     assert(lastResponse[key], 'Field not found');
-    assert(lastResponse[key] === 'POLLA', 'Email is not expected')
+    assert(lastResponse[key] === email, 'Email is not expected')
   });
 
   // After scenario hooks

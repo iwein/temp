@@ -32,25 +32,18 @@
 
 
   function request(method, url, options) {
-    console.log(1);
     return new Promise(function(resolve, reject) {
-      console.log(2);
       var xhr = new XMLHttpRequest();
       var path = addUrlParams(url, options.params);
-      polla;
+      xhr.open(method, request.server + path);
 
-      console.log(3);
       if (options.body)
         xhr.setRequestHeader('Content-Type', 'application/json');
 
-      console.log(4);
-      xhr.open(method, request.server + path);
       setHeaders(xhr, options.headers);
       xhr.send(getBody(options.body));
-      console.log(5);
 
       xhr.addEventListener('readystatechange', function() {
-        console.log(6);
         if (xhr.readyState !== 4) return null;
         if (Math.floor(xhr.status / 100) === 2)
           resolve(JSON.stringify(xhr.responseText));
