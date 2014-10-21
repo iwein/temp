@@ -123,6 +123,8 @@ class Employer(Base, JsonSerialisable):
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
     offers = relationship(EmployerOffer, backref='employer', order_by=EmployerOffer.created.desc())
 
+    admin_comment = Column(Text)
+
     @property
     def password(self):
         return self.pwd
@@ -183,5 +185,6 @@ class FullEmployer(Employer):
         result['invite_token'] = self.invite_token
         result['invite_sent'] = self.invite_sent
         result['email'] = self.email
+        result['admin_comment'] = self.admin_comment
         return result
 

@@ -116,7 +116,7 @@ EMPLOYER_EDITABLES = {'company_name': ID, 'website': ID, 'address_line1': ID, 'a
                       'contact_last_name': ID, 'logo_url': ID, 'fb_url': ID, 'linkedin_url': ID, 'image_video_url': ID,
                       'mission_text': ID, 'culture_text': ID, 'vision_text': ID, 'founding_year': ID, 'revenue_pa': ID,
                       'funding_amount': ID, 'funding_text': ID, 'no_of_employees': ID, 'tech_team_size': ID,
-                      'tech_team_philosophy': ID, 'recruitment_process': ID, 'training_policy': ID,
+                      'tech_team_philosophy': ID, 'recruitment_process': ID, 'training_policy': ID, 'admin_comment': ID,
                       'contact_salutation': lambda name: get_by_name_or_raise(Salutation, name),
                       'traffic_source': lambda name: get_by_name_or_create(TrafficSource, name),
                       'tech_tags': lambda tags: get_or_create_named_collection(Skill, tags),

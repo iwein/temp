@@ -252,6 +252,10 @@ class Candidate(Base, JsonSerialisable):
 
     bookmarked_employers = association_proxy('bookmarks', 'employer')
     blacklisted_employers = association_proxy('blacklist', 'employer')
+    invite_code_id = Column(Integer, ForeignKey(InviteCode.id))
+    invite_code = relationship(InviteCode)
+
+    admin_comment = Column(Text)
 
     @property
     def full_name(self):
@@ -308,4 +312,5 @@ class FullCandidate(WXPCandidate):
         result['traffic_source'] = self.traffic_source
         result['activation_token'] = self.activation_token
         result['activation_sent'] = self.activation_sent
+        result['admin_comment'] = self.admin_comment
         return result

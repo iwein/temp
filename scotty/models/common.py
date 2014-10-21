@@ -7,7 +7,8 @@ from sqlalchemy import or_, and_
 
 
 def get_by_name_or_raise(cls, name):
-    obj = DBSession.query(cls).filter(cls.name == name).first()
+    namefield = getattr(cls, cls.__name_field__)
+    obj = DBSession.query(cls).filter(namefield == name).first()
     if not obj:
         raise HTTPBadRequest("Unknown %s" % cls.__name__)
     return obj
@@ -16,7 +17,8 @@ def get_by_name_or_raise(cls, name):
 def get_by_name_or_create(cls, name):
     if not name:
         return None
-    obj = DBSession.query(cls).filter(cls.name == name).first()
+    namefield = getattr(cls, cls.__name_field__)
+    obj = DBSession.query(cls).filter(namefield == name).first()
     if not obj:
         obj = cls(name=name)
         DBSession.add(obj)
