@@ -35,7 +35,7 @@ OFFER_STATUS_EXPIRED_KEY = 'EXPIRED'
 
 
 class OfferStatusWorkflow(object):
-    expiration_days = 30
+    expiration_days = 4
 
     statuses = [OfferStatus(OFFER_STATUS_ACTIVE_KEY, False, 'created'),
                 OfferStatus(OFFER_STATUS_ACCEPTED_KEY, False, 'accepted'),

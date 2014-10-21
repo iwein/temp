@@ -160,7 +160,10 @@ class AdminOfferController(RootController):
 
     @view_config(route_name='admin_offers', **GET)
     def admin_offers(self):
-        query = DBSession.query(FullOffer)
+        query = DBSession.query(FullOffer).options(joinedload('technologies'), joinedload('role'),
+                                                   joinedload('location'), joinedload('benefits'),
+                                                   joinedload('rejected_reason'), joinedload('withdrawal_reason'),
+                                                   joinedload('candidate'), joinedload('employer'))
         status = self.request.params.get('status')
         if status:
             try:
@@ -170,7 +173,7 @@ class AdminOfferController(RootController):
         else:
             query = query.order_by(FullOffer.created.desc())
 
-        return run_paginated_query(self.request, query)
+        return run_paginated_query(self.request, query, default_limit=50)
 
     @view_config(route_name='admin_offer', **GET)
     def admin_offer(self):
