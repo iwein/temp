@@ -5,6 +5,10 @@ stepDefinitions(function(scenario) {
   AJAX.log = false;
   scenario.World = window.World;
 
+  scenario.Before(function() {
+    // Something
+  });
+
   scenario.After(function () {
     this.lastRequest = null;
     this.lastResponse = null;

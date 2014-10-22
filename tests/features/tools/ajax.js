@@ -44,6 +44,7 @@
       var body = getBody(options.body);
 
       xhr.open(method, finalUrl);
+      xhr.withCredentials = true;
 
       if (options.body)
         xhr.setRequestHeader('Content-Type', 'application/json');

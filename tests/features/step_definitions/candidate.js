@@ -2,16 +2,12 @@
 
 stepDefinitions(function(scenario) {
   'use strict';
-  scenario.World = window.World;
 
 
   scenario.Before(function() {
-    // Something
-  });
-
-  scenario.After(function () {
-    return AJAX.post('/logout', {}, { log: false })
-      // if fails just pass
+    return AJAX.get('/candidates/logout', {}, { log: false })
+      // if logout fails doesn't mean the test is failed
+      // so we catch it and pass
       .catch(function() { });
   });
 
@@ -21,6 +17,10 @@ stepDefinitions(function(scenario) {
       'email': this.candidateEmail,
       'pwd': 'welcomepwd',
     }));
+  });
+
+  scenario.Given(/^Candiate logs out$/, function() {
+    return this.storeRequest(AJAX.get('/candidates/logout'));
   });
 
   scenario.When(/^I post a new candidate$/, function() {
