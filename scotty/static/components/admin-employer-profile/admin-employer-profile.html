@@ -1,6 +1,22 @@
 <div class="component-candidate-employer-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
+    <div class="profile-workflow">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form ng-submit="saveAdminComment(data.admin_comment)">
+            <div class="form-group required">
+              <label>Admin comment</label>
+              <textarea class="form-control" required ng-model="data.admin_comment"></textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="page-header">
       <h1>
         <img class="logo" ng-show="data.logo_url" ng-src="{{ data.logo_url }}">

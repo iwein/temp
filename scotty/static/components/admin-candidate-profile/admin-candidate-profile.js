@@ -5,9 +5,12 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Session) {
+    $scope.saveAdminComment = saveAdminComment;
+    $scope.remove = remove;
     $scope.id = $state.params.id;
     $scope.ready = false;
     Loader.page(true);
+
 
     Session.getCandidate($scope.id).then(function(candidate) {
       $scope.candidate = candidate;
@@ -28,6 +31,31 @@ define(function(require) {
     }).finally(function() {
       Loader.page(false);
     });
+
+
+    function saveAdminComment(comment) {
+      Loader.add('admin-candidate-profile-comment');
+      return $scope.candidate.updateData({ admin_comment: comment })
+        .catch(toaster.defaultError)
+        .finally(function() { Loader.remove('admin-candidate-profile-comment') });
+    }
+
+    function remove(candidate) {
+      Loader.add('admin-candidate-profile-remove');
+
+      return candidate.delete()
+        .then(function(response) {
+          if (response.status !== 'success')
+            throw new Error('Candidate was no removed');
+
+          $state.go('search-candidates');
+          toaster.success('Candidate removed');
+        })
+        .catch(toaster.defaultError)
+        .finally(function() {
+          Loader.remove('admin-candidate-profile-remove');
+        });
+    }
   });
 
 

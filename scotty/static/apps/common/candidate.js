@@ -58,6 +58,10 @@ define(function(require) {
       return this._api.post(this._url() + '/picture', { url: photo });
     },
 
+    delete: function() {
+      return this._api.delete(this._url());
+    },
+
     getExperience: getHelper('work_experience'),
     setExperience: setHelper('work_experience', 'put'),
     addExperience: setHelper('work_experience', 'post'),
