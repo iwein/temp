@@ -7,6 +7,8 @@ from sqlalchemy import or_, and_
 
 
 def get_by_name_or_raise(cls, name):
+    if not name:
+        return None
     namefield = getattr(cls, cls.__name_field__)
     obj = DBSession.query(cls).filter(namefield == name).first()
     if not obj:

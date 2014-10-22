@@ -41,3 +41,6 @@ class JsonSerialisable(object):
 
 def association_proxy(val, request):
     return list(val)
+
+def keyed_tuple_slsr(val, request):
+    return val

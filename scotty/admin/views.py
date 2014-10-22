@@ -4,6 +4,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 
 from pyramid.view import view_config
+from sqlalchemy.sql.elements import and_
 from scotty.candidate.services import get_candidates_by_techtags_pager
 from scotty.configuration.models import WithdrawalReason, RejectionReason
 from scotty.models.common import get_by_name_or_raise
@@ -64,13 +65,19 @@ class SearchResultEmployer(Employer):
 class AdminInviteCodeController(RootController):
     @view_config(route_name='admin_invite_codes', **GET)
     def list(self):
+        cstatus = get_by_name_or_raise(CandidateStatus,
+                                       self.request.params.get('candidate_status', CandidateStatus.ACTIVE))
         candidate_count = func.count(Candidate.id).label("candidate_count")
-        codes_query = DBSession.query(InviteCode.id, InviteCode.code, InviteCode.description, candidate_count) \
-            .join(Candidate, Candidate.invite_code_id == InviteCode.id).group_by(InviteCode.id,
-                                                                                 InviteCode.code,
-                                                                                 InviteCode.description)
+        last_used = func.max(Candidate.created).label("last_used")
+        codes_query = DBSession.query(InviteCode.code, InviteCode.description, InviteCode.created, candidate_count,
+                                      last_used).outerjoin(Candidate, and_(Candidate.invite_code_id == InviteCode.id,
+                                                                           Candidate.status_id == cstatus.id)).group_by(
+            InviteCode.code, InviteCode.description, InviteCode.created)
 
-        return run_paginated_query(self.request, codes_query)
+        def serializer(result):
+            return [r._asdict() for r in result]
+
+        return run_paginated_query(self.request, codes_query, serializer=serializer)
 
     @view_config(route_name='admin_invite_codes', **POST)
     def create(self):
@@ -87,7 +94,6 @@ class AdminInviteCodeController(RootController):
 
 
 class AdminController(RootController):
-
     @view_config(route_name='admin_employer', **POST)
     def invite(self):
         try:
@@ -95,11 +101,7 @@ class AdminController(RootController):
         except IntegrityError:
             raise HTTPConflict("company_name of email already registered.")
 
-        self.request.emailer.send_employer_invite(
-            employer.email,
-            employer.contact_name,
-            employer.company_name,
-            employer.invite_token)
+        self.request.emailer.send_employer_invite(employer.email, employer.contact_name, employer.company_name, employer.invite_token)
         return employer
 
     @view_config(route_name='admin_employer_by_status', **GET)
@@ -131,13 +133,11 @@ class AdminController(RootController):
         def adjust_query(query, q=None):
             if q:
                 q = q.lower()
-                query = query.filter(or_(func.lower(Candidate.first_name).startswith(q),
-                                         func.lower(Candidate.last_name).startswith(q),
-                                         func.lower(Candidate.email).startswith(q)))
-            return query.options(joinedload_all('languages.language'),
-                                 joinedload_all('languages.proficiency'),
-                                 joinedload_all('skills.skill'),
-                                 joinedload_all('skills.level'),
+                query = query.filter(
+                    or_(func.lower(Candidate.first_name).startswith(q), func.lower(Candidate.last_name).startswith(q),
+                        func.lower(Candidate.email).startswith(q)))
+            return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
+                                 joinedload_all('skills.skill'), joinedload_all('skills.level'),
                                  joinedload('preferred_locations'))
 
         if tags:
@@ -151,10 +151,9 @@ class AdminController(RootController):
     @view_config(route_name="admin_search_employer", **GET)
     def admin_search_employer(self):
         q = self.request.params['q'].lower()
-        base_query = DBSession.query(SearchResultEmployer).filter(or_(func.lower(Employer.company_name).startswith(q),
-                                                                      func.lower(Employer.contact_first_name).startswith(q),
-                                                                      func.lower(Employer.contact_last_name).startswith(q),
-                                                                      func.lower(Employer.email).startswith(q)))
+        base_query = DBSession.query(SearchResultEmployer).filter(
+            or_(func.lower(Employer.company_name).startswith(q), func.lower(Employer.contact_first_name).startswith(q),
+                func.lower(Employer.contact_last_name).startswith(q), func.lower(Employer.email).startswith(q)))
         return run_paginated_query(self.request, base_query)
 
 

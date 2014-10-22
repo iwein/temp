@@ -15,6 +15,7 @@ from sqlalchemy.orm import relationship
 
 class InviteCode(Base):
     __tablename__ = 'invite_code'
+    __name_field__ = 'code'
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False, default=datetime.now, info=PUBLIC)
     code = Column(String(64), nullable=False, unique=True, info=PUBLIC)

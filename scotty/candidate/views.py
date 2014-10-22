@@ -91,6 +91,12 @@ class CandidateController(RootController):
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
 
+    @reify
+    def is_me(self):
+        candidate_id = self.request.matchdict["candidate_id"]
+        session_candidate_id = self.request.session.get('candidate_id')
+        return candidate_id == session_candidate_id or self.candidate and candidate_id == 'me'
+
     @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup(self):
         candidate = candidate_from_signup(self.request.json)
@@ -161,6 +167,8 @@ class CandidateController(RootController):
     @view_config(route_name='candidate', **DELETE)
     def delete(self):
         self.candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.DELETED)
+        if self.is_me:
+            return self.logout()
         return {"status": "success"}
 
     @view_config(route_name='candidate_signup_stage', **GET)
