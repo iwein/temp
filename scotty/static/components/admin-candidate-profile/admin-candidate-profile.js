@@ -5,6 +5,7 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Session) {
+    $scope.remove = remove;
     $scope.id = $state.params.id;
     $scope.ready = false;
     Loader.page(true);
@@ -28,6 +29,17 @@ define(function(require) {
     }).finally(function() {
       Loader.page(false);
     });
+
+
+    function remove(candidate) {
+      return candidate.delete().then(function(response) {
+        if (response.status !== 'success')
+          throw new Error('Candidate was no removed');
+
+        $state.go('search-candidates');
+        toaster.success('Candidate removed');
+      }).catch(toaster.defaultError);
+    }
   });
 
 
