@@ -1,5 +1,10 @@
+/*globals console */
+
 (function() {
   'use strict';
+  var Promise = window.Promise || window.ES6Promise.Promise;
+
+
   request.get = get;
   request.put = put;
   request.post = post;
@@ -9,19 +14,19 @@
 
 
   function get(url, params, options) {
-    options = options || {};
+    options = options || {};
     options.params = params;
     return request('GET', url, options);
   }
 
   function put(url, body, options) {
-    options = options || {};
+    options = options || {};
     options.body = body;
     return request('PUT', url, options);
   }
 
   function post(url, body, options) {
-    options = options || {};
+    options = options || {};
     options.body = body;
     return request('POST', url, options);
   }
@@ -35,18 +40,32 @@
     return new Promise(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       var path = addUrlParams(url, options.params);
-      xhr.open(method, request.server + path);
+      var finalUrl = request.server + path;
+      var body = getBody(options.body);
+
+      xhr.open(method, finalUrl);
 
       if (options.body)
         xhr.setRequestHeader('Content-Type', 'application/json');
 
       setHeaders(xhr, options.headers);
-      xhr.send(getBody(options.body));
+      xhr.send(body);
+
+      if (!('log' in request) && !('log' in options))
+        console.info(method, finalUrl, body);
 
       xhr.addEventListener('readystatechange', function() {
         if (xhr.readyState !== 4) return null;
-        if (Math.floor(xhr.status / 100) === 2)
-          resolve(JSON.stringify(xhr.responseText));
+
+        var status = xhr.status;
+        try { xhr.responseJSON = JSON.parse(xhr.responseText); }
+        catch (err) { }
+
+        if (!('log' in request) && !('log' in options))
+          console.info(status, xhr.responseJSON || xhr.responseText);
+
+        if (Math.floor(status / 100) === 2)
+          resolve(xhr);
         else
           reject(xhr);
       });

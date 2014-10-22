@@ -1,44 +1,57 @@
-// This addStepDefinitions() function is why the step definitions must
-// be configured to load after the adapter.
-addStepDefinitions(function (scenario) {
-  // Before scenario hooks
-  scenario.Before(function (callback) {
-    callback();
+/*globals stepDefinitions, assert, AJAX */
+
+stepDefinitions(function(scenario) {
+  'use strict';
+  AJAX.log = false;
+  scenario.World = window.World;
+
+
+  scenario.Before(function() {
+    // Something
   });
 
-  function generateEmail() {
-    return 'catch+candidate-' + guid() + '@hackandcraft.com';
-  }
-
-  var email, lastResponse;
-
-
-  scenario.When(/^I post a new candidate$/, function(callback) {
-    email = generateEmail();
-
-    AJAX.post('/candidates/', {
-      "email": email,
-      "pwd": "welcomepwd",
-      "first_name": "Bob",
-      "last_name": "Bayley",
-    }).then(function(response) {
-      console.log('superpolla');
-      lastResponse = response;
-      callback();
-    }).catch(function(error) {
-      console.error(error);
-      throw error;
-    });
+  scenario.After(function () {
+    this.lastRequest = null;
+    this.lastResponse = null;
+    return AJAX.post('/logout', {}, { log: false })
+      // if fails just pass
+      .catch(function() { });
   });
 
-  scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key, callback) {
-    assert(lastResponse[key], 'Field not found');
-    assert(lastResponse[key] === email, 'Email is not expected')
+
+  scenario.Given(/^Candiate logs in$/, function() {
+    return this.storeRequest(AJAX.post('/candidates/login', {
+      'email': this.candidateEmail,
+      'pwd': 'welcomepwd',
+    }));
   });
 
-  // After scenario hooks
-  scenario.After(function (callback) {
-    callback();
+  scenario.When(/^I post a new candidate$/, function() {
+    this.candidateEmail = this.generateEmail();
+
+    return this.storeRequest(AJAX.post('/candidates/', {
+      'email': this.candidateEmail,
+      'pwd': 'welcomepwd',
+      'first_name': 'Bob',
+      'last_name': 'Bayley',
+    }));
+  });
+
+  scenario.When(/^I invoke "([^"]*)" endpoint$/, function(endpoint) {
+    return this.storeRequest(AJAX.get(endpoint));
+  });
+
+  scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key) {
+    assert(this.lastResponse[key], 'Field not found');
+    assert(this.lastResponse[key] === this.candidateEmail, 'Email is not expected');
+  });
+
+  scenario.Then(/^The response status should be "([^"]*)"$/, function(status) {
+    status = +status;
+    assert(
+      this.lastRequest.status === status,
+      'Expected status "' + status + '" but "' + this.lastRequest.status + '" found'
+    );
   });
 });
 
