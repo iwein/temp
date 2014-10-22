@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 
-from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN
 from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
@@ -15,6 +15,7 @@ from sqlalchemy.orm import relationship
 
 class InviteCode(Base):
     __tablename__ = 'invite_code'
+    __name_field__ = 'code'
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False, default=datetime.now, info=PUBLIC)
     code = Column(String(64), nullable=False, unique=True, info=PUBLIC)
@@ -255,7 +256,7 @@ class Candidate(Base, JsonSerialisable):
     invite_code_id = Column(Integer, ForeignKey(InviteCode.id))
     invite_code = relationship(InviteCode)
 
-    admin_comment = Column(Text)
+    admin_comment = Column(Text, info=ADMIN)
 
     @property
     def full_name(self):

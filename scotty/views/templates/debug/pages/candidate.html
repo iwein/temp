@@ -8,208 +8,230 @@
 
 <%def name="tests()">
 <script>
-  var email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+        email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+        inviteCode = 'INVITE-CODE-'+ guid(),
 
-          tests = CANDIDATE_SIGNUP(email).concat([
+        tests =
+                [
+                  {title: "InviteCodes"},
+                  {url:'/api/v1/candidates/', title: 'candidate-signup-with-invite',
+                    data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd",
+                      'invite_code':inviteCode}, expectedErrors:[400]},
 
-            {url: '/api/v1/candidates/me', title: 'candidate-me'},
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-base'},
+                  {url:'/api/v1/admin/invite_codes', title: 'admin-create-invite-code',
+                    data: {code: inviteCode, description: "Baylays invite code TEST"}},
 
-            {url: '/api/v1/candidates/me/picture', title: 'candidate-me-picture',
-              data: {url: 'https://media.licdn.com/mpr/mpr/shrink_120_120/p/8/005/02b/072/128f576.jpg'}},
+                  {url:'/api/v1/candidates/', title: 'candidate-signup-with-invite',
+                    data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode}},
 
-            {title: 'candidate-me-picture-get',
-              execute: function(root, extr){
-                root.append('<img src="/api/v1/candidates/me/picture"/>')
-              }
-            },
+                  {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'candidate-with-invite-delete', method:"DELETE"},
 
-            {url: '/api/v1/candidates/me', title: 'candidate-edit-me', method: 'PUT',
+                  {url:'/api/v1/admin/invite_codes', title: 'admin-show-invite-codes'},
 
-              data:{
-                first_name: 'Harold',
-                last_name: 'Lucky-One',
-                contact_phone: '+40 243564375',
-                contact_skype: 'super.skype.name',
-                contact_line1: 'Super Duper Street 94',
-                contact_line2: 'Line 2 Area',
-                contact_zipcode: '34567',
-                contact_city: 'Berlin+Super+Town+It was my idea',
-                contact_country_iso: 'DE',
-                dob: '2000-02-28',
-                pob: 'Krakow, Poland',
-                eu_work_visa: true,
-                cv_upload_url: 'http://a-url-with-the-cv-document.com',
-                stackoverflow_url: 'http://meta.stackexchange.com/users/183471/goje87',
-                github_url: 'https://github.com/MartinPeschke'
+                  {title: "Signup"},
+                ].concat(
 
-              }},
-            {url: '/api/v1/candidates/me', title: 'candidate-me-2'},
+                        CANDIDATE_SIGNUP(email).concat([
 
-            {title: 'Password Forgot'},
-            {url: '/api/v1/candidates/requestpassword', title: 'candidate-pwd-forgot', data: {email: email},
-              extract: function(r, extr){return {pwdToken: r.token}}},
-            {url: function(r, extr){ return '/api/v1/candidates/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-validate-token'},
-            {url: function(r, extr){ return '/api/v1/candidates/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-reset', data: {pwd: 'helloworld'}},
-            {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after pwd-reset',
-              data: {"email": email, pwd:"helloworld"}
-            },
+                          {url: '/api/v1/candidates/me', title: 'candidate-me'},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-base'},
 
-            {title: 'Target Position'},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'get-target_position'},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'set-target_position',
-              data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: true,
-                travel_willingness:'>50%', minimum_salary: 100000},
-              extract:   function(r, extr){return {target_positionId: r.id}}},
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition'},
-            {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'unset-target_position', data: {} },
+                          {url: '/api/v1/candidates/me/picture', title: 'candidate-me-picture',
+                            data: {url: 'https://media.licdn.com/mpr/mpr/shrink_120_120/p/8/005/02b/072/128f576.jpg'}},
 
+                          {title: 'candidate-me-picture-get',
+                            execute: function(root, extr){
+                              root.append('<img src="/api/v1/candidates/me/picture"/>')
+                            }
+                          },
 
-            {title: 'Work Experience'},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience'},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience',
-              data: {"company": "Intel Corp.", "role":"Project Architect",
-                "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
-                "start":"2004-01-01", summary:"Design of Intelligent Protoplasma"},
-              extract:   function(r, extr){return {work_experienceId: r.id}}},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience-2',
-              data: {"company": "Intel Corp.", "role":"Architect",
-                skills : ['Skill1', 'Skill2', 'Skill3'],
-                "city": "Berlin", country_iso: 'DE', "start":"2004-04-01", "end": "2004-05-01", summary:"Design of Intelligent Protoplasma"}},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-2'},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience/'+extr.work_experienceId}, title: 'delete-work_experience', method:"DELETE"},
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-3'},
+                          {url: '/api/v1/candidates/me', title: 'candidate-edit-me', method: 'PUT',
 
+                            data:{
+                              first_name: 'Harold',
+                              last_name: 'Lucky-One',
+                              contact_phone: '+40 243564375',
+                              contact_skype: 'super.skype.name',
+                              contact_line1: 'Super Duper Street 94',
+                              contact_line2: 'Line 2 Area',
+                              contact_zipcode: '34567',
+                              contact_city: 'Berlin+Super+Town+It was my idea',
+                              contact_country_iso: 'DE',
+                              dob: '2000-02-28',
+                              pob: 'Krakow, Poland',
+                              eu_work_visa: true,
+                              cv_upload_url: 'http://a-url-with-the-cv-document.com',
+                              stackoverflow_url: 'http://meta.stackexchange.com/users/183471/goje87',
+                              github_url: 'https://github.com/MartinPeschke'
 
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'SET-work_experience',
-              method: 'PUT',
-              data: [ {"company": "Intel Corp.", "role":"Project Architect",
-                "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
-                "start":"2000-02-29", summary:"Design of Intelligent Protoplasma"},
-                {"company": "Alpha Corp.", "start":"2004-03-31"},
-                {"company": "Sigma Corp.", "start":"2005-12-31", summary: 'SUMMARY', end:'2006-01-31'},
-                {"company": "Omega Corp.", "start":"2010-01-01", role: 'MD'},
-              ],
-              extract:   function(r, extr){return {work_experienceId: r.id}}},
+                            }},
+                          {url: '/api/v1/candidates/me', title: 'candidate-me-2'},
 
-            {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-4'},
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-WorkExperience'},
+                          {title: 'Password Forgot'},
+                          {url: '/api/v1/candidates/requestpassword', title: 'candidate-pwd-forgot', data: {email: email},
+                            extract: function(r, extr){return {pwdToken: r.token}}},
+                          {url: function(r, extr){ return '/api/v1/candidates/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-validate-token'},
+                          {url: function(r, extr){ return '/api/v1/candidates/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-reset', data: {pwd: 'helloworld'}},
+                          {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after pwd-reset',
+                            data: {"email": email, pwd:"helloworld"}
+                          },
+
+                          {title: 'Target Position'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'get-target_position'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'set-target_position',
+                            data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: true,
+                              travel_willingness:'>50%', minimum_salary: 100000},
+                            extract:   function(r, extr){return {target_positionId: r.id}}},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'unset-target_position', data: {} },
 
 
-            {title: 'Education'},
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education'},
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education',
-              data: {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
-                degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming"}},
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education',
-              data: {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland", "degree":null,
-                "start":1999, course:"Design of Intelligent Protoplasma"},
-              extract:   function(r, extr){return {educationId: r.id}}},
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education-2',
-              data: {"institution": "Peking University, China", "degree":"Master",
-                "start":2005, "end": 2007, course:"Cleanup of Intelligent Protoplasma"}},
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-2'},
-            {url: function(r, extr){return '/api/v1/candidates/me/education/'+extr.educationId}, title: 'delete-education', method:"DELETE"},
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-3'},
-
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-education',
-              method: 'PUT',
-              data: [
-                {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
-                  degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming"},
-                {"institution": "RWTH Aachen", "start":1994},
-                {"institution": "Universität Konstanz",
-                  degree: 'MD', "start":1997, course:"Oncology"},
-              ]
-            },
-
-            {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-4'},
-
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-Education'},
+                          {title: 'Work Experience'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience',
+                            data: {"company": "Intel Corp.", "role":"Project Architect",
+                              "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+                              "start":"2004-01-01", summary:"Design of Intelligent Protoplasma"},
+                            extract:   function(r, extr){return {work_experienceId: r.id}}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'create-work_experience-2',
+                            data: {"company": "Intel Corp.", "role":"Architect",
+                              skills : ['Skill1', 'Skill2', 'Skill3'],
+                              "city": "Berlin", country_iso: 'DE', "start":"2004-04-01", "end": "2004-05-01", summary:"Design of Intelligent Protoplasma"}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-2'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience/'+extr.work_experienceId}, title: 'delete-work_experience', method:"DELETE"},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-3'},
 
 
-            {title: 'Languages'},
-            {url: function(r, extr){return '/api/v1/candidates/me/languages'},
-              title: 'set-languages-1', method:'PUT', data: [
-              {'language':'English', 'proficiency': 'advanced'},
-              {'language':'German', 'proficiency': 'native'},
-              {'language':'French', 'proficiency': 'basic'}
-            ]},
-            {url: function(r, extr){return '/api/v1/candidates/me/languages'},
-              title: 'set-languages-2', method:'PUT', data: [
-              {'language':'Chinese', 'proficiency': 'native'},
-              {'language':'English', 'proficiency': 'basic'}
-            ]},
-            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-languages'},
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-languages'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'SET-work_experience',
+                            method: 'PUT',
+                            data: [ {"company": "Intel Corp.", "role":"Project Architect",
+                              "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+                              "start":"2000-02-29", summary:"Design of Intelligent Protoplasma"},
+                              {"company": "Alpha Corp.", "start":"2004-03-31"},
+                              {"company": "Sigma Corp.", "start":"2005-12-31", summary: 'SUMMARY', end:'2006-01-31'},
+                              {"company": "Omega Corp.", "start":"2010-01-01", role: 'MD'},
+                            ],
+                            extract:   function(r, extr){return {work_experienceId: r.id}}},
+
+                          {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-4'},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-WorkExperience'},
 
 
-            {title: 'Preferred Locations'},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-1', method:'PUT',
-              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-2', method: 'PUT',
-              data: {'DE': ['Berlin Schöneberg']}},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-locations-dontcare-1', method:'PUT',
-              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: null}},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-locations-dontcare-2', method:'PUT',
-              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: []}},
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-locations-dontcare-3', method:'PUT',
-              data: {DE: null}},
-            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_locations'},
+                          {title: 'Education'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education',
+                            data: {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+                              degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming"}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education',
+                            data: {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland", "degree":null,
+                              "start":1999, course:"Design of Intelligent Protoplasma"},
+                            extract:   function(r, extr){return {educationId: r.id}}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'create-education-2',
+                            data: {"institution": "Peking University, China", "degree":"Master",
+                              "start":2005, "end": 2007, course:"Cleanup of Intelligent Protoplasma"}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-2'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education/'+extr.educationId}, title: 'delete-education', method:"DELETE"},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-3'},
 
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-empty', method:'PUT', data: {}
-            },
-            {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-              title: 'set-preferred_locations-1', method:'PUT',
-              data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-education',
+                            method: 'PUT',
+                            data: [
+                              {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+                                degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming"},
+                              {"institution": "RWTH Aachen", "start":1994},
+                              {"institution": "Universität Konstanz",
+                                degree: 'MD', "start":1997, course:"Oncology"},
+                            ]
+                          },
 
-            {title: 'Skills'},
-            {url: function(r, extr){return '/api/v1/candidates/me/skills'},
-              title: 'set-skills', method:'PUT', data: [
-              {"skill": "PHP", "level":"advanced"},
-              {"skill": "Java", "level":"advanced"},
-              {"skill": "Python", "level":"basic"},
-              {"skill": "Spring", "level":"expert"},
-              {"skill": "SingStar"},
-              {"skill": "SegaGames", level:null}
-            ],
-              extract:   function(r, extr){return {skillId: r.id}}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-4'},
 
-            {url: function(r, extr){return '/api/v1/candidates/me/skills'},
-              title: 'set-skills-2', method:'PUT', data: [
-              {"skill": "PHP", "level":"basic"}, {"skill": "Python", "level":"expert"}],
-              extract:   function(r, extr){return {skillId: r.id}}},
-            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-skills'},
-            {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-skills'},
-
-            {'sectionTitle': 'Profile Completion'},
-
-            {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
-            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'profile-complete-summary',
-              data: {'summary': 'a long text and lots of information'}, method:'PUT'},
-            {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
-
-            {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'profile-complete-summary',
-              data: {'availability': 'Ill be available'}, method:'PUT'},
-            {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-Education'},
 
 
-            {'sectionTitle': 'Cleanup'},
-            {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
-            {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"},
-            {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after-delete',
-              data: {"email": email, pwd:"helloworld"}, expectedErrors:[404]
-            },
+                          {title: 'Languages'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/languages'},
+                            title: 'set-languages-1', method:'PUT', data: [
+                            {'language':'English', 'proficiency': 'advanced'},
+                            {'language':'German', 'proficiency': 'native'},
+                            {'language':'French', 'proficiency': 'basic'}
+                          ]},
+                          {url: function(r, extr){return '/api/v1/candidates/me/languages'},
+                            title: 'set-languages-2', method:'PUT', data: [
+                            {'language':'Chinese', 'proficiency': 'native'},
+                            {'language':'English', 'proficiency': 'basic'}
+                          ]},
+                          {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-languages'},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-languages'},
 
-          ])
-          ;
 
-  $(function(){getTestRunner(tests)(0, {});})
+                          {title: 'Preferred Locations'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-preferred_locations-1', method:'PUT',
+                            data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-preferred_locations-2', method: 'PUT',
+                            data: {'DE': ['Berlin Schöneberg']}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-locations-dontcare-1', method:'PUT',
+                            data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: null}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-locations-dontcare-2', method:'PUT',
+                            data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: []}},
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-locations-dontcare-3', method:'PUT',
+                            data: {DE: null}},
+                          {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_locations'},
+
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-preferred_locations-empty', method:'PUT', data: {}
+                          },
+                          {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
+                            title: 'set-preferred_locations-1', method:'PUT',
+                            data: {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}},
+
+                          {title: 'Skills'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/skills'},
+                            title: 'set-skills', method:'PUT', data: [
+                            {"skill": "PHP", "level":"advanced"},
+                            {"skill": "Java", "level":"advanced"},
+                            {"skill": "Python", "level":"basic"},
+                            {"skill": "Spring", "level":"expert"},
+                            {"skill": "SingStar"},
+                            {"skill": "SegaGames", level:null}
+                          ],
+                            extract:   function(r, extr){return {skillId: r.id}}},
+
+                          {url: function(r, extr){return '/api/v1/candidates/me/skills'},
+                            title: 'set-skills-2', method:'PUT', data: [
+                            {"skill": "PHP", "level":"basic"}, {"skill": "Python", "level":"expert"}],
+                            extract:   function(r, extr){return {skillId: r.id}}},
+                          {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-skills'},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-skills'},
+
+                          {'sectionTitle': 'Profile Completion'},
+
+                          {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
+                          {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'profile-complete-summary',
+                            data: {'summary': 'a long text and lots of information'}, method:'PUT'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
+
+                          {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'profile-complete-summary',
+                            data: {'availability': 'Ill be available'}, method:'PUT'},
+                          {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
+
+
+                          {'sectionTitle': 'Cleanup'},
+                          {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
+                          {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"},
+                          {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after-delete',
+                            data: {"email": email, pwd:"helloworld"}, expectedErrors:[404]
+                          },
+
+                        ]))
+        ;
+
+$(function(){getTestRunner(tests)(0, {});})
 </script>
 </%def>

@@ -9,6 +9,8 @@ from pyramid.authentication import CallbackAuthenticationPolicy
 from pyramid.security import Allow, ALL_PERMISSIONS, Authenticated, Everyone
 
 
+ADMIN_USER = 'ADMIN_USER'
+
 log = logging.getLogger(__name__)
 
 
@@ -40,6 +42,7 @@ class AuthProvider(CallbackAuthenticationPolicy):
 
     def effective_principals(self, request, *args, **kwargs):
         principals = [Everyone]
+        principals += [ADMIN_USER]  # TODO: at some time not everyone should be superuser
         user_key = self.authenticated_userid(request)
         if user_key:
             principals += [Authenticated]

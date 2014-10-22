@@ -4,13 +4,20 @@ import os
 from sqlalchemy.orm import class_mapper
 from sqlalchemy.sql import table, column
 import sqlalchemy as sa
+from scotty.auth.provider import ADMIN_USER
 
 
 DISPLAY_ALWAYS = 'DISPLAY_ALWAYS'
 DISPLAY_PRIVATE = 'DISPLAY_PRIVATE'
+DISPLAY_ADMIN = 'DISPLAY_ADMIN'
 
 PUBLIC = {'display': DISPLAY_ALWAYS}
 PRIVATE = {'display': DISPLAY_PRIVATE}
+ADMIN = {'display': DISPLAY_ADMIN}
+
+
+def allow_display(info, lvl):
+    return lvl == DISPLAY_ALWAYS or info.get('display') == lvl or lvl in info.get('display', [])
 
 
 def csv_inserter(basepath):
@@ -28,7 +35,10 @@ def csv_inserter(basepath):
 def json_encoder(val, request, level=PUBLIC):
     """Transforms a model into a dictionary which can be dumped to JSON."""
     # first we get the names of all the columns on your model
-    columns = [c.key for c in class_mapper(val.__class__).columns if c.info == PUBLIC]
+    columns = [c.key for c in class_mapper(val.__class__).columns if allow_display(c.info, DISPLAY_ALWAYS)]
+    if ADMIN_USER in request.effective_principals:
+        columns += [c.key for c in class_mapper(val.__class__).columns if allow_display(c.info, ADMIN_USER)]
+
     # then we return their values in a dict
     result = {c: getattr(val, c) for c in columns if getattr(val, c) is not None}
     return result
@@ -41,3 +51,6 @@ class JsonSerialisable(object):
 
 def association_proxy(val, request):
     return list(val)
+
+def keyed_tuple_slsr(val, request):
+    return val

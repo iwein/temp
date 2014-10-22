@@ -13,6 +13,18 @@
             {url: '/api/v1/admin/invite_codes', title: 'duplicate-invite-code', data:{'code': icode}, expectedErrors:[409]},
             {url: '/api/v1/admin/invite_codes', title: 'list-invite-codes'},
 
+            {sectionTitle: 'Admin Comments'},
+
+            {url: '/api/v1/candidates/?limit=1', 'title': 'get-candidate', extract: function(r, extr){
+              return {tmpCId: r.data[0].id}}},
+            {url: function(r, extr){return '/api/v1/candidates/'+extr.tmpCId},
+              title: 'admin-candidate-comment', data:{admin_comment: 'Admin\'s candidate word is good'}, method: 'PUT'},
+
+            {url: '/api/v1/employers/?limit=1', 'title': 'get-employer', extract: function(r, extr){
+              return {tmpEId: r.data[0].id}}},
+            {url: function(r, extr){return '/api/v1/employers/'+extr.tmpEId},
+              title: 'admin-employer-comment', data:{admin_comment: 'Admin\'s employer word is also good'}, method: 'PUT'},
+
 
             {sectionTitle: 'Search'},
             {url: '/api/v1/admin/search/employers?q=Hack', title: 'admin-search-employers'},

@@ -9,8 +9,9 @@ from pyramid.renderers import JSON
 from pyramid_beaker import session_factory_from_settings
 import pyramid_mako
 from sqlalchemy.ext.associationproxy import _AssociationList
+from sqlalchemy.util import KeyedTuple
 from scotty.auth.provider import AuthProvider, RootResource
-from scotty.models.tools import json_encoder, association_proxy
+from scotty.models.tools import json_encoder, association_proxy, keyed_tuple_slsr
 from scotty.predicates import ContentTypePredicate
 from scotty.services.emailer import emailer_factory
 from sqlalchemy import engine_from_config
@@ -38,6 +39,7 @@ jsonRenderer = JSON()
 jsonRenderer.add_adapter(datetime, format_datetime)
 jsonRenderer.add_adapter(date, format_date)
 jsonRenderer.add_adapter(UUID, format_uuid)
+jsonRenderer.add_adapter(KeyedTuple, keyed_tuple_slsr)
 jsonRenderer.add_adapter(Base, json_encoder)
 jsonRenderer.add_adapter(_AssociationList, association_proxy)
 
