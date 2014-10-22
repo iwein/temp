@@ -1,102 +1,115 @@
-<div class="component-employer-candidate-profile row" ng-show="ready">
+<div class="component-employer-candidate-profile" ng-show="ready">
   <div class="">
 
     <a ui-sref="create-offer({ id: id })" class="btn btn-primary">Make an Offer</a>
+    
 
-    <div class="page-header">
-      <h1>
-        <img class="avatar" ng-src="{{ user.picture_url }}">
-        <small>{{ user.first_name }} {{ user.last_name }}</small>
-      </h1>
+    <div class="row">
+      <div class="col-sm-3">
+        <img class="img-responsive" ng-src="{{ user.picture_url }}">
+      </div>
+      
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Personal data</h3>
+            <small>{{ user.first_name }} {{ user.last_name }}</small>
+          </div>
+          <div class="panel-body">
+            <dl class="dl-horizontal">
+              <dt>Availabilty</dt>
+              <dd>{{ user.availability }}</dd>
+              <dt>EU Work Visa</dt>
+              <dd>
+                <span ng-show="user.eu_work_visa">Yes</span>
+                <span ng-show="!user.eu_work_visa">No</span>
+              </dd>
+              <dt ng-if="user.summary">Summary</dt>
+              <dd ng-if="user.summary">{{ user.summary }}</dd>
+              <dt ng-if="user.cv_upload_url">CV</dt>
+              <dd ng-if="user.cv_upload_url">
+                <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
+              </dd>
+              <dt ng-if="user.contact_skype">Skype</dt>
+              <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
+              <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
+              <dd ng-if="user.stackoverflow_url">
+                <a ng-href="{{ user.stackoverflow_url }}">{{ user.stackoverflow_url }}</a>
+              </dd>
+              <dt ng-if="user.github_url">Github</dt>
+              <dd ng-if="user.github_url">
+                <a ng-href="{{ user.github_url }}">{{ user.github_url }}</a>
+              </dd>
+              <dt>Location</dt>
+              <dd>
+                <address>
+                  {{ user.location.city }}, {{ user.location.country_iso }}
+                </address>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-sm-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Skills</h3>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="entry in skills">
+              <span class="value">
+                {{ entry.skill }}
+                <span ng-if="entry.level">({{ entry.level }})</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Personal data</h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>Availabilty</dt>
-          <dd>{{ user.availability }}</dd>
-          <dt>EU Work Visa</dt>
-          <dd>
-            <span ng-show="user.eu_work_visa">Yes</span>
-            <span ng-show="!user.eu_work_visa">No</span>
-          </dd>
-          <dt ng-if="user.summary">Summary</dt>
-          <dd ng-if="user.summary">{{ user.summary }}</dd>
-          <dt ng-if="user.cv_upload_url">CV</dt>
-          <dd ng-if="user.cv_upload_url">
-            <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
-          </dd>
-          <dt ng-if="user.contact_skype">Skype</dt>
-          <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
-          <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
-          <dd ng-if="user.stackoverflow_url">
-            <a ng-href="{{ user.stackoverflow_url }}">{{ user.stackoverflow_url }}</a>
-          </dd>
-          <dt ng-if="user.github_url">Github</dt>
-          <dd ng-if="user.github_url">
-            <a ng-href="{{ user.github_url }}">{{ user.github_url }}</a>
-          </dd>
-          <dt>Location</dt>
-          <dd>
-            <address>
-              {{ user.location.city }}, {{ user.location.country_iso }}
-            </address>
-          </dd>
-        </dl>
-      </div>
-    </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Skills</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="entry in skills">
-          <span class="value">
-            {{ entry.skill }}
-            <span ng-if="entry.level">({{ entry.level }})</span>
-          </span>
-        </li>
-      </ul>
-    </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Languages</h3>
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Languages</h3>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="entry in languages">
+              <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="entry in languages">
-          <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
-        </li>
-      </ul>
-    </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          Target position
-          <button type="submit"
-            class="btn btn-default pull-right"
-            ng-show="isEditing && !formOpen"
-            ng-disabled="loading"
-            ng-click="targetPositionForm.edit(targetPosition, cities)">
-            Edit
-          </button>
-          <div class="clearfix"></div>
-        </h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>role</dt>
-          <dd>{{ targetPosition.role }}</dd>
-          <dt>skills</dt>
-          <dd>{{ targetPosition.skills.join(', ') }}</dd>
-          <dt>minimum salary</dt>
-          <dd>{{ targetPosition.minimum_salary | dottedInteger }}€</dd>
-        </dl>
+      <div class="col-sm-9">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Target position
+              <button type="submit"
+                class="btn btn-default pull-right"
+                ng-show="isEditing && !formOpen"
+                ng-disabled="loading"
+                ng-click="targetPositionForm.edit(targetPosition, cities)">
+                Edit
+              </button>
+              <div class="clearfix"></div>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <dl class="dl-horizontal">
+              <dt>role</dt>
+              <dd>{{ targetPosition.role }}</dd>
+              <dt>skills</dt>
+              <dd>{{ targetPosition.skills.join(', ') }}</dd>
+              <dt>minimum salary</dt>
+              <dd>{{ targetPosition.minimum_salary | dottedInteger }}€</dd>
+            </dl>
+          </div>
+        </div>
       </div>
     </div>
 
