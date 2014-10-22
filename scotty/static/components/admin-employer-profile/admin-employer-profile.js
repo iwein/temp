@@ -5,6 +5,7 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Loader, Session) {
+    $scope.saveAdminComment = saveAdminComment;
     $scope.ready = false;
     $scope.id = $state.params.id;
     Loader.page(true);
@@ -21,6 +22,14 @@ define(function(require) {
     }).finally(function() {
       Loader.page(false);
     });
+
+
+    function saveAdminComment(comment) {
+      Loader.add('admin-employer-profile-comment');
+      return $scope.employer.updateData({ admin_comment: comment })
+        .catch(toaster.defaultError)
+        .finally(function() { Loader.remove('admin-employer-profile-comment') });
+    }
   });
 
 

@@ -6,6 +6,22 @@
       Delete candidate
     </button>
 
+    <div class="profile-workflow">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form ng-submit="saveAdminComment(user.admin_comment)">
+            <div class="form-group required">
+              <label>Admin comment</label>
+              <textarea class="form-control" required ng-model="user.admin_comment"></textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="page-header">
       <h1>
         <img class="avatar" ng-src="{{ user.picture_url }}">
