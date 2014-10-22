@@ -2,7 +2,6 @@
 
 stepDefinitions(function(scenario) {
   'use strict';
-  AJAX.log = false;
   scenario.World = window.World;
 
 
@@ -11,8 +10,6 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.After(function () {
-    this.lastRequest = null;
-    this.lastResponse = null;
     return AJAX.post('/logout', {}, { log: false })
       // if fails just pass
       .catch(function() { });
@@ -37,21 +34,9 @@ stepDefinitions(function(scenario) {
     }));
   });
 
-  scenario.When(/^I invoke "([^"]*)" endpoint$/, function(endpoint) {
-    return this.storeRequest(AJAX.get(endpoint));
-  });
-
   scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key) {
-    assert(this.lastResponse[key], 'Field not found');
-    assert(this.lastResponse[key] === this.candidateEmail, 'Email is not expected');
-  });
-
-  scenario.Then(/^The response status should be "([^"]*)"$/, function(status) {
-    status = +status;
-    assert(
-      this.lastRequest.status === status,
-      'Expected status "' + status + '" but "' + this.lastRequest.status + '" found'
-    );
+    assert(key in this.lastResponse, 'Field "' + key + '" not found in response: ' + JSON.stringify(this.lastResponse));
+    assert(this.lastResponse[key] === this.candidateEmail, 'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found');
   });
 });
 
