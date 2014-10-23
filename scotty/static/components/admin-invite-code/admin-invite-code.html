@@ -14,20 +14,40 @@
       </div>
 
       <div class="form-group">
+      <label>Description</label>
+
+        <textarea class="form-control"
+          name="description"
+          ng-model="model.description">
+        </textarea>
+      </div>
+
+      <div class="form-group">
         <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
       </div>
     </form>
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Vouchers</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="entry in vauchers">
-          <span>{{ entry.created | timeAgo }}</span> -
-          <span>{{ entry.code }}</span>
-        </li>
-      </ul>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Created</th>
+            <th>Code</th>
+            <th>Used</th>
+            <!--<th>Last usage</th>-->
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="entry in vauchers">
+            <td>{{ entry.created | timeAgo }}</td>
+            <td>{{ entry.code }}</td>
+            <td>{{ entry.candidate_count }}</td>
+            <!--<td>{{ entry.last_used | timeAgo }}</td>-->
+            <td>{{ entry.description }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

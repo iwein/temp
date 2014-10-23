@@ -12,6 +12,13 @@ define(function(require) {
 
     function list() {
       Session.getInviteCodes()
+        .then(function(result) {
+          return result.sort(function(a, b) {
+            var aCreated = new Date(a.created);
+            var bCreated = new Date(b.created);
+            return bCreated - aCreated;
+          });
+        })
         .then(fn.setTo('vauchers', $scope))
         .finally(function() { Loader.page(false) });
     }
