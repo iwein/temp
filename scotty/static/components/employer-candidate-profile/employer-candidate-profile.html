@@ -1,5 +1,4 @@
 <div class="component-employer-candidate-profile" ng-show="ready">
-  <a ui-sref="create-offer({ id: id })" class="btn btn-primary">Make an Offer</a>
   
   <div class="inner">
 
@@ -15,7 +14,7 @@
             <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
           </div>
           <div>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium.</p>
+            <p>{{ user.summary }}</p>
           </div>
         </div>
       </div>
@@ -30,23 +29,69 @@
           <div class="yellow bld">Company 3</div>
           <div class="mrg-btm">€ 65.000,00 / year</div>
         </div>
-        <button class="btn btn-block btn_green">Make an offer</button>
+        <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Make an offer</a>
       </div>
     </div>
 
     <div class="row no-gutter">
       <div class="col-sm-3">
-        <div class="bg-gray pad-20 mrg-btm">
-          <div> 60000000</div>
-          <div> Berlin</div>
+        <div class="bg-gray pad-20 mrg-btm info">
+          <div class="abs">
+            <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
+            <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+          </div>
         </div>
       </div>
 
       <div class="col-sm-9">
-        <div class="bg-yellow pad-20">
+        <div class="bg-yellow pad-20 mrg-btm">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="skills-head">
+                <div class="big-title skills-title">SKILLS</div>
+                <div class="caption">
+                  <div>expert <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                  <div>advanced <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                  <div>basic <i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="skills-wrap ">
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">PHP <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Ruby <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-4 white alg-right">Python <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></div>
+                <div class="col-sm-12 col-sm-offset-1">
+                  <div class="skills-others">
+                    <strong>Others:</strong> CPython, Jython, Microsoft Office</div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row no-gutter">
+      <div class="col-sm-3">
+        <div class="brd pad-20 mrg-btm">
+          <div> <span class="iconParent"><i class="fa fa-birthday-cake yellow"></i> </span> Age 34</div>
+          <div> <span class="iconParent"><i class="fa fa-check yellow"></i></span> has a work visa</div>
+        </div>
+      </div>
+
+      <div class="col-sm-9">
+        <div class="pad-20">
           <div class="row">
             <div class="col-sm-3">
-              SKILLS
+              CAREER SUMMARY
             </div>
             <div class="col-sm-9">
               
@@ -61,42 +106,40 @@
       <div class="col-sm-3">
         <div class="bg-gray-light pad-20 mrg-btm">
           <div class="box-title box-title_left">Availability</div>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium.</p>
+          <p class="gray">{{ user.availability }}</p>
         </div>
         <div class="bg-gray-light pad-20 mrg-btm">
           <div class="box-title box-title_left">Languages</div>
           <div ng-repeat="entry in languages">
-              <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
+              <span class="value gray">{{ entry.language }}: <strong>({{ entry.proficiency }})</strong></span>
           </div>
         </div>
       </div>
 
       <div class="col-sm-9">
         <div class="accordion-wrap bg-white pad-20 mrg-btm">
-          <div class="row">
-            <div class="col-sm-3">
-              SKILLS
-            </div>
-            <div class="col-sm-9">
-              
-            </div>
-          </div>
+
+              <h2 class="big-title accordion-main-title ">WORK EXPERIENCE</h2>
+              <h3 class="accordion-subtitle">UX Consultant & Designer </h3>
+              <h4 class="accordion-subtitle2">Gestalten</h4> 
+              <span class="accordion-date">May 2013 – today (1 year 6 month)</span>
+              <ul>
+                <li>-  Worked with various clients from Australia, UK, Japan, Canada, US and Germany</li>
+                <li>-  User research, Cross-browser compatibility testing, A/B Testing</li>
+                <li>-  Mobile Design</li>
+                <li>-  Storyboarding and customer journey mapping </li>
+                <li>-  Conceptual and interaction design of different web Apps using Photoshop, Illustrator, Fireworks, HTML5/CSS3
+<li>
+              </ul>
+              <a href="#"><i class="fa fa-chevron-down blue-light"></i></a>
         </div>
         <div class="accordion-wrap bg-white pad-20">
-          <div class="row">
-            <div class="col-sm-3">
-              SKILLS
-            </div>
-            <div class="col-sm-9">
-              
-            </div>
-          </div>
+
+              <h2 class="big-title accordion-main-title ">EDUCATION</h2>
+
+
         </div>
       </div>
     </div>
-
-
-    
-    
   </div>
 </div>

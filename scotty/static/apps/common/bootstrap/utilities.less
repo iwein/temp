@@ -58,24 +58,15 @@
 
 // Removing gutters
 // -------------------------
-
-/* remove spacing between middle columns */
-.row.no-gutter [class*='col-']:not(:first-child):not(:last-child) {
-  padding-right:0;
-  padding-left:0;
+.row.no-gutter {
+  margin-right: 0;
+  margin-left: 0;
 }
-/* remove right padding from first column */
-.row.no-gutter [class*='col-']:first-child {
-  padding-right:0;
+.row.no-gutter [class^="col-"],
+.row.no-gutter [class*=" col-"]{
+  padding-right: 0;
+  padding-left: 0;
 }
-/* remove left padding from first column */
-.row.no-gutter [class*='col-']:last-child {
-  padding-left:0;
-}
-
-/* only for column content visible */
-.col-lg-1>div {background-color:#ddd;}
-
 
 
 // General utilities classes
@@ -112,7 +103,15 @@
 .yellow {
   color: @yellow
 }
-
+.gray {
+  color: @text-color
+}
+.white {
+  color: @white;
+}
+.blue-light {
+  color: @blue-light;
+}
 /* paddings */
 
 .pad-normal {
@@ -134,20 +133,27 @@
   padding: 15px 0
 }
 
+/* borders */
 
-/* boxes */
-.box-title {
-  font-size: 16px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid @white;
-  text-transform: uppercase;
+.brd {
+  border: 1px solid @white
 }
 
-.box-title_right {
-  margin-right: -20px;
+/* aling */
+
+.alg-right {
+  text-align: right
 }
-.box-title_left {
-  margin-left: -20px;
-  padding-left: 20px
+
+.iconParent {
+  width: 15px;
+  margin-right: 5px;
+  text-align: center;
+  display: inline-block;
+}
+
+.abs {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
 }
