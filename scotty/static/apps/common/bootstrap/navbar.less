@@ -163,10 +163,11 @@
 
 .navbar-brand {
   float: left;
-  padding: @navbar-padding-vertical @navbar-padding-horizontal;
-  font-size: @font-size-large;
-  line-height: @line-height-computed;
+  font-size: 30px;
+  line-height: @navbar-height;
   height: @navbar-height;
+  text-transform: uppercase;
+  font-weight: bold;
 
   &:hover,
   &:focus {
@@ -176,7 +177,7 @@
   @media (min-width: @grid-float-breakpoint) {
     .navbar > .container &,
     .navbar > .container-fluid & {
-      margin-left: -@navbar-padding-horizontal;
+      //margin-left: -@navbar-padding-horizontal;
     }
   }
 }
