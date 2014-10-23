@@ -1,0 +1,7 @@
+node_modules
+bower_components
+
+# vendors
+features/tools/assert.js
+features/tools/es6-promise-2.0.0.js
+features/tools/function.bind.polyfill.js

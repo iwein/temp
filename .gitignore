@@ -60,3 +60,4 @@ docs/_build/
 
 
 scotty/static/config/config.js
+node_modules

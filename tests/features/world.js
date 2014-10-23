@@ -1,4 +1,5 @@
 /*globals guid */
+'use strict';
 
 function World() { }
 

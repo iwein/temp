@@ -1,4 +1,4 @@
-/*globals stepDefinitions, assert, AJAX */
+/* globals stepDefinitions, assert, AJAX */
 
 stepDefinitions(function(scenario) {
   'use strict';
@@ -36,7 +36,10 @@ stepDefinitions(function(scenario) {
 
   scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key) {
     assert(key in this.lastResponse, 'Field "' + key + '" not found in response: ' + JSON.stringify(this.lastResponse));
-    assert(this.lastResponse[key] === this.candidateEmail, 'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found');
+    assert(
+      this.lastResponse[key] === this.candidateEmail,
+      'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found'
+    );
   });
 });
 

@@ -1,4 +1,4 @@
-/*globals console */
+/* globals console */
 
 (function() {
   'use strict';
@@ -8,7 +8,8 @@
   request.get = get;
   request.put = put;
   request.post = post;
-  request.delete = del;
+  request.delete = _delete;
+  request._delete = _delete;
   request.server = 'http://sheltered-meadow-1359.herokuapp.com/api/v1';
   window.AJAX = request;
 
@@ -31,7 +32,7 @@
     return request('POST', url, options);
   }
 
-  function del(url, options) {
+  function _delete(url, options) {
     return request('DELETE', url, options);
   }
 

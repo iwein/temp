@@ -1,3 +1,6 @@
+/* globals addStepDefinitions */
+/* exported stepDefinitions */
+
 function stepDefinitions(callback) {
   'use strict';
 
