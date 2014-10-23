@@ -1,22 +1,22 @@
 <div class="component-employer-candidate-profile" ng-show="ready">
-  <div class="">
+  <div class="inner">
 
     <a ui-sref="create-offer({ id: id })" class="btn btn-primary">Make an Offer</a>
     
 
-    <div class="row">
+    <div class="row no-gutter">
       <div class="col-sm-3">
         <img class="img-responsive" ng-src="{{ user.picture_url }}">
       </div>
       
       <div class="col-sm-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Personal data</h3>
-            <small>{{ user.first_name }} {{ user.last_name }}</small>
+        <div class="bg-white">
+          <div>
+            <h2 class="panel-title">{{ user.first_name }} {{ user.last_name }}</h3>
+              <p></p>
           </div>
-          <div class="panel-body">
-            <dl class="dl-horizontal">
+          <div>
+            <dl>
               <dt>Availabilty</dt>
               <dd>{{ user.availability }}</dd>
               <dt>EU Work Visa</dt>
