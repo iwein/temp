@@ -16,18 +16,21 @@ h3 {
 
 .navbar {
   border-radius: 0;
-  border-top: 10px solid #0087FF;
-  border-bottom: 1px solid #C9C9C9;
-  background-color: #FFFCF5;
   margin-bottom: 0;
+  background: @gray-darker;
+  margin-bottom: 15px;
 
   .navbar-nav > li {
     & > a {
-      color: black;
+      color: @white;
+      font-size: 14px;
+      text-transform: uppercase;
+      line-height: 35px;
     }
     &.active > a {
       background-color: #0087ff;
       color: white;
+
       &:hover {
         background-color: #0087ff;
         color: white;
@@ -121,7 +124,19 @@ form {
   }
 }
 
+.user-pic{
+  min-height: 320px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
+.user-desc {
+  min-height: 320px;
+}
 /* boxes */
 .box-title {
   font-size: 16px;

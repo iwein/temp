@@ -1,14 +1,11 @@
 <div class="component-employer-candidate-profile" ng-show="ready">
-  
   <div class="inner">
 
     <div class="row no-gutter">
-      <div class="col-sm-3">
-        <img class="img-responsive" ng-src="{{ user.picture_url }}">
-      </div>
+      <div class="col-sm-3 user-pic" style="background-image: url({{ user.picture_url }})"></div>
       
       <div class="col-sm-6">
-        <div class="bg-white pad-normal">
+        <div class="bg-white pad-normal user-desc">
           <div class="">
             <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h3>
             <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
