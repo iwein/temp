@@ -15,7 +15,13 @@ module.exports = function(grunt) {
           configFile: 'karma.conf.js',
           autoWatch: false,
           singleRun: true,
-          reporters: [ 'progress' ],
+          reporters: [ 'dots', 'junit' ],
+          junitReporter: {
+            outputFile: 'test-results.xml',
+          },
+          client: {
+            captureConsole: false,
+          },
           browsers: [
             'PhantomJS',
             //'Chrome',
