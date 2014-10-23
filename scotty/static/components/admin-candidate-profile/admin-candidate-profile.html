@@ -37,6 +37,8 @@
         <dl class="dl-horizontal">
           <dt>status</dt>
           <dd>{{ user.status }}</dd>
+          <dt ng-if="user.invite_code_id">invite code</dt>
+          <dd ng-if="user.invite_code_id">{{ user.invite_code.code }}
           <dt>email</dt>
           <dd>{{ user.email }}</dd>
           <dt>Availabilty</dt>
