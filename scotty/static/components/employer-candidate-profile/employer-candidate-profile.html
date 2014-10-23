@@ -36,7 +36,7 @@
 
     <div class="row no-gutter">
       <div class="col-sm-3">
-        <div class="bg-gray pad-20">
+        <div class="bg-gray pad-20 mrg-btm">
           <div> 60000000</div>
           <div> Berlin</div>
         </div>
@@ -56,32 +56,47 @@
       </div>
     </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Preferred locations</h3>
-      </div>
-      <ul class="list-group">
-        <div ng-repeat="(country_iso, cities) in cities">
-          <li class="list-group-item" ng-show="!cities.length">{{ country_iso }} (Anywhere)</li>
-          <li class="list-group-item" ng-repeat="city in cities">
-            <span class="value">{{ city }}, {{ country_iso }}</span>
-          </li>
+
+    <div class="row no-gutter">
+      <div class="col-sm-3">
+        <div class="bg-gray-light pad-20 mrg-btm">
+          <div class="box-title box-title_left">Availability</div>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium.</p>
         </div>
-      </ul>
+        <div class="bg-gray-light pad-20 mrg-btm">
+          <div class="box-title box-title_left">Languages</div>
+          <div ng-repeat="entry in languages">
+              <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9">
+        <div class="accordion-wrap bg-white pad-20 mrg-btm">
+          <div class="row">
+            <div class="col-sm-3">
+              SKILLS
+            </div>
+            <div class="col-sm-9">
+              
+            </div>
+          </div>
+        </div>
+        <div class="accordion-wrap bg-white pad-20">
+          <div class="row">
+            <div class="col-sm-3">
+              SKILLS
+            </div>
+            <div class="col-sm-9">
+              
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div ng-if="ready">
-      <hc-experience
-        hc-title="Experience"
-        hc-source="candidate.getExperience()"
-        hc-show-empty>
-      </hc-experience>
 
-      <hc-education
-        hc-title="Education"
-        hc-source="candidate.getEducation()"
-        hc-show-empty>
-      </hc-education>
-    </div>
+    
+    
   </div>
 </div>
