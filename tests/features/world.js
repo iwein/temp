@@ -4,8 +4,10 @@
 function World() { }
 
 World.prototype = {
+  guid: guid,
+
   generateEmail: function() {
-    return 'catch+candidate-' + guid() + '@hackandcraft.com';
+    return 'catch+candidate-' + this.guid() + '@hackandcraft.com';
   },
 
   storeRequest: function(promise) {
@@ -20,4 +22,14 @@ World.prototype = {
 
     return promise.then(listener, listener);
   },
+
+  tableToObject: function(table) {
+    var values = table.raw();
+    var result = {};
+
+    for (var i = 0; i < values.length; i++)
+      result[values[i][0]] = values[i][1];
+
+    return result;
+  }
 };

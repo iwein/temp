@@ -34,6 +34,18 @@ stepDefinitions(function(scenario) {
     }));
   });
 
+  scenario.Given(/^I post a new candidate with invitation code$/, function() {
+    this.candidateEmail = this.generateEmail();
+
+    return this.storeRequest(AJAX.post('/candidates/', {
+      'invite_code': this.inviteCode,
+      'email': this.candidateEmail,
+      'pwd': 'welcomepwd',
+      'first_name': 'Bob',
+      'last_name': 'Bayley',
+    }));
+  });
+
   scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key) {
     assert(key in this.lastResponse, 'Field "' + key + '" not found in response: ' + JSON.stringify(this.lastResponse));
     assert(
