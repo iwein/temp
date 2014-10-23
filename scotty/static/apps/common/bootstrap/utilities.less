@@ -55,3 +55,99 @@
   position: fixed;
   .translate3d(0, 0, 0);
 }
+
+// Removing gutters
+// -------------------------
+
+/* remove spacing between middle columns */
+.row.no-gutter [class*='col-']:not(:first-child):not(:last-child) {
+  padding-right:0;
+  padding-left:0;
+}
+/* remove right padding from first column */
+.row.no-gutter [class*='col-']:first-child {
+  padding-right:0;
+}
+/* remove left padding from first column */
+.row.no-gutter [class*='col-']:last-child {
+  padding-left:0;
+}
+
+/* only for column content visible */
+.col-lg-1>div {background-color:#ddd;}
+
+
+
+// General utilities classes
+// -------------------------
+
+/* backgrounds */
+
+.bg-white {
+  background: @white;
+}
+
+.bg-gray {
+  background: @gray-darker;
+  color: @white;
+}
+
+.bg-gray-light {
+  background: @gray-light;
+  color: @white;
+}
+
+.bg-yellow {
+  background: @yellow
+}
+
+/* font-weight */
+
+.bld {
+  font-weight: bold;
+}
+
+/* colors */
+
+.yellow {
+  color: @yellow
+}
+
+/* paddings */
+
+.pad-normal {
+  padding: 30px 20px
+}
+
+.pad-20 {
+  padding: 20px
+}
+
+
+/* margins */
+
+.mrg-btm {
+  margin-bottom: 15px;
+}
+
+.inner {
+  padding: 15px 0
+}
+
+
+/* boxes */
+.box-title {
+  font-size: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid @white;
+  text-transform: uppercase;
+}
+
+.box-title_right {
+  margin-right: -20px;
+}
+.box-title_left {
+  margin-left: -20px;
+  padding-left: 20px
+}
