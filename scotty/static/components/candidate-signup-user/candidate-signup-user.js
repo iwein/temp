@@ -41,7 +41,7 @@ define(function(require) {
       $scope.loading = true;
       Loader.add('signup-user-saving');
 
-      Session.signup($scope.model).then(function() {
+      return Session.signup($scope.model).then(function() {
         var position = _.omit($scope.signup.target, 'preferred_locations', 'featuredSkills');
         var locations = $scope.signup.preferred_locations;
         position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills || []);
@@ -54,10 +54,19 @@ define(function(require) {
         localStorage.removeItem('scotty:target_position');
         return $scope.signup.nextStep();
       }).catch(function(request) {
-        if (request.status === 409)
+        if (request.status === 409) {
           $scope.errorAlreadyRegistered = true;
-        else
-          toaster.defaultError();
+          return;
+        }
+
+        if (request.status === 400 && request.data.db_message === 'Unknown InviteCode') {
+          toaster.error('Unknown invite code');
+          return;
+        }
+
+        throw request;
+      }).catch(function() {
+        toaster.defaultError();
       }).finally(function() {
         $scope.loading = false;
         Loader.remove('signup-user-saving');
