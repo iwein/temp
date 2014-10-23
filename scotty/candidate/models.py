@@ -314,4 +314,5 @@ class FullCandidate(WXPCandidate):
         result['activation_token'] = self.activation_token
         result['activation_sent'] = self.activation_sent
         result['admin_comment'] = self.admin_comment
+        result['invite_code'] = self.invite_code
         return result
