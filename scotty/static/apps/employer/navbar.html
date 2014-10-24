@@ -1,6 +1,8 @@
   <nav class="navbar navbar-default" role="navigation">
     <div class="container">
+
       <!-- Brand and toggle get grouped for better mobile display -->
+
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" ng-click="navbarMenuOpen = !navbarMenuOpen">
           <span class="sr-only">Toggle navigation</span>
@@ -13,7 +15,17 @@
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" ng-class="{ in: navbarMenuOpen }">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" ng-show="session.user" ui-sref-active="active">
+            <a ui-sref="profile">
+              <div class="user-avatar" style="background-image: url({{ session.user._data.logo_url }})"></div>
+              {{ session.user._data.company_name }}
+            </a>
+            <div class="logout" ng-show="session.user"><a ng-click="logout()">Log out</a></div>
+          </li>
+          
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
           <li ng-hide="session.user" ui-sref-active="active">
             <a ui-sref="login">Log in</a>
           </li>
@@ -21,15 +33,10 @@
             <a ui-sref="signup">Sign up</a>
           </li>
           <li ng-show="session.user" ui-sref-active="active">
-            <a ui-sref="dashboard">Dashboard</a>
+            <a ui-sref="dashboard">Home</a>
           </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li ng-show="session.user" ui-sref-active="active">
-            <a ui-sref="profile">{{ session.user._data.company_name }}</a>
-          </li>
-          <li ng-show="session.user"><a class="link" ng-click="logout()">Log out</a></li>
-        </ul>
+        
       </div>
     </div>
   </nav>
