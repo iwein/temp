@@ -1,4 +1,5 @@
 body {
+  overflow-y: scroll;
   #container {
     background-color: #FFFCF5;
   }
@@ -210,8 +211,16 @@ form {
 .accordion-date {
   color: @gray-light;
   font-size: 12px;
+  padding-bottom: 5px;
 }
-
+.accordion-text {
+  height: 0;
+  overflow: hidden;
+}
+.accordion-container.open .accordion-text {
+  height: auto;
+  padding: 5px 0
+}
 /* company list */
 .company-list {
   padding: 20px 0
