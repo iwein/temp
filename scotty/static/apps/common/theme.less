@@ -211,3 +211,121 @@ form {
   color: @gray-light;
   font-size: 12px;
 }
+
+/* company list */
+.company-list {
+  padding: 20px 0
+}
+.company-list-item {
+  border-bottom: 1px solid @gray;
+  margin-bottom: 20px;
+}
+.location {
+  margin-top: 5px;
+}
+.col-skills {
+  a {
+    color: @green;
+    text-transform: uppercase;
+    text-decoration: underline;
+    i {
+      font-size: 10px;
+      font-weight: normal;
+    }
+  }
+}
+.bookmark {
+  display: block;
+  background: url(../candidate/resources/images/bookmark_tag.png) 0 0 no-repeat;
+  width: 29px;
+  height: 29px
+}
+.bookmark_active {
+  background: url(../candidate/resources/images/bookmark_tag_active.png) 0 0 no-repeat;
+}
+.bookmark_inactive {
+  background: url(../candidate/resources/images/bookmark_tag_inactive.png) 0 0 no-repeat;
+}
+/* timeline */
+
+.gray-bar{
+  position: absolute;
+  bottom: 10px;
+  top: 10px;
+  left: 50%;
+  width: 5px;
+  margin-left: -2px;
+  background: @gray-lighter2;
+}
+.timeline-head {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 20px;
+  font-size: 16px;
+  .date {
+    padding-top: 3px
+  }
+}
+.timeline {
+  width: 16.66666667%;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+}
+.timeline-item {
+  padding-bottom: 25px;
+}
+.dot {
+  text-align: center;
+}
+.dot i{
+  color: @yellow;
+  font-size: 25px;
+}
+.news-ico {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto
+}
+.news-ico-signup {
+  background: url(../candidate/resources/images/news-ico-signup.png) center center no-repeat;
+}
+.news-ico-profile-pending {
+  background: url(../candidate/resources/images/news-ico-profile-pending.png) center center no-repeat;
+}
+.news-ico-profile-live {
+  background: url(../candidate/resources/images/news-ico-profile-live.png) center center no-repeat;
+}
+.news-ico-offer-received {
+  background: url(../candidate/resources/images/news-ico-offer-received.png) center center no-repeat;
+}
+.news-ico-offer-rejected {
+  background: url(../candidate/resources/images/news-ico-offer-rejected.png) center center no-repeat;
+}
+.news-ico-offer-accepted {
+  background: url(../candidate/resources/images/news-ico-offer-accepted.png) center center no-repeat;
+}
+.news-ico-offer-negotiation {
+  background: url(../candidate/resources/images/news-ico-offer-negotiation.png) center center no-repeat;
+}
+.news-ico-offer-signed {
+  background: url(../candidate/resources/images/news-ico-signup.png) center center no-repeat;
+}
+.news-ico-offer-start-date {
+  background: url(../candidate/resources/images/news-ico-offer-start-date.png) center center no-repeat;
+}
+.news-ico-offer-bookmarked-employer {
+  background: url(../candidate/resources/images/placeholder.png) center center no-repeat;
+}
+
+.timeline-item {
+  .date{
+    font-size: 10px;
+    color: @gray-light;
+  }
+  .note{
+    font-size: 12px;
+    color: @gray-darker;
+  }
+}

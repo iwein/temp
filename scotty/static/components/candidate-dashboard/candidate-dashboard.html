@@ -1,32 +1,77 @@
-<div class="component-candidate-dashboard row" ng-if="ready">
-  <h3>Dashboard</h3>
+<div class="component-candidate-dashboard" ng-if="ready">
+  <div class="inner">
+    <div class="row">
 
-  <div class="col-sm-8">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">News</h3>
+      <div class="col-sm-3">
+        <div class="row timeline-head">
+          <div class="col-sm-2 no-padd-horz">
+            <div class="dot"><i class="fa fa-circle"></i></div>
+          </div>
+          <div class="col-sm-10 date">OCTOBER 2nd, 2014</div>
+        </div>
+        <div class="timeline">
+          <div class="gray-bar"></div>
+        </div>
+        <div class="row timeline-item" ng-repeat="entry in news">
+          <div class="col-sm-2 no-padd-horz">
+            <div class="news-ico
+news-ico-profile-pending 
+news-ico-profile-live 
+news-ico-offer-received 
+news-ico-offer-rejected 
+news-ico-offer-accepted 
+news-ico-offer-negotiation 
+news-ico-offer-signed 
+news-ico-offer-start-date 
+news-ico-offer-bookmarked-employer"></div>
+          </div>
+          <div class="col-sm-10">
+            <div class="date">{{ entry.date | timeAgo }}</div>
+            <div class="note">{{ entry.note }}</div>
+          </div>
+        </div>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="entry in news">
-          <span>{{ entry.note }}</span>
-          <span class="pull-right">{{ entry.date | timeAgo }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="col-sm-4">
-    <a class="btn-primary btn-search-employers" ui-sref="search-employers">Search employers</a>
+      <div class="col-sm-9">
+        <div class="bg-white pad-normal">
+            <h2 class="main-title">WE RECOMMEND</h2>
+            <h3 class="main-subtitle">Top companies using your target tech!</h3>
+            
+            <div class="company-list">
+              
+              <div class="company-list-item" ng-repeat="employer in suggested">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <img class="img-responsive" ng-src="{{ employer.logo_url }}">
+                  </div>
+                  <div class="col-sm-3 col-skills">
+                    <div> <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span><strong>Python</strong></div>
+                    <div> <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span><strong>Python</strong></div>
+                    <div> <span class="iconParent"><i class="fa fa-star yellow"></i></span><strong>Python</strong></div>
+                  </div>
+                  <div class="col-sm-4 no-padd-horz">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+                  </div>
+                  <div class="col-sm-1">
+                   <a href="#" class="bookmark bookmark_active bookmark_inactive"></a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="mrg-btm location">Berlin, DE</div>
+                  </div>
+                  <div class="col-sm-8 col-skills">
+                      <a href="#">Company profile  <i class="fa fa-chevron-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Companies working with your technology</h3>
+        <div>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="employer in suggested">
-          <a ui-sref="employer({ id: employer.id })">{{ employer.company_name }}</a>
-        </li>
-      </ul>
+
     </div>
   </div>
 </div>
+<!--a class="btn-primary btn-search-employers" ui-sref="search-employers">Search employers</a-->
