@@ -2,6 +2,7 @@
   <div class="inner">
     <div class="row">
 
+
       <div class="col-sm-3">
         <div class="row timeline-head">
           <div class="col-sm-2 no-padd-horz">
@@ -14,16 +15,19 @@
         </div>
         <div class="row timeline-item" ng-repeat="entry in news">
           <div class="col-sm-2 no-padd-horz">
-            <div class="news-ico
-news-ico-profile-pending 
-news-ico-profile-live 
-news-ico-offer-received 
-news-ico-offer-rejected 
-news-ico-offer-accepted 
-news-ico-offer-negotiation 
-news-ico-offer-signed 
-news-ico-offer-start-date 
-news-ico-offer-bookmarked-employer"></div>
+            <div class="news-ico" ng-class="{
+              'news-ico-profile-signup': entry.name === 'SIGN_UP',
+              'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
+              'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
+              'news-ico-profile-live': entry.name === 'PROFILE_LIVE',
+              'news-ico-offer-received': entry.name === 'OFFER_RECEIVED',
+              'news-ico-offer-rejected': entry.name === 'OFFER_REJECTED',
+              'news-ico-offer-accepted': entry.name === 'OFFER_ACCEPTED',
+              'news-ico-offer-negotiation': entry.name === 'OFFER_NEGOTIATION',
+              'news-ico-offer-signed': entry.name === 'OFFER_SIGNED',
+              'news-ico-offer-start-date': entry.name === 'OFFER_START_DATE',
+              'news-ico-offer-bookmarked-employe': entry.name === 'BOOKMARKED_EMPLOYER',
+            }"></div>
           </div>
           <div class="col-sm-10">
             <div class="date">{{ entry.date | timeAgo }}</div>
@@ -36,18 +40,18 @@ news-ico-offer-bookmarked-employer"></div>
         <div class="bg-white pad-normal">
             <h2 class="main-title">WE RECOMMEND</h2>
             <h3 class="main-subtitle">Top companies using your target tech!</h3>
-            
+
             <div class="company-list">
-              
+
               <div class="company-list-item" ng-repeat="employer in suggested">
                 <div class="row">
                   <div class="col-sm-4">
                     <img class="img-responsive" ng-src="{{ employer.logo_url }}">
                   </div>
                   <div class="col-sm-3 col-skills">
-                    <div> <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span><strong>Python</strong></div>
-                    <div> <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span><strong>Python</strong></div>
-                    <div> <span class="iconParent"><i class="fa fa-star yellow"></i></span><strong>Python</strong></div>
+                    <div ng-repeat="tag in employer.tech_tags">
+                      <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span><strong>{{ tag }}</strong>
+                    </div>
                   </div>
                   <div class="col-sm-4 no-padd-horz">
                     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
