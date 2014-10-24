@@ -16,16 +16,12 @@ module.exports = function(grunt) {
           autoWatch: false,
           singleRun: true,
           reporters: [ 'dots', 'junit' ],
-          junitReporter: {
-            outputFile: 'test-results.xml',
-          },
-          client: {
-            captureConsole: false,
-          },
+          client: { captureConsole: false },
+          junitReporter: { outputFile: 'test-results.xml' },
           browsers: [
             'PhantomJS',
             //'Chrome',
-            //'Firefox'
+            //'Firefox' - requires `npm install --save karma-firefox-launcher`
           ],
         }
       },
@@ -38,7 +34,7 @@ module.exports = function(grunt) {
           browsers: [
             //'PhantomJS',
             'Chrome',
-            //'Firefox'
+            //'Firefox' - requires `npm install --save karma-firefox-launcher`
           ],
         }
       }

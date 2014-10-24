@@ -1,12 +1,14 @@
-Feature: Basic candidate behaviour
-  Some description
+Feature: Candidate sign up & log in behavior
+  This feature describes a basic candidate executing operations to log in, log
+  out and get '/me' endpoint which will return candidate's data if the user is
+  logged in and 403 if there is no user logged in.
 
 
   Scenario: Candidate 'me' endpoint without user
       When I invoke "/candidates/me" endpoint
       Then The response status should be "403"
 
-  Scenario: Candidate signup
+  Scenario: Candidate simplest signup
       When I post a new candidate
       Then The response status should be "200"
        And The response should have candidate's email on "email" field
@@ -37,4 +39,15 @@ Feature: Basic candidate behaviour
        And I invoke "/candidates/me" endpoint
       Then The response status should be "200"
        And The response should have candidate's email on "email" field
+
+  Scenario: Candidate signup with invitation code
+     Given I create an invitation code
+       And I post a new candidate with invitation code
+      Then The response status should be "200"
+       And The response should have candidate's email on "email" field
+       And The response should have invitation code
 #      But The response don't have something else
+
+  # Disabled because there is no way to retrieve activation code from client
+  # Scenario: Candidate activation
+  #    Given I post a new candidate
