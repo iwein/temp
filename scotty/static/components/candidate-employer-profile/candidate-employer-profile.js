@@ -72,6 +72,6 @@ define(function(require) {
     url: '/employer/:id',
     template: require('text!./candidate-employer-profile.html'),
     controller: 'EmployerProfileCtrl',
-    controllerAs: 'employerProfile',
+    controllerAs: 'employerProfile'
   };
 });

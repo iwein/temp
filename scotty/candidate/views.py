@@ -443,4 +443,7 @@ class CandidateDashboardController(CandidateController):
             return {'data': [], 'pagination': {'total': 0}}
 
         pager = get_employers_pager(skills, self.candidate.location_id, None)
+        if not pager.ids:
+            pager = get_employers_pager(skills, None, None)
+
         return ObjectBuilder(Employer).serialize(pager)
