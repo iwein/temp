@@ -80,7 +80,7 @@ define(function(require) {
         }
 
         function search() {
-          if (!$scope.term) {
+          if (!$scope.term && !($scope.tags && $scope.tags.length)) {
             $scope.$apply(reset);
             return;
           }
