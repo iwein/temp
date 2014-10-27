@@ -19,12 +19,12 @@
       <div class="col-sm-3">
         <div class="bg-gray pad-20">
           <div class="box-title box-title_right">Offers</div>
-          <div class="yellow bld">Company 1</div>
-          <div class="mrg-btm">€ 65.000,00 / year</div>
-          <div class="yellow bld">Company 2</div>
-          <div class="mrg-btm">€ 65.000,00 / year</div>
-          <div class="yellow bld">Company 3</div>
-          <div class="mrg-btm">€ 65.000,00 / year</div>
+          <div ng-show="!offers.length">Empty</div>
+
+          <div ng-repeat="offer in offers">
+            <div class="yellow bld">{{ offer.employer.company_name }}</div>
+            <div class="mrg-btm">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
+          </div>
         </div>
         <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Make an offer</a>
       </div>
