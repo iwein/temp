@@ -3,16 +3,32 @@
     "src": "<%= files.admin.html %>",
     "dest": "<%= files.admin.out.html %>"
   },
+  "admin-resources": {
+    "src": "<%= files.admin.resources %>",
+    "dest": "<%= files.admin.out.resources %>"
+  },
+
   "candidate": {
     "src": "<%= files.candidate.html %>",
     "dest": "<%= files.candidate.out.html %>"
   },
+  "candidate-resources": {
+    "src": "<%= files.candidate.resources %>",
+    "dest": "<%= files.candidate.out.resources %>"
+  },
+
   "employer": {
     "src": "<%= files.employer.html %>",
     "dest": "<%= files.employer.out.html %>"
   },
+  "employer-resources": {
+    "src": "<%= files.employer.resources %>",
+    "dest": "<%= files.employer.out.resources %>"
+  },
+
   "index": {
     "src": "<%= files.index.html %>",
     "dest": "<%= files.index.out.html %>"
-  }
+  },
+  "index-resources": {}
 }

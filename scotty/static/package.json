@@ -21,6 +21,7 @@
     "load-grunt-tasks": "^0.6.0"
   },
   "devDependencies": {
+    "grunt-contrib-copy": "^0.5.0",
     "grunt-githooks": "^0.3.1",
     "grunt-karma": "^0.8.3",
     "grunt-protractor-runner": "^1.1.4",
