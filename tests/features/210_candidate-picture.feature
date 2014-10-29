@@ -7,8 +7,12 @@ Feature: Candidate sign up
 
   Scenario: Candidate set photo url
       When I post to "/candidates/me/picture":
-        | url | http://www.hackandcraft.com/ |
+        """
+        { "url": "http://www.hackandcraft.com/" }
+        """
       Then The response status should be "200"
-       And The response should have the property:
-        | picture_url | http://www.hackandcraft.com/ |
+       And The response should have:
+       """
+       { "picture_url": "http://www.hackandcraft.com/" }
+       """
 

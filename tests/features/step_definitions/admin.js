@@ -15,11 +15,10 @@ stepDefinitions(function(scenario) {
 
   scenario.Then(/^The response should have invitation code$/, function() {
     var response = this.lastResponse;
-    assert(response.invite_code, 'No invite_code object found');
-    assert(
-      response.invite_code.code === this.inviteCode,
-      'Expected invite code to be "' + this.inviteCode + '" but "' + response.invite_code.code + '" found'
-    );
+    var code = response.invite_code ? response.invite_code.code : response.code;
+
+    assert(code === this.inviteCode,
+      'Expected invite code to be "' + this.inviteCode + '" but "' + code + '" found');
   });
 
 });
