@@ -25,10 +25,68 @@
                         <div class="offer-date">created: October 19th, 2014</div>
                         <div class="row no-gutter">
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-green">Accept</div>
+                            <div class="rel">
+                              <button class="btn-offer bg-green exp">Accept</button>
+                              <div class="start-wrap">
+                                <div class="blue-light bld caps">Start date*</div>
+                                <input type="date" id="exampleInput" name="input" ng-model="value" placeholder="yyyy-MM-dd" min="2013-01-01" max="2013-12-31" required />
+                                <span class="error" ng-show="myForm.input.$error.required">
+                                     Required!</span>
+                                <span class="error" ng-show="myForm.input.$error.date">
+                                     Not a valid date!</span>
+                                <div class="blue-light bld caps">Start salary</div>
+                                <div class="salary">
+                                  <div class="ico-salary">€</div>
+                                  <input type="text"></input>
+                                </div>
+                                <div class="red bld">Please insert your start salary.</div>
+                                <button class="bg-green btn-small ">Submit</button>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-red">Reject</div>
+                            <div class="rel">
+                              <button class="btn-offer bg-red exp">Reject</button>
+                              <div class="reject-wrap hide">
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Role not fitting to my interest</label>
+                                </div>
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Technologies not attractive</label>
+                                </div>
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Locations does not fit</label>
+                                </div>
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Company profile not convincing</label>
+                                </div>
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Salary offer not high enough</label>
+                                </div>
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Benefits insufficients</label>
+                                </div>
+                                <div>
+                                  <label><input type="checkbox" name="reject">
+                                  Other</label>
+                                </div>
+                                <div>
+                                  <button type="button">
+                                    <div class="brd-circle">
+                                      <i class="fa fa-close"></i>
+                                    </div>
+                                    Block employer
+                                  </button>
+                                </div>
+                                <button class="bg-green btn-small ">Submit</button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -100,7 +158,7 @@
                             <div class="btn-offer bg-green inactive">Sign contract</div>
                           </div>
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-red">Reject</div>
+                            <button class="btn-offer bg-red exp">Reject</button>
                           </div>
                         </div>
                       </div>
@@ -169,10 +227,10 @@
                         <div class="offer-date">created: October 19th, 2014</div>
                         <div class="row no-gutter">
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-green">Sign contract</div>
+                            <button class="btn-offer bg-green exp">Sign contract</button>
                           </div>
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-red">Reject</div>
+                            <button class="btn-offer bg-red exp">Reject</button>
                           </div>
                         </div>
                       </div>
@@ -306,7 +364,7 @@
                             <div class="btn-offer bg-green inactive">Sign contract</div>
                           </div>
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-red">Reject</div>
+                            <button class="btn-offer bg-red exp">Reject</button>
                           </div>
                         </div>
                       </div>
@@ -378,7 +436,7 @@
                             <div class="btn-offer bg-green inactive">Sign contract</div>
                           </div>
                           <div class="col-sm-3">
-                            <div class="btn-offer bg-red">Reject</div>
+                            <button class="btn-offer bg-red exp">Reject</button>
                           </div>
                         </div>
                       </div>
