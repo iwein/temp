@@ -19,6 +19,7 @@
 
   "admin": {
     "html": "apps/admin/index.html",
+    "resources": "apps/admin/resources",
     "less": "apps/admin/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -31,6 +32,7 @@
     ],
     "out": {
       "html": "dist/admin/index.html",
+      "resources": "dist/admin/resources",
       "js": "dist/admin/build.TIMESTAMP.js",
       "css": "dist/admin/build.TIMESTAMP.css"
     }
@@ -38,6 +40,7 @@
 
   "candidate": {
     "html": "apps/candidate/index.html",
+    "resources": "apps/candidate/resources",
     "less": "apps/candidate/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -50,6 +53,7 @@
     ],
     "out": {
       "html": "dist/candidate/index.html",
+      "resources": "dist/candidate/resources",
       "js": "dist/candidate/build.TIMESTAMP.js",
       "css": "dist/candidate/build.TIMESTAMP.css"
     }
@@ -57,6 +61,7 @@
 
   "employer": {
     "html": "apps/employer/index.html",
+    "resources": "apps/employer/resources",
     "less": "apps/employer/styles.less",
     "test": [
       "<%= files.tools.test %>",
@@ -69,6 +74,7 @@
     ],
     "out": {
       "html": "dist/employer/index.html",
+      "resources": "dist/employer/resources",
       "js": "dist/employer/build.TIMESTAMP.js",
       "css": "dist/employer/build.TIMESTAMP.css"
     }

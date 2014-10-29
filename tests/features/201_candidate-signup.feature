@@ -39,13 +39,6 @@ Feature: Candidate sign up & log in behavior
        And I invoke "/candidates/me" endpoint
       Then The response status should be "200"
        And The response should have candidate's email on "email" field
-
-  Scenario: Candidate signup with invitation code
-     Given I create an invitation code
-       And I post a new candidate with invitation code
-      Then The response status should be "200"
-       And The response should have candidate's email on "email" field
-       And The response should have invitation code
 #      But The response don't have something else
 
   # Disabled because there is no way to retrieve activation code from client
