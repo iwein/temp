@@ -1,25 +1,446 @@
-<div class="component-candidate-offer-list row">
-  <div class="col-sm-6 col-sm-offset-3">
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Offers</h3>
+<div class="component-candidate-offer-list">
+  <div class="inner">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2 class="main-title-blue">Offers</h2>
       </div>
-      <div class="panel-body" ng-show="!offers.length">No offers</div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="offer in offers">
-          <hc-offer ng-model="offer"
-            hc-hide="{{ { candidate: true } }}"
-            hc-reject-button="true"
-            hc-accept-button="true"
-            hc-next-status-button="true"
-            hc-signed-button="true"
-            hc-profile-links="true"
-            hc-link="true">
-          </hc-offer>
-        </li>
-      </ul>
-    </div>
+      <div class="col-sm-12">
+        <div class="bg-white">
+          <div class="row">
 
+            <div class="col-sm-12">
+
+                <div class="pad-30" ng-show="!offers.length">No offers</div>
+                <ul class="offer-list">
+                  <li class="offer-list-item" ng-repeat="offer in offers">
+                    <div class="prio bg-red"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="col-sm-12">
+                          <div class="caps mrg-btm">Offer No. xxxxxx/x</div>
+                          <div class="offer-pic" style="background-image: url({{ user.picture_url }})"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0">
+                        <div class="offer-date">created: October 19th, 2014</div>
+                        <div class="row no-gutter">
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-green">Accept</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-red">Reject</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0 padd-vert">
+                        <div class="row no-gutter font-12">
+                          <div class="col-sm-4">
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Status</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><span class="iconParent"><i class="fa fa-toggle-on blue-light "></i></span>active</div>
+                            <div class="col-sm-4  mrg-btm-small">
+                              <span class="lbl">Contact</span>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">mail@jimparson.com</div>
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Employer</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><a href="#" class="blue-light bld und">Hack&Craft</a></div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>60,000 / year</div>
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span>Berlin, DE</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="link-wrap">
+                              <a href="#">View OFFER Details <i class="fa fa-angle-right yellow "></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="offer-list-item" ng-repeat="offer in offers">
+                    <div class="prio bg-yellow"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="col-sm-12">
+                          <div class="caps mrg-btm">Offer No. xxxxxx/x</div>
+                          <div class="offer-pic" style="background-image: url({{ user.picture_url }})"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0">
+                        <div class="offer-date">created: October 19th, 2014</div>
+                        <div class="row no-gutter">
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-green inactive">Sign contract</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-red">Reject</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0 padd-vert">
+                        <div class="row no-gutter font-12">
+                          <div class="col-sm-4">
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Status</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><span class="iconParent"><i class="fa fa-toggle-on blue-light "></i></span>accepted</div>
+                            <div class="col-sm-4  mrg-btm-small">
+                              <span class="lbl">Contact</span>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">mail@jimparson.com</div>
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Employer</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><a href="#" class="blue-light bld und">Greta <span class="bookmark bookmark_small bookmark_active"></span></a></div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>60,000</div>
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span>Berlin, DE</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="link-wrap">
+                              <a href="#">View OFFER Details <i class="fa fa-angle-right yellow "></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="offer-list-item" ng-repeat="offer in offers">
+                    <div class="prio bg-yellow"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="col-sm-12">
+                          <div class="caps  mrg-btm">Offer No. xxxxxx/x</div>
+                          <div class="offer-pic" style="background-image: url({{ user.picture_url }})"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0">
+                        <div class="offer-date">created: October 19th, 2014</div>
+                        <div class="row no-gutter">
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-green">Sign contract</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-red">Reject</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0 padd-vert">
+                        <div class="row no-gutter font-12">
+                          <div class="col-sm-4">
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Status</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><span class="iconParent"><i class="fa fa-exchange blue-light "></i></span>contract signed</div>
+                            <div class="col-sm-4  mrg-btm-small">
+                              <span class="lbl">Contact</span>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">mail@jimparson.com</div>
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Employer</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><a href="#" class="blue-light bld und">Hack&Craft</a></div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>60,000</div>
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span>Berlin, DE</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="link-wrap">
+                              <a href="#">View OFFER Details <i class="fa fa-angle-right yellow "></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="offer-list-item" ng-repeat="offer in offers">
+                    <div class="prio bg-gray-light"></div>
+                    <div class="row inactive">
+                      <div class="col-sm-3">
+                        <div class="col-sm-12">
+                          <div class="offer-pic" style="background-image: url({{ user.picture_url }})"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0">
+                        <div class="row">
+                          <div class="caps col-sm-3">Offer No. xxxxxx/x</div>
+                          <div class="offer-date  col-sm-3">created: October 19th, 2014</div>
+                          <div class="offer-date  col-sm-5">you put the offer down on October 7th.2014</div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0 ">
+                        <div class="row no-gutter font-12">
+                          <div class="col-sm-4">
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Status</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><span class="iconParent"><i class="fa fa-toggle-off red "></i></span>rejected</div>
+                            <div class="col-sm-4  mrg-btm-small">
+                              <span class="lbl">Reason</span>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">company profile not convincing</div>
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Employer</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><a href="#" class="blue-light bld und">Hack&Craft</a>&nbsp;&nbsp;<i class="fa fa-shield red "></i></div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>60,000</div>
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span>Berlin, DE</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="offer-list-item" ng-repeat="offer in offers">
+                    <div class="prio bg-yellow"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="col-sm-12">
+                          <div class="caps  mrg-btm">Offer No. xxxxxx/x</div>
+                          <div class="offer-pic" style="background-image: url({{ user.picture_url }})"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0">
+                        <div class="offer-date">created: October 19th, 2014</div>
+                        <div class="row no-gutter">
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-green inactive">Sign contract</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-red">Reject</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0 padd-vert">
+                        <div class="row no-gutter font-12">
+                          <div class="col-sm-4">
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Status</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><span class="iconParent"><i class="fa fa-comments blue-light "></i></span>interviewing</div>
+                            <div class="col-sm-4  mrg-btm-small">
+                              <span class="lbl">Contact</span>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">mail@jimparson.com</div>
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Employer</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><a href="#" class="blue-light bld und">Hack&Craft</a></div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>60,000</div>
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span>Berlin, DE</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="link-wrap">
+                              <a href="#">View OFFER Details <i class="fa fa-angle-right yellow "></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="offer-list-item" ng-repeat="offer in offers">
+                    <div class="prio bg-yellow"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="col-sm-12">
+                          <div class="caps  mrg-btm">Offer No. xxxxxx/x</div>
+                          <div class="offer-pic" style="background-image: url({{ user.picture_url }})"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0">
+                        <div class="offer-date">created: October 19th, 2014</div>
+                        <div class="row no-gutter">
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-green inactive">Sign contract</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="btn-offer bg-red">Reject</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 pad-0 padd-vert">
+                        <div class="row no-gutter font-12">
+                          <div class="col-sm-4">
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Status</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><span class="iconParent"><i class="fa fa-exchange blue-light "></i></span>negociating</div>
+                            <div class="col-sm-4  mrg-btm-small">
+                              <span class="lbl">Contact</span>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">mail@jimparson.com</div>
+                            <div class="col-sm-4 mrg-btm-small">
+                              <span class="lbl">Employer</span>
+                            </div>
+                            <div class="col-sm-6  mrg-btm-small"><a href="#" class="blue-light bld und">Hack&Craft</a></div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>60,000</div>
+                            <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span>Berlin, DE</div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                            <div class="col-sm-6 mrg-btm-small">
+                              <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>Ruby</strong>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="link-wrap">
+                              <a href="#">View OFFER Details <i class="fa fa-angle-right yellow "></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                
+      
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

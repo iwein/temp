@@ -305,6 +305,13 @@ form {
   width: 29px;
   height: 29px
 }
+.bookmark_small {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 0px 0 -5px 5px;
+  background-size: 15px 15px !important;
+}
 .bookmark_active {
   background: url(../candidate/resources/images/bookmark_tag_active.png) 0 0 no-repeat;
 }
@@ -392,5 +399,105 @@ form {
   .note{
     font-size: 12px;
     color: @gray-darker;
+  }
+}
+/* titles */
+
+.main-title {
+  color: @blue-light;
+  margin: 0 0 10px 0;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid @gray-light;
+  font-size: 40px;
+  font-weight: normal;
+}
+
+.main-subtitle {
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0 0 30px 0;
+  color: @gray-dark;
+  span {
+    font-weight: bold;
+  }
+}
+
+
+.big-title {
+  font-size: 40px;
+  line-height: 44px;
+}
+
+.main-title-blue {
+  background: @blue-light;
+  color: @white;
+  font-size: 40px;
+  text-transform: uppercase;
+  padding: 40px 30px 20px;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+/* offer dashboard */
+.offer-list {
+  margin: 0;
+  padding: 0
+}
+.offer-list-item {
+  border-bottom: 1px solid @gray;
+  margin: 30px 15px 0 30px;
+  position: relative;
+}
+.prio {
+  width: 15px;
+  position: absolute;
+  left: -30px;
+  bottom: 0;
+  top: -30px;
+}
+.offer-pic {
+  border: 1px solid @gray-light;
+  min-height: 130px;
+  margin: 0 20px 40px 0;
+}
+.offer-date {
+  font-size: 12px;
+  color: @gray-light;
+  padding-bottom: 17px;
+}
+.btn-offer {
+  margin-right: 1px;
+  padding: 10px;
+  text-align: center;
+  color: @white;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+.start-date {
+  font-size: 12px;
+  margin-left: 15px;
+  text-transform: uppercase;
+  padding: 10px 0
+}
+
+.lbl {
+  text-align: right;
+  font-weight: bold;
+  display: block;
+  padding-right: 15px;
+  text-transform: uppercase;
+  font-size: 12px
+}
+.link-wrap {
+  text-align: right;
+  margin-right: @grid-gutter-width;
+  padding-top: 50px;
+  a {
+    color: @yellow;
+    font-size: 14px;
+    border-bottom: 1px solid @yellow;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
