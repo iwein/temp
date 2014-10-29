@@ -36,7 +36,9 @@
 .text-hide {
   .text-hide();
 }
-
+.inactive {
+  opacity: 0.5;
+}
 
 // Hide from screenreaders and browsers
 //
@@ -87,9 +89,21 @@
   background: @gray-light;
   color: @white;
 }
+.bg-gray-lighter {
+  background: @gray-lighter;
+  color: @white;
+}
 
 .bg-yellow {
   background: @yellow
+}
+
+.bg-red {
+  background: @red;
+}
+
+.bg-green {
+  background: @green
 }
 
 /* font-weight */
@@ -98,6 +112,9 @@
   font-weight: bold;
 }
 
+.und {
+  text-decoration: underline;
+}
 /* colors */
 
 .yellow {
@@ -112,8 +129,14 @@
 .blue-light {
   color: @blue-light;
 }
+.red {
+  color: @red;
+}
 /* paddings */
 
+.pad-0 {
+  padding: 0
+}
 .pad-normal {
   padding: 30px 20px
 }
@@ -121,15 +144,33 @@
 .pad-20 {
   padding: 20px
 }
+.pad-30 {
+  padding: 30px
+}
 
 .no-padd-horz{
   padding-right: 0;
   padding-left: 0
 }
+
+.padd-vert {
+  padding: 20px 0;
+}
 /* margins */
 
 .mrg-btm {
   margin-bottom: 15px;
+}
+.mrg-btm-small {
+  margin-bottom: 5px;
+}
+
+.mrg-lft {
+  margin-left: 15px;
+}
+
+.mrg-lft-small {
+  margin-left: 10px;
 }
 
 .inner {
@@ -159,4 +200,15 @@
   position: absolute;
   left: 20px;
   bottom: 20px;
+}
+
+.fl-rg{
+  float: right;
+}
+.caps{
+  text-transform: uppercase;
+}
+
+.font-12 {
+  font-size: 12px
 }

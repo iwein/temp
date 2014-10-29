@@ -51,6 +51,7 @@ def includeme(config):
     config.include("scotty.employer.views", route_prefix='/api/v1/employers')
     config.include("scotty.admin.views", route_prefix='/api/v1/admin')
     config.include("scotty.connect.linkedin", route_prefix='/api/v1/connect')
+    config.include("scotty.cms.views", route_prefix='/api/v1/cms')
 
     config.add_view(context=DBAPIError, view=db_error)
     #config.add_view(context=Exception, view=all_error)

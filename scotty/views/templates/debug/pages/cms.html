@@ -1,0 +1,25 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">CMS</%def>
+<%def name="tests()">
+<script>
+          tests = [
+
+          {sectionTitle: 'Getting and Setting Content'},
+          {title: 'Content'},
+                  {url: function(r, extr){return '/api/v1/cms/set'},
+                    title: 'set-cms-content', method:'PUT', data: [
+                      {'key': 'test1', 'value': 'lorem'},
+                      {'key': 'test2', 'value': 'more lorem'}
+                  ]},
+
+              {sectionTitle: 'Getting and Setting Content'},
+              {url: '/api/v1/cms/get?keys=test1,test2', title: 'get-cms-content' }
+           ]
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>
