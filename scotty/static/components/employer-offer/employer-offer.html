@@ -1,1 +1,97 @@
-FOOBAR
+<div class="component-employer-offer">
+  <div class="inner">
+
+    <div class="row no-gutter mrg-btm">
+      <div class="col-sm-3 user-pic" style="background-image: url({{ user.picture_url }})"></div>
+      <div class="col-sm-6">
+        <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
+        <div class="bg-white emp-off-desc">
+          <div class="">
+            <h3 class="main-subtitle"><span>JIM MICHAEL PARSON</span> - UX Consultant & Designer</h3>
+          </div>
+          <div>
+            <p>This is the candidates summary. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula egete dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. These are 250 characters.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="btn btn-block bg-gray-light">Offer made</div>
+        <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Next step <i class="fa fa-angle-down"></i></a>
+        <div class="bg-yellow pad-20">
+          <div class="white"> <span class="iconParent"><i class="fa fa-euro"></i></span><span class="red">60.000,00</span> / 65.000,00</div>
+          <div class="white"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> Berlin, DE</div>
+          <div class="box-title box-title_left"></div>
+          <div class="white clearfix skills-wrap-right">
+            <div class="col-sm-6"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>PHP</span></div>
+            <div class="col-sm-6"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>PHP</span></div>
+            <div class="col-sm-6"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>PHP</span></div>
+            <div class="col-sm-6"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>PHP</span></div>
+            <div class="col-sm-6"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>PHP</span></div>
+            <div class="col-sm-6"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>PHP</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="row no-gutter">
+      <div class="col-sm-3">
+        <div class="row timeline-head no-gutter">
+          <div class="col-sm-2 no-padd-horz">
+            <div class="dot"><i class="fa fa-circle"></i></div>
+          </div>
+          <div class="col-sm-10">OCTOBER 2nd, 2014</div>
+        </div>
+        <div class="timeline">
+          <div class="gray-bar"></div>
+        </div>
+        <div class="row timeline-item" ng-repeat="entry in news">
+          <div class="col-sm-2 no-padd-horz">
+            <div class="news-ico
+news-ico-profile-pending 
+news-ico-profile-live 
+news-ico-offer-received 
+news-ico-offer-rejected 
+news-ico-offer-accepted 
+news-ico-offer-negotiation 
+news-ico-offer-signed 
+news-ico-offer-start-date 
+news-ico-offer-bookmarked-employer"></div>
+          </div>
+          <div class="col-sm-10">
+            <div class="date">{{ entry.date | timeAgo }}</div>
+            <div class="note">{{ entry.note }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="bg-white emp-off-desc">
+          <div class="">
+            <h3 class="main-subtitle">Your message</h3>
+          </div>
+          <div>
+            <p>THi, we just found you here on Scotty and are quite impressed by your profile. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, ridiculus mus. Donec quam felis, ultricies nec, pellentesque, pretium. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur consectetuer adipiscing ridiculus. These are 500 characters.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-3">
+        <div class="bg-gray-light pad-20 mrg-btm">
+          <div class="box-title box-title_left">Your notes</div>
+          <p class="gray">You can write down short notes concerning that candidate/offer here. 
+            - Aenean commodo ligula eget dolor. 
+            - Cum sociisit natoque penatibus et, nascetur, ridiculus musale. 
+            - Aenean commodo ligula egetet dolor. 
+            You have 250 characters for that.
+          </p>
+        </div>
+      </div>
+
+    
+
+
+  </div>
+</div>
