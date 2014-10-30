@@ -1,203 +1,275 @@
-<div>
-  <div class="offer-buttons">
-    <button type="button"
-      ng-if="hcRollbackButton && model.canRollback()"
-      class="btn btn-primary"
-      ng-disabled="hcDisabled || rejecting || withdrawing || accepting || signing"
-      ng-click="model.rollback()">
-      Rollback
-    </button>
-
-    <button type="button"
-      ng-if="hcWithdrawButton && model.canWithdraw()"
-      class="btn btn-danger"
-      ng-disabled="hcDisabled || rejecting || accepting || signing"
-      ng-class="{ active: withdrawing }"
-      ng-click="toggleWithdrawing()">
-      Withdraw
-    </button>
-
-    <button type="button"
-      ng-if="hcRejectButton && model.canReject()"
-      class="btn btn-danger"
-      ng-disabled="hcDisabled || withdrawing || accepting || signing"
-      ng-class="{ active: rejecting }"
-      ng-click="toggleRejecting()">
-      Reject
-    </button>
-
-    <button type="button"
-      ng-if="hcAcceptButton && model.canAccept()"
-      class="btn btn-primary"
-      ng-disabled="hcDisabled || withdrawing || rejecting || signing"
-      ng-click="toggleAccepting()">
-      Accept
-    </button>
-
-    <span ng-if="hcNextStatusButton && model.canNextStatus()">
-      <button type="button"
-        class="btn btn-primary"
-        ng-disabled="hcDisabled || withdrawing || rejecting || accepting || signing"
-        ng-click="model.nextStatus().then(onStatusChange)">
-        {{ model.getNextStatusText() }}
-      </button>
-    </span>
-
-    <button type="button"
-      ng-if="hcSignedButton && model.canSign()"
-      class="btn btn-success"
-      ng-disabled="hcDisabled || withdrawing || accepting || rejecting"
-      ng-class="{ active: signing }"
-      ng-click="toggleSigning()">
-      Contract signed
-    </button>
+<div class="prio bg-red" ng-class="{
+  'bg-red': model.status === 'ACTIVE',
+  'bg-gray-light': model.status === 'REJECTED',
+  'bg-yellow': model.status !== 'ACTIVE' &&  model.status !== 'REJECTED',
+}"></div>
+<div class="row" ng-class="{ inactive: model.status === 'REJECTED' }">
+  <div class="col-sm-3">
+    <div class="col-sm-12">
+      <div class="caps mrg-btm">Offer No. {{ model.data.reference }}</div>
+      <div class="offer-pic" ng-if="!hide.employer" style="background-image: url({{ model.data.employer.logo_url }})"></div>
+    </div>
   </div>
-
-  <div class="offer-forms">
-    <form name="formReject" ng-show="rejecting" ng-submit="reject(model, rejection)">
-      <div class="form-group">
-        <div ng-repeat="reason in rejectReasons">
-          <label>
-            <input type="radio"
-              name="rejectReason"
-              value="{{ reason }}"
-              ng-disabled="hcDisabled"
-              ng-required="!rejection.reason"
-              ng-model="rejection.reason"
-              ng-change="rejection.rejected_text = null">
-            {{ reason }}
-          </label>
+  <div class="col-sm-9 pad-0">
+    <div class="offer-date">created: {{ model.data.created | moment:"MMMM Do, YYYY" }}</div>
+    <div class="row no-gutter">
+      <div class="col-sm-3" ng-if="hcRollbackButton && model.canRollback()">
+        <div class="rel">
+          <button class="btn-offer bg-blue exp"
+            ng-disabled="hcDisabled || popups.isOpenBut('rollback')"
+            ng-click="model.rollback()">Rollback</button>
         </div>
       </div>
 
-      <div class="form-group required"
-        ng-if="rejection.reason.toLowerCase() === 'other'">
-        <label>Please describe your reason</label>
+      <div class="col-sm-3" ng-if="hcWithdrawButton && model.canWithdraw()">
+        <div class="rel">
+          <button class="btn-offer bg-gray exp"
+            ng-disabled="hcDisabled || popups.isOpenBut('withdraw')"
+            ng-click="popups.toggle('withdraw')">Withdraw</button>
 
-        <textarea
-          class="form-control"
-          placeholder="Please describe your reason"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="rejection.rejected_text">
-        </textarea>
-      </div>
+          <form class="reject-wrap" ng-show="popups.isOpen('withdraw')" ng-submit="withdraw(model, withdrawal)">
+            <div class="form-group">
+              <div ng-repeat="reason in withdrawReasons">
+                <label>
+                  <input type="radio"
+                    name="rejectReason"
+                    value="{{ reason }}"
+                    ng-disabled="hcDisabled"
+                    ng-required="!withdrawal.reason"
+                    ng-model="withdrawal.reason"
+                    ng-change="withdrawal.rejected_text = null">
+                  {{ reason }}
+                </label>
+              </div>
+            </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox"
-            ng-disabled="hcDisabled"
-            ng-model="rejection.blacklist">
-          Block employer
-        </label>
-      </div>
+            <div class="form-group required"
+              ng-if="withdrawal.reason.toLowerCase() === 'other'">
+              <label>Please describe your reason</label>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
-      </div>
-    </form>
+              <textarea
+                class="form-control"
+                placeholder="Please describe your reason"
+                required
+                ng-disabled="hcDisabled"
+                ng-model="withdrawal.withdrawal_reason">
+              </textarea>
+            </div>
 
-    <form name="formReject" ng-show="accepting" ng-submit="accept(model, acceptance)">
-      <div class="form-group required">
-        <label>Email address</label>
-        <input type="email"
-          class="form-control"
-          name="contactEmail"
-          required
-          ng-model="acceptance.email">
-
-        <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-          <span ng-show="formProfile.contactEmail.$error.required">Please insert your phone.</span>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Phone number</label>
-        <input type="tel"
-          class="form-control"
-          name="phoneNumber"
-          pattern="^\+?[0-9 /()-]+$"
-          ng-pattern="/^\+?[0-9 /()-]+$/"
-          ng-disabled="hcDisabled"
-          ng-model="acceptance.phone">
+      <div class="col-sm-3" ng-if="hcRejectButton && model.canReject()">
+        <div class="rel">
+          <button class="btn-offer bg-red exp"
+            ng-disabled="hcDisabled || popups.isOpenBut('reject')"
+            ng-click="popups.toggle('reject')">Reject</button>
 
-        <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
-          <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
-          <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+          <form class="reject-wrap" ng-show="popups.isOpen('reject')" ng-submit="reject(model, rejection)">
+            <div ng-repeat="reason in rejectReasons">
+              <label>
+                <input type="radio"
+                  name="rejectReason"
+                  value="{{ reason }}"
+                  ng-disabled="hcDisabled"
+                  ng-required="!rejection.reason"
+                  ng-model="rejection.reason"
+                  ng-change="rejection.rejected_text = null">
+                {{ reason }}
+              </label>
+            </div>
+
+            <div ng-if="rejection.reason.toLowerCase() === 'other'">
+              <label>Please describe your reason</label>
+
+              <textarea
+                class="form-control"
+                placeholder="Please describe your reason"
+                required
+                ng-disabled="hcDisabled"
+                ng-model="rejection.rejected_text">
+              </textarea>
+            </div>
+
+            <div>
+              <label>
+                <input type="checkbox"
+                  ng-disabled="hcDisabled"
+                  ng-model="rejection.blacklist">
+                Block employer
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+          </form>
         </div>
       </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
-      </div>
-    </form>
+      <div class="col-sm-3" ng-if="hcAcceptButton && model.canAccept()">
+        <div class="rel">
+          <button class="btn-offer bg-green exp"
+            ng-disabled="hcDisabled || popups.isOpenBut('accept')"
+            ng-click="popups.toggle('accept')">Accept</button>
 
-    <form name="formWithdraw" ng-show="withdrawing" ng-submit="withdraw(model, withdrawal)">
-      <div class="form-group">
-        <div ng-repeat="reason in withdrawReasons">
-          <label>
-            <input type="radio"
-              name="rejectReason"
-              value="{{ reason }}"
-              ng-disabled="hcDisabled"
-              ng-required="!withdrawal.reason"
-              ng-model="withdrawal.reason"
-              ng-change="withdrawal.rejected_text = null">
-            {{ reason }}
-          </label>
+          <form class="reject-wrap" ng-show="popups.isOpen('accept')" ng-submit="accept(model, acceptance)">
+            <div>
+              <label>Email address</label>
+              <input type="email"
+                class="form-control"
+                name="contactEmail"
+                required
+                ng-model="acceptance.email">
+
+              <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                <span ng-show="formProfile.contactEmail.$error.required">Please insert your phone.</span>
+              </div>
+            </div>
+
+            <div>
+              <label>Phone number</label>
+              <input type="tel"
+                class="form-control"
+                name="phoneNumber"
+                pattern="^\+?[0-9 /()-]+$"
+                ng-pattern="/^\+?[0-9 /()-]+$/"
+                ng-disabled="hcDisabled"
+                ng-model="acceptance.phone">
+
+              <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
 
-      <div class="form-group required"
-        ng-if="withdrawal.reason.toLowerCase() === 'other'">
-        <label>Please describe your reason</label>
+      <!--
+      <span ng-if="hcNextStatusButton && model.canNextStatus()">
+        <button type="button"
+          class="btn btn-primary"
+          ng-disabled="hcDisabled || withdrawing || rejecting || accepting || signing"
+          ng-click="model.nextStatus().then(onStatusChange)">
+          {{ model.getNextStatusText() }}
+        </button>
+      </span>
+      -->
 
-        <textarea
-          class="form-control"
-          placeholder="Please describe your reason"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="withdrawal.withdrawal_reason">
-        </textarea>
+      <div class="col-sm-3" ng-if="hcSignedButton && model.canSign()">
+        <div class="rel">
+          <button class="btn-offer bg-green exp"
+            ng-disabled="hcDisabled || popups.isOpenBut('sign')"
+            ng-click="popups.toggle('sign')">Contract signed</button>
+
+          <form class="reject-wrap" ng-show="popups.isOpen('sign')" ng-submit="sign(model, signedData)">
+            <div>
+              <label>Start date</label>
+
+              <input type="date"
+                class="form-control"
+                placeholder="YYYY-MM-DD"
+                required
+                ng-disabled="hcDisabled"
+                ng-model="signedData.start_date">
+            </div>
+
+            <div>
+              <label>Start salary</label>
+
+              <input type="dotted-integer"
+                class="form-control"
+                placeholder="Start salary"
+                required
+                ng-disabled="hcDisabled"
+                ng-model="signedData.start_salary">
+            </div>
+
+            <div>
+              <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
+  </div>
+  <div class="col-sm-9 pad-0 padd-vert">
+    <div class="row no-gutter font-12">
+      <div class="col-sm-4">
+        <div class="col-sm-4 mrg-btm-small">
+          <span class="lbl">Status</span>
+        </div>
+        <div class="col-sm-6  mrg-btm-small">
+          <span class="iconParent"><i class="fa" ng-class="{
+            'blue-light':
+              model.status === 'ACCEPTED' ||
+              model.status === 'ACTIVE' ||
+              model.status === 'INTERVIEW' ||
+              model.status === 'NEGOTIATING' ||
+              model.status === 'CONTRACT_SIGNED' ||
+              model.status === 'WITHDRAWN' ||
+              model.status === 'EXPIRED',
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+            'fa-toggle-on':
+              model.status === 'ACTIVE' ||
+              model.status === 'ACCEPTED',
+
+            'fa-exchange':
+              model.status === 'NEGOTIATING' ||
+              model.status === 'CONTRACT_SIGNED',
+
+            'red': model.status === 'REJECTED',
+            'fa-toggle-off': model.status === 'REJECTED',
+            'fa-comments': model.status === 'INTERVIEW',
+          }"></i></span>
+          {{ model.statusText }}
+        </div>
+        <div class="col-sm-4  mrg-btm-small">
+          <span class="lbl">Contact</span>
+        </div>
+        <div class="col-sm-6 mrg-btm-small">
+          <span ng-if="!hide.employer">{{ model.data.employer.email }}</span>
+          <span ng-if="!hide.candidate">{{ model.data.candidate.email }}</span>
+        </div>
+        <div class="col-sm-4 mrg-btm-small">
+          <span class="lbl">Employer</span>
+        </div>
+        <div class="col-sm-6  mrg-btm-small">
+          <a class="blue-light bld und" ng-if="hcProfileLinks" ui-sref="employer({ id: model.data.employer.id })">
+            {{ model.data.employer.company_name }}
+          </a>
+        </div>
       </div>
-    </form>
-
-    <form name="formSigned" ng-show="signing" ng-submit="sign(model, signedData)">
-      <div class="form-group required">
-        <label>Start date</label>
-
-        <input type="date"
-          class="form-control"
-          placeholder="YYYY-MM-DD"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="signedData.start_date">
+      <div class="col-sm-2">
+        <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ model.data.annual_salary | dottedInteger }} / year</div>
+        <div class="mrg-btm-small">
+          <span class="iconParent"><i class="fa fa-location-arrow"></i></span>
+          {{ model.data.location.city }}, {{ model.data.location.country_iso }}
+        </div>
       </div>
-
-      <div class="form-group required">
-        <label>Start salary</label>
-
-        <input type="dotted-integer"
-          class="form-control"
-          placeholder="Start salary"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="signedData.start_salary">
+      <div class="col-sm-3">
+        <div class="col-sm-6 mrg-btm-small" ng-repeat="skill in model.data.technologies">
+          <span class="iconParent mrg-lft-small"><i class="fa fa-asterisk yellow"></i></span><strong>{{ skill }}</strong>
+        </div>
       </div>
-
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+      <div class="col-sm-3">
+        <div class="link-wrap">
+          <a ng-if="hcLink" ui-sref="offer({ id: model.id })">View offer details <i class="fa fa-angle-right yellow"></i></a>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 
-<a ng-if="hcLink" ui-sref="offer({ id: model.id })">View offer details</a>
 
+<!--
 <dl class="dl-horizontal">
   <dt ng-if="hcShowId">Offer Number</dt>
   <dd ng-if="hcShowId">{{ model.data.reference }}</dd>
@@ -216,9 +288,6 @@
   <dd ng-if="!hide.employer">
     <img class="logo" ng-if="!hide.employerLogo" ng-src="{{ model.data.employer.logo_url }}">
     <span ng-if="!hcProfileLinks">{{ model.data.employer.company_name }}</span>
-    <a ng-if="hcProfileLinks" ui-sref="employer({ id: model.data.employer.id })">
-      {{ model.data.employer.company_name }}
-    </a>
   </dd>
   <dt ng-if="!hide.candidate">Candidate</dt>
   <dd ng-if="!hide.candidate">
@@ -247,3 +316,4 @@
   <dt ng-if="!hide.hiringProcess">Hiring process</dt>
   <dd ng-if="!hide.hiringProcess" ng-bind-html="model.data.interview_details"></dd>
 </dl>
+-->
