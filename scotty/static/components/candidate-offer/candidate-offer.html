@@ -1,23 +1,114 @@
-<div class="component-candidate-offer row" ng-if="ready">
-  <div class="col-sm-6 col-sm-offset-3">
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Offer details</h3>
+<div class="component-candidate-offer" ng-if="ready">
+  <div class="inner">
+    <div class="row no-gutter mrg-btm">
+      <div class="col-sm-3">
+        <div class="user-pic mrg-btm" style="background-image: url({{ user.picture_url }})"></div>
+        <div class="rel">
+          <div class="row timeline-head no-gutter">
+            <div class="col-sm-2 no-padd-horz">
+              <div class="dot"><i class="fa fa-circle"></i></div>
+            </div>
+            <div class="col-sm-10">OCTOBER 2nd, 2014</div>
+          </div>
+          <div class="timeline">
+            <div class="gray-bar"></div>
+          </div>
+          <div class="timeline-item" ng-repeat="entry in news">
+            <div class="col-sm-2 no-padd-horz">
+              <div class="news-ico
+  news-ico-profile-pending 
+  news-ico-profile-live 
+  news-ico-offer-received 
+  news-ico-offer-rejected 
+  news-ico-offer-accepted 
+  news-ico-offer-negotiation 
+  news-ico-offer-signed 
+  news-ico-offer-start-date 
+  news-ico-offer-bookmarked-employer"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-        <hc-offer ng-model="offer"
-          hc-title="Offer details"
-          hc-hide="{{ { candidate: true } }}"
-          on-status-change="offerDetail.onStatusChange()"
-          hc-reject-button="true"
-          hc-accept-button="true"
-          hc-next-status-button="true"
-          hc-signed-button="true"
-          hc-profile-links="true">
-        </hc-offer>
+
+      <div class="col-sm-6">
+        <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
+        <div class="bg-white emp-off-desc mrg-btm">
+          <div class="">
+            <h3 class="main-subtitle"><span>UX Consultant & Designer</span> at Hack&Craft</h3>
+          </div>
+          <div>
+            <p>This is the candidates summary. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula egete dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. These are 250 characters.</p>
+          </div>
+        </div>
+        <div class="bg-white emp-off-desc">
+          <div class="">
+            <h3 class="main-subtitle">Job description</h3>
+          </div>
+          <div>
+            <p>THi, we just found you here on Scotty and are quite impressed by your profile. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, ridiculus mus. Donec quam felis, ultricies nec, pellentesque, pretium. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur consectetuer adipiscing ridiculus. These are 500 characters.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="btn btn-block bg-gray-light">Offer accepted</div>
+        <div class="bg-yellow pad-20 mrg-btm">
+          <div class="white"> <span class="iconParent"><i class="fa fa-euro"></i></span>60.000,00 / year</div>
+          <div class="white"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> Berlin, DE</div>
+          <div class="box-title box-title_left"></div>
+          <div class="white clearfix ">
+            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
+            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
+            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
+            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
+            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
+            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
+          </div>
+          <div class="box-title box-title_left"></div>
+          <div class="white clearfix skills-wrap-right">
+
+            <div class="label-wrap">
+              <div class="col-sm-6 mrg-btm-small">
+                <label><input type="checkbox" name="reject">
+                Breakfast</label>
+              </div>
+              <div class="col-sm-6 mrg-btm-small">
+                <label><input type="checkbox" name="reject">
+                Dogs allowed</label>
+              </div>
+              <div class="col-sm-6 mrg-btm-small">
+                <label><input type="checkbox" name="reject">
+                Coffee</label>
+              </div>
+              <div class="col-sm-6 mrg-btm-small">
+                <label><input type="checkbox" name="reject">
+                Messages</label>
+              </div>
+              <div class="col-sm-6 mrg-btm-small">
+                <label><input type="checkbox" name="reject">
+                Company car</label>
+              </div>
+              <div class="col-sm-6 mrg-btm-small">
+                <label><input type="checkbox" name="reject">
+                Remote work</label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="bg-gray-light pad-20 mrg-btm">
+          <div class="box-title box-title_left">Hiring process</div>
+          <p class="gray">THi, we just found you here on Scotty and are quite impressed by your profile. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, ridiculus mus. Donec quam felis, ultricies nec, pellentesque, pretium. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur consectetuer adipiscing ridiculus. These are 500 characters.
+          </p>
+        </div>
       </div>
     </div>
-
   </div>
 </div>
+
+
+
+
+
+
+
