@@ -43,8 +43,7 @@ define(function(require) {
           isOpenBut: isOpenBut,
         };
 
-        var flags = {};
-        var email;
+        var popup, email;
 
         if (Session.getUser) {
           Session.getUser().then(function(user) {
@@ -59,10 +58,7 @@ define(function(require) {
 
 
         function toggle(key) {
-          flags[key] = !flags[key];
-          if (!flags[key])
-            delete flags[key];
-
+          popup = popup === key ? null : key;
           $scope.withdrawal = {};
           $scope.rejection = {};
           $scope.acceptance = { email: email };
@@ -70,12 +66,11 @@ define(function(require) {
         }
 
         function isOpen(key) {
-          return !!flags[key];
+          return popup === key;
         }
 
         function isOpenBut(key) {
-          var keys = Object.keys(flags);
-          return !keys.length || (keys.length === 1 && keys[0] === key);
+          return popup && popup !== key;
         }
 
         function withdraw(model, data) {
