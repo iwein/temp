@@ -30,5 +30,8 @@
     "src": "<%= files.index.html %>",
     "dest": "<%= files.index.out.html %>"
   },
-  "index-resources": {}
+  "index-resources": {
+    "src": "<%= files.index.pages %>",
+    "dest": "<%= files.index.out.pages %>"
+  }
 }

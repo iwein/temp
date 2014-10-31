@@ -83,6 +83,10 @@
   "index": {
     "html": "apps/index.html",
     "less": "apps/index/styles.less",
+    "pages": [
+      "apps/about-us.html",
+      "apps/terms-of-service.html"
+    ],
     "test": [
       "<%= files.tools.test %>",
       "<%= files.components.test.all %>"
@@ -95,7 +99,11 @@
     "out": {
       "html": "dist/index.html",
       "js": "dist/build.TIMESTAMP.js",
-      "css": "dist/build.TIMESTAMP.css"
+      "css": "dist/build.TIMESTAMP.css",
+      "pages": [
+        "dist/about-us.html",
+        "dist/terms-of-service.html"
+      ]
     }
   },
 
