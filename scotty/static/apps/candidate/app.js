@@ -28,9 +28,6 @@ define(function(require) {
       .state('signup.education', require('components/candidate-signup-education/candidate-signup-education'))
       .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
       .state('signup.profile', require('components/candidate-signup-profile/candidate-signup-profile'))
-
-      .state('static-about-us', require('components/static-about-us/static-about-us'))
-      .state('static-tos', require('components/static-tos/static-tos'))
       ;
   });
 

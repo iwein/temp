@@ -18,9 +18,6 @@ define(function(require) {
       .state('approve-employers', require('components/admin-approve-employers/admin-approve-employers'))
       .state('search-employers', require('components/admin-search-employers/admin-search-employers'))
       .state('search-candidates', require('components/admin-search-candidates/admin-search-candidates'))
-
-      .state('static-about-us', require('components/static-about-us/static-about-us'))
-      .state('static-tos', require('components/static-tos/static-tos'))
       ;
   });
 

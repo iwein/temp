@@ -30,9 +30,6 @@ define(function(require) {
       .state('signup.terms', require('components/employer-signup-terms/employer-signup-terms'))
       .state('signup.tos', require('components/employer-signup-tos/employer-signup-tos'))
       .state('signup.suggest', require('components/employer-signup-suggest/employer-signup-suggest'))
-
-      .state('static-about-us', require('components/static-about-us/static-about-us'))
-      .state('static-tos', require('components/static-tos/static-tos'))
       ;
   });
 
