@@ -183,7 +183,7 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_logout', **GET)
     def logout(self):
-        self.request.session.pop('employer_id', None)
+        self.request.session.invalidate()
         return {'success': True}
 
 

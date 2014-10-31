@@ -151,8 +151,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_logout', **GET)
     def logout(self):
-        if 'candidate_id' in self.request.session:
-            del self.request.session['candidate_id']
+        self.request.session.invalidate()
         return {'success': True}
 
     @view_config(route_name='candidate', **GET)
