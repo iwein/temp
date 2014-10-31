@@ -1,0 +1,43 @@
+<h2>Custom Pages</h2>
+
+<ul>
+  <li>
+    <button type="button" class="btn btn-primary" ng-click="edit('ABOUTUS')">Edit</button> About Us
+  </li>
+  <li>
+    <button type="button" class="btn btn-primary" ng-click="edit('TOS')">Edit</button> Terms of Service
+  </li>
+</ul>
+
+<form ng-submit="submit(model)">
+
+  <div class="form-group">
+    <label>Page</label>
+    <input class="form-control" type="text" ng-model="model.id" readonly>
+  </div>
+
+  <div class="form-group">
+    <label>Top</label>
+    <textarea class="form-control" ng-model="model.TOP"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Bottom</label>
+    <textarea class="form-control" ng-model="model.BOTTOM"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Left</label>
+    <textarea class="form-control" ng-model="model.LEFT" style="height: 150px"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Right</label>
+    <textarea class="form-control" ng-model="model.RIGHT"></textarea>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+
+</form>
