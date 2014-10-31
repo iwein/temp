@@ -13,9 +13,6 @@
     "src": "<%= files.employer.out.html %>"
   },
   "index": {
-    "src": [
-      "<%= files.index.out.html %>",
-      "<%= files.index.out.pages %>"
-    ]
+    "src": "<%= files.index.out.html %>"
   }
 }
