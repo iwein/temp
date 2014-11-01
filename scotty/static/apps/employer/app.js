@@ -7,7 +7,7 @@ define(function(require) {
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/dashboard/');
 
     $stateProvider
       .state('dashboard', require('components/employer-dashboard/employer-dashboard'))
