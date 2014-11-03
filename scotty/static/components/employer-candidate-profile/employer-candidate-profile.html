@@ -7,7 +7,7 @@
       <div class="col-sm-6">
         <div class="bg-white pad-normal user-desc">
           <div class="">
-            <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h3>
+            <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
             <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
           </div>
           <div>
@@ -17,14 +17,14 @@
       </div>
 
       <div class="col-sm-3">
-        <div class="bg-gray pad-20">
+        <div class="bg-gray pad-20 offer-box">
           <div class="box-title box-title_right">Offers</div>
-          <div class="yellow bld">Company 1</div>
-          <div class="mrg-btm">€ 65.000,00 / year</div>
-          <div class="yellow bld">Company 2</div>
-          <div class="mrg-btm">€ 65.000,00 / year</div>
-          <div class="yellow bld">Company 3</div>
-          <div class="mrg-btm">€ 65.000,00 / year</div>
+          <div ng-show="!offers.length">Empty</div>
+
+          <div ng-repeat="offer in offers">
+            <div class="yellow bld">{{ offer.employer.company_name }}</div>
+            <div class="mrg-btm">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
+          </div>
         </div>
         <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Make an offer</a>
       </div>
@@ -118,7 +118,7 @@
           <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
           <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
           <!-- WARN: replaced UI by DIV -->
-          <div>{{ experience.summary }}</div>
+          <div class="accordion-text">{{ experience.summary }}</div>
         </hc-accordion>
       </div>
       <div class="accordion-wrap bg-white pad-20">
@@ -128,7 +128,7 @@
           <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
           <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
           <!-- WARN: replaced UI by DIV -->
-          <div>{{ entry.course }}</div>
+          <div class="accordion-text">{{ entry.course }}</div>
         </hc-accordion>
       </div>
     </div>

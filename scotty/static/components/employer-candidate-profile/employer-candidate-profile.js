@@ -20,12 +20,16 @@ define(function(require) {
           candidate.getTargetPosition(),
           candidate.getExperience(),
           candidate.getEducation(),
+          candidate.getOffers(),
         ]);
       }).then(function(data) {
         var user = data[0];
         $scope.targetPosition = data[1];
         $scope.workExperience = data[2];
         $scope.education = data[3];
+
+        $q.all(data[4].slice(0, 3).map(fn.invoke('getData', [])))
+          .then(fn.setTo('offers', $scope));
 
         $scope.cities = user.preferred_location;
         $scope.languages = user.languages;

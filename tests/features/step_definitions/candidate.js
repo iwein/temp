@@ -46,12 +46,26 @@ stepDefinitions(function(scenario) {
     }));
   });
 
+  scenario.When(/^Candidate request a password reset$/, function() {
+    return this.storeRequest(AJAX.post('/candidates/requestpassword', {
+      email: this.candidateEmail,
+    })).then(function(response) {
+      this.passwordToken = response.token;
+    }.bind(this));
+  });
+
+  scenario.When(/^Candidate validates password token$/, function() {
+    return this.storeRequest(AJAX.get('/candidates/resetpassword/' + this.passwordToken));
+  });
+
+  scenario.When(/^Candidate resets password to "([^"]*)"$/, function(password) {
+    return this.storeRequest(AJAX.post('/candidates/resetpassword/' + this.passwordToken, { pwd: password }));
+  });
+
   scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key) {
     assert(key in this.lastResponse, 'Field "' + key + '" not found in response: ' + JSON.stringify(this.lastResponse));
-    assert(
-      this.lastResponse[key] === this.candidateEmail,
-      'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found'
-    );
+    assert(this.lastResponse[key] === this.candidateEmail,
+      'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found');
   });
 });
 

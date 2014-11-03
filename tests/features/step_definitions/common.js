@@ -14,20 +14,13 @@ stepDefinitions(function(scenario) {
     this.lastResponse = null;
   });
 
-  scenario.Then(/^The response should have the (property|properties):$/, function(_, table) {
-    var response = this.lastResponse;
-    var values = table.raw();
-    var key, value;
-
-    for (var i = 0; i < values.length; i++) {
-      key = values[i][0];
-      value = values[i][1];
-      assert(response[key] === value, 'Expected "' + key + '" to be "' + value + '" but "' + response[key] + '" found');
-    }
+  scenario.Then(/^The response should have:$/, function(json) {
+    assert(this.equal(this.lastResponse, this.json(json)),
+      'Expected "' + JSON.stringify(this.lastResponse) + '" to be "' + json + '"');
   });
 
-  scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, values) {
-    return this.storeRequest(AJAX[method](url, this.tableToObject(values)));
+  scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, json) {
+    return this.storeRequest(AJAX[method](url, this.json(json)));
   });
 
   scenario.When(/^I invoke "([^"]*)" endpoint$/, function(endpoint) {
@@ -40,5 +33,31 @@ stepDefinitions(function(scenario) {
       this.lastRequest.status === status,
       'Expected status "' + status + '" but "' + this.lastRequest.status + '" found'
     );
+  });
+
+  scenario.Then(/^The response should be a list$/, function() {
+    var list = this.lastResponse.data || this.lastResponse;
+    var toString = Object.prototype.toString.call(list);
+    assert(toString === '[object Array]', 'Expected list but "' + toString + '" found.');
+  });
+
+  scenario.Then(/^Each item should have fields:$/, function(table) {
+    var list = this.lastResponse.data || this.lastResponse;
+
+    this.forEach(list, function(object, index) {
+      this.forEach(table, function(entry) {
+        var key = entry[0];
+        var type = entry[1];
+        var typeOf = typeof object[key];
+        assert(typeOf === type,
+          'At [' + index + '] expected "' + key + '" to be "' + type + '" but "' + typeOf + '" found');
+        assert(object[key], 'At [' + index + '] "' + key + '" is falsy');
+      });
+    }, this);
+  });
+
+  scenario.Then(/^The response should be:$/, function(json) {
+    var expected = this.json(json);
+    assert(this.lastResponse === expected, 'Expected "' + expected + '" but "' + this.lastResponse + '" found');
   });
 });

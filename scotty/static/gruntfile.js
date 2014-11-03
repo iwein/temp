@@ -61,6 +61,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build-' + app, [
       'build-' + app + '-js',
       'build-' + app + '-css',
+      'copy:' + app + '-resources',
       'copy:' + app,
       'usemin:' + app,
     ]);
