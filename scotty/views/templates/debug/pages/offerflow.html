@@ -30,6 +30,8 @@
               extract: function(r, extr){
                 return {'candidates': r}
               }},
+            {url:'/api/v1/candidates/?status=pending', title: 'candidates-search-pending'},
+            {url:'/api/v1/candidates/?status=deleted', title: 'candidates-search-deleted'},
             {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search'},
             {url:'/api/v1/candidates/?tags=Python&city=Berlin&country_iso=DE', title: 'candidates-search-with-city'},
             {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
