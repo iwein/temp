@@ -73,6 +73,14 @@ define(function(require) {
         }.bind(this));
       }.bind(this));
     },
+    getOffer: function(id) {
+      // This call uses /candidates/<ID>/ instead of /candidates/me/
+      //   so it can validate the offer belongs to the user.
+      var url = this._url() + '/offers/' + id;
+      return this._api.get(url).then(function(data) {
+        return new Offer(this._api, url, data);
+      }.bind(this));
+    },
     makeOffer: function(data) {
       var url = this._url() + '/offers';
       return this._api.post(url, data).then(function(data) {
