@@ -36,5 +36,10 @@
     "src": "<%= files.index.html %>",
     "dest": "<%= files.index.out.html %>"
   },
-  "index-resources": {}
+  "index-resources": {
+    "cwd": "<%= files.apps.folder %>",
+    "src": "<%= files.index.pages %>",
+    "dest": "<%= files.apps.out.folder %>",
+    "expand": true
+  }
 }
