@@ -1,9 +1,9 @@
 from collections import Counter
+
 from pyramid.httpexceptions import HTTPBadRequest
+
 from scotty import DBSession
-from scotty.candidate.models import PreferredLocation
 from scotty.configuration.models import City
-from sqlalchemy import or_, and_
 
 
 def get_by_name_or_raise(cls, name):
@@ -41,38 +41,6 @@ def get_location_by_name_or_create(location):
         city = City(name=location['city'], country_iso=location['city'])
         DBSession.add(city)
     return city
-
-
-def get_locations_from_structure(locations):
-    if not locations:
-        return []
-    def identify(arg):
-        c, l = arg
-        return len(c) == 2 and (not l or (len(l) > 0 and not isinstance(l, basestring) and (isinstance(l, list))))
-
-    srclist = filter(identify, locations.items())
-
-    filters = []
-    for country_iso, city_list in srclist:
-        if city_list:
-            filters.append(and_(City.country_iso == country_iso, City.name.in_(city_list)))
-
-    lookup = {}
-    if filters:
-        cities = DBSession.query(City).filter(or_(*filters)).all()
-        for city in cities:
-            lookup.setdefault(city.country_iso, {})[city.name] = city
-
-    locations = []
-    for country_iso, city_list in srclist:
-        if city_list:
-            l = lookup[country_iso]
-            for city_name in city_list:
-                locations.append(PreferredLocation(city_id=l[city_name].id))
-        else:
-            locations.append(PreferredLocation(country_iso=country_iso))
-
-    return locations
 
 
 def params_get_list_or_raise(params, name):
