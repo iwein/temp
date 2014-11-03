@@ -2,7 +2,7 @@ from collections import Counter
 
 from pyramid.httpexceptions import HTTPBadRequest
 
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.configuration.models import City
 
 

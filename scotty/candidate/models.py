@@ -1,17 +1,18 @@
 import hashlib
 from uuid import uuid4
-from datetime import datetime, timedelta
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
-from scotty.models.common import get_by_name_or_raise
 
-from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN
-from scotty.offer.models import CandidateOffer, JOB_EXPIRATION_DAYS
-from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
-    Role, Language, Proficiency, Course, Salutation
-from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
+
+from scotty.models.common import get_by_name_or_raise
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN
+from scotty.offer.models import CandidateOffer
+from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
+    Role, Language, Proficiency, Course, Salutation
+from scotty.models.meta import Base, NamedModel, GUID
 
 
 class InviteCode(Base):
