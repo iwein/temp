@@ -114,6 +114,7 @@ class CandidateController(RootController):
     def search(self):
         params = self.request.params
         tags = filter(None, params.get('tags', '').split(','))
+        status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
         city_id = None
         if 'country_iso' in params and 'city' in params:
             city_id = get_location_by_name_or_raise(params).id
@@ -124,10 +125,10 @@ class CandidateController(RootController):
                              joinedload('preferred_locations'))
 
         if tags:
-            pager = get_candidates_by_techtags_pager(tags, city_id)
+            pager = get_candidates_by_techtags_pager(tags, city_id, status_id=status.id)
             result = ObjectBuilder(Candidate).serialize(pager, adjust_query=optimise_query)
         else:
-            basequery = optimise_query(DBSession.query(Candidate))
+            basequery = optimise_query(DBSession.query(Candidate).filter(Candidate.status_id == status.id))
             result = run_paginated_query(self.request, basequery)
         return result
 
@@ -173,9 +174,9 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
-        workflow = {'active': candidate.activated is not None,
+        workflow = {'approved': candidate.status.name == CandidateStatus.ACTIVE,
                     'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'image',
-                                 'active'], 'image': candidate.picture_url is not None,
+                                 'approved'], 'image': candidate.picture_url is not None,
                     'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
                     'target_position': candidate.target_position is not None,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
@@ -315,9 +316,9 @@ class CandidateBookmarkController(CandidateController):
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
         employer_id = self.request.matchdict['id']
+        DBSession.query(CandidateBookmarkEmployer).filter(CandidateBookmarkEmployer.candidate_id == self.candidate.id).delete()
         self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) !=
                                                employer_id]
-
         return {"status": "success"}
 
 
@@ -394,6 +395,10 @@ class CandidateOfferController(CandidateController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
+        return self.offer.full_status_flow
+
+    @view_config(route_name='candidate_offer_status', **GET)
+    def get_status(self):
         return self.offer.full_status_flow
 
     @view_config(route_name='candidate_offer_signed', **POST)

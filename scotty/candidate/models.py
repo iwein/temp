@@ -29,6 +29,7 @@ class CandidateStatus(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
+    PENDING = "pending"
     ACTIVE = "active"
     SLEEPING = "sleeping"
     SUSPENDED = "suspended"
