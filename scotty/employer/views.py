@@ -276,6 +276,10 @@ class EmployerOfferController(EmployerController):
             raise HTTPBadRequest(e.message)
         return self.offer.full_status_flow
 
+    @view_config(route_name='employer_offer_status', **GET)
+    def get_status(self):
+        return self.offer.full_status_flow
+
 class EmployerPasswordController(RootController):
 
     def send_email(self, employer):

@@ -4,13 +4,15 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import relationship
+
+from scotty.models.common import get_by_name_or_raise
 from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN
 from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
 from scotty.models.meta import Base, NamedModel, GUID
-from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.orm import relationship
 
 
 class InviteCode(Base):
@@ -27,6 +29,7 @@ class CandidateStatus(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
+    PENDING = "pending"
     ACTIVE = "active"
     SLEEPING = "sleeping"
     SUSPENDED = "suspended"
@@ -269,6 +272,10 @@ class Candidate(Base, JsonSerialisable):
     @password.setter
     def password(self, value):
         self.pwd = hashlib.sha256(value).hexdigest()
+
+    @property
+    def is_active(self):
+        return self.status == get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
 
     def get_preferred_locations(self):
         if not self.preferred_locations:
