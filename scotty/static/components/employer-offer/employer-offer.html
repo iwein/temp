@@ -20,9 +20,11 @@
         <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Next step <i class="fa fa-angle-down"></i></a>
         <div class="bg-yellow pad-20">
           <div class="white">
-            <span class="iconParent"><i class="fa fa-euro"></i></span><span class="red">{{ offer.data.annual_salary | dottedInteger }}.00</span>
+            <span class="iconParent"><i class="fa fa-euro"></i></span>
+            <span class="red">{{ offer.data.annual_salary | dottedInteger }}.00</span>
             /
-            <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}.00
+            <span class="iconParent"><i class="fa fa-euro"></i></span>
+            {{ targetPosition.minimum_salary | dottedInteger }}.00
           </div>
           <div class="white">
             <span class="iconParent"><i class="fa fa-location-arrow"></i></span>
