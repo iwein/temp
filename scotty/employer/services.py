@@ -71,8 +71,6 @@ def add_employer_offer(employer, params):
     candidate = DBSession.query(Candidate).get(candidate_id)
     if not candidate:
         raise HTTPBadRequest("Unknown candidate")
-    if not candidate.has_been_hired:
-        raise HTTPBadRequest("Candidate cannot receive offer, has been hired!")
     if not candidate.is_active:
         raise HTTPBadRequest("Candidate cannot receive offer, has been hired!")
     annual_salary = int(params['annual_salary'])
