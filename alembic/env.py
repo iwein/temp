@@ -15,6 +15,7 @@ fileConfig(config.config_file_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 from scotty.models import *
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -40,6 +41,7 @@ def run_migrations_offline():
     with context.begin_transaction():
         context.run_migrations()
 
+
 def run_migrations_online():
     """Run migrations in 'online' mode.
 
@@ -55,22 +57,22 @@ def run_migrations_online():
         name, value = url.split(':', 1)
         settings['sqlalchemy.url'] = os.environ[value.strip()]
 
-    engine = engine_from_config(
-                settings,
-                prefix='sqlalchemy.',
-                poolclass=pool.NullPool)
+    engine = engine_from_config(settings, prefix='sqlalchemy.', poolclass=pool.NullPool)
+
+    def include_object(object, name, type_, reflected, compare_to):
+        IGNORE_TABLES = ['spatial_ref_sys']
+        return not (type_ == "table" and (
+            object.name.startswith('v_') or object.name.startswith('stats_') or object.name in IGNORE_TABLES) )
 
     connection = engine.connect()
-    context.configure(
-                connection=connection,
-                target_metadata=target_metadata
-                )
+    context.configure(connection=connection, target_metadata=target_metadata, include_object=include_object)
 
     try:
         with context.begin_transaction():
             context.run_migrations()
     finally:
         connection.close()
+
 
 if context.is_offline_mode():
     run_migrations_offline()

@@ -4,8 +4,10 @@
     "dest": "<%= files.admin.out.html %>"
   },
   "admin-resources": {
+    "cwd": "<%= files.apps.folder %>",
     "src": "<%= files.admin.resources %>",
-    "dest": "<%= files.admin.out.resources %>"
+    "dest": "<%= files.apps.out.folder %>",
+    "expand": true
   },
 
   "candidate": {
@@ -13,8 +15,10 @@
     "dest": "<%= files.candidate.out.html %>"
   },
   "candidate-resources": {
+    "cwd": "<%= files.apps.folder %>",
     "src": "<%= files.candidate.resources %>",
-    "dest": "<%= files.candidate.out.resources %>"
+    "dest": "<%= files.apps.out.folder %>",
+    "expand": true
   },
 
   "employer": {
@@ -22,13 +26,20 @@
     "dest": "<%= files.employer.out.html %>"
   },
   "employer-resources": {
+    "cwd": "<%= files.apps.folder %>",
     "src": "<%= files.employer.resources %>",
-    "dest": "<%= files.employer.out.resources %>"
+    "dest": "<%= files.apps.out.folder %>",
+    "expand": true
   },
 
   "index": {
     "src": "<%= files.index.html %>",
     "dest": "<%= files.index.out.html %>"
   },
-  "index-resources": {}
+  "index-resources": {
+    "cwd": "<%= files.apps.folder %>",
+    "src": "<%= files.index.pages %>",
+    "dest": "<%= files.apps.out.folder %>",
+    "expand": true
+  }
 }

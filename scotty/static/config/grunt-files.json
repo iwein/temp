@@ -19,8 +19,8 @@
 
   "admin": {
     "html": "apps/admin/index.html",
-    "resources": "apps/admin/resources",
     "less": "apps/admin/styles.less",
+    "resources": "admin/resources/**/*.*",
     "test": [
       "<%= files.tools.test %>",
       "<%= files.components.test.all %>"
@@ -32,7 +32,6 @@
     ],
     "out": {
       "html": "dist/admin/index.html",
-      "resources": "dist/admin/resources",
       "js": "dist/admin/build.TIMESTAMP.js",
       "css": "dist/admin/build.TIMESTAMP.css"
     }
@@ -40,8 +39,8 @@
 
   "candidate": {
     "html": "apps/candidate/index.html",
-    "resources": "apps/candidate/resources",
     "less": "apps/candidate/styles.less",
+    "resources": "candidate/resources/**/*.*",
     "test": [
       "<%= files.tools.test %>",
       "<%= files.components.test.all %>"
@@ -53,7 +52,6 @@
     ],
     "out": {
       "html": "dist/candidate/index.html",
-      "resources": "dist/candidate/resources",
       "js": "dist/candidate/build.TIMESTAMP.js",
       "css": "dist/candidate/build.TIMESTAMP.css"
     }
@@ -61,8 +59,8 @@
 
   "employer": {
     "html": "apps/employer/index.html",
-    "resources": "apps/employer/resources",
     "less": "apps/employer/styles.less",
+    "resources": "employer/resources/**/*.*",
     "test": [
       "<%= files.tools.test %>",
       "<%= files.components.test.all %>"
@@ -74,7 +72,6 @@
     ],
     "out": {
       "html": "dist/employer/index.html",
-      "resources": "dist/employer/resources",
       "js": "dist/employer/build.TIMESTAMP.js",
       "css": "dist/employer/build.TIMESTAMP.css"
     }
@@ -84,8 +81,8 @@
     "html": "apps/index.html",
     "less": "apps/index/styles.less",
     "pages": [
-      "apps/about-us.html",
-      "apps/terms-of-service.html"
+      "about-us.html",
+      "terms-of-service.html"
     ],
     "test": [
       "<%= files.tools.test %>",
@@ -113,6 +110,11 @@
   },
 
   "apps": {
+    "folder": "apps/",
+    "out": {
+      "folder": "dist/"
+    },
+
     "js": [
       "<%= files.admin.js %>",
       "<%= files.candidate.js %>",

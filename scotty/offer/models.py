@@ -23,6 +23,9 @@ class InvalidStatusError(Exception):
     pass
 
 
+# after this many days, the offer cannot be acted on anymore
+STATUS_EXPIRATION_DAYS = 90
+
 
 OFFER_STATUS_ACTIVE_KEY = 'ACTIVE'
 OFFER_STATUS_ACCEPTED_KEY = 'ACCEPTED'
@@ -35,7 +38,6 @@ OFFER_STATUS_EXPIRED_KEY = 'EXPIRED'
 
 
 class OfferStatusWorkflow(object):
-    expiration_days = 4
 
     statuses = [OfferStatus(OFFER_STATUS_ACTIVE_KEY, False, 'created'),
                 OfferStatus(OFFER_STATUS_ACCEPTED_KEY, False, 'accepted'),
@@ -58,7 +60,7 @@ class OfferStatusWorkflow(object):
     @property
     def status(self):
         status, status_time = self._status_time
-        expiry_cutoff = datetime.now() - timedelta(self.expiration_days)
+        expiry_cutoff = datetime.now() - timedelta(STATUS_EXPIRATION_DAYS)
         if status.is_final or status_time > expiry_cutoff:
             return status
         else:
@@ -82,7 +84,7 @@ class OfferStatusWorkflow(object):
     @classmethod
     def by_status(cls, status_key):
         columns = class_mapper(cls).columns
-        expiry_cutoff = datetime.now() - timedelta(cls.expiration_days)
+        expiry_cutoff = datetime.now() - timedelta(STATUS_EXPIRATION_DAYS)
         filter = []
 
         if status_key not in cls.status_keys:
