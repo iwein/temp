@@ -5,16 +5,22 @@
 
       <div class="col-sm-3">
         <div class="row timeline-head">
-          <div class="col-sm-2 no-padd-horz">
+          <div class="col-sm-2 no-padd-right">
             <div class="dot"><i class="fa fa-circle"></i></div>
           </div>
+           <!-- TODO Display the right date -->
           <div class="col-sm-10 date">OCTOBER 2nd, 2014</div>
         </div>
-        <div class="timeline">
-          <div class="gray-bar"></div>
+
+        <div class="row">
+            <div class="timeline">
+              <div class="gray-bar"></div>
+              <div class="timeline-start"></div>
+            </div>
         </div>
+
         <div class="row timeline-item" ng-repeat="entry in news">
-          <div class="col-sm-2 no-padd-horz">
+          <div class="col-sm-2 no-padd-right rel">
             <div class="news-ico" ng-class="{
               'news-ico-profile-signup': entry.name === 'SIGN_UP',
               'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
@@ -30,49 +36,71 @@
             }"></div>
           </div>
           <div class="col-sm-10">
+            <!-- TODO If it's longer than one day the exact date should be displayed -->
             <div class="date">{{ entry.date | timeAgo }}</div>
+            <!-- TODO No links?? -->
             <div class="note">{{ entry.note }}</div>
           </div>
         </div>
       </div>
 
       <div class="col-sm-9">
-        <div class="bg-white pad-normal">
-            <h2 class="main-title">WE RECOMMEND</h2>
-            <h3 class="main-subtitle">Top companies using your target tech!</h3>
+        <div class="row">
 
-            <div class="company-list">
+            <div class="col-sm-12 bg-white">
+              <h2 class="main-title">WE RECOMMEND</h2>
+              <h3 class="main-subtitle">Top companies using your target tech!</h3>
 
-              <div class="company-list-item" ng-repeat="employer in suggested">
-                <div class="row">
-                  <div class="col-sm-4">
-                    <img class="img-responsive" ng-src="{{ employer.logo_url }}">
-                  </div>
-                  <div class="col-sm-3 col-skills">
-                    <div ng-repeat="tag in employer.tech_tags">
-                      <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span><strong>{{ tag }}</strong>
+              <div class="company-list">
+                <!-- TODO Implement last class on last element -->
+                <div class="company-list-item" ng-repeat="employer in suggested">
+                  <div class="row">
+
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <img class="img-responsive" ng-src="{{ employer.logo_url }}">
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="col-skills">
+                            <!-- TODO The layout now as two columns, how would we wanna do it -->
+                            <div ng-repeat="tag in employer.tech_tags">
+                              <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span>{{ tag }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <!-- TODO Implement real text -->
+                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+                        </div>
+                        <div class="col-sm-2">
+                          <!-- TODO Implementation: After clicking on the icon it should toggle between the two classes active and inactive -->
+                          <a href="#" class="bookmark bookmark_active bookmark_inactive"></a>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
-                  <div class="col-sm-4 no-padd-horz">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
-                  </div>
-                  <div class="col-sm-1">
-                   <a href="#" class="bookmark bookmark_active bookmark_inactive"></a>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="mrg-btm location">Berlin, DE</div>
-                  </div>
-                  <div class="col-sm-8 col-skills">
-                      <a ui-sref="employer({ id: employer.id })">Company profile  <i class="fa fa-chevron-right"></i></a>
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="mrg-btm location">Berlin, DE</div>
+                    </div>
+                    <div class="col-sm-8 col-skills">
+                        <a ui-sref="employer({ id: employer.id })">Company profile  <i class="fa fa-chevron-right"></i></a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-        <div>
+        </div>
       </div>
 
     </div>
