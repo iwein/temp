@@ -315,9 +315,9 @@ class CandidateBookmarkController(CandidateController):
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
         employer_id = self.request.matchdict['id']
+        DBSession.query(CandidateBookmarkEmployer).filter(CandidateBookmarkEmployer.candidate_id == self.candidate.id).delete()
         self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) !=
                                                employer_id]
-
         return {"status": "success"}
 
 
@@ -394,6 +394,10 @@ class CandidateOfferController(CandidateController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
+        return self.offer.full_status_flow
+
+    @view_config(route_name='candidate_offer_status', **GET)
+    def get_status(self):
         return self.offer.full_status_flow
 
     @view_config(route_name='candidate_offer_signed', **POST)

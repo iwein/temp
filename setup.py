@@ -26,6 +26,7 @@ requires = [
 
     'psycopg2',
     'mandrill',
+    'alembic',
     'httplib2==0.9'
     ]
 

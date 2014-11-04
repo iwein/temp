@@ -107,12 +107,16 @@
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-get-my-offers'},
             {url:function(r, extr){ return '/api/v1/candidates/me/offers';},
               title: 'candidate-get-my-offers'},
+            {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer1Id+'/status';},
+              title: 'candidate-get-offer-status'},
 
             {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer1Id;},
               title: 'candidate-get-offer'},
 
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id;},
-              title: 'employer-get-offer'},
+              title: 'employer-get-offers'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id+'/status';},
+              title: 'employer-get-offer-status'},
 
             {'title': 'Offer Responses'},
 
