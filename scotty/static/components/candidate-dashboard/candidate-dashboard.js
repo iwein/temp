@@ -8,7 +8,7 @@ define(function(require) {
     Loader.page(true);
     $scope.ready = false;
 
-    Permission.requireSignup().then(function() {
+    Permission.requireActivated().then(function() {
       $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {
