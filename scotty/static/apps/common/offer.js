@@ -149,6 +149,10 @@ define(function() {
       return stateText[this.getNextStatus()] || null;
     },
 
+    getTimeline: function() {
+      return this._api.get(this._url() + '/timeline');
+    },
+
     dispose: function() {
       // TODO
     },

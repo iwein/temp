@@ -18,17 +18,22 @@ define(function(require) {
 
       return Session.user.getOffer($scope.id);
     }).then(function(offer) {
+      return offer.getTimeline().then(function(timeline) {
+        return [ offer, timeline ];
+      });
+    }).then(function(data) {
       this.onStatusChange = onStatusChange;
       $scope.ready = true;
-      $scope.offer = offer;
+      $scope.offer = data[0];
+      $scope.timeline = data[1];
 
-      offer.setDataParser(function(data) {
+      $scope.offer.setDataParser(function(data) {
         data.interview_details = $sce.trustAsHtml(data.interview_details);
         data.job_description = $sce.trustAsHtml(data.job_description);
       });
 
       function onStatusChange() {
-        toaster.success('Offer ' + offer.statusText);
+        toaster.success('Offer ' + $scope.offer.statusText);
       }
     }.bind(this)).finally(function() {
       Loader.page(false);
