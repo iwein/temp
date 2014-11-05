@@ -71,6 +71,12 @@
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
               title: 'employer-interested-candidates-empty'},
 
+              {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve';}, title: 'admin-approve-candidates'},
+
+
+
+
+
 
             {'title': 'Offering'},
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'}, title: 'employer-make-offer', method:'POST',
@@ -119,6 +125,15 @@
               title: 'employer-get-offers'},
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id+'/status';},
               title: 'employer-get-offer-status'},
+
+
+
+
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id+'/timeline';},
+            title: 'employer-get-offer-tineline'},
+
+               {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/timeline';},
+            title: 'candidate-get-offer-tineline'},
 
             {'title': 'Offer Responses'},
 

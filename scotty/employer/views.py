@@ -12,7 +12,7 @@ from scotty.employer.services import employer_from_signup, employer_from_login, 
     update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
-from scotty.offer.services import set_offer_signed
+from scotty.offer.services import set_offer_signed, get_offer_timeline
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
@@ -43,6 +43,7 @@ def includeme(config):
     config.add_route('employer_offer_signed', '{employer_id}/offers/{offer_id}/signed')
     config.add_route('employer_offer_withdraw', '{employer_id}/offers/{offer_id}/withdraw')
     config.add_route('employer_offer_status', '{employer_id}/offers/{offer_id}/status')
+    config.add_route('employer_offer_timeline', '{employer_id}/offers/{offer_id}/timeline')
     config.scan()
 
 
@@ -220,6 +221,17 @@ class EmployerOfferController(EmployerController):
         elif offer.employer_id != self.employer.id:
             raise HTTPForbidden("Offer not for this employer.")
         return offer
+
+    @view_config(route_name='employer_offer_timeline', **GET)
+    def offer_timeline(self):
+        offer_id = self.request.matchdict["offer_id"]
+        offer = DBSession.query(EmployerOffer).get(offer_id)
+        if not offer:
+            raise HTTPNotFound("Unknown Offer ID")
+        elif offer.employer_id != self.employer.id:
+            raise HTTPForbidden("Offer not for this employer.")
+        timeline = get_offer_timeline(offer)
+        return timeline
 
     @view_config(route_name='employer_offers', **GET)
     def list(self):
