@@ -7,7 +7,7 @@
         <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
         <div class="bg-white emp-off-desc">
           <div class="">
-            <h3 class="main-subtitle"><span>{{ offer.data.candidate.first_name }}, {{ offer.data.candidate.first_name }}</span> - {{ offer.data.role }}</h3>
+            <h3 class="main-subtitle"><span>{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</span> - {{ offer.data.role }}</h3>
           </div>
           <div>
             <p ng-bind-html="offer.data.job_description"></p>
