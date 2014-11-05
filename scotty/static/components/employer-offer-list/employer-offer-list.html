@@ -1,0 +1,29 @@
+<div class="component-employer-offer-list">
+  <div class="inner">
+    <div class="row">
+      <div class="col-sm-12 bg-blue">
+        <h2 class="main-title-blue">Offers</h2>
+      </div>
+      <div class="col-sm-12 bg-white">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="pad-30" ng-show="!offers.length">No offers</div>
+            <ul class="offer-list">
+              <li class="offer-list-item" ng-repeat="offer in offers">
+                <hc-offer
+                  ng-model="offer"
+                  hc-hide="{{ { candidate: true } }}"
+                  hc-signed-button="true"
+                  hc-reject-button="true"
+                  hc-accept-button="true"
+                  hc-profile-links="true">
+                </hc-offer>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
