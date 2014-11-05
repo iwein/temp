@@ -2,13 +2,14 @@ from datetime import datetime
 import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import joinedload_all
 
 from scotty import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
     WorkExperience, Education, TargetPosition, PreferredLocation, InviteCode
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
-    Course
+    Course, City
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
 from scotty.offer.models import FullOffer
