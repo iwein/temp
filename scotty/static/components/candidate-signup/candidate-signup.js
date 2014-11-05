@@ -18,7 +18,7 @@ define(function(require) {
     'skills': [ 'signup.skills' ],
     'languages': [ 'signup.languages' ],
     'image': [ 'signup.profile' ],
-    'active': [ 'profile' ],
+    'approved': [ 'signup.approve' ],
     'end': [ 'profile' ],
   };
   var order = [
@@ -29,6 +29,7 @@ define(function(require) {
     'signup.skills',
     'signup.languages',
     'signup.profile',
+    'signup.approve',
     'profile',
   ];
 

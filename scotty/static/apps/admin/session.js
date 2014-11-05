@@ -23,8 +23,16 @@ define(function(require) {
       return this._api.get('/admin/employers/' + employer.id + '/approve');
     },
 
+    approveCandidate: function(candidate) {
+      return this._api.get('/admin/candidates/' + candidate.id + '/approve');
+    },
+
     getEmployersByStatus: function(status) {
       return this._api.get('/admin/employers/' + status).then(fn.get('data'));
+    },
+
+    getCandidatesByStatus: function(status) {
+      return this._api.get('/candidates?status=' + status).then(fn.get('data'));
     },
 
     getOffers: function() {

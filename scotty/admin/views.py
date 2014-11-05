@@ -31,6 +31,7 @@ def includeme(config):
     config.add_route('admin_employer', 'employers')
     config.add_route('admin_employer_by_status', 'employers/{status}')
     config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')
+    config.add_route('admin_candidate_approve', 'candidates/{candidate_id}/approve')
 
     config.add_route('admin_invite_codes', 'invite_codes')
 
@@ -123,6 +124,16 @@ class AdminController(RootController):
             raise HTTPNotFound("Unknown Employer ID")
         employer.approved = datetime.now()
         return employer
+
+    @view_config(route_name='admin_candidate_approve', **GET)
+    def admin_candidate_approve(self):
+        candidate_id = self.request.matchdict['candidate_id']
+        candidate = DBSession.query(Candidate).get(candidate_id)
+        if not candidate:
+            raise HTTPNotFound("Unknown Candidate ID")
+        candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
+        return candidate
+
 
     @view_config(route_name="admin_search_candidates", **GET)
     def admin_search_candidates(self):

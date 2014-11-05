@@ -210,6 +210,9 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
                           {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-skills'},
                           {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-skills'},
 
+                          {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve';}, title: 'admin-approve-candidates'},
+                          {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-approved'},
+
                           {'sectionTitle': 'Profile Completion'},
 
                           {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
@@ -220,6 +223,8 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
                           {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'profile-complete-summary',
                             data: {'availability': 'Ill be available'}, method:'PUT'},
                           {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
+
+
 
 
                           {'sectionTitle': 'Cleanup'},

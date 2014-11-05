@@ -9,7 +9,7 @@ define(function(require) {
     $scope.ready = false;
     Loader.page(true);
 
-    Permission.requireLogged().then(function() {
+    Permission.requireActivated().then(function() {
       $scope.id = $state.params.id;
 
       ConfigAPI.rejectReasons().then(function(reasons) {

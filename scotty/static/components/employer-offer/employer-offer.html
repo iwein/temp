@@ -7,11 +7,10 @@
         <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
         <div class="bg-white emp-off-desc">
           <div class="">
-            <h3 class="main-subtitle"><span>{{ offer.data.candidate.first_name }}, {{ offer.data.candidate.first_name }}</span> - {{ offer.data.role }}</h3>
+            <h3 class="main-subtitle"><span>{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</span> - {{ offer.data.role }}</h3>
           </div>
           <div>
-            <!-- @TODO: implement display candidate message -->
-            <p>This is the candidates summary. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula egete dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. These are 250 characters.</p>
+            <p ng-bind-html="offer.data.job_description"></p>
           </div>
         </div>
       </div>
@@ -23,8 +22,9 @@
           <div class="white">
             <span class="iconParent"><i class="fa fa-euro"></i></span>
             <span class="red">{{ offer.data.annual_salary | dottedInteger }}.00</span>
-            <!-- @TODO implement base salary -->
-            / 65,000.00
+            /
+            <span class="iconParent"><i class="fa fa-euro"></i></span>
+            {{ targetPosition.minimum_salary | dottedInteger }}.00
           </div>
           <div class="white">
             <span class="iconParent"><i class="fa fa-location-arrow"></i></span>
@@ -79,7 +79,7 @@ news-ico-offer-bookmarked-employer"></div>
             <h3 class="main-subtitle">Your message</h3>
           </div>
           <div>
-            <p ng-bind-html="offer.data.job_description"></p>
+            <p ng-bind-html="offer.data.message"></p>
           </div>
         </div>
       </div>
@@ -87,19 +87,9 @@ news-ico-offer-bookmarked-employer"></div>
 
       <div class="col-sm-3">
         <div class="bg-gray-light pad-20 mrg-btm">
-          <div class="box-title box-title_left">Your notes</div>
-            <!-- @TODO: implement offer notes -->
-          <p class="gray">You can write down short notes concerning that candidate/offer here.
-            - Aenean commodo ligula eget dolor.
-            - Cum sociisit natoque penatibus et, nascetur, ridiculus musale.
-            - Aenean commodo ligula egetet dolor.
-            You have 250 characters for that.
-          </p>
+          <div class="box-title box-title_left">Hiring process</div>
+          <p class="gray" ng-bind-html="offer.data.interview_details"></p>
         </div>
       </div>
-
-
-
-
   </div>
 </div>
