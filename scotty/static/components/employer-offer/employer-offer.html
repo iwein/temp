@@ -1,6 +1,5 @@
 <div class="component-employer-offer">
   <div class="inner">
-
     <div class="row no-gutter mrg-btm">
       <div class="col-sm-3 user-pic" style="background-image: url({{ offer.data.candidate.picture_url }})"></div>
       <div class="col-sm-6">
@@ -40,14 +39,13 @@
       </div>
     </div>
 
-
     <div class="row no-gutter">
       <div class="col-sm-3">
         <div class="row timeline-head no-gutter">
           <div class="col-sm-2 no-padd-horz">
             <div class="dot"><i class="fa fa-circle"></i></div>
           </div>
-          <div class="col-sm-10">{{ offer.data.created | moment:"MMMM Do, YYYY" }}</div>
+          <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
         </div>
         <div class="timeline">
           <div class="gray-bar"></div>

@@ -20,6 +20,7 @@ define(function(require) {
       .state('candidate', require('components/employer-candidate-profile/employer-candidate-profile'))
       .state('create-offer', require('components/employer-create-offer/employer-create-offer'))
       .state('offer', require('components/employer-offer/employer-offer'))
+      .state('offer-list', require('components/employer-offer-list/employer-offer-list'))
 
       .state('signup', require('components/employer-signup/employer-signup'))
       .state('signup.start', require('components/employer-signup-start/employer-signup-start'))

@@ -107,7 +107,7 @@ form {
 }
 
 .user-pic{
-  min-height: 320px;
+  min-height: 255px;
   background-repeat: no-repeat;
   background-position: center center;
   -webkit-background-size: cover;
@@ -370,11 +370,11 @@ form {
 }
 
 .main-title-blue {
-  background: @blue-light;
+  background: @blue;
   color: @white;
   font-size: 40px;
   text-transform: uppercase;
-  padding: 40px 30px 21px;
+  padding: 40px 15px 21px;
   font-weight: normal;
   margin: 0;
   a {
@@ -394,9 +394,88 @@ form {
 }
 .offer-list-item {
   border-bottom: 1px solid @gray;
-  margin: 30px 15px 0 30px;
+  position: relative;
+  padding-bottom: 40px;
+  margin: 35px 0 0 0;
+  padding-right: 15px;
+}
+.offer-list-title {
+  font-size: 28px;
+  font-family: @font-family-sans-serif-mid;
+  text-transform: uppercase;
+  margin-top: -5px;
+  min-height: 90px;
+}
+.subtitle {
+  font-size: 18px;
+  text-transform: none;
+  font-weight: normal;
+  font-family: @font-family-sans-serif;
+  margin-top: -5px;
+}
+.link-orange {
+  font-size: 18px;
+  font-family: @font-family-sans-serif-mid;
+  border-bottom: 1px solid @orange;
+  color: @orange;
+  text-transform: uppercase;
+  margin-top: -5px;
+  &:hover {
+    color: @orange;
+    text-decoration: none;
+  }
+}
+.link-blue {
+  color: @blue-link;
+  border-bottom: 1px solid @blue;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-top: 15px;
+  display: inline-block;
+  &:hover {
+    text-decoration: none;
+    color: @blue-link;
+  }
+}
+.infos {
+  font-size: 18px;
+}
+.infos-candidate {
+  padding-top: 25px;
+  font-family: @font-family-sans-serif-mid;
+  color: @gray-light;
+  font-size: 18px;
+  a {
+    border-bottom: 1px solid @blue-link;
+    text-transform: uppercase;
+    &:hover {
+      text-decoration: none
+    }
+  }
+}
+
+.req-list {
+  font-size: 14px;
+  min-height: 90px;
+  border-left: 1px solid @gray;
   position: relative;
 }
+
+.req-list-title {
+  font-family: @font-family-sans-serif-mid;
+  color: @blue-link;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+.key {
+  position: absolute;
+  left: -30px;
+  top: 34px;
+  font-size: 16px;
+  color: @gray-light;
+}
+
 .prio {
   width: 15px;
   position: absolute;
@@ -406,13 +485,11 @@ form {
 }
 .offer-pic {
   border: 1px solid @gray-light;
-  min-height: 130px;
-  margin: 0 20px 40px 0;
+  min-height: 190px;
 }
 .offer-date {
   font-size: 12px;
   color: @gray-light;
-  padding-bottom: 17px;
 }
 .btn-offer {
   margin-right: 1px;
@@ -430,12 +507,10 @@ form {
 }
 
 .lbl {
-  text-align: right;
-  font-weight: bold;
-  display: block;
-  padding-right: 15px;
-  text-transform: uppercase;
-  font-size: 12px
+  font-size: 14px;
+  .iconParent {
+    margin-left: 5px;
+  }
 }
 .link-wrap {
   text-align: right;
