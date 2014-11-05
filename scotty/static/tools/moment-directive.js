@@ -3,8 +3,14 @@ define(function(require) {
   var moment = require('moment');
   var module = require('app-module');
 
+  module.filter('moment', function() {
+    return function(value, format) {
+      return value ? moment.utc(value).format(format) : '';
+    };
+  });
+
   module.filter('timeAgo', function() {
-    return function (value) {
+    return function(value) {
       return value ? moment.utc(value).fromNow() : '';
     };
   });

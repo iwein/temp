@@ -3,7 +3,7 @@ from sqlalchemy import text
 
 from pyramid.httpexceptions import HTTPBadRequest
 
-from scotty.candidate.models import Candidate, CandidateEmployerBlacklist
+from scotty.candidate.models import Candidate, CandidateEmployerBlacklist, CandidateStatus
 
 from scotty.models.meta import DBSession
 from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType
@@ -71,6 +71,8 @@ def add_employer_offer(employer, params):
     candidate = DBSession.query(Candidate).get(candidate_id)
     if not candidate:
         raise HTTPBadRequest("Unknown candidate")
+    if not candidate.is_active:
+        raise HTTPBadRequest("Candidate cannot receive offer, has been hired!")
     annual_salary = int(params['annual_salary'])
     location = get_location_by_name_or_raise(params['location'])
 

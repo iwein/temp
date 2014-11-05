@@ -2,22 +2,22 @@ from datetime import datetime
 import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import joinedload_all
 
 from scotty import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
     WorkExperience, Education, TargetPosition, PreferredLocation, InviteCode
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
-    Course
+    Course, City
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
-    get_or_raise_named_collection, get_or_create_named_lookup, get_locations_from_structure, \
-    get_location_by_name_or_raise
+    get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
 from scotty.offer.models import FullOffer
 from scotty.services.pagingservice import Pager
 
 
 def candidate_from_signup(params):
-    status = get_by_name_or_raise(CandidateStatus, "active")
+    status = get_by_name_or_raise(CandidateStatus, CandidateStatus.PENDING)
     invite_code = get_by_name_or_raise(InviteCode, params.get('invite_code'))
     candidate = FullCandidate(email=params['email'], first_name=params['first_name'], last_name=params['last_name'],
                               status=status, invite_code=invite_code)
@@ -160,6 +160,38 @@ def set_languages_on_candidate(candidate, params):
     DBSession.add_all(languages)
     DBSession.flush()
     return candidate
+
+
+def get_locations_from_structure(locations):
+    if not locations:
+        return []
+    def identify(arg):
+        c, l = arg
+        return len(c) == 2 and (not l or (len(l) > 0 and not isinstance(l, basestring) and (isinstance(l, list))))
+
+    srclist = filter(identify, locations.items())
+
+    filters = []
+    for country_iso, city_list in srclist:
+        if city_list:
+            filters.append(and_(City.country_iso == country_iso, City.name.in_(city_list)))
+
+    lookup = {}
+    if filters:
+        cities = DBSession.query(City).filter(or_(*filters)).all()
+        for city in cities:
+            lookup.setdefault(city.country_iso, {})[city.name] = city
+
+    locations = []
+    for country_iso, city_list in srclist:
+        if city_list:
+            l = lookup[country_iso]
+            for city_name in city_list:
+                locations.append(PreferredLocation(city_id=l[city_name].id))
+        else:
+            locations.append(PreferredLocation(country_iso=country_iso))
+
+    return locations
 
 
 def set_preferredlocations_on_candidate(candidate, params):

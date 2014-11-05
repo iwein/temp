@@ -33,16 +33,18 @@ define(function(require) {
         }
       },
       controller: function($scope, ConfigAPI, Session) {
-        $scope.toggleWithdrawing = toggleWithdrawing;
-        $scope.toggleRejecting = toggleRejecting;
-        $scope.toggleAccepting = toggleAccepting;
-        $scope.toggleSigning = toggleSigning;
         $scope.withdraw = withdraw;
         $scope.reject = reject;
         $scope.accept = accept;
         $scope.sign = sign;
+        $scope.popups = {
+          toggle: toggle,
+          isOpen: isOpen,
+          isOpenBut: isOpenBut,
+        };
 
-        var email;
+        var popup, email;
+
         if (Session.getUser) {
           Session.getUser().then(function(user) {
             return user.getData();
@@ -54,42 +56,37 @@ define(function(require) {
         ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
         ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));
 
-        //accepting" ng-submit="accept
 
-        function toggleWithdrawing() {
-          $scope.withdrawing = !$scope.withdrawing;
+        function toggle(key) {
+          popup = popup === key ? null : key;
           $scope.withdrawal = {};
-        }
-
-        function toggleRejecting() {
-          $scope.rejecting = !$scope.rejecting;
           $scope.rejection = {};
-        }
-
-        function toggleAccepting() {
-          $scope.accepting = !$scope.accepting;
           $scope.acceptance = { email: email };
-        }
-
-        function toggleSigning() {
-          $scope.signing = !$scope.signing;
           $scope.signedData = {};
         }
 
+        function isOpen(key) {
+          return popup === key;
+        }
+
+        function isOpenBut(key) {
+          return popup && popup !== key;
+        }
+
         function withdraw(model, data) {
-          model.withdraw(data).then(toggleWithdrawing);
+          model.withdraw(data).then(toggle.bind(null, 'withdraw'));
         }
 
         function reject(model, data) {
-          model.reject(data).then(toggleRejecting);
+          model.reject(data).then(toggle.bind(null, 'reject'));
         }
 
         function accept(model, data) {
-          model.accept(data).then(toggleAccepting);
+          model.accept(data).then(toggle.bind(null, 'accept'));
         }
 
         function sign(model, data) {
-          model.sign(data).then(toggleSigning);
+          model.sign(data).then(toggle.bind(null, 'sign'));
         }
       },
     };

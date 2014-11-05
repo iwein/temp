@@ -1,0 +1,95 @@
+<div class="component-employer-offer">
+  <div class="inner">
+
+    <div class="row no-gutter mrg-btm">
+      <div class="col-sm-3 user-pic" style="background-image: url({{ offer.data.candidate.picture_url }})"></div>
+      <div class="col-sm-6">
+        <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
+        <div class="bg-white emp-off-desc">
+          <div class="">
+            <h3 class="main-subtitle"><span>{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</span> - {{ offer.data.role }}</h3>
+          </div>
+          <div>
+            <p ng-bind-html="offer.data.job_description"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="btn btn-block bg-gray-light">Offer made</div>
+        <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Next step <i class="fa fa-angle-down"></i></a>
+        <div class="bg-yellow pad-20">
+          <div class="white">
+            <span class="iconParent"><i class="fa fa-euro"></i></span>
+            <span class="red">{{ offer.data.annual_salary | dottedInteger }}.00</span>
+            /
+            <span class="iconParent"><i class="fa fa-euro"></i></span>
+            {{ targetPosition.minimum_salary | dottedInteger }}.00
+          </div>
+          <div class="white">
+            <span class="iconParent"><i class="fa fa-location-arrow"></i></span>
+            {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
+          </div>
+          <div class="box-title box-title_left"></div>
+          <div class="white clearfix skills-wrap-right">
+            <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
+              <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>{{ tech }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row no-gutter">
+      <div class="col-sm-3">
+        <div class="row timeline-head no-gutter">
+          <div class="col-sm-2 no-padd-horz">
+            <div class="dot"><i class="fa fa-circle"></i></div>
+          </div>
+          <div class="col-sm-10">{{ offer.data.created | moment:"MMMM Do, YYYY" }}</div>
+        </div>
+        <div class="timeline">
+          <div class="gray-bar"></div>
+        </div>
+        <div class="row timeline-item" ng-repeat="entry in news">
+          <div class="col-sm-2 nxo-padd-horz">
+            <!-- @TODO: implement offer timeline -->
+            <div class="news-ico
+news-ico-profile-pending
+news-ico-profile-live
+news-ico-offer-received
+news-ico-offer-rejected
+news-ico-offer-accepted
+news-ico-offer-negotiation
+news-ico-offer-signed
+news-ico-offer-start-date
+news-ico-offer-bookmarked-employer"></div>
+          </div>
+          <div class="col-sm-10">
+            <div class="date">{{ entry.date | timeAgo }}</div>
+            <div class="note">{{ entry.note }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="bg-white emp-off-desc">
+          <div class="">
+            <h3 class="main-subtitle">Your message</h3>
+          </div>
+          <div>
+            <p ng-bind-html="offer.data.message"></p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-3">
+        <div class="bg-gray-light pad-20 mrg-btm">
+          <div class="box-title box-title_left">Hiring process</div>
+          <p class="gray" ng-bind-html="offer.data.interview_details"></p>
+        </div>
+      </div>
+  </div>
+</div>

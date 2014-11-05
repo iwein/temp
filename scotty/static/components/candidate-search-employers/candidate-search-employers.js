@@ -18,7 +18,7 @@ define(function(require) {
     $scope.loading = false;
     Loader.page(true);
 
-    Permission.requireLogged().then(function() {
+    Permission.requireActivated().then(function() {
       $scope.ready = true;
       Loader.page(false);
     });

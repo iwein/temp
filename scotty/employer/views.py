@@ -183,7 +183,7 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_logout', **GET)
     def logout(self):
-        self.request.session.pop('employer_id', None)
+        self.request.session.invalidate()
         return {'success': True}
 
 
@@ -274,6 +274,10 @@ class EmployerOfferController(EmployerController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
+        return self.offer.full_status_flow
+
+    @view_config(route_name='employer_offer_status', **GET)
+    def get_status(self):
         return self.offer.full_status_flow
 
 class EmployerPasswordController(RootController):

@@ -140,11 +140,14 @@
 .btn-block {
   display: block;
   width: 100%;
+  text-transform: uppercase;
+  line-height: 40px;
+  font-size: 16px;
 }
 
 // Vertically space out multiple block buttons
 .btn-block + .btn-block {
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 // Specificity overrides
@@ -161,7 +164,4 @@ input[type="button"] {
 .btn_green {
   background: @green;
   color: @white;
-  text-transform: uppercase;
-  line-height: 40px;
-  font-size: 16px;
 }

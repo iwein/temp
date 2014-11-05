@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="web application">
+    <meta name="author" content="HackandCraft">
+    <title>Scotty</title>
+
+    <!-- build:css build.css -->
+    <link rel="stylesheet/less" href="index/styles.less">
+    <script>less = { logLevel: 1 };</script>
+    <script src="../bower_components/less/dist/less-1.7.0.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <div class="top"></div>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="bottom"></div>
+
+    <script type="text/javascript">
+
+      function request(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.withCredentials = true;
+        xhr.send(null);
+        xhr.addEventListener('readystatechange', function() {
+          if (xhr.readyState !== 4) return null;
+          callback(JSON.parse(xhr.responseText));
+        });
+      }
+
+      var url = 'http://sheltered-meadow-1359.herokuapp.com/api/v1/cms/get?keys=';
+      var binding = {
+        'ABOUTUS_TOP': 'top',
+        'ABOUTUS_LEFT': 'left',
+        'ABOUTUS_RIGHT': 'right',
+        'ABOUTUS_BOTTOM': 'bottom',
+      };
+
+      request(url + Object.keys(binding).join(','), function(response) {
+        response.forEach(function(item) {
+          var element = document.querySelector('.' + binding[item.key]);
+          element.innerHTML = item.value;
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -15,77 +15,6 @@ h3 {
   font-size: 16pt;
 }
 
-.navbar {
-  border-radius: 0;
-  margin-bottom: 0;
-  background: @gray-darker;
-  margin-bottom: 15px;
-
-  .navbar-nav > li {
-    & > a {
-      color: @white;
-      font-size: 14px;
-      text-transform: uppercase;
-      line-height: 35px;
-      padding: 0 30px;
-      &:hover {
-        text-decoration: underline;
-        background: transparent;
-        color: white;
-      }
-    }
-    &.active > a {
-      font-weight: bold;
-      background: transparent;
-      color: white;
-
-      &:hover {
-        text-decoration: underline;
-        background: transparent;
-        color: white;
-      }
-    }
-  }
-}
-.user-avatar {
-  float: left;
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.dropdown {
-  .logout {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 30px;
-    background: @gray-darker;
-    padding: 10px 30px;
-    color: @white;
-    z-index: 3;
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.55);
-    -moz-box-shadow:    0px 5px 5px 0px rgba(50, 50, 50, 0.55);
-    box-shadow:         0px 5px 5px 0px rgba(50, 50, 50, 0.55);
-    a{
-      color: @white;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-  }
-}
-
-.dropdown:after {
-  content: ""; clear: both; display: block;
-}
-
 .dropdown:hover {
   .logout {
     display: block;
@@ -279,7 +208,7 @@ form {
 }
 /* company list */
 .company-list {
-  padding: 20px 0
+  padding: 20px 0 0 0;
 }
 .company-list-item {
   border-bottom: 1px solid @gray;
@@ -289,10 +218,18 @@ form {
   margin-top: 5px;
 }
 .col-skills {
+  div {
+    font-family: @font-family-sans-serif-mid;
+    color: @gray-dark;
+  }
   a {
     color: @green;
     text-transform: uppercase;
-    text-decoration: underline;
+    border-bottom: 1px solid @green;
+    font-family: @font-family-sans-serif-mid;
+    &:hover {
+      text-decoration: none
+    }
     i {
       font-size: 10px;
       font-weight: normal;
@@ -301,17 +238,11 @@ form {
 }
 .bookmark {
   display: block;
-  background: url(../candidate/resources/images/bookmark_tag.png) 0 0 no-repeat;
-  width: 29px;
-  height: 29px
+  width: 22px;
+  height: 22px;
+  floaT: right
 }
-.bookmark_small {
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  margin: 0px 0 -5px 5px;
-  background-size: 15px 15px !important;
-}
+
 .bookmark_active {
   background: url(../candidate/resources/images/bookmark_tag_active.png) 0 0 no-repeat;
 }
@@ -322,7 +253,7 @@ form {
 
 .gray-bar{
   position: absolute;
-  bottom: 10px;
+  bottom: 35px;
   top: 10px;
   left: 50%;
   width: 5px;
@@ -334,6 +265,8 @@ form {
   z-index: 2;
   padding-bottom: 20px;
   font-size: 16px;
+  font-family: @font-family-headings;
+  font-weight: 300;
   .date {
     padding-top: 3px
   }
@@ -341,12 +274,20 @@ form {
 .timeline {
   width: 16.66666667%;
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   top: 0;
-  left: 0;
+  left: 8px;
+}
+.timeline-start {
+  position: absolute;
+  bottom: 0;
+  width: 35px;
+  left: 50%;
+  margin-left: -17px; 
+  border-bottom: 1px solid @yellow;
 }
 .timeline-item {
-  padding-bottom: 25px;
+  padding-bottom: 20px;
 }
 .dot {
   text-align: center;
@@ -356,7 +297,6 @@ form {
   font-size: 25px;
 }
 .news-ico {
-  width: 40px;
   height: 40px;
   margin: 0 auto
 }
@@ -406,7 +346,7 @@ form {
 .main-title {
   color: @blue-light;
   margin: 0 0 10px 0;
-  padding: 0 0 20px 0;
+  padding: 40px 0 20px 0;
   border-bottom: 1px solid @gray-light;
   font-size: 40px;
   font-weight: normal;
@@ -416,7 +356,7 @@ form {
   font-size: 20px;
   font-weight: normal;
   text-transform: uppercase;
-  margin: 0 0 30px 0;
+  margin: 0 0 25px 0;
   color: @gray-dark;
   span {
     font-weight: bold;
@@ -434,9 +374,18 @@ form {
   color: @white;
   font-size: 40px;
   text-transform: uppercase;
-  padding: 40px 30px 20px;
+  padding: 40px 30px 21px;
   font-weight: normal;
-  margin-bottom: 0;
+  margin: 0;
+  a {
+    color: @yellow;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-bottom: 1px solid @yellow;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 /* offer dashboard */
 .offer-list {
@@ -513,6 +462,8 @@ form {
   -webkit-box-shadow: 2px 2px 2px 0px rgba(50, 50, 50, 0.4);
   -moz-box-shadow:    2px 2px 2px 0px rgba(50, 50, 50, 0.4);
   box-shadow:         2px 2px 2px 0px rgba(50, 50, 50, 0.4);
+}
+.label-wrap {
   div {
     line-height: 20px;
   }
@@ -527,9 +478,12 @@ form {
       width: 20px;
       height: 20px;
       border:1px solid @gray-light;
-      margin: 0 10px 3px 0;
+      margin: 0 5px 3px 0;
       float: left;
       text-align: center;
+      font-size: 12px;
+      color: @text-color;
+      background: @white
     }
     input[type="checkbox"]:checked::after {
       content: "\f00c";
@@ -603,4 +557,18 @@ form {
   font-size: 14px;
   text-align: center;
   line-height: 36px;
+}
+
+/* employer offer */
+.emp-off-desc {
+  padding: 20px 30px;
+  min-height: 215px
+}
+.skills-wrap-right {
+  i {
+    margin-right: 2px;
+  }
+  span {
+    padding-left: 5px;
+  }
 }

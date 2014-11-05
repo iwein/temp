@@ -14,7 +14,7 @@ define(function(require) {
       $scope.activated = activated;
     });
 
-    Permission.requireSignup().then(function() {
+    Permission.requireActivated().then(function() {
       this.toogleBookmark = toogleBookmark;
       $scope.id = $state.params.id;
 

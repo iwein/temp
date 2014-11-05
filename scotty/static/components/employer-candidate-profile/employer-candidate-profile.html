@@ -7,7 +7,7 @@
       <div class="col-sm-6">
         <div class="bg-white pad-normal user-desc">
           <div class="">
-            <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h3>
+            <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
             <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
           </div>
           <div>
@@ -118,7 +118,7 @@
           <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
           <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
           <!-- WARN: replaced UI by DIV -->
-          <div>{{ experience.summary }}</div>
+          <div class="accordion-text">{{ experience.summary }}</div>
         </hc-accordion>
       </div>
       <div class="accordion-wrap bg-white pad-20">
@@ -128,7 +128,7 @@
           <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
           <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
           <!-- WARN: replaced UI by DIV -->
-          <div>{{ entry.course }}</div>
+          <div class="accordion-text">{{ entry.course }}</div>
         </hc-accordion>
       </div>
     </div>
