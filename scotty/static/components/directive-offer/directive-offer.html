@@ -2,7 +2,7 @@
   <div class="col-sm-3">
     <div class="pad-lft-15">
       <div class="caps font-14 mrg-btm">Offer No. {{ model.data.reference }}</div>
-      <div class="offer-pic" ng-if="!hide.employer" style="background-image: url({{ model.data.employer.logo_url }})"></div>
+      <div class="offer-pic"  style="background-image: url({{ model.data.employer.logo_url }})"></div>
     </div>
   </div>
   <div class="col-sm-9">
@@ -52,10 +52,17 @@
         
       </div>
       <!--TODO Implement the job offer title -->
-      <div class="col-sm-8 offer-list-title mrg-btm-big">Senior Java Developer</div>
+      <div class="col-sm-8 offer-list-title">Senior Java Developer
+        <div ng-if="!hide.candidate" class="subtitle">
+          <span class="iconParent">
+            <i class="fa fa-euro gray-light"></i>
+          </span> 
+          <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year
+        </div>
+      </div>
       <div class="col-sm-4 mrg-btm-big">
         <!--TODO Implement this for all the entries except for status STARTED, REJECTED, WITHDRAWN -->
-        <!--a class="link-orange fl-rg" ui-sref="offer({ id: model.id })">offer details <i class="fa fa-angle-right"></i></a-->
+        <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })">offer details <i class="fa fa-angle-right"></i></a>
 
         <!--TODO Implement this only for status  REJECTED, WITHDRAWN
         <div class="row">
@@ -66,10 +73,12 @@
         </div>
          -->
       </div>
+
       <div class="col-sm-12">
         <div class="row">
-          <div class="col-sm-4 infos">
-            <div><span class="iconParent"><i class="fa fa-euro gray-light"></i></span> <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year</div>
+
+          <div ng-if="!hide.employer" class="col-sm-4 infos">
+            <div ><span class="iconParent"><i class="fa fa-euro gray-light"></i></span> <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year</div>
             <div>
               <span class="iconParent"><i class="fa fa-map-marker gray-light"></i></span>
               {{ model.data.location.city }}, {{ model.data.location.country_iso }}
@@ -77,12 +86,23 @@
              <!--TODO Implement link company profile -->
             <a class="link-blue" href="#">Company profile <i class="fa fa-angle-right"></i></a>
           </div>
+          <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
+              <div class="name"><a href="#">Sandra Schulz</a></div>
+              <div class="position">Head of it all </div>
+              <div class="caompany">@GRETA intrest</div>
+          </div>
           <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2 req-list">
-                <div class="key"><i class="fa fa-key gray-light"></i></div>
+                <div class="key">
+                  <i class="fa fa-key ico-req-list" ng-if="!hide.employer"></i>
+                  <i class="fa fa-star ico-req-list" ng-if="!hide.candidate"></i>
+                </div>
                 <div class="row">
-                  <div class="col-sm-12"><div class="req-list-title mrg-btm-small">Requirements</div></div>
+                  <div class="col-sm-12">
+                    <div class="req-list-title mrg-btm-small" ng-if="!hide.employer">Requirements</div>
+                    <div class="req-list-title mrg-btm-small" ng-if="!hide.candidate">Skills</div>
+                  </div>
                   <div class="col-sm-3 mrg-btm-small" ng-repeat="skill in model.data.technologies">
                     {{ skill }}
                   </div>
