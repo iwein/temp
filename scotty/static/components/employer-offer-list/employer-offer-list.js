@@ -30,7 +30,7 @@ define(function(require) {
 
 
   return {
-    url: '/employer-offer-list/',
+    url: '/offers/',
     template: require('text!./employer-offer-list.html'),
     controller: 'OfferListCtrl',
     controllerAs: 'offerList',
