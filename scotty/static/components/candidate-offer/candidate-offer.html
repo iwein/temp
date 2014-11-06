@@ -1,8 +1,9 @@
 <div class="component-candidate-offer" ng-if="ready">
   <div class="inner">
-    <div class="row no-gutter mrg-btm">
+    <div class="row">
+
       <div class="col-sm-3">
-        <div class="user-pic mrg-btm" style="background-image: url({{ user.picture_url }})"></div>
+        <div class="user-pic mrg-btm-big" style="background-image: url({{ user.picture_url }})"></div>
         <div class="rel">
           <div class="row timeline-head no-gutter">
             <div class="col-sm-2 no-padd-horz">
@@ -41,8 +42,12 @@
         </div>
       </div>
 
-      <div class="col-sm-6">
-        <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
+      <div class="col-sm-6 bg-white">
+        <div class="row bg-blue">
+          <div class="col-sm-12">
+            <h2 class="main-title-blue">Offer</h2>
+          </div>
+        </div>
         <div class="bg-white emp-off-desc mrg-btm">
           <div class="">
             <h3 class="main-subtitle"><span>{{ offer.data.role }}</span> at {{ offer.employer.company_name }}</h3>
