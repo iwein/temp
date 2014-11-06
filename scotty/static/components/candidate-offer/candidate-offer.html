@@ -8,24 +8,34 @@
             <div class="col-sm-2 no-padd-horz">
               <div class="dot"><i class="fa fa-circle"></i></div>
             </div>
-            <div class="col-sm-10">{{ offer.data.created | moment:"MMMM Do, YYYY" }}</div>
+            <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
           </div>
           <div class="timeline">
             <div class="gray-bar"></div>
           </div>
-          <!-- @TODO implement offer timeline -->
-          <div class="timeline-item" ng-repeat="entry in news">
-            <div class="col-sm-2 no-padd-horz">
-              <div class="news-ico
-  news-ico-profile-pending
-  news-ico-profile-live
-  news-ico-offer-received
-  news-ico-offer-rejected
-  news-ico-offer-accepted
-  news-ico-offer-negotiation
-  news-ico-offer-signed
-  news-ico-offer-start-date
-  news-ico-offer-bookmarked-employer"></div>
+          <div class="timeline-item" ng-repeat="entry in timeline">
+            <div class="col-sm-2 no-padd-right rel">
+              <!-- TODO
+                Missing class for state:
+                INTERVIEWING
+
+                Unknown states:
+                'news-ico-profile-pending': entry.name === 'FOOBAR'
+                'news-ico-profile-live': entry.name === 'FOOBAR'
+                'news-ico-offer-start-date': entry.name === 'FOOBAR'
+                'news-ico-offer-bookmarked-employer': entry.name === 'FOOBAR'
+              -->
+
+              <div class="news-ico" ng-class="{
+                'news-ico-offer-received': entry.name === 'OFFER_MADE',
+                'news-ico-offer-rejected': entry.name === 'REJECTED',
+                'news-ico-offer-accepted': entry.name === 'ACCEPTED',
+                'news-ico-offer-negotiation': entry.name === 'NEGOCIATING',
+                'news-ico-offer-signed': entry.name === 'CONTRACT_SIGNED',
+              }"></div>
+            </div>
+            <div class="col-sm-10">
+              <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
             </div>
           </div>
         </div>

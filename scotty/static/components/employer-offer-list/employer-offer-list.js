@@ -3,8 +3,10 @@ define(function(require) {
   require('components/directive-offer/directive-offer');
   var module = require('app-module');
 
-  // jshint maxparams:8
-  module.controller('OfferListCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxparams:9
+  module.controller('OfferListCtrl', function($scope, $q, $sce, $state, toaster,
+    Loader, ConfigAPI, Permission, Session) {
+
     Loader.page(true);
 
     Permission.requireActivated().then(function() {
@@ -19,6 +21,16 @@ define(function(require) {
           });
           return offer;
         });
+
+        return $q.all(offers.map(function(offer) {
+          return Session.getCandidate(offer.data.candidate_id).then(function(candidate) {
+            return candidate.getExperience();
+          }).then(function(experience) {
+            offer.position = experience.sort(function(a, b) {
+              return b.start - a.start;
+            })[0];
+          });
+        }));
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
@@ -30,7 +42,7 @@ define(function(require) {
 
 
   return {
-    url: '/employer-offer-list/',
+    url: '/offers/',
     template: require('text!./employer-offer-list.html'),
     controller: 'OfferListCtrl',
     controllerAs: 'offerList',
