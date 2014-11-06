@@ -157,10 +157,13 @@
         </div>
         <div class="row">
           <div class="buttons-wrap">
+            <button class="col-sm-6 btn bg-green btn-first" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
+              {{ offer.getNextStatusText() }}
+            </button>
             <button class="col-sm-6 btn bg-green" ng-show="offer.canAccept()" ng-click="toggleForm('accept')">Accept</button>
             <button class="col-sm-6 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')">Contract Signed</button>
             <button class="col-sm-6 btn bg-red" ng-show="offer.canReject()" ng-click="toggleForm('reject')" ng-class="{
-              fw: !offer.canAccept() && !offer.canSign(),
+              fw: !offer.canAccept() && !offer.canSign() && !offer.canNextStatus(),
             }">Reject</button>
             <div class="form-container col-sm-12 padd-vert bg-gray-lighter2">
               <form class="reject-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
