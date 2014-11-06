@@ -157,8 +157,77 @@
         </div>
         <div class="row">
           <div class="buttons-wrap">
-            <button class="col-sm-6 btn bg-green">Accept</button>
+            <button class="col-sm-6 btn bg-green inactive">Accept</button>
             <button class="col-sm-6 btn bg-red">Reject</button>
+            <div class="form-container col-sm-12">
+              <form class="reject-wrap" ng-show="popups.isOpen('accept')" ng-submit="accept(model, acceptance)">
+                <div>
+                  <label>Email address</label>
+                  <input type="email"
+                    class="form-control"
+                    name="contactEmail"
+                    required
+                    ng-model="acceptance.email">
+
+                  <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your phone.</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label>Phone number</label>
+                  <input type="tel"
+                    class="form-control"
+                    name="phoneNumber"
+                    pattern="^\+?[0-9 /()-]+$"
+                    ng-pattern="/^\+?[0-9 /()-]+$/"
+                    ng-disabled="hcDisabled"
+                    ng-model="acceptance.phone">
+
+                  <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                    <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+                </div>
+              </form>
+              <form class="reject-wrap" ng-show="popups.isOpen('withdraw')" ng-submit="withdraw(model, withdrawal)">
+                <div class="form-group">
+                  <div ng-repeat="reason in withdrawReasons">
+                    <label>
+                      <input type="radio"
+                        name="rejectReason"
+                        value="{{ reason }}"
+                        ng-disabled="hcDisabled"
+                        ng-required="!withdrawal.reason"
+                        ng-model="withdrawal.reason"
+                        ng-change="withdrawal.rejected_text = null">
+                      {{ reason }}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group required"
+                  ng-if="withdrawal.reason.toLowerCase() === 'other'">
+                  <label>Please describe your reason</label>
+
+                  <textarea
+                    class="form-control"
+                    placeholder="Please describe your reason"
+                    required
+                    ng-disabled="hcDisabled"
+                    ng-model="withdrawal.withdrawal_reason">
+                  </textarea>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         <div class="row border-box">
