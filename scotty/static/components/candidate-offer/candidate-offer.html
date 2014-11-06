@@ -159,8 +159,48 @@
           <div class="buttons-wrap">
             <button class="col-sm-6 btn bg-green inactive">Accept</button>
             <button class="col-sm-6 btn bg-red">Reject</button>
-            <div class="form-container col-sm-12">
-              <form class="reject-wrap" ng-show="popups.isOpen('accept')" ng-submit="accept(model, acceptance)">
+
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2">
+              <form class="form-wrap">
+                <p>Please provide the following information.</p>
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start date</label>
+                  <div class="col-sm-9">
+                    <input type="email"
+                      class="form-control"
+                      name="contactEmail"
+                      required
+                      ng-model="acceptance.email">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
+                  </div>
+                </div>
+
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start salary</label>
+                  <div class="col-sm-9">
+                    <input type="tel"
+                      class="form-control"
+                      name="phoneNumber"
+                      pattern="^\+?[0-9 /()-]+$"
+                      ng-pattern="/^\+?[0-9 /()-]+$/"
+                      ng-disabled="hcDisabled"
+                      ng-model="acceptance.phone">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                    <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  </div>
+                </div>
+                <div class="form-error">
+                  <span>Please choose your start date</span>
+                </div>
+                <button class="bg-green fl-rg btn-small">Submit</button>
+              </form>
+
+
+              <form class="form-wrap" ng-show="popups.isOpen('accept')" ng-submit="accept(model, acceptance)">
                 <div>
                   <label>Email address</label>
                   <input type="email"
@@ -194,7 +234,9 @@
                   <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
                 </div>
               </form>
-              <form class="reject-wrap" ng-show="popups.isOpen('reject')" ng-submit="reject(model, reject)">
+
+
+              <form class="form-wrap" ng-show="popups.isOpen('reject')" ng-submit="reject(model, reject)">
                 <div class="form-group">
                   <div ng-repeat="reason in withdrawReasons">
                     <label>
