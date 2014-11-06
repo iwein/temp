@@ -49,12 +49,12 @@
       <div class="col-sm-3">
         <div class="user-pic mrg-btm-big" style="background-image: url({{ offer.data.candidate.picture_url }})"></div>
         <div class="rel row pad-btm-15">
-          
+
           <div class="timeline">
             <div class="gray-bar"></div>
             <div class="timeline-start"></div>
           </div>
-          
+
           <div class="timeline-head clearfix">
             <div class="col-sm-2 no-padd-right">
               <div class="dot"><i class="fa fa-circle"></i></div>
@@ -171,7 +171,7 @@
               fw: !offer.canNextStatus() && !offer.canSign(),
             }">Withdraw</button>
 
-            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2">
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="popup">
               <form class="form-wrap" ng-show="popup === 'withdraw'" ng-submit="withdraw(offer, withdrawal)">
                 <p>Please define the reason for your withdrawal.</p>
                 <div class="row padd-form">
