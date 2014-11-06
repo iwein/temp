@@ -56,7 +56,6 @@ define(function(require) {
         ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
         ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));
 
-
         function toggle(key) {
           popup = popup === key ? null : key;
           $scope.withdrawal = {};
