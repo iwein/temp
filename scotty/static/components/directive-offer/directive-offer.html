@@ -9,47 +9,48 @@
     <div class="row">
       <div class="offer-date col-sm-8 mrg-btm">created: {{ model.data.created | moment:"MMMM Do, YYYY" }}</div>
       <div class="col-sm-4 mrg-btm alg-right lbl">
-        <span class="gray-light">Status</span>
-        <span class="iconParent"><i class="fa" ng-class="{
-          'blue-link':
-            model.status === 'ACCEPTED' ||
-            model.status === 'ACTIVE' ||
-            model.status === 'INTERVIEW' ||
-            model.status === 'NEGOTIATING' ||
-            model.status === 'CONTRACT_SIGNED' ||
-            
-            model.status === 'EXPIRED',
+        <div class="pad-rgt-15">
+          <span class="gray-light">Status</span>
+          <span class="iconParent"><i class="fa" ng-class="{
+            'blue-link':
+              model.status === 'ACCEPTED' ||
+              model.status === 'ACTIVE' ||
+              model.status === 'INTERVIEW' ||
+              model.status === 'NEGOTIATING' ||
+              model.status === 'CONTRACT_SIGNED' ||
+              
+              model.status === 'EXPIRED',
 
-          'fa-sign-in':
-             model.status === 'ACTIVE',
+            'fa-sign-in':
+               model.status === 'ACTIVE',
 
-          'fa-toggle-on':
-            model.status === 'ACCEPTED',
+            'fa-toggle-on':
+              model.status === 'ACCEPTED',
 
-          'fa-pencil':
-            model.status ==='CONTRACT_SIGNED',
+            'fa-pencil':
+              model.status ==='CONTRACT_SIGNED',
 
-          'fa-exchange':
-            model.status === 'NEGOTIATING',
+            'fa-exchange':
+              model.status === 'NEGOTIATING',
 
-          'red': 
-            model.status === 'WITHDRAWN' ||
-            model.status === 'REJECTED',
+            'red': 
+              model.status === 'WITHDRAWN' ||
+              model.status === 'REJECTED',
 
-          'fa-times-circle':
-            model.status === 'WITHDRAWN' ||
-            model.status === 'REJECTED',
+            'fa-times-circle':
+              model.status === 'WITHDRAWN' ||
+              model.status === 'REJECTED',
 
 
-          'fa-comments': model.status === 'INTERVIEW',
-        }"></i></span>
-        <span ng-class="{
-          'red': 
-            model.status === 'WITHDRAWN' ||
-            model.status === 'REJECTED',
+            'fa-comments': model.status === 'INTERVIEW',
+          }"></i></span>
+          <span ng-class="{
+            'red': 
+              model.status === 'WITHDRAWN' ||
+              model.status === 'REJECTED',
 
-        }">{{ model.statusText }}</span>
-        
+          }">{{ model.statusText }}</span>
+        </div>
       </div>
       <!--TODO Implement the job offer title -->
       <div class="col-sm-8 offer-list-title">Senior Java Developer
@@ -61,17 +62,19 @@
         </div>
       </div>
       <div class="col-sm-4 mrg-btm-big">
-        <!--TODO Implement this for all the entries except for status STARTED, REJECTED, WITHDRAWN -->
-        <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })">offer details <i class="fa fa-angle-right"></i></a>
+        <div class="pad-rgt-15">
+          <!--TODO Implement this for all the entries except for status STARTED, REJECTED, WITHDRAWN -->
+          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })">offer details <i class="fa fa-angle-right"></i></a>
 
-        <!--TODO Implement this only for status  REJECTED, WITHDRAWN
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-6 alg-left">
-            <div class="smbd">reason:</div>
-            <div>company profile is not convincing</div>
+          <!--TODO Implement this only for status  REJECTED, WITHDRAWN
+          <div class="row">
+            <div class="col-sm-6 col-sm-offset-6 alg-left">
+              <div class="smbd">reason:</div>
+              <div>company profile is not convincing</div>
+            </div>
           </div>
-        </div>
-         -->
+           -->
+       </div>
       </div>
 
       <div class="col-sm-12">
