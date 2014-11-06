@@ -2,19 +2,25 @@ define(function(require) {
   'use strict';
   require('angular-sanitize');
   require('components/directive-offer/directive-offer');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   // jshint maxparams:8
   module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+    $scope.toggleForm = toggleForm;
+    $scope.accept = accept;
+    $scope.reject = reject;
     $scope.ready = false;
     Loader.page(true);
+    var email;
 
     Permission.requireActivated().then(function() {
       $scope.id = $state.params.id;
 
-      ConfigAPI.rejectReasons().then(function(reasons) {
-        $scope.rejectReasons = reasons;
-      });
+      ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));
+      Session.getUser()
+        .then(fn.invoke('getData', []))
+        .then(function(data) { email = data.email });
 
       return Session.user.getOffer($scope.id);
     }).then(function(offer) {
@@ -32,12 +38,34 @@ define(function(require) {
         data.job_description = $sce.trustAsHtml(data.job_description);
       });
 
-      function onStatusChange() {
-        toaster.success('Offer ' + $scope.offer.statusText);
-      }
     }.bind(this)).finally(function() {
       Loader.page(false);
     });
+
+
+    function onStatusChange() {
+      toaster.success('Offer ' + $scope.offer.statusText);
+    }
+
+    function toggleForm(id) {
+      $scope.showForm = $scope.showForm === id ? '' : id;
+      $scope.acceptance = { email: email };
+      $scope.rejection = {};
+    }
+
+    function accept(offer, form) {
+      Loader.add('offer-accept');
+      offer.accept(form)
+        .then(toggleForm.bind(null, 'accept'))
+        .finally(function() { Loader.remove('offer-accept') });
+    }
+
+    function reject(offer, form) {
+      Loader.add('offer-reject');
+      offer.reject(form)
+        .then(toggleForm.bind(null, 'reject'))
+        .finally(function() { Loader.remove('offer-reject') });
+    }
   });
 
 
