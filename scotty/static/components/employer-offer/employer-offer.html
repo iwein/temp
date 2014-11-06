@@ -69,7 +69,7 @@
       </div>
 
       <div class="col-sm-3">
-        <div class="row bg-gray-lighter2 mrg-btm employer-offer-info-box">
+        <div class="row bg-gray-lighter2 employer-offer-info-box">
           <div class="col-sm-12 padd-vert">
             <div class="font-22">
               <span class="iconParent"><i class="fa fa-euro"></i></span>
@@ -110,6 +110,51 @@
                   <span class="iconParent"><i class="fa fa-home"></i></span><span>Remote work</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="buttons-wrap">
+            <button class="col-sm-6 btn bg-red fw">Withdraw</button>
+
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2">
+              <form class="form-wrap">
+                <p>Please provide the following information.</p>
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start date</label>
+                  <div class="col-sm-9">
+                    <input type="email"
+                      class="form-control"
+                      name="contactEmail"
+                      required
+                      ng-model="acceptance.email">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
+                  </div>
+                </div>
+
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start salary</label>
+                  <div class="col-sm-9">
+                    <input type="tel"
+                      class="form-control"
+                      name="phoneNumber"
+                      pattern="^\+?[0-9 /()-]+$"
+                      ng-pattern="/^\+?[0-9 /()-]+$/"
+                      ng-disabled="hcDisabled"
+                      ng-model="acceptance.phone">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                    <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  </div>
+                </div>
+                <div class="form-error">
+                  <span>Please choose your start date</span>
+                </div>
+                <button class="bg-green fl-rg btn-small">Submit</button>
+              </form>
             </div>
           </div>
         </div>
