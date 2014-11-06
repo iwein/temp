@@ -2,7 +2,8 @@
   <div class="col-sm-3">
     <div class="pad-lft-15">
       <div class="caps font-14 mrg-btm">Offer No. {{ model.data.reference }}</div>
-      <div class="offer-pic"  style="background-image: url({{ model.data.employer.logo_url }})"></div>
+      <div class="offer-pic" ng-if="!hide.employer" style="background-image: url({{ model.data.employer.logo_url }})"></div>
+      <div class="offer-pic" ng-if="!hide.candidate" style="background-image: url({{ model.data.candidate.picture_url }})"></div>
     </div>
   </div>
   <div class="col-sm-9">
@@ -18,7 +19,7 @@
               model.status === 'INTERVIEW' ||
               model.status === 'NEGOTIATING' ||
               model.status === 'CONTRACT_SIGNED' ||
-              
+
               model.status === 'EXPIRED',
 
             'fa-sign-in':
@@ -33,7 +34,7 @@
             'fa-exchange':
               model.status === 'NEGOTIATING',
 
-            'red': 
+            'red':
               model.status === 'WITHDRAWN' ||
               model.status === 'REJECTED',
 
@@ -45,35 +46,33 @@
             'fa-comments': model.status === 'INTERVIEW',
           }"></i></span>
           <span ng-class="{
-            'red': 
+            'red':
               model.status === 'WITHDRAWN' ||
               model.status === 'REJECTED',
-
           }">{{ model.statusText }}</span>
         </div>
       </div>
-      <!--TODO Implement the job offer title -->
-      <div class="col-sm-8 offer-list-title">Senior Java Developer
+      <div class="col-sm-8 offer-list-title">{{ model.data.role }}
         <div ng-if="!hide.candidate" class="subtitle">
           <span class="iconParent">
             <i class="fa fa-euro gray-light"></i>
-          </span> 
+          </span>
           <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year
         </div>
       </div>
       <div class="col-sm-4 mrg-btm-big">
         <div class="pad-rgt-15">
-          <!--TODO Implement this for all the entries except for status STARTED, REJECTED, WITHDRAWN -->
-          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })">offer details <i class="fa fa-angle-right"></i></a>
+          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })"
+            ng-hide="model.status === 'STARTED' || model.status === 'REJECTED' || model.status === 'WITHDRAWN'">
+            offer details <i class="fa fa-angle-right"></i>
+          </a>
 
-          <!--TODO Implement this only for status  REJECTED, WITHDRAWN
-          <div class="row">
+          <div class="row" ng-show="model.status === 'REJECTED' || model.status === 'WITHDRAWN'">
             <div class="col-sm-6 col-sm-offset-6 alg-left">
               <div class="smbd">reason:</div>
-              <div>company profile is not convincing</div>
+              <div>{{ model.data.rejected_reason || model.data.withdrawal_reason }}</div>
             </div>
           </div>
-           -->
        </div>
       </div>
 
@@ -86,14 +85,14 @@
               <span class="iconParent"><i class="fa fa-map-marker gray-light"></i></span>
               {{ model.data.location.city }}, {{ model.data.location.country_iso }}
             </div>
-             <!--TODO Implement link company profile -->
-            <a class="link-blue" href="#">Company profile <i class="fa fa-angle-right"></i></a>
+            <a class="link-blue" ui-sref="employer({ id: model.employer_id })">Company profile <i class="fa fa-angle-right"></i></a>
           </div>
           <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
-              <!--TODO Implement name position and agency -->
-              <div class="name"><a href="#">Sandra Schulz</a></div>
-              <div class="position">Head of it all </div>
-              <div class="caompany">@GRETA intrest</div>
+            <div class="name"><a ui-sref="candidate({ id: model.candidate_id })">
+              {{ model.candidate.first_name}} {{ model.candidate.last_name }}
+            </a></div>
+            <div class="position">{{ model.position.role }}</div>
+            <div class="company">{{ model.position.company }}</div>
           </div>
           <div class="col-sm-8">
             <div class="row">

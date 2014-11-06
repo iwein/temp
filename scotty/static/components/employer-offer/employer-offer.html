@@ -163,51 +163,84 @@
         </div>
         <div class="row">
           <div class="buttons-wrap">
-            <!--TODO status active -->
-            <button class="col-sm-6 btn bg-red fw">Withdraw</button>
-             <!--TODO status accepted -->
-            <button class="col-sm-6 btn bg-green btn-first">Interviewing</button>
-            <button class="col-sm-6 btn bg-red">withdraw</button>
+            <button class="col-sm-6 btn bg-green btn-first" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
+              {{ offer.getNextStatusText() }}
+            </button>
+            <button class="col-sm-6 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')">Contract Signed</button>
+            <button class="col-sm-6 btn bg-red" ng-show="offer.canWithdraw()" ng-click="toggleForm('withdraw')" ng-class="{
+              fw: !offer.canNextStatus() && !offer.canSign(),
+            }">Withdraw</button>
 
             <div class="form-container col-sm-12 padd-vert bg-gray-lighter2">
-              <form class="form-wrap">
+              <form class="form-wrap" ng-show="popup === 'withdraw'" ng-submit="withdraw(offer, withdrawal)">
                 <p>Please define the reason for your withdrawal.</p>
                 <div class="row padd-form">
                   <div class="label-wrap col-sm-12">
-                    <div>
+                    <div ng-repeat="reason in withdrawReasons">
                       <label>
-                        Inapproriate
-                        <input type="checkbox"></input>
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        Insufficient Language Skills
-                        <input type="checkbox"></input>
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        Insufficient Experience
-                        <input type="checkbox"></input>
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        No Culture Fit
-                        <input type="checkbox"></input>
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        Other
-                        <input type="checkbox"></input>
+                        <input type="radio"
+                          name="withdrawReason"
+                          value="{{ reason }}"
+                          ng-required="!withdrawal.reason"
+                          ng-model="withdrawal.reason"
+                          ng-change="withdrawal.rejected_text = null">
+                        {{ reason }}
                       </label>
                     </div>
                     <div class="pad-label">
                        <textarea class="txtarea"> Please describe your reason</textarea>
                     </div>
                   </div>
+                </div>
+
+                <div ng-if="withdrawal.reason.toLowerCase() === 'other'">
+                  <p>Please describe your reason</p>
+
+                  <textarea
+                    class="form-control"
+                    placeholder="Please describe your reason"
+                    required
+                    ng-model="withdrawal.withdrawal_reason">
+                  </textarea>
+                </div>
+
+                <button type="submit" class="bg-green fl-rg btn-small">Submit</button>
+              </form>
+
+              <form class="sign-wrap" ng-show="showForm === 'sign'" ng-submit="sign(offer, signing)">
+                <p>Please provide the following information.</p>
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start date</label>
+                  <div class="col-sm-9">
+                    <input type="date"
+                      class="form-control"
+                      placeholder="YYYY-MM-DD"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="signing.start_date">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
+                  </div>
+                </div>
+
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start salary</label>
+                  <div class="col-sm-9">
+                    <input type="dotted-integer"
+                      class="form-control"
+                      placeholder="Start salary"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="signing.start_salary">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                    <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  </div>
+                </div>
+                <div class="form-error">
+                  <span>Please choose your start date</span>
                 </div>
                 <button class="bg-green fl-rg btn-small">Submit</button>
               </form>

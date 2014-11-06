@@ -2,16 +2,22 @@ define(function(require) {
   'use strict';
   require('angular-sanitize');
   require('components/directive-offer/directive-offer');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   // jshint maxparams:8
-  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, Permission, Session) {
+  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+    $scope.toggleForm = toggleForm;
+    $scope.withdraw = withdraw;
+    $scope.sign = sign;
     $scope.ready = false;
     Loader.page(true);
     var self = this;
 
     Permission.requireLogged().then(function() {
       $scope.id = $state.params.id;
+      ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
+
       return Session.getUser().then(function(user) {
         return user.getOffer($scope.id);
       }).then(function(offer) {
@@ -45,6 +51,26 @@ define(function(require) {
 
     function onStatusChange() {
       toaster.success('Offer ' + $scope.offer.statusText);
+    }
+
+    function toggleForm(id) {
+      $scope.showForm = $scope.showForm === id ? '' : id;
+      $scope.withdrawal = {};
+      $scope.signing = {};
+    }
+
+    function sign(offer, form) {
+      Loader.add('offer-sign');
+      offer.sign(form)
+        .then(toggleForm.bind(null, 'sign'))
+        .finally(function() { Loader.remove('offer-sign') });
+    }
+
+    function withdraw(offer, form) {
+      Loader.add('offer-withdraw');
+      offer.withdraw(form)
+        .then(toggleForm.bind(null, 'withdraw'))
+        .finally(function() { Loader.remove('offer-withdraw') });
     }
   });
 
