@@ -48,18 +48,22 @@
 
       <div class="col-sm-3">
         <div class="user-pic mrg-btm-big" style="background-image: url({{ user.picture_url }})"></div>
-        <div class="rel">
-          <div class="row timeline-head no-gutter">
-            <div class="col-sm-2 no-padd-horz">
+        <div class="rel row pad-btm-15">
+          
+          <div class="timeline">
+            <div class="gray-bar"></div>
+            <div class="timeline-start"></div>
+          </div>
+          
+          <div class="timeline-head clearfix">
+            <div class="col-sm-2 no-padd-right">
               <div class="dot"><i class="fa fa-circle"></i></div>
             </div>
             <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
           </div>
-          <div class="timeline">
-            <div class="gray-bar"></div>
-          </div>
-          <div class="timeline-item" ng-repeat="entry in timeline">
-            <div class="col-sm-2 no-padd-right rel">
+          <div class="timeline-item clearfix" ng-repeat="entry in timeline">
+
+            <div class="col-sm-2 no-padd-right">
               <!-- TODO
                 Missing class for state:
                 INTERVIEWING
@@ -79,6 +83,7 @@
                 'news-ico-offer-signed': entry.name === 'CONTRACT_SIGNED',
               }"></div>
             </div>
+
             <div class="col-sm-10">
               <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
             </div>

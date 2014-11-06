@@ -1,22 +1,69 @@
 <div class="component-employer-offer" ng-show="ready">
   <div class="inner">
-    <div class="status-wrap"></div>
+    <div class="status-wrap">
+      <div class="status">
+        <span>Status</span>
+        <span class="iconParent"><i class="fa" ng-class="{
+          'blue-link':
+            offer.status === 'ACCEPTED' ||
+            offer.status === 'ACTIVE' ||
+            offer.status === 'INTERVIEW' ||
+            offer.status === 'NEGOTIATING' ||
+            offer.status === 'CONTRACT_SIGNED' ||
+
+            offer.status === 'EXPIRED',
+
+          'fa-sign-in':
+             offer.status === 'ACTIVE',
+
+          'fa-toggle-on':
+            offer.status === 'ACCEPTED',
+
+          'fa-pencil':
+            offer.status ==='CONTRACT_SIGNED',
+
+          'fa-exchange':
+            offer.status === 'NEGOTIATING',
+
+          'red':
+            offer.status === 'WITHDRAWN' ||
+            offer.status === 'REJECTED',
+
+          'fa-times-circle':
+            offer.status === 'WITHDRAWN' ||
+            offer.status === 'REJECTED',
+
+
+          'fa-comments': offer.status === 'INTERVIEW',
+        }"></i></span>
+        <span ng-class="{
+          'red':
+            offer.status === 'WITHDRAWN' ||
+            offer.status === 'REJECTED',
+
+        }">{{ offer.statusText }}</span>
+      </div>
+    </div>
     <div class="row">
 
       <div class="col-sm-3">
         <div class="user-pic mrg-btm-big" style="background-image: url({{ offer.data.candidate.picture_url }})"></div>
-        <div class="rel">
-          <div class="row timeline-head no-gutter">
-            <div class="col-sm-2 no-padd-horz">
+        <div class="rel row pad-btm-15">
+          
+          <div class="timeline">
+            <div class="gray-bar"></div>
+            <div class="timeline-start"></div>
+          </div>
+          
+          <div class="timeline-head clearfix">
+            <div class="col-sm-2 no-padd-right">
               <div class="dot"><i class="fa fa-circle"></i></div>
             </div>
             <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
           </div>
-          <div class="timeline">
-            <div class="gray-bar"></div>
-          </div>
-          <div class="row timeline-item" ng-repeat="entry in timeline">
-            <div class="col-sm-2 no-padd-right rel">
+          <div class="timeline-item clearfix" ng-repeat="entry in timeline">
+
+            <div class="col-sm-2 no-padd-right">
               <!-- TODO
                 Missing class for state:
                 INTERVIEWING
@@ -36,6 +83,7 @@
                 'news-ico-offer-signed': entry.name === 'CONTRACT_SIGNED',
               }"></div>
             </div>
+
             <div class="col-sm-10">
               <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
             </div>
