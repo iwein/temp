@@ -170,7 +170,7 @@
                     ng-model="acceptance.email">
 
                   <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
                   </div>
                 </div>
 
@@ -194,7 +194,7 @@
                   <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
                 </div>
               </form>
-              <form class="reject-wrap" ng-show="popups.isOpen('withdraw')" ng-submit="withdraw(model, withdrawal)">
+              <form class="reject-wrap" ng-show="popups.isOpen('reject')" ng-submit="reject(model, reject)">
                 <div class="form-group">
                   <div ng-repeat="reason in withdrawReasons">
                     <label>
