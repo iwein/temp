@@ -1,5 +1,6 @@
 <div class="component-employer-offer">
   <div class="inner">
+    <div class="status-wrap"></div>
     <div class="row">
 
       <div class="col-sm-3">
@@ -48,20 +49,21 @@
             <h2 class="main-title-blue">Offer</h2>
           </div>
         </div>
-        <div class="row bg-white emp-off-desc">
-          <div class="cols-sm-12">
-            <!--TODO implementation -->
-            <h3 class="main-profession">UI/UX Designer</h3>
-            <h4 class="main-subtitle">
-              <a class="" href="#">{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</a>
-            </h4>
-            <h4 class="main-agency">{{ offer.data.role }}</h4>
+        <div class="row bg-white">
+          <div class="col-sm-12">
+            <div class="emp-off-desc">
+              <!--TODO implementation -->
+              <h3 class="main-profession">UI/UX Designer</h3>
+              <h4 class="main-subtitle">
+                <a class="" href="#">{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</a>
+              </h4>
+              <h4 class="main-agency">{{ offer.data.role }}</h4>
 
-            <p class="typography" ng-bind-html="offer.data.job_description"></p>
+              <p class="typography" ng-bind-html="offer.data.job_description"></p>
 
-            <h4 class="main-subtitle"><span>Job Description</span></h4>
-            <p class="typography">Lorem  ipsum</p>
-
+              <h4 class="main-subtitle"><span>Job Description</span></h4>
+              <p class="typography">Lorem  ipsum</p>
+            </div>
           </div>
         </div>
       </div>
@@ -117,26 +119,8 @@
           </div>
         </div>
       </div>
-
     </div>
-
-
-
-
-
-    <div class="row">
-
-
-
-      <div class="col-sm-3">
-
-      </div>
   </div>
 </div>
-
-
-        <div class="col-sm-6">
-
-        </div>
 
 
