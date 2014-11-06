@@ -1,4 +1,4 @@
-<div class="component-employer-offer">
+<div class="component-employer-offer" ng-show="ready">
   <div class="inner">
     <div class="status-wrap"></div>
     <div class="row">
@@ -87,27 +87,28 @@
                 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>{{ tech }}</span>
               </div>
             </div>
-            <div class="box-title box-title_left"></div>
-            <h5>Benefits</h5>
-            <!--TODO implementation benefits -->
-            <div class="clearfix skills-wrap-right row">
-              <div class="col-sm-6 mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-cutlery"></i></span><span>Breakfast</span>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                 <span class="iconParent"><i class="fa fa-paw"></i></span><span>Dogs allowed</span>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-coffee"></i></span><span>Coffee</span>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-smile-o"></i></span><span>Massages</span>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-car"></i></span><span>Company car</span>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-home"></i></span><span>Remote work</span>
+            <div ng-if="offer.data.benefits.length">
+              <div class="box-title box-title_left"></div>
+              <h5>Benefits</h5>
+              <div class="clearfix skills-wrap-right row">
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Breakfasts') !== -1">
+                  <span class="iconParent"><i class="fa fa-cutlery"></i></span><span>Breakfast</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Dogs Allowed') !== -1">
+                   <span class="iconParent"><i class="fa fa-paw"></i></span><span>Dogs allowed</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Coffee') !== -1">
+                  <span class="iconParent"><i class="fa fa-coffee"></i></span><span>Coffee</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Massages') !== -1">
+                  <span class="iconParent"><i class="fa fa-smile-o"></i></span><span>Massages</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Company car') !== -1">
+                  <span class="iconParent"><i class="fa fa-car"></i></span><span>Company car</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Remote Work') !== -1">
+                  <span class="iconParent"><i class="fa fa-home"></i></span><span>Remote work</span>
+                </div>
               </div>
             </div>
           </div>
