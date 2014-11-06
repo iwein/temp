@@ -103,7 +103,7 @@ define(function() {
     },
 
     canSign: function() {
-      return !this.isFinalStatus();
+      return this.status === 'CONTRACT_NEGOTIATION';
     },
 
     accept: function(params) {

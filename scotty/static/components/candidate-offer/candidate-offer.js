@@ -10,6 +10,7 @@ define(function(require) {
     $scope.toggleForm = toggleForm;
     $scope.accept = accept;
     $scope.reject = reject;
+    $scope.sign = sign;
     $scope.ready = false;
     Loader.page(true);
     var email;
@@ -51,6 +52,7 @@ define(function(require) {
       $scope.showForm = $scope.showForm === id ? '' : id;
       $scope.acceptance = { email: email };
       $scope.rejection = {};
+      $scope.signing = {};
     }
 
     function accept(offer, form) {
@@ -65,6 +67,13 @@ define(function(require) {
       offer.reject(form)
         .then(toggleForm.bind(null, 'reject'))
         .finally(function() { Loader.remove('offer-reject') });
+    }
+
+    function sign(offer, form) {
+      Loader.add('offer-sign');
+      offer.sign(form)
+        .then(toggleForm.bind(null, 'sign'))
+        .finally(function() { Loader.remove('offer-sign') });
     }
   });
 
