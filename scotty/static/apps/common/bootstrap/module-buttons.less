@@ -1,9 +1,9 @@
 .buttons-wrap {
   float: left;
   width: 100%;
-  padding-bottom: 15px;
-  button {
-    line-height: 38px;
+  button,
+  a {
+    line-height: 28px;
     text-transform: uppercase;
     color: @white;
   }
@@ -16,6 +16,13 @@
   .bg-red {
     &:hover {
       background: @red-dark;
+      color: @white
+    }
+  }
+  .bg-blue {
+    background: @blue-link;
+    &:hover {
+      background: @blue;
       color: @white
     }
   }
