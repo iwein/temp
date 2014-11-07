@@ -19,6 +19,7 @@ define(function(require) {
     'languages': [ 'signup.languages' ],
     'image': [ 'signup.profile' ],
     'approved': [ 'signup.approve' ],
+    'active': [ 'profile' ],
     'end': [ 'profile' ],
   };
   var order = [
