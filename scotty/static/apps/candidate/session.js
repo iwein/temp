@@ -101,8 +101,6 @@ define(function(require) {
       });
     },
 
-
-
     isActivated: function() {
       return this.getSignupStage().then(function(stage) {
         if (!stage)
