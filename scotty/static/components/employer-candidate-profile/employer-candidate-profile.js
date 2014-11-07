@@ -36,6 +36,30 @@ define(function(require) {
           return summary || 'reviewing';
         }, null) || 'searching';
 
+
+
+        // TIMELINE
+
+        var total = 0;
+        var timeline = $scope.workExperience.map(function(entry) {
+          var start = new Date(entry.start);
+          var end = entry.end ? new Date(entry.end) : new Date();
+          var duration = end - start;
+          total += duration;
+          return {
+            start: start,
+            duration: duration,
+            role: entry.role,
+          };
+        });
+        timeline.forEach(function(entry) {
+          entry.percent = 100 / total * entry.duration;
+        });
+        $scope.timeline = timeline.sort(function(a, b) {
+          return a.start - b.start;
+        });
+
+
         $q.all(offers.slice(0, 3).map(fn.invoke('getData', [])))
           .then(fn.setTo('offers', $scope));
 
