@@ -183,21 +183,18 @@
                         {{ reason }}
                       </label>
                     </div>
-                    <div class="pad-label">
-                       <textarea class="txtarea"> Please describe your reason</textarea>
-                    </div>
                   </div>
                 </div>
 
                 <div ng-if="withdrawal.reason.toLowerCase() === 'other'">
-                  <p>Please describe your reason</p>
-
-                  <textarea
-                    class="form-control"
-                    placeholder="Please describe your reason"
-                    required
-                    ng-model="withdrawal.withdrawal_reason">
-                  </textarea>
+                  <div class="pad-label">
+                    <textarea
+                      class="txtarea"
+                      placeholder="Please describe your reason"
+                      required
+                      ng-model="withdrawal.withdrawal_reason">
+                    </textarea>
+                  </div>
                 </div>
 
                 <button type="submit" class="bg-green fl-rg btn-small">Submit</button>
