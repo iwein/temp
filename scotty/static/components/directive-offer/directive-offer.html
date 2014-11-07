@@ -89,7 +89,7 @@
           </div>
           <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
             <div class="name"><a ui-sref="candidate({ id: model.candidate_id })">
-              {{ model.candidate.first_name}} {{ model.candidate.last_name }}
+              {{ model.data.candidate.first_name}} {{ model.data.candidate.last_name }}
             </a></div>
             <div class="position">{{ model.position.role }}</div>
             <div class="company">{{ model.position.company }}</div>
