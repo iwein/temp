@@ -237,6 +237,7 @@ class Offer(Base, OfferStatusWorkflow):
         result['role'] = self.role
         result['location'] = self.location
         result['rejected_reason'] = self.rejected_reason
+        result['withdrawal_reason'] = self.withdrawal_reason
         return result
 
 
