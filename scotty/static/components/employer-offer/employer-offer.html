@@ -40,7 +40,6 @@
           'red':
             offer.status === 'WITHDRAWN' ||
             offer.status === 'REJECTED',
-
         }">{{ offer.statusText }}</span>
       </div>
     </div>
@@ -100,12 +99,11 @@
         <div class="row bg-white">
           <div class="col-sm-12">
             <div class="emp-off-desc">
-              <!--TODO implementation -->
-              <h3 class="main-profession">UI/UX Designer</h3>
-              <h4 class="main-subtitle">
-                <a class="" href="#">{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</a>
-              </h4>
-              <h4 class="main-agency">{{ offer.data.role }}</h4>
+              <h3 class="main-profession">{{ offer.data.role }}</h3>
+              <h4 class="main-subtitle"><a class="" ui-sref="candidate({ id: offer.data.candidate_id })">
+                {{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}
+              </a></h4>
+              <h4 class="main-agency">{{ model.position.role }} @ {{ model.position.company }}</h4>
 
               <p class="typography" ng-bind-html="offer.data.job_description"></p>
 

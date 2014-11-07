@@ -34,16 +34,20 @@ define(function(require) {
         });
 
         return Session.getCandidate(offer.data.candidate_id).then(function(candidate) {
-          return candidate.getTargetPosition();
-        }).then(function(targetPosition) {
-          return [ offer, data[1], targetPosition ];
+          return candidate.getExperience();
+        }).then(function(experience) {
+          var last = experience.sort(function(a, b) {
+            return b.start - a.start;
+          })[0];
+
+          return [ offer, data[1], last ];
         });
       }).then(function(result) {
         self.onStatusChange = onStatusChange;
         $scope.ready = true;
         $scope.offer = result[0];
         $scope.timeline = result[1];
-        $scope.targetPosition = result[2];
+        $scope.position = result[2];
       });
     }).finally(function() {
       Loader.page(false);
