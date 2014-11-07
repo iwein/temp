@@ -88,7 +88,7 @@
             <a class="link-blue" ui-sref="employer({ id: model.employer_id })">Company profile <i class="fa fa-angle-right"></i></a>
           </div>
           <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
-            <div class="name"><a ui-sref="candidate({ id: model.candidate_id })">
+            <div class="name"><a ui-sref="candidate({ id: model.data.candidate_id })">
               {{ model.data.candidate.first_name}} {{ model.data.candidate.last_name }}
             </a></div>
             <div class="position">{{ model.position.role }}</div>
