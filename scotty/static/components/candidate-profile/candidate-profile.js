@@ -147,7 +147,7 @@ define(function(require) {
     })();
 
 
-    Permission.requireSignup()
+    Permission.requireActivated()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 

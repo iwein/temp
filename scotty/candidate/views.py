@@ -20,7 +20,7 @@ from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
-from scotty.offer.services import set_offer_signed
+from scotty.offer.services import set_offer_signed, get_offer_timeline
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
@@ -38,6 +38,7 @@ def includeme(config):
     config.add_route('candidate_resetpassword', 'resetpassword/{token}')
     config.add_route('candidate_activate', 'activate/{token}')
 
+    config.add_route('candidate_offer_timeline', '{candidate_id}/offers/{id}/timeline')
     config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
     config.add_route('candidate_profile_completion', '{candidate_id}/profile_completion')
     config.add_route('candidate', '{candidate_id}')
@@ -67,6 +68,7 @@ def includeme(config):
     config.add_route('candidate_offer_reject', '{candidate_id}/offers/{id}/reject')
     config.add_route('candidate_offer_status', '{candidate_id}/offers/{id}/status')
     config.add_route('candidate_offer_signed', '{candidate_id}/offers/{id}/signed')
+
     config.scan()
 
 
@@ -316,9 +318,9 @@ class CandidateBookmarkController(CandidateController):
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
         employer_id = self.request.matchdict['id']
+        DBSession.query(CandidateBookmarkEmployer).filter(CandidateBookmarkEmployer.candidate_id == self.candidate.id).delete()
         self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) !=
                                                employer_id]
-
         return {"status": "success"}
 
 
@@ -332,6 +334,17 @@ class CandidateOfferController(CandidateController):
         elif offer.candidate_id != self.candidate.id:
             raise HTTPForbidden("Offer not for this candidate.")
         return offer
+
+    @view_config(route_name='candidate_offer_timeline', **GET)
+    def offer_timeline(self):
+        offer_id = self.request.matchdict["id"]
+        offer = DBSession.query(CandidateOffer).get(offer_id)
+        if not offer:
+            raise HTTPNotFound("Unknown Offer ID")
+        elif offer.candidate_id != self.candidate.id:
+            raise HTTPForbidden("Offer not for this candidate.")
+        timeline = get_offer_timeline(offer)
+        return timeline
 
     @view_config(route_name='candidate_offers', **GET)
     def list(self):
@@ -395,6 +408,10 @@ class CandidateOfferController(CandidateController):
             self.offer.set_status(self.request.json['status'])
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
+        return self.offer.full_status_flow
+
+    @view_config(route_name='candidate_offer_status', **GET)
+    def get_status(self):
         return self.offer.full_status_flow
 
     @view_config(route_name='candidate_offer_signed', **POST)

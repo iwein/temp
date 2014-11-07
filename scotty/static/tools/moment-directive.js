@@ -9,9 +9,24 @@ define(function(require) {
     };
   });
 
+  module.filter('momentDate', function() {
+    return function(value) {
+      return value ? moment.utc(value).format('MMMM Do, YYYY') : '';
+    };
+  });
+
   module.filter('timeAgo', function() {
     return function(value) {
       return value ? moment.utc(value).fromNow() : '';
+    };
+  });
+
+  module.filter('timeAgoIf', function() {
+    return function(value, from) {
+      value = moment.utc(value);
+      if (from === 'yesterday')
+        from = moment().subtract(1, 'day');
+      return value.isBefore(from) ? value.format('MMMM Do, YYYY') : value.fromNow();
     };
   });
 
