@@ -101,17 +101,17 @@ define(function(require) {
       });
     },
 
+
+
     isActivated: function() {
       return this.getSignupStage().then(function(stage) {
         if (!stage)
           return false;
 
+        this.activated = stage.activated;
         return stage.ordering.every(function(item) {
-          return stage[item];
+          return item !== 'activated' && stage[item];
         });
-      }).then(function(value) {
-        this.activated = value;
-        return value;
       }.bind(this));
     },
 
