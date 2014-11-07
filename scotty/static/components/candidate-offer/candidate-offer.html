@@ -170,28 +170,35 @@
             }">Reject</button>
             <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm">
               <form class="form-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
-                <div>
-                  <label>Email address</label>
-                  <input type="email"
-                    class="form-control"
-                    name="contactEmail"
-                    required
-                    ng-model="acceptance.email">
-
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label>Email address</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="email"
+                      class="form-control"
+                      name="contactEmail"
+                      required
+                      ng-model="acceptance.email">
+                  </div>
                   <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
                     <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
                   </div>
                 </div>
 
-                <div>
-                  <label>Phone number</label>
-                  <input type="tel"
-                    class="form-control"
-                    name="phoneNumber"
-                    pattern="^\+?[0-9 /()-]+$"
-                    ng-pattern="/^\+?[0-9 /()-]+$/"
-                    ng-disabled="hcDisabled"
-                    ng-model="acceptance.phone">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label>Phone number</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="tel"
+                      class="form-control"
+                      name="phoneNumber"
+                      pattern="^\+?[0-9 /()-]+$"
+                      ng-pattern="/^\+?[0-9 /()-]+$/"
+                      ng-disabled="hcDisabled"
+                      ng-model="acceptance.phone">
+                  </div>
 
                   <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
                     <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
@@ -200,49 +207,57 @@
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
+                  <button type="submit"  class="bg-green fl-rg btn-small" ng-disabled="hcDisabled">Submit</button>
                 </div>
               </form>
 
               <form class="form-wrap" ng-show="showForm === 'reject'" ng-submit="reject(offer, rejection)">
-                <div class="form-group">
-                  <div ng-repeat="reason in rejectReasons">
-                    <label>
-                      <input type="radio"
-                        name="rejectReason"
-                        value="{{ reason }}"
-                        ng-disabled="hcDisabled"
-                        ng-required="!rejection.reason"
-                        ng-model="rejection.reason"
-                        ng-change="rejection.rejected_text = null">
-                      {{ reason }}
-                    </label>
+                <div class="row padd-form">
+                  <div class="label-wrap col-sm-12">
+                    <div ng-repeat="reason in rejectReasons">
+                      <label>
+                        <input type="radio"
+                          name="rejectReason"
+                          value="{{ reason }}"
+                          ng-disabled="hcDisabled"
+                          ng-required="!rejection.reason"
+                          ng-model="rejection.reason"
+                          ng-change="rejection.rejected_text = null">
+                        {{ reason }}
+                      </label>
+                    </div>
                   </div>
                 </div>
 
-                <div class="form-group required"
+                <div class="required row padd-form"
                   ng-if="rejection.reason.toLowerCase() === 'other'">
-                  <label>Please describe your reason</label>
+                  <div class="label-wrap col-sm-12">
+                    <div class="pad-label">
+                      <textarea
+                        class="txtarea"
+                        placeholder="Please describe your reason"
+                        required
+                        ng-disabled="hcDisabled"
+                        ng-model="rejection.reject_reason">
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
 
-                  <textarea
-                    class="form-control"
-                    placeholder="Please describe your reason"
-                    required
-                    ng-disabled="hcDisabled"
-                    ng-model="rejection.reject_reason">
-                  </textarea>
+                <div class="row padd-form">
+                  <div class="label-wrap col-sm-12">
+                    <label><input type="checkbox">Block employer</label>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label><input type="checkbox">Block employer</label>
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary" ng-disabled="hcDisabled">Submit</button>
-                </div>
+
+                <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="hcDisabled">Submit</button>
+
               </form>
 
-              <form class="sign-wrap" ng-show="showForm === 'sign'" ng-submit="sign(offer, signing)">
+              <form class="form-wrap" ng-show="showForm === 'sign'" ng-submit="sign(offer, signing)">
                 <p>Please provide the following information.</p>
                 <div class="row padd-form">
+
                   <label class="col-sm-3">Start date</label>
                   <div class="col-sm-9">
                     <input type="date"
