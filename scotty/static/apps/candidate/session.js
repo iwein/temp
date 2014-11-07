@@ -96,7 +96,7 @@ define(function(require) {
           return false;
 
         return stage.ordering.every(function(item) {
-          return item === 'active' ? true : stage[item];
+          return item === 'active' || stage[item];
         });
       });
     },
@@ -108,7 +108,7 @@ define(function(require) {
 
         this.activated = stage.active;
         return stage.ordering.every(function(item) {
-          return item !== 'active' && stage[item];
+          return item === 'active' || stage[item];
         });
       }.bind(this));
     },
