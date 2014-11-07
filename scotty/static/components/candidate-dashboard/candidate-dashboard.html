@@ -1,8 +1,7 @@
 <div class="component-candidate-dashboard" ng-if="ready">
   <div class="inner">
+    <div class="status-wrap"></div>
     <div class="row">
-
-
       <div class="col-sm-3">
         <div class="row timeline-head">
           <div class="col-sm-2 no-padd-right">
@@ -47,50 +46,50 @@
 
             <div class="col-sm-12 bg-white">
               <h2 class="main-title">WE RECOMMEND</h2>
-              <h3 class="main-subtitle">Top companies using your target tech!</h3>
+              <div class="emp-off-desc">
+                <h3 class="main-subtitle">Top companies using your target tech!</h3>
+                <div class="company-list">
+                  <!-- TODO cristiano Define last class -->
+                  <div class="company-list-item" ng-repeat="employer in suggested" ng-class="{ 'last': $last }">
+                    <div class="row">
 
-              <div class="company-list">
-                <!-- TODO cristiano Define last class -->
-                <div class="company-list-item" ng-repeat="employer in suggested" ng-class="{ 'last': $last }">
-                  <div class="row">
-
-                    <div class="col-sm-6">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <img class="img-responsive" ng-src="{{ employer.logo_url }}">
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="col-skills row">
-                            <div class="col-sm-6" ng-repeat="tag in employer.tech_tags">
-                              <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span>{{ tag }}
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <img class="img-responsive" ng-src="{{ employer.logo_url }}">
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="col-skills row">
+                              <div class="col-sm-6" ng-repeat="tag in employer.tech_tags">
+                                <span class="iconParent"><i class="fa fa-asterisk yellow"></i></span>{{ tag }}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-
-                    <div class="col-sm-6">
-                      <div class="row">
-                        <div class="col-sm-10">
-                          <p ng-bind-html="employer.mission_text"></p>
-                        </div>
-                        <div class="col-sm-2">
-                          <i class="bookmark" ng-class="{
-                            'bookmark_active': employer.isBookmarked,
-                            'bookmark_inactive': !employer.isBookmarked,
-                          }"></i>
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-10">
+                            <p ng-bind-html="employer.mission_text"></p>
+                          </div>
+                          <div class="col-sm-2">
+                            <i class="bookmark" ng-class="{
+                              'bookmark_active': employer.isBookmarked,
+                              'bookmark_inactive': !employer.isBookmarked,
+                            }"></i>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="mrg-btm location">Berlin, DE</div>
                     </div>
-                    <div class="col-sm-8 col-skills">
-                        <a ui-sref="employer({ id: employer.id })">Company profile  <i class="fa fa-chevron-right"></i></a>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="mrg-btm location">Berlin, DE</div>
+                      </div>
+                      <div class="col-sm-8 col-skills">
+                          <a ui-sref="employer({ id: employer.id })">Company profile  <i class="fa fa-chevron-right"></i></a>
+                      </div>
                     </div>
                   </div>
                 </div>
