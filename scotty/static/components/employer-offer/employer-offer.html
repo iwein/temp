@@ -167,8 +167,8 @@
               fw: !offer.canNextStatus() && !offer.canSign(),
             }">Withdraw</button>
 
-            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="popup">
-              <form class="form-wrap" ng-show="popup === 'withdraw'" ng-submit="withdraw(offer, withdrawal)">
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm">
+              <form class="form-wrap" ng-show="showForm === 'withdraw'" ng-submit="withdraw(offer, withdrawal)">
                 <p>Please define the reason for your withdrawal.</p>
                 <div class="row padd-form">
                   <div class="label-wrap col-sm-12">
