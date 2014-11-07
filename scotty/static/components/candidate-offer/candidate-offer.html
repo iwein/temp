@@ -84,6 +84,7 @@
 
             <div class="col-sm-10">
               <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
+              <div class="note">{{ getTimelineText(entry.name, offer) }}</div>
             </div>
           </div>
         </div>
@@ -167,7 +168,7 @@
             <button class="col-sm-6 btn bg-red" ng-show="offer.canReject()" ng-click="toggleForm('reject')" ng-class="{
               fw: !offer.canAccept() && !offer.canSign() && !offer.canNextStatus(),
             }">Reject</button>
-            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="popup">
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm">
               <form class="reject-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
                 <div>
                   <label>Email address</label>
