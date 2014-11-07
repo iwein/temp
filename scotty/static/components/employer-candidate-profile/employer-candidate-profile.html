@@ -38,10 +38,9 @@
       </div>
 
       <div class="col-sm-3 bg-white user-desc">
-        <div class="bg-gray-light row">
+        <div class="bg-gray-light row" ng-hide="!offers.length">
           <div class="offer-box col-sm-12">
             <div class="box-title box-title_right alg-cen pad-rgt-15  ">Offers</div>
-            <div ng-show="!offers.length">Empty</div>
 
             <div ng-repeat="offer in offers">
               <div class="orange bld">{{ offer.employer.company_name }}</div>
@@ -99,7 +98,7 @@
             </div>
             <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
               <div class="box-title box-title_left mrg-btm">Availability</div>
-              <p class="gray">{{ user.availability }}</p>
+              <p class="gray">{{ user.availability || 'Not specified' }}</p>
             </div>
             <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
               <div class="box-title box-title_left mrg-btm">Languages</div>
