@@ -106,9 +106,9 @@ define(function(require) {
         if (!stage)
           return false;
 
-        this.activated = stage.activated;
+        this.activated = stage.active;
         return stage.ordering.every(function(item) {
-          return item !== 'activated' && stage[item];
+          return item !== 'active' && stage[item];
         });
       }.bind(this));
     },
