@@ -271,13 +271,12 @@ form {
 .news-ico-offer-start-date {
   background: url(../candidate/resources/images/news-ico-offer-start-date.png) center center no-repeat;
 }
-.news-ico-offer-bookmarked-employer {
-  background: url(../candidate/resources/images/placeholder.png) center center no-repeat;
-}
 .news-ico-offer-interviewing {
   background: url(../candidate/resources/images/news-ico-offer-interviewing.png) center center no-repeat;
 }
-
+.news-ico-offer-bookmarked-employer{
+  background: url(../candidate/resources/images/bookmark_tag.png) center center no-repeat;
+}
 .timeline-item {
   .date{
     font-size: 10px;
@@ -447,4 +446,37 @@ form {
   font-weight: 700;
   font-size: 12px;
   text-transform: uppercase;
+}
+
+
+
+// Brand/project name
+
+.navbar-brand {
+  float: left;
+  font-size: 30px;
+  line-height: @navbar-height;
+  height: @navbar-height;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: url(../candidate/resources/images/logo.png) center center no-repeat;
+  width: 135px;
+  height: 60px;
+  margin: 0;
+  a {
+    display: block;
+    text-indent: -9999px;
+    overflow: hidden;
+  }
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    .navbar > .container &,
+    .navbar > .container-fluid & {
+      //margin-left: -@navbar-padding-horizontal;
+    }
+  }
 }
