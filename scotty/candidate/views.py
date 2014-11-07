@@ -88,7 +88,7 @@ class CandidateController(RootController):
                                                             joinedload_all('languages.proficiency'),
                                                             joinedload_all('work_experience.company'),
                                                             joinedload_all('work_experience.skills'),
-        ).get(candidate_id)
+                                                            ).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
@@ -176,9 +176,10 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
-        workflow = {'approved': candidate.status.name == CandidateStatus.ACTIVE,
+        workflow = {'active': candidate.activated is not None,
+                    'approved': candidate.status.name == CandidateStatus.ACTIVE,
                     'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'image',
-                                 'approved'], 'image': candidate.picture_url is not None,
+                                 'approved', 'active'], 'image': candidate.picture_url is not None,
                     'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
                     'target_position': candidate.target_position is not None,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
@@ -190,7 +191,6 @@ class CandidateController(RootController):
         workflow = {'active': candidate.activated is not None, 'ordering': ['summary', 'availability'],
                     'summary': bool(candidate.summary), 'availability': bool(candidate.availability)}
         return workflow
-
 
     @view_config(route_name='candidate_picture', **GET)
     def get_picture(self):
