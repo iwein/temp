@@ -40,7 +40,6 @@
           'red':
             offer.status === 'WITHDRAWN' ||
             offer.status === 'REJECTED',
-
         }">{{ offer.statusText }}</span>
       </div>
     </div>
@@ -65,9 +64,6 @@
 
             <div class="col-sm-2 no-padd-right">
               <!-- TODO
-                Missing class for state:
-                INTERVIEWING
-
                 Unknown states:
                 'news-ico-profile-pending': entry.name === 'FOOBAR'
                 'news-ico-profile-live': entry.name === 'FOOBAR'
@@ -79,6 +75,7 @@
                 'news-ico-offer-received': entry.name === 'OFFER_MADE',
                 'news-ico-offer-rejected': entry.name === 'REJECTED',
                 'news-ico-offer-accepted': entry.name === 'ACCEPTED',
+                'news-ico-offer-interviewing': entry.name === 'INTERVIEWING',
                 'news-ico-offer-negotiation': entry.name === 'NEGOCIATING',
                 'news-ico-offer-signed': entry.name === 'CONTRACT_SIGNED',
               }"></div>
@@ -100,12 +97,11 @@
         <div class="row bg-white">
           <div class="col-sm-12">
             <div class="emp-off-desc">
-              <!--TODO implementation -->
-              <h3 class="main-profession">UI/UX Designer</h3>
-              <h4 class="main-subtitle">
-                <a class="" href="#">{{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}</a>
-              </h4>
-              <h4 class="main-agency">{{ offer.data.role }}</h4>
+              <h3 class="main-profession">{{ offer.data.role }}</h3>
+              <h4 class="main-subtitle"><a class="" ui-sref="candidate({ id: offer.data.candidate_id })">
+                {{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}
+              </a></h4>
+              <h4 class="main-agency">{{ model.position.role }} @ {{ model.position.company }}</h4>
 
               <p class="typography" ng-bind-html="offer.data.job_description"></p>
 
@@ -171,8 +167,8 @@
               fw: !offer.canNextStatus() && !offer.canSign(),
             }">Withdraw</button>
 
-            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="popup">
-              <form class="form-wrap" ng-show="popup === 'withdraw'" ng-submit="withdraw(offer, withdrawal)">
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm">
+              <form class="form-wrap" ng-show="showForm === 'withdraw'" ng-submit="withdraw(offer, withdrawal)">
                 <p>Please define the reason for your withdrawal.</p>
                 <div class="row padd-form">
                   <div class="label-wrap col-sm-12">
