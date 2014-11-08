@@ -14,19 +14,25 @@
 @gray-darker:            #696969;
 @gray-dark:              #888686;
 @gray:                   #aaaaaa;
-@gray-light:             #bfbfbf;
+@gray-light:             #b5b5b5;
 @gray-lighter:           #eeeeee;
-@gray-lighter2:          #dcdcdc;
+@gray-lighter2:          #d2d2d2;
+@gray-lighter3:          #e3e3e3;
 
 @blue:                   #0a3d54;
+@blue-light:             blue;
+@blue-link:              #197185;
 
-@blue-light:             #14b0cc;
-
+@orange:                 #e15c10;
 @yellow:                 #ffb619;
 
-@green:                  #1be08a;
 
-@red:                    #f15840;
+@green:                  #1eae5b;
+@green-dark:             #1a944e;
+
+@red:                    #f8130a;
+@red-dark:               #df130b;
+
 
 @brand-primary:         #428bca;
 @brand-success:         #5cb85c;
@@ -45,9 +51,9 @@
 @text-color:            @gray-darker;
 
 //** Global textual link color.
-@link-color:            @brand-primary;
+@link-color:            @blue-link;
 //** Link hover color set via `darken()` function.
-@link-hover-color:      darken(@link-color, 15%);
+@link-hover-color:      @blue-link;
 
 
 //== Typography
@@ -66,7 +72,7 @@
 
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          12px;
+@font-size-base:          14px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 

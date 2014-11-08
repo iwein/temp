@@ -18,6 +18,7 @@ define(function(require) {
     'skills': [ 'signup.skills' ],
     'languages': [ 'signup.languages' ],
     'image': [ 'signup.profile' ],
+    'approved': [ 'signup.approve' ],
     'active': [ 'profile' ],
     'end': [ 'profile' ],
   };
@@ -29,6 +30,7 @@ define(function(require) {
     'signup.skills',
     'signup.languages',
     'signup.profile',
+    'signup.approve',
     'profile',
   ];
 

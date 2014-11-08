@@ -1,38 +1,25 @@
 <div class="component-employer-candidate-profile" ng-show="ready">
   <div class="inner">
-
-    <div class="row no-gutter">
-      <div class="col-sm-3 user-pic" style="background-image: url({{ user.picture_url }})"></div>
-
-      <div class="col-sm-6">
-        <div class="bg-white pad-normal user-desc">
-          <div class="">
-            <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
-            <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
-          </div>
-          <div>
-            <p>{{ user.summary }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="bg-gray pad-20 offer-box">
-          <div class="box-title box-title_right">Offers</div>
-          <div ng-show="!offers.length">Empty</div>
-
-          <div ng-repeat="offer in offers">
-            <div class="yellow bld">{{ offer.employer.company_name }}</div>
-            <div class="mrg-btm">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
-          </div>
-        </div>
-        <a ui-sref="create-offer({ id: id })" class="btn btn-block btn_green">Make an offer</a>
+    <div class="status-wrap">
+      <div class="status">
+        <span>Status: </span>
+        <span ng-show="status === 'searching'">
+          <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+          <span>searching</span>
+        </span>
+        <span ng-show="status === 'reviewing'">
+          <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
+          <span>reviewing offer</span>
+        </span>
+        <span ng-show="status === 'hired'">
+          <span class="green smbd">HIRED</span>
+        </span>
       </div>
     </div>
-
-    <div class="row no-gutter">
-      <div class="col-sm-3">
-        <div class="bg-gray pad-20 mrg-btm info">
+    <div class="row mrg-btm">
+      <div class="col-sm-3 bg-gray-light ">
+        <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
+        <div class="info">
           <div class="abs">
             <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
             <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
@@ -40,96 +27,147 @@
         </div>
       </div>
 
-      <div class="col-sm-9">
-        <div class="bg-yellow pad-20 mrg-btm">
-          <div class="row">
-            <div class="col-sm-2">
-              <div class="skills-head">
-                <div class="big-title skills-title">SKILLS</div>
-                <div class="caption">
-                  <div>expert  <hc-stars hc-value="expert" hc-values="starValues"></hc-stars></div>
-                  <div>advanced <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars></div>
-                  <div>basic <hc-stars hc-value="basic" hc-values="starValues"></hc-stars></div>
-                </div>
+      <div class="col-sm-6 bg-white">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="user-desc">
+              <div class="">
+                <h2 class="main-title">{{ user.first_name }} {{ user.last_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+              </div>
+              <div class="emp-off-desc">
+                <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
+                <p>{{ user.summary }}</p>
               </div>
             </div>
-            <div class="col-sm-9">
-              <div class="skills-wrap ">
-                <div class="col-sm-4 white alg-right" ng-repeat="skill in leveledSkills">
-                  {{ skill.skill }}
-                  <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
-                </div>
-                <div class="col-sm-12 col-sm-offset-1">
-                  <div class="skills-others">
-                    <strong>Others:</strong> {{ unleveledSkills }}</div>
-                  </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3 bg-white user-desc">
+        <div class="bg-gray-light row" ng-hide="!offers.length">
+          <div class="offer-box col-sm-12">
+            <div class="box-title box-title_right alg-cen pad-rgt-15  ">Offers</div>
+
+            <div ng-repeat="offer in offers">
+              <div class="orange bld">{{ offer.employer.company_name }}</div>
+              <div class="mrg-btm-small">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="buttons-wrap mrg">
+            <a ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
+            <!-- button offer made -->
+            <!--a ui-sref="create-offer({ id: id })" class="fw btn bg-blue">offer made</a-->
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="border-box row skills-box">
+          <div class="col-sm-3">
+            <div class="skills-head">
+              <div class="big-title skills-title">SKILLS</div>
+              <div class="caption">
+                <div>expert  <hc-stars hc-value="expert" hc-values="starValues"></hc-stars></div>
+                <div>advanced <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars></div>
+                <div>basic <hc-stars hc-value="basic" hc-values="starValues"></hc-stars></div>
               </div>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div class="skills-wrap row">
+              <div class="col-sm-4 skills-item" ng-repeat="skill in leveledSkills">
+                {{ skill.skill }}
+                <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
+              </div>
+              <div class="col-sm-12">
+                <div class="skills-others">
+                  <strong>Others:</strong> {{ unleveledSkills }}</div>
+                </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
-    <div class="row no-gutter">
-      <div class="col-sm-3">
-        <div class="brd pad-20 mrg-btm">
-          <div> <span class="iconParent"><i class="fa fa-birthday-cake yellow"></i> </span> Age {{ user.dob | yearsAgo }}</div>
-          <div> <span class="iconParent"><i class="fa yellow" ng-class="{
-            'fa-check': user.eu_work_visa,
-            'fa-times': !user.eu_work_visa,
-          }"></i></span> has a work visa</div>
-        </div>
-      </div>
-
-      <div class="col-sm-9">
-        <div class="pad-20">
+      <div class="row">
+        <div class="col-sm-3">
           <div class="row">
-            <div class="col-sm-3">
-              CAREER SUMMARY
+            <div class="col-sm-12 border-box mrg-btm">
+              <div class="padd-vert">
+                <div> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
+                <div> <span class="iconParent"><i class="fa orange" ng-class="{
+                  'fa-check': user.eu_work_visa,
+                  'fa-times': !user.eu_work_visa,
+                }"></i></span> has a work visa</div>
+              </div>
             </div>
-            <div class="col-sm-9">
-
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
+              <div class="box-title box-title_left mrg-btm">Availability</div>
+              <p class="gray">{{ user.availability || 'Not specified' }}</p>
+            </div>
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
+              <div class="box-title box-title_left mrg-btm">Languages</div>
+              <div ng-repeat="entry in languages">
+                <span class="value gray">{{ entry.language }}: <strong>({{ entry.proficiency }})</strong></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        <div class="col-sm-9">
 
-    <div class="row no-gutter">
-      <div class="col-sm-3">
-        <div class="bg-gray-light pad-20 mrg-btm">
-          <div class="box-title box-title_left">Availability</div>
-          <p class="gray">{{ user.availability }}</p>
-        </div>
-        <div class="bg-gray-light pad-20 mrg-btm">
-          <div class="box-title box-title_left">Languages</div>
-          <div ng-repeat="entry in languages">
-            <span class="value gray">{{ entry.language }}: <strong>({{ entry.proficiency }})</strong></span>
+          <div class="row bg-white">
+            <div class="job-bar">
+              <div class="job-bar-item" style="width:25%">
+                <div class="job-bar-item_up bg-gray-light">2 year 3 month </div>
+                <div class="job-bar-item_down">Lead Designer</div>
+              </div>
+              <div class="job-bar-item" style="width:25%">
+                <div class="job-bar-item_up bg-blue-light">2 year 3 month </div>
+                <div class="job-bar-item_down">Lead Designer</div>
+              </div>
+              <div class="job-bar-item" style="width:25%">
+                <div class="job-bar-item_up bg-gray-light">2 year 3 month </div>
+                <div class="job-bar-item_down">Lead Designer</div>
+              </div>
+              <div class="job-bar-item" style="width:25%">
+                <div class="job-bar-item_up bg-blue-light"></div>
+                <div class="job-bar-item_down"></div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="col-sm-9">
-        <div class="accordion-wrap bg-white pad-20 mrg-btm">
-        <h2 class="big-title accordion-main-title ">WORK EXPERIENCE</h2>
-        <hc-accordion ng-repeat="experience in workExperience">
-          <h3 class="accordion-subtitle">{{ experience.role }}</h3>
-          <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
-          <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
-          <!-- WARN: replaced UI by DIV -->
-          <div class="accordion-text">{{ experience.summary }}</div>
-        </hc-accordion>
-      </div>
-      <div class="accordion-wrap bg-white pad-20">
-        <h2 class="big-title accordion-main-title ">EDUCATION</h2>
-        <hc-accordion ng-repeat="entry in education">
-          <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
-          <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
-          <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
-          <!-- WARN: replaced UI by DIV -->
-          <div class="accordion-text">{{ entry.course }}</div>
-        </hc-accordion>
+          <div class="row bg-white mrg-btm">
+            <div class="col-sm-11">
+              <div class="accordion-wrap">
+                <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>6 year 1 month</span></h2>
+                <hc-accordion ng-repeat="experience in workExperience">
+                  <h3 class="accordion-subtitle">{{ experience.role }}</h3>
+                  <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
+                  <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
+                  <!-- WARN: replaced UI by DIV -->
+                  <div class="accordion-text">{{ experience.summary }}</div>
+                </hc-accordion>
+              </div>
+            </div>
+          </div>
+
+          <div class="row bg-white">
+            <div class="col-sm-11">
+              <div class="accordion-wrap">
+                <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span></h2>
+                <hc-accordion ng-repeat="entry in education">
+                  <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
+                  <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
+                  <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                  <!-- WARN: replaced UI by DIV -->
+                  <div class="accordion-text">{{ entry.course }}</div>
+                </hc-accordion>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

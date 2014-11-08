@@ -96,7 +96,7 @@ define(function(require) {
           return false;
 
         return stage.ordering.every(function(item) {
-          return item === 'active' ? true : stage[item];
+          return item === 'active' || stage[item];
         });
       });
     },
@@ -106,12 +106,10 @@ define(function(require) {
         if (!stage)
           return false;
 
+        this.activated = stage.active;
         return stage.ordering.every(function(item) {
-          return stage[item];
+          return item === 'active' || stage[item];
         });
-      }).then(function(value) {
-        this.activated = value;
-        return value;
       }.bind(this));
     },
 

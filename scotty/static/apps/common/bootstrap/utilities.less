@@ -87,11 +87,13 @@
 
 .bg-gray-light {
   background: @gray-light;
-  color: @white;
 }
 .bg-gray-lighter {
   background: @gray-lighter;
-  color: @white;
+
+}
+.bg-gray-lighter2 {
+  background: @gray-lighter2;
 }
 
 .bg-yellow {
@@ -104,6 +106,13 @@
 
 .bg-green {
   background: @green
+}
+
+.bg-blue {
+  background: @blue;
+}
+.bg-blue-light {
+  background: @blue-link;
 }
 
 /* font-weight */
@@ -123,14 +132,41 @@
 .gray {
   color: @text-color
 }
+.gray-light {
+  color: @gray-light
+}
+.gray-lighter2 {
+  color: @gray-lighter2
+}
 .white {
   color: @white;
 }
 .blue-light {
   color: @blue-light;
 }
+.blue-link {
+  color: @blue-link;
+}
 .red {
   color: @red;
+}
+.green {
+  color: @green
+}
+.orange {
+  color: @orange;
+}
+.bld {
+  font-family: @font-family-sans-serif-bld !important
+}
+.smbd {
+  font-family: @font-family-sans-serif-mid !important
+}
+.lt {
+  font-family: @font-family-headings !important
+}
+.norm {
+  font-family: @font-family-sans-serif !important
 }
 /* paddings */
 
@@ -144,7 +180,12 @@
 .pad-30 {
   padding: 30px
 }
-
+.pad-lft-15 {
+  padding-left: 15px
+}
+.pad-rgt-15 {
+  padding-right: 15px
+}
 .no-padd-horz{
   padding-right: 0;
   padding-left: 0
@@ -153,7 +194,11 @@
   padding-right: 0;
 }
 .padd-vert {
-  padding: 20px 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.pad-btm-15 {
+  padding-bottom: 15px;
 }
 /* margins */
 
@@ -162,6 +207,9 @@
 }
 .mrg-btm-small {
   margin-bottom: 5px;
+}
+.mrg-btm-big {
+  margin-bottom: 25px;
 }
 
 .mrg-lft {
@@ -173,7 +221,7 @@
 }
 
 .inner {
-  padding: 30px 0
+  padding-bottom: 30px 
 }
 
 /* borders */
@@ -183,23 +231,27 @@
 }
 
 /* aling */
-.exp {
-  width: 99.5%
+.fw {
+  width: 100%
 }
 .alg-right {
-  text-align: right
+  text-align: right !important
 }
-
+.alg-left {
+  text-align: left !important
+}
+.alg-cen {
+  text-align: center !important
+}
 .iconParent {
   width: 15px;
-  margin-right: 5px;
+  margin-right: 2px;
   text-align: center;
   display: inline-block;
 }
 
 .abs {
   position: absolute;
-  left: 20px;
   bottom: 20px;
 }
 .rel {
@@ -215,5 +267,17 @@
 
 .font-12 {
   font-size: 12px !important
+}
+
+.font-14 {
+  font-size: 14px !important
+}
+
+.font-18 {
+  font-size: 18px !important
+}
+
+.font-22 {
+  font-size: 22px !important
 }
 

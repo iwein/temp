@@ -11,7 +11,6 @@
 .navbar {
   position: relative;
   min-height: @navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
-  margin-bottom: @navbar-margin-bottom;
 
   // Prevent floats from breaking the navbar
   &:extend(.clearfix all);
@@ -167,7 +166,7 @@
   height: @navbar-height;
   text-transform: uppercase;
   font-weight: bold;
-  background: url(../common/resources/images/logo.png) center center no-repeat;
+  background: url(../candidate/resources/images/logo.png) center center no-repeat;
   width: 135px;
   height: 60px;
   margin: 0;
@@ -420,7 +419,7 @@
       margin: 0 22px;
       padding: 0;
       font-family: @font-family-headings;
-      font-weight: 300;
+      font-weight: 400;
       padding: 20px 0 0 0;
       &:hover {
         border-bottom: 1px solid @blue;
@@ -681,6 +680,7 @@
   width: 40px;
   height: 40px;
   margin-right: 10px;
+  margin-top: -9px;
   background-repeat: no-repeat;
   background-position: center center;
   -webkit-background-size: cover;
@@ -727,6 +727,8 @@
   right: 6px;
   top: 11px;
   width: 20px;
+  height: 20px;
+  line-height: 21px;
   text-align: center;
   line-height: 20px;
   -webkit-border-radius: 20px;

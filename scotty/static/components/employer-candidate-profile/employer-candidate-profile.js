@@ -24,11 +24,19 @@ define(function(require) {
         ]);
       }).then(function(data) {
         var user = data[0];
+        var offers = data[4];
         $scope.targetPosition = data[1];
         $scope.workExperience = data[2];
         $scope.education = data[3];
 
-        $q.all(data[4].slice(0, 3).map(fn.invoke('getData', [])))
+        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+        $scope.status = offers.reduce(function(summary, value) {
+          if (finalStatus.indexOf(value.status) !== -1) return;
+          if (value.status === 'CONTRACT_SIGNED') return 'hired';
+          return summary || 'reviewing';
+        }, null) || 'searching';
+
+        $q.all(offers.slice(0, 3).map(fn.invoke('getData', [])))
           .then(fn.setTo('offers', $scope));
 
         $scope.cities = user.preferred_location;

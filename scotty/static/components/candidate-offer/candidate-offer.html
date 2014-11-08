@@ -1,105 +1,308 @@
 <div class="component-candidate-offer" ng-if="ready">
   <div class="inner">
-    <div class="row no-gutter mrg-btm">
+    <div class="status-wrap">
+      <div class="status">
+        <span>Status</span>
+        <span class="iconParent"><i class="fa" ng-class="{
+          'blue-link':
+            offer.status === 'ACCEPTED' ||
+            offer.status === 'ACTIVE' ||
+            offer.status === 'INTERVIEW' ||
+            offer.status === 'NEGOTIATING' ||
+            offer.status === 'CONTRACT_SIGNED' ||
+
+            offer.status === 'EXPIRED',
+
+          'fa-sign-in':
+             offer.status === 'ACTIVE',
+
+          'fa-toggle-on':
+            offer.status === 'ACCEPTED',
+
+          'fa-pencil':
+            offer.status ==='CONTRACT_SIGNED',
+
+          'fa-exchange':
+            offer.status === 'NEGOTIATING',
+
+          'red':
+            offer.status === 'WITHDRAWN' ||
+            offer.status === 'REJECTED',
+
+          'fa-times-circle':
+            offer.status === 'WITHDRAWN' ||
+            offer.status === 'REJECTED',
+
+
+          'fa-comments': offer.status === 'INTERVIEW',
+        }"></i></span>
+        <span ng-class="{
+          'red':
+            offer.status === 'WITHDRAWN' ||
+            offer.status === 'REJECTED',
+
+        }">{{ offer.statusText }}</span>
+      </div>
+    </div>
+    <div class="row">
+
       <div class="col-sm-3">
-        <div class="user-pic mrg-btm" style="background-image: url({{ user.picture_url }})"></div>
-        <div class="rel">
-          <div class="row timeline-head no-gutter">
-            <div class="col-sm-2 no-padd-horz">
-              <div class="dot"><i class="fa fa-circle"></i></div>
-            </div>
-            <div class="col-sm-10">OCTOBER 2nd, 2014</div>
-          </div>
+        <div class="user-pic mrg-btm-big" style="background-image: url({{ offer.data.employer.logo_url }})"></div>
+        <div class="rel row pad-btm-15">
+
           <div class="timeline">
             <div class="gray-bar"></div>
+            <div class="timeline-start"></div>
           </div>
-          <div class="timeline-item" ng-repeat="entry in news">
-            <div class="col-sm-2 no-padd-horz">
-              <div class="news-ico
-  news-ico-profile-pending 
-  news-ico-profile-live 
-  news-ico-offer-received 
-  news-ico-offer-rejected 
-  news-ico-offer-accepted 
-  news-ico-offer-negotiation 
-  news-ico-offer-signed 
-  news-ico-offer-start-date 
-  news-ico-offer-bookmarked-employer"></div>
+
+          <div class="timeline-head clearfix">
+            <div class="col-sm-2 no-padd-right">
+              <div class="dot"><i class="fa fa-circle"></i></div>
+            </div>
+            <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
+          </div>
+          <div class="timeline-item clearfix" ng-repeat="entry in timeline">
+
+            <div class="col-sm-2 no-padd-right">
+              <!-- TODO
+                Unknown states:
+                'news-ico-profile-pending': entry.name === 'FOOBAR'
+                'news-ico-profile-live': entry.name === 'FOOBAR'
+                'news-ico-offer-start-date': entry.name === 'FOOBAR'
+                'news-ico-offer-bookmarked-employer': entry.name === 'FOOBAR'
+              -->
+
+              <div class="news-ico" ng-class="{
+                'news-ico-offer-received': entry.name === 'OFFER_MADE',
+                'news-ico-offer-rejected': entry.name === 'REJECTED',
+                'news-ico-offer-accepted': entry.name === 'ACCEPTED',
+                'news-ico-offer-interviewing': entry.name === 'INTERVIEWING',
+                'news-ico-offer-negotiation': entry.name === 'NEGOCIATING',
+                'news-ico-offer-signed': entry.name === 'CONTRACT_SIGNED',
+              }"></div>
+            </div>
+
+            <div class="col-sm-10">
+              <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
+              <div class="note">{{ getTimelineText(entry.name, offer) }}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-sm-6">
-        <h2 class="main-title-blue">Offer <a href="#">view candidate Profile <i class="fa fa-angle-right"></i></a></h2>
-        <div class="bg-white emp-off-desc mrg-btm">
-          <div class="">
-            <h3 class="main-subtitle"><span>UX Consultant & Designer</span> at Hack&Craft</h3>
-          </div>
-          <div>
-            <p>This is the candidates summary. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula egete dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. These are 250 characters.</p>
+      <div class="col-sm-6 bg-white">
+        <div class="row bg-blue">
+          <div class="col-sm-12">
+            <h2 class="main-title-blue">Offer</h2>
           </div>
         </div>
-        <div class="bg-white emp-off-desc">
-          <div class="">
-            <h3 class="main-subtitle">Job description</h3>
-          </div>
-          <div>
-            <p>THi, we just found you here on Scotty and are quite impressed by your profile. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, ridiculus mus. Donec quam felis, ultricies nec, pellentesque, pretium. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur consectetuer adipiscing ridiculus. These are 500 characters.</p>
+        <div class="row bg-white">
+          <div class="col-sm-12">
+            <div class="emp-off-desc">
+              <h4 class="main-subtitle ">
+                <class="smbd">{{ offer.data.role }}</> @ <a class="norm" href="#">Hack and Craft</a>
+              </h4>
+              <p class="typography" ng-bind-html="offer.data.job_description"></p>
+
+              <h4 class="main-subtitle"><span>Job Description</span></h4>
+              <p class="typography">Lorem  ipsum</p>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-sm-3">
-        <div class="btn btn-block bg-gray-light">Offer accepted</div>
-        <div class="bg-yellow pad-20 mrg-btm">
-          <div class="white"> <span class="iconParent"><i class="fa fa-euro"></i></span>60.000,00 / year</div>
-          <div class="white"> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> Berlin, DE</div>
-          <div class="box-title box-title_left"></div>
-          <div class="white clearfix ">
-            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
-            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
-            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
-            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
-            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
-            <div class="col-sm-12 mrg-btm-small"><span class="iconParent"><i class="fa fa-asterisk"></i></span><span>PHP</span></div>
-          </div>
-          <div class="box-title box-title_left"></div>
-          <div class="white clearfix skills-wrap-right">
-
-            <div class="label-wrap">
-              <div class="col-sm-6 mrg-btm-small">
-                <label><input type="checkbox" name="reject">
-                Breakfast</label>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <label><input type="checkbox" name="reject">
-                Dogs allowed</label>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <label><input type="checkbox" name="reject">
-                Coffee</label>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <label><input type="checkbox" name="reject">
-                Messages</label>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <label><input type="checkbox" name="reject">
-                Company car</label>
-              </div>
-              <div class="col-sm-6 mrg-btm-small">
-                <label><input type="checkbox" name="reject">
-                Remote work</label>
+        <div class="row bg-gray-lighter2 employer-offer-info-box">
+          <div class="col-sm-12 padd-vert">
+            <div class="font-22">
+              <span class="iconParent"><i class="fa fa-euro"></i></span>
+              <span class="smbd custom">{{ offer.data.annual_salary | dottedInteger }}.00</span>
+              / year
+            </div>
+            <div class="font-22">
+              <span class="iconParent"><i class="fa fa-map-marker"></i></span>
+              {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
+            </div>
+            <div class="box-title box-title_left"></div>
+            <h5 class="alg-left">
+              <span class="iconParent"><i class="fa fa-key"></i></span><span class="custom">&nbsp;Requirements</span>
+            </h5>
+            <div class="clearfix skills-wrap-right row">
+              <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>{{ tech }}</span>
               </div>
             </div>
-
+            <div ng-if="offer.data.benefits.length">
+              <div class="box-title box-title_left"></div>
+              <h5>Benefits</h5>
+              <div class="clearfix skills-wrap-right row">
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Breakfasts') !== -1">
+                  <span class="iconParent"><i class="fa fa-cutlery"></i></span><span>Breakfast</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Dogs Allowed') !== -1">
+                   <span class="iconParent"><i class="fa fa-paw"></i></span><span>Dogs allowed</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Coffee') !== -1">
+                  <span class="iconParent"><i class="fa fa-coffee"></i></span><span>Coffee</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Massages') !== -1">
+                  <span class="iconParent"><i class="fa fa-smile-o"></i></span><span>Massages</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Company car') !== -1">
+                  <span class="iconParent"><i class="fa fa-car"></i></span><span>Company car</span>
+                </div>
+                <div class="col-sm-6 mrg-btm-small" ng-show="offer.data.benefits.indexOf('Remote Work') !== -1">
+                  <span class="iconParent"><i class="fa fa-home"></i></span><span>Remote work</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="bg-gray-light pad-20 mrg-btm">
-          <div class="box-title box-title_left">Hiring process</div>
-          <p class="gray">THi, we just found you here on Scotty and are quite impressed by your profile. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, ridiculus mus. Donec quam felis, ultricies nec, pellentesque, pretium. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur consectetuer adipiscing ridiculus. These are 500 characters.
-          </p>
+        <div class="row">
+          <div class="buttons-wrap mrg-btm">
+            <button class="col-sm-6 btn bg-green btn-first" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
+              {{ offer.getNextStatusText() }}
+            </button>
+            <button class="col-sm-6 btn bg-green" ng-show="offer.canAccept()" ng-click="toggleForm('accept')">Accept</button>
+            <button class="col-sm-6 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')">Contract Signed</button>
+            <button class="col-sm-6 btn bg-red" ng-show="offer.canReject()" ng-click="toggleForm('reject')" ng-class="{
+              fw: !offer.canAccept() && !offer.canSign() && !offer.canNextStatus(),
+            }">Reject</button>
+            <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm">
+              <form class="form-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label>Email address</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="email"
+                      class="form-control"
+                      name="contactEmail"
+                      required
+                      ng-model="acceptance.email">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label>Phone number</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="tel"
+                      class="form-control"
+                      name="phoneNumber"
+                      pattern="^\+?[0-9 /()-]+$"
+                      ng-pattern="/^\+?[0-9 /()-]+$/"
+                      ng-disabled="hcDisabled"
+                      ng-model="acceptance.phone">
+                  </div>
+
+                  <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                    <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit"  class="bg-green fl-rg btn-small" ng-disabled="hcDisabled">Submit</button>
+                </div>
+              </form>
+
+              <form class="form-wrap" ng-show="showForm === 'reject'" ng-submit="reject(offer, rejection)">
+                <div class="row padd-form">
+                  <div class="label-wrap col-sm-12">
+                    <div ng-repeat="reason in rejectReasons">
+                      <label>
+                        <input type="radio"
+                          name="rejectReason"
+                          value="{{ reason }}"
+                          ng-disabled="hcDisabled"
+                          ng-required="!rejection.reason"
+                          ng-model="rejection.reason"
+                          ng-change="rejection.rejected_text = null">
+                        {{ reason }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="required row padd-form"
+                  ng-if="rejection.reason.toLowerCase() === 'other'">
+                  <div class="label-wrap col-sm-12">
+                    <div class="pad-label">
+                      <textarea
+                        class="txtarea"
+                        placeholder="Please describe your reason"
+                        required
+                        ng-disabled="hcDisabled"
+                        ng-model="rejection.reject_reason">
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row padd-form">
+                  <div class="label-wrap col-sm-12">
+                    <label>
+                      <input type="checkbox" ng-model="rejection.blacklist">
+                      Block employer
+                    </label>
+                  </div>
+                </div>
+
+                <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="hcDisabled">Submit</button>
+
+              </form>
+
+              <form class="form-wrap" ng-show="showForm === 'sign'" ng-submit="sign(offer, signing)">
+                <p>Please provide the following information.</p>
+                <div class="row padd-form">
+
+                  <label class="col-sm-3">Start date</label>
+                  <div class="col-sm-9">
+                    <input type="date"
+                      class="form-control"
+                      placeholder="YYYY-MM-DD"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="signing.start_date">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
+                    <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
+                  </div>
+                </div>
+
+                <div class="row padd-form">
+                  <label class="col-sm-3">Start salary</label>
+                  <div class="col-sm-9">
+                    <input type="dotted-integer"
+                      class="form-control"
+                      placeholder="Start salary"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="signing.start_salary">
+                  </div>
+                  <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
+                    <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
+                    <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  </div>
+                </div>
+                <div class="form-error">
+                  <span>Please choose your start date</span>
+                </div>
+                <button class="bg-green fl-rg btn-small">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row border-box">
+          <div class="col-sm-12 padd-vert">
+            <div class="box-title box-title_left lt">Hiring process</div>
+            <p class="gray" ng-bind-html="offer.data.interview_details"></p>
+          </div>
         </div>
       </div>
     </div>

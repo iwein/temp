@@ -1,4 +1,4 @@
-<div class="component-candidate-offer-list">
+<div class="component-employer-offer-list">
   <div class="inner">
     <div class="status-wrap"></div>
     <div class="row">
@@ -13,7 +13,7 @@
               <li class="offer-list-item" ng-repeat="offer in offers" ng-class="{ 'last': $last }">
                 <hc-offer
                   ng-model="offer"
-                  hc-hide="{{ { candidate: true } }}"
+                  hc-hide="{{ { employer: true } }}"
                   hc-signed-button="true"
                   hc-reject-button="true"
                   hc-accept-button="true"

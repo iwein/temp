@@ -6,6 +6,7 @@ from scotty.models.tools import json_encoder, PUBLIC
 from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason, WithdrawalReason
 from scotty.models.meta import Base, GUID
 from sqlalchemy.orm import relationship, class_mapper
+from sqlalchemy.sql.functions import now
 
 
 class OfferStatus(object):
@@ -236,6 +237,7 @@ class Offer(Base, OfferStatusWorkflow):
         result['role'] = self.role
         result['location'] = self.location
         result['rejected_reason'] = self.rejected_reason
+        result['withdrawal_reason'] = self.withdrawal_reason
         return result
 
 
@@ -266,4 +268,10 @@ class FullOffer(Offer):
         results['employer'] = self.employer
         results['candidate'] = self.candidate
         return results
+
+
+
+
+
+
 

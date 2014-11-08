@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default" role="navigation">
-  <div class="container">
- 
+  <div class="container no-padd-horz">
+
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" ng-click="navbarMenuOpen = !navbarMenuOpen">
         <span class="sr-only">Toggle navigation</span>
@@ -11,14 +11,14 @@
       <h1 class="navbar-brand"><a href="#">4Scotty</a></h1>
     </div>
 
-    
+
     <div class="collapse navbar-collapse" ng-class="{ in: navbarMenuOpen }">
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" ng-show="session.user" ui-sref-active="active">
           <a ui-sref="profile">
             <!-- TODO display the user name and the user avatar please -->
             <div class="user-avatar" style="background-image: url({{ session.user._data.logo_url }})"></div>
-            display user name please <i class="fa fa-angle-down"></i>
+            {{ session.user._data.first_name }} <i class="fa fa-angle-down"></i>
           </a>
           <div class="logout" ng-show="session.user"><a ng-click="logout()">Log out</a></div>
         </li>
@@ -35,14 +35,14 @@
         </li>
         <li ng-show="session.user" ui-sref-active="active">
           <!-- TODO display implementing notifications -->
-          <div class="notifications">1</div>
+          <!--div class="notifications">1</div-->
           <a ui-sref="offer-list">Offers</a>
         </li>
         <li ng-show="session.user" ui-sref-active="active">
           <a ui-sref="profile">Profile</a>
         </li>
       </ul>
-      
+
     </div>
   </div>
 </nav>
