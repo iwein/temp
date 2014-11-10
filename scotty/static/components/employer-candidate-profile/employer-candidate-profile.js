@@ -53,7 +53,7 @@ define(function(require) {
           };
         });
         timeline.forEach(function(entry) {
-          entry.percent = 100 / total * entry.duration;
+          entry.percent = (100 - 2) / total * entry.duration;
         });
         $scope.timeline = timeline.sort(function(a, b) {
           return a.start - b.start;

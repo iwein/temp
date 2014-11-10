@@ -70,10 +70,8 @@ define(function(require) {
       var result = '';
       months %= 12;
 
-      if (size && size < 5) return '';
       if (years) result += years + (size && size < 15 ? 'y ' : ' years ');
       if (months) result += months + (size && size < 15 ? 'm' : ' months');
-
       return result;
     };
   });
