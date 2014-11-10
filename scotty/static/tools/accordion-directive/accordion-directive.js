@@ -8,7 +8,9 @@ define(function(require) {
       restrict: 'E',
       transclude: true,
       template: require('text!./accordion-directive.html'),
-      scope: {},
+      scope: {
+        hcHideControl: '=',
+      },
       controllerAs: 'accordion',
       controller: function($scope, $attrs) {
         function open() {

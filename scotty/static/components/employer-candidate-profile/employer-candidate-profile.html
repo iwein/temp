@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <!-- TODO this needs to be shown or hidden 
+          <!-- TODO this needs to be shown or hidden
           <div class="abs">
             <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
             <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
@@ -169,7 +169,7 @@
             <div class="col-sm-11">
               <div class="accordion-wrap">
                 <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span></h2>
-                <hc-accordion ng-repeat="entry in education">
+                <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
                   <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
                   <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
                   <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
