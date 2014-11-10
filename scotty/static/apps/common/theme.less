@@ -227,7 +227,7 @@ form {
   bottom: 0;
   width: 35px;
   left: 50%;
-  margin-left: -17px; 
+  margin-left: -17px;
   border-bottom: 1px solid @orange;
 }
 .timeline-item {
@@ -399,12 +399,12 @@ form {
   margin-bottom: 15px;
   position: relative;
   input {
-    width: 100%; 
+    width: 100%;
     padding: 5px 0;
-    text-indent: 40px; 
+    text-indent: 40px;
     border: none;
     background: none;
-    height: 36px; 
+    height: 36px;
   }
 }
 .ico-salary {
@@ -434,12 +434,18 @@ form {
     border-right: none
 }
 .job-bar-item_up {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   min-height: 20px;
   font-size: 12px;
   color: @white;
   padding: 0 15px;
 }
 .job-bar-item_down {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   min-height: 20px;
   padding: 0 15px;
   font-family: @font-family-headings;

@@ -119,8 +119,8 @@
           <div class="row bg-white">
             <div class="job-bar">
               <div class="job-bar-item" ng-repeat="entry in timeline"  style="width: {{ entry.percent }}%">
-                <div class="job-bar-item_up bg-gray-light">2 year 3 month </div>
-                <div class="job-bar-item_down">{{ entry.role }}</div>
+                <div class="job-bar-item_up bg-gray-light" title="{{ entry.duration | yearMonth }}">{{ entry.duration | yearMonth:entry.percent }}</div>
+                <div class="job-bar-item_down" title="{{ entry.role }}">{{ entry.role }}</div>
               </div>
             </div>
           </div>
