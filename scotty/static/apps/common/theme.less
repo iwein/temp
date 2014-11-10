@@ -148,35 +148,45 @@ form {
 }
 /* company list */
 .company-list {
-  padding: 20px 0 0 0;
 }
 .company-list-item {
   border-bottom: 1px solid @gray;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-left: 15px;
+  padding-bottom: 25px;
   &.last {
     border: none;
   }
+  img {
+    margin: 0 0 10px 0;
+    border: 1px solid @gray-light;
+    min-height: 120px;
+  }
+  .smbd {
+    text-decoration: none;
+    border-bottom: 1px solid @blue;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .tech-list {
+    min-height: 120px;
+    h5{
+      margin-top: 0;
+      color: @blue-link;
+      text-transform: uppercase;
+      font-family: @font-family-sans-serif-mid
+    }
+  }
 }
 .location {
-  margin-top: 5px;
+  float: left;
+  font-size: 12px;
 }
 .col-skills {
-  div {
-    font-family: @font-family-sans-serif-mid;
+  span {
     color: @gray-dark;
-  }
-  a {
-    color: @green;
-    text-transform: uppercase;
-    border-bottom: 1px solid @green;
-    font-family: @font-family-sans-serif-mid;
-    &:hover {
-      text-decoration: none
-    }
-    i {
-      font-size: 10px;
-      font-weight: normal;
-    }
+    padding-left: 5px;
   }
 }
 .bookmark {
