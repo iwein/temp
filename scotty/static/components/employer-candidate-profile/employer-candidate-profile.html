@@ -67,7 +67,7 @@
       <div class="col-sm-3 bg-white user-desc">
         <div class="bg-gray-light row" ng-hide="!offers.length">
           <div class="offer-box col-sm-12">
-            <div class="box-title box-title_right alg-cen pad-rgt-15  ">Offers</div>
+            <div class="box-title box-title_right alg-cen pad-rgt-15">Offers</div>
 
             <div ng-repeat="offer in offers">
               <div class="orange bld">{{ offer.employer.company_name }}</div>
@@ -140,21 +140,12 @@
 
           <div class="row bg-white">
             <div class="job-bar">
-              <div class="job-bar-item" style="width:25%">
-                <div class="job-bar-item_up bg-gray-light">2 year 3 month </div>
-                <div class="job-bar-item_down">Lead Designer</div>
-              </div>
-              <div class="job-bar-item" style="width:25%">
-                <div class="job-bar-item_up bg-blue-light">2 year 3 month </div>
-                <div class="job-bar-item_down">Lead Designer</div>
-              </div>
-              <div class="job-bar-item" style="width:25%">
-                <div class="job-bar-item_up bg-gray-light">2 year 3 month </div>
-                <div class="job-bar-item_down">Lead Designer</div>
-              </div>
-              <div class="job-bar-item" style="width:25%">
-                <div class="job-bar-item_up bg-blue-light"></div>
-                <div class="job-bar-item_down"></div>
+              <div class="job-bar-item" ng-repeat="entry in timeline"  style="width: {{ entry.percent }}%">
+                <div class="job-bar-item_up" title="{{ entry.duration | yearMonth }}" ng-class="{
+                  'bg-gray-light': $even,
+                  'bg-blue-light': $odd,
+                }">{{ entry.duration | yearMonth:entry.percent }}</div>
+                <div class="job-bar-item_down" title="{{ entry.role }}">{{ entry.percent > 5 && entry.role || '' }}</div>
               </div>
             </div>
           </div>

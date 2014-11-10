@@ -62,4 +62,18 @@ define(function(require) {
     };
   });
 
+  module.filter('yearMonth', function() {
+    return function(value, size) {
+      if (size && size < 5) return '';
+      var months = Math.ceil(value / 1000 / 60 / 60 / 24 / 30);
+      var years = Math.floor(months / 12);
+      var result = '';
+      months %= 12;
+
+      if (years) result += years + (size && size < 15 ? 'y ' : ' years ');
+      if (months) result += months + (size && size < 15 ? 'm' : ' months');
+      return result;
+    };
+  });
+
 });
