@@ -3,11 +3,17 @@
     <div class="status-wrap">
       <div class="status">
         <span>Status: </span>
-        <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
-        <span>searching</span>
-        <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
-        <span>reviewing offer</span>
-        <span class="green smbd">HIRED</span>
+        <span ng-show="status === 'searching'">
+          <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+          <span>searching</span>
+        </span>
+        <span ng-show="status === 'reviewing'">
+          <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
+          <span>reviewing offer</span>
+        </span>
+        <span ng-show="status === 'hired'">
+          <span class="green smbd">HIRED</span>
+        </span>
       </div>
     </div>
     <div class="row mrg-btm">
