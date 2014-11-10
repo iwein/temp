@@ -55,7 +55,8 @@
 
 .skills-item {
   padding-right: 40px;
-  color: @orange
+  color: @orange;
+  text-align: right;
 }
 .skills-others {
   padding-top: 10px;
@@ -72,6 +73,31 @@
   border: 1px solid @white;
 }
 
+.contacts {
+  height: 50px;
+  border-bottom: 1px solid @white;
+  line-height: 50px;
+  padding-left: 15px;
+  margin-right: 15px;
+  font-size: 18px;
+  .fl-rg {
+    a{
+      color: @white;
+      margin: 0 0 0 5px
+    }
+  }
+}
+.orange-link {
+  color: @orange;
+  text-transform: uppercase;
+  font-size: 16px;
+  &:hover {
+    text-decoration: none;
+    color: @orange;
+    border-bottom: 1px solid @orange;
+    
+  }
+}
 /* skills box */
 .skills-box {
   height: 150px;

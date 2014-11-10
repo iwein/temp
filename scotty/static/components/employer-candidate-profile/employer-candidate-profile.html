@@ -14,9 +14,30 @@
       <div class="col-sm-3 bg-gray-light ">
         <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
         <div class="info">
+          <div class="row">
+            <div class="contacts">
+              <div class="fl-lf">
+                <a class="orange-link" href="#">Contact <i class="fa fa-angle-down"></i>
+                  <!-- TODO switch the arrow class after the opening of new div <i class="fa fa-angle-up"></i> -->
+                </a>
+              </div>
+              <div class="fl-rg">
+                <a href="#"><i class="fa fa-github"></i></a>
+                <a href="#"><i class="fa fa-stack-overflow"></i></a>
+                <a href="#"><i class="fa fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- TODO this needs to be shown or hidden 
           <div class="abs">
             <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
             <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+          </div>
+          -->
+          <!-- TODO this needs to be shown or hidden -->
+          <div class="abs">
+            <div class="smbd orange"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
+            <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
           </div>
         </div>
       </div>
@@ -70,13 +91,14 @@
           </div>
           <div class="col-sm-9">
             <div class="skills-wrap row">
-              <div class="col-sm-4 skills-item" ng-repeat="skill in leveledSkills">
-                {{ skill.skill }}
-                <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
+              <div class="col-sm-4" ng-repeat="skill in leveledSkills">
+                <div class="skills-item">{{ skill.skill }}
+                  <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
+                </div>
               </div>
               <div class="col-sm-12">
                 <div class="skills-others">
-                  <strong>Others:</strong> {{ unleveledSkills }}</div>
+                  <span class="smbd">Others:</span> {{ unleveledSkills }}</div>
                 </div>
             </div>
           </div>
@@ -103,7 +125,7 @@
             <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
               <div class="box-title box-title_left mrg-btm">Languages</div>
               <div ng-repeat="entry in languages">
-                <span class="value gray">{{ entry.language }}: <strong>({{ entry.proficiency }})</strong></span>
+                <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
               </div>
             </div>
           </div>
