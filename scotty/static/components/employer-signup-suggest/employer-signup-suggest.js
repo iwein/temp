@@ -11,7 +11,10 @@ define(function(require) {
     Loader.page(true);
 
     Session.isActivated().then(function(value) {
-      $scope.approved = value;
+      if (value)
+        $state.go('dashboard');
+    }).finally(function() {
+      $scope.ready = true;
     });
 
     Session.getUser().then(function(user) {

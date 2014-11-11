@@ -1,8 +1,4 @@
-<div class="component-employer-signup-suggest">
-
+<div class="component-employer-signup-suggest" ng-show="ready">
   <div class="alert alert-warning" ng-show="!approved">Waiting for approval</div>
-
   <h3>Once your account has been validated, you will be free to browse the platform.</h3>
-
-  <a class="btn btn-primary" ui-sref="profile" ng-disabled="!approved">Continue</a>
 </div>
