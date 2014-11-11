@@ -9,7 +9,7 @@ from scotty.configuration.models import CompanyType, WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager
+    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, set_employer_offices
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed, get_offer_timeline
@@ -133,10 +133,11 @@ class EmployerController(RootController):
     @view_config(route_name='employer_signup_stage', **GET)
     def signup_stage(self):
         employer = self.employer
-        workflow = {'status': employer.status, 'ordering': ['step1', 'step2', 'step3', 'step4', 'step5'],
-                    'step1': employer.logo_url is not None, 'step2': employer.mission_text is not None,
-                    'step3': len(employer.tech_tags) > 0, 'step4': employer.recruitment_process is not None,
-                    'step5': employer.agreedTos is not None, }
+        workflow = {'status': employer.status, 'ordering': ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'],
+                    'step1': employer.logo_url is not None, 'step2': len(employer.offices) > 0,
+                    'step3': employer.mission_text is not None,
+                    'step4': len(employer.tech_tags) > 0, 'step5': employer.recruitment_process is not None,
+                    'step6': employer.agreedTos is not None, }
         return workflow
 
     @view_config(route_name='employer', **GET)
@@ -197,6 +198,10 @@ class EmployerOfficeController(EmployerController):
     @view_config(route_name='employer_offices', **POST)
     def create(self):
         return add_employer_office(self.employer, self.request.json)
+
+    @view_config(route_name='employer_offices', **PUT)
+    def set(self):
+        return set_employer_offices(self.employer, self.request.json)
 
     @view_config(route_name='employer_office', **DELETE)
     def delete(self):

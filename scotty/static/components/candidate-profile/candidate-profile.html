@@ -1,9 +1,22 @@
-<div class="component-candidate-profile" ng-show="ready">
+<div class="component-employer-candidate-profile" ng-show="ready">
   <div class="inner">
-    <div class="status-wrap"></div>
-    <div class="row mrg-btm">
+    
+    <div class="status-wrap">
+      <button class="btn btn-primary fl-rg"
+        ng-show="!isEditing"
+        ng-click="profile.edit()">
+        Edit
+      </button>
+      <button class="btn btn-primary fl-rg"
+        ng-show="isEditing && !formOpen"
+        ng-click="profile.stopEdit()">
+        Finish
+      </button>
+    </div>
 
-      <div class="col-sm-3 bg-gray-light">
+
+    <div class="row mrg-btm">
+      <div class="col-sm-3 bg-gray-light ">
         <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
         <div class="info">
           <div class="row">
@@ -20,19 +33,20 @@
               </div>
             </div>
           </div>
-            <!-- TODO this needs to be shown or hidden 
-            <div class="abs">
-              <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-              <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
-            </div>
-            -->
-            <!-- TODO this needs to be shown or hidden -->
+          
           <div class="abs">
+            <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
+            <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+          </div>
+          
+          <!-- TODO this needs to be shown or hidden -->
+          <div class="abs hidden">
             <div class="smbd orange"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
             <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
           </div>
         </div>
       </div>
+
       <div class="col-sm-6 bg-white">
         <div class="row">
           <div class="col-sm-12">
@@ -48,27 +62,223 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3 bg-white user-desc">
-        <div class="bg-gray-light row" ng-hide="!offers.length">
-          <div class="offer-box col-sm-12">
-            <div class="box-title box-title_right alg-cen pad-rgt-15">Offers</div>
 
-            <div ng-repeat="offer in offers">
-              <div class="orange bld">{{ offer.employer.company_name }}</div>
-              <div class="mrg-btm-small">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
+      <div class="col-sm-3 bg-white user-desc">
+        <div class="">
+          <span>Status: </span>
+          <span ng-show="status === 'searching'">
+            <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+            <span>searching</span>
+          </span>
+          <span ng-show="status === 'reviewing'">
+            <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
+            <span>reviewing offer</span>
+          </span>
+          <span ng-show="status === 'hired'">
+            <span class="green smbd">HIRED</span>
+          </span>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="border-box row skills-box">
+          <div class="col-sm-3">
+            <div class="skills-head">
+              <div class="big-title skills-title">SKILLS 
+                <button type="submit"
+                    class="btn btn-default pull-right"
+                    ng-show="isEditing && !formOpen"
+                    ng-disabled="loading"
+                    ng-click="skillsForm.edit(skills)">
+                    Edit
+                  </button>
+              </div>
+              <div class="caption">
+                <div>expert  <hc-stars hc-value="expert" hc-values="starValues"></hc-stars></div>
+                <div>advanced <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars></div>
+                <div>basic <hc-stars hc-value="basic" hc-values="starValues"></hc-stars></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div class="skills-wrap row">
+              <div class="col-sm-4" ng-repeat="entry in skills">
+                <div class="skills-item">{{ entry.skill }}
+                  <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="skills-others">
+                  <span class="smbd">Others:</span> {{ unleveledSkills }}</div>
+                </div>
+                <hc-skills-form
+                  ng-show="isEditing && skillsForm.editing"
+                  hc-scope="skillsForm"
+                  name="form"
+                  hc-disabled="loading"
+                  on-submit="skillsForm.save()">
+
+                  <button type="button"
+                    class="btn btn-primary"
+                    ng-click="skillsForm.cancel()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                  <button type="submit"
+                    class="btn btn-primary"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+                </hc-skills-form>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="buttons-wrap mrg">
-            <!--a ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a-->
-            <!-- button offer made -->
-            <!--a ui-sref="create-offer({ id: id })" class="fw btn bg-blue">offer made</a-->
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="row">
+            <div class="col-sm-12 border-box mrg-btm">
+              <div class="padd-vert">
+                <div> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
+                <div> <span class="iconParent"><i class="fa orange" ng-class="{
+                  'fa-check': user.eu_work_visa,
+                  'fa-times': !user.eu_work_visa,
+                }"></i></span> has a work visa</div>
+              </div>
+            </div>
+            <div class="col-sm-12 bg-gray-light mrg-btm ">
+              <div class="bg-gray-light row">
+                <div class="offer-box col-sm-12">
+                  <div class="box-title box-title_left mrg-btm">Offers</div>
+
+                  <div>
+                    <div class="orange bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+                    <div class="mrg-btm-small">€ 90.0000</div>
+                  </div>
+                  <a href="#" class="fl-rg smbd gray">View all <i class="fa fa-angle-right"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
+              <div class="box-title box-title_left mrg-btm">Availability</div>
+              <p class="gray">{{ user.availability || 'Not specified' }}</p>
+            </div>
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
+              <div class="box-title box-title_left mrg-btm">Languages</div>
+              <button type="submit"
+                class="btn btn-default pull-right"
+                ng-show="isEditing && !formOpen"
+                ng-disabled="loading"
+                ng-click="languagesForm.edit(languages)">
+                Edit
+              </button>
+              <hc-languages-form
+                ng-show="isEditing && languagesForm.editing"
+                hc-scope="languagesForm"
+                name="form"
+                hc-disabled="loading"
+                on-submit="languagesForm.save()">
+
+                <button type="button"
+                  class="btn btn-primary"
+                  ng-click="languagesForm.cancel()"
+                  ng-disabled="loading">
+                  Cancel
+                </button>
+                <button type="submit"
+                  class="btn btn-primary"
+                  ng-disabled="loading">
+                  Save
+                </button>
+              </hc-languages-form>
+              <div ng-repeat="entry in languages">
+                <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+        <div class="col-sm-9">
 
+          <div class="row bg-white">
+            <div class="job-bar">
+              <div class="job-bar-item" ng-repeat="entry in timeline"  style="width: {{ entry.percent }}%">
+                <div class="job-bar-item_up" title="{{ entry.duration | yearMonth }}" ng-class="{
+                  'bg-gray-light': $even,
+                  'bg-blue-light': $odd,
+                }">{{ entry.duration | yearMonth:entry.percent }}</div>
+                <div class="job-bar-item_down" title="{{ entry.role }}">{{ entry.percent > 5 && entry.role || '' }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row bg-white mrg-btm">
+            <div class="col-sm-11">
+              <div class="accordion-wrap">
+                <div ng-if="ready">
+                  <hc-experience
+                    hc-scope="experience"
+                    name="list"
+                    hc-title="Experience"
+                    hc-source="session.user.getExperience()"
+                    hc-editable="isEditing && !experience.editing"
+                    hc-source-remove="session.user.deleteExperience($entry)"
+                    on-edit="experience.save($entry, $form)"
+                    on-add="experience.save($entry, $form)"
+                    hc-show-empty="true">
+                  </hc-experience>
+                </div>
+                <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>6 year 1 month</span></h2>
+                <hc-accordion ng-repeat="experience in workExperience">
+                  <h3 class="accordion-subtitle">{{ experience.role }}</h3>
+                  <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
+                  <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
+                  <!-- WARN: replaced UI by DIV -->
+                  <div class="accordion-text">{{ experience.summary }}</div>
+                </hc-accordion>
+              </div>
+            </div>
+          </div>
+
+          <div class="row bg-white">
+            <div class="col-sm-11">
+              <div class="accordion-wrap">
+                <div ng-if="ready">
+                  <hc-education
+                    hc-scope="education"
+                    name="list"
+                    hc-title="Education"
+                    hc-source="session.user.getEducation()"
+                    hc-source-remove="session.user.deleteEducation($entry)"
+                    on-edit="education.save($entry, $form)"
+                    on-add="education.save($entry, $form)"
+                    hc-editable="isEditing && !education.editing"
+                    hc-show-empty="true">
+                  </hc-education>
+                </div>
+                <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span></h2>
+                <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
+                  <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
+                  <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
+                  <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                  <!-- WARN: replaced UI by DIV -->
+                  <div class="accordion-text">{{ entry.course }}</div>
+                </hc-accordion>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 
@@ -104,22 +314,6 @@
       </div>
 
 
-      <div class="page-header">
-        <h1>
-          <img class="avatar" ng-src="{{ user.picture_url }}">
-          <small>{{ user.first_name }} {{ user.last_name }}</small>
-        </h1>
-        <button class="btn btn-primary"
-          ng-show="!isEditing"
-          ng-click="profile.edit()">
-          Edit
-        </button>
-        <button class="btn btn-primary"
-          ng-show="isEditing && !formOpen"
-          ng-click="profile.stopEdit()">
-          Finish
-        </button>
-      </div>
 
       <hc-profile-form
         ng-show="isEditing && profileForm.editing"
@@ -192,90 +386,9 @@
         </div>
       </div>
 
-      <hc-skills-form
-        ng-show="isEditing && skillsForm.editing"
-        hc-scope="skillsForm"
-        name="form"
-        hc-disabled="loading"
-        on-submit="skillsForm.save()">
+      
 
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="skillsForm.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-skills-form>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Skills
-            <button type="submit"
-              class="btn btn-default pull-right"
-              ng-show="isEditing && !formOpen"
-              ng-disabled="loading"
-              ng-click="skillsForm.edit(skills)">
-              Edit
-            </button>
-            <div class="clearfix"></div>
-          </h3>
-        </div>
-        <ul class="list-group">
-          <li class="list-group-item" ng-repeat="entry in skills">
-            <span class="value">
-              {{ entry.skill }}
-              <span ng-if="entry.level">({{ entry.level }})</span>
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      <hc-languages-form
-        ng-show="isEditing && languagesForm.editing"
-        hc-scope="languagesForm"
-        name="form"
-        hc-disabled="loading"
-        on-submit="languagesForm.save()">
-
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="languagesForm.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-languages-form>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Languages
-            <button type="submit"
-              class="btn btn-default pull-right"
-              ng-show="isEditing && !formOpen"
-              ng-disabled="loading"
-              ng-click="languagesForm.edit(languages)">
-              Edit
-            </button>
-            <div class="clearfix"></div>
-          </h3>
-        </div>
-        <ul class="list-group">
-          <li class="list-group-item" ng-repeat="entry in languages">
-            <span class="value">{{ entry.language }} ({{ entry.proficiency }})</span>
-          </li>
-        </ul>
-      </div>
+    
 
       <hc-target-position-form
         ng-show="isEditing && targetPositionForm.editing"
@@ -325,13 +438,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             Preferred locations
-            <button type="submit"
-              class="btn btn-default pull-right"
-              ng-show="isEditing && !formOpen"
-              ng-disabled="loading"
-              ng-click="targetPositionForm.edit(targetPosition, cities)">
-              Edit
-            </button>
+            
             <div class="clearfix"></div>
           </h3>
         </div>
@@ -345,31 +452,7 @@
         </ul>
       </div>
 
-      <div ng-if="ready">
-        <hc-experience
-          hc-scope="experience"
-          name="list"
-          hc-title="Experience"
-          hc-source="session.user.getExperience()"
-          hc-editable="isEditing && !experience.editing"
-          hc-source-remove="session.user.deleteExperience($entry)"
-          on-edit="experience.save($entry, $form)"
-          on-add="experience.save($entry, $form)"
-          hc-show-empty="true">
-        </hc-experience>
-
-        <hc-education
-          hc-scope="education"
-          name="list"
-          hc-title="Education"
-          hc-source="session.user.getEducation()"
-          hc-source-remove="session.user.deleteEducation($entry)"
-          on-edit="education.save($entry, $form)"
-          on-add="education.save($entry, $form)"
-          hc-editable="isEditing && !education.editing"
-          hc-show-empty="true">
-        </hc-education>
-      </div>
+      
     </div>
   </div>
 </div>
