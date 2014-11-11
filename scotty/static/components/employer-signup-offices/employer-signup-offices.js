@@ -1,8 +1,6 @@
 define(function(require) {
   'use strict';
   require('components/directive-offices/directive-offices');
-  var _ = require('underscore');
-  var fn = require('tools/fn');
   var module = require('app-module');
 
   // jshint maxparams:7
