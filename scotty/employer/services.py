@@ -38,15 +38,15 @@ def employer_from_login(params):
 
 EMPLOYER_OFFICE = [
     ('contact_first_name', ID,),
-    ('contact_last_name',  ID),
-    ('contact_phone',  ID),
-    ('contact_email',  ID),
-    ('contact_position',  ID),
-    ('website',  ID),
-    ('address_line1',  ID),
-    ('address_line2',  ID),
-    ('address_line3',  ID),
-    ('address_zipcode',  ID),
+    ('contact_last_name', ID),
+    ('contact_phone', ID),
+    ('contact_email', ID),
+    ('contact_position', ID),
+    ('website', ID),
+    ('address_line1', ID),
+    ('address_line2', ID),
+    ('address_line3', ID),
+    ('address_zipcode', ID),
     ('address_city', get_location_by_name_or_raise),
     ('contact_salutation', lambda name: get_by_name_or_raise(Salutation, name))
 ]
@@ -60,10 +60,30 @@ def add_employer_office(employer, params, lookup=EMPLOYER_OFFICE):
     if len(employer.offices) == 0:
         office.type = get_by_name_or_raise(OfficeType, 'HQ')
 
-    office.employer_id=employer.id
+    office.employer_id = employer.id
     DBSession.add(office)
     DBSession.flush()
     return office
+
+
+def set_employer_offices(employer, office_list, lookup=EMPLOYER_OFFICE):
+    if not isinstance(office_list, list):
+        raise HTTPBadRequest('Json must contain list of offices at root level.')
+    DBSession.query(Office).filter(Office.employer_id == employer.id).delete()
+    offices = []
+    for params in office_list:
+        office = Office()
+        for field, transform in lookup:
+            if field in params:
+                setattr(office, field, transform(params[field]))
+        if len(employer.offices) == 0:
+            office.type = get_by_name_or_raise(OfficeType, 'HQ')
+
+        office.employer_id = employer.id
+        offices.append(office)
+    DBSession.add_all(offices)
+    DBSession.flush()
+    return offices
 
 
 def add_employer_offer(employer, params):
@@ -97,7 +117,8 @@ def add_employer_offer(employer, params):
     if sum([m[0] for m in matches]) == 0:
         raise HTTPBadRequest("Location unsuitable.")
 
-    blacklisted = DBSession.query(CandidateEmployerBlacklist).filter(CandidateEmployerBlacklist.candidate_id == candidate_id) \
+    blacklisted = DBSession.query(CandidateEmployerBlacklist).filter(
+        CandidateEmployerBlacklist.candidate_id == candidate_id) \
         .filter(CandidateEmployerBlacklist.employer_id == employer.id).count()
     if blacklisted > 0:
         raise HTTPBadRequest("Employer Blacklisted.")
@@ -105,7 +126,8 @@ def add_employer_offer(employer, params):
     role = get_by_name_or_create(Role, params["role"])
     benefits = get_or_create_named_collection(Benefit, params['benefits'])
     techs = get_or_create_named_collection(Skill, params['technologies'])
-    o = EmployerOffer(employer_id=employer.id, candidate_id=candidate.id, role=role, benefits=benefits, technologies=techs,
+    o = EmployerOffer(employer_id=employer.id, candidate_id=candidate.id, role=role, benefits=benefits,
+                      technologies=techs,
                       location=location, annual_salary=annual_salary, interview_details=params.get('interview_details'),
                       job_description=params.get('job_description'), message=params['message'])
     DBSession.add(o)
