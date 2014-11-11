@@ -22,8 +22,10 @@ define(function(require) {
       return user.getEducation();
     }).then(function(_list) {
       list = _list;
-      if (list.length > 0)
+      if (list.length > 0) {
+        list.forEach(function(entry) { entry.import = true; });
         return false;
+      }
       return linkedin.checkConnection();
     }).then(function(load) {
       if (load)

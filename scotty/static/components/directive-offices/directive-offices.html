@@ -1,0 +1,83 @@
+<div class="panel panel-default">
+  <div ng-if="hcTitle" class="panel-heading">
+    <h3 class="panel-title">
+      {{ hcTitle }}
+    </h3>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row">
+        <strong>
+          <span class="col-sm-offset-1 col-sm-6">City</span>
+        </strong>
+      </div>
+    </li>
+
+    <li class="list-group-item" ng-repeat="entry in model">
+      <div class="row" ng-hide="active === $index">
+        <span class="col-sm-1">
+          <i class="fa fa-chevron-right"
+            ng-show="hcEditable"
+            ng-click="hcOfficesCtrl.setActive($index)"></i>
+        </span>
+        <span class="col-sm-6">{{ entry.address_city.city }}, {{ entry.address_city.country_iso }}</span>
+      </div>
+
+      <hc-office-form
+        ng-if="active === $index"
+        ng-model="entry"
+        hc-disabled="loading"
+        on-submit="edit($model, $form, $index)">
+
+        <div class="col-sm-12">
+          <button type="button"
+            class="btn btn-default"
+            ng-disabled="loading"
+            ng-click="hcOfficesCtrl.setActive(-1)">
+            Cancel
+          </button>
+          <button type="submit"
+            class="btn btn-primary"
+            ng-disabled="loading">
+            Done
+          </button>
+        </div>
+      </hc-office-form>
+    </li>
+
+    <li class="list-group-item" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
+      <button type="button"
+        class="btn btn-primary pull-right"
+        ng-disabled="loading"
+        ng-click="hcOfficesCtrl.setAdding(true)">
+        Add More
+      </button>
+      <div class="clearfix"></div>
+    </li>
+
+    <li class="list-group-item" ng-if="adding || (!editing && hcAutomaticAdd)">
+      <hc-office-form
+        hc-scope="formContainer"
+        name="form"
+        hc-required="model.length === 0 || !form.isPristine()"
+        hc-disabled="loading"
+        on-submit="submit($model, $form, model.length)">
+
+        <div class="col-sm-12">
+          <button type="button"
+            ng-show="adding"
+            class="btn btn-default"
+            ng-disabled="loading"
+            ng-click="hcOfficesCtrl.setAdding(false)">
+            Cancel
+          </button>
+          <button type="submit"
+            class="btn btn-primary"
+            ng-disabled="loading">
+            Save
+          </button>
+        </div>
+      </hc-office-form>
+    </li>
+  </ul>
+</div>
