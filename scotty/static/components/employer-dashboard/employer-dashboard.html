@@ -1,36 +1,89 @@
-<div class="component-employer-dashboard row" ng-show="ready">
-  <div class="col-sm-8 col-sm-offset-2">
-    <h3>Dashboard</h3>
+<div class="component-employer-dashboard" ng-show="ready">
+  <div class="inner">
+    <div class="status-wrap"></div>
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="row timeline-head">
+          <div class="col-sm-2 no-padd-right">
+            <div class="dot"><i class="fa fa-circle"></i></div>
+          </div>
+          <div class="col-sm-10 date">{{ today | momentDate }}</div>
+        </div>
 
-    <a ui-sref="search-candidates">Search candidates</a>
+        <div class="row">
+            <div class="timeline">
+              <div class="gray-bar"></div>
+              <div class="timeline-start"></div>
+            </div>
+        </div>
 
-    <div ng-show="candidates.length">
-      <h4>Candidates that bookmarked me</h4>
-
-      <hc-candidate
-        ng-repeat="candidate in candidates"
-        ng-model="candidate"
-        hc-link-profile>
-      </hc-candidate>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Offers</h3>
+        <div class="row timeline-item" ng-repeat="entry in news">
+          <div class="col-sm-2 no-padd-right rel">
+            <div class="news-ico" ng-class="{
+              'news-ico-profile-signup': entry.name === 'SIGN_UP',
+              'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
+              'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
+              'news-ico-profile-live': entry.name === 'PROFILE_LIVE',
+              'news-ico-offer-received': entry.name === 'OFFER_RECEIVED',
+              'news-ico-offer-rejected': entry.name === 'OFFER_REJECTED',
+              'news-ico-offer-accepted': entry.name === 'OFFER_ACCEPTED',
+              'news-ico-offer-negotiation': entry.name === 'OFFER_NEGOTIATION',
+              'news-ico-offer-signed': entry.name === 'OFFER_SIGNED',
+              'news-ico-offer-start-date': entry.name === 'OFFER_START_DATE',
+              'news-ico-offer-bookmarked-employer': entry.name === 'BOOKMARKED_EMPLOYER',
+            }"></div>
+          </div>
+          <div class="col-sm-10">
+            <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
+            <!-- TODO No links?? -->
+            <div class="note">{{ entry.note }}</div>
+          </div>
+        </div>
       </div>
-      <div class="panel-body" ng-show="!offers.length">No offers</div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="offer in offers">
-          <hc-offer
-            ng-model="offer"
-            hc-hide="{{ { employer: true } }}"
-            hc-withdraw-button="true"
-            hc-next-status-button="true"
-            hc-signed-button="true"
-            hc-profile-links="true">
-          </hc-offer>
-        </li>
-      </ul>
+      <div class="col-sm-6 bg-white">
+        <a ui-sref="search-candidates">Search candidates</a>
+        <h2 class="main-title no-marg-right">WE SUGGEST</h2>
+        <h3 class="main-subtitle pad-all-15 ">Top candidates fitting to your company‘s Profile!</h3>
+        
+        <div ng-show="!offers.length">No offers</div>
+        <div ng-show="candidates.length">
+          <div class="offer-list">
+            <hc-candidate
+              ng-repeat="candidate in candidates"
+              ng-model="candidate"
+              hc-link-profile>
+            </hc-candidate>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert">
+        <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
+        <div>
+          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        </div>
+        <div>
+          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        </div>
+        <div>
+          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        </div>
+        <div>
+          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        </div>
+        <div>
+          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        </div>
+        <div>
+          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
+          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        </div>
+      </div>
+
     </div>
 
   </div>
