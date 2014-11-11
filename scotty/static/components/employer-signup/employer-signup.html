@@ -6,25 +6,29 @@
         <a ng-if="signup.afterStep('signup.basic')" ui-sref="signup.basic">2. Basic information</a>
         <span ng-if="!signup.afterStep('signup.basic')">2. Basic information</span>
       </li>
+      <li ng-class="{ active: signup.atStep('signup.offices') }">
+        <a ng-if="signup.afterStep('signup.offices')" ui-sref="signup.offices">3. Offices</a>
+        <span ng-if="!signup.afterStep('signup.offices')">3. Offices</span>
+      </li>
       <li ng-class="{ active: signup.atStep('signup.mission') }">
-        <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">3. Company Facts</a>
-        <span ng-if="!signup.afterStep('signup.mission')">3. Company Facts</span>
+        <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">4. Company Facts</a>
+        <span ng-if="!signup.afterStep('signup.mission')">4. Company Facts</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.facts') }">
-        <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">4. Tech Facts</a>
-        <span ng-if="!signup.afterStep('signup.facts')">4. Tech Facts</span>
+        <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">5. Tech Facts</a>
+        <span ng-if="!signup.afterStep('signup.facts')">5. Tech Facts</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.benefits') }">
-        <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits">5. Benefits</a>
-        <span ng-if="!signup.afterStep('signup.benefits')">5. Benefits</span>
+        <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits">6. Benefits</a>
+        <span ng-if="!signup.afterStep('signup.benefits')">6. Benefits</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.terms') }">
-        <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms">6. Terms &amp; services</a>
-        <span ng-if="!signup.afterStep('signup.terms')">6. Terms &amp; services</span>
+        <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms">7. Terms &amp; services</a>
+        <span ng-if="!signup.afterStep('signup.terms')">7. Terms &amp; services</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.suggest') }">
-        <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">7. Approval</a>
-        <span ng-if="!signup.afterStep('signup.suggest')">7. Approval</span>
+        <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">8. Approval</a>
+        <span ng-if="!signup.afterStep('signup.suggest')">8. Approval</span>
       </li>
     </ol>
     <ui-view class="col-sm-6"></ui-view>

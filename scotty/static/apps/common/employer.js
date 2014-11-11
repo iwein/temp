@@ -46,6 +46,10 @@ define(function(require) {
       return this._api.get(this._url() + '/offices');
     },
 
+    setOffices: function(offices) {
+      return this._api.put(this._url() + '/offices', offices);
+    },
+
     addOffice: function(data) {
       return this._api.post(this._url() + '/offices', data);
     },

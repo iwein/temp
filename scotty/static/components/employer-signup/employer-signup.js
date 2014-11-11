@@ -7,10 +7,11 @@ define(function(require) {
   var validStates = {
     'start': [ 'signup.start' ],
     'step1': [ 'signup.basic' ],
-    'step2': [ 'signup.mission' ],
-    'step3': [ 'signup.facts' ],
-    'step4': [ 'signup.benefits' ],
-    'step5': [
+    'step2': [ 'signup.offices' ],
+    'step3': [ 'signup.mission' ],
+    'step4': [ 'signup.facts' ],
+    'step5': [ 'signup.benefits' ],
+    'step6': [
       'signup.terms',
       'signup.tos',
       // HACK: now that signup forms share controller
@@ -22,6 +23,7 @@ define(function(require) {
   var order = [
     'signup.start',
     'signup.basic',
+    'signup.offices',
     'signup.mission',
     'signup.facts',
     'signup.benefits',
