@@ -1,6 +1,6 @@
 <div class="component-employer-candidate-profile" ng-show="ready">
   <div class="inner">
-    
+
     <div class="status-wrap">
       <div class="status">
         <span>Status: </span>
@@ -26,9 +26,13 @@
           <div class="row">
             <div class="contacts">
               <div class="fl-lf">
-                <a class="orange-link" href="#">Contact <i class="fa fa-angle-down"></i>
-                  <!-- TODO switch the arrow class after the opening of new div <i class="fa fa-angle-up"></i> -->
-                </a>
+                <button class="orange-link" ng-click="toggle('contactSection')">
+                  Contact
+                  <i class="fa" ng-class="{
+                    'fa-angle-down': !contactSection,
+                    'fa-angle-up': contactSection,
+                  }"></i>
+                </button>
               </div>
               <div class="fl-rg">
                 <a href="#"><i class="fa fa-github"></i></a>
@@ -37,15 +41,13 @@
               </div>
             </div>
           </div>
-          <!-- TODO this needs to be shown or hidden
-          <div class="abs">
+          <div class="abs" ng-show="!contactSection">
             <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
             <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
           </div>
-          -->
-          <!-- TODO this needs to be shown or hidden -->
-          <div class="abs">
-            <div class="smbd orange"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
+          <div class="abs" ng-show="contactSection">
+            <div class="smbd orange"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>{{ user.email }}</div>
+            <!-- TODO: Candidate ha no phone -->
             <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
           </div>
         </div>
