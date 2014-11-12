@@ -1,6 +1,6 @@
 <div class="component-employer-dashboard" ng-show="ready">
   <div class="inner">
-    <div class="status-wrap"></div>
+    <div class="status-wrap"><a ui-sref="search-candidates">Search candidates</a> </div>
     <div class="row">
       <div class="col-sm-3">
         <div class="row timeline-head">
@@ -40,19 +40,101 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 bg-white">
-        <a ui-sref="search-candidates">Search candidates</a>
-        <h2 class="main-title no-marg-right">WE SUGGEST</h2>
-        <h3 class="main-subtitle pad-all-15 ">Top candidates fitting to your company‘s Profile!</h3>
-        
-        <div ng-show="!offers.length">No offers</div>
-        <div ng-show="candidates.length">
-          <div class="offer-list">
-            <hc-candidate
-              ng-repeat="candidate in candidates"
-              ng-model="candidate"
-              hc-link-profile>
-            </hc-candidate>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-12 bg-gray-light mrg-btm">
+            <div class="search-box">
+              <h4 class="search-box-title">Search for candidates</h4>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-9"><input type="text"></input></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 search-label">Location</div>
+                    <div class="col-sm-9"><input type="text"></input></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="search-results">
+              <!--start item-->
+              <div class="search-result-item row">
+                
+                  <div class="col-sm-12 mrg-btm-small no-padd-right">
+                    <div class="location">
+                      <i class="fa  fa-map-marker gray"></i> Berlin, DE
+                    </div>
+                     <a class="link-profile fl-rg">view profile <i class="fa fa-angle-right"></i></a>
+                  </div>
+                  <div class="col-sm-12 ">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="img-wrap mrg-btm-small" style="background-image: url(https://s3-eu-west-1.amazonaws.com/scotty-dev/users/2d210016-2bff-4605-a0d2-1f0a5c89c604)"></div>
+                       
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="search-result-item-title">Senior Python</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-7 col-sm-offset-1">
+                        <div class="row">
+                          <div class="col-sm-12 req-list">
+                            <div class="key">
+                              <i class="fa fa-star ico-req-list"></i>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <div class="req-list-title mrg-btm-small">Skills</div>
+                                  </div>
+                                  <div class="col-sm-4 mrg-btm-small" >
+                                    <span>Ruby</span>
+                                  </div>
+                                  <div class="col-sm-4 mrg-btm-small" >
+                                    <span>Ruby</span>
+                                  </div>
+                                  <div class="col-sm-4 mrg-btm-small" >
+                                    <span>Ruby</span>
+                                  </div>
+                                  <div class="col-sm-4   mrg-btm-small" >
+                                    <span>Ruby</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+              </div>
+              <!--end item-->
+
+            </div>
+          </div>
+          <div class="col-sm-12 bg-white">
+            <h2 class="main-title">WE SUGGEST</h2>
+            <h3 class="main-subtitle pad-all-15 ">Top candidates fitting to your company‘s Profile!</h3>
+            
+            <div ng-show="!offers.length" class="pad-btm-15 pad-lft-15">No offers</div>
+            <div ng-show="candidates.length">
+              <div class="offer-list">
+                <hc-candidate
+                  ng-repeat="candidate in candidates"
+                  ng-model="candidate"
+                  hc-link-profile>
+                </hc-candidate>
+              </div>
+            </div>
           </div>
         </div>
       </div>
