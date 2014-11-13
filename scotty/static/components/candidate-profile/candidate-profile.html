@@ -2,15 +2,15 @@
   <div class="inner">
     
     <div class="status-wrap">
-      <button class="btn btn-primary fl-rg"
+      <button class="fl-rg"
         ng-show="!isEditing"
         ng-click="profile.edit()">
-        Edit
+        Edit mode
       </button>
-      <button class="btn btn-primary fl-rg"
+      <button class="fl-rg"
         ng-show="isEditing && !formOpen"
         ng-click="profile.stopEdit()">
-        Finish
+        Leave edit mode
       </button>
     </div>
 
@@ -213,21 +213,8 @@
           </div>
 
           <div class="row bg-white mrg-btm">
-            <div class="col-sm-11">
+            <div class="col-sm-12">
               <div class="accordion-wrap">
-                <div ng-if="ready">
-                  <hc-experience
-                    hc-scope="experience"
-                    name="list"
-                    hc-title="Experience"
-                    hc-source="session.user.getExperience()"
-                    hc-editable="isEditing && !experience.editing"
-                    hc-source-remove="session.user.deleteExperience($entry)"
-                    on-edit="experience.save($entry, $form)"
-                    on-add="experience.save($entry, $form)"
-                    hc-show-empty="true">
-                  </hc-experience>
-                </div>
                 <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>6 year 1 month</span></h2>
                 <hc-accordion ng-repeat="experience in workExperience">
                   <h3 class="accordion-subtitle">{{ experience.role }}</h3>
@@ -241,22 +228,90 @@
           </div>
 
           <div class="row bg-white">
-            <div class="col-sm-11">
+            <div class="col-sm-12">
+              <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span> <button class="add-btn"><i class="fa fa-plus"></i> ADD</button></h2>
               <div class="accordion-wrap">
-                <div ng-if="ready">
-                  <hc-education
-                    hc-scope="education"
-                    name="list"
-                    hc-title="Education"
-                    hc-source="session.user.getEducation()"
-                    hc-source-remove="session.user.deleteEducation($entry)"
-                    on-edit="education.save($entry, $form)"
-                    on-add="education.save($entry, $form)"
-                    hc-editable="isEditing && !education.editing"
-                    hc-show-empty="true">
-                  </hc-education>
+                <!-- Add panel -->
+                <div class="add-panel">
+                  <button class="add-panel-close"><i class="fa fa-close"></i></button>
+                  <form>
+                    <div class="row mrg-btm">
+                      <div class="col-sm-6">
+                        <label>university or institution</label>
+                        <input class="form-control" type="text" />
+                      </div>
+                      <div class="col-sm-6">
+                        <label>period</label>
+                        <div class="row no-gutter">
+                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
+                          <div class="col-sm-1 spacer">-</div>
+                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
+                          <div class="col-sm-6 check-wrap mrg-lft-small"><label><input type="checkbox"> </input> I‘m still studing there</label></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <label>course or subject</label>
+                        <input class="form-control" type="text" />
+                      </div>
+                      <div class="col-sm-6">
+                        <label>degree</label>
+                        <input class="form-control" type="text" />
+                        <div class="check-wrap"><label><input type="checkbox"> </input> did not complete degree</label></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="buttons-wrap">
+                        <button class="fl-rg bg-green btn-small mrg-lft-small" type="submit">save</button>
+                        <button class="fl-rg bg-gray-lighter2 btn-small">cancel</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-                <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span></h2>
+                <!--End  Add panel -->
+                <!-- EDIT panel -->
+                <div class="add-panel">
+                  <button class="add-panel-close"><i class="fa fa-close"></i></button>
+                  <form>
+                    <div class="row mrg-btm">
+                      <div class="col-sm-6">
+                        <label>university or institution</label>
+                        <input class="form-control" type="text" />
+                        <p class="error red">This is an error message.</p>
+                      </div>
+                      <div class="col-sm-6">
+                        <label>period</label>
+                        <div class="row no-gutter">
+                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
+                          <div class="col-sm-1 spacer">-</div>
+                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
+                          <div class="col-sm-6 check-wrap mrg-lft-small"><label><input type="checkbox"> </input> I‘m still studing there</label></div>
+                          <p class="error red col-sm-12">This is an error message.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <label>course or subject</label>
+                        <input class="form-control" type="text" />
+                        <p class="error red">This is an error message.</p>
+                      </div>
+                      <div class="col-sm-6">
+                        <label>degree</label>
+                        <input class="form-control" type="text" />
+                        <div class="check-wrap"><label><input type="checkbox"> </input> did not complete degree</label> <p class="error red">This is an error message.</p></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="buttons-wrap">
+                        <button class="fl-rg bg-green btn-small mrg-lft-small" type="submit">save</button>
+                        <button class="fl-rg bg-gray-lighter2 btn-small">cancel</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!--End  EDIT panel -->
                 <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
                   <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
                   <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
@@ -314,7 +369,7 @@
       </div>
 
 
-
+<!--Tabella dati personali-->
       <hc-profile-form
         ng-show="isEditing && profileForm.editing"
         hc-scope="profileForm"
@@ -334,6 +389,8 @@
           Save
         </button>
       </hc-profile-form>
+
+      
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -386,7 +443,7 @@
         </div>
       </div>
 
-      
+      <!--Fine tabella dati personali-->
 
     
 
