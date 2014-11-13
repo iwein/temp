@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var Candidate = require('./candidate');
   var Offer = require('./offer');
 
 
@@ -63,10 +64,20 @@ define(function(require) {
     },
 
     getSuggestedCandidates: function() {
-      return this._api.get(this._url() + '/suggestedcandidates');
+      var api = this._api;
+      return api.get(this._url() + '/suggestedcandidates').then(function(response) {
+        return response.map(function(data) {
+          return new Candidate(api, data.id, data);
+        });
+      });
     },
     getCandidates: function() {
-      return this._api.get(this._url() + '/interestedcandidates');
+      var api = this._api;
+      return api.get(this._url() + '/interestedcandidates').then(function(response) {
+        return response.map(function(data) {
+          return new Candidate(api, data.id, data);
+        });
+      });
     },
 
     getOffers: function() {

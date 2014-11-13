@@ -198,13 +198,14 @@ class Candidate(Base, JsonSerialisable):
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
+    anonymous = Column(Boolean, default=False, nullable=False)
     pwdforgot_token = Column(GUID, unique=True, info=PRIVATE)
     pwdforgot_sent = Column(DateTime, info=PRIVATE)
     activation_token = Column(GUID, unique=True, default=uuid4, info=PRIVATE)
     activation_sent = Column(DateTime, info=PRIVATE)
     activated = Column(DateTime, info=PRIVATE)
 
-    email = Column(String(512), nullable=False, unique=True)
+    email = Column(String(512), nullable=False, unique=True, info=PUBLIC)
     pwd = Column(String(128), nullable=False)
 
     first_name = Column(String(512), nullable=False, info=PUBLIC)

@@ -80,12 +80,15 @@
         <div class="row">
 
           <div ng-if="!hide.employer" class="col-sm-4 infos">
-            <div ><span class="iconParent"><i class="fa fa-euro gray-light"></i></span> <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year</div>
+            <div>
+              <span class="iconParent"><i class="fa fa-euro gray-light"></i></span>
+              <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year
+            </div>
             <div>
               <span class="iconParent"><i class="fa fa-map-marker gray-light"></i></span>
               {{ model.data.location.city }}, {{ model.data.location.country_iso }}
             </div>
-            <a class="link-blue" ui-sref="employer({ id: model.employer_id })">Company profile <i class="fa fa-angle-right"></i></a>
+            <a class="link-blue" ui-sref="employer({ id: model.data.employer_id })">Company profile <i class="fa fa-angle-right"></i></a>
           </div>
           <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
             <div class="name"><a ui-sref="candidate({ id: model.data.candidate_id })">

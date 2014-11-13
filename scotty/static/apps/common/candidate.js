@@ -107,6 +107,11 @@ define(function(require) {
       }.bind(this));
     },
 
+    getLastPosition: function() {
+      return this._api.when(this._data.work_experience || this.getExperience())
+        .then(function(experience) { return experience[experience.length - 1] });
+    },
+
     dispose: function() {
       // TODO
     },

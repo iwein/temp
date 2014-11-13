@@ -26,7 +26,8 @@ def http_error(exc, request):
 
 
 class RootController(object):
-    def __init__(self, request):
+    def __init__(self, context, request):
+        self.context = context
         self.request = request
 
 

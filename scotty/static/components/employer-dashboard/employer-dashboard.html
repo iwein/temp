@@ -11,10 +11,10 @@
         </div>
 
         <div class="row">
-            <div class="timeline">
-              <div class="gray-bar"></div>
-              <div class="timeline-start"></div>
-            </div>
+          <div class="timeline">
+            <div class="gray-bar"></div>
+            <div class="timeline-start"></div>
+          </div>
         </div>
 
         <div class="row timeline-item" ng-repeat="entry in news">
@@ -49,64 +49,71 @@
                 <div class="col-sm-6">
                   <div class="row">
                     <div class="col-sm-3 search-label">Skills</div>
-                    <div class="col-sm-9"><input type="text"></input></div>
+                    <div class="col-sm-9">
+                      <hc-label-typeahead
+                        placeholder="Skills"
+                        ng-model="terms"
+                        hc-source="dashboard.searchSkills($viewValue)"
+                        on-change="dashboard.search()">
+                      </hc-label-typeahead>
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="row">
                     <div class="col-sm-3 search-label">Location</div>
-                    <div class="col-sm-9"><input type="text"></input></div>
+                    <div class="col-sm-9">
+                      <input type="text"
+                        class="form-control"
+                        placeholder="Location"
+                        ng-disabled="!terms.length"
+                        ng-model="locationText"
+                        ng-blur="dashboard.setLocation(locationText)"
+                        typeahead-on-select="dashboard.setLocation(locationText)"
+                        typeahead="location for location in dashboard.searchLocations($viewValue)">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="search-results">
               <!--start item-->
-              <div class="search-result-item row">
-                
-                  <div class="col-sm-12 mrg-btm-small no-padd-right">
-                    <div class="location">
-                      <i class="fa  fa-map-marker gray"></i> Berlin, DE
-                    </div>
-                     <a class="link-profile fl-rg">view profile <i class="fa fa-angle-right"></i></a>
+              <div class="search-result-item row" ng-repeat="entry in searchResults">
+                <div class="col-sm-12 mrg-btm-small no-padd-right">
+                  <div class="location">
+                    <i class="fa  fa-map-marker gray"></i>
+                    {{ entry.location.city }}, {{ entry.location.country_iso }}
                   </div>
-                  <div class="col-sm-12 ">
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="img-wrap mrg-btm-small" style="background-image: url(https://s3-eu-west-1.amazonaws.com/scotty-dev/users/2d210016-2bff-4605-a0d2-1f0a5c89c604)"></div>
-                       
-                      </div>
-                      <div class="col-sm-7">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="search-result-item-title">Senior Python</div>
-                          </div>
+                  <a class="link-profile fl-rg" ui-sref="candidate({ id: entry.id })">
+                    view profile <i class="fa fa-angle-right"></i>
+                  </a>
+                </div>
+                <div class="col-sm-12 ">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="img-wrap mrg-btm-small" style="background-image: url({{ entry.picture_url }})"></div>
+                    </div>
+                    <div class="col-sm-7">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="search-result-item-title">{{ entry.position.role }}</div>
                         </div>
                       </div>
-                      <div class="col-sm-7 col-sm-offset-1">
-                        <div class="row">
-                          <div class="col-sm-12 req-list">
-                            <div class="key">
-                              <i class="fa fa-star ico-req-list"></i>
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <div class="row">
-                                  <div class="col-sm-12">
-                                    <div class="req-list-title mrg-btm-small">Skills</div>
-                                  </div>
-                                  <div class="col-sm-4 mrg-btm-small" >
-                                    <span>Ruby</span>
-                                  </div>
-                                  <div class="col-sm-4 mrg-btm-small" >
-                                    <span>Ruby</span>
-                                  </div>
-                                  <div class="col-sm-4 mrg-btm-small" >
-                                    <span>Ruby</span>
-                                  </div>
-                                  <div class="col-sm-4   mrg-btm-small" >
-                                    <span>Ruby</span>
-                                  </div>
+                    </div>
+                    <div class="col-sm-7 col-sm-offset-1">
+                      <div class="row">
+                        <div class="col-sm-12 req-list">
+                          <div class="key">
+                            <i class="fa fa-star ico-req-list"></i>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="req-list-title mrg-btm-small">Skills</div>
+                                </div>
+                                <div class="col-sm-4 mrg-btm-small" ng-repeat="skill in entry.skills">
+                                  <span>{{ skill.skill }}</span>
                                 </div>
                               </div>
                             </div>
@@ -115,7 +122,8 @@
                       </div>
                     </div>
                   </div>
-                
+                </div>
+
               </div>
               <!--end item-->
 
@@ -124,12 +132,12 @@
           <div class="col-sm-12 bg-white">
             <h2 class="main-title">WE SUGGEST</h2>
             <h3 class="main-subtitle pad-all-15 ">Top candidates fitting to your company‘s Profile!</h3>
-            
+
             <div ng-show="!offers.length" class="pad-btm-15 pad-lft-15">No offers</div>
             <div ng-show="candidates.length">
               <div class="offer-list">
                 <hc-candidate
-                  ng-repeat="candidate in candidates"
+                  ng-repeat="candidate in suggested"
                   ng-model="candidate"
                   hc-link-profile>
                 </hc-candidate>
@@ -140,29 +148,16 @@
       </div>
       <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert">
         <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
-        <div>
-          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
-        </div>
-        <div>
-          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
-        </div>
-        <div>
-          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
-        </div>
-        <div>
-          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
-        </div>
-        <div>
-          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
-        </div>
-        <div>
-          <div class="bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-          <div class="mrg-btm-small">WEB DEVELOPER from Berlin, DE</div>
+        <div ng-repeat="candidate in candidates">
+          <div class="bld">
+            <a ui-sref="candidate({ id: candidate._data.id })">
+              {{ candidate._data.first_name }}, {{ candidate._data.last_name }}
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </div>
+          <div class="mrg-btm-small">
+            {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
+          </div>
         </div>
       </div>
 

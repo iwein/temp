@@ -1,7 +1,6 @@
 from datetime import datetime
+
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty import DBSession
-from scotty.offer.models import Offer
 
 
 def set_offer_signed(offer, params, emailer):
@@ -18,6 +17,7 @@ def set_offer_signed(offer, params, emailer):
         company_name=offer.employer.company_name,
         offer_id=offer.id)
     return offer
+
 
 def get_offer_timeline(offer):
     events = []
