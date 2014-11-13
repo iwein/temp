@@ -205,7 +205,7 @@ class Candidate(Base, JsonSerialisable):
     activation_sent = Column(DateTime, info=PRIVATE)
     activated = Column(DateTime, info=PRIVATE)
 
-    email = Column(String(512), nullable=False, unique=True)
+    email = Column(String(512), nullable=False, unique=True, info=PUBLIC)
     pwd = Column(String(128), nullable=False)
 
     first_name = Column(String(512), nullable=False, info=PUBLIC)
