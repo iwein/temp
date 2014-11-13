@@ -98,8 +98,7 @@ define(function() {
     },
 
     canRollback: function() {
-      return this.status !== 'ACTIVE' &&
-        this.status !== 'EXPIRED';
+      return this.status !== 'ACTIVE';
     },
 
     canSign: function() {
