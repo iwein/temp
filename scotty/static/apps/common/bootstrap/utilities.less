@@ -95,7 +95,9 @@
 .bg-gray-lighter2 {
   background: @gray-lighter2;
 }
-
+.bg-gray-lighter3 {
+  background: @gray-lighter3;
+}
 .bg-yellow {
   background: @yellow
 }
@@ -186,6 +188,9 @@
 .pad-rgt-15 {
   padding-right: 15px
 }
+.pad-btm-15 {
+  padding-bottom: 15px;
+}
 .pad-all-15 {
   padding: 15px;
 }
@@ -196,13 +201,14 @@
 .no-padd-right {
   padding-right: 0;
 }
+.no-padd-left {
+  padding-left: 0;
+}
 .padd-vert {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.pad-btm-15 {
-  padding-bottom: 15px;
-}
+
 /* margins */
 .no-marg-right {
   margin-right: 0 !important;
@@ -296,3 +302,15 @@
   font-size: 22px !important
 }
 
+/* links */
+
+.link-profile {
+  font-family: @font-family-sans-serif-mid;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid @blue-link;
+  font-size: 12px;
+  &:hover {
+    text-decoration: none;
+  }
+}

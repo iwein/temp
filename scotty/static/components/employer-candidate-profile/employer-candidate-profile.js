@@ -6,10 +6,15 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Permission, Session) {
+    $scope.toggle = toggle;
     $scope.id = $state.params.id;
     $scope.ready = false;
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
+
+    function toggle(key) {
+      $scope[key] = !$scope[key];
+    }
 
     Permission.requireActivated()
       .then(function() { return Session.getCandidate($scope.id) })

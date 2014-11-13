@@ -1,17 +1,55 @@
 /* offer dashboard */
 .offer-list {
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 .offer-list-item {
   border-bottom: 1px solid @gray;
   position: relative;
   padding-bottom: 40px;
-  margin: 35px 0 0 0;
+  margin: 35px 15px 0;
+
 }
-.offer-list-item.last{
-  border-bottom: none;
+.offer-list-item-small {
+  border-bottom: 1px solid @gray;
+  padding-bottom: 30px;
+  margin-bottom: 25px;
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+  .img-wrap {
+    min-height: 120px ;
+    border: 1px solid @gray-light;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+  .req-list {
+    font-size: 12px;
+    min-height: 70px;
+    margin-top: 15px;
+    padding-left: 30px;
+    .req-list-title {
+      font-size: 12px;
+    }
+    .key{
+      left: -35px;
+    }
+  }
 }
+.offer-list-item-small-title {
+  color: @gray-light;
+  font-size: 16px;
+  font-family: @font-family-sans-serif-mid;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+.offer-list-item-small-price {
+  padding-bottom: 25px;
+}
+
 .offer-list-title {
   font-size: 28px;
   font-family: @font-family-sans-serif-mid;
@@ -84,7 +122,8 @@
 .key {
   position: absolute;
   left: -30px;
-  top: 34px;
+  top: 50%;
+  margin-top: -12px;
   font-size: 16px;
   color: @gray-light;
 }
@@ -149,3 +188,5 @@
 .dash {
   padding: 20px 0 20px 15px;
 }
+
+

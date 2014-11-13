@@ -12,6 +12,7 @@ define(function(require) {
     $scope.errorAlreadyRegistered = false;
     var linkedin = Session.getLinkedIn();
     Loader.page(true);
+    var picture;
 
     linkedin.checkConnection().then(function(isConnected) {
       if (isConnected)
@@ -28,6 +29,7 @@ define(function(require) {
         $scope.model.last_name = name.join(' ');
         $scope.model.email = data.email;
         $scope.imported = true;
+        picture = data.picture;
       }).finally(function() {
         Loader.remove('signup-user-import');
       });
@@ -47,6 +49,7 @@ define(function(require) {
         position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills || []);
 
         return $q.all([
+          picture ? Session.user.updateData({ picture_url: picture }) : null,
           Session.user.setTargetPosition(position),
           Session.user.setPreferredLocations(locations),
         ]);

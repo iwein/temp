@@ -2,34 +2,95 @@ define(function(require) {
   'use strict';
   require('components/directive-candidate/directive-candidate');
   require('components/directive-offer/directive-offer');
+  var _ = require('underscore');
+  var fn = require('tools/fn');
   var module = require('app-module');
+  var levels = {
+    'null': 0,
+    'undefined': 0,
+    'basic': 1,
+    'advanced': 2,
+    'expert': 3,
+  };
 
 
-  // jshint maxparams:7
-  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, Permission, Session) {
+  // jshint maxparams:8
+  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, ConfigAPI, Permission, Session) {
+    this.searchLocations = ConfigAPI.locationsText;
+    this.searchSkills = ConfigAPI.skills;
+    this.setLocation = setLocation;
+    this.search = search;
+    $scope.terms = [];
     $scope.ready = false;
     Loader.page(true);
 
     Permission.requireActivated().then(function() {
-      $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {
       return $q.all([
-        user.getCandidates(),
+        null, // user.getTimeline(),
         user.getOffers(),
+        user.getSuggestedCandidates(),
+        user.getCandidates(),
       ]);
     }).then(function(results) {
-      $scope.candidates = results[0];
-      $scope.offers = results[1].map(function(offer) {
+      $scope.ready = true;
+      $scope.timeline = results[0];
+      $scope.offers = results[1];
+      $scope.suggested = results[2];
+      $scope.candidates = results[3];
+
+      $scope.suggested.forEach(function(candidate) {
+        candidate.getTargetPosition().then(fn.setTo('targetPosition', candidate));
+      });
+
+      $scope.candidates.forEach(function(candidate) {
+        candidate.getLastPosition().then(fn.setTo('position', candidate));
+      });
+
+      $scope.offers.forEach(function(offer) {
         offer.setDataParser(function(data) {
           data.interview_details = $sce.trustAsHtml(data.interview_details);
           data.job_description = $sce.trustAsHtml(data.job_description);
         });
-        return offer;
       });
     }).finally(function() {
       Loader.page(false);
     });
+
+
+    function setLocation(text) {
+      $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
+      search();
+    }
+
+    function search() {
+      var tags = $scope.terms && $scope.terms.join();
+      var params = _.extend({}, $scope.location, tags ? { tags: tags } : null);
+
+      $scope.loading = true;
+      Session.searchCandidates(params)
+        .then(function(candidates) {
+          return $q.all(candidates.map(function(candidate) {
+            return candidate.getLastPosition();
+          })).then(function(positions) {
+            return candidates.map(function(candidate, index) {
+              candidate._data.position = positions[index];
+              candidate._data.skills = candidate._data.skills.sort(function(a, b) {
+                return levels[b.level] - levels[a.level];
+              }).slice(9);
+              return candidate._data;
+            });
+          });
+        })
+        .then(function(result) {
+          $scope.searchResults = result;
+        })
+        .catch(toaster.defaultError)
+        .finally(function() {
+          $scope.loading = false;
+        });
+    }
   });
 
 

@@ -1,26 +1,56 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      <img class="avatar-small" ng-src="{{ model.picture_url }}">
-      <a ng-if="hcLinkProfile" ui-sref="candidate({ id: model.id })">
-        {{ model.first_name }} {{ model.last_name }}
-      </a>
-      <span ng-if="!hcLinkProfile">
-        {{ model.first_name }} {{ model.last_name }}
-      </span>
-    </h3>
-    <div class="clearfix"></div>
+<div class="offer-list-item-small row">
+  <div class="col-sm-12 mrg-btm-small no-padd-left">
+    <div class="location">
+      <i class="fa  fa-map-marker gray-light"></i>
+      {{ model._data.location.city }}, {{ model._data.location.country_iso }}
+    </div>
+    <i class="bookmark" ng-class="{
+      'bookmark_active': employer.isBookmarked,
+      'bookmark_inactive': !employer.isBookmarked,
+    }"></i>
   </div>
-  <div class="panel-body">
-    <dl class="dl-horizontal">
-      <dt ng-hide="hide.email">email</dt>
-      <dd ng-hide="hide.email">{{ model.email }}</dd>
-      <dt ng-hide="hide.city">City</dt>
-      <dd ng-hide="hide.city">{{ model.city }}</dd>
-      <dt ng-hide="hide.years">Years of experience</dt>
-      <dd ng-hide="hide.years">{{ model.years }}</dd>
-      <dt ng-hide="hide.skills">Skills</dt>
-      <dd ng-hide="hide.skills">{{ model.parsedSkills }}</dd>
-    </dl>
+  <div class="col-sm-12 no-padd-left">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="img-wrap mrg-btm-small" style="background-image: url({{ model._data.picture_url }})"></div>
+        <a class="link-profile" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
+          {{ model._data.first_name }} {{ model._data.last_name }} <i class="fa fa-angle-right"></i>
+        </a>
+        <span ng-if="!hcLinkProfile">
+          {{ model._data.first_name }} {{ model._data.last_name }}
+        </span>
+      </div>
+      <div class="col-sm-7">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="offer-list-item-small-title">{{ currentPosition.role }} @ {{ currentPosition.company }}</div>
+            <div class="offer-list-item-small-price">
+              <i class="fa fa-euro gray-light"></i>
+              <span class="smbd">{{ model.targetPosition.minimum_salary | dottedInteger }}.00</span> / year</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7 col-sm-offset-1">
+        <div class="row">
+          <div class="col-sm-12 req-list">
+            <div class="key">
+              <i class="fa fa-star ico-req-list"></i>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="req-list-title mrg-btm-small">Skills</div>
+                  </div>
+                  <div class="col-sm-4 mrg-btm-small" ng-repeat="skill in model._data.skills">
+                    <span>{{ skill.skill }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

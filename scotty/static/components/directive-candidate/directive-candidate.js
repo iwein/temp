@@ -18,6 +18,14 @@ define(function(require) {
     }, 0);
   }
 
+  var levels = {
+    'null': 0,
+    'undefined': 0,
+    'basic': 1,
+    'advanced': 2,
+    'expert': 3,
+  };
+
   module.directive('hcCandidate', function() {
     return {
       restrict: 'EA',
@@ -37,12 +45,16 @@ define(function(require) {
         booleanAttrs(scope, attr, [ 'hcLinkProfile' ]);
 
         scope.$watch('model', function(model) {
-          _.extend(model, {
-            parsedSkills: model.skills.map(function(a) { return a.skill }).join(', '),
-            years: calcExperience(model.work_experience),
-            city: model.contact_city && model.contact_country_iso ?
-              (model.contact_city + ', ' + model.contact_country_iso) :
+          var data = model._data || model;
+          _.extend(scope, {
+            currentPosition: data.work_experience[data.work_experience.length - 1],
+            years: calcExperience(data.work_experience),
+            city: data.contact_city && data.contact_country_iso ?
+              (data.contact_city + ', ' + data.contact_country_iso) :
               'Unknown',
+            skills: data.skills.sort(function(a, b) {
+              return levels[b.level] - levels[a.level];
+            }).slice(9),
           });
         });
       },
