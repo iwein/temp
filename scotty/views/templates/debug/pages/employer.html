@@ -66,6 +66,8 @@
               return '/api/v1/employers/' + extr.employerId + '/offices/' + extr.officeId
             }, title: 'office-delete', method: "DELETE"},
 
+            {url: '/api/v1/employers/me/newsfeed', title: 'employer-newsfeed'},
+
             {'sectionTitle': 'Cleanup'},
             {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
             //{url: '/api/v1/employers/me', title: 'employer-me-after-logout', method: "GET", expectedErrors: [403]},
