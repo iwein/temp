@@ -22,21 +22,20 @@
             <div class="news-ico" ng-class="{
               'news-ico-profile-signup': entry.name === 'SIGN_UP',
               'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
-              'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
               'news-ico-profile-live': entry.name === 'PROFILE_LIVE',
+              'news-ico-offer-bookmarked-employer': entry.name === 'BOOKMARKED',
               'news-ico-offer-received': entry.name === 'OFFER_RECEIVED',
-              'news-ico-offer-rejected': entry.name === 'OFFER_REJECTED',
               'news-ico-offer-accepted': entry.name === 'OFFER_ACCEPTED',
+              'news-ico-offer-rejected': entry.name === 'OFFER_REJECTED',
+              'news-ico-offer-something': entry.name === 'OFFER_SENT',
+              'news-ico-offer-start-date': entry.name === 'OFFER_START_DATE',
               'news-ico-offer-negotiation': entry.name === 'OFFER_NEGOTIATION',
               'news-ico-offer-signed': entry.name === 'OFFER_SIGNED',
-              'news-ico-offer-start-date': entry.name === 'OFFER_START_DATE',
-              'news-ico-offer-bookmarked-employer': entry.name === 'BOOKMARKED_EMPLOYER',
             }"></div>
           </div>
           <div class="col-sm-10">
             <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
-            <!-- TODO No links?? -->
-            <div class="note">{{ entry.note }}</div>
+            <div class="note">{{ getTimelineText(entry.name, offer) }}</div>
           </div>
         </div>
       </div>
