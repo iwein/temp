@@ -1,17 +1,19 @@
+from datetime import datetime
 import hashlib
 from sqlalchemy import text
 
 from pyramid.httpexceptions import HTTPBadRequest
 
-from scotty.candidate.models import Candidate, CandidateEmployerBlacklist, CandidateStatus
+from scotty.candidate.models import Candidate, CandidateEmployerBlacklist, CandidateStatus, CandidateBookmarkEmployer
 
 from scotty.models.meta import DBSession
 from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType
 from scotty.employer.models import Employer, Office
-from scotty.offer.models import EmployerOffer
+from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_create, \
     get_or_create_named_collection, get_by_name_or_raise
 from scotty.services.pagingservice import Pager
+from sqlalchemy.orm import joinedload
 
 
 ID = lambda x: x
@@ -190,4 +192,40 @@ def get_employer_suggested_candidate_ids(employer_id):
     # TODO: order results sometime
     return [r[0] for r in results]
 
+
+def get_employer_newsfeed(employer):
+    events = []
+    now = datetime.utcnow()
+
+    def recency(t):
+        if not t:
+            return None
+        return (now - t).total_seconds()
+
+    events.append({'name': 'SIGN_UP', 'recency': recency(employer.created), 'date': employer.created})
+    events.append({'name': 'PROFILE_PENDING', 'recency': recency(employer.agreedTos), 'date': employer.agreedTos})
+    events.append({'name': 'PROFILE_LIVE', 'recency': recency(employer.approved), 'date': employer.approved})
+
+    bookmarks = DBSession.query(CandidateBookmarkEmployer).options(joinedload('candidate')) \
+        .filter(CandidateBookmarkEmployer.employer_id == employer.id)
+
+    for bm in bookmarks:
+        events.append({'name': 'BOOKMARKED', 'recency': recency(bm.created), 'date': bm.created,
+                       'candidate': bm.candidate})
+
+    offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == employer.id).options(joinedload("candidate")).all()
+    for o in offers:
+        events.append({'name': 'OFFER_SENT', 'recency': recency(o.created), 'date': o.created, 'candidate': o.candidate})
+        events.append({'name': 'OFFER_ACCEPTED', 'recency': recency(o.accepted), 'date': o.accepted, 'candidate':
+            o.candidate})
+        events.append(
+            {'name': 'OFFER_NEGOTIATION', 'recency': recency(o.contract_negotiation), 'date': o.contract_negotiation,
+             'candidate': o.candidate})
+        events.append({'name': 'OFFER_SIGNED', 'recency': recency(o.contract_signed), 'date': o.contract_signed,
+                       'candidate': o.candidate})
+        events.append({'name': 'OFFER_START_DATE', 'recency': recency(o.job_start_date), 'date': o.job_start_date,
+                       'candidate': o.candidate})
+
+    events_with_recency = filter(lambda x: x.get('recency'), events)
+    return sorted(events_with_recency, key=lambda k: k['recency'])
 

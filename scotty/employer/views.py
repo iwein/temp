@@ -9,7 +9,8 @@ from scotty.configuration.models import CompanyType, WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, set_employer_offices
+    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, set_employer_offices, \
+    get_employer_newsfeed
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed, get_offer_timeline
@@ -32,8 +33,10 @@ def includeme(config):
     config.add_route('employer', '{employer_id}')
     config.add_route('employer_interestedcandidates', '{employer_id}/interestedcandidates')
     config.add_route('employer_suggested_candidates', '{employer_id}/suggestedcandidates')
+    config.add_route('employer_newsfeed', '{employer_id}/newsfeed')
     config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
     config.add_route('employer_apply', '{employer_id}/apply')
+
     config.add_route('employer_offices', '{employer_id}/offices')
     config.add_route('employer_office', '{employer_id}/offices/{office_id}')
 
@@ -126,10 +129,6 @@ class EmployerController(RootController):
             result = run_paginated_query(self.request, basequery)
         return result
 
-    @view_config(route_name='employer_interestedcandidates', **GET)
-    def employer_interestedcandidates(self):
-        return self.employer.interested_candidates
-
     @view_config(route_name='employer_signup_stage', **GET)
     def signup_stage(self):
         employer = self.employer
@@ -158,17 +157,6 @@ class EmployerController(RootController):
         self.request.emailer.send_pending_approval(employer.email, employer.contact_name, employer.company_name,
                                                    employer.id)
         return self.employer
-
-    @view_config(route_name='employer_suggested_candidates', **GET)
-    def employer_suggested_candidates(self):
-        if self.employer.status not in [APPLIED, APPROVED]:
-            raise HTTPForbidden("Employer has not applied yet and is not approved")
-
-        candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
-        candidates = DBSession.query(WXPCandidate).options(joinedload("languages"), joinedload("skills"),
-                                                           joinedload("work_experience")) \
-            .filter(WXPCandidate.id.in_(candidate_ids)).all()
-        return candidates
 
     @view_config(route_name='employer', **DELETE)
     def delete(self):
@@ -322,4 +310,24 @@ class EmployerPasswordController(RootController):
         return resetpassword(Employer, token, pwd)
 
 
+class EmployerDashboardController(EmployerController):
+    @view_config(route_name='employer_interestedcandidates', **GET)
+    def employer_interestedcandidates(self):
+        return self.employer.interested_candidates
 
+    @view_config(route_name='employer_suggested_candidates', **GET)
+    def employer_suggested_candidates(self):
+        if self.employer.status not in [APPLIED, APPROVED]:
+            raise HTTPForbidden("Employer has not applied yet and is not approved")
+
+        candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
+        candidates = DBSession.query(WXPCandidate).options(joinedload("languages"), joinedload("skills"),
+                                                           joinedload("work_experience")) \
+            .filter(WXPCandidate.id.in_(candidate_ids)).all()
+        return candidates
+
+    @view_config(route_name='employer_newsfeed', **GET)
+    def get_newsfeed(self):
+        employer = self.employer
+        results = get_employer_newsfeed(employer)
+        return results
