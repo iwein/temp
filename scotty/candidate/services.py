@@ -28,10 +28,9 @@ def candidate_from_signup(params):
 ID = lambda x: x
 
 EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
-             'invite_code': lambda x: get_by_name_or_raise(InviteCode, x), 'admin_comment': ID,
-             'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID, 'contact_zipcode': ID, 'location': get_location_by_name_or_raise,
-             'contact_phone': ID, 'availability': ID, 'summary': ID, 'github_url': ID, 'stackoverflow_url': ID, 'contact_skype': ID,
-             'eu_work_visa': ID, 'cv_upload_url': ID}
+             'admin_comment': ID, 'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID, 'contact_zipcode': ID,
+             'location': get_location_by_name_or_raise, 'contact_phone': ID, 'availability': ID, 'summary': ID,
+             'github_url': ID, 'stackoverflow_url': ID, 'contact_skype': ID, 'eu_work_visa': ID, 'cv_upload_url': ID}
 
 
 def edit_candidate(candidate, params, editables=EDITABLES):
