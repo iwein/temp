@@ -12,6 +12,7 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
+  // jshint maxstatements:40
   module.controller('ProfileCtrl', function($scope, $q, $state, Amazon, Loader, ConfigAPI, Permission, Session) {
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
@@ -26,6 +27,8 @@ define(function(require) {
 
     ConfigAPI.featuredLocations()
       .then(toCheckboxModel('featuredLocations'));
+    ConfigAPI.featuredRoles()
+      .then(fn.setTo('featuredRoles', $scope));
 
     Permission.requireActivated()
       .then(refresh)
@@ -39,7 +42,7 @@ define(function(require) {
           user.getTargetPosition(),
         ]).then(function(result) {
           $scope.user = result[0];
-          $scope.targetPosition = result[1];
+          $scope.targetPosition.data = result[1];
           $scope.preferredLocations = parsePreferredLocations(result[0].preferred_location);
           return {
             locations: result[0].preferred_location,
@@ -49,10 +52,10 @@ define(function(require) {
       },
       save: function(model) {
         return Session.getUser().then(function(user) {
-          $scope.targetPosition.minimum_salary = model.salary;
+          $scope.targetPosition.data.minimum_salary = model.salary;
           return $q.all([
             user.setPreferredLocations(model.locations),
-            user.setTargetPosition($scope.targetPosition),
+            user.setTargetPosition($scope.targetPosition.data),
           ]);
         });
       },
@@ -86,6 +89,29 @@ define(function(require) {
 
         $scope.salary.data.other = !!cities.length;
         $scope.preferred_locations = cities;
+      }
+    });
+    $scope.targetPosition = form({
+      source: function(user) {
+        return user.getTargetPosition();
+      },
+      save: function(model) {
+        return Session.getUser().then(function(user) {
+          return user.setTargetPosition(model);
+        });
+      }
+    });
+    $scope.summary = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          $scope.user = data;
+          return data.summary;
+        });
+      },
+      save: function(model) {
+        return Session.getUser().then(function(user) {
+          return user.updateData({ summary: model });
+        });
       }
     });
     $scope.dob = form({
@@ -170,10 +196,11 @@ define(function(require) {
         ]);
       }).then(function(data) {
         var user = data[0];
-        $scope.targetPosition = data[1];
+        $scope.targetPosition.data = data[1];
         $scope.skills.data = user.skills;
         $scope.languages.data = user.languages;
         $scope.picture.data = user.picture_url;
+        $scope.summary.data = user.summary;
         $scope.user = user;
         $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
         $scope.salary.data = {
@@ -296,165 +323,6 @@ define(function(require) {
         $scope.errorLocationRequired = !Object.keys(locations).length;
       }
     }
-
-
-
-
-    /*
-    $scope.sendCompletion = sendCompletion;
-    $scope.ready = false;
-    $scope.loading = false;
-
-    function defaultForm() {
-      return {
-        // injected by directives
-        form: null,
-        editing: false,
-        edit: function(model) {
-          this.form.setModel(model);
-          this.editing = true;
-          $scope.formOpen = true;
-        },
-        cancel: function() {
-          this.form.reset();
-          this.editing = false;
-          $scope.formOpen = false;
-        },
-        save: function() {
-          $scope.loading = true;
-          Loader.add('candidate-profile-saving');
-          return this.form.save()
-            .then(function() {
-              this.editing = false;
-              $scope.formOpen = false;
-            }.bind(this))
-            .finally(function() { $scope.loading = false });
-        }
-      };
-    }
-
-    function listForm() {
-      return {
-        save: function(edit, form) {
-          Loader.add('candidate-profile-saving');
-          return form.save().then(function() {
-            return this.list.refresh();
-          }.bind(this)).finally(function() {
-            Loader.remove('candidate-profile-saving');
-          });
-        }
-      };
-    }
-
-    $scope.targetPositionForm = (function() {
-      var base = defaultForm();
-      return _.extend(Object.create(base), {
-        forceEdit: function() {
-          this.list.forceEdit(0);
-        },
-        edit: function(model, cities) {
-          model.preferred_locations = cities;
-          return base.edit.call(this, model);
-        },
-        save: function() {
-          return base.save.call(this).then(function() {
-            return Session.getUser();
-          }).then(function(user) {
-            return $q.all([
-              user.getData(),
-              user.getTargetPosition(),
-            ]);
-          }).then(function(data) {
-            var user = data[0];
-            $scope.targetPosition = data[1];
-            $scope.cities = user.preferred_location;
-          }).finally(function() {
-            Loader.remove('candidate-profile-saving');
-          });
-        },
-      });
-    })();
-
-
-    $scope.languagesForm = (function() {
-      var base = defaultForm();
-      return _.extend(Object.create(base), {
-        save: function() {
-          return base.save.call(this)
-            .then(getUserData)
-            .then(function(data) { $scope.languages = data.languages })
-            .finally(function() { Loader.remove('candidate-profile-saving') });
-        }
-      });
-    })();
-
-    $scope.profileForm = (function() {
-      var base = defaultForm();
-      return _.extend(Object.create(base), {
-        edit: function(model) {
-          return base.edit.call(this, _.omit(model, [
-            'skills',
-            'languages',
-            'preferred_location',
-            'work_experience',
-            'activation_token',
-            'status',
-          ]));
-        },
-        save: function() {
-          return base.save.call(this)
-            .then(getUserData)
-            .then(function(data) { $scope.user = data })
-            .finally(function() { Loader.remove('candidate-profile-saving') });
-        }
-      });
-    })();
-
-
-    function refresh() {
-      return $q.all([
-        updateData(),
-        updateCompletionStage(),
-      ]);
-    }
-
-    function updateData() {
-      return Session.getUser().then(function(user) {
-        return $q.all([
-          user.getData(),
-          user.getTargetPosition(),
-        ]);
-      }).then(function(data) {
-        var user = data[0];
-        $scope.targetPosition = data[1];
-        $scope.cities = user.preferred_location;
-        $scope.languages = user.languages;
-        $scope.skills = user.skills;
-        $scope.user = user;
-        $scope.ready = true;
-      });
-    }
-
-    function sendCompletion(model) {
-      Loader.add('profile-completion');
-      return Session.getUser()
-        .then(function(user) { return user.updateData(model) })
-        .then(refresh)
-        .finally(function() { Loader.remove('profile-completion') });
-    }
-
-    function updateCompletionStage() {
-      return Session.getCompletionStage().then(function(result) {
-        $scope.completionStage = result;
-      });
-    }
-
-    function getUserData() {
-      return Session.getUser().then(function(user) {
-        return user.getData();
-      });
-    }
-    */
   });
 
 

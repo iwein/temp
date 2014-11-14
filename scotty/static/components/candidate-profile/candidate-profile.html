@@ -146,7 +146,7 @@
                   ng-click="salary.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
+                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.data.minimum_salary | dottedInteger }}</div>
                 <div>
                   <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
                   {{ preferredLocations }}
@@ -238,8 +238,8 @@
                     <span class="box-title box-title_left" href="#">Contact</span>
                   </div>
                   <div class="fl-rg">
-                    <a href="#"><i class="fa fa-github"></i></a>
-                    <a href="#"><i class="fa fa-stack-overflow"></i></a>
+                    <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
+                    <a ng-show="user.stackoverflow_url" ng-href="{{ user.stackoverflow_url }}"><i class="fa fa-stack-overflow"></i></a>
                     <a href="#"><i class="fa fa-globe"></i></a>
                   </div>
                 </div>
@@ -398,14 +398,14 @@
         <!-- MAIN CONTENT -->
         <div class="col-sm-9">
           <!-- Edit target position div (remove class hidden to display)-->
-          <div class="edit-tarpos hidden">
+          <div class="edit-tarpos" ng-show="targetPosition.editing">
             <div class="col-sm-5">
-              <h5 class="edit-title">Profile picture</h5>
-              <form class="edit-form">
-                <select
-                        class="form-control"
-                        >
-                  <option value="">Select...</option>
+              <h5 class="edit-title">Target position</h5>
+              <form class="edit-form" ng-submit="targetPosition.save(targetPosition.data)">
+                <select class="form-control"
+                  ng-disabled="loading"
+                  ng-model="targetPosition.data.role"
+                  ng-options="role for role in featuredRoles">
                 </select>
                 <div class="buttons-wrap">
                   <button type="submit"
@@ -415,7 +415,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languages.close()"
+                    ng-click="targetPosition.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -426,12 +426,12 @@
           <!-- END target position div -->
 
           <!-- Summary box (remove class hidden to display)-->
-            <div class="edit-summary hidden" >
-              <h5 class="edit-title">Languages <span> 0 characters left</span></h5>
+            <div class="edit-summary" ng-show="summary.editing">
+              <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
               <div class="row">
                 <div class="col-sm-5">
-                  <form class="edit-form">
-                    <textarea class="fw"></textarea>
+                  <form class="edit-form" ng-submit="summary.save(summary.data)">
+                    <textarea class="fw" ng-model="summary.data"></textarea>
                     <div class="buttons-wrap">
                       <button type="submit"
                         class="fl-rg bg-green btn-small mrg-lft-small"
@@ -440,7 +440,7 @@
                       </button>
                       <button type="button"
                         class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="languagesForm.close()"
+                        ng-click="summary.close()"
                         ng-disabled="loading">
                         Cancel
                       </button>
@@ -462,21 +462,21 @@
                       <div class="emp-off-desc">
                         <h3 class="main-subtitle">
                           Target position:
-                          <span>{{ targetPosition.role }}</span>
+                          <span>{{ targetPosition.data.role }}</span>
                           <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing && !formOpen"
                             ng-disabled="loading"
-                            ng-click="availabilityForm.edit(availability)">
+                            ng-click="targetPosition.edit()">
                             <i class="fa fa-pencil"></i>
                           </button>
                         </h3>
                         <div>
-                          <p>{{ user.summary }} <button type="submit"
+                          <p>{{ summary.data }} <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing && !formOpen"
                             ng-disabled="loading"
-                            ng-click="availabilityForm.edit(availability)">
+                            ng-click="summary.edit()">
                             <i class="fa fa-pencil"></i>
                           </button></p>
                         </div>
