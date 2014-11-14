@@ -22,10 +22,32 @@
         <div class="col-sm-3">
           <div class="row">
             <div class="col-sm-12 bg-gray-light mrg-btm">
-              <!-- This div has to appear once entered edit mode -->
-              <button class="edit-user-pic">
+              <!-- This button has to appear once entered edit mode  and will trigger the edit user pic div-->
+              <button class="edit-user-pic-btn">
                 <i class="fa fa-camera-retro"></i>
               </button>
+              <!-- -->
+              <!-- Edit pic div-->
+              <div class="edit-user-pic">
+                <div class="bg-gray-lighter3 padd-vert col-sm-12">
+                  <h5 class="edit-title">Profile picture</h5>
+                  <input class="mrg-btm" type="file" />
+                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ user.picture_url }})"></div>
+                  <div class="buttons-wrap">
+                    <button type="button"
+                      class="fl-lf bg-gray-lighter2 btn-small"
+                      ng-click="languagesForm.cancel()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                    <button type="submit"
+                      class="fl-lf bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                </div>
+                </div>
+              </div>
               <!-- -->
               <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
             </div>
