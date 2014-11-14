@@ -92,17 +92,19 @@ define(function(require) {
         });
     }
 
-    function getTimelineText(name) { //, offer) {
+    function getTimelineText(name, entry) {
+      var candidate = entry.candidate && entry.candidate.first_name;
+
       return {
         SIGN_UP: 'You signed up',
-        BOOKMARKED: 'CANDIDATE has bookmarked you.',
+        BOOKMARKED: candidate + ' has bookmarked you.',
         //OFFER_RECEIVED: '',
-        OFFER_ACCEPTED: 'Brilliant you have accepted an interview with CANDIDATE',
-        OFFER_REJECTED: 'Offer sent to CANDIDATE was rejected',
-        OFFER_SENT: 'You sent an offer to CANDIDATE',
-        OFFER_START_DATE: 'Amazing! You started working with CANDIDATE',
-        OFFER_NEGOTIATION: 'Nearly there, you have started negotiating the details with CANDIDATE',
-        OFFER_SIGNED: 'Winning! you have signed a contract with CANDIDATE' +
+        OFFER_ACCEPTED: 'Brilliant you have accepted an interview with ' + candidate,
+        OFFER_REJECTED: 'Offer sent to ' + candidate + ' was rejected',
+        OFFER_SENT: 'You sent an offer to ' + candidate,
+        OFFER_START_DATE: 'Amazing! You started working with ' + candidate,
+        OFFER_NEGOTIATION: 'Nearly there, you have started negotiating the details with ' + candidate,
+        OFFER_SIGNED: 'Winning! you have signed a contract with ' + candidate +
           ' and will receive your golden handshake soon',
         PROFILE_PENDING: 'You agreed terms and conditions',
         PROFILE_LIVE: 'Congrats! You were approved!',
