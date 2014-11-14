@@ -104,6 +104,19 @@ define(function(require) {
         });
       }
     });
+    $scope.availability = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          $scope.user = data;
+          return data.availability;
+        });
+      },
+      save: function(model) {
+        return Session.getUser().then(function(user) {
+          return user.updateData({ availability: model });
+        });
+      }
+    });
     $scope.picture = form({
       source: function(user) {
         return user.getData().then(function(data) {

@@ -322,22 +322,10 @@
             </div>
 
             <!-- Availability box -->
-            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
-              <div class="box-title box-title_left mrg-btm">Availability
-                <button type="submit"
-                  class="btn-edit-sub"
-                  ng-show="isEditing && !formOpen"
-                  ng-disabled="loading"
-                  ng-click="availabilityForm.edit(availability)">
-                  <i class="fa fa-pencil"></i>
-                </button>
-              </div>
-              <p class="gray">{{ user.availability || 'Not specified' }}</p>
-            </div>
-            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert hidden">
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="availability.editing">
                <h5 class="edit-title">Availability <span> 0 characters left</span><h5>
-              <form class="edit-form">
-                <textarea class="fw"></textarea>
+              <form class="edit-form" ng-submit="availability.save(availability.data)">
+                <textarea class="fw" required ng-model="availability.data"></textarea>
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -346,12 +334,24 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languagesForm.close()"
+                    ng-click="availability.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
                 </div>
               </form>
+            </div>
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="availability.editing">
+              <div class="box-title box-title_left mrg-btm">Availability
+                <button type="submit"
+                  class="btn-edit-sub"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="availability.edit(availability)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </div>
+              <p class="gray">{{ user.availability || 'Not specified' }}</p>
             </div>
 
             <!-- Languages box -->
