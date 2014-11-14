@@ -1,36 +1,43 @@
-<form name="formLanguages" ng-submit="submit() ">
+<form class="edit-form" name="formLanguages" ng-submit="submit() ">
+  <h5 class="edit-title">Languages<h5>
   <div class="form-group" ng-repeat="entry in model">
-    <div class="form-inline">
-      <input type="text"
-             class="form-control"
-             name="language{{ $index }}"
-             placeholder="Language"
-             ng-disabled="hcDisabled"
-             ng-required="$first"
-             ng-model="entry.language"
-             ng-blur="onBlur(entry, $index, $last)"
-             ng-change="onChange(entry, $index, $last)"
-             typeahead-on-select="setLanguage(entry)"
-             typeahead="language for language in searchLanguages($viewValue)">
 
-      <select
-              class="form-control"
-              name="proficiency{{ $index }}"
-              ng-disabled="hcDisabled"
-              ng-required="entry.language"
-              ng-model="entry.proficiency"
-              ng-options="proficiency for proficiency in proficiencies">
-        <option value="">Select...</option>
-      </select>
-
-      <span class="close"
-            ng-if="!$last"
-            ng-click="remove($index)">
-        &times;
-      </span>
-
-      <div class="form-error" ng-show="!$last && entry.$dirty && entry.errorInvalidLanguage">
-        <span ng-show="entry.errorInvalidLanguage">Please choose a language from the menu.</span>
+    <div class="row">
+      <div class="col-sm-6">
+        <input type="text"
+               class="form-control"
+               name="language{{ $index }}"
+               placeholder="Language"
+               ng-disabled="hcDisabled"
+               ng-required="$first"
+               ng-model="entry.language"
+               ng-blur="onBlur(entry, $index, $last)"
+               ng-change="onChange(entry, $index, $last)"
+               typeahead-on-select="setLanguage(entry)"
+               typeahead="language for language in searchLanguages($viewValue)">
+      </div>
+      <div class="col-sm-5 no-padd-left ">
+        <select
+                class="form-control"
+                name="proficiency{{ $index }}"
+                ng-disabled="hcDisabled"
+                ng-required="entry.language"
+                ng-model="entry.proficiency"
+                ng-options="proficiency for proficiency in proficiencies">
+          <option value="">Select...</option>
+        </select>
+      </div>
+      <div class="col-sm-1 no-padd-left ">
+        <span class="close"
+              ng-if="!$last"
+              ng-click="remove($index)">
+          <i class="fa fa-close"></i>
+        </span>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-error" ng-show="!$last && entry.$dirty && entry.errorInvalidLanguage">
+          <span ng-show="entry.errorInvalidLanguage">Please choose a language from the menu.</span>
+        </div>
       </div>
     </div>
   </div>
