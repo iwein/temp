@@ -41,7 +41,7 @@
                   <div class="buttons-wrap mrg-btm-small">
                     <button type="button"
                       class="fl-lf bg-gray-lighter2 btn-small"
-                      ng-click="picture.cancel()"
+                      ng-click="picture.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -130,7 +130,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="salary.cancel()"
+                      ng-click="salary.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -158,7 +158,7 @@
             <div class="col-sm-12 info bg-gray-light mrg-btm">
 
               <!--  EDIT Contacts box (remove hidden class to display)-->
-              <div class="edit-contacts hidden">
+              <div class="edit-contacts" ng-show="contact.editing" ng-submit="contact.save(contact.data)">
                 <form class="edit-form">
                   <h5 class="edit-title">Address</h5>
                   <div class="pad-btm-15">
@@ -166,9 +166,7 @@
                     <input type="text" class="form-control mrg-btm" value="address 2" />
                     <input type="text" class="form-control mrg-btm" value="80145" />
                     <input type="text" class="form-control mrg-btm" value="Phoenix, AZ" />
-                    <select
-                        class="form-control mrg-btm"
-                        >
+                    <select class="form-control mrg-btm">
                       <option value="">Select...</option>
                     </select>
                   </div>
@@ -217,7 +215,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="contact.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -231,13 +229,13 @@
                 class="btn-edit-sub-skills btn-edit-sub-skills_bot"
                 ng-show="isEditing && !formOpen"
                 ng-disabled="loading"
-                ng-click="skills.edit(skills)">
+                ng-click="contact.edit(skills)">
                 <i class="fa fa-pencil"></i>
               </button>
               <div class="row">
                 <div class="contacts">
                   <div class="fl-lf">
-                    <span class="box-title box-title_left" href="#">Contacts </span>
+                    <span class="box-title box-title_left" href="#">Contact</span>
                   </div>
                   <div class="fl-rg">
                     <a href="#"><i class="fa fa-github"></i></a>
@@ -257,12 +255,25 @@
             <!-- Age Visa box -->
             <div class="col-sm-12 border-box mrg-btm">
               <!-- Edit Age Visa box (remove class hidden to display)-->
-              <div class="edit-salary hidden">
+              <div class="edit-salary" ng-if="dob.editing" ng-submit="dob.save(dob.data)">
                 <h5 class="edit-title">Birthday <h5>
                 <form class="edit-form mrg-btm">
-                  <input type="text" class="form-control mrg-btm" />
+                  <input type="date"
+                    class="form-control"
+                    placeholder="YYYY-MM-DD"
+                    name="birth"
+                    required
+                    ng-disabled="hcDisabled"
+                    ng-model="dob.data.dob">
+
                   <div class="label-wrap">
-                    <label><input type="checkbox">Yes, I've got a work visa for EU<label>
+                    <label>
+                      <input type="checkbox"
+                        name="eu_work_visa"
+                        ng-disabled="hcDisabled"
+                        ng-model="dob.data.eu_work_visa">
+                      Yes, I've got a work visa for EU
+                    <label>
                   </div>
                   <div class="buttons-wrap">
                     <button type="submit"
@@ -272,7 +283,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="dob.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -285,7 +296,7 @@
                   class="btn-edit-sub-skills"
                   ng-show="isEditing && !formOpen"
                   ng-disabled="loading"
-                  ng-click="skills.edit(skills)">
+                  ng-click="dob.edit(dob.data)">
                   <i class="fa fa-pencil"></i>
                 </button>
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
@@ -335,7 +346,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languagesForm.cancel()"
+                    ng-click="languagesForm.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -371,7 +382,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languages.cancel()"
+                    ng-click="languages.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -404,7 +415,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languages.cancel()"
+                    ng-click="languages.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -429,7 +440,7 @@
                       </button>
                       <button type="button"
                         class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="languagesForm.cancel()"
+                        ng-click="languagesForm.close()"
                         ng-disabled="loading">
                         Cancel
                       </button>
@@ -507,7 +518,7 @@
                           </button>
                           <button type="button"
                             class="fl-rg bg-gray-lighter2 btn-small"
-                            ng-click="skills.cancel()"
+                            ng-click="skills.close()"
                             ng-disabled="loading">
                             Cancel
                           </button>

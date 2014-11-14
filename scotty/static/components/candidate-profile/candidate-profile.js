@@ -88,6 +88,22 @@ define(function(require) {
         $scope.preferred_locations = cities;
       }
     });
+    $scope.dob = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          $scope.user = data;
+          return {
+            dob: new Date(data.dob),
+            eu_work_visa: data.eu_work_visa,
+          };
+        });
+      },
+      save: function(model) {
+        return Session.getUser().then(function(user) {
+          return user.updateData(model);
+        });
+      }
+    });
     $scope.picture = form({
       source: function(user) {
         return user.getData().then(function(data) {
@@ -150,6 +166,10 @@ define(function(require) {
         $scope.salary.data = {
           locations: user.preferred_location,
           salary: data[1].minimum_salary
+        };
+        $scope.dob.data = {
+          dob: new Date(user.dob),
+          eu_work_visa: user.eu_work_visa,
         };
         $scope.ready = true;
       });
