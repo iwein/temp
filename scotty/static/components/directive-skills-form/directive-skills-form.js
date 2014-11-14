@@ -6,7 +6,13 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.directive('hcSkillsForm', function() {
+  module.directive('hcSkillsForm', function($parse) {
+    function getModel(ngModel, scope) {
+      var model = $parse(ngModel);
+      var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
+      return JSON.parse(JSON.stringify(value));
+    }
+
     return {
       restrict: 'EA',
       scope: {
@@ -34,7 +40,11 @@ define(function(require) {
         recheck();
 
         nameAttr(this, 'hcSkillsForm', $scope, $attrs);
-        ConfigAPI.skillLevels().then(fn.setTo('levels', $scope));
+        ConfigAPI.skillLevels()
+          .then(fn.setTo('levels', $scope))
+          .then(function() {
+            setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : []);
+          });
 
         function recheck() {
           for (var i = $scope.model.length; i--; ) {

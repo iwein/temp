@@ -12,20 +12,123 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $q, $state, Loader, Permission, Session) {
-    this.edit = edit;
-    this.stopEdit = stopEdit;
+    this.edit = function() { $scope.isEditing = true };
+    this.stopEdit = function() { $scope.isEditing = false };
+    $scope.isEditing = true;
+    $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
+    Loader.page(true);
+
+
+    Permission.requireActivated()
+      .then(refresh)
+      .finally(function() { Loader.page(false) });
+
+
+    $scope.skills = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          return data.skills;
+        });
+      },
+    });
+    $scope.languages = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          return data.languages;
+        });
+      },
+    });
+    var experience = $scope.experience = listForm({
+      source: function(user) {
+        return user.getExperience();
+      },
+    });
+    var education = $scope.education = listForm({
+      source: function(user) {
+        return user.getEducation();
+      },
+    });
+
+
+    function refresh() {
+      return Session.getUser().then(function(user) {
+        return $q.all([
+          user.getData(),
+          user.getTargetPosition(),
+          experience.refresh(),
+          education.refresh(),
+        ]);
+      }).then(function(data) {
+        var user = data[0];
+        $scope.targetPosition = data[1];
+        $scope.skills.data = user.skills;
+        $scope.languages.data = user.languages;
+        $scope.cities = user.preferred_location;
+        $scope.user = user;
+        $scope.ready = true;
+      });
+    }
+
+    function form(options) {
+      return {
+        editing: false,
+        refresh: function() {
+          return Session.getUser()
+            .then(options.source)
+            .then(function(data) { this.data = data }.bind(this))
+            .finally(function() { Loader.remove('profile') });
+        },
+        save: function(model, form) {
+          $scope.loading = true;
+          Loader.add('profile');
+          return form.save()
+            .then(this.refresh.bind(this))
+            .then(this.close.bind(this))
+            .finally(function() {
+              $scope.loading = false;
+              Loader.remove('profile');
+            });
+        },
+        edit: function() {
+          this.editing = true;
+          $scope.formOpen = true;
+        },
+        close: function() {
+          this.editing = false;
+          $scope.formOpen = false;
+        },
+      };
+    }
+
+    function listForm(options) {
+      var base = form(options);
+      return _.extend({}, base, {
+        editing: -1,
+        add: function() {
+          this.form.reset();
+          this.editing = -2;
+          $scope.formOpen = true;
+        },
+        edit: function(model, index) {
+          this.editing = index;
+          $scope.formOpen = true;
+        },
+        close: function() {
+          this.editing = -1;
+          $scope.formOpen = false;
+        },
+      });
+    }
+
+
+
+
+
+
+    /*
     $scope.sendCompletion = sendCompletion;
     $scope.ready = false;
     $scope.loading = false;
-    $scope.isEditing = false;
-    Loader.page(true);
-
-    function edit() {
-      $scope.isEditing = true;
-    }
-    function stopEdit() {
-      $scope.isEditing = false;
-    }
 
     function defaultForm() {
       return {
@@ -68,9 +171,6 @@ define(function(require) {
       };
     }
 
-    $scope.experience = listForm();
-    $scope.education = listForm();
-
     $scope.targetPositionForm = (function() {
       var base = defaultForm();
       return _.extend(Object.create(base), {
@@ -100,17 +200,6 @@ define(function(require) {
       });
     })();
 
-    $scope.skillsForm = (function() {
-      var base = defaultForm();
-      return _.extend(Object.create(base), {
-        save: function() {
-          return base.save.call(this)
-            .then(getUserData)
-            .then(function(data) { $scope.skills = data.skills })
-            .finally(function() { Loader.remove('candidate-profile-saving') });
-        }
-      });
-    })();
 
     $scope.languagesForm = (function() {
       var base = defaultForm();
@@ -146,10 +235,6 @@ define(function(require) {
       });
     })();
 
-
-    Permission.requireActivated()
-      .then(refresh)
-      .finally(function() { Loader.page(false) });
 
     function refresh() {
       return $q.all([
@@ -194,6 +279,7 @@ define(function(require) {
         return user.getData();
       });
     }
+    */
   });
 
 
