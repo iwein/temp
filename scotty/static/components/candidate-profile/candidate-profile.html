@@ -1,6 +1,6 @@
 <div class="component-employer-candidate-profile" ng-show="ready">
   <div class="inner">
-    
+
     <div class="status-wrap">
       <button class="fl-rg"
         ng-show="!isEditing"
@@ -17,7 +17,7 @@
 
     <div class="row mrg-btm">
       <div class="col-sm-3 bg-gray-light ">
-        <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
+        <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
         <div class="info">
           <div class="row">
             <div class="contacts">
@@ -33,12 +33,12 @@
               </div>
             </div>
           </div>
-          
+
           <div class="abs">
             <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-            <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+            <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
           </div>
-          
+
           <!-- TODO this needs to be shown or hidden -->
           <div class="abs hidden">
             <div class="smbd orange"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
@@ -83,7 +83,7 @@
         <div class="border-box row skills-box">
           <div class="col-sm-3">
             <div class="skills-head">
-              <div class="big-title skills-title">SKILLS 
+              <div class="big-title skills-title">SKILLS
                 <button type="submit"
                     class="btn btn-default pull-right"
                     ng-show="isEditing && !formOpen"
@@ -214,318 +214,131 @@
 
           <div class="row bg-white mrg-btm">
             <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>6 year 1 month</span></h2>
+              <h2 class="big-title accordion-main-title">
+                WORK EXPERIENCE <span>6 year 1 month</span>
+                <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="experience.add()">
+                  <i class="fa fa-plus"></i> ADD
+                </button>
+              </h2>
               <div class="accordion-wrap">
                 <!-- Add panel -->
-                <div class="add-panel">
-                  <button class="add-panel-close"><i class="fa fa-close"></i></button>
-                  <form>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Company name</label>
-                            <input class="form-control" type="text" />
-                          </div>
-                        </div>
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Location</label>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <input class="form-control" type="text" value="country" />
-                              </div>
-                              <div class="col-sm-6">
-                                <input class="form-control" type="text" value="city"/>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <label>Period</label>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <div class="row">
-                                  <div class="col-sm-8">
-                                    <input class="form-control" type="text" value="month" />
-                                  </div>
-                                  <div class="col-sm-4 no-padd-left">
-                                    <input class="form-control" type="text" value="year" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-6">
-                                <div class="row">
-                                  <div class="col-sm-8">
-                                    <input class="form-control" type="text" value="month" />
-                                  </div>
-                                  <div class="col-sm-4 no-padd-left">
-                                    <input class="form-control" type="text"  value="year" />
-                                  </div>
-                                </div>
-                                <div class="check-wrap"><label><input type="checkbox">  I'm still working here</label></div>
-                              </div>
-                            </div>
-                          
-                          </div>
-                        </div>
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Role</label>
-                            <input class="form-control" type="text" />
-                          </div>
-                        </div>
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Role description</label>
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="row check-wrap mrg-btm">
-                          <div class="col-sm-6"><label><input type="checkbox" />Java</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Html/css</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />.Net</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Android</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Php</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />iOS</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Pyton</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Linux</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Ruby</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Salesforce</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />C / C++</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Sap</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Javascript</label></div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <label>Other skills</label>
-                            <input class="form-control" type="text" value="Type a skill..." />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="add-panel" ng-show="experience.editing === -2">
+                  <button class="add-panel-close" ng-click="experience.close()"><i class="fa fa-close"></i></button>
+                  <hc-experience-form
+                    hc-scope="experience"
+                    name="form"
+                    hc-required="model.length === 0 || !experience.form.isPristine()"
+                    hc-disabled="loading"
+                    on-submit="experience.save($model, $form, model.length)">
+
                     <div class="row">
                       <div class="buttons-wrap">
-                        <button class="fl-rg bg-green btn-small mrg-lft-small" type="submit">save</button>
-                        <button class="fl-rg bg-gray-lighter2 btn-small">cancel</button>
+                        <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">save</button>
+                        <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="experience.close()">cancel</button>
                       </div>
                     </div>
-                  </form>
+                  </hc-experience-form>
                 </div>
                 <!--End  Add panel -->
-                <!-- EDIT panel -->
-                <div class="add-panel">
-                  <button class="add-panel-close"><i class="fa fa-close"></i></button>
-                  <form>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Company name</label>
-                            <input class="form-control" type="text" />
-                            <p class="error red">This is an error message.</p>
-                          </div>
-                        </div>
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Location</label>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <input class="form-control" type="text" value="country" />
-                              </div>
-                              <div class="col-sm-6">
-                                <input class="form-control" type="text" value="city"/>
-                              </div>
-                              <p class="error red col-sm-12">This is an error message.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <label>Period</label>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <div class="row">
-                                  <div class="col-sm-8">
-                                    <input class="form-control" type="text" value="month" />
-                                  </div>
-                                  <div class="col-sm-4 no-padd-left">
-                                    <input class="form-control" type="text" value="year" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-6">
-                                <div class="row">
-                                  <div class="col-sm-8">
-                                    <input class="form-control" type="text" value="month" />
-                                  </div>
-                                  <div class="col-sm-4 no-padd-left">
-                                    <input class="form-control" type="text"  value="year" />
-                                  </div>
-                                </div>
-                                <div class="check-wrap"><label><input type="checkbox">  I'm still working here</label></div>
-                              </div>
-                              <p class="error red col-sm-12">This is an error message.</p>
-                            </div>
-                          
-                          </div>
-                        </div>
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Role</label>
-                            <input class="form-control" type="text" />
-                            <p class="error red">This is an error message.</p>
-                          </div>
-                        </div>
-                        <div class="row mrg-btm">
-                          <div class="col-sm-12">
-                            <label>Role description</label>
-                            <textarea class="form-control"></textarea>
-                            <p class="error red">This is an error message.</p>
-                          </div>
+                <div ng-repeat="entry in experience.data">
+                  <!-- EDIT panel -->
+                  <div class="add-panel" ng-if="experience.editing === $index">
+                    <button class="add-panel-close" ng-click="experience.close()"><i class="fa fa-close"></i></button>
+                    <hc-experience-form
+                      ng-model="entry"
+                      hc-required="true"
+                      hc-disabled="loading"
+                      on-submit="experience.save($model, $form, $index)">
+                      <div class="row">
+                        <div class="buttons-wrap">
+                          <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">save</button>
+                          <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="experience.close()">cancel</button>
                         </div>
                       </div>
-                      <div class="col-sm-6">
-                        <div class="row check-wrap mrg-btm">
-                          <div class="col-sm-6"><label><input type="checkbox" />Java</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Html/css</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />.Net</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Android</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Php</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />iOS</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Pyton</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Linux</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Ruby</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Salesforce</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />C / C++</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Sap</label></div>
-                          <div class="col-sm-6"><label><input type="checkbox" />Javascript</label></div>
-                          <p class="error red col-sm-12">This is an error message.</p>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <label>Other skills</label>
-                            <input class="form-control" type="text" value="Type a skill..." />
-                            <p class="error red">This is an error message.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="buttons-wrap">
-                        <button class="fl-rg bg-green btn-small mrg-lft-small" type="submit">save</button>
-                        <button class="fl-rg bg-gray-lighter2 btn-small">cancel</button>
-                      </div>
-                    </div>
-                  </form>
+                    </hc-experience-form>
+                  </div>
+                  <!--End  EDIT panel -->
+                  <hc-accordion ng-hide="experience.editing === $index">
+                    <button type="button"
+                      class="btn btn-default pull-right"
+                      ng-show="isEditing && !formOpen"
+                      ng-disabled="loading"
+                      ng-click="experience.edit(entry, $index)">
+                      Edit
+                    </button>
+                    <h3 class="accordion-subtitle">{{ entry.role }}</h3>
+                    <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
+                    <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                    <!-- WARN: replaced UI by DIV -->
+                    <div class="accordion-text">{{ entry.summary }}</div>
+                  </hc-accordion>
                 </div>
-                <!--End  EDIT panel -->
-                <hc-accordion ng-repeat="experience in workExperience">
-                  <h3 class="accordion-subtitle">{{ experience.role }}</h3>
-                  <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
-                  <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
-                  <!-- WARN: replaced UI by DIV -->
-                  <div class="accordion-text">{{ experience.summary }}</div>
-                </hc-accordion>
               </div>
             </div>
           </div>
 
           <div class="row bg-white">
             <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span> <button class="add-btn"><i class="fa fa-plus"></i> ADD</button></h2>
+              <h2 class="big-title accordion-main-title">
+                EDUCATION <span>Master of Arts</span>
+                <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="education.add()">
+                  <i class="fa fa-plus"></i> ADD
+                </button>
+              </h2>
               <div class="accordion-wrap">
                 <!-- Add panel -->
-                <div class="add-panel">
-                  <button class="add-panel-close"><i class="fa fa-close"></i></button>
-                  <form>
-                    <div class="row mrg-btm">
-                      <div class="col-sm-6">
-                        <label>university or institution</label>
-                        <input class="form-control" type="text" />
-                      </div>
-                      <div class="col-sm-6">
-                        <label>period</label>
-                        <div class="row no-gutter">
-                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
-                          <div class="col-sm-1 spacer">-</div>
-                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
-                          <div class="col-sm-6 check-wrap mrg-lft-small"><label><input type="checkbox"> </input> I‘m still studing there</label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <label>course or subject</label>
-                        <input class="form-control" type="text" />
-                      </div>
-                      <div class="col-sm-6">
-                        <label>degree</label>
-                        <input class="form-control" type="text" />
-                        <div class="check-wrap"><label><input type="checkbox"> </input> did not complete degree</label></div>
-                      </div>
-                    </div>
+                <div class="add-panel" ng-show="education.editing === -2">
+                  <button class="add-panel-close" ng-click="education.close()"><i class="fa fa-close"></i></button>
+                  <hc-education-form
+                    hc-scope="education"
+                    name="form"
+                    hc-required="model.length === 0 || !education.form.isPristine()"
+                    hc-disabled="loading"
+                    on-submit="education.save($model, $form, model.length)">
+
                     <div class="row">
                       <div class="buttons-wrap">
-                        <button class="fl-rg bg-green btn-small mrg-lft-small" type="submit">save</button>
-                        <button class="fl-rg bg-gray-lighter2 btn-small">cancel</button>
+                        <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">save</button>
+                        <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="education.close()">cancel</button>
                       </div>
                     </div>
-                  </form>
+                  </hc-education-form>
                 </div>
                 <!--End  Add panel -->
-                <!-- EDIT panel -->
-                <div class="add-panel">
-                  <button class="add-panel-close"><i class="fa fa-close"></i></button>
-                  <form>
-                    <div class="row mrg-btm">
-                      <div class="col-sm-6">
-                        <label>university or institution</label>
-                        <input class="form-control" type="text" />
-                        <p class="error red">This is an error message.</p>
-                      </div>
-                      <div class="col-sm-6">
-                        <label>period</label>
-                        <div class="row no-gutter">
-                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
-                          <div class="col-sm-1 spacer">-</div>
-                          <div class="col-sm-2"><input class="form-control" type="text" /></div>
-                          <div class="col-sm-6 check-wrap mrg-lft-small"><label><input type="checkbox"> </input> I‘m still studing there</label></div>
-                          <p class="error red col-sm-12">This is an error message.</p>
+                <div ng-repeat="entry in education.data">
+                  <!-- EDIT panel -->
+                  <div class="add-panel" ng-if="education.editing === $index">
+                    <button class="add-panel-close" ng-click="education.close()"><i class="fa fa-close"></i></button>
+                    <hc-education-form
+                      ng-model="entry"
+                      hc-required="true"
+                      hc-disabled="loading"
+                      on-submit="education.save($model, $form, $index)">
+
+                      <div class="row">
+                        <div class="buttons-wrap">
+                          <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">save</button>
+                          <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="education.close()">cancel</button>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <label>course or subject</label>
-                        <input class="form-control" type="text" />
-                        <p class="error red">This is an error message.</p>
-                      </div>
-                      <div class="col-sm-6">
-                        <label>degree</label>
-                        <input class="form-control" type="text" />
-                        <div class="check-wrap"><label><input type="checkbox"> </input> did not complete degree</label> <p class="error red">This is an error message.</p></div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="buttons-wrap">
-                        <button class="fl-rg bg-green btn-small mrg-lft-small" type="submit">save</button>
-                        <button class="fl-rg bg-gray-lighter2 btn-small">cancel</button>
-                      </div>
-                    </div>
-                  </form>
+                    </hc-education-form>
+                  </div>
+                  <!--End  EDIT panel -->
+                  <hc-accordion hc-hide-control="!entry.course" ng-hide="education.editing === $index">
+                    <button type="button"
+                      class="btn btn-default pull-right"
+                      ng-show="isEditing && !formOpen"
+                      ng-disabled="loading"
+                      ng-click="education.edit(entry, $index)">
+                      Edit
+                    </button>
+                    <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
+                    <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
+                    <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                    <!-- WARN: replaced UI by DIV -->
+                    <div class="accordion-text">{{ entry.course }}</div>
+                  </hc-accordion>
                 </div>
-                <!--End  EDIT panel -->
-                <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
-                  <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
-                  <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
-                  <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
-                  <!-- WARN: replaced UI by DIV -->
-                  <div class="accordion-text">{{ entry.course }}</div>
-                </hc-accordion>
               </div>
             </div>
           </div>
@@ -597,7 +410,7 @@
         </button>
       </hc-profile-form>
 
-      
+
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -628,7 +441,7 @@
             <dd ng-if="user.summary">{{ user.summary }}</dd>
             <dt ng-if="user.cv_upload_url">CV</dt>
             <dd ng-if="user.cv_upload_url">
-              <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
+              <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
             </dd>
             <dt ng-if="user.contact_skype">Skype</dt>
             <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
@@ -643,7 +456,7 @@
             <dt>Location</dt>
             <dd>
               <address>
-                {{ user.location.city }}, {{ user.location.country_iso }}
+                {{ user.location.city }}, {{ user.location.country_iso }}
               </address>
             </dd>
           </dl>
@@ -652,7 +465,7 @@
 
       <!--Fine tabella dati personali-->
 
-    
+
 
       <hc-target-position-form
         ng-show="isEditing && targetPositionForm.editing"
@@ -702,7 +515,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             Preferred locations
-            
+
             <div class="clearfix"></div>
           </h3>
         </div>
@@ -716,7 +529,7 @@
         </ul>
       </div>
 
-      
+
     </div>
   </div>
 </div>
