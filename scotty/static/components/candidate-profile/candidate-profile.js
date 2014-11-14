@@ -11,7 +11,7 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $q, $state, Loader, Permission, Session) {
+  module.controller('ProfileCtrl', function($scope, $q, $state, Amazon, Loader, Permission, Session) {
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
     $scope.isEditing = true;
@@ -24,14 +24,27 @@ define(function(require) {
       .finally(function() { Loader.page(false) });
 
 
-    $scope.skills = form({
+    $scope.picture = form({
+      source: function(user) {
+        return user.getData().then(function() { //(data) {
+        });
+      },
+      save: function(model) {
+        return Amazon.upload(model, 'users', Session.id()).then(function(url) {
+          return Session.getUser().then(function(user) {
+            user.setPhoto(url);
+          });
+        });
+      },
+    });
+    $scope.skills = formDirective({
       source: function(user) {
         return user.getData().then(function(data) {
           return data.skills;
         });
       },
     });
-    $scope.languages = form({
+    $scope.languages = formDirective({
       source: function(user) {
         return user.getData().then(function(data) {
           return data.languages;
@@ -81,7 +94,7 @@ define(function(require) {
         save: function(model, form) {
           $scope.loading = true;
           Loader.add('profile');
-          return form.save()
+          return options.save(model, form)
             .then(this.refresh.bind(this))
             .then(this.close.bind(this))
             .finally(function() {
@@ -100,8 +113,17 @@ define(function(require) {
       };
     }
 
+    function formDirective(options) {
+      return form({
+        source: options.source,
+        save: function(model, form) {
+          return form.save();
+        }
+      });
+    }
+
     function listForm(options) {
-      var base = form(options);
+      var base = formDirective(options);
       return _.extend({}, base, {
         editing: -1,
         add: function() {

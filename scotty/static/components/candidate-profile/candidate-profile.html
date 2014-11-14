@@ -22,21 +22,26 @@
         <div class="col-sm-3">
           <div class="row">
             <div class="col-sm-12 bg-gray-light mrg-btm">
-              <!-- This button has to appear once entered edit mode  and will trigger the edit user pic div-->
-              <button class="edit-user-pic-btn">
+              <button class="edit-user-pic-btn" ng-show="isEditing && !openForm" ng-click="picture.edit()">
                 <i class="fa fa-camera-retro"></i>
               </button>
-              <!-- -->
-              <!-- Edit pic div (remove hidden class to display)-->
-              <div class="edit-user-pic hidden">
-                <div class="bg-gray-lighter3 padd-vert col-sm-12">
+              <div class="edit-user-pic" ng-show="picture.editing">
+                <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data)">
                   <h5 class="edit-title">Profile picture</h5>
-                  <input class="mrg-btm" type="file" />
-                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ user.picture_url }})"></div>
+                  <input type="file"
+                    class="mrg-btm"
+                    name="photo"
+                    accept="image/*"
+                    ng-required="true"
+                    ng-disabled="loading"
+                    ng-model="picture.data"
+                    hc-file-select="selectFile($files)"
+                    hc-data-url="selectedPicture">
+                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture || user.picture_url }})"></div>
                   <div class="buttons-wrap mrg-btm-small">
                     <button type="button"
                       class="fl-lf bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="picture.cancel()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -45,11 +50,11 @@
                       ng-disabled="loading">
                       Save
                     </button>
-                </div>
-                </div>
+                 </div>
+                </form>
               </div>
               <!-- -->
-              <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
+              <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
             </div>
           </div>
           <div class="row">
@@ -131,7 +136,7 @@
                   <i class="fa fa-pencil"></i>
                 </button>
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-                <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+                <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
               </div>
             </div>
 
@@ -431,8 +436,8 @@
                       </div>
                       <div class="emp-off-desc">
                         <h3 class="main-subtitle">
-                          Target position: 
-                          <span>{{ targetPosition.role }}</span> 
+                          Target position:
+                          <span>{{ targetPosition.role }}</span>
                           <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing && !formOpen"
