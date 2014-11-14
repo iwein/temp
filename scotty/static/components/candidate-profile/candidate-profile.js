@@ -12,9 +12,11 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('ProfileCtrl', function($scope, $q, $state, Amazon, Loader, Permission, Session) {
+  module.controller('ProfileCtrl', function($scope, $q, $state, Amazon, Loader, ConfigAPI, Permission, Session) {
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
+    $scope.locationToText = ConfigAPI.locationToText;
+    $scope.searchCities = ConfigAPI.locations;
     $scope.onSalaryChange = onSalaryChange;
     $scope.updateLocations = updateLocations;
     $scope.isEditing = true;
@@ -22,14 +24,74 @@ define(function(require) {
     Loader.page(true);
 
 
+    ConfigAPI.featuredLocations()
+      .then(toCheckboxModel('featuredLocations'));
+
     Permission.requireActivated()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 
 
+    $scope.salary = form({
+      source: function(user) {
+        return $q.all([
+          user.getData(),
+          user.getTargetPosition(),
+        ]).then(function(result) {
+          $scope.user = result[0];
+          $scope.targetPosition = result[1];
+          $scope.preferredLocations = parsePreferredLocations(result[0].preferred_location);
+          return {
+            locations: result[0].preferred_location,
+            salary: result[1].minimum_salary
+          };
+        });
+      },
+      save: function(model) {
+        return Session.getUser().then(function(user) {
+          $scope.targetPosition.minimum_salary = model.salary;
+          return $q.all([
+            user.setPreferredLocations(model.locations),
+            user.setTargetPosition($scope.targetPosition),
+          ]);
+        });
+      },
+      edit: function(data) {
+        $scope.salary.data.germany = false;
+        $scope.salary.data.other = false;
+
+        var locations = JSON.parse(JSON.stringify(data.locations));
+        if (locations.DE && !locations.DE.length) {
+          $scope.salary.data.germany = true;
+          return;
+        }
+
+        $scope.featuredLocations.forEach(function(entry) {
+          var country = entry.value.country_iso;
+          var city = entry.value.city;
+          var index = (locations[country] || []).indexOf(city);
+          entry.selected = index !== -1;
+          if (entry.selected)
+            locations[country].splice(index, 1);
+        });
+
+        var cities = Object.keys(locations).reduce(function(sum, country) {
+          return sum.concat(locations[country].map(function(city) {
+            return {
+              city: city,
+              country_iso: country,
+            };
+          }));
+        }, []);
+
+        $scope.salary.data.other = !!cities.length;
+        $scope.preferred_locations = cities;
+      }
+    });
     $scope.picture = form({
       source: function(user) {
         return user.getData().then(function(data) {
+          $scope.user = data;
           return data.picture_url;
         });
       },
@@ -44,6 +106,7 @@ define(function(require) {
     $scope.skills = formDirective({
       source: function(user) {
         return user.getData().then(function(data) {
+          $scope.user = data;
           return data.skills;
         });
       },
@@ -51,6 +114,7 @@ define(function(require) {
     $scope.languages = formDirective({
       source: function(user) {
         return user.getData().then(function(data) {
+          $scope.user = data;
           return data.languages;
         });
       },
@@ -81,8 +145,12 @@ define(function(require) {
         $scope.skills.data = user.skills;
         $scope.languages.data = user.languages;
         $scope.picture.data = user.picture_url;
-        $scope.cities = user.preferred_location;
         $scope.user = user;
+        $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
+        $scope.salary.data = {
+          locations: user.preferred_location,
+          salary: data[1].minimum_salary
+        };
         $scope.ready = true;
       });
     }
@@ -108,6 +176,8 @@ define(function(require) {
             });
         },
         edit: function() {
+          if (options.edit)
+            options.edit(this.data);
           this.editing = true;
           $scope.formOpen = true;
         },
@@ -148,8 +218,24 @@ define(function(require) {
     }
 
 
+    function parsePreferredLocations(locations) {
+      return Object.keys(locations).map(function(country) {
+        var cities = locations[country];
+        var text = cities.length ? cities.join(', ') : 'Anywhere';
+        return text + ' ' + country;
+      }).join(' - ');
+    }
+
+    function toCheckboxModel(key) {
+      return function(data) {
+        $scope[key] = data.map(function(type) {
+          return { value: type };
+        });
+      };
+    }
+
     function onSalaryChange() {
-      $scope.errorSalaryTooHigh = $scope.model.minimum_salary > 99000000;
+      $scope.errorSalaryTooHigh = $scope.salary.data.salary > 99000000;
     }
 
     function addLocation(locations, entry) {
@@ -162,17 +248,17 @@ define(function(require) {
       var locations = {};
       var add = addLocation.bind(null, locations);
       $scope.errorLocationRequired = false;
-      $scope.salary.data = locations;
+      $scope.salary.data.locations = locations;
 
       $scope.featuredLocations
         .filter(fn.get('selected'))
         .map(fn.get('value'))
         .forEach(add);
 
-      if ($scope.anywhereInGermany)
+      if ($scope.salary.data.germany)
         locations.DE = [];
 
-      if ($scope.locationOther) {
+      if ($scope.salary.data.other) {
         $scope.preferred_locations.forEach(add);
         $scope.errorLocationRequired = !Object.keys(locations).length;
       }

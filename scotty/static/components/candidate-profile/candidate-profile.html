@@ -60,7 +60,7 @@
             <!-- Salary box-->
             <div class="col-sm-12 border-box mrg-btm">
               <!-- Edit Salary box (remove class hidden to display)-->
-              <form class="edit-salary" ng-show="salary.editing">
+              <form class="edit-salary" ng-if="salary.editing" ng-submit="salary.save(salary.data)">
                 <h5 class="edit-title">Annual Salary </h5>
                 <div class="edit-form mrg-btm">
                   <input type="dotted-integer"
@@ -68,7 +68,7 @@
                     name="salary"
                     required
                     ng-disabled="loading"
-                    ng-model="model.minimum_salary"
+                    ng-model="salary.data.salary"
                     ng-change="onSalaryChange()">
                   <p class="red error" ng-show="errorSalaryTooHigh">This seems to be too high</p>
                 </div>
@@ -79,8 +79,8 @@
                       <div>
                         <label>
                           <input type="checkbox"
-                            ng-disabled="loading || locationOther"
-                            ng-model="anywhereInGermany"
+                            ng-disabled="loading || salary.data.other"
+                            ng-model="salary.data.germany"
                             ng-change="updateLocations()">
                           Anywhere in germany
                         </label>
@@ -88,7 +88,7 @@
                       <div ng-repeat="location in featuredLocations">
                         <label>
                           <input type="checkbox"
-                            ng-disabled="loading || anywhereInGermany"
+                            ng-disabled="loading || salary.data.germany"
                             ng-model="location.selected"
                             ng-change="updateLocations()">
                           {{ location.value.city }}, {{ location.value.country_iso }}
@@ -98,9 +98,9 @@
                         <label>
                           <input type="checkbox"
                             name="location-radio"
-                            ng-disabled="loading || anywhereInGermany"
+                            ng-disabled="loading || salary.data.germany"
                             ng-required="errorLocationRequired"
-                            ng-model="locationOther"
+                            ng-model="salary.data.other"
                             ng-change="updateLocations()">
                           Other
                         </label>
@@ -112,10 +112,10 @@
                       <hc-label-typeahead
                         name="cities"
                         placeholder="Type a city..."
-                        ng-show="locationOther"
+                        ng-show="salary.data.other"
                         ng-disabled="loading"
                         ng-model="preferred_locations"
-                        hc-required="locationOther"
+                        hc-required="salary.data.other"
                         hc-render="locationToText($entry)"
                         hc-source="searchCities($viewValue)"
                         on-change="updateLocations()">
@@ -130,7 +130,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="salary.cancel()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -143,11 +143,14 @@
                   class="btn-edit-sub-skills"
                   ng-show="isEditing && !formOpen"
                   ng-disabled="loading"
-                  ng-click="skills.edit(skills)">
+                  ng-click="salary.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-                <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+                <div>
+                  <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
+                  {{ preferredLocations }}
+                </div>
               </div>
             </div>
 
