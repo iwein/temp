@@ -22,6 +22,11 @@
         <div class="col-sm-3">
           <div class="row">
             <div class="col-sm-12 bg-gray-light mrg-btm">
+              <!-- This div has to appear once entered edit mode -->
+              <button class="edit-user-pic">
+                <i class="fa fa-camera"></i>
+              </button>
+              <!-- -->
               <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
             </div>
           </div>
@@ -52,6 +57,7 @@
               </div>
             </div>
 
+            <!-- Age Visa box -->
             <div class="col-sm-12 border-box mrg-btm">
               <div class="padd-vert">
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
@@ -61,11 +67,12 @@
                 }"></i></span> has a work visa</div>
               </div>
             </div>
+
+            <!-- Offers box -->
             <div class="col-sm-12 bg-gray-light mrg-btm ">
               <div class="bg-gray-light row">
                 <div class="offer-box col-sm-12">
                   <div class="box-title box-title_left mrg-btm">Offers</div>
-
                   <div>
                     <div class="orange bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
                     <div class="mrg-btm-small">€ 90.0000</div>
@@ -74,14 +81,42 @@
                 </div>
               </div>
             </div>
+
+            <!-- Availability box -->
             <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
-              <div class="box-title box-title_left mrg-btm">Availability</div>
+              <div class="box-title box-title_left mrg-btm">Availability
+                <button type="submit"
+                  class="btn-edit-sub"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="availabilityForm.edit(availability)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </div>
               <p class="gray">{{ user.availability || 'Not specified' }}</p>
+            </div>
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" >
+               <h5 class="edit-title">Languages <span> 0 characters left</span><h5>
+              <form class="edit-form">
+                <textarea class=""></textarea>
+                <div class="buttons-wrap">
+                  <button type="submit"
+                    class="fl-rg bg-green btn-small mrg-lft-small"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+                  <button type="button"
+                    class="fl-rg bg-gray-lighter2 btn-small"
+                    ng-click="languagesForm.cancel()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
 
             <!-- Languages box -->
             <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="isEditing && languages.editing">
-
               <div class="box-title box-title_left mrg-btm">Languages
                 <button type="submit"
                   class="btn-edit-sub"
@@ -94,9 +129,7 @@
               <div ng-repeat="entry in languages.data">
                 <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
               </div>
-
             </div>
-
             <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="isEditing && languages.editing">
               <hc-languages-form
                 ng-model="languages.data"
@@ -121,6 +154,9 @@
 
           </div>
         </div>
+
+
+        <!-- MAIN CONTENT -->
         <div class="col-sm-9">
           <div class="row">
              <div class="col-sm-8 bg-white">
@@ -140,7 +176,7 @@
               </div>
 
               <div class="col-sm-4 bg-white user-desc">
-                <div class="">
+                <div class="fl-rg pad-20  ">
                   <span>Status: </span>
                   <span ng-show="status === 'searching'">
                     <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
@@ -361,191 +397,6 @@
 
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-    <div class="col-sm">
-
-      <div class="profile-workflow" ng-if="!isEditing && completionStage">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <form ng-show="completionStage === 'summary'" ng-submit="sendCompletion(completion)">
-              <div class="form-group required">
-                <label>Summary</label>
-                <textarea class="form-control" required ng-model="completion.summary">
-                </textarea>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-
-            <form ng-show="completionStage === 'availability'" ng-submit="sendCompletion(completion)">
-              <div class="form-group required">
-                <label>Availability</label>
-                <textarea class="form-control" required ng-model="completion.availability">
-                </textarea>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-<!--Tabella dati personali-->
-      <hc-profile-form
-        ng-show="isEditing && profileForm.editing"
-        hc-scope="profileForm"
-        name="form"
-        hc-disabled="loading"
-        on-submit="profileForm.save()">
-
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="profileForm.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-profile-form>
-
-
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Personal data
-            <button type="submit"
-              class="btn btn-default pull-right"
-              ng-show="isEditing && !formOpen"
-              ng-disabled="loading"
-              ng-click="profileForm.edit(user)">
-              Edit
-            </button>
-            <div class="clearfix"></div>
-          </h3>
-        </div>
-        <div class="panel-body">
-          <dl class="dl-horizontal">
-            <dt>email</dt>
-            <dd>{{ user.email }}</dd>
-            <dt ng-if="user.availability">Availabilty</dt>
-            <dd ng-if="user.availability">{{ user.availability }}</dd>
-            <dt>EU Work Visa</dt>
-            <dd>
-              <span ng-show="user.eu_work_visa">Yes</span>
-              <span ng-show="!user.eu_work_visa">No</span>
-            </dd>
-            <dt ng-if="user.summary">Summary</dt>
-            <dd ng-if="user.summary">{{ user.summary }}</dd>
-            <dt ng-if="user.cv_upload_url">CV</dt>
-            <dd ng-if="user.cv_upload_url">
-              <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
-            </dd>
-            <dt ng-if="user.contact_skype">Skype</dt>
-            <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
-            <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
-            <dd ng-if="user.stackoverflow_url">
-              <a ng-href="{{ user.stackoverflow_url }}">{{ user.stackoverflow_url }}</a>
-            </dd>
-            <dt ng-if="user.github_url">Github</dt>
-            <dd ng-if="user.github_url">
-              <a ng-href="{{ user.github_url }}">{{ user.github_url }}</a>
-            </dd>
-            <dt>Location</dt>
-            <dd>
-              <address>
-                {{ user.location.city }}, {{ user.location.country_iso }}
-              </address>
-            </dd>
-          </dl>
-        </div>
-      </div>
-
-      <!--Fine tabella dati personali-->
-
-
-
-      <hc-target-position-form
-        ng-show="isEditing && targetPositionForm.editing"
-        hc-scope="targetPositionForm"
-        name="form"
-        on-submit="targetPositionForm.save()">
-        <button type="button"
-          class="btn btn-primary"
-          ng-click="targetPositionForm.cancel()"
-          ng-disabled="loading">
-          Cancel
-        </button>
-        <button type="submit"
-          class="btn btn-primary"
-          ng-disabled="loading">
-          Save
-        </button>
-      </hc-target-position-form>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Target position
-            <button type="submit"
-              class="btn btn-default pull-right"
-              ng-show="isEditing && !formOpen"
-              ng-disabled="loading"
-              ng-click="targetPositionForm.edit(targetPosition, cities)">
-              Edit
-            </button>
-            <div class="clearfix"></div>
-          </h3>
-        </div>
-        <div class="panel-body">
-          <dl class="dl-horizontal">
-            <dt>role</dt>
-            <dd>{{ targetPosition.role }}</dd>
-            <dt>skills</dt>
-            <dd>{{ targetPosition.skills.join(', ') }}</dd>
-            <dt>minimum salary</dt>
-            <dd>{{ targetPosition.minimum_salary | dottedInteger }}€</dd>
-          </dl>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Preferred locations
-
-            <div class="clearfix"></div>
-          </h3>
-        </div>
-        <ul class="list-group">
-          <div ng-repeat="(country_iso, cities) in cities">
-            <li class="list-group-item" ng-show="!cities.length">{{ country_iso }} (Anywhere)</li>
-            <li class="list-group-item" ng-repeat="city in cities">
-              <span class="value">{{ city }}, {{ country_iso }}</span>
-            </li>
-          </div>
-        </ul>
-      </div>
-
-
     </div>
   </div>
 </div>
