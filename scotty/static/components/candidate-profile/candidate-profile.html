@@ -80,29 +80,28 @@
             </div>
 
             <!-- Languages box -->
-            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="isEditing && languagesForm.editing">
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="isEditing && languages.editing">
 
               <div class="box-title box-title_left mrg-btm">Languages
                 <button type="submit"
                   class="btn-edit-sub"
                   ng-show="isEditing && !formOpen"
                   ng-disabled="loading"
-                  ng-click="languagesForm.edit(languages)">
+                  ng-click="languages.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
               </div>
-              <div ng-repeat="entry in languages">
+              <div ng-repeat="entry in languages.data">
                 <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
               </div>
 
             </div>
 
-            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-show="isEditing && languagesForm.editing">
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="isEditing && languages.editing">
               <hc-languages-form
-                hc-scope="languagesForm"
-                name="form"
+                ng-model="languages.data"
                 hc-disabled="loading"
-                on-submit="languagesForm.save()">
+                on-submit="languages.save($model, $form)">
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -111,7 +110,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languagesForm.cancel()"
+                    ng-click="languages.cancel()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -159,13 +158,12 @@
               <div class="col-sm-12 mrg-btm">
                 <div class="row">
                   <div class="border-box clearfix skills-box">
-                    <div class="wrap-form-skills bg-gray-lighter3" ng-show="isEditing && skillsForm.editing">
+                    <div class="wrap-form-skills bg-gray-lighter3" ng-if="isEditing && skills.editing">
                       <hc-skills-form
-                        hc-scope="skillsForm"
-                        name="form"
+                        ng-model="skills.data"
                         hc-disabled="loading"
-                        on-submit="skillsForm.save()">
-                         <div class="buttons-wrap">
+                        on-submit="skills.save($model, $form)">
+                        <div class="buttons-wrap">
                           <button type="submit"
                             class="fl-rg bg-green btn-small mrg-lft-small"
                             ng-disabled="loading">
@@ -173,7 +171,7 @@
                           </button>
                           <button type="button"
                             class="fl-rg bg-gray-lighter2 btn-small"
-                            ng-click="languagesForm.cancel()"
+                            ng-click="skills.cancel()"
                             ng-disabled="loading">
                             Cancel
                           </button>
@@ -184,7 +182,7 @@
                       class="btn-edit-sub-skills"
                       ng-show="isEditing && !formOpen"
                       ng-disabled="loading"
-                      ng-click="skillsForm.edit(skills)">
+                      ng-click="skills.edit(skills)">
                       <i class="fa fa-pencil"></i>
                     </button>
                     <div class="col-sm-3">
@@ -201,9 +199,9 @@
                     </div>
                     <div class="col-sm-9">
                       <div class="skills-wrap row">
-                        <div class="col-sm-4" ng-repeat="entry in skills">
+                        <div class="col-sm-4" ng-repeat="entry in skills.data">
                           <div class="skills-item">{{ entry.skill }}
-                            <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
+                            <hc-stars ng-model="entry.level" hc-values="starValues"></hc-stars>
                           </div>
                         </div>
                         <div class="col-sm-12">

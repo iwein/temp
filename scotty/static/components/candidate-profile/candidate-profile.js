@@ -8,7 +8,7 @@ define(function(require) {
   require('components/directive-languages-form/directive-languages-form');
   require('components/directive-profile-form/directive-profile-form');
   require('components/directive-skills-form/directive-skills-form');
-  //var _ = require('underscore');
+  var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $q, $state, Loader, Permission, Session) {
@@ -24,6 +24,20 @@ define(function(require) {
       .finally(function() { Loader.page(false) });
 
 
+    $scope.skills = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          return data.skills;
+        });
+      },
+    });
+    $scope.languages = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          return data.languages;
+        });
+      },
+    });
     var experience = $scope.experience = listForm({
       source: function(user) {
         return user.getExperience();
@@ -47,24 +61,22 @@ define(function(require) {
       }).then(function(data) {
         var user = data[0];
         $scope.targetPosition = data[1];
+        $scope.skills.data = user.skills;
+        $scope.languages.data = user.languages;
         $scope.cities = user.preferred_location;
-        $scope.languages = user.languages;
-        $scope.skills = user.skills;
         $scope.user = user;
         $scope.ready = true;
       });
     }
 
-    function listForm(options) {
+    function form(options) {
       return {
-        editing: -1,
+        editing: false,
         refresh: function() {
-          Loader.add('profile');
-          return Session.getUser().then(options.source).then(function(data) {
-            this.data = data;
-          }.bind(this)).finally(function() {
-            Loader.remove('profile');
-          });
+          return Session.getUser()
+            .then(options.source)
+            .then(function(data) { this.data = data }.bind(this))
+            .finally(function() { Loader.remove('profile') });
         },
         save: function(model, form) {
           $scope.loading = true;
@@ -77,20 +89,35 @@ define(function(require) {
               Loader.remove('profile');
             });
         },
-        edit: function(model, index) {
-          this.editing = index;
+        edit: function() {
+          this.editing = true;
           $scope.formOpen = true;
         },
+        close: function() {
+          this.editing = false;
+          $scope.formOpen = false;
+        },
+      };
+    }
+
+    function listForm(options) {
+      var base = form(options);
+      return _.extend({}, base, {
+        editing: -1,
         add: function() {
           this.form.reset();
           this.editing = -2;
+          $scope.formOpen = true;
+        },
+        edit: function(model, index) {
+          this.editing = index;
           $scope.formOpen = true;
         },
         close: function() {
           this.editing = -1;
           $scope.formOpen = false;
         },
-      };
+      });
     }
 
 
