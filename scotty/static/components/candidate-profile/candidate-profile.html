@@ -27,13 +27,13 @@
                 <i class="fa fa-camera-retro"></i>
               </button>
               <!-- -->
-              <!-- Edit pic div-->
-              <div class="edit-user-pic">
+              <!-- Edit pic div (remove hidden class to display)-->
+              <div class="edit-user-pic hidden">
                 <div class="bg-gray-lighter3 padd-vert col-sm-12">
                   <h5 class="edit-title">Profile picture</h5>
                   <input class="mrg-btm" type="file" />
                   <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ user.picture_url }})"></div>
-                  <div class="buttons-wrap">
+                  <div class="buttons-wrap mrg-btm-small">
                     <button type="button"
                       class="fl-lf bg-gray-lighter2 btn-small"
                       ng-click="languagesForm.cancel()"
@@ -180,6 +180,60 @@
 
         <!-- MAIN CONTENT -->
         <div class="col-sm-9">
+          <!-- Edit target position div (remove class hidden to display)-->
+          <div class="edit-tarpos hidden">
+            <div class="col-sm-5">
+              <h5 class="edit-title">Profile picture</h5>
+              <form class="edit-form">
+                <select
+                        class="form-control"
+                        >
+                  <option value="">Select...</option>
+                </select>
+                <div class="buttons-wrap">
+                  <button type="submit"
+                    class="fl-rg bg-green btn-small mrg-lft-small"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+                  <button type="button"
+                    class="fl-rg bg-gray-lighter2 btn-small"
+                    ng-click="languages.cancel()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- END target position div -->
+
+          <!-- Summary box (remove class hidden to display)-->
+            <div class="edit-summary hidden" >
+              <h5 class="edit-title">Languages <span> 0 characters left</span></h5>
+              <div class="row">
+                <div class="col-sm-5">
+                  <form class="edit-form">
+                    <textarea class="fw"></textarea>
+                    <div class="buttons-wrap">
+                      <button type="submit"
+                        class="fl-rg bg-green btn-small mrg-lft-small"
+                        ng-disabled="loading">
+                        Save
+                      </button>
+                      <button type="button"
+                        class="fl-rg bg-gray-lighter2 btn-small"
+                        ng-click="languagesForm.cancel()"
+                        ng-disabled="loading">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          <!-- END summary box -->
+
           <div class="row">
              <div class="col-sm-8 bg-white">
                 <div class="row">
@@ -189,8 +243,26 @@
                         <h2 class="main-title">{{ user.first_name }} {{ user.last_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
                       </div>
                       <div class="emp-off-desc">
-                        <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
-                        <p>{{ user.summary }}</p>
+                        <h3 class="main-subtitle">
+                          Target position: 
+                          <span>{{ targetPosition.role }}</span> 
+                          <button type="submit"
+                            class="btn-edit-sub no-fl"
+                            ng-show="isEditing && !formOpen"
+                            ng-disabled="loading"
+                            ng-click="availabilityForm.edit(availability)">
+                            <i class="fa fa-pencil"></i>
+                          </button>
+                        </h3>
+                        <div>
+                          <p>{{ user.summary }} <button type="submit"
+                            class="btn-edit-sub no-fl"
+                            ng-show="isEditing && !formOpen"
+                            ng-disabled="loading"
+                            ng-click="availabilityForm.edit(availability)">
+                            <i class="fa fa-pencil"></i>
+                          </button></p>
+                        </div>
                       </div>
                     </div>
                   </div>
