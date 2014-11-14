@@ -53,14 +53,168 @@
             </div>
           </div>
           <div class="row">
+            <!-- Salary box-->
             <div class="col-sm-12 border-box mrg-btm">
+              <!-- Edit Salary box (remove class hidden to display)-->
+              <div class="edit-salary hidden">
+                <h5 class="edit-title">Annual Salary <h5>
+                <form class="edit-form mrg-btm">
+                  <input type="text" class="form-control mrg-btm-small" />
+                  <p class="red error">This seems to be too high</p>
+                </form>
+                <h5 class="edit-title">Locations <h5>
+                <form class="form-wrap">
+                  <div class="row padd-form">
+                    <div class="label-wrap col-sm-12">
+                      <div>
+                        <label>
+                          <input type="radio">
+                          Anywhere in germany
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input type="radio">
+                          Berlin, DE
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input type="radio">
+                          Hamburg, DE
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input type="radio">
+                          Munich, DE
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input type="radio">
+                          Other
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="pad-label">
+                      <textarea
+                        class="txtarea"
+                        >
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="buttons-wrap">
+                    <button type="submit"
+                      class="fl-rg bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                    <button type="button"
+                      class="fl-rg bg-gray-lighter2 btn-small"
+                      ng-click="languagesForm.cancel()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- End Edit Salary box-->
               <div class="padd-vert">
+                <button type="submit"
+                  class="btn-edit-sub-skills"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="skills.edit(skills)">
+                  <i class="fa fa-pencil"></i>
+                </button>
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
                 <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
               </div>
             </div>
 
+            <!--  Contacts box-->
             <div class="col-sm-12 info bg-gray-light mrg-btm">
+
+              <!--  EDIT Contacts box (remove hidden class to display)-->
+              <div class="edit-contacts hidden">
+                <form class="edit-form">
+                  <h5 class="edit-title">Address</h5>
+                  <div class="pad-btm-15">
+                    <input type="text" class="form-control mrg-btm" value="address 1" />
+                    <input type="text" class="form-control mrg-btm" value="address 2" />
+                    <input type="text" class="form-control mrg-btm" value="80145" />
+                    <input type="text" class="form-control mrg-btm" value="Phoenix, AZ" />
+                    <select
+                        class="form-control mrg-btm"
+                        >
+                      <option value="">Select...</option>
+                    </select>
+                  </div>
+                  <h5 class="edit-title">Email Address</h5>
+                  <div class="pad-btm-15">
+                    <input type="text" class="form-control mrg-btm" value="email address" />
+                  </div>
+                  <h5 class="edit-title">Phone</h5>
+                  <div class="pad-btm-15">
+                    <input type="text" class="form-control mrg-btm" value="phone" />
+                  </div>
+                  <h5 class="edit-title">Web profiles</h5>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-2 no-padd-right alg-cen">
+                          <i class="fa fa-github ico-edit"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control mrg-btm" value="" />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-2 no-padd-right alg-cen">
+                          <i class="fa fa-stack-overflow ico-edit"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control mrg-btm" value="" />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-2 no-padd-right alg-cen">
+                          <i class="fa fa-globe ico-edit"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control mrg-btm" value="" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="buttons-wrap">
+                    <button type="submit"
+                      class="fl-rg bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                    <button type="button"
+                      class="fl-rg bg-gray-lighter2 btn-small"
+                      ng-click="languagesForm.cancel()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- END EDIT Contacts box-->
+
+              <button type="submit"
+                class="btn-edit-sub-skills btn-edit-sub-skills_bot"
+                ng-show="isEditing && !formOpen"
+                ng-disabled="loading"
+                ng-click="skills.edit(skills)">
+                <i class="fa fa-pencil"></i>
+              </button>
               <div class="row">
                 <div class="contacts">
                   <div class="fl-lf">
@@ -78,10 +232,43 @@
                 </div>
               </div>
             </div>
+            <!-- End Contacts box-->
+
 
             <!-- Age Visa box -->
             <div class="col-sm-12 border-box mrg-btm">
+              <!-- Edit Age Visa box (remove class hidden to display)-->
+              <div class="edit-salary">
+                <h5 class="edit-title">Birthday <h5>
+                <form class="edit-form mrg-btm">
+                  <input type="text" class="form-control mrg-btm" />
+                  <div class="label-wrap">
+                    <label><input type="checkbox">Yes, I've got a work visa for EU<label>
+                  </div>
+                  <div class="buttons-wrap">
+                    <button type="submit"
+                      class="fl-rg bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                    <button type="button"
+                      class="fl-rg bg-gray-lighter2 btn-small"
+                      ng-click="languagesForm.cancel()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- End Edit Age Visa box-->
               <div class="padd-vert">
+                <button type="submit"
+                  class="btn-edit-sub-skills"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="skills.edit(skills)">
+                  <i class="fa fa-pencil"></i>
+                </button>
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
                 <div> <span class="iconParent"><i class="fa orange" ng-class="{
                   'fa-check': user.eu_work_visa,
@@ -120,7 +307,7 @@
             <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" >
                <h5 class="edit-title">Languages <span> 0 characters left</span><h5>
               <form class="edit-form">
-                <textarea class=""></textarea>
+                <textarea class="fw"></textarea>
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
