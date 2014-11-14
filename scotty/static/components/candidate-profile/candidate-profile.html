@@ -37,7 +37,7 @@
                     ng-model="picture.data"
                     hc-file-select="selectFile($files)"
                     hc-data-url="selectedPicture">
-                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture || user.picture_url }})"></div>
+                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
                   <div class="buttons-wrap mrg-btm-small">
                     <button type="button"
                       class="fl-lf bg-gray-lighter2 btn-small"
@@ -53,7 +53,7 @@
                  </div>
                 </form>
               </div>
-              <div class="user-pic" style="background-image: url({{ picture.data }})"></div>
+              <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
             </div>
           </div>
           <div class="row">

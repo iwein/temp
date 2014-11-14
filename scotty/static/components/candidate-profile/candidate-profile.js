@@ -20,7 +20,7 @@ define(function(require) {
     $scope.searchCities = ConfigAPI.locations;
     $scope.onSalaryChange = onSalaryChange;
     $scope.updateLocations = updateLocations;
-    $scope.isEditing = true;
+    $scope.isEditing = false;
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
 
@@ -167,9 +167,9 @@ define(function(require) {
         });
       },
       save: function(model) {
-        return Amazon.upload(model, 'users', Session.id()).then(function(url) {
+        return Amazon.upload(model[0], 'users', Session.id()).then(function(url) {
           return Session.getUser().then(function(user) {
-            user.setPhoto(url);
+            return user.setPhoto(url);
           });
         });
       },
