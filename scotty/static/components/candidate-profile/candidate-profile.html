@@ -79,7 +79,7 @@
                       <div>
                         <label>
                           <input type="checkbox"
-                            ng-disabled="loading || salary.data.other"
+                            ng-disabled="loading || salary.data.other"
                             ng-model="salary.data.germany"
                             ng-change="updateLocations()">
                           Anywhere in germany
@@ -98,7 +98,7 @@
                         <label>
                           <input type="checkbox"
                             name="location-radio"
-                            ng-disabled="loading || salary.data.germany"
+                            ng-disabled="loading || salary.data.germany"
                             ng-required="errorLocationRequired"
                             ng-model="salary.data.other"
                             ng-change="updateLocations()">
@@ -162,21 +162,59 @@
                 <form class="edit-form">
                   <h5 class="edit-title">Address</h5>
                   <div class="pad-btm-15">
-                    <input type="text" class="form-control mrg-btm" value="address 1" />
-                    <input type="text" class="form-control mrg-btm" value="address 2" />
-                    <input type="text" class="form-control mrg-btm" value="80145" />
-                    <input type="text" class="form-control mrg-btm" value="Phoenix, AZ" />
-                    <select class="form-control mrg-btm">
-                      <option value="">Select...</option>
+                    <input type="text"
+                      class="form-control mrg-btm"
+                      placeholder="Address Line 1"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_line1">
+                    <input type="text"
+                      class="form-control mrg-btm"
+                      placeholder="Address Line 2"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_line2">
+                    <input type="text"
+                      class="form-control mrg-btm"
+                      placeholder="Zip code"
+                      maxlength="20"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_zipcode">
+                    <select class="form-control mrg-btm"
+                      name="country"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.location.country_iso"
+                      ng-options="country.iso as country.name for country in countries">
+                      <option value="">Country...</option>
                     </select>
+                    <input type="text"
+                      placeholder="City"
+                      name="city"
+                      class="form-control mrg-btm"
+                      required
+                      ng-disabled="hcDisabled || !contact.data.location.country_iso"
+                      ng-model="contact.data.location.city"
+                      ng-blur="setLocation(contact.data.location.city)"
+                      typeahead-on-select="setLocation(contact.data.location.city)"
+                      typeahead="city for city in searchLocations($viewValue, contact.data.location.country_iso)">
                   </div>
                   <h5 class="edit-title">Email Address</h5>
                   <div class="pad-btm-15">
-                    <input type="text" class="form-control mrg-btm" value="email address" />
+                    <input type="email"
+                      class="form-control mrg-btm"
+                      name="contact_email"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.email">
                   </div>
                   <h5 class="edit-title">Phone</h5>
                   <div class="pad-btm-15">
-                    <input type="text" class="form-control mrg-btm" value="phone" />
+                    <input type="tel"
+                      class="form-control mrg-btm"
+                      name="contact_phone"
+                      pattern="^\+?[0-9 /()-]+$"
+                      ng-pattern="/^\+?[0-9 -/()]+$/"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_phone">
                   </div>
                   <h5 class="edit-title">Web profiles</h5>
                   <div class="row">
@@ -186,7 +224,11 @@
                           <i class="fa fa-github ico-edit"></i>
                         </div>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control mrg-btm" value="" />
+                          <input type="url"
+                            class="form-control"
+                            name="github"
+                            ng-disabled="hcDisabled"
+                            ng-model="contact.data.github_url">
                         </div>
                       </div>
                       <div class="row">
@@ -194,10 +236,14 @@
                           <i class="fa fa-stack-overflow ico-edit"></i>
                         </div>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control mrg-btm" value="" />
+                          <input type="url"
+                            class="form-control mrg-btm"
+                            name="stackoverflow"
+                            ng-disabled="hcDisabled"
+                            ng-model="contact.data.stackoverflow_url">
                         </div>
                       </div>
-                      <div class="row">
+                      <div class="row hidden">
                         <div class="col-sm-2 no-padd-right alg-cen">
                           <i class="fa fa-globe ico-edit"></i>
                         </div>
@@ -240,12 +286,18 @@
                   <div class="fl-rg">
                     <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
                     <a ng-show="user.stackoverflow_url" ng-href="{{ user.stackoverflow_url }}"><i class="fa fa-stack-overflow"></i></a>
-                    <a href="#"><i class="fa fa-globe"></i></a>
+                    <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
                   </div>
                 </div>
                 <div class="padd-vert col-sm-12">
-                  <div class="smbd orange mrg-btm-small"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
-                  <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    {{ contact.data.email }}
+                  </div>
+                  <div ng-show="contact.data.contact_phone">
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    {{ contact.data.contact_phone }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -312,11 +364,14 @@
               <div class="bg-gray-light row">
                 <div class="offer-box col-sm-12">
                   <div class="box-title box-title_left mrg-btm">Offers</div>
-                  <div>
-                    <div class="orange bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-                    <div class="mrg-btm-small">€ 90.0000</div>
+                  <div ng-repeat="offer in offers">
+                    <div class="orange bld"><a ui-sref="offer({ id: offer.id })">
+                      {{ offer.data.employer.company_name }}
+                      <i class="fa fa-angle-right"></i>
+                    </a></div>
+                    <div class="mrg-btm-small">€ {{ offer.data.annual_salary | dottedInteger }}.00</div>
                   </div>
-                  <a href="#" class="fl-rg smbd gray">View all <i class="fa fa-angle-right"></i></a>
+                  <a ui-sref="offer-list" class="fl-rg smbd gray">View all <i class="fa fa-angle-right"></i></a>
                 </div>
               </div>
             </div>

@@ -29,12 +29,28 @@ define(function(require) {
       .then(toCheckboxModel('featuredLocations'));
     ConfigAPI.featuredRoles()
       .then(fn.setTo('featuredRoles', $scope));
+    ConfigAPI.countries({ limit: 500 })
+      .then(fn.setTo('countries', $scope));
 
     Permission.requireActivated()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 
 
+    $scope.contact = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          return _.pick(data, 'contact_line1', 'contact_line2', 'contact_phone',
+            'contact_skype', 'contact_zipcode', 'email', 'github_url',
+            'location', 'pob', 'stackoverflow_url');
+        });
+      },
+      save: function(model) {
+        return Session.getUser().then(function(user) {
+          return user.updateData(model);
+        });
+      }
+    });
     $scope.salary = form({
       source: function(user) {
         return $q.all([
@@ -191,11 +207,13 @@ define(function(require) {
         return $q.all([
           user.getData(),
           user.getTargetPosition(),
+          user.getOffers(),
           experience.refresh(),
           education.refresh(),
         ]);
       }).then(function(data) {
         var user = data[0];
+        $scope.offers = data[2].slice(3);
         $scope.targetPosition.data = data[1];
         $scope.skills.data = user.skills;
         $scope.languages.data = user.languages;
@@ -203,6 +221,9 @@ define(function(require) {
         $scope.summary.data = user.summary;
         $scope.user = user;
         $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
+        $scope.contact.data = _.pick(user, 'contact_line1', 'contact_line2', 'contact_phone',
+          'contact_skype', 'contact_zipcode', 'email', 'github_url',
+          'location', 'pob', 'stackoverflow_url');
         $scope.salary.data = {
           locations: user.preferred_location,
           salary: data[1].minimum_salary
