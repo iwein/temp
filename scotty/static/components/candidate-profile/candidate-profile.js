@@ -9,11 +9,14 @@ define(function(require) {
   require('components/directive-profile-form/directive-profile-form');
   require('components/directive-skills-form/directive-skills-form');
   var _ = require('underscore');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $q, $state, Amazon, Loader, Permission, Session) {
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
+    $scope.onSalaryChange = onSalaryChange;
+    $scope.updateLocations = updateLocations;
     $scope.isEditing = true;
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
@@ -26,7 +29,8 @@ define(function(require) {
 
     $scope.picture = form({
       source: function(user) {
-        return user.getData().then(function() { //(data) {
+        return user.getData().then(function(data) {
+          return data.picture_url;
         });
       },
       save: function(model) {
@@ -76,6 +80,7 @@ define(function(require) {
         $scope.targetPosition = data[1];
         $scope.skills.data = user.skills;
         $scope.languages.data = user.languages;
+        $scope.picture.data = user.picture_url;
         $scope.cities = user.preferred_location;
         $scope.user = user;
         $scope.ready = true;
@@ -143,6 +148,35 @@ define(function(require) {
     }
 
 
+    function onSalaryChange() {
+      $scope.errorSalaryTooHigh = $scope.model.minimum_salary > 99000000;
+    }
+
+    function addLocation(locations, entry) {
+      if (!locations[entry.country_iso])
+        locations[entry.country_iso] = [ entry.city ];
+      else
+        locations[entry.country_iso].push(entry.city);
+    }
+    function updateLocations() {
+      var locations = {};
+      var add = addLocation.bind(null, locations);
+      $scope.errorLocationRequired = false;
+      $scope.salary.data = locations;
+
+      $scope.featuredLocations
+        .filter(fn.get('selected'))
+        .map(fn.get('value'))
+        .forEach(add);
+
+      if ($scope.anywhereInGermany)
+        locations.DE = [];
+
+      if ($scope.locationOther) {
+        $scope.preferred_locations.forEach(add);
+        $scope.errorLocationRequired = !Object.keys(locations).length;
+      }
+    }
 
 
 
