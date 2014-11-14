@@ -63,3 +63,46 @@
   line-height: 14px;
   margin-top: 5px;
 }
+
+.edit-title {
+  font-size: 14px;
+  font-family: @font-family-headings;
+  color: @blue-link;
+  text-transform: uppercase;
+}
+
+.edit-form {
+  label {
+    font-family: @font-family-headings;
+    font-weight: bold;
+    color: @blue-link;
+    text-transform: uppercase;
+    display: block;
+  }
+  input[type="text"],
+  select {
+    border: none !important
+  }
+  textarea {
+    border: none !important;
+    height: 150px;
+  }
+  span.close {
+    font-size: 14px;
+    color: @gray;
+    opacity: 1;
+    &:hover {
+      color: @blue-link;
+      opacity: 1;
+    }
+  }
+}
+
+.wrap-form-skills {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  padding: 15px; 
+}

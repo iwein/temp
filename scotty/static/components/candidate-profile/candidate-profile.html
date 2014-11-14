@@ -2,145 +2,59 @@
   <div class="inner">
     
     <div class="status-wrap">
-      <button class="fl-rg"
-        ng-show="!isEditing"
-        ng-click="profile.edit()">
-        Edit mode
-      </button>
-      <button class="fl-rg"
-        ng-show="isEditing && !formOpen"
-        ng-click="profile.stopEdit()">
-        Leave edit mode
-      </button>
-    </div>
-
-
-    <div class="row mrg-btm">
-      <div class="col-sm-3 bg-gray-light ">
-        <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
-        <div class="info">
-          <div class="row">
-            <div class="contacts">
-              <div class="fl-lf">
-                <a class="orange-link" href="#">Contact <i class="fa fa-angle-down"></i>
-                  <!-- TODO switch the arrow class after the opening of new div <i class="fa fa-angle-up"></i> -->
-                </a>
-              </div>
-              <div class="fl-rg">
-                <a href="#"><i class="fa fa-github"></i></a>
-                <a href="#"><i class="fa fa-stack-overflow"></i></a>
-                <a href="#"><i class="fa fa-globe"></i></a>
-              </div>
-            </div>
-          </div>
-          
-          <div class="abs">
-            <div> <span class="iconParent"><i class="fa fa-euro"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-            <div> <span class="iconParent"><i class="fa fa-location-arrow"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
-          </div>
-          
-          <!-- TODO this needs to be shown or hidden -->
-          <div class="abs hidden">
-            <div class="smbd orange"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
-            <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
-          </div>
-        </div>
+      <div class="status">
+        <button class="fl-rg btn-edit"
+          ng-show="!isEditing"
+          ng-click="profile.edit()">
+          <i class="fa fa-pencil"></i>
+          Edit mode
+        </button>
+        <button class="fl-rg btn-edit"
+          ng-show="isEditing && !formOpen"
+          ng-click="profile.stopEdit()">
+          <i class="fa fa-check"></i>
+          Finish editing
+        </button>
       </div>
-
-      <div class="col-sm-6 bg-white">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="user-desc">
-              <div class="">
-                <h2 class="main-title">{{ user.first_name }} {{ user.last_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
-              </div>
-              <div class="emp-off-desc">
-                <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
-                <p>{{ user.summary }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-3 bg-white user-desc">
-        <div class="">
-          <span>Status: </span>
-          <span ng-show="status === 'searching'">
-            <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
-            <span>searching</span>
-          </span>
-          <span ng-show="status === 'reviewing'">
-            <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
-            <span>reviewing offer</span>
-          </span>
-          <span ng-show="status === 'hired'">
-            <span class="green smbd">HIRED</span>
-          </span>
-        </div>
-      </div>
-      <div class="col-sm-9">
-        <div class="border-box row skills-box">
-          <div class="col-sm-3">
-            <div class="skills-head">
-              <div class="big-title skills-title">SKILLS 
-                <button type="submit"
-                    class="btn btn-default pull-right"
-                    ng-show="isEditing && !formOpen"
-                    ng-disabled="loading"
-                    ng-click="skillsForm.edit(skills)">
-                    Edit
-                  </button>
-              </div>
-              <div class="caption">
-                <div>expert  <hc-stars hc-value="expert" hc-values="starValues"></hc-stars></div>
-                <div>advanced <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars></div>
-                <div>basic <hc-stars hc-value="basic" hc-values="starValues"></hc-stars></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-9">
-            <div class="skills-wrap row">
-              <div class="col-sm-4" ng-repeat="entry in skills">
-                <div class="skills-item">{{ entry.skill }}
-                  <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
-                </div>
-              </div>
-              <div class="col-sm-12">
-                <div class="skills-others">
-                  <span class="smbd">Others:</span> {{ unleveledSkills }}</div>
-                </div>
-                <hc-skills-form
-                  ng-show="isEditing && skillsForm.editing"
-                  hc-scope="skillsForm"
-                  name="form"
-                  hc-disabled="loading"
-                  on-submit="skillsForm.save()">
-
-                  <button type="button"
-                    class="btn btn-primary"
-                    ng-click="skillsForm.cancel()"
-                    ng-disabled="loading">
-                    Cancel
-                  </button>
-                  <button type="submit"
-                    class="btn btn-primary"
-                    ng-disabled="loading">
-                    Save
-                  </button>
-                </hc-skills-form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </div>  
 
       <div class="row">
         <div class="col-sm-3">
           <div class="row">
+            <div class="col-sm-12 bg-gray-light mrg-btm">
+              <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-sm-12 border-box mrg-btm">
               <div class="padd-vert">
-                <div> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
+                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
+                <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 info bg-gray-light mrg-btm">
+              <div class="row">
+                <div class="contacts">
+                  <div class="fl-lf">
+                    <span class="box-title box-title_left" href="#">Contacts </span>
+                  </div>
+                  <div class="fl-rg">
+                    <a href="#"><i class="fa fa-github"></i></a>
+                    <a href="#"><i class="fa fa-stack-overflow"></i></a>
+                    <a href="#"><i class="fa fa-globe"></i></a>
+                  </div>
+                </div>
+                <div class="padd-vert col-sm-12">
+                  <div class="smbd orange mrg-btm-small"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
+                  <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 border-box mrg-btm">
+              <div class="padd-vert">
+                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
                 <div> <span class="iconParent"><i class="fa orange" ng-class="{
                   'fa-check': user.eu_work_visa,
                   'fa-times': !user.eu_work_visa,
@@ -164,41 +78,145 @@
               <div class="box-title box-title_left mrg-btm">Availability</div>
               <p class="gray">{{ user.availability || 'Not specified' }}</p>
             </div>
-            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
-              <div class="box-title box-title_left mrg-btm">Languages</div>
-              <button type="submit"
-                class="btn btn-default pull-right"
-                ng-show="isEditing && !formOpen"
-                ng-disabled="loading"
-                ng-click="languagesForm.edit(languages)">
-                Edit
-              </button>
+
+            <!-- Languages box -->
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="isEditing && languagesForm.editing">
+
+              <div class="box-title box-title_left mrg-btm">Languages
+                <button type="submit"
+                  class="btn-edit-sub"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="languagesForm.edit(languages)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </div>
+              <div ng-repeat="entry in languages">
+                <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
+              </div>
+
+            </div>
+
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-show="isEditing && languagesForm.editing">
               <hc-languages-form
-                ng-show="isEditing && languagesForm.editing"
                 hc-scope="languagesForm"
                 name="form"
                 hc-disabled="loading"
                 on-submit="languagesForm.save()">
-
-                <button type="button"
-                  class="btn btn-primary"
-                  ng-click="languagesForm.cancel()"
-                  ng-disabled="loading">
-                  Cancel
-                </button>
-                <button type="submit"
-                  class="btn btn-primary"
-                  ng-disabled="loading">
-                  Save
-                </button>
+                <div class="buttons-wrap">
+                  <button type="submit"
+                    class="fl-rg bg-green btn-small mrg-lft-small"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+                  <button type="button"
+                    class="fl-rg bg-gray-lighter2 btn-small"
+                    ng-click="languagesForm.cancel()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                </div>
               </hc-languages-form>
-              <div ng-repeat="entry in languages">
-                <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
-              </div>
             </div>
+            <!-- End Languages box -->
+
           </div>
         </div>
         <div class="col-sm-9">
+          <div class="row">
+             <div class="col-sm-8 bg-white">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="user-desc">
+                      <div class="">
+                        <h2 class="main-title">{{ user.first_name }} {{ user.last_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                      </div>
+                      <div class="emp-off-desc">
+                        <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
+                        <p>{{ user.summary }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4 bg-white user-desc">
+                <div class="">
+                  <span>Status: </span>
+                  <span ng-show="status === 'searching'">
+                    <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+                    <span>searching</span>
+                  </span>
+                  <span ng-show="status === 'reviewing'">
+                    <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
+                    <span>reviewing offer</span>
+                  </span>
+                  <span ng-show="status === 'hired'">
+                    <span class="green smbd">HIRED</span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-12 mrg-btm">
+                <div class="row">
+                  <div class="border-box clearfix skills-box">
+                    <div class="wrap-form-skills bg-gray-lighter3" ng-show="isEditing && skillsForm.editing">
+                      <hc-skills-form
+                        hc-scope="skillsForm"
+                        name="form"
+                        hc-disabled="loading"
+                        on-submit="skillsForm.save()">
+                         <div class="buttons-wrap">
+                          <button type="submit"
+                            class="fl-rg bg-green btn-small mrg-lft-small"
+                            ng-disabled="loading">
+                            Save
+                          </button>
+                          <button type="button"
+                            class="fl-rg bg-gray-lighter2 btn-small"
+                            ng-click="languagesForm.cancel()"
+                            ng-disabled="loading">
+                            Cancel
+                          </button>
+                        </div>
+                      </hc-skills-form>
+                    </div>
+                    <button type="submit"
+                      class="btn-edit-sub-skills"
+                      ng-show="isEditing && !formOpen"
+                      ng-disabled="loading"
+                      ng-click="skillsForm.edit(skills)">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <div class="col-sm-3">
+                      <div class="skills-head">
+                        <div class="big-title skills-title">SKILLS    
+                          
+                        </div>
+                        <div class="caption">
+                          <div>expert  <hc-stars hc-value="expert" hc-values="starValues"></hc-stars></div>
+                          <div>advanced <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars></div>
+                          <div>basic <hc-stars hc-value="basic" hc-values="starValues"></hc-stars></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="skills-wrap row">
+                        <div class="col-sm-4" ng-repeat="entry in skills">
+                          <div class="skills-item">{{ entry.skill }}
+                            <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="skills-others">
+                            <span class="smbd">Others:</span> {{ unleveledSkills }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
 
           <div class="row bg-white">
             <div class="job-bar">
@@ -267,7 +285,6 @@
                                 <div class="check-wrap"><label><input type="checkbox">  I'm still working here</label></div>
                               </div>
                             </div>
-                          
                           </div>
                         </div>
                         <div class="row mrg-btm">
@@ -370,7 +387,6 @@
                               </div>
                               <p class="error red col-sm-12">This is an error message.</p>
                             </div>
-                          
                           </div>
                         </div>
                         <div class="row mrg-btm">
