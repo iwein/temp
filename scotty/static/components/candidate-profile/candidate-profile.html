@@ -608,14 +608,16 @@
                   </div>
                   <!--End  EDIT panel -->
                   <hc-accordion ng-hide="experience.editing === $index">
-                    <button type="button"
-                      class="btn btn-default pull-right"
-                      ng-show="isEditing && !formOpen"
-                      ng-disabled="loading"
-                      ng-click="experience.edit(entry, $index)">
-                      Edit
-                    </button>
-                    <h3 class="accordion-subtitle">{{ entry.role }}</h3>
+                    <h3 class="accordion-subtitle">
+                      {{ entry.role }}
+                      <button type="button"
+                        class="btn-edit-sub no-fl"
+                        ng-show="isEditing && !formOpen"
+                        ng-disabled="loading"
+                        ng-click="experience.edit(entry, $index)">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                    </h3>
                     <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
                     <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
                     <!-- WARN: replaced UI by DIV -->
@@ -674,14 +676,16 @@
                   </div>
                   <!--End  EDIT panel -->
                   <hc-accordion hc-hide-control="!entry.course" ng-hide="education.editing === $index">
-                    <button type="button"
-                      class="btn btn-default pull-right"
-                      ng-show="isEditing && !formOpen"
-                      ng-disabled="loading"
-                      ng-click="education.edit(entry, $index)">
-                      Edit
-                    </button>
-                    <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
+                    <h3 class="accordion-subtitle">
+                      {{ entry.degree }}
+                      <button type="button"
+                        class="btn-edit-sub no-fl"
+                        ng-show="isEditing && !formOpen"
+                        ng-disabled="loading"
+                        ng-click="education.edit(entry, $index)">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                    </h3>
                     <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
                     <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
                     <!-- WARN: replaced UI by DIV -->
