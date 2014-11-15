@@ -5,7 +5,13 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.directive('hcLanguagesForm', function() {
+  module.directive('hcLanguagesForm', function($parse) {
+    function getModel(ngModel, scope) {
+      var model = $parse(ngModel);
+      var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
+      return JSON.parse(JSON.stringify(value));
+    }
+
     return {
       restrict: 'EA',
       scope: {
@@ -29,10 +35,15 @@ define(function(require) {
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
+        var ctrl = this;
         var enabled = false;
 
         nameAttr(this, 'hcLanguagesForm', $scope, $attrs);
-        ConfigAPI.proficiencies().then(fn.setTo('proficiencies', $scope));
+        ConfigAPI.proficiencies()
+          .then(fn.setTo('proficiencies', $scope))
+          .then(function() {
+            setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : []);
+          });
 
         function searchLanguages(term) {
           return enabled ? ConfigAPI.languages(term) : [];
@@ -84,7 +95,7 @@ define(function(require) {
             return entry.errorInvalidLanguage;
           })) return;
 
-          $scope.onSubmit({ $model: $scope.model });
+          $scope.onSubmit({ $model: $scope.model, $form: ctrl });
         }
       },
     };

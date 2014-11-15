@@ -20,7 +20,7 @@ define(function(require) {
     this.searchSkills = ConfigAPI.skills;
     this.setLocation = setLocation;
     this.search = search;
-    $scope.terms = [];
+    $scope.getTimelineText = getTimelineText;
     $scope.ready = false;
     Loader.page(true);
 
@@ -28,14 +28,14 @@ define(function(require) {
       return Session.getUser();
     }).then(function(user) {
       return $q.all([
-        null, // user.getTimeline(),
+        user.getTimeline(),
         user.getOffers(),
         user.getSuggestedCandidates(),
         user.getCandidates(),
       ]);
     }).then(function(results) {
       $scope.ready = true;
-      $scope.timeline = results[0];
+      $scope.news = results[0];
       $scope.offers = results[1];
       $scope.suggested = results[2];
       $scope.candidates = results[3];
@@ -91,8 +91,26 @@ define(function(require) {
           $scope.loading = false;
         });
     }
-  });
 
+    function getTimelineText(name, entry) {
+      var candidate = entry.candidate && entry.candidate.first_name;
+
+      return {
+        SIGN_UP: 'You signed up',
+        BOOKMARKED: candidate + ' has bookmarked you.',
+        //OFFER_RECEIVED: '',
+        OFFER_ACCEPTED: 'Brilliant you have accepted an interview with ' + candidate,
+        OFFER_REJECTED: 'Offer sent to ' + candidate + ' was rejected',
+        OFFER_SENT: 'You sent an offer to ' + candidate,
+        OFFER_START_DATE: 'Amazing! You started working with ' + candidate,
+        OFFER_NEGOTIATION: 'Nearly there, you have started negotiating the details with ' + candidate,
+        OFFER_SIGNED: 'Winning! you have signed a contract with ' + candidate +
+          ' and will receive your golden handshake soon',
+        PROFILE_PENDING: 'You agreed terms and conditions',
+        PROFILE_LIVE: 'Congrats! You were approved!',
+      }[name];
+    }
+  });
 
   return {
     url: '/dashboard/',

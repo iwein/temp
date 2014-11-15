@@ -1,0 +1,228 @@
+.edit-user-pic-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: block;
+  width: 100%;
+  i {
+    color: @white;
+    font-size: 70px;
+    opacity:  0.7;
+  }
+}
+.edit-user-pic{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 4
+}
+.user-pic-preview {
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 110px;
+}
+.add-btn {
+  font-size: 14px;
+  text-transform: uppercase;;
+  color: @blue-link;
+  float: right;
+  margin-top: 25px;
+}
+
+.add-panel {
+  padding: 20px 30px;
+  background: @gray-lighter3;
+  margin: -21px -30px 0;
+  position: relative;;
+  .add-panel-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    i {
+      color: @blue-link;
+    }
+  }
+  label {
+    font-family: @font-family-headings;
+    font-weight: bold;
+    color: @blue-link;
+    text-transform: uppercase;
+    display: block;
+  }
+  input[type="text"] {
+    border: none
+  }
+  textarea {
+    border: none !important;
+    height: 150px;
+  }
+
+}
+
+.check-wrap {
+  line-height: 30px;
+  input {
+    margin-right: 10px;
+  }
+  label {
+    font-size: 12px;
+    color: @text-color;
+    text-transform: none;
+    font-weight: normal;
+    font-family: @font-family-sans-serif;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.spacer {
+  line-height: 30px;
+  text-align: center 
+}
+
+.error {
+  font-family: @font-family-sans-serif-mid;
+  line-height: 14px;
+  margin-top: 5px;
+}
+
+.edit-title {
+  font-size: 14px;
+  margin-top: 0;
+  font-family: @font-family-headings;
+  color: @blue-link;
+  text-transform: uppercase;
+  span {
+    font-size: 10px;
+    color: @gray-light;
+    text-transform: none;
+    margin: 0 0 0 10px;
+  }
+}
+
+.edit-form {
+  .label-wrap {
+    label {
+      font-weight: normal;
+      line-height: 20px;
+      height: 20px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      text-transform: none;
+      color: @text-color;
+      font-family: @font-family-sans-serif;
+      input[type="checkbox"] {
+        -webkit-appearance: none;
+        padding-top: 3px;
+        width: 20px;
+        height: 20px;
+        border:1px solid @gray-light;
+        margin: 0 5px 3px 0;
+        float: left;
+        text-align: center;
+        font-size: 12px;
+        color: @text-color;
+        background: @white
+      }
+      input[type="checkbox"]:checked::after {
+        content: "\f00c";
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+      }
+      
+    }
+  }
+  label {
+    font-family: @font-family-headings;
+    font-weight: bold;
+    color: @blue-link;
+    text-transform: uppercase;
+    display: block;
+  }
+  input[type="text"],
+  select {
+    border: none !important
+  }
+  textarea {
+    border: none !important;
+    height: 150px;
+  }
+  span.close {
+    font-size: 14px;
+    color: @gray;
+    opacity: 1;
+    &:hover {
+      color: @blue-link;
+      opacity: 1;
+    }
+  }
+
+}
+
+.wrap-form-skills {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  padding: 15px; 
+}
+
+.edit-tarpos {
+  position: absolute;
+  z-index: 4;
+  top: 84px;
+  left: 0;
+  right: 0;
+  background: @gray-lighter3;
+  padding: 20px 30px; 
+}
+.edit-summary {
+  position: absolute;
+  z-index: 4;
+  top: 145px;
+  left: 0;
+  right: 0;
+  background: @gray-lighter3;
+  padding: 20px 30px; 
+}
+
+.btn-edit-sub-skills_bot {
+  bottom: 10px;
+  top: auto
+}
+.edit-salary {
+  position: absolute;
+  z-index: 4;
+  top:-1px;
+  left: -1px;
+  right: -1px;
+  background: @gray-lighter3;
+  padding: 20px 15px;
+}
+
+.edit-contacts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: @gray-lighter3;
+  padding: 20px 15px;
+  z-index: 4
+}
+
+.ico-edit {
+  color: @blue-link;
+  font-size: 25px;
+  margin-top: 4px;
+}

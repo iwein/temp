@@ -1,6 +1,6 @@
 .spinner-container {
   position: fixed;
-  z-index: 3;
+  z-index: 999;
   background-color: black;
   opacity: 0.4;
   bottom: 0;

@@ -63,6 +63,10 @@ define(function(require) {
       return this.checkSession();
     },
 
+    getTimeline: function() {
+      return this._api.get(this._url() + '/newsfeed');
+    },
+
     getSuggestedCandidates: function() {
       var api = this._api;
       return api.get(this._url() + '/suggestedcandidates').then(function(response) {
