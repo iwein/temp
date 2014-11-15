@@ -1,8 +1,7 @@
 from datetime import datetime
+
 from pyramid.decorator import reify
-
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
-
 from pyramid.view import view_config
 from sqlalchemy.sql.elements import and_
 from scotty.candidate.services import get_candidates_by_techtags_pager
@@ -18,7 +17,7 @@ from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.offer.services import set_offer_signed
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.views import RootController
-from scotty.views.common import POST, run_paginated_query, GET, DELETE
+from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload_all, joinedload
@@ -123,6 +122,9 @@ class AdminController(RootController):
         if not employer:
             raise HTTPNotFound("Unknown Employer ID")
         employer.approved = datetime.now()
+        self.request.emailer.send_employer_approved(employer.email,
+                                                    contact_name=employer.contact_name,
+                                                    company_name=employer.company_name,)
         return employer
 
     @view_config(route_name='admin_candidate_approve', **GET)
@@ -133,7 +135,6 @@ class AdminController(RootController):
             raise HTTPNotFound("Unknown Candidate ID")
         candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
         return candidate
-
 
     @view_config(route_name="admin_search_candidates", **GET)
     def admin_search_candidates(self):

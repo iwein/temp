@@ -75,7 +75,17 @@ class MandrillEmailer(object):
                               {'content': candidate_name, 'name': 'candidate_name'},
                               {'content': url, 'name': 'url'}]})
 
-    def send_employer_was_bookmarked(self, company_email, contact_name, company_name, candidate_name, candidate_id):
+    def send_employer_approved(self, company_email, contact_name, company_name):
+        url = 'http://%s/employer' % (self.frontend)
+        return self.send('employer-approved', [],
+                         {'to': [{'email': company_email, 'name': contact_name}],
+                          'global_merge_vars': [
+                              {'content': contact_name, 'name': 'contact_name'},
+                              {'content': company_name, 'name': 'company_name'},
+                              {'content': company_email, 'name': 'company_email'},
+                              {'content': url, 'name': 'url'}]})
+
+    def send_employer_joboffer_requested(self, company_email, contact_name, company_name, candidate_name, candidate_id):
         url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
         return self.send('employer-was-bookmarked-by-candidate', [],
                          {'to': [{'email': company_email, 'name': contact_name}],
