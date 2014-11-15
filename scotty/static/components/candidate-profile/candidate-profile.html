@@ -37,11 +37,11 @@
                     ng-model="picture.data"
                     hc-file-select="selectFile($files)"
                     hc-data-url="selectedPicture">
-                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture || user.picture_url }})"></div>
+                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
                   <div class="buttons-wrap mrg-btm-small">
                     <button type="button"
                       class="fl-lf bg-gray-lighter2 btn-small"
-                      ng-click="picture.cancel()"
+                      ng-click="picture.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -53,14 +53,14 @@
                  </div>
                 </form>
               </div>
-              <div class="user-pic" style="background-image: url({{ picture.data }})"></div>
+              <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
             </div>
           </div>
           <div class="row">
             <!-- Salary box-->
             <div class="col-sm-12 border-box mrg-btm">
               <!-- Edit Salary box (remove class hidden to display)-->
-              <form class="edit-salary" ng-show="salary.editing">
+              <form class="edit-salary" ng-if="salary.editing" ng-submit="salary.save(salary.data)">
                 <h5 class="edit-title">Annual Salary </h5>
                 <div class="edit-form mrg-btm">
                   <input type="dotted-integer"
@@ -68,7 +68,7 @@
                     name="salary"
                     required
                     ng-disabled="loading"
-                    ng-model="model.minimum_salary"
+                    ng-model="salary.data.salary"
                     ng-change="onSalaryChange()">
                   <p class="red error" ng-show="errorSalaryTooHigh">This seems to be too high</p>
                 </div>
@@ -79,8 +79,8 @@
                       <div>
                         <label>
                           <input type="checkbox"
-                            ng-disabled="loading || locationOther"
-                            ng-model="anywhereInGermany"
+                            ng-disabled="loading || salary.data.other"
+                            ng-model="salary.data.germany"
                             ng-change="updateLocations()">
                           Anywhere in germany
                         </label>
@@ -88,7 +88,7 @@
                       <div ng-repeat="location in featuredLocations">
                         <label>
                           <input type="checkbox"
-                            ng-disabled="loading || anywhereInGermany"
+                            ng-disabled="loading || salary.data.germany"
                             ng-model="location.selected"
                             ng-change="updateLocations()">
                           {{ location.value.city }}, {{ location.value.country_iso }}
@@ -98,9 +98,9 @@
                         <label>
                           <input type="checkbox"
                             name="location-radio"
-                            ng-disabled="loading || anywhereInGermany"
+                            ng-disabled="loading || salary.data.germany"
                             ng-required="errorLocationRequired"
-                            ng-model="locationOther"
+                            ng-model="salary.data.other"
                             ng-change="updateLocations()">
                           Other
                         </label>
@@ -112,10 +112,10 @@
                       <hc-label-typeahead
                         name="cities"
                         placeholder="Type a city..."
-                        ng-show="locationOther"
+                        ng-show="salary.data.other"
                         ng-disabled="loading"
                         ng-model="preferred_locations"
-                        hc-required="locationOther"
+                        hc-required="salary.data.other"
                         hc-render="locationToText($entry)"
                         hc-source="searchCities($viewValue)"
                         on-change="updateLocations()">
@@ -130,7 +130,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="salary.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -143,11 +143,14 @@
                   class="btn-edit-sub-skills"
                   ng-show="isEditing && !formOpen"
                   ng-disabled="loading"
-                  ng-click="skills.edit(skills)">
+                  ng-click="salary.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-                <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.data.minimum_salary | dottedInteger }}</div>
+                <div>
+                  <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
+                  {{ preferredLocations }}
+                </div>
               </div>
             </div>
 
@@ -155,27 +158,63 @@
             <div class="col-sm-12 info bg-gray-light mrg-btm">
 
               <!--  EDIT Contacts box (remove hidden class to display)-->
-              <div class="edit-contacts hidden">
+              <div class="edit-contacts" ng-show="contact.editing" ng-submit="contact.save(contact.data)">
                 <form class="edit-form">
                   <h5 class="edit-title">Address</h5>
                   <div class="pad-btm-15">
-                    <input type="text" class="form-control mrg-btm" value="address 1" />
-                    <input type="text" class="form-control mrg-btm" value="address 2" />
-                    <input type="text" class="form-control mrg-btm" value="80145" />
-                    <input type="text" class="form-control mrg-btm" value="Phoenix, AZ" />
-                    <select
-                        class="form-control mrg-btm"
-                        >
-                      <option value="">Select...</option>
+                    <input type="text"
+                      class="form-control mrg-btm"
+                      placeholder="Address Line 1"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_line1">
+                    <input type="text"
+                      class="form-control mrg-btm"
+                      placeholder="Address Line 2"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_line2">
+                    <input type="text"
+                      class="form-control mrg-btm"
+                      placeholder="Zip code"
+                      maxlength="20"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_zipcode">
+                    <select class="form-control mrg-btm"
+                      name="country"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.location.country_iso"
+                      ng-options="country.iso as country.name for country in countries">
+                      <option value="">Country...</option>
                     </select>
+                    <input type="text"
+                      placeholder="City"
+                      name="city"
+                      class="form-control mrg-btm"
+                      required
+                      ng-disabled="hcDisabled || !contact.data.location.country_iso"
+                      ng-model="contact.data.location.city"
+                      ng-blur="setLocation(contact.data.location.city)"
+                      typeahead-on-select="setLocation(contact.data.location.city)"
+                      typeahead="city for city in searchLocations($viewValue, contact.data.location.country_iso)">
                   </div>
                   <h5 class="edit-title">Email Address</h5>
                   <div class="pad-btm-15">
-                    <input type="text" class="form-control mrg-btm" value="email address" />
+                    <input type="email"
+                      class="form-control mrg-btm"
+                      name="contact_email"
+                      required
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.email">
                   </div>
                   <h5 class="edit-title">Phone</h5>
                   <div class="pad-btm-15">
-                    <input type="text" class="form-control mrg-btm" value="phone" />
+                    <input type="tel"
+                      class="form-control mrg-btm"
+                      name="contact_phone"
+                      pattern="^\+?[0-9 /()-]+$"
+                      ng-pattern="/^\+?[0-9 -/()]+$/"
+                      ng-disabled="hcDisabled"
+                      ng-model="contact.data.contact_phone">
                   </div>
                   <h5 class="edit-title">Web profiles</h5>
                   <div class="row">
@@ -185,7 +224,11 @@
                           <i class="fa fa-github ico-edit"></i>
                         </div>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control mrg-btm" value="" />
+                          <input type="url"
+                            class="form-control"
+                            name="github"
+                            ng-disabled="hcDisabled"
+                            ng-model="contact.data.github_url">
                         </div>
                       </div>
                       <div class="row">
@@ -193,10 +236,14 @@
                           <i class="fa fa-stack-overflow ico-edit"></i>
                         </div>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control mrg-btm" value="" />
+                          <input type="url"
+                            class="form-control mrg-btm"
+                            name="stackoverflow"
+                            ng-disabled="hcDisabled"
+                            ng-model="contact.data.stackoverflow_url">
                         </div>
                       </div>
-                      <div class="row">
+                      <div class="row hidden">
                         <div class="col-sm-2 no-padd-right alg-cen">
                           <i class="fa fa-globe ico-edit"></i>
                         </div>
@@ -214,7 +261,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="contact.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -228,23 +275,29 @@
                 class="btn-edit-sub-skills btn-edit-sub-skills_bot"
                 ng-show="isEditing && !formOpen"
                 ng-disabled="loading"
-                ng-click="skills.edit(skills)">
+                ng-click="contact.edit(skills)">
                 <i class="fa fa-pencil"></i>
               </button>
               <div class="row">
                 <div class="contacts">
                   <div class="fl-lf">
-                    <span class="box-title box-title_left" href="#">Contacts </span>
+                    <span class="box-title box-title_left" href="#">Contact</span>
                   </div>
                   <div class="fl-rg">
-                    <a href="#"><i class="fa fa-github"></i></a>
-                    <a href="#"><i class="fa fa-stack-overflow"></i></a>
-                    <a href="#"><i class="fa fa-globe"></i></a>
+                    <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
+                    <a ng-show="user.stackoverflow_url" ng-href="{{ user.stackoverflow_url }}"><i class="fa fa-stack-overflow"></i></a>
+                    <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
                   </div>
                 </div>
                 <div class="padd-vert col-sm-12">
-                  <div class="smbd orange mrg-btm-small"> <span class="iconParent"><i class="fa fa-envelope orange"></i></span>mail@jimparson.com</div>
-                  <div> <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>+213 123 4567</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    {{ contact.data.email }}
+                  </div>
+                  <div ng-show="contact.data.contact_phone">
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    {{ contact.data.contact_phone }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -254,12 +307,25 @@
             <!-- Age Visa box -->
             <div class="col-sm-12 border-box mrg-btm">
               <!-- Edit Age Visa box (remove class hidden to display)-->
-              <div class="edit-salary hidden">
+              <div class="edit-salary" ng-if="dob.editing" ng-submit="dob.save(dob.data)">
                 <h5 class="edit-title">Birthday <h5>
                 <form class="edit-form mrg-btm">
-                  <input type="text" class="form-control mrg-btm" />
+                  <input type="date"
+                    class="form-control"
+                    placeholder="YYYY-MM-DD"
+                    name="birth"
+                    required
+                    ng-disabled="hcDisabled"
+                    ng-model="dob.data.dob">
+
                   <div class="label-wrap">
-                    <label><input type="checkbox">Yes, I've got a work visa for EU<label>
+                    <label>
+                      <input type="checkbox"
+                        name="eu_work_visa"
+                        ng-disabled="hcDisabled"
+                        ng-model="dob.data.eu_work_visa">
+                      Yes, I've got a work visa for EU
+                    <label>
                   </div>
                   <div class="buttons-wrap">
                     <button type="submit"
@@ -269,7 +335,7 @@
                     </button>
                     <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
-                      ng-click="languagesForm.cancel()"
+                      ng-click="dob.close()"
                       ng-disabled="loading">
                       Cancel
                     </button>
@@ -282,7 +348,7 @@
                   class="btn-edit-sub-skills"
                   ng-show="isEditing && !formOpen"
                   ng-disabled="loading"
-                  ng-click="skills.edit(skills)">
+                  ng-click="dob.edit(dob.data)">
                   <i class="fa fa-pencil"></i>
                 </button>
                 <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
@@ -298,32 +364,23 @@
               <div class="bg-gray-light row">
                 <div class="offer-box col-sm-12">
                   <div class="box-title box-title_left mrg-btm">Offers</div>
-                  <div>
-                    <div class="orange bld"><a href="#">Hack and Craft <i class="fa fa-angle-right"></i></a></div>
-                    <div class="mrg-btm-small">€ 90.0000</div>
+                  <div ng-repeat="offer in offers">
+                    <div class="orange bld"><a ui-sref="offer({ id: offer.id })">
+                      {{ offer.data.employer.company_name }}
+                      <i class="fa fa-angle-right"></i>
+                    </a></div>
+                    <div class="mrg-btm-small">€ {{ offer.data.annual_salary | dottedInteger }}.00</div>
                   </div>
-                  <a href="#" class="fl-rg smbd gray">View all <i class="fa fa-angle-right"></i></a>
+                  <a ui-sref="offer-list" class="fl-rg smbd gray">View all <i class="fa fa-angle-right"></i></a>
                 </div>
               </div>
             </div>
 
             <!-- Availability box -->
-            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
-              <div class="box-title box-title_left mrg-btm">Availability
-                <button type="submit"
-                  class="btn-edit-sub"
-                  ng-show="isEditing && !formOpen"
-                  ng-disabled="loading"
-                  ng-click="availabilityForm.edit(availability)">
-                  <i class="fa fa-pencil"></i>
-                </button>
-              </div>
-              <p class="gray">{{ user.availability || 'Not specified' }}</p>
-            </div>
-            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert hidden">
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="availability.editing">
                <h5 class="edit-title">Availability <span> 0 characters left</span><h5>
-              <form class="edit-form">
-                <textarea class="fw"></textarea>
+              <form class="edit-form" ng-submit="availability.save(availability.data)">
+                <textarea class="fw" required ng-model="availability.data"></textarea>
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -332,12 +389,24 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languagesForm.cancel()"
+                    ng-click="availability.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
                 </div>
               </form>
+            </div>
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="availability.editing">
+              <div class="box-title box-title_left mrg-btm">Availability
+                <button type="submit"
+                  class="btn-edit-sub"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="availability.edit(availability)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </div>
+              <p class="gray">{{ user.availability || 'Not specified' }}</p>
             </div>
 
             <!-- Languages box -->
@@ -368,7 +437,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languages.cancel()"
+                    ng-click="languages.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -384,14 +453,14 @@
         <!-- MAIN CONTENT -->
         <div class="col-sm-9">
           <!-- Edit target position div (remove class hidden to display)-->
-          <div class="edit-tarpos hidden">
+          <div class="edit-tarpos" ng-show="targetPosition.editing">
             <div class="col-sm-5">
-              <h5 class="edit-title">Profile picture</h5>
-              <form class="edit-form">
-                <select
-                        class="form-control"
-                        >
-                  <option value="">Select...</option>
+              <h5 class="edit-title">Target position</h5>
+              <form class="edit-form" ng-submit="targetPosition.save(targetPosition.data)">
+                <select class="form-control"
+                  ng-disabled="loading"
+                  ng-model="targetPosition.data.role"
+                  ng-options="role for role in featuredRoles">
                 </select>
                 <div class="buttons-wrap">
                   <button type="submit"
@@ -401,7 +470,7 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="languages.cancel()"
+                    ng-click="targetPosition.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
@@ -412,12 +481,12 @@
           <!-- END target position div -->
 
           <!-- Summary box (remove class hidden to display)-->
-            <div class="edit-summary hidden" >
-              <h5 class="edit-title">Languages <span> 0 characters left</span></h5>
+            <div class="edit-summary" ng-show="summary.editing">
+              <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
               <div class="row">
                 <div class="col-sm-5">
-                  <form class="edit-form">
-                    <textarea class="fw"></textarea>
+                  <form class="edit-form" ng-submit="summary.save(summary.data)">
+                    <textarea class="fw" ng-model="summary.data"></textarea>
                     <div class="buttons-wrap">
                       <button type="submit"
                         class="fl-rg bg-green btn-small mrg-lft-small"
@@ -426,7 +495,7 @@
                       </button>
                       <button type="button"
                         class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="languagesForm.cancel()"
+                        ng-click="summary.close()"
                         ng-disabled="loading">
                         Cancel
                       </button>
@@ -448,21 +517,21 @@
                       <div class="emp-off-desc">
                         <h3 class="main-subtitle">
                           Target position:
-                          <span>{{ targetPosition.role }}</span>
+                          <span>{{ targetPosition.data.role }}</span>
                           <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing && !formOpen"
                             ng-disabled="loading"
-                            ng-click="availabilityForm.edit(availability)">
+                            ng-click="targetPosition.edit()">
                             <i class="fa fa-pencil"></i>
                           </button>
                         </h3>
                         <div>
-                          <p>{{ user.summary }} <button type="submit"
+                          <p>{{ summary.data }} <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing && !formOpen"
                             ng-disabled="loading"
-                            ng-click="availabilityForm.edit(availability)">
+                            ng-click="summary.edit()">
                             <i class="fa fa-pencil"></i>
                           </button></p>
                         </div>
@@ -504,7 +573,7 @@
                           </button>
                           <button type="button"
                             class="fl-rg bg-gray-lighter2 btn-small"
-                            ng-click="skills.cancel()"
+                            ng-click="skills.close()"
                             ng-disabled="loading">
                             Cancel
                           </button>
