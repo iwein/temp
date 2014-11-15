@@ -660,7 +660,7 @@
                 <!--End  Add panel -->
                 <div ng-repeat="entry in experience.data">
                   <!-- EDIT panel -->
-                  <div class="add-panel" ng-if="experience.editing === $index">
+                  <div class="add-panel edit-panel" ng-if="experience.editing === $index">
                     <button class="add-panel-close" ng-click="experience.close()"><i class="fa fa-close"></i></button>
                     <hc-experience-form
                       ng-model="entry"
@@ -715,7 +715,6 @@
                     hc-required="model.length === 0 || !education.form.isPristine()"
                     hc-disabled="loading"
                     on-submit="education.save($model, $form, model.length)">
-
                     <div class="row">
                       <div class="buttons-wrap">
                         <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">save</button>
@@ -727,7 +726,7 @@
                 <!--End  Add panel -->
                 <div ng-repeat="entry in education.data">
                   <!-- EDIT panel -->
-                  <div class="add-panel" ng-if="education.editing === $index">
+                  <div class="add-panel edit-panel" ng-if="education.editing === $index">
                     <button class="add-panel-close" ng-click="education.close()"><i class="fa fa-close"></i></button>
                     <hc-education-form
                       ng-model="entry"

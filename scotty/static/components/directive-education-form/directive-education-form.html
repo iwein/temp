@@ -1,122 +1,123 @@
-<form name="formEducation" class="form-horizontal" ng-submit="submit()">
-  <div class="form-group required">
-    <label class="col-sm-3">University or Institution</label>
-    <div class="col-sm-9">
-      <input type="text"
-        class="form-control"
-        name="institution"
-        ng-required="hcRequired"
-        ng-disabled="hcDisabled"
-        ng-model="model.institution"
-        typeahead="institution for institution in searchInstitutions($viewValue)">
+<form name="formEducation" class="edit-form form-wrap" ng-submit="submit()">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row mrg-btm">
+        <div class="col-sm-12">
+          <label>University or Institution</label>
+          <div class="">
+            <input type="text"
+              class="form-control"
+              name="institution"
+              ng-required="hcRequired"
+              ng-disabled="hcDisabled"
+              ng-model="model.institution"
+              typeahead="institution for institution in searchInstitutions($viewValue)">
+          </div>
+          <div class="form-error" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
+            <span ng-show="formEducation.institution.$error.required">
+              Please insert the institution name.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row mrg-btm">
+        <div class="col-sm-12">
+          <label>Course or Subject</label>
+          <div class="">
+            <input type="text"
+              class="form-control"
+              name="course"
+              ng-disabled="hcDisabled"
+              ng-model="model.course"
+              typeahead="course for course in searchCourses($viewValue)">
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="form-error" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
-      <span ng-show="formEducation.institution.$error.required">
-        Please insert the institution name.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="col-sm-3">Course or Subject</label>
-    <div class="col-sm-9">
-      <input type="text"
-        class="form-control"
-        name="course"
-        ng-disabled="hcDisabled"
-        ng-model="model.course"
-        typeahead="course for course in searchCourses($viewValue)">
-    </div>
-  </div>
-
-
-  <div class="form-group required">
-    <label class="col-sm-3">Period</label>
-
-    <div class="col-sm-4">
-      <!-- From year -->
-      <input type="number"
-        class="form-control"
-        name="start"
-        placeholder="Year"
-        ng-required="hcRequired"
-        ng-disabled="hcDisabled"
-        ng-model="model.start">
-    </div>
-
-    <div class="col-sm-1">
-      <!-- Separator -->
-      <span>–</span>
-    </div>
-
-    <div class="col-sm-4">
-      <!-- To year -->
-      <input type="number"
-        class="form-control"
-        name="end"
-        placeholder="Year"
-        ng-disabled="hcDisabled || current"
-        ng-required="hcRequired && !current"
-        ng-model="model.end"
-        hc-greater-than="model.start">
-    </div>
-
-    <div class="col-sm-offset-8 col-sm-4">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"
-            name="current"
-            ng-disabled="hcDisabled"
-            ng-model="current"
-            ng-change="model.end = null">
-          I am still studing there
-        </label>
+    <div class="col-sm-6">
+      <div class="row mrg-btm">
+        <div class="col-sm-12">
+          <label>Period</label>
+          <div class="row no-gutter">
+            <div class="col-sm-2">
+              <!-- From year -->
+              <input type="number"
+              class="form-control"
+              name="start"
+              placeholder="Year"
+              ng-required="hcRequired"
+              ng-disabled="hcDisabled"
+              ng-model="model.start">
+            </div>
+            <div class="col-sm-1 spacer">
+              <!-- Separator -->
+              <span>–</span>
+            </div>
+            <div class="col-sm-2">
+              <input type="number"
+              class="form-control"
+              name="end"
+              placeholder="Year"
+              ng-disabled="hcDisabled || current"
+              ng-required="hcRequired && !current"
+              ng-model="model.end"
+              hc-greater-than="model.start">
+            </div>
+            <div class="col-sm-6 check-wrap mrg-lft-small">
+              <label>
+              <input type="checkbox"
+                name="current"
+                ng-disabled="hcDisabled"
+                ng-model="current"
+                ng-change="model.end = null">
+              I am still studing there
+            </label>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
+                <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
+              </div>
+              <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
+                <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
+                <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mrg-btm">
+        <div class="col-sm-12">
+          <label>Degree</label>
+          <div class="">
+            <input type="text"
+            class="form-control"
+            name="degree"
+            ng-disabled="hcDisabled || not_completed_degree"
+            ng-required="hcRequired && !not_completed_degree"
+            ng-model="model.degree"
+            typeahead="degree for degree in searchDegrees($viewValue)">
+          </div>
+          <div class="check-wrap">
+            <label>
+              <input type="checkbox"
+                name="not_completed_degree"
+                ng-disabled="hcDisabled"
+                ng-model="not_completed_degree"
+                ng-change="model.degree = null">
+              Did not complete degree
+            </label>
+          </div>
+          <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
+            <span ng-show="formEducation.degree.$error.required">
+              Please insert the degree.
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
-      <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
+    <div class="col-sm-12">
+      <span ng-transclude></span>
     </div>
-    <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
-      <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
-      <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label class="col-sm-3">Degree</label>
-    <div class="col-sm-5">
-      <input type="text"
-        class="form-control"
-        name="degree"
-        ng-disabled="hcDisabled || not_completed_degree"
-        ng-required="hcRequired && !not_completed_degree"
-        ng-model="model.degree"
-        typeahead="degree for degree in searchDegrees($viewValue)">
-    </div>
-    <div class="col-sm-4">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"
-            name="not_completed_degree"
-            ng-disabled="hcDisabled"
-            ng-model="not_completed_degree"
-            ng-change="model.degree = null">
-          Did not complete degree
-        </label>
-      </div>
-    </div>
-
-
-    <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
-      <span ng-show="formEducation.degree.$error.required">
-        Please insert the degree.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <span ng-transclude></span>
   </div>
 </form>
