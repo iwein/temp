@@ -310,9 +310,11 @@ class CandidateBookmarkController(CandidateController):
         DBSession.add(bm)
         DBSession.flush()
 
-        self.request.emailer.send_employer_was_bookmarked(employer.email, employer.contact_name, employer.company_name,
-                                                          candidate_name=self.candidate.full_name, candidate_id=self
-                                                          .candidate.id)
+        self.request.emailer.send_employer_joboffer_requested(employer.email,
+                                                              employer.contact_name,
+                                                              employer.company_name,
+                                                              candidate_name=self.candidate.full_name,
+                                                              candidate_id=self.candidate.id)
         return self.candidate.bookmarked_employers
 
     @view_config(route_name='candidate_bookmark', **DELETE)
@@ -365,11 +367,12 @@ class CandidateOfferController(CandidateController):
             raise HTTPBadRequest(e.message)
         DBSession.flush()
 
-        self.request.emailer.send_employer_offer_accepted(email=offer.employer.email, candidate_name=self.candidate
-                                                          .full_name,
-                                                          contact_name=offer.employer.contact_name, company_name
-            =offer.employer.company_name,
-                                                          offer_id=offer.id, candidate_id=self.candidate.id)
+        self.request.emailer.send_employer_offer_accepted(email=offer.employer.email,
+                                                          candidate_name=self.candidate.full_name,
+                                                          contact_name=offer.employer.contact_name,
+                                                          company_name=offer.employer.company_name,
+                                                          offer_id=offer.id,
+                                                          candidate_id=self.candidate.id)
         return offer.full_status_flow
 
     @view_config(route_name='candidate_offer_reject', **POST)
