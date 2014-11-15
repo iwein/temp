@@ -169,7 +169,7 @@ define(function(require) {
       save: function(model) {
         return Amazon.upload(model[0], 'users', Session.id()).then(function(url) {
           return Session.getUser().then(function(user) {
-            return user.setPhoto(url);
+            return user.setPhoto(url + '?nocache=' + Date.now());
           });
         });
       },
