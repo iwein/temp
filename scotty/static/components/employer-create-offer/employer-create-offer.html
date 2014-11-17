@@ -49,7 +49,8 @@
                 name="salary"
                 required
                 ng-disabled="loading"
-                ng-model="model.annual_salary">
+                ng-model="model.annual_salary"
+                ng-change="onSalaryChange(model.annual_salary)">
               <span class="input-group-addon">.00</span>
             </div>
 
@@ -64,9 +65,12 @@
                 Decimals are not allowed.
               </span>
             </div>
+            <div class="form-error" ng-show="formCreateOffer.salary.$dirty && errorSalaryTooLow">
+              <span>Salary too low</span>
+            </div>
           </div>
         </div>
-        
+
         <div class="form-group required col-sm-12">
           <div class="col-sm-4">
             <label>Location</label>
@@ -81,13 +85,16 @@
               ng-blur="createOffer.setLocation(locationText)"
               typeahead-on-select="createOffer.setLocation(locationText)"
               typeahead="location for location in createOffer.searchLocations($viewValue)">
-            <div class="form-error" ng-show="errorInvalidCity || (formCreateOffer.location.$dirty && formCreateOffer.location.$invalid)">
+            <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
               <span ng-show="formCreateOffer.location.$error.required">
                 Please insert the city of the offer.
               </span>
-              <span ng-show="errorInvalidCity">
-                Please choose a city from the menu.
-              </span>
+            </div>
+            <div class="form-error" ng-show="errorInvalidCity">
+              <span>Please choose a city from the menu.</span>
+            </div>
+            <div class="form-error" ng-show="errorLocationUnsuitable">
+              <span>Location unsuitable.</span>
             </div>
           </div>
         </div>
@@ -110,7 +117,7 @@
             </div>
           </div>
         </div>
-        
+
 
         <div class="form-group required col-sm-12">
           <div class="col-sm-4">
@@ -144,7 +151,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="form-group required col-sm-12">
           <div class="col-sm-4">
             <label>Hiring process</label>
