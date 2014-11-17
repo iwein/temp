@@ -31,7 +31,7 @@ define(function(require) {
       return $q.all([
         ConfigAPI.benefits(),
         Session.getUser().then(fn.invoke('getData', [])),
-        Session.getCandidate($state.params.id).then(fn.invoke('getData', [])),
+        Session.getCandidate($state.params.id),
       ]);
     }).then(function(result) {
       var benefits = result[0];
@@ -40,7 +40,6 @@ define(function(require) {
 
       $scope.ready = true;
       $scope.candidate = candidate;
-      $scope.candidateName = candidate.first_name + ' ' + candidate.last_name;
       $scope.model.technologies = data.tech_tags;
       $scope.model.interview_details = data.recruitment_process;
       $scope.benefits = benefits.map(function(value) {
@@ -49,6 +48,10 @@ define(function(require) {
           selected: data.benefits.indexOf(value) !== -1,
         };
       });
+
+      return candidate.getData();
+    }).then(function(data) {
+      $scope.candidateName = data.first_name + ' ' + data.last_name;
     }).finally(function() {
       Loader.page(false);
     });
