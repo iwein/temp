@@ -49,12 +49,12 @@
               <div class="bookmark-title">Bookmarks <i class="fa fa-angle-up"> </i> <i class="fa fa-angle-down"></i></div>
               <!-- TODO show/hide this div -->
               <div class="bookmark-item">
-                <div class="orange mrg-btm-small"><a href="#">Company name <i class="fa fa-angle-right"></i></a></div>
-                <div class="mrg-btm">Berlin, DE</div>
-                <div class="orange mrg-btm-small"><a href="#">Company name <i class="fa fa-angle-right"></i></a></a></div>
-                <div class="mrg-btm">Berlin, DE</div>
-                <div class="orange mrg-btm-small"><a href="#">Company name <i class="fa fa-angle-right"></i></a></a></div>
-                <div class="mrg-btm">Berlin, DE</div>
+                <div ng-repeat="entry in bookmarks">
+                  <div class="orange mrg-btm-small">
+                    <a ui-sref="employer({ id: entry.id })">{{ entry.company_name }} <i class="fa fa-angle-right"></i></a>
+                  </div>
+                  <div class="mrg-btm">{{ entry.offices[0].address_city.city }}, {{ entry.offices[0].address_city.country_iso }}</div>
+                </div>
               </div>
             </div>
             <h2 class="main-title no-marg-right">WE RECOMMEND</h2>
