@@ -14,6 +14,7 @@ define(function(require) {
     this.searchRoles = ConfigAPI.roles;
     this.setLocation = setLocation;
     this.submit = submit;
+    $scope.onSalaryChange = onSalaryChange;
     $scope.ready = false;
     Loader.page(true);
 
@@ -31,7 +32,7 @@ define(function(require) {
       return $q.all([
         ConfigAPI.benefits(),
         Session.getUser().then(fn.invoke('getData', [])),
-        Session.getCandidate($state.params.id).then(fn.invoke('getData', [])),
+        Session.getCandidate($state.params.id),
       ]);
     }).then(function(result) {
       var benefits = result[0];
@@ -40,7 +41,6 @@ define(function(require) {
 
       $scope.ready = true;
       $scope.candidate = candidate;
-      $scope.candidateName = candidate.first_name + ' ' + candidate.last_name;
       $scope.model.technologies = data.tech_tags;
       $scope.model.interview_details = data.recruitment_process;
       $scope.benefits = benefits.map(function(value) {
@@ -49,6 +49,16 @@ define(function(require) {
           selected: data.benefits.indexOf(value) !== -1,
         };
       });
+
+      return $q.all([
+        candidate.getData(),
+        candidate.getTargetPosition(),
+      ]);
+    }).then(function(result) {
+      var data = result[0];
+      $scope.expectedSalary = result[1].minimum_salary;
+      $scope.locations = data.preferred_location;
+      $scope.candidateName = data.first_name + ' ' + data.last_name;
     }).finally(function() {
       Loader.page(false);
     });
@@ -57,11 +67,19 @@ define(function(require) {
       var city = ConfigAPI.getLocationFromText(location);
       $scope.errorInvalidCity = city === null;
       $scope.model.location = city;
+      if (!city) return;
+      var country = $scope.locations[city.country_iso];
+      $scope.errorLocationUnsuitable = !country || (country.length && country.indexOf(city.city) !== -1);
+    }
+
+    function onSalaryChange(salary) {
+      $scope.errorSalaryTooLow = salary < $scope.expectedSalary;
     }
 
     function submit() {
       $scope.dirty = true;
-      if (!$scope.model.job_description || !$scope.model.interview_details)
+      if (!$scope.model.job_description || !$scope.model.interview_details ||
+        $scope.errorSalaryTooLow || $scope.errorLocationUnsuitable)
         return;
 
       Loader.add('employer-create-offer-saving');
