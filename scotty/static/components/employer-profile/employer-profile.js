@@ -5,6 +5,8 @@ define(function(require) {
   var module = require('app-module');
 
   module.controller('ProfileCtrl', function($scope, $sce, $state, Loader, Permission, Session) {
+    this.edit = function() { $scope.isEditing = true };
+    this.stopEdit = function() { $scope.isEditing = false };
     $scope.ready = false;
     Loader.page(true);
 

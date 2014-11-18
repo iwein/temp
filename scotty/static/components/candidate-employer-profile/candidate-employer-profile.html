@@ -15,10 +15,11 @@
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">
-                  <button class="toggler" ng-click="toggle('officesSection')">Offices <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></button>
+                  <button class="toggler" ng-click="toggle('officesSection')">
+                    Offices <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i>
+                  </button>
                 </div>
                 <div class="fl-rg">
-                  <!--TODO implement dynamic variables -->
                   <a ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
                   <a ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
                 </div>
@@ -125,15 +126,15 @@
           <div class="col-sm-12 pad-top-10">
             <div class="accordion-wrap">
               <!--TODO implement dynamic variables -->
-              <div class="">
+              <div>
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>
                 <p class="pad-btm-15" ng-bind-html="data.tech_team_philosophy"></p>
               </div>
-              <div class="">
+              <div>
                 <h3 class="accordion-subtitle">Hiring process</h3>
                 <p class="pad-btm-15" ng-bind-html="data.recruitment_process"></p>
               </div>
-              <div class="">
+              <div>
                 <h3 class="accordion-subtitle">Training policy</h3>
                 <p class="pad-btm-15" ng-bind-html="data.training_policy"></p>
               </div>

@@ -6,6 +6,8 @@ define(function(require) {
     this.list = list;
     this.timeout = timeout;
     this.error = this.show.bind(this, 'error');
+    this.warning = this.show.bind(this, 'warning');
+    this.info = this.show.bind(this, 'info');
   }
 
   Notifier.prototype = {

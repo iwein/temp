@@ -16,6 +16,7 @@ define(function(require) {
 
     Permission.requireActivated().then(function() {
       this.toogleBookmark = toogleBookmark;
+      $scope.toggle = toggle;
       $scope.id = $state.params.id;
 
       getIsBookmarked();
@@ -66,6 +67,10 @@ define(function(require) {
         }).finally(function() {
           Loader.remove('candidate-employer-profile-toggle');
         });
+      }
+
+      function toggle(key) {
+        $scope[key] = !$scope[key];
       }
     }.bind(this));
   });

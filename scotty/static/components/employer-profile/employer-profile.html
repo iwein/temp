@@ -59,43 +59,18 @@
             <div class="edit-salary hidden">
               <form class="edit-form">
                 <h5 class="edit-title">Website</h5>
-                <div class="">
-                  <input type="text"
-                    class="form-control mrg-btm"
-                    >
-                </div>
+                <div><input type="text" class="form-control mrg-btm"></div>
                 <h5 class="edit-title">Founding year</h5>
-                <div class="">
-                  <input type="text"
-                    class="form-control mrg-btm"
-                    />
-                </div>
+                <div><input type="text" class="form-control mrg-btm"></div>
                 <h5 class="edit-title">Annual Revenue</h5>
-                <div class="">
-                  <input type="text"
-                    class="form-control mrg-btm"
-                    />
-                </div>
+                <div><input type="text" class="form-control mrg-btm"></div>
                 <h5 class="edit-title">Vic Fund Amounting</h5>
-                <div class="">
-                  <input type="text"
-                    class="form-control mrg-btm"
-                    />
-                </div>
+                <div><input type="text" class="form-control mrg-btm"></div>
                 <h5 class="edit-title">Company size</h5>
-                <div class="">
-                  <input type="text"
-                    class="form-control mrg-btm"
-                    />
-                </div>
+                <div><input type="text" class="form-control mrg-btm"></div>
                 <h5 class="edit-title">Company mission</h5>
-                <div class="">
-                  <textarea
-                    class="form-control fw mrg-btm"
-                    ></textarea>
-                </div>
-               
-               
+                <div><textarea class="form-control fw mrg-btm"></textarea></div>
+
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -119,11 +94,11 @@
               ng-click="languages.edit()">
               <i class="fa fa-pencil"></i>
             </button>
-            <p class="smbd">founded in 2010</p>
-            <p class="smbd">27 employees</p>
-            <p>Annual revenue: 10,000,000.00 €</p>
-            <p>VC Founding amount: -</p>
-            <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" href="{{ data.website }}">
+            <p class="smbd">founded in TODO</p>
+            <p class="smbd">{{ data.no_of_employees }} employees</p>
+            <p>Annual revenue: {{ data.revenue_pa }}.00 €</p>
+            <p>VC Founding amount: {{ data.funding_amount }}</p>
+            <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
               {{ data.website }}
             </a>
           </div>
@@ -138,58 +113,16 @@
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">
-                  <span>Offices</span>
+                  <button class="toggler" ng-click="toggle('officesSection')">
+                    Offices <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i>
+                  </button>
                 </div>
                 <div class="fl-rg">
-                  <!--TODO implement dynamic variables -->
-                  <a ng-href="{{ user.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
-                  <a ng-href="{{ user.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  <a ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                  <a ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
                 </div>
               </div>
-              <div class="pad-top-15 office-list-item col-sm-12">
-                <div class="orange smbd">berlin</div>
-                <div>Peterburgerstrasse 94</div>
-                <div>Berlin, DE 12057</div>
-                <div>Ms. Eva Stone</div>
-                <div class="smbd orange mrg-btm-small">
-                  <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                  harry@google.com
-                </div>
-                <div>
-                  <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                  123456768
-                </div>
-              </div>
-              <div class="padd-vert col-sm-12 office-list no-padd-btm">
-                <div class="mrg-btm-big office-list-item">
-                  <div class="orange smbd">berlin</div>
-                  <div>Peterburgerstrasse 94</div>
-                  <div>Berlin, DE 12057</div>
-                  <div>Ms. Eva Stone</div>
-                  <div class="smbd orange mrg-btm-small">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    harry@google.com
-                  </div>
-                  <div>
-                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    123456768
-                  </div>
-                </div>
-                <div class="mrg-btm-big office-list-item">
-                  <div class="orange smbd">berlin</div>
-                  <div>Peterburgerstrasse 94</div>
-                  <div>Berlin, DE 12057</div>
-                  <div>Ms. Eva Stone</div>
-                  <div class="smbd orange mrg-btm-small">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    harry@google.com
-                  </div>
-                  <div>
-                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    123456768
-                  </div>
-                </div>
-              </div>
+
               <!--TODO implement text change after click more/hide-->
               <div class="col-sm-12 mrg-btm pad-top-15">
                 <button class="showhide"><i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i> more </button>
@@ -426,18 +359,17 @@
               </div>
             <!-- End Edit panel -->
             <div class="accordion-wrap">
-              <!--TODO implement dynamic variables -->
-              <div class="">
+              <div>
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>
-                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+                <p class="pad-btm-15" ng-bind-html="data.tech_team_philosophy"></p>
               </div>
-              <div class="">
+              <div>
                 <h3 class="accordion-subtitle">Hiring process</h3>
-                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+                <p class="pad-btm-15" ng-bind-html="data.recruitment_process"></p>
               </div>
-              <div class="">
+              <div>
                 <h3 class="accordion-subtitle">Training policy</h3>
-                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+                <p class="pad-btm-15" ng-bind-html="data.training_policy"></p>
               </div>
             </div>
           </div>
