@@ -1,70 +1,448 @@
-<div class="component-employer-profile row" ng-show="ready">
-  <div class="col-sm-6 col-sm-offset-3">
-
+<div class="component-employer-profile" ng-show="ready">
+  <div class="inner">
     <div class="alert alert-warning" ng-show="!approved">Awaiting approval</div>
-
-    <div class="page-header">
-      <h1>
-        <img class="logo" ng-show="data.logo_url" ng-src="{{ data.logo_url }}">
-        <small>{{ data.company_name }}</small>
-      </h1>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Company</h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>Status</dt>
-          <dd>{{ data.status }}</dd>
-          <dt>Website</dt>
-          <dd>{{ data.website }}</dd>
-          <dt ng-show="data.fb_url">Facebook</dt>
-          <dd ng-show="data.fb_url"><a ng-href="{{ data.fb_url }}">{{ data.fb_url }}</a></dd>
-          <dt ng-show="data.linkedin_url">Linked in</dt>
-          <dd ng-show="data.linkedin_url"><a ng-href="{{ data.linkedin_url }}">{{ data.linkedin_url }}</a></dd>
-          <dt ng-show="data.founding_year">Founding year</dt>
-          <dd ng-show="data.founding_year">{{ data.founding_year }}</dd>
-          <dt ng-show="data.funding_amount">Founding amount</dt>
-          <dd ng-show="data.funding_amount">{{ data.funding_amount | dottedInteger }}€</dd>
-          <dt ng-show="data.revenue_pa">Revenue</dt>
-          <dd ng-show="data.revenue_pa">{{ data.revenue_pa | dottedInteger }}€</dd>
-          <dt ng-show="data.no_of_employees">Number of employees</dt>
-          <dd ng-show="data.no_of_employees">{{ data.no_of_employees }}</dd>
-          <dt ng-show="data.tech_team_size">Tech team size</dt>
-          <dd ng-show="data.tech_team_size">{{ data.tech_team_size }}</dd>
-
-          <dt>Company Description</dt>
-          <dd ng-bind-html="data.mission_text"></dd>
-
-          <dt>Recruitment process</dt>
-          <dd>{{ data.recruitment_process }}</dd>
-          <dt ng-show="data.training_policy">Training policy</dt>
-          <dd ng-show="data.training_policy">{{ data.training_policy }}</dd>
-          <dt>Benefits</dt>
-          <dd>{{ data.benefits.join(', ') || 'none' }}</dd>
-        </dl>
+    <div class="status-wrap">
+      <div class="status">
+        <button class="fl-rg btn-edit"
+          ng-show="!isEditing"
+          ng-click="profile.edit()">
+          <i class="fa fa-pencil"></i>
+          Edit mode
+        </button>
+        <button class="fl-rg btn-edit"
+          ng-show="isEditing && !formOpen"
+          ng-click="profile.stopEdit()">
+          <i class="fa fa-check"></i>
+          Finish editing
+        </button>
       </div>
     </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="col-sm-12 bg-gray-light">
+            <button class="edit-user-pic-btn"  ng-click="picture.edit()">
+              <i class="fa fa-camera-retro"></i>
+            </button>
+            <div class="edit-user-pic" ng-show="picture.editing">
+              <form class="bg-gray-lighter3 padd-vert col-sm-12">
+                <h5 class="edit-title">Profile picture</h5>
+                <input type="file"
+                  class="mrg-btm"
+                  name="photo"
+                  accept="image/*"
+                  ng-required="true"
+                  ng-disabled="loading"
+                  ng-model="picture.data"
+                  hc-file-select="selectFile($files)"
+                  hc-data-url="selectedPicture">
+                <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
+                <div class="buttons-wrap mrg-btm-small">
+                  <button type="button"
+                    class="fl-lf bg-gray-lighter2 btn-small"
+                    ng-click="picture.close()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                  <button type="submit"
+                    class="fl-lf bg-green btn-small mrg-lft-small"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+               </div>
+              </form>
+            </div>
+            <div class="user-pic" style="background-image: url({{ data.logo_url }})"></div>
+          </div>
+          <div class="col-sm-12 border-box mrg-btm padd-vert">
+          <!--  EDIT Contacts box (remove hidden class to display)-->
+            <div class="edit-salary hidden">
+              <form class="edit-form">
+                <h5 class="edit-title">Website</h5>
+                <div class="">
+                  <input type="text"
+                    class="form-control mrg-btm"
+                    >
+                </div>
+                <h5 class="edit-title">Founding year</h5>
+                <div class="">
+                  <input type="text"
+                    class="form-control mrg-btm"
+                    />
+                </div>
+                <h5 class="edit-title">Annual Revenue</h5>
+                <div class="">
+                  <input type="text"
+                    class="form-control mrg-btm"
+                    />
+                </div>
+                <h5 class="edit-title">Vic Fund Amounting</h5>
+                <div class="">
+                  <input type="text"
+                    class="form-control mrg-btm"
+                    />
+                </div>
+                <h5 class="edit-title">Company size</h5>
+                <div class="">
+                  <input type="text"
+                    class="form-control mrg-btm"
+                    />
+                </div>
+                <h5 class="edit-title">Company mission</h5>
+                <div class="">
+                  <textarea
+                    class="form-control fw mrg-btm"
+                    ></textarea>
+                </div>
+               
+               
+                <div class="buttons-wrap">
+                  <button type="submit"
+                    class="fl-rg bg-green btn-small mrg-lft-small"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+                  <button type="button"
+                    class="fl-rg bg-gray-lighter2 btn-small"
+                    ng-click="contact.close()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Technologies</h3>
+            <!-- END EDIT Contacts box-->
+            <button type="submit"
+              class="btn-edit-sub"
+              ng-disabled="loading"
+              ng-click="languages.edit()">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <p class="smbd">founded in 2010</p>
+            <p class="smbd">27 employees</p>
+            <p>Annual revenue: 10,000,000.00 €</p>
+            <p>VC Founding amount: -</p>
+            <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" href="{{ data.website }}">
+              {{ data.website }}
+            </a>
+          </div>
+          <!--TODO toggle class .closed with .open to see the content of the hidden div -->
+          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap closed">
+            <button type="submit"
+              class="btn-edit-sub-skills btn-edit-sub-skills_bot"
+              ng-disabled="loading"
+              ng-click="contact.edit(skills)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <div class="row">
+              <div class="contacts">
+                <div class="fl-lf">
+                  <span>Offices</span>
+                </div>
+                <div class="fl-rg">
+                  <!--TODO implement dynamic variables -->
+                  <a ng-href="{{ user.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                  <a ng-href="{{ user.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="pad-top-15 office-list-item col-sm-12">
+                <div class="orange smbd">berlin</div>
+                <div>Peterburgerstrasse 94</div>
+                <div>Berlin, DE 12057</div>
+                <div>Ms. Eva Stone</div>
+                <div class="smbd orange mrg-btm-small">
+                  <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                  harry@google.com
+                </div>
+                <div>
+                  <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                  123456768
+                </div>
+              </div>
+              <div class="padd-vert col-sm-12 office-list no-padd-btm">
+                <div class="mrg-btm-big office-list-item">
+                  <div class="orange smbd">berlin</div>
+                  <div>Peterburgerstrasse 94</div>
+                  <div>Berlin, DE 12057</div>
+                  <div>Ms. Eva Stone</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    harry@google.com
+                  </div>
+                  <div>
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    123456768
+                  </div>
+                </div>
+                <div class="mrg-btm-big office-list-item">
+                  <div class="orange smbd">berlin</div>
+                  <div>Peterburgerstrasse 94</div>
+                  <div>Berlin, DE 12057</div>
+                  <div>Ms. Eva Stone</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    harry@google.com
+                  </div>
+                  <div>
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    123456768
+                  </div>
+                </div>
+              </div>
+              <!--TODO implement text change after click more/hide-->
+              <div class="col-sm-12 mrg-btm pad-top-15">
+                <button class="showhide"><i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i> more </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 border-box mrg-btm padd-vert">
+            <!-- Edit Benefits box (remove class hidden to display)-->
+              <form class="edit-salary" ng-submit="salary.save(salary.data)">
+                <h5 class="edit-title">Benefits </h5>
+
+                <div class="form-wrap">
+                  <div class="row padd-form">
+                    <div class="label-wrap col-sm-12">
+                      <div>
+                        <label>
+                          Breakfast
+                          <input type="checkbox">
+                        </label>
+                      </div>
+                      <div ng-repeat="location in featuredLocations">
+                        <label>
+                          Company car
+                          <input type="checkbox">
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input type="checkbox"
+                            name="location-radio"
+                            ng-disabled="loading || salary.data.germany"
+                            ng-required="errorLocationRequired"
+                            ng-model="salary.data.other"
+                            ng-change="updateLocations()">
+                          Other
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="pad-label">
+                      <hc-label-typeahead
+                        name="cities"
+                        placeholder="Type a city..."
+                        ng-show="salary.data.other"
+                        ng-disabled="loading"
+                        ng-model="preferred_locations"
+                        hc-required="salary.data.other"
+                        hc-render="locationToText($entry)"
+                        hc-source="searchCities($viewValue)"
+                        on-change="updateLocations()">
+                      </hc-label-typeahead>
+                    </div>
+                  </div>
+                  <div class="buttons-wrap">
+                    <button type="submit"
+                      class="fl-rg bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                    <button type="button"
+                      class="fl-rg bg-gray-lighter2 btn-small"
+                      ng-click="salary.close()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <!-- End Edit Benefits box-->
+            <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS
+              <button type="submit"
+                class="btn-edit-sub"
+                ng-disabled="loading"
+                ng-click="languages.edit()">
+                <i class="fa fa-pencil"></i>
+              </button>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 mrg-btm-small" ng-repeat="benefit in data.benefits">
+                <div class="benefit-item {{ benefit }}">{{ benefit }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="tag in data.tech_tags">
-          <span class="value">{{ tag }}</span>
-        </li>
-      </ul>
-    </div>
-
-    <div ng-if="ready">
-      <hc-office
-        hc-title="Offices"
-        hc-source="session.user.listOffices()"
-        hc-show-empty>
-      </hc-office>
+      <div class="col-sm-9">
+        <!-- Company description (remove class hidden to display)-->
+        <div class="edit-tarpos hidden">
+          <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
+          <div class="row">
+            <div class="col-sm-5">
+              <form class="edit-form" ng-submit="summary.save(summary.data)">
+                <textarea class="fw" ng-model="summary.data"></textarea>
+                <div class="buttons-wrap">
+                  <button type="submit"
+                    class="fl-rg bg-green btn-small mrg-lft-small"
+                    ng-disabled="loading">
+                    Save
+                  </button>
+                  <button type="button"
+                    class="fl-rg bg-gray-lighter2 btn-small"
+                    ng-click="summary.close()"
+                    ng-disabled="loading">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- END Company description box -->
+        <div class="row">
+          <div class="col-sm-8 bg-white">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="user-desc">
+                  <div>
+                    <h2 class="main-title">{{ data.company_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                  </div>
+                  <div class="emp-off-desc">
+                    <div>
+                      <p>Lorem ipsum <button type="submit"
+                        class="btn-edit-sub no-fl"
+                        ng-disabled="loading"
+                        ng-click="summary.edit()">
+                        <i class="fa fa-pencil"></i>
+                      </button></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 bg-white user-desc">
+            <div class="row">
+              <div class="buttons-wrap">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mrg-btm">
+          <div class="col-sm-12 border-box skills-box">
+             <!-- EDIT skills  box -->
+            <div class="wrap-form-skills bg-gray-lighter3 hidden">
+              <div class="form-group">
+                <div class="col-sm-5">
+                  <form class="edit-form" ng-submit="summary.save(summary.data)">
+                    <div class="mrg-btm">
+                      <h5 class="edit-title">Tech team size</h5>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="mrg-btm">
+                      <h5 class="edit-title">Technology tags</h5>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="buttons-wrap">
+                      <button type="submit"
+                        class="fl-rg bg-green btn-small mrg-lft-small"
+                        ng-disabled="loading">
+                        Save
+                      </button>
+                      <button type="button"
+                        class="fl-rg bg-gray-lighter2 btn-small"
+                        ng-click="summary.close()"
+                        ng-disabled="loading">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+             <!-- END skills box box -->
+            <button type="submit"
+              class="btn-edit-sub-skills"
+              ng-disabled="loading"
+              ng-click="skills.edit(skills)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="skills-head">
+                  <div class="big-title skills-title">TECH</div>
+                  <!--TODO implement dynamic variables -->
+                  <span><span class="smbd">Team size</span> </br> {{ data.no_of_employees }}</span>
+                </div>
+              </div>
+              <div class="col-sm-9">
+                <div class="skills-wrap row">
+                  <div class="col-sm-4" ng-repeat="tag in data.tech_tags">
+                    <div class="skills-item alg-left"><i class="fa fa-gear"></i> {{ tag }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row bg-white mrg-btm">
+          <div class="col-sm-12 pad-top-10">
+            <button type="submit"
+              class="btn-edit-sub no-marg-top"
+              ng-disabled="loading"
+              ng-click="availability.edit(availability)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <!-- Edit panel -->
+              <div class="edit-textarea hidden">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <form class="edit-form" ng-submit="summary.save(summary.data)">
+                      <h5 class="edit-title">Technology philosophy</h5>
+                      <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
+                      <h5 class="edit-title">Hiring process</h5>
+                      <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
+                      <h5 class="edit-title">Training policy</h5>
+                      <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
+                      <div class="buttons-wrap">
+                        <button type="submit"
+                          class="fl-rg bg-green btn-small mrg-lft-small"
+                          ng-disabled="loading">
+                          Save
+                        </button>
+                        <button type="button"
+                          class="fl-rg bg-gray-lighter2 btn-small"
+                          ng-click="summary.close()"
+                          ng-disabled="loading">
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <!-- End Edit panel -->
+            <div class="accordion-wrap">
+              <!--TODO implement dynamic variables -->
+              <div class="">
+                <h3 class="accordion-subtitle">Technology Philosophy</h3>
+                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+              </div>
+              <div class="">
+                <h3 class="accordion-subtitle">Hiring process</h3>
+                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+              </div>
+              <div class="">
+                <h3 class="accordion-subtitle">Training policy</h3>
+                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

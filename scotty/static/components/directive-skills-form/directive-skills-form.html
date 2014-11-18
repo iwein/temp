@@ -1,4 +1,4 @@
-<form class="edit-form" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
+<form class="edit-form row" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
 <div class="col-sm-8">
   <h5 class="edit-title">Enter your technical skills:</h5>
   <div class="row">
@@ -56,7 +56,7 @@
   </div>
 </div>
 <div class="col-sm-4">
-  <div class="form-group">
+ 
     <h5 class="edit-title">Other skills</h5>
 
     <hc-label-typeahead
@@ -66,9 +66,8 @@
       hc-source="searchSkills($viewValue)"
       hc-allow-new>
     </hc-label-typeahead>
-  </div>
 </div>
-  <div class="form-group">
+  <div class="col-sm-12">
     <div ng-transclude></div>
   </div>
 </form>

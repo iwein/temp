@@ -161,7 +161,7 @@
               <div class="edit-contacts" ng-show="contact.editing" ng-submit="contact.save(contact.data)">
                 <form class="edit-form">
                   <h5 class="edit-title">Address</h5>
-                  <div class="pad-btm-15">
+                  <div class="">
                     <input type="text"
                       class="form-control mrg-btm"
                       placeholder="Address Line 1"
@@ -198,7 +198,7 @@
                       typeahead="city for city in searchLocations($viewValue, contact.data.location.country_iso)">
                   </div>
                   <h5 class="edit-title">Email Address</h5>
-                  <div class="pad-btm-15">
+                  <div class="">
                     <input type="email"
                       class="form-control mrg-btm"
                       name="contact_email"
@@ -207,7 +207,7 @@
                       ng-model="contact.data.email">
                   </div>
                   <h5 class="edit-title">Phone</h5>
-                  <div class="pad-btm-15">
+                  <div class="">
                     <input type="tel"
                       class="form-control mrg-btm"
                       name="contact_phone"
