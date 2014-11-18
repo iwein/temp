@@ -26,6 +26,9 @@ define(function(require) {
       }).then(function(data) {
         $scope.ready = true;
         $scope.data = data;
+        $scope.data.tech_team_philosophy = $sce.trustAsHtml(data.tech_team_philosophy);
+        $scope.data.recruitment_process = $sce.trustAsHtml(data.recruitment_process);
+        $scope.data.training_policy = $sce.trustAsHtml(data.training_policy);
         $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
       }).catch(function() {
         toaster.defaultError();
