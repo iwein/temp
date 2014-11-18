@@ -8,69 +8,53 @@
              <div class="user-pic" ng-show="data.logo_url" style="background-image: url({{ data.logo_url }})"></div>
           </div>
           <!--TODO toggle class .closed with .open to see the content of the hidden div -->
-          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap closed">
+          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap closed" ng-class="{
+            open: officesSection,
+            closed: !officesSection,
+          }">
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">
-                  <button class="toggler">Contact <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></button>
+                  <button class="toggler" ng-click="toggle('officesSection')">Offices <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></button>
                 </div>
                 <div class="fl-rg">
                   <!--TODO implement dynamic variables -->
-                  <a ng-href="{{ user.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
-                  <a ng-href="{{ user.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  <a ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                  <a ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
                 </div>
               </div>
               <div class="padd-vert col-sm-12 brd-btm office-list">
-                <div class="mrg-btm-big office-list-item">
-                  <div class="orange smbd">berlin</div>
-                  <div>Peterburgerstrasse 94</div>
-                  <div>Berlin, DE 12057</div>
-                  <div>Ms. Eva Stone</div>
+                <div class="mrg-btm-big office-list-item" ng-repeat="office in data.offices">
+                  <div class="orange smbd">{{ office.address_city.city }}</div>
+                  <div>{{ office.address_line1 }}</div>
+                  <div>{{ office.address_line2 }}</div>
+                  <div>{{ office.address_line3 }}</div>
+                  <div>
+                    {{ office.address_city.city }},
+                    {{ office.address_city.country_iso }}
+                    {{ office.address_zipcode }}
+                  </div>
+                  <div>
+                    {{ office.contact_salutation }},
+                    {{ office.contact_first_name }}
+                    {{ office.contact_last_name }}
+                  </div>
                   <div class="smbd orange mrg-btm-small">
                     <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    harry@google.com
+                    {{ office.contact_email }}
                   </div>
                   <div>
                     <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    123456768
-                  </div>
-                </div>
-                <div class="mrg-btm-big office-list-item">
-                  <div class="orange smbd">berlin</div>
-                  <div>Peterburgerstrasse 94</div>
-                  <div>Berlin, DE 12057</div>
-                  <div>Ms. Eva Stone</div>
-                  <div class="smbd orange mrg-btm-small">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    harry@google.com
-                  </div>
-                  <div>
-                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    123456768
-                  </div>
-                </div>
-                <div class="mrg-btm-big office-list-item">
-                  <div class="orange smbd">berlin</div>
-                  <div>Peterburgerstrasse 94</div>
-                  <div>Berlin, DE 12057</div>
-                  <div>Ms. Eva Stone</div>
-                  <div class="smbd orange mrg-btm-small">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    harry@google.com
-                  </div>
-                  <div>
-                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    123456768
+                    {{ office.contact_phone }}
                   </div>
                 </div>
               </div>
               <div class="padd-vert col-sm-12">
-                <!--TODO implement dynamic variables -->
-                <p class="smbd">founded in 2010</p>
-                <p class="smbd">27 employees</p>
-                <p>Annual revenue: 10,000,000.00 €</p>
-                <p>VC Founding amount: -</p>
-                <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" href="{{ data.website }}">
+                <p class="smbd">founded in TODO</p>
+                <p class="smbd">{{ data.no_of_employees }} employees</p>
+                <p>Annual revenue: {{ data.revenue_pa }}.00 €</p>
+                <p>VC Founding amount: {{ data.funding_amount }}</p>
+                <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
                   {{ data.website }}
                 </a>
               </div>
@@ -124,8 +108,7 @@
               <div class="col-sm-3">
                 <div class="skills-head">
                   <div class="big-title skills-title">TECH</div>
-                  <!--TODO implement dynamic variables -->
-                  <span><span class="smbd">Team size</span> </br> 800</span>
+                  <span><span class="smbd">Team size</span> </br> {{ data.tech_team_size }}</span>
                 </div>
               </div>
               <div class="col-sm-9">
@@ -144,15 +127,15 @@
               <!--TODO implement dynamic variables -->
               <div class="">
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>
-                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+                <p class="pad-btm-15" ng-bind-html="data.tech_team_philosophy"></p>
               </div>
               <div class="">
                 <h3 class="accordion-subtitle">Hiring process</h3>
-                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+                <p class="pad-btm-15" ng-bind-html="data.recruitment_process"></p>
               </div>
               <div class="">
                 <h3 class="accordion-subtitle">Training policy</h3>
-                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+                <p class="pad-btm-15" ng-bind-html="data.training_policy"></p>
               </div>
             </div>
           </div>

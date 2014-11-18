@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/loader-service');
+  require('tools/notifier-service');
   require('tools/moment-directive');
   require('tools/greater-than-directive');
   require('tools/stars-directive/stars-directive');
@@ -16,29 +17,13 @@ define(function(require) {
       $httpProvider.defaults.withCredentials = true;
     });
 
-    module.run(function(toaster) {
-      toaster.error = function(message) {
-        toaster.pop('error', '', message);
+    module.factory('toaster', function(Notifier) {
+      Notifier.defaultError = function(error) {
+        if (error) console.error(error);
+        Notifier.error('Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.');
       };
-      toaster.warning = function(message) {
-        toaster.pop('warning', '', message);
-      };
-      toaster.info = function(message) {
-        toaster.pop('info', '', message);
-      };
-      toaster.success = function(message) {
-        toaster.pop('success', '', message);
-      };
-      toaster.defaultError = function(error) {
-        if (error)
-          console.error(error);
 
-        toaster.pop(
-          'error',
-          'Error',
-          'Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.'
-        );
-      };
+      return Notifier;
     });
   };
 });

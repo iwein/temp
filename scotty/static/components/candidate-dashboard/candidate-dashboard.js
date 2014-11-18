@@ -21,11 +21,11 @@ define(function(require) {
     }).then(function(results) {
       $scope.news = results[0];
       $scope.suggested = results[1].data.slice(0, 5);
-      var bookmarks = results[2];
+      $scope.bookmarks = results[2];
 
       $scope.suggested.forEach(function(employer) {
         employer.mission_text = $sce.trustAsHtml(employer.mission_text);
-        employer.isBookmarked = bookmarks.some(function(entry) {
+        employer.isBookmarked = $scope.bookmarks.some(function(entry) {
           return entry.id === employer.id;
         });
       });
