@@ -6,6 +6,7 @@ define(function(require) {
 
   module.controller('DashboardCtrl', function($scope, $q, $sce, Loader, Permission, Session) {
     Loader.page(true);
+    $scope.toggle = toggle;
     $scope.ready = false;
     $scope.today = new Date();
 
@@ -32,6 +33,10 @@ define(function(require) {
     }).finally(function() {
       Loader.page(false);
     });
+
+    function toggle(key) {
+      $scope[key] = !$scope[key];
+    }
   });
 
 

@@ -44,11 +44,14 @@
       <div class="col-sm-9">
         <div class="row">
           <div class="col-sm-12 bg-white row">
-            <div class="bookmarks">
-              <!-- TODO implement the function to hide show the div below -->
-              <div class="bookmark-title">Bookmarks <i class="fa fa-angle-up"> </i> <i class="fa fa-angle-down"></i></div>
-              <!-- TODO show/hide this div -->
-              <div class="bookmark-item">
+            <div class="bookmarks" ng-show="bookmarks.length">
+              <div class="bookmark-title" ng-click="toggle('showBookmarks')">
+                Bookmarks <i class="fa" ng-class="{
+                  'fa-angle-up': showBookmarks,
+                  'fa-angle-down': !showBookmarks,
+                }"></i>
+              </div>
+              <div class="bookmark-item" ng-show="showBookmarks">
                 <div ng-repeat="entry in bookmarks">
                   <div class="orange mrg-btm-small">
                     <a ui-sref="employer({ id: entry.id })">{{ entry.company_name }} <i class="fa fa-angle-right"></i></a>
