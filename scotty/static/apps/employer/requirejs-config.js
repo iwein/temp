@@ -12,7 +12,6 @@ requirejs.config({
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-animate': 'bower_components/angular-animate/angular-animate',
-    'angularjs-toaster': 'bower_components/angularjs-toaster/toaster',
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
     'textangular': 'bower_components/textAngular/dist/textAngular.min',
@@ -28,7 +27,6 @@ requirejs.config({
     'ui.bootstrap': [ 'angular' ],
     'angular-router': [ 'angular' ],
     'angular-animate': [ 'angular' ],
-    'angularjs-toaster': [ 'angular-animate' ],
     'angular-sanitize': [ 'angular' ],
     'textangular': [ 'angular-sanitize' ],
   }

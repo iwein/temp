@@ -1,28 +1,30 @@
-  <nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" ng-click="navbarMenuOpen = !navbarMenuOpen">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <h1 class="navbar-brand"><a href="#">4Scotty</a></h1>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" ng-class="{ in: navbarMenuOpen }">
-        <ul class="nav navbar-nav">
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="dashboard">Dashboard</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="invite-code">Invite codes</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="invite-employer">Invite employer</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="approve-employers">Approve employers</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="approve-candidates">Approve candidate</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="search-employers">Search employers</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="search-candidates">Search candidates</a></li>
-          <li style="height: 40px" ui-sref-active="active"><a ui-sref="static-pages">Static pages</a></li>
-        </ul>
-      </div>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" ng-click="navbarMenuOpen = !navbarMenuOpen">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <h1 class="navbar-brand"><a href="#">4Scotty</a></h1>
     </div>
-  </nav>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" ng-class="{ in: navbarMenuOpen }">
+      <ul class="nav navbar-nav">
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="dashboard">Dashboard</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="invite-code">Invite codes</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="invite-employer">Invite employer</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="approve-employers">Approve employers</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="approve-candidates">Approve candidate</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="search-employers">Search employers</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="search-candidates">Search candidates</a></li>
+        <li style="height: 40px" ui-sref-active="active"><a ui-sref="static-pages">Static pages</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<hc-notifications></hc-notifications>

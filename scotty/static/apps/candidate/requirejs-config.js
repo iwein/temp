@@ -13,7 +13,6 @@ requirejs.config({
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-animate': 'bower_components/angular-animate/angular-animate',
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
-    'angularjs-toaster': 'bower_components/angularjs-toaster/toaster',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
 
     // aliases
@@ -28,7 +27,6 @@ requirejs.config({
     'angular-router': [ 'angular' ],
     'angular-animate': [ 'angular' ],
     'angular-sanitize': [ 'angular' ],
-    'angularjs-toaster': [ 'angular-animate' ],
   }
 
 })([ 'apps/common/mock-data', 'apps/candidate/app' ]);
