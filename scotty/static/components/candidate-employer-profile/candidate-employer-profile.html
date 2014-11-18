@@ -1,78 +1,164 @@
-<div class="component-candidate-employer-profile row" ng-show="ready">
-  <div class="col-sm-6 col-sm-offset-3">
-
-    <div ng-if="activated">
-      <button type="button"
-        class="btn btn-default"
-        ng-show="!isBookmarked"
-        ng-click="employerProfile.toogleBookmark()">
-        Request offer
-      </button>
-      <div ng-show="isBookmarked">Offer requested</div>
-    </div>
-
-    <div class="page-header">
-      <h1>
-        <img class="logo" ng-show="data.logo_url" ng-src="{{ data.logo_url }}">
-        <small>{{ data.company_name }}</small>
-      </h1>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Company</h3>
+<div class="component-candidate-employer-profile" ng-show="ready">
+  <div class="inner">
+    <div class="status-wrap"></div>
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="col-sm-12 bg-gray-light">
+             <div class="user-pic" ng-show="data.logo_url" style="background-image: url({{ data.logo_url }})"></div>
+          </div>
+          <!--TODO toggle class .closed with .open to see the content of the hidden div -->
+          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap closed">
+            <div class="row">
+              <div class="contacts">
+                <div class="fl-lf">
+                  <button class="toggler">Contact <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></button>
+                </div>
+                <div class="fl-rg">
+                  <!--TODO implement dynamic variables -->
+                  <a ng-href="{{ user.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                  <a ng-href="{{ user.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="padd-vert col-sm-12 brd-btm office-list">
+                <div class="mrg-btm-big office-list-item">
+                  <div class="orange smbd">berlin</div>
+                  <div>Peterburgerstrasse 94</div>
+                  <div>Berlin, DE 12057</div>
+                  <div>Ms. Eva Stone</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    harry@google.com
+                  </div>
+                  <div>
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    123456768
+                  </div>
+                </div>
+                <div class="mrg-btm-big office-list-item">
+                  <div class="orange smbd">berlin</div>
+                  <div>Peterburgerstrasse 94</div>
+                  <div>Berlin, DE 12057</div>
+                  <div>Ms. Eva Stone</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    harry@google.com
+                  </div>
+                  <div>
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    123456768
+                  </div>
+                </div>
+                <div class="mrg-btm-big office-list-item">
+                  <div class="orange smbd">berlin</div>
+                  <div>Peterburgerstrasse 94</div>
+                  <div>Berlin, DE 12057</div>
+                  <div>Ms. Eva Stone</div>
+                  <div class="smbd orange mrg-btm-small">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    harry@google.com
+                  </div>
+                  <div>
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    123456768
+                  </div>
+                </div>
+              </div>
+              <div class="padd-vert col-sm-12">
+                <!--TODO implement dynamic variables -->
+                <p class="smbd">founded in 2010</p>
+                <p class="smbd">27 employees</p>
+                <p>Annual revenue: 10,000,000.00 €</p>
+                <p>VC Founding amount: -</p>
+                <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" href="{{ data.website }}">
+                  {{ data.website }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 border-box mrg-btm padd-vert">
+            <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS</div>
+            <div class="row">
+              <div class="col-sm-6" ng-repeat="benefit in data.benefits">
+                <div class="benefit-item {{ benefit }}">{{ benefit }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>Status</dt>
-          <dd>{{ data.status }}</dd>
-          <dt>Website</dt>
-          <dd>{{ data.website }}</dd>
-          <dt ng-show="data.fb_url">Facebook</dt>
-          <dd ng-show="data.fb_url"><a ng-href="{{ data.fb_url }}">{{ data.fb_url }}</a></dd>
-          <dt ng-show="data.linkedin_url">Linked in</dt>
-          <dd ng-show="data.linkedin_url"><a ng-href="{{ data.linkedin_url }}">{{ data.linkedin_url }}</a></dd>
-          <dt ng-show="data.founding_year">Founding year</dt>
-          <dd ng-show="data.founding_year">{{ data.founding_year }}</dd>
-          <dt ng-show="data.funding_amount">Founding amount</dt>
-          <dd ng-show="data.funding_amount">{{ data.funding_amount | dottedInteger }}€</dd>
-          <dt ng-show="data.revenue_pa">Revenue</dt>
-          <dd ng-show="data.revenue_pa">{{ data.revenue_pa | dottedInteger }}€</dd>
-          <dt ng-show="data.no_of_employees">Number of employees</dt>
-          <dd ng-show="data.no_of_employees">{{ data.no_of_employees }}</dd>
-          <dt ng-show="data.tech_team_size">Tech team size</dt>
-          <dd ng-show="data.tech_team_size">{{ data.tech_team_size }}</dd>
-
-          <dt>Company Description</dt>
-          <dd ng-bind-html="data.mission_text"></dd>
-
-          <dt>Recruitment process</dt>
-          <dd>{{ data.recruitment_process }}</dd>
-          <dt ng-show="data.training_policy">Training policy</dt>
-          <dd ng-show="data.training_policy">{{ data.training_policy }}</dd>
-          <dt>Benefits</dt>
-          <dd>{{ data.benefits.join(', ') || 'none' }}</dd>
-        </dl>
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="col-sm-8 bg-white">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="user-desc">
+                  <div>
+                    <h2 class="main-title">{{ data.company_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                  </div>
+                  <div class="emp-off-desc">
+                    <div ng-bind-html="data.mission_text"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 bg-white user-desc">
+            <div class="row">
+              <div class="buttons-wrap">
+                <div ng-if="activated">
+                  <button type="button"
+                    class="fw btn bg-green"
+                    ng-show="!isBookmarked"
+                    ng-click="employerProfile.toogleBookmark()">
+                    Request an interview
+                  </button>
+                  <div ng-show="isBookmarked" class="fw btn bg-green-dark">interview requested</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mrg-btm">
+          <div class="col-sm-12 border-box skills-box">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="skills-head">
+                  <div class="big-title skills-title">TECH</div>
+                  <!--TODO implement dynamic variables -->
+                  <span><span class="smbd">Team size</span> </br> 800</span>
+                </div>
+              </div>
+              <div class="col-sm-9">
+                <div class="skills-wrap row">
+                  <div class="col-sm-4" ng-repeat="tag in data.tech_tags">
+                    <div class="skills-item alg-left"><i class="fa fa-gear"></i> {{ tag }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row bg-white mrg-btm">
+          <div class="col-sm-12 pad-top-10">
+            <div class="accordion-wrap">
+              <!--TODO implement dynamic variables -->
+              <div class="">
+                <h3 class="accordion-subtitle">Technology Philosophy</h3>
+                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+              </div>
+              <div class="">
+                <h3 class="accordion-subtitle">Hiring process</h3>
+                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+              </div>
+              <div class="">
+                <h3 class="accordion-subtitle">Training policy</h3>
+                <p class="pad-btm-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, consequat nec gravida in, pretium quis massa. Phasellus dignissim placerat massa in facilisis. Phasellus aliquet felis tellus, a congue dolor commodo quis. Integer tristique commodo mauris. Pellentesque at gravida risus. Quisque sollicitudin consectetur risus, sed viverra mi varius at. Sed ante enim, cursus id eleifend sed, porta sed ante. Sed vestibulum, elit ut sollicitudin placerat, nunc tortor hendrerit enim, vitae dignissim enim metus eget turpis. Suspendisse lorem mauris, aliquam eu lacus rutrum, placerat auctor ligula. Pellentesque convallis, enim eget venenatis pellentesque, neque odio euismod ligula, eget scelerisque metus arcu sit amet augue. Vivamus consectetur fermentum ligula in laoreet. Aenean mollis imperdiet metus, et condimentum magna dapibus quis. Sed malesuada nunc est.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Technologies</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="tag in data.tech_tags">
-          <span class="value">{{ tag }}</span>
-        </li>
-      </ul>
-    </div>
-
-    <div ng-if="ready">
-      <hc-office
-        hc-title="Offices"
-        hc-source="employer.listOffices()"
-        hc-show-empty>
-      </hc-office>
     </div>
   </div>
 </div>
+
