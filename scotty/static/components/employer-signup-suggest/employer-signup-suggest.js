@@ -23,8 +23,8 @@ define(function(require) {
       if (!candidates) return;
 
       $scope.candidates = candidates.map(function(entry) {
-        entry.first_name = entry.first_name[0] + '.';
-        entry.last_name = entry.last_name[0] + '.';
+        entry._data.first_name = entry._data.first_name[0] + '.';
+        entry._data.last_name = entry._data.last_name[0] + '.';
         return entry;
       });
 
@@ -33,7 +33,7 @@ define(function(require) {
   });
 
   return {
-    url: '/suggest/',
+    url: '/approval/',
     template: require('text!./employer-signup-suggest.html'),
     controller: 'SignupSuggestCtrl',
     controllerAs: 'signupSuggest',

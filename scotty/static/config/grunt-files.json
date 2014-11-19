@@ -82,6 +82,9 @@
     "less": "apps/index/styles.less",
     "pages": [
       "about-us.html",
+      "disclaimer.html",
+      "faq.html",
+      "imprint.html",
       "terms-of-service.html"
     ],
     "test": [
@@ -99,6 +102,9 @@
       "css": "dist/build.TIMESTAMP.css",
       "pages": [
         "dist/about-us.html",
+        "dist/disclaimer.html",
+        "dist/faq.html",
+        "dist/imprint.html",
         "dist/terms-of-service.html"
       ]
     }

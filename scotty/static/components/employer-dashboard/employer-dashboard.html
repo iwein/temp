@@ -132,8 +132,10 @@
             <h2 class="main-title">WE SUGGEST</h2>
             <h3 class="main-subtitle pad-all-15 ">Top candidates fitting to your company‘s Profile!</h3>
 
-            <div ng-show="!offers.length" class="pad-btm-15 pad-lft-15">No offers</div>
-            <div ng-show="candidates.length">
+            <div ng-show="!suggested.length" class="pad-btm-15 pad-lft-15">
+              Sorry, there are no candidates matching your criteria
+            </div>
+            <div ng-show="suggested.length">
               <div class="offer-list">
                 <hc-candidate
                   ng-repeat="candidate in suggested"
@@ -145,7 +147,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert">
+      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="candidates.length">
         <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
         <div ng-repeat="candidate in candidates">
           <div class="bld">
@@ -159,8 +161,6 @@
           </div>
         </div>
       </div>
-
     </div>
-
   </div>
 </div>
