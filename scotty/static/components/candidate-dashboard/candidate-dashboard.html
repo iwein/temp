@@ -43,7 +43,7 @@
 
       <div class="col-sm-9">
         <div class="row">
-          <div class="col-sm-12 bg-white row">
+          <div class="col-sm-12 bg-white">
             <div class="bookmarks" ng-show="bookmarks.length">
               <div class="bookmark-title" ng-click="toggle('showBookmarks')">
                 Bookmarks <i class="fa" ng-class="{
@@ -77,7 +77,7 @@
                   <div class="col-sm-8">
                     <div class="row">
                       <div class="col-sm-4">
-                        <img class="img-responsive" ng-src="{{ employer.logo_url }}">
+                        <div class="wrap-img" style="background-image: url({{ employer.logo_url }})"></div>
                         <a class="smbd caps" ui-sref="employer({ id: employer.id })">Company profile  <i class="fa fa-angle-right"></i></a>
                       </div>
                       <div class="col-sm-8">

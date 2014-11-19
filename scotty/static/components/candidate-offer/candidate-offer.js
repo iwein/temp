@@ -7,6 +7,7 @@ define(function(require) {
 
   // jshint maxparams:8
   module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+    $scope.flags = {};
     $scope.getTimelineText = getTimelineText;
     $scope.toggleForm = toggleForm;
     $scope.accept = accept;

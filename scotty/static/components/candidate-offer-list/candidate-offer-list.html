@@ -10,7 +10,7 @@
           <div class="col-sm-12">
             <div class="pad-30" ng-show="!offers.length">No offers</div>
             <ul class="offer-list">
-              <li class="offer-list-item" ng-repeat="offer in offers" ng-class="{ 'last': $last }">
+              <li class="offer-list-item no-marg-right no-marg-left" ng-repeat="offer in offers" ng-class="{ 'last': $last }">
                 <hc-offer
                   ng-model="offer"
                   hc-hide="{{ { candidate: true } }}"
