@@ -8,7 +8,7 @@
              <div class="user-pic" ng-show="data.logo_url" style="background-image: url({{ data.logo_url }})"></div>
           </div>
           <!--TODO toggle class .closed with .open to see the content of the hidden div -->
-          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap closed" ng-class="{
+          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap" ng-class="{
             open: officesSection,
             closed: !officesSection,
           }">
@@ -51,10 +51,10 @@
                 </div>
               </div>
               <div class="padd-vert col-sm-12">
-                <p class="smbd">founded in TODO</p>
+                <p class="smbd">founded in {{ data.funding_year }}</p>
                 <p class="smbd">{{ data.no_of_employees }} employees</p>
-                <p>Annual revenue: {{ data.revenue_pa }}.00 €</p>
-                <p>VC Founding amount: {{ data.funding_amount }}</p>
+                <p>Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
+                <p>VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
                 <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
                   {{ data.website }}
                 </a>
