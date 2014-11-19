@@ -211,3 +211,40 @@
     top: -15px;
   }
 }
+
+.toggler-office {
+  text-transform: uppercase;
+}
+.edit-office{
+  margin-bottom: 10px;
+  padding-top: 5px;
+  color: @gray-dark;
+  margin-left: -15px;
+  padding-left: 15px; 
+  font-size: 12px;
+  font-family: @font-family-headings;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.add-btn-wrap {
+   border-top: 1px solid @gray;
+   margin-top: 15px;
+   padding-top: 15px;
+}
+
+.wrap-office-content {
+  padding-bottom: 15px;
+  display: none
+}
+
+.wrap-office.open {
+  .wrap-office-content {
+    display: block
+  }
+  .fa-angle-up {
+    display: inline-block;
+  }
+  .fa-angle-down {
+    display: none;
+  }
+}
