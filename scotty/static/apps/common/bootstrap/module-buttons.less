@@ -33,6 +33,27 @@
       background: @gray-lighter3;
     }
   }
+  .link-red{
+    color: @red;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    padding: 6px 0;
+    span {
+      border-bottom: 1px solid @red;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .link-red.active {
+    background: @gray-lighter2;
+  }
+
+}
+
+.active-form-reject .link-red {
+  background: @gray-lighter2;
 }
 
 .btn-edit {

@@ -1,0 +1,84 @@
+.status-ACTIVE {
+  .accepted-message,
+  .reject-message,
+  .interviewing-message,
+  .negotiation-message,
+  .withdrawn-message,
+  .signed-message {
+    display: none;
+  }
+}
+
+.status-ACCEPTED {
+  .accept-message,
+  .reject-message,
+  .interviewing-message,
+  .negotiation-message,
+  .withdrawn-message,
+  .signed-message {
+    display: none;
+  }
+}
+
+.status-REJECTED {
+  .accept-message,
+  .accepted-message,
+  .interviewing-message,
+  .negotiation-message,
+  .withdrawn-message,
+  .signed-message {
+    display: none;
+  }
+  .custom {
+    color: @red !important;
+  }
+}
+
+.status-INTERVIEW {
+  .accept-message,
+  .accepted-message,
+  .reject-message,
+  .negotiation-message,
+  .withdrawn-message,
+  .signed-message {
+    display: none;
+  }
+}
+
+.status-CONTRACT_NEGOTIATION{
+  .accept-message,
+  .accepted-message,
+  .reject-message,
+  .interviewing-message,
+  .withdrawn-message,
+  .signed-message{
+    display: none;
+  }
+}
+.status-WITHDRAWN{
+  .accept-message,
+  .accepted-message,
+  .reject-message,
+  .interviewing-message,
+  .negotiation-message,
+  .signed-message{
+    display: none;
+  }
+  .custom {
+    color: @red !important;
+  }
+}
+
+.status-CONTRACT_SIGNED {
+  .accept-message,
+  .accepted-message,
+  .reject-message,
+  .interviewing-message,
+  .negotiation-message,
+  .withdrawn-message {
+    display: none
+  }
+  .custom {
+    color: @green !important;
+  }
+}

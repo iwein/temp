@@ -101,7 +101,7 @@ form {
   }
   .form-control {
     border-radius: 0;
-    border: 1px solid #AAAAAA;
+    border: none;
   }
 }
 
@@ -157,10 +157,17 @@ form {
   &.last {
     border: none;
   }
-  img {
+  .wrap-img {
     margin: 0 0 10px 0;
     border: 1px solid @gray-light;
     min-height: 120px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    background-color: @white;
+  }
+  img {
+    
   }
   .smbd {
     text-decoration: none;
