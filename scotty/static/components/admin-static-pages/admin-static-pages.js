@@ -6,6 +6,13 @@ define(function(require) {
   module.controller('StaticPagesCtrl', function($scope, API) {
     $scope.edit = edit;
     $scope.submit = submit;
+    $scope.pages = {
+      FAQ: 'Frequent asked questions',
+      DISCLAIMER: 'Disclaimer',
+      TOS: 'Terms of Service',
+      ABOUTUS: 'About Us',
+      IMPRINT: 'Imprint',
+    };
 
 
     function edit(page) {

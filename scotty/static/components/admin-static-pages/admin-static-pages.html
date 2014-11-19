@@ -1,11 +1,8 @@
 <h2>Custom Pages</h2>
 
 <ul>
-  <li>
-    <button type="button" class="btn btn-primary" ng-click="edit('ABOUTUS')">Edit</button> About Us
-  </li>
-  <li>
-    <button type="button" class="btn btn-primary" ng-click="edit('TOS')">Edit</button> Terms of Service
+  <li ng-repeat="(key, name) in pages">
+    <button type="button" class="btn btn-primary" ng-click="edit(key)">Edit</button> {{ name }}
   </li>
 </ul>
 
