@@ -10,7 +10,7 @@
   typeahead-on-select="add(input)"
   typeahead="entry for entry in getSource($viewValue)">
 
-<ul class="list-unstyled">
+<ul class="skills-list">
   <li ng-repeat="entry in ngModel" class="label label-default" role="label">
     {{ hcRender({ $entry: entry }) }}
     <button type="button" class="close" data-dismiss="label" ng-click="remove(entry, $index)">
