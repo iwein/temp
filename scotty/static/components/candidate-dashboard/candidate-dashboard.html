@@ -11,10 +11,10 @@
         </div>
 
         <div class="row">
-            <div class="timeline">
-              <div class="gray-bar"></div>
-              <div class="timeline-start"></div>
-            </div>
+          <div class="timeline">
+            <div class="gray-bar"></div>
+            <div class="timeline-start"></div>
+          </div>
         </div>
 
         <div class="row timeline-item" ng-repeat="entry in news">
@@ -42,18 +42,113 @@
       </div>
 
       <div class="col-sm-6">
-
         <div class="row">
+          <div class="col-sm-12 bg-gray-light mrg-btm">
+            <div class="search-box">
+              <h4 class="search-box-title">Search for companies</h4>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-9 no-padd-left">
+                      <hc-label-typeahead
+                        placeholder="Skills"
+                        ng-model="terms"
+                        hc-source="searchEmployers.searchSkills($viewValue)"
+                        on-change="searchEmployers.search()">
+                      </hc-label-typeahead>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 search-label no-padd-left">Location</div>
+                    <div class="col-sm-9 no-padd-left">
+                      <input type="text"
+                        class="form-control"
+                        placeholder="Location"
+                        ng-disabled="!terms.length"
+                        ng-model="locationText"
+                        ng-blur="searchEmployers.setLocation(locationText)"
+                        typeahead-on-select="searchEmployers.setLocation(locationText)"
+                        typeahead="location for location in searchEmployers.searchLocations($viewValue)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--the whole box search result must be shown only after the user has selected some-->
+          <div class="search-results">
+            <div class="search-border"></div>
+            <div class="search-result-item row" ng-repeat="employer in employers">
+              <div class="col-sm-12 mrg-btm-small no-padd-right">
+                <div class="location">
+                  <i class="fa  fa-map-marker gray"></i>
+                  {{ employer.offices[0].address_city.city }}, {{ employer.offices[0].address_city.country_iso }}
+                </div>
+                <a class="link-profile fl-rg" ui-sref="employer({ id: employer.id })">
+                  company profile <i class="fa fa-angle-right"></i>
+                </a>
+              </div>
+              <div class="col-sm-12 ">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="img-wrap mrg-btm-small" style="background-image: url({{ employer.logo_url }})"></div>
+                  </div>
+                  <div class="col-sm-7">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="search-result-item-title">{{ employer.company_name }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-7 col-sm-offset-1">
+                    <div class="row">
+                      <div class="col-sm-12 req-list">
+                        <div class="key">
+                          <i class="fa fa-gear blue-link ico-req-list"></i>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <div class="req-list-title mrg-btm-small">Technology</div>
+                              </div>
+                              <div class="col-sm-4 mrg-btm-small">
+                                <span>ruby</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end item-->
+          </div>
+        </div>
+
+          
           <div class="col-sm-12 bg-white">
             <h2 class="main-title no-marg-right">WE RECOMMEND</h2>
             <h3 class="main-subtitle pad-all-15 ">Top companies using your target tech!</h3>
             <div ng-show="terms.length && !loading && !employers.length">No employer found</div>
+            <div ng-show="suggested.length">
+              <div class="offer-list">
+                <hc-employer
+                  ng-repeat="employer in suggested"
+                  ng-model="employer"
+                  hc-link-profile>
+                </hc-employer>
+              </div>
+            </div>
 
-            <div class="company-list">
+            <!--div class="company-list">
               <div class="company-list-item" ng-repeat="employer in suggested" ng-class="{ 'last': $last }">
                 <div class="row">
                   <div class="col-sm-12 mrg-btm-small">
-                    <!-- TODO make the city dynamic -->
                     <div class="location"><i class="fa  fa-map-marker gray-light"></i> Berlin, DE</div>
                     <i class="bookmark" ng-class="{
                       'bookmark_active': employer.isBookmarked,
@@ -84,10 +179,13 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div-->
           </div>
+        
         </div>
       </div>
+      
+    
       <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="bookmarks.length">
         <div class="bookmark-title" ng-click="toggle('showBookmarks')">
           Bookmarks <i class="fa" ng-class="{
@@ -104,7 +202,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
