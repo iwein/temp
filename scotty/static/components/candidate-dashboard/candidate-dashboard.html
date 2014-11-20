@@ -54,8 +54,8 @@
                       <hc-label-typeahead
                         placeholder="Skills"
                         ng-model="terms"
-                        hc-source="searchEmployers.searchSkills($viewValue)"
-                        on-change="searchEmployers.search()">
+                        hc-source="searchSkills($viewValue)"
+                        on-change="search()">
                       </hc-label-typeahead>
                     </div>
                   </div>
@@ -69,9 +69,9 @@
                         placeholder="Location"
                         ng-disabled="!terms.length"
                         ng-model="locationText"
-                        ng-blur="searchEmployers.setLocation(locationText)"
-                        typeahead-on-select="searchEmployers.setLocation(locationText)"
-                        typeahead="location for location in searchEmployers.searchLocations($viewValue)">
+                        ng-blur="setLocation(locationText)"
+                        typeahead-on-select="setLocation(locationText)"
+                        typeahead="location for location in searchLocations($viewValue)">
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@
           </div>
         </div>
 
-          
+
           <div class="col-sm-12 bg-white">
             <h2 class="main-title no-marg-right">WE RECOMMEND</h2>
             <h3 class="main-subtitle pad-all-15 ">Top companies using your target tech!</h3>
@@ -181,11 +181,11 @@
               </div>
             </div-->
           </div>
-        
+
         </div>
       </div>
-      
-    
+
+
       <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="bookmarks.length">
         <div class="bookmark-title" ng-click="toggle('showBookmarks')">
           Bookmarks <i class="fa" ng-class="{
