@@ -45,10 +45,8 @@ define(function(require) {
             'location', 'pob', 'stackoverflow_url');
         });
       },
-      save: function(model) {
-        return Session.getUser().then(function(user) {
-          return user.updateData(model);
-        });
+      save: function(model, form, user) {
+        return user.updateData(model);
       }
     });
     $scope.salary = form({
@@ -66,14 +64,12 @@ define(function(require) {
           };
         });
       },
-      save: function(model) {
-        return Session.getUser().then(function(user) {
-          $scope.targetPosition.data.minimum_salary = model.salary;
-          return $q.all([
-            user.setPreferredLocations(model.locations),
-            user.setTargetPosition($scope.targetPosition.data),
-          ]);
-        });
+      save: function(model, form, user) {
+        $scope.targetPosition.data.minimum_salary = model.salary;
+        return $q.all([
+          user.setPreferredLocations(model.locations),
+          user.setTargetPosition($scope.targetPosition.data),
+        ]);
       },
       edit: function(data) {
         $scope.salary.data.germany = false;
@@ -111,10 +107,8 @@ define(function(require) {
       source: function(user) {
         return user.getTargetPosition();
       },
-      save: function(model) {
-        return Session.getUser().then(function(user) {
-          return user.setTargetPosition(model);
-        });
+      save: function(model, form, user) {
+        return user.setTargetPosition(model);
       }
     });
     $scope.summary = form({
@@ -124,10 +118,8 @@ define(function(require) {
           return data.summary;
         });
       },
-      save: function(model) {
-        return Session.getUser().then(function(user) {
-          return user.updateData({ summary: model });
-        });
+      save: function(model, form, user) {
+        return user.updateData({ summary: model });
       }
     });
     $scope.dob = form({
@@ -140,10 +132,8 @@ define(function(require) {
           };
         });
       },
-      save: function(model) {
-        return Session.getUser().then(function(user) {
-          return user.updateData(model);
-        });
+      save: function(model, form, user) {
+        return user.updateData(model);
       }
     });
     $scope.availability = form({
@@ -153,10 +143,8 @@ define(function(require) {
           return data.availability;
         });
       },
-      save: function(model) {
-        return Session.getUser().then(function(user) {
-          return user.updateData({ availability: model });
-        });
+      save: function(model, form, user) {
+        return user.updateData({ availability: model });
       }
     });
     $scope.picture = form({
@@ -166,11 +154,9 @@ define(function(require) {
           return data.picture_url;
         });
       },
-      save: function(model) {
+      save: function(model, form, user) {
         return Amazon.upload(model[0], 'users', Session.id()).then(function(url) {
-          return Session.getUser().then(function(user) {
-            return user.setPhoto(url + '?nocache=' + Date.now());
-          });
+          return user.setPhoto(url + '?nocache=' + Date.now());
         });
       },
     });
@@ -248,7 +234,8 @@ define(function(require) {
         save: function(model, form) {
           $scope.loading = true;
           Loader.add('profile');
-          return options.save(model, form)
+          return Session.getUser()
+            .then(options.save.bind(options, model, form))
             .then(this.refresh.bind(this))
             .then(this.close.bind(this))
             .finally(function() {
