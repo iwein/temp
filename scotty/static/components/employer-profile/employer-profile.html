@@ -106,11 +106,6 @@
                     ng-disabled="loading"
                     ng-model="company.data.no_of_employees">
                 </div>
-                <h5 class="edit-title">Company mission</h5>
-                <div>
-                  <text-angular ng-model="company.data.mission_text"></text-angular>
-                  <!--<textarea class="form-control fw mrg-btm"></textarea>-->
-                </div>
 
                 <div class="buttons-wrap">
                   <button type="submit"
@@ -368,17 +363,11 @@
       </div>
       <div class="col-sm-9">
         <div class="edit-tarpos" ng-show="summary.editing">
-          <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
+          <h5 class="edit-title">Mission</h5>
           <div class="row">
             <div class="col-sm-5">
               <form class="edit-form" ng-submit="summary.save(summary.data)">
-                <textarea
-                  class="fw"
-                  placeholder="Technology philosophy"
-                  name="tech_team_philosophy"
-                  ng-disabled="loading"
-                  ng-model="summary.data.summary">
-                </textarea>
+                <text-angular ng-model="summary.data.mission_text"></text-angular>
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -406,7 +395,7 @@
                   </div>
                   <div class="emp-off-desc">
                     <div>
-                      <p>{{ data.summary }} <button type="submit"
+                      <p>{{ data.mission_text }} <button type="submit"
                         class="btn-edit-sub no-fl"
                         ng-disabled="loading"
                         ng-show="isEditing && !formOpen"
