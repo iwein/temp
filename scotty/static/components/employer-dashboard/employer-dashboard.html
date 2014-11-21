@@ -79,56 +79,19 @@
             <!--the whole box search result must be shown only after the user has selected some-->
             <div class="search-results">
               <div class="search-border"></div>
-              <div class="search-result-item row" ng-repeat="entry in searchResults">
-                <div class="col-sm-12 mrg-btm-small no-padd-right">
-                  <div class="location">
-                    <i class="fa  fa-map-marker gray"></i>
-                    {{ entry.location.city }}, {{ entry.location.country_iso }}
-                  </div>
-                  <a class="link-profile fl-rg" ui-sref="candidate({ id: entry.id })">
-                    view profile <i class="fa fa-angle-right"></i>
-                  </a>
+              <div class="spinner" ng-show="loading"></div>
+              <div ng-show="terms.length && !loading && !candidates.length">No employer found</div>
+              <div ng-show="suggested.length">
+                <div class="offer-list">
+                  <hc-candidate
+                    ng-repeat="candidate in candidates"
+                    ng-model="candidate"
+                    hc-link-profile>
+                  </hc-candidate>
                 </div>
-                <div class="col-sm-12 ">
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="img-wrap mrg-btm-small" style="background-image: url({{ entry.picture_url }})"></div>
-                    </div>
-                    <div class="col-sm-7">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <div class="search-result-item-title">{{ entry.position.role }}</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-7 col-sm-offset-1">
-                      <div class="row">
-                        <div class="col-sm-12 req-list">
-                          <div class="key">
-                            <i class="fa fa-star ico-req-list"></i>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <div class="req-list-title mrg-btm-small">Skills</div>
-                                </div>
-                                <div class="col-sm-4 mrg-btm-small" ng-repeat="skill in entry.skills">
-                                  <span>{{ skill.skill }}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
-              <!--end item-->
-
             </div>
+              <!--end item-->
           </div>
 
 
