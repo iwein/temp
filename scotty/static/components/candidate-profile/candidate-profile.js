@@ -239,6 +239,13 @@ define(function(require) {
           eu_work_visa: user.eu_work_visa,
         };
         $scope.ready = true;
+
+        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+        $scope.status = $scope.offers.reduce(function(summary, value) {
+          if (finalStatus.indexOf(value.status) !== -1) return;
+          if (value.status === 'CONTRACT_SIGNED') return 'hired';
+          return summary || 'reviewing';
+        }, null) || 'searching';
       });
     }
 
