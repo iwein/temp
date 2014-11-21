@@ -123,8 +123,8 @@
 
 /* font-weight */
 
-.bld {
-  font-weight: bold;
+.font-bld {
+  font-weight: bold !important;
 }
 
 .und {
@@ -159,6 +159,9 @@
 .blue-link {
   color: @blue-link !important;
 }
+.blue {
+  color: @blue !important;
+}
 .red {
   color: @red;
 }
@@ -166,7 +169,7 @@
   color: @green
 }
 .orange {
-  color: @orange;
+  color: @orange !important;
 }
 .bld {
   font-family: @font-family-sans-serif-bld !important
@@ -230,7 +233,7 @@
   padding-right: 0;
 }
 .no-padd-top {
-  padding-top: 0;
+  padding-top: 0 !important;
 }
 .no-padd-left {
   padding-left: 0;
@@ -284,7 +287,8 @@
 
 /* aling */
 .fw {
-  width: 100%
+  width: 100% !important;
+  max-width: 100% !important;
 }
 .alg-right {
   text-align: right !important
