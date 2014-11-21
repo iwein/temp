@@ -14,6 +14,12 @@ define(function(require) {
     $scope.ready = false;
     Loader.page(true);
     var self = this;
+    var statuses = [
+      'ACCEPTED',
+      'INTERVIEW',
+      'CONTRACT_NEGOTIATION',
+      'CONTRACT_SIGNED',
+    ];
 
     Permission.requireLogged().then(function() {
       $scope.id = $state.params.id;
@@ -32,6 +38,7 @@ define(function(require) {
           data.interview_details = $sce.trustAsHtml(data.interview_details);
           data.job_description = $sce.trustAsHtml(data.job_description);
           data.message = $sce.trustAsHtml(data.message);
+          data.accepted = statuses.indexOf(data.status) !== -1;
         });
 
         return Session.getCandidate(offer.data.candidate_id).then(function(candidate) {
