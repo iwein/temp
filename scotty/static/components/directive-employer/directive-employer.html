@@ -16,9 +16,6 @@
         <a class="link-profile" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">
           Company profile <i class="fa fa-angle-right"></i>
         </a>
-        <span ng-if="!hcLinkProfile">
-          {{ model._data.first_name }} {{ model._data.last_name }}
-        </span>
       </div>
       <div class="col-sm-7">
         <div class="row">
@@ -39,8 +36,8 @@
                   <div class="col-sm-12">
                     <div class="req-list-title mrg-btm-small">Technology</div>
                   </div>
-                  <div class="col-sm-4 mrg-btm-small" ng-repeat="skill in model._data.skills">
-                    <span>{{ skill.skill }}</span>
+                  <div class="col-sm-4 mrg-btm-small" ng-repeat="tech in employer.tech_tags">
+                    <span>{{ tech }}</span>
                   </div>
                 </div>
               </div>

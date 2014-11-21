@@ -178,7 +178,27 @@ define(function(require) {
     });
     var experience = $scope.experience = listForm({
       source: function(user) {
-        return user.getExperience();
+        return user.getExperience().then(function(list) {
+          var total = 0;
+          var timeline = list.map(function(entry) {
+            var start = new Date(entry.start);
+            var end = entry.end ? new Date(entry.end) : new Date();
+            var duration = end - start;
+            total += duration;
+            return {
+              start: start,
+              duration: duration,
+              role: entry.role,
+            };
+          });
+          timeline.forEach(function(entry) {
+            entry.percent = (100 - 2) / total * entry.duration;
+          });
+          $scope.timeline = timeline.sort(function(a, b) {
+            return a.start - b.start;
+          });
+          return list;
+        });
       },
     });
     var education = $scope.education = listForm({

@@ -159,8 +159,8 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>6 year 1 month</span></h2>
               <div class="accordion-wrap">
-                
-                <hc-accordion ng-repeat="experience in workExperience">
+
+                <hc-accordion ng-repeat="experience in workExperience" hc-hide-control="!entry.summary">
                   <h3 class="accordion-subtitle">{{ experience.role }}</h3>
                   <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
                   <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
@@ -175,7 +175,7 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title ">EDUCATION <span>Master of Arts</span></h2>
               <div class="accordion-wrap">
-                
+
                 <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
                   <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
                   <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>

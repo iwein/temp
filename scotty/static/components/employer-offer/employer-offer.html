@@ -40,7 +40,7 @@
         <div class="user-pic" style="background-image: url({{ offer.data.candidate.picture_url }})"></div>
 
         <!--  Contacts box-->
-        <div class="row hidden">
+        <div class="row" ng-if="offer.data.accepted">
           <div class="col-sm-12 info bg-gray-light mrg-btm">
               <div class="row ">
                 <div class="contacts">
@@ -48,31 +48,35 @@
                     <span class="box-title box-title_left" href="#">Contact</span>
                   </div>
                   <div class="fl-rg">
-                    <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
-                    <a ng-show="user.stackoverflow_url" ng-href="{{ user.stackoverflow_url }}"><i class="fa fa-stack-overflow"></i></a>
+                    <a ng-show="offer.data.candidate.github_url" ng-href="{{ offer.data.candidate.github_url }}">
+                      <i class="fa fa-github"></i>
+                    </a>
+                    <a ng-show="offer.data.candidate.stackoverflow_url" ng-href="{{ offer.data.candidate.stackoverflow_url }}">
+                      <i class="fa fa-stack-overflow"></i>
+                    </a>
                     <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
                   </div>
                 </div>
                 <div class="padd-vert col-sm-12">
                   <div class="smbd orange mrg-btm-small">
                     <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    {{ contact.data.email }}
+                    {{ offer.data.candidate.email }}
                   </div>
-                  <div ng-show="contact.data.contact_phone">
+                  <div ng-show="offer.data.candidate.contact_phone">
                     <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    {{ contact.data.contact_phone }}
+                    {{ offer.data.candidate.contact_phone }}
                   </div>
                 </div>
               </div>
           </div>
         </div>
         <!--  Contacts placeholder-->
-        <div class="row">
+        <div class="row" ng-show="!offer.data.accepted">
           <div class="col-sm-12 info bg-gray-light mrg-btm">
             <p class="pad-xl">The contact details will be visible after the candidate accepted your offer.</p>
           </div>
         </div>
-      
+
 
         <div class="rel row pad-btm-15">
 
@@ -198,7 +202,7 @@
           <div class="buttons-wrap">
             <button class="fw btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')">Contract Signed</button>
           </div>
-          
+
           <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
             <form class="form-wrap"  ng-submit="sign(offer, signing)">
               <p>Please provide the following information.</p>

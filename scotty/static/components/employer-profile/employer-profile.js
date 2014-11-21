@@ -24,11 +24,10 @@ define(function(require) {
     });
 
 
-
     $scope.summary = formSimple({
       set: function(data) {
         $scope.data = data;
-        return { summary: data.summary };
+        return { mission_text: data.mission_text };
       },
       save: function(model, form, user) {
         return user.updateData(model);
@@ -58,7 +57,7 @@ define(function(require) {
         $scope.data = data;
         $scope.missionDirty = false;
         return _.pick(data, 'website', 'funding_year', 'revenue_pa',
-          'funding_amount', 'no_of_employees', 'mission_text');
+          'funding_amount', 'no_of_employees');
       },
       save: function(model, form, user) {
         if ($scope.errorMissionEmpty) return;

@@ -8,6 +8,7 @@ define(function(require) {
     this.error = this.show.bind(this, 'error');
     this.warning = this.show.bind(this, 'warning');
     this.info = this.show.bind(this, 'info');
+    this.success = this.show.bind(this, 'success');
   }
 
   Notifier.prototype = {

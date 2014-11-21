@@ -16,7 +16,6 @@ define(function(require) {
       .state('forget-password', require('components/shared-forget-password/shared-forget-password'))
       .state('reset-password', require('components/shared-reset-password/shared-reset-password'))
 
-      .state('search-candidates', require('components/employer-search-candidates/employer-search-candidates'))
       .state('candidate', require('components/employer-candidate-profile/employer-candidate-profile'))
       .state('create-offer', require('components/employer-create-offer/employer-create-offer'))
       .state('offer', require('components/employer-offer/employer-offer'))
