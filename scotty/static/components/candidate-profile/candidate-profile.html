@@ -360,7 +360,7 @@
             </div>
 
             <!-- Offers box -->
-            <div class="col-sm-12 bg-gray-light mrg-btm ">
+            <div class="col-sm-12 bg-gray-light mrg-btm" ng-show="offers.length">
               <div class="bg-gray-light row">
                 <div class="offer-box col-sm-12">
                   <div class="box-title box-title_left mrg-btm">Offers</div>
@@ -606,7 +606,7 @@
                             <hc-stars ng-model="entry.level" hc-values="starValues"></hc-stars>
                           </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" ng-show="unleveledSkills">
                           <div class="skills-others">
                             <span class="smbd">Others:</span> {{ unleveledSkills }}
                           </div>
