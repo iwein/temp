@@ -168,23 +168,25 @@
 }
 /* box offices */
 .office-wrap.closed {
- .office-list,
- .fa-angle-up {
+ .office-list-item, {
   display: none
  }
+ .office-list-item:first-child{
+    display: block !important
+  }
+  .less {
+    display: none
+  }
 }
 .office-wrap.open {
-  .office-list,
- .fa-angle-up {
-  display: inline-block;
- }
- button {
-  color: @white ;
- }
- .fa-angle-down{
-  display: none
- }
+  .office-list-item{
+    display: inline-block;
+  }
+  .more {
+    display: none
+  }
 }
+
 .office-list-item:last-child {
   margin-bottom: 0 !important;
 }

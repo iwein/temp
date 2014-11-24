@@ -4,10 +4,10 @@
       <i class="fa  fa-map-marker gray-light"></i>
       {{ model._data.location.city }}, {{ model._data.location.country_iso }}
     </div>
-    <i class="bookmark" ng-class="{
+    <button class="bookmark"><i  ng-class="{
       'bookmark_active': employer.isBookmarked,
       'bookmark_inactive': !employer.isBookmarked,
-    }"></i>
+    }"></i></button>
     <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">
           Company profile <i class="fa fa-angle-right"></i></a>
   </div>

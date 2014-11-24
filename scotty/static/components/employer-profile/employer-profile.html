@@ -22,11 +22,11 @@
       <div class="col-sm-3">
         <div class="row">
           <div class="col-sm-12 bg-gray-light">
-            <button class="edit-user-pic-btn" ng-click="picture.edit()">
+            <button class="edit-user-pic-btn" ng-show="isEditing && !openForm" ng-click="picture.edit()">
               <i class="fa fa-camera-retro"></i>
             </button>
             <div class="edit-user-pic" ng-show="picture.editing">
-              <form class="bg-gray-lighter3 padd-vert col-sm-12">
+              <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data)">
                 <h5 class="edit-title">Profile picture</h5>
                 <input type="file"
                   class="mrg-btm"
@@ -38,7 +38,7 @@
                   hc-file-select="selectFile($files)"
                   hc-data-url="selectedPicture">
                 <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
-                <div class="buttons-wrap mrg-btm-small">
+                <div class="buttons-wrap mrg-btm">
                   <button type="button"
                     class="fl-lf bg-gray-lighter2 btn-small"
                     ng-click="picture.close()"
@@ -271,7 +271,7 @@
               </button>
               <div class="contacts">
                 <div class="fl-lf">
-                  <button class="toggler">Offices</button>
+                  Offices
                 </div>
                 <div class="fl-rg">
                   <a ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
@@ -307,7 +307,6 @@
 
               <div class="col-sm-12 mrg-btm pad-top-15">
                 <button class="showhide" ng-click="toggle('officesSection')">
-                  <!-- TODO Cristiano please show one or other span if offices are shown/hidden -->
                   <span class="more"><i class="fa fa-angle-down"></i> more</span>
                   <span class="less"><i class="fa fa-angle-up"></i> less</span>
                 </button>
@@ -391,17 +390,17 @@
               <div class="col-sm-12">
                 <div class="user-desc">
                   <div>
-                    <h2 class="main-title">{{ data.company_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                    <h2 class="main-title">{{ data.company_name }}</h2>
                   </div>
                   <div class="emp-off-desc">
                     <div>
-                      <p>{{ data.mission_text }} <button type="submit"
+                      {{ data.mission_text }} <button type="submit"
                         class="btn-edit-sub no-fl"
                         ng-disabled="loading"
                         ng-show="isEditing && !formOpen"
                         ng-click="summary.edit()">
                         <i class="fa fa-pencil"></i>
-                      </button></p>
+                      </button>
                     </div>
                   </div>
                 </div>
