@@ -60,6 +60,7 @@ define(function(require) {
         timeline.forEach(function(entry) {
           entry.percent = (100 - 2) / total * entry.duration;
         });
+        $scope.totalWorkExperience = total;
         $scope.timeline = timeline.sort(function(a, b) {
           return a.start - b.start;
         });

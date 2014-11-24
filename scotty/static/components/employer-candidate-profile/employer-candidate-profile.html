@@ -23,14 +23,14 @@
       <div class="col-sm-3">
         <div class="row">
           <div class="col-sm-12 bg-gray-light">
-            <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
+            <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12 border-box mrg-btm">
             <div class="padd-vert">
               <div> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-            <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
+            <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
             </div>
           </div>
           <div class="col-sm-12 info bg-gray-light mrg-btm">
@@ -48,7 +48,7 @@
               <div class="padd-vert col-sm-12">
                 <div class="smbd orange mrg-btm-small">
                   <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                  {{ user.email }}
+                  <a ng-href="mailto:{{ user.email }}">{{ user.email }}</a>
                 </div>
                 <div ng-show="contact.data.contact_phone">
                   <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
@@ -100,7 +100,6 @@
             <div class="bg-gray-light row" ng-hide="!offers.length">
               <div class="offer-box col-sm-12">
                 <div class="box-title box-title_right alg-cen pad-rgt-15">Offers</div>
-
                 <div ng-repeat="offer in offers">
                   <div class="orange bld">{{ offer.employer.company_name }}</div>
                   <div class="mrg-btm-small">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
@@ -157,13 +156,17 @@
 
           <div class="row bg-white mrg-btm">
             <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>6 year 1 month</span></h2>
+              <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>{{ totalWorkExperience | toMonthsYears }}</span></h2>
               <div class="accordion-wrap">
 
                 <hc-accordion ng-repeat="experience in workExperience" hc-hide-control="!entry.summary">
                   <h3 class="accordion-subtitle">{{ experience.role }}</h3>
                   <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
-                  <span class="accordion-date">{{ experience.start }} – {{ experience.end || 'today' }} ({{ experience | displayMonths }})</span>
+                  <span class="accordion-date">
+                    {{ experience.start | showMonthYear }} –
+                    {{ experience.end || 'today' | showMonthYear }}
+                    ({{ experience | momentDiff | toMonthsYears }})
+                  </span>
                   <!-- WARN: replaced UI by DIV -->
                   <div class="accordion-text">{{ experience.summary }}</div>
                 </hc-accordion>
@@ -179,7 +182,11 @@
                 <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
                   <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
                   <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
-                  <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                  <span class="accordion-date">
+                    {{ entry.start | showMonthYear }} –
+                    {{ entry.end || 'today' | showMonthYear }}
+                    ({{ entry | momentDiff | toMonthsYears }})
+                  </span>
                   <!-- WARN: replaced UI by DIV -->
                   <div class="accordion-text">{{ entry.course }}</div>
                 </hc-accordion>

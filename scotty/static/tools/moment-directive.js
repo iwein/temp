@@ -42,12 +42,17 @@ define(function(require) {
     };
   });
 
-  module.filter('displayMonths', function() {
+  module.filter('momentDiff', function() {
     return function(value) {
       var start = moment(typeof value.start === 'number' ? [value.start] : value.start);
       var end = moment(value.end && (typeof value.end === 'number' ? [value.end] : value.end));
-      var diff = end.diff(start);
-      var total = diff / 1000 / 60 / 60 / 24 / 30;
+      return end.diff(start);
+    };
+  });
+
+  module.filter('toMonthsYears', function() {
+    return function(value) {
+      var total = value / 1000 / 60 / 60 / 24 / 30;
       var years = Math.floor(total / 12);
       var months = Math.round(total % 12);
       var result = '';
@@ -59,6 +64,12 @@ define(function(require) {
         result += months + (months === 1 ? ' month' : ' months');
 
       return result;
+    };
+  });
+
+  module.filter('showMonthYear', function() {
+    return function(value) {
+      return /\d{4}-\d{2}-\d{2}/.test(value) ? value.substr(0, 7) : value;
     };
   });
 
