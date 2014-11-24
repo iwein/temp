@@ -1,19 +1,21 @@
 <div class="offer-list-item-small row">
-  <div class="col-sm-12 mrg-btm-small no-padd-left">
+  <div class="col-sm-12 mrg-btm-small no-padd-left no-padd-right">
     <div class="location">
       <i class="fa  fa-map-marker gray-light"></i>
       {{ model._data.location.city }}, {{ model._data.location.country_iso }}
     </div>
-    <i class="bookmark" ng-class="{
+    <button class="bookmark"><i  ng-class="{
       'bookmark_active': employer.isBookmarked,
       'bookmark_inactive': !employer.isBookmarked,
-    }"></i>
+    }"></i></button>
+    <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">
+          Company profile <i class="fa fa-angle-right"></i></a>
   </div>
   <div class="col-sm-12 no-padd-left">
     <div class="row">
       <div class="col-sm-4">
         <div class="img-wrap mrg-btm-small" style="background-image: url({{ model._data.picture_url }})"></div>
-        <a class="link-profile" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
+        <a class="link-profile link-search-hide" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
           {{ model._data.first_name }} {{ model._data.last_name }} <i class="fa fa-angle-right"></i>
         </a>
         <span ng-if="!hcLinkProfile">

@@ -22,7 +22,6 @@
             <div class="news-ico" ng-class="{
               'news-ico-profile-signup': entry.name === 'SIGN_UP',
               'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
-              'news-ico-profile-pending': entry.name === 'PROFILE_PENDING',
               'news-ico-profile-live': entry.name === 'PROFILE_LIVE',
               'news-ico-offer-received': entry.name === 'OFFER_RECEIVED',
               'news-ico-offer-rejected': entry.name === 'OFFER_REJECTED',
@@ -47,6 +46,7 @@
             <div class="search-box">
               <h4 class="search-box-title">Search for companies</h4>
               <div class="row">
+
                 <div class="col-sm-6">
                   <div class="row">
                     <div class="col-sm-3 search-label">Skills</div>
@@ -60,6 +60,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="col-sm-6">
                   <div class="row">
                     <div class="col-sm-3 search-label no-padd-left">Location</div>
@@ -76,25 +77,24 @@
                   </div>
                 </div>
               </div>
+          
             </div>
-          </div>
-            <!--the whole box search result must be shown only after the user has selected some-->
-          <div class="search-results">
-            <div class="search-border"></div>
-            <div class="spinner" ng-show="loading"></div>
-            <div ng-show="terms.length && !loading && !employers.length">No employer found</div>
-            <hc-employer
-              class="search-result-item row"
-              ng-repeat="employer in employers"
-              ng-model="employer"
-              hc-link-profile>
-            </hc-employer>
-          </div>
-        </div>
 
+            <div class="search-results" ng-show="terms.length">
+              <div class="search-border"></div>
+              <div class="spinner" ng-show="loading"></div>
+              <div ng-show="terms.length && !loading && !employers.length">No employer found</div>
+              <hc-employer
+                ng-repeat="employer in employers"
+                ng-model="employer"
+                hc-link-profile>
+              </hc-employer>
+            </div>
 
+          </div>
+          
           <div class="col-sm-12 bg-white">
-            <h2 class="main-title no-marg-right">WE RECOMMEND</h2>
+            <h2 class="main-title">WE RECOMMEND</h2>
             <h3 class="main-subtitle pad-all-15 ">Top companies using your target tech!</h3>
             <div ng-show="terms.length && !loading && !employers.length">No employer found</div>
             <div ng-show="suggested.length">
@@ -106,42 +106,6 @@
                 </hc-employer>
               </div>
             </div>
-
-            <!--div class="company-list">
-              <div class="company-list-item" ng-repeat="employer in suggested" ng-class="{ 'last': $last }">
-                <div class="row">
-                  <div class="col-sm-12 mrg-btm-small">
-                    <div class="location"><i class="fa  fa-map-marker gray-light"></i> Berlin, DE</div>
-                    <i class="bookmark" ng-class="{
-                      'bookmark_active': employer.isBookmarked,
-                      'bookmark_inactive': !employer.isBookmarked,
-                    }"></i>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="wrap-img" style="background-image: url({{ employer.logo_url }})"></div>
-                        <a class="smbd caps" ui-sref="employer({ id: employer.id })">Company profile  <i class="fa fa-angle-right"></i></a>
-                      </div>
-                      <div class="col-sm-8">
-                        <p ng-bind-html="employer.mission_text"></p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-3 tech-list">
-                    <div class="col-skills row">
-                      <div class="col-sm-12">
-                        <h5>Technologies</h5>
-                      </div>
-                      <div class="col-sm-6" ng-repeat="tag in employer.tech_tags">
-                        {{ tag }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div-->
           </div>
 
         </div>
@@ -164,6 +128,8 @@
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
 </div>

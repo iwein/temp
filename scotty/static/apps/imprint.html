@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <script src="//cdn.optimizely.com/js/2211330333.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,41 +14,41 @@
     <script>less = { logLevel: 1 };</script>
     <script src="../bower_components/less/dist/less-1.7.0.js"></script>
     <!-- endbuild -->
-  </head>
-  <body>
-    <div class="top"></div>
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="bottom"></div>
+</head>
+<body>
+<div class="top"></div>
+<div class="left"></div>
+<div class="right"></div>
+<div class="bottom"></div>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-      function request(url, callback) {
+    function request(url, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.withCredentials = true;
         xhr.send(null);
         xhr.addEventListener('readystatechange', function() {
-          if (xhr.readyState !== 4) return null;
-          callback(JSON.parse(xhr.responseText));
+            if (xhr.readyState !== 4) return null;
+            callback(JSON.parse(xhr.responseText));
         });
-      }
+    }
 
-      var url = 'http://sheltered-meadow-1359.herokuapp.com/api/v1/cms/get?keys=';
-      var binding = {
+    var url = 'http://sheltered-meadow-1359.herokuapp.com/api/v1/cms/get?keys=';
+    var binding = {
         'IMPRINT_TOP': 'top',
         'IMPRINT_LEFT': 'left',
         'IMPRINT_RIGHT': 'right',
         'IMPRINT_BOTTOM': 'bottom',
-      };
+    };
 
-      request(url + Object.keys(binding).join(','), function(response) {
+    request(url + Object.keys(binding).join(','), function(response) {
         response.forEach(function(item) {
-          var element = document.querySelector('.' + binding[item.key]);
-          element.innerHTML = item.value;
+            var element = document.querySelector('.' + binding[item.key]);
+            element.innerHTML = item.value;
         });
-      });
+    });
 
-    </script>
-  </body>
+</script>
+</body>
 </html>

@@ -212,7 +212,7 @@
 }
 
 .fav {
-  max-width: 800px;
+  max-width: 850px;
   text-align: center;
   margin: 0 auto;
   padding: 40px 0;
@@ -231,7 +231,7 @@
   }
 }
 
-.form-wrap {
+.form-wrap-static {
   padding: 30px 0;
   text-align: left;
   .row {
@@ -241,9 +241,10 @@
     font-size: 14px;
     color: @blue;
     line-height: 32px;
+    text-transform: uppercase;
+    font-family: @font-family-sans-serif-mid;
   }
   input {
-    width: 200px;
     border:none;
     padding: 6px;
     height: 32px
@@ -263,6 +264,10 @@
       background: @green-dark
     }
   }
+}
+
+.form-wrap-static-home input{
+  width: 200px;
 }
 .footer-inner {
   float: left;
@@ -295,6 +300,7 @@
     width: 180px;
     display: block;
     margin: 0 auto 10px auto;
+    color: @text-color;
   }
   button {
     background: @green;

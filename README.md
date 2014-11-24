@@ -13,6 +13,11 @@ Demo Environment (updated weekly)
 * Frontend: [http://scotty-demo.s3-website-eu-west-1.amazonaws.com/](http://scotty-demo.s3-website-eu-west-1.amazonaws.com/)
 * API: [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
 
+### Optimizely
+
+
+email: scotty@hackandcraft.com
+Password: Helloworld123
 
 
 ### Setup local development environment:
