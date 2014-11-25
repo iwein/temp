@@ -56,6 +56,10 @@ define(function(require) {
               return levels[b.level] - levels[a.level];
             }).slice(9),
           });
+
+          model.getTargetPosition().then(function(targetposition) {
+            scope.targetPosition = targetposition;
+          });
         });
       },
     };
