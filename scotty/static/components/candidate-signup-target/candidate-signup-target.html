@@ -1,37 +1,25 @@
+
 <div class="component-candidate-signup-target row">
   <div class="col-sm-8">
-    <h3>Target position</h3>
-
-    <hc-target-position-form on-submit="onSubmit($model)">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
-    </hc-target-position-form>
+    <div class="col-sm-12">
+      <h3 class="signup-title">Target position</h3>
+      <hc-target-position-form on-submit="onSubmit($model)">
+      <div class="buttons-wrap">
+        <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading">Continue</button>
+      </div>
+      </hc-target-position-form>
+    </div>
   </div>
 
-  <div class="col-sm-4">
-    <div class="panel panel-default helpbox">
-      <div class="panel-heading">
-        <h3 class="panel-title">Help</h3>
-      </div>
-      <div class="panel-body">
+  <div class="col-sm-4 bg-gray-lighter2">
+    <div class="padd-vert">
+      <div class="box-title box-title_left mrg-btm gray-darker">
+        Help</div>
+      <div class="">
         <p>
-          We make sure you only get job offers you really want.
-          Tell us what tech you want to work with and the minimum you expect to be paid.
-          Then we send you confirmed interview offers for your target position.
+          We make sure you only get job offers you really want. Tell us what tech you want to work with and the minimum you expect to be paid. Then we send you confirmed interview offers for your target position.
         </p>
-        <dl>
-          <dt>Minimum salary</dt>
-          <dd>
-            Do not set your minimum annual salary too high, as it will block employers to send you interesting offers,
-            that have a slightly lower nominal salary but huge other benefits.
-          </dd>
-          <dt>
-            Location
-          </dt>
-          <dd>
-            We currently focus our efforts on the 3 listed locations.
-            Feel free to name any other city in Germany so we know where to focus in the future.
-          </dd>
-        </dl>
+      
       </div>
     </div>
   </div>
