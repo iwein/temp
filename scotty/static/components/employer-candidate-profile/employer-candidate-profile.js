@@ -34,6 +34,10 @@ define(function(require) {
         $scope.workExperience = data[2];
         $scope.education = data[3];
 
+        $scope.offerSent = offers.some(function(entry) {
+          return entry.data.employer_id === Session.user.id;
+        });
+
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
         $scope.status = offers.reduce(function(summary, value) {
           if (finalStatus.indexOf(value.status) !== -1) return;

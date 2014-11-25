@@ -20,6 +20,7 @@ define(function(require) {
     this.searchSkills = ConfigAPI.skills;
     this.setLocation = setLocation;
     this.search = search;
+    $scope.today = new Date();
     $scope.getTimelineText = getTimelineText;
     $scope.ready = false;
     Loader.page(true);

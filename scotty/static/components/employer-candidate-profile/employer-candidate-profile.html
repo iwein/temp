@@ -10,7 +10,7 @@
         </span>
         <span ng-show="status === 'reviewing'">
           <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
-          <span>reviewing offer</span>
+          <span>reviewing offers</span>
         </span>
         <span ng-show="status === 'hired'">
           <span class="green smbd">HIRED</span>
@@ -108,9 +108,8 @@
             </div>
             <div class="row">
               <div class="buttons-wrap mrg">
-                <a ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
-                <!-- button offer made -->
-                <!--a ui-sref="create-offer({ id: id })" class="fw btn bg-blue">offer made</a-->
+                <a ng-show="!offerSent" ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
+                <span ng-show="offerSent" class="fw btn bg-blue">offer made</span>
               </div>
             </div>
           </div>
