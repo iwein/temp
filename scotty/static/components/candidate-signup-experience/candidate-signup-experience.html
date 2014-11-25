@@ -1,33 +1,35 @@
 <div class="component-candidate-signup-experience row" ng-show="ready">
   <div class="col-sm-8">
-    <h3>Work Experience</h3>
+    <div class="col-sm-12">
+      <h3 class="signup-title">Work Experience</h3>
+    
+      <hc-experience
+        name="list"
+        hc-source="listExperience()"
+        on-edit="update($entry, $index)"
+        on-add="add($entry)"
+        hc-editable="true"
+        hc-remove-last="true">
+      </hc-experience>
 
-    <hc-experience
-      name="list"
-      hc-source="listExperience()"
-      on-edit="update($entry, $index)"
-      on-add="add($entry)"
-      hc-editable="true"
-      hc-remove-last="true">
-    </hc-experience>
-
-    <button type="button"
-      class="btn btn-primary"
-      ng-disabled="list.length === 0"
-      ng-click="submit()">
-      Continue
-    </button>
+      <button type="button"
+        class="btn btn-primary"
+        ng-disabled="list.length === 0"
+        ng-click="submit()">
+        Continue
+      </button>
+    </div>
   </div>
 
-  <div class="col-sm-4">
-    <div class="panel panel-default helpbox">
-      <div class="panel-heading">
-        <h3 class="panel-title">Help</h3>
-      </div>
-      <div class="panel-body">
-        Enter your previous jobs and where you currently work.
-        We make sure that your current and former employers cant ever see your profile.
-        You can edit your entries anytime.
+  <div class="col-sm-4 bg-gray-lighter2">
+    <div class="padd-vert">
+      <div class="box-title box-title_left mrg-btm gray-darker">
+        Help</div>
+      <div class="">
+        <p>
+          Enter your previous jobs and where you currently work. We make sure that neither your current and nor any former emploxer will ever see your profile. You can edit your entries anytime.
+        </p>
+      
       </div>
     </div>
   </div>

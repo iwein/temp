@@ -1,7 +1,7 @@
-<form role="form" name="formTarget" class="form-horizontal" ng-if="ready" ng-submit="submit()">
-
-  <div class="form-group required">
-    <label class="col-sm-3">Role</label>
+<form role="form" name="formTarget" class="form-wrap form-signup mrg-btm" ng-if="ready" ng-submit="submit()">
+<div class="form-signup pad-30 bg-gray-lighter mrg-btm">
+  <div class="form-group required row">
+    <label class="col-sm-3">Role*</label>
     <div class="col-sm-9">
       <select class="form-control"
               name="country"
@@ -18,23 +18,26 @@
     </div>
   </div>
 
-  <div class="form-group required">
-    <label class="col-sm-3">Technologies & Skills you want to work with</label>
+  <div class="form-group required row">
+    <label class="col-sm-3">Technologies & Skills*</label>
     <div class="col-sm-9">
-      <div class="checkbox col-sm-6" ng-repeat="skill in featuredSkills">
-        <label class="form-label">
-          <input type="checkbox"
-                 ng-disabled="loading"
-                 ng-model="skill.selected"
-                 ng-change="onFeaturedSkillChange()">
-          {{ skill.value }}
-        </label>
+      <div class="row check-wrap">
+        <div class="col-sm-6" ng-repeat="skill in featuredSkills">
+          <label class="form-label">
+            <input type="checkbox"
+                   ng-disabled="loading"
+                   ng-model="skill.selected"
+                   ng-change="onFeaturedSkillChange()">
+            {{ skill.value }}
+          </label>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="form-group required">
+  <div class="form-group required row">
     <div class="col-sm-offset-3 col-sm-9">
+      <label>Other</label>
       <hc-label-typeahead
               name="skill"
               placeholder="Type a skill..."
@@ -48,8 +51,8 @@
     </div>
   </div>
 
-  <div class="form-group required">
-    <label class="col-sm-3">Minimum annual salary</label>
+  <div class="form-group required row">
+    <label class="col-sm-3">Annual salary*</label>
     <div class="col-sm-9">
       <div class="input-group">
         <span class="input-group-addon">€</span>
@@ -64,7 +67,7 @@
       </div>
     </div>
 
-    <div class="form-error" ng-show="(formTarget.salary.$dirty && formTarget.salary.$invalid) || errorSalaryTooHigh">
+    <div class="form-error col-sm-9 col-sm-offset-3" ng-show="(formTarget.salary.$dirty && formTarget.salary.$invalid) || errorSalaryTooHigh">
       <span ng-show="formTarget.salary.$error.required">Please insert your expected salary.</span>
       <span ng-show="formTarget.salary.$error.number">Please insert a number.</span>
       <span ng-show="formTarget.salary.$error.pattern">Decimals are not allowed.</span>
@@ -72,11 +75,11 @@
     </div>
   </div>
 
-  <div class="form-group required">
-    <label class="col-sm-3">Location</label>
+  <div class="required row">
+    <label class="col-sm-3">Locations*</label>
 
-    <div class="col-sm-4">
-      <div class="checkbox">
+    <div class="col-sm-9 check-wrap">
+      <div class="mrg-btm">
         <label class="form-label">
           <input type="checkbox"
                  ng-disabled="loading || locationOther"
@@ -85,47 +88,56 @@
           Anywhere in Germany
         </label>
       </div>
-      <div class="checkbox" ng-repeat="location in featuredLocations">
-        <label class="form-label">
-          <input type="checkbox"
-                 ng-disabled="loading || anywhereInGermany"
-                 ng-model="location.selected"
-                 ng-change="updateLocations()">
-          {{ location.value.city }}, {{ location.value.country_iso }}
-        </label>
-      </div>
-    </div>
 
-    <div class="col-sm-5">
-      <div class="checkbox">
-        <label class="form-label">
-          <input type="checkbox"
-                 name="location-radio"
-                 ng-disabled="loading || anywhereInGermany"
-                 ng-required="errorLocationRequired"
-                 ng-model="locationOther"
-                 ng-change="updateLocations()">
-          Other
-        </label>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="" ng-repeat="location in featuredLocations">
+            <label class="form-label">
+              <input type="checkbox"
+                     ng-disabled="loading || anywhereInGermany"
+                     ng-model="location.selected"
+                     ng-change="updateLocations()">
+              {{ location.value.city }}, {{ location.value.country_iso }}
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-6">
+        <div class="">
+          <label class="form-label">
+            <input type="checkbox"
+                   name="location-radio"
+                   ng-disabled="loading || anywhereInGermany"
+                   ng-required="errorLocationRequired"
+                   ng-model="locationOther"
+                   ng-change="updateLocations()">
+              Other
+            </label>
+          </div>
+
+          <hc-label-typeahead
+                  name="cities"
+                  placeholder="Type a city..."
+                  ng-show="locationOther"
+                  ng-disabled="loading"
+                  ng-model="preferred_locations"
+                  hc-required="locationOther"
+                  hc-render="locationToText($entry)"
+                  hc-source="searchCities($viewValue)"
+                  on-change="updateLocations()">
+          </hc-label-typeahead>
+        </div>
       </div>
 
-      <hc-label-typeahead
-              name="cities"
-              placeholder="Type a city..."
-              ng-show="locationOther"
-              ng-disabled="loading"
-              ng-model="preferred_locations"
-              hc-required="locationOther"
-              hc-render="locationToText($entry)"
-              hc-source="searchCities($viewValue)"
-              on-change="updateLocations()">
-      </hc-label-typeahead>
+
     </div>
   </div>
+  
+</div>
 
-  <div class="form-group">
-    <div class="col-sm-12">
-      <div ng-transclude></div>
-    </div>
+<div class="row">
+  <div class="col-sm-12">
+    <div ng-transclude></div>
   </div>
+</div>
+  
 </form>
