@@ -146,7 +146,10 @@
                   ng-click="salary.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.data.minimum_salary | dottedInteger }}</div>
+                <div class="mrg-btm-small">
+                  <span class="iconParent"><i class="fa fa-euro orange"></i></span>
+                  {{ targetPosition.data.minimum_salary | dottedInteger }}
+                </div>
                 <div>
                   <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
                   {{ preferredLocations }}
@@ -635,7 +638,7 @@
           <div class="row bg-white mrg-btm">
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
-                WORK EXPERIENCE <span>6 year 1 month</span>
+                WORK EXPERIENCE <span>{{ totalWorkExperience | toMonthsYears }}</span>
                 <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="experience.add()">
                   <i class="fa fa-plus"></i> ADD
                 </button>
@@ -690,7 +693,11 @@
                       </button>
                     </h3>
                     <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
-                    <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                    <span class="accordion-date">
+                      {{ entry.start | showMonthYear }} –
+                      {{ entry.end || 'today' | showMonthYear }}
+                      ({{ entry | momentDiff | toMonthsYears }})
+                    </span>
                     <!-- WARN: replaced UI by DIV -->
                     <div class="accordion-text">{{ entry.summary }}</div>
                   </hc-accordion>
@@ -757,7 +764,11 @@
                       </button>
                     </h3>
                     <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
-                    <span class="accordion-date">{{ entry.start }} – {{ entry.end || 'today' }} ({{ entry | displayMonths }})</span>
+                    <span class="accordion-date">
+                      {{ entry.start | showMonthYear }} –
+                      {{ entry.end || 'today' | showMonthYear }}
+                      ({{ entry | momentDiff | toMonthsYears }})
+                    </span>
                     <!-- WARN: replaced UI by DIV -->
                     <div class="accordion-text">{{ entry.course }}</div>
                   </hc-accordion>
