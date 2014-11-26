@@ -18,14 +18,6 @@ define(function(require) {
     }, 0);
   }
 
-  var levels = {
-    'null': 0,
-    'undefined': 0,
-    'basic': 1,
-    'advanced': 2,
-    'expert': 3,
-  };
-
   module.directive('hcCandidate', function() {
     return {
       restrict: 'EA',
@@ -52,9 +44,7 @@ define(function(require) {
             city: data.contact_city && data.contact_country_iso ?
               (data.contact_city + ', ' + data.contact_country_iso) :
               'Unknown',
-            skills: data.skills.sort(function(a, b) {
-              return levels[b.level] - levels[a.level];
-            }).slice(9),
+            skills: data.skills.slice(9),
           });
 
           model.getTargetPosition().then(function(targetposition) {

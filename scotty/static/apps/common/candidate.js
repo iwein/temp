@@ -1,6 +1,13 @@
 define(function(require) {
   'use strict';
   var Offer = require('./offer');
+  var levels = {
+    'null': 0,
+    'undefined': 0,
+    'basic': 1,
+    'advanced': 2,
+    'expert': 3,
+  };
 
 
   function getHelper(key) {
@@ -25,6 +32,7 @@ define(function(require) {
     this.key = id || 'me';
     this._api = api;
     this._data = data;
+    if (data) this._sortSkills();
   }
 
   Candidate.prototype = {
@@ -32,6 +40,16 @@ define(function(require) {
 
     _url: function() {
       return '/candidates/' + this.key;
+    },
+
+    _sortSkills: function() {
+      this._data.skills = this._data.skills.sort(function(a, b) {
+        var order = levels[b.level] - levels[a.level];
+        if (order !== 0) return order;
+        if (b.skill < a.skill) return 1;
+        if (a.skill < b.skill) return -1;
+        return 0;
+      });
     },
 
     updateData: function(model) {
@@ -46,6 +64,7 @@ define(function(require) {
       return this._api.get(this._url()).then(function(response) {
         this._data = response;
         this.id = response.id;
+        this._sortSkills();
         return response;
       }.bind(this), function(request) {
         if (request.status === 403)
