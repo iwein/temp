@@ -13,10 +13,10 @@
             'col-sm-4': !importing
           }">Company</div>
           <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
-          <div class="col-sm-2">
+          <div class="col-sm-2 alg-cen">
             <span class="lt smbd gray-darker caps">Edit</span>
           </div>
-          <div class="col-sm-2" >
+          <div class="col-sm-2 alg-cen" >
             <!--button type="button"
               class="add-btn no-fl no-marg-top"
               ng-disabled="loading"
@@ -27,29 +27,28 @@
       </div>
 
       <div class="col-sm-12" ng-repeat="entry in model">
-        <div class="row" ng-hide="active === $index">
+        <div class="row mrg-top" ng-hide="active === $index">
 
-          <div class="col-sm-4">
-            {{ entry.company }}
+          <div class="col-sm-4 no-padd-right">
+            <div class="data-box">{{ entry.company }}</div>
           </div>
 
-          <div ng-class="{
+          <div class="no-padd-right" ng-class="{
               'col-sm-4': importing,
               'col-sm-4': !importing
-          }">{{ entry.start }} ({{ entry.end || 'current' }})</div>
+          }"><div class="data-box">{{ entry.start }} ({{ entry.end || 'current' }})</div></div>
 
-          <div class="col-sm-2"> 
+          <div class="col-sm-2 alg-cen pad-top-5"> 
             <i class="fa fa-pencil blue-link"
               ng-show="hcEditable"
               ng-click="hcExperienceCtrl.setActive($index)"></i>
           </div>
 
-          <span class="col-sm-2">
+          <span class="col-sm-2 alg-cen pad-top-5">
             <input type="checkbox" ng-model="entry.import">
           </span>
 
         </div>
-        <div class="padd-vert">
           <hc-experience-form
             ng-if="active === $index"
             ng-model="entry"
@@ -57,23 +56,22 @@
             hc-disabled="loading"
             on-submit="edit($model, $form, $index)">
         
-            <div class="col-sm-12">
+            <div class="">
               <div class="buttons-wrap">
+                <button type="submit"
+                  class="bg-green btn-small fl-rg mrg-lft"
+                  ng-disabled="loading">
+                  Done
+                </button>
                 <button type="button"
-                  class="btn btn-default"
+                  class="bg-gray-light btn-small fl-rg"
                   ng-disabled="loading"
                   ng-click="hcExperienceCtrl.setActive(-1)">
                   Cancel
                 </button>
-                <button type="submit"
-                  class="btn btn-primary"
-                  ng-disabled="loading">
-                  Done
-                </button>
               </div>
             </div>
           </hc-experience-form>
-        </div>
       </div>
       <div class="col-sm-12" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
         <button type="button"
@@ -88,7 +86,7 @@
     </li>
 
 
-    <li class="bg-gray-lighter2 brd-top pad-30" ng-if="adding || (!editing && hcAutomaticAdd)">
+    <li class="bg-gray-lighter2 brd-top pad-30 no-padd-top no-padd-btm" ng-if="adding || (!editing && hcAutomaticAdd)">
       <hc-experience-form
         hc-scope="formContainer"
         name="form"
