@@ -69,7 +69,7 @@ define(function(require) {
       $scope.model.location = city;
       if (!city) return;
       var country = $scope.locations[city.country_iso];
-      $scope.errorLocationUnsuitable = !country || (country.length && country.indexOf(city.city) !== -1);
+      $scope.errorLocationUnsuitable = !country || (country.length && country.indexOf(city.city) === -1);
     }
 
     function onSalaryChange(salary) {
