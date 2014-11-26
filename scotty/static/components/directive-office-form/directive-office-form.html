@@ -1,196 +1,222 @@
-<form name="formOffice" ng-submit="submit()">
+<form name="formOffice" class="edit-form form-wrap form-signup bg-gray-lighter" ng-submit="submit()">
 
-  <div class="form-group required address">
-    <label>Address</label>
-    <input type="text"
-      class="form-control"
-      placeholder="Address Line 1"
-      name="address_line1"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.address_line1">
-
-    <div class="form-error" ng-show="formBasic.address_line1.$dirty && formBasic.address_line1.$invalid">
-      <span ng-show="formBasic.address_line1.$error.required">Please insert your address.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <input type="text"
-      class="form-control"
-      placeholder="Address Line 2"
-      name="address_line2"
-      ng-disabled="hcDisabled"
-      ng-model="model.address_line2">
-
-    <div class="form-error" ng-show="formBasic.address_line2.$dirty && formBasic.address_line2.$invalid">
-      <span ng-show="formBasic.address_line2.$error.required">Please insert your address.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <input type="text"
-      class="form-control"
-      placeholder="Address Line 3"
-      name="address_line3"
-      ng-disabled="hcDisabled"
-      ng-model="model.address_line3">
-  </div>
-
-  <div class="form-group required">
-    <input type="text"
-      class="form-control"
-      placeholder="Zip code"
-      name="zipcode"
-      maxlength="20"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.address_zipcode">
-
-    <div class="form-error" ng-show="formBasic.zipcode.$dirty && formBasic.zipcode.$invalid">
-      <span ng-show="formBasic.zipcode.$error.required">Please insert your zip code.</span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <div class="row">
-      <div class="col-sm-6">
-        <select class="form-control"
-          name="country"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="model.address_city.country_iso"
-          ng-options="country.iso as country.name for country in countries">
-          <option value="">Country...</option>
-        </select>
-        <div class="form-error" ng-show="formBasic.country.$dirty && formBasic.country.$invalid">
-          <span ng-show="formBasic.country.$error.required">Please insert your address.</span>
-        </div>
+    <div class="row required address">
+      <div class="col-sm-3">
+        <label>Offices</label>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-9">
+        <div  class="mrg-btm">
+          <label class="mrg-btm">Address</label>
+          <input type="text"
+            class="form-control"
+            placeholder="Address Line 1"
+            name="address_line1"
+            required
+            ng-disabled="hcDisabled"
+            ng-model="model.address_line1">
 
-        <input type="text"
-          placeholder="City"
-          name="city"
-          class="form-control"
-          required
-          ng-disabled="hcDisabled || !model.address_city.country_iso"
-          ng-model="model.address_city.city"
-          ng-blur="setLocation(model.address_city.city)"
-          typeahead-on-select="setLocation(model.address_city.city)"
-          typeahead="city for city in searchLocations($viewValue, model.address_city.country_iso)">
-
-        <div class="form-error" ng-show="errorInvalidCity || (formBasic.city.$dirty && formBasic.city.$invalid)">
-          <span ng-show="formBasic.city.$error.required">Please insert the city you worked on.</span>
-          <span ng-show="errorInvalidCity">Please choose a city from the menu.</span>
+          <div class="form-error" ng-show="formBasic.address_line1.$dirty && formBasic.address_line1.$invalid">
+            <span ng-show="formBasic.address_line1.$error.required">Please insert your address.</span>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="panel-middle-title">Contact Information</div>
+        <div class="mrg-btm">
+          <input type="text"
+            class="form-control"
+            placeholder="Address Line 2"
+            name="address_line2"
+            ng-disabled="hcDisabled"
+            ng-model="model.address_line2">
 
-  <div class="row">
-    <div class="col-sm-3">
-      <div class="form-group required">
-        <label>Salutation</label>
-        <select class="form-control"
-          name="salutation"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="model.contact_salutation"
-          ng-options="salutation for salutation in salutations">
-          <option value="">Salutation...</option>
-        </select>
-        <div class="form-error" ng-show="formOffice.salutation.$dirty && formOffice.salutation.$invalid">
-          <span ng-show="formOffice.salutation.$error.required">Please select a salutation</span>
+          <div class="form-error" ng-show="formBasic.address_line2.$dirty && formBasic.address_line2.$invalid">
+            <span ng-show="formBasic.address_line2.$error.required">Please insert your address.</span>
+          </div>
+        </div>
+      
+        <div class="mrg-btm">
+          <input type="text"
+            class="form-control"
+            placeholder="Address Line 3"
+            name="address_line3"
+            ng-disabled="hcDisabled"
+            ng-model="model.address_line3">
+        </div>
+
+        <div class="mrg-btm required">
+          <input type="text"
+            class="form-control"
+            placeholder="Zip code"
+            name="zipcode"
+            maxlength="20"
+            required
+            ng-disabled="hcDisabled"
+            ng-model="model.address_zipcode">
+
+          <div class="form-error" ng-show="formBasic.zipcode.$dirty && formBasic.zipcode.$invalid">
+            <span ng-show="formBasic.zipcode.$error.required">Please insert your zip code.</span>
+          </div>
+        </div>
+
+      <div class="mrg-btm required">
+        <div class="row">
+          <div class="col-sm-6">
+            <select class="form-control"
+              name="country"
+              required
+              ng-disabled="hcDisabled"
+              ng-model="model.address_city.country_iso"
+              ng-options="country.iso as country.name for country in countries">
+              <option value="">Country...</option>
+            </select>
+            <div class="form-error" ng-show="formBasic.country.$dirty && formBasic.country.$invalid">
+              <span ng-show="formBasic.country.$error.required">Please insert your address.</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+
+            <input type="text"
+              placeholder="City"
+              name="city"
+              class="form-control"
+              required
+              ng-disabled="hcDisabled || !model.address_city.country_iso"
+              ng-model="model.address_city.city"
+              ng-blur="setLocation(model.address_city.city)"
+              typeahead-on-select="setLocation(model.address_city.city)"
+              typeahead="city for city in searchLocations($viewValue, model.address_city.country_iso)">
+
+            <div class="form-error" ng-show="errorInvalidCity || (formBasic.city.$dirty && formBasic.city.$invalid)">
+              <span ng-show="formBasic.city.$error.required">Please insert the city you worked on.</span>
+              <span ng-show="errorInvalidCity">Please choose a city from the menu.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-4">
-      <div class="form-group required">
-        <label>First name</label>
-        <input type="text"
-          class="form-control"
-          name="contact_first_name"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="model.contact_first_name">
-        <div class="form-error" ng-show="
-          formOffice.contact_first_name.$dirty &&
-          formOffice.contact_first_name.$invalid">
-          <span ng-show="formOffice.contact_first_name.$error.required">
-            Please insert your the name of the contact person of your company.
-          </span>
+
+    <div class="col-sm-9 col-sm-offset-3 mrg-btm mrg-top">
+      <label>Contact Information</lable>
+    </div>
+
+    <div class=" col-sm-12 mrg-btm required">
+      <div class="row">
+        <label class="col-sm-3 alg-right">Salutation</label>
+        <div class="col-sm-9">
+          <select class="form-control"
+            name="salutation"
+            required
+            ng-disabled="hcDisabled"
+            ng-model="model.contact_salutation"
+            ng-options="salutation for salutation in salutations">
+            <option value="">Salutation...</option>
+          </select>
+          <div class="form-error" ng-show="formOffice.salutation.$dirty && formOffice.salutation.$invalid">
+            <span ng-show="formOffice.salutation.$error.required">Please select a salutation</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-5">
-      <div class="form-group required">
-        <label>Last name</label>
-        <input type="text"
-          class="form-control"
-          name="contact_last_name"
-          required
-          ng-disabled="hcDisabled"
-          ng-model="model.contact_last_name">
-        <div class="form-error" ng-show="formOffice.contact_last_name.$dirty && formOffice.contact_last_name.$invalid">
-          <span ng-show="formOffice.contact_last_name.$error.required">
-            Please insert your the name of the contact person of your company.
-          </span>
+
+    <div class="col-sm-12 mrg-btm required">
+      <div class="row">
+        <label class="col-sm-3 alg-right">First name</label>
+        <div class="col-sm-9">
+          <input type="text"
+            class="form-control"
+            name="contact_first_name"
+            required
+            ng-disabled="hcDisabled"
+            ng-model="model.contact_first_name">
+          <div class="form-error" ng-show="
+            formOffice.contact_first_name.$dirty &&
+            formOffice.contact_first_name.$invalid">
+            <span ng-show="formOffice.contact_first_name.$error.required">
+              Please insert your the name of the contact person of your company.
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label>Position / title</label>
-    <input type="text"
-      class="form-control"
-      name="contact_position"
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_position">
-  </div>
-
-  <div class="form-group required">
-    <label>Phone number</label>
-    <input type="tel"
-      class="form-control"
-      name="contact_phone"
-      required
-      pattern="^\+?[0-9 /()-]+$"
-      ng-pattern="/^\+?[0-9 -/()]+$/"
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_phone">
-
-    <div class="form-error" ng-show="
-      formOffice.contact_phone.$dirty &&
-      formOffice.contact_phone.$invalid">
-      <span ng-show="formOffice.contact_phone.$error.required">
-        Please insert your the phone of the contact person of your company.
-      </span>
-      <span ng-show="formProfile.contact_phone.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+    <div class="col-sm-12 mrg-btm required">
+      <div class="row">
+        <label class="col-sm-3 alg-right">Last name</label>
+        <div class="col-sm-9">
+          <input type="text"
+            class="form-control"
+            name="contact_last_name"
+            required
+            ng-disabled="hcDisabled"
+            ng-model="model.contact_last_name">
+          <div class="form-error" ng-show="formOffice.contact_last_name.$dirty && formOffice.contact_last_name.$invalid">
+            <span ng-show="formOffice.contact_last_name.$error.required">
+              Please insert your the name of the contact person of your company.
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    
 
-  <div class="form-group required">
-    <label>Email address</label>
-    <input type="email"
-      class="form-control"
-      name="contact_email"
-      required
-      ng-disabled="hcDisabled"
-      ng-model="model.contact_email">
-
-    <div class="form-error" ng-show="formOffice.contact_email.$dirty && formOffice.contact_email.$invalid">
-      <span ng-show="formOffice.contact_email.$error.required">
-        Please insert your the email of the contact person of your company.
-      </span>
+    <div class="col-sm-12 mrg-btm required">
+      <div class="row">
+        <label class="col-sm-3 alg-right no-padd-left">Position / title</label>
+        <div class="col-sm-9">
+          <input type="text"
+            class="form-control"
+            name="contact_position"
+            ng-disabled="hcDisabled"
+            ng-model="model.contact_position">
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
+    <div class="col-sm-12 mrg-btm required">
+      <div class="row">
+        <label class="col-sm-3 alg-right no-padd-left">Phone number</label>
+        <div class="col-sm-9">
+          <input type="tel"
+            class="form-control"
+            name="contact_phone"
+            required
+            pattern="^\+?[0-9 /()-]+$"
+            ng-pattern="/^\+?[0-9 -/()]+$/"
+            ng-disabled="hcDisabled"
+            ng-model="model.contact_phone">
+
+          <div class="form-error" ng-show="
+            formOffice.contact_phone.$dirty &&
+            formOffice.contact_phone.$invalid">
+            <span ng-show="formOffice.contact_phone.$error.required">
+              Please insert your the phone of the contact person of your company.
+            </span>
+            <span ng-show="formProfile.contact_phone.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 mrg-btm required">
+      <div class="row">
+        <label class="col-sm-3 alg-right no-padd-left">Email address</label>
+        <div class="col-sm-9">
+          <input type="email"
+            class="form-control"
+            name="contact_email"
+            required
+            ng-disabled="hcDisabled"
+            ng-model="model.contact_email">
+
+          <div class="form-error" ng-show="formOffice.contact_email.$dirty && formOffice.contact_email.$invalid">
+            <span ng-show="formOffice.contact_email.$error.required">
+              Please insert your the email of the contact person of your company.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <span ng-transclude></span>
-    <div class="clearfix"></div>
-  </div>
+  
 </form>

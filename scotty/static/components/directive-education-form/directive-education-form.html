@@ -1,43 +1,49 @@
-<form name="formEducation" class="edit-form form-wrap" ng-submit="submit()">
+<form name="formEducation" class="edit-form form-wrap form-signup no-padd-horz" ng-submit="submit()">
   <div class="row">
-    <div class="col-sm-6">
+
+    <div class="col-sm-12">
+
       <div class="row mrg-btm">
-        <div class="col-sm-12">
-          <label>University or Institution</label>
-          <div class="">
-            <input type="text"
-              class="form-control"
-              name="institution"
-              ng-required="hcRequired"
-              ng-disabled="hcDisabled"
-              ng-model="model.institution"
-              typeahead="institution for institution in searchInstitutions($viewValue)">
-          </div>
-          <div class="form-error" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
-            <span ng-show="formEducation.institution.$error.required">
-              Please insert the institution name.
-            </span>
+        <label class="col-sm-3 no-padd-right no-padd-top">University or Institution</label>
+        <div class="col-sm-9">
+          <input type="text"
+            class="form-control"
+            name="institution"
+            ng-required="hcRequired"
+            ng-disabled="hcDisabled"
+            ng-model="model.institution"
+            typeahead="institution for institution in searchInstitutions($viewValue)">
+        </div>
+        <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
+          <span ng-show="formEducation.institution.$error.required">
+            Please insert the institution name.
+          </span>
+        </div>
+      </div>
+
+      <div class="row mrg-btm">
+        <label class="col-sm-3 no-padd-right no-padd-top">Course or Subject</label>
+        <div class="col-sm-9">
+          <div class="row">
+            <div class="col-sm-12">
+              <input type="text"
+                class="form-control"
+                name="course"
+                ng-disabled="hcDisabled"
+                ng-model="model.course"
+                typeahead="course for course in searchCourses($viewValue)">
+            </div>
           </div>
         </div>
       </div>
-      <div class="row mrg-btm">
-        <div class="col-sm-12">
-          <label>Course or Subject</label>
-          <div class="">
-            <input type="text"
-              class="form-control"
-              name="course"
-              ng-disabled="hcDisabled"
-              ng-model="model.course"
-              typeahead="course for course in searchCourses($viewValue)">
-          </div>
-        </div>
-      </div>
+
     </div>
-    <div class="col-sm-6">
+
+
+    <div class="col-sm-12">
       <div class="row mrg-btm">
-        <div class="col-sm-12">
-          <label>Period</label>
+        <label class="col-sm-3">Period</label>
+        <div class="col-sm-9">
           <div class="row no-gutter">
             <div class="col-sm-2">
               <!-- From year -->
@@ -74,10 +80,10 @@
             </label>
             </div>
             <div class="col-sm-12">
-              <div class="form-error" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
+              <div class="form-error col-sm-12" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
                 <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
               </div>
-              <div class="form-error" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
+              <div class="form-error col-sm-12" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
                 <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
                 <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year</span>
               </div>
@@ -86,8 +92,8 @@
         </div>
       </div>
       <div class="row mrg-btm">
-        <div class="col-sm-12">
-          <label>Degree</label>
+        <label class="col-sm-3">Degree</label>
+        <div class="col-sm-9">
           <div class="">
             <input type="text"
             class="form-control"

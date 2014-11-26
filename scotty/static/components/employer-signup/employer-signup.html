@@ -1,36 +1,38 @@
 <div class="component-employer-signup row">
+  <div class="status-wrap"></div>
   <div class="signup-container" ng-show="ready">
-    <ol class="list-unstyled col-sm-3 sidenav">
-      <li ng-class="{ active: signup.atStep('signup.start') }">1. Start</li>
-      <li ng-class="{ active: signup.atStep('signup.basic') }">
-        <a ng-if="signup.afterStep('signup.basic')" ui-sref="signup.basic">2. Basic information</a>
-        <span ng-if="!signup.afterStep('signup.basic')">2. Basic information</span>
+    <ol class="list-unstyled col-sm-3 sidenav bg-white">
+      <li ng-class="{ active: signup.atStep('signup.start') }" class="row">Start</li>
+      <li ng-class="{ active: signup.atStep('signup.basic') }" class="row">
+        <a ng-if="signup.afterStep('signup.basic')" ui-sref="signup.basic">Basic information</a>
+        <span ng-if="!signup.afterStep('signup.basic')">Basic information</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.offices') }">
-        <a ng-if="signup.afterStep('signup.offices')" ui-sref="signup.offices">3. Offices</a>
-        <span ng-if="!signup.afterStep('signup.offices')">3. Offices</span>
+      <li ng-class="{ active: signup.atStep('signup.offices') }" class="row">
+        <a ng-if="signup.afterStep('signup.offices')" ui-sref="signup.offices">Offices</a>
+        <span ng-if="!signup.afterStep('signup.offices')">Offices</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.mission') }">
-        <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">4. Company Facts</a>
-        <span ng-if="!signup.afterStep('signup.mission')">4. Company Facts</span>
+      <li ng-class="{ active: signup.atStep('signup.mission') }" class="row">
+        <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">Company Facts</a>
+        <span ng-if="!signup.afterStep('signup.mission')">Company Facts</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.facts') }">
-        <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">5. Tech Facts</a>
-        <span ng-if="!signup.afterStep('signup.facts')">5. Tech Facts</span>
+      <li ng-class="{ active: signup.atStep('signup.facts') }" class="row">
+        <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">Tech Facts</a>
+        <span ng-if="!signup.afterStep('signup.facts')">Tech Facts</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.benefits') }">
-        <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits">6. Benefits</a>
-        <span ng-if="!signup.afterStep('signup.benefits')">6. Benefits</span>
+      <li ng-class="{ active: signup.atStep('signup.benefits') }" class="row">
+        <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits">Benefits</a>
+        <span ng-if="!signup.afterStep('signup.benefits')"> Benefits</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.terms') }">
-        <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms">7. Terms &amp; services</a>
-        <span ng-if="!signup.afterStep('signup.terms')">7. Terms &amp; services</span>
+      <li ng-class="{ active: signup.atStep('signup.terms') }" class="row">
+        <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms">Terms &amp; services</a>
+        <span ng-if="!signup.afterStep('signup.terms')">Terms &amp; services</span>
       </li>
-      <li ng-class="{ active: signup.atStep('signup.suggest') }">
-        <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">8. Approval</a>
-        <span ng-if="!signup.afterStep('signup.suggest')">8. Approval</span>
+      <li ng-class="{ active: signup.atStep('signup.suggest') }" class="row">
+        <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">Approval</a>
+        <span ng-if="!signup.afterStep('signup.suggest')">Approval</span>
       </li>
+      <div class="clearfix"></div>
     </ol>
-    <ui-view class="col-sm-6"></ui-view>
+    <ui-view class="col-sm-9"></ui-view>
   </div>
 </div>

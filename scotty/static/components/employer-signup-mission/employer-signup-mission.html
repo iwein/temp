@@ -1,94 +1,123 @@
 <form name="formSignupMission"
-  class="component-employer-signup-mission"
+  class="component-employer-signup-mission row"
   ng-submit="signupMission.submit()">
+  <div class="col-sm-8">
+    <div class="col-sm-12">
+      <h3 class="signup-title">Company Facts</h3>
+      <div class="form-wrap mrg-btm bg-gray-lighter pad-30 form-signup">
 
-  <h3>Sign up - Company Facts</h3>
+        <div class="row mrg-btm">
+          <label class="col-sm-3 no-padd-right ">Founding year</label>
+          <div class="col-sm-9">
+            <input type="number"
+              class="form-control"
+              placeholder="Founding year"
+              name="founding_year"
+              placeholder="VC Founding amount"
+              name="funding_amount"
+              ng-disabled="loading"
+              ng-model="model.funding_year">
 
-  <div class="form-group">
-    <label>Founding year</label>
-    <input type="number"
-      class="form-control"
-      placeholder="Founding year"
-      name="founding_year"
-      placeholder="VC Founding amount"
-      name="funding_amount"
-      ng-disabled="loading"
-      ng-model="model.funding_year">
+            <div class="form-error" ng-show="formSignupMission.funding_year.$dirty && formSignupMission.funding_year.$invalid">
+              <span ng-show="formSignupMission.funding_year.$error.required">
+                Please select the year your company was founded.
+              </span>
+            </div>
+          </div>
+        </div>
 
-    <div class="form-error" ng-show="formSignupMission.funding_year.$dirty && formSignupMission.funding_year.$invalid">
-      <span ng-show="formSignupMission.funding_year.$error.required">
-        Please select the year your company was founded.
-      </span>
+        <div class="row mrg-btm">
+          <label class="col-sm-3 no-padd-right ">Annual revenue</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <span class="input-group-addon">€</span>
+              <input type="dotted-integer"
+                class="form-control"
+                placeholder="Annual revenue"
+                name="revenue_pa"
+                ng-disabled="loading"
+                ng-model="model.revenue_pa">
+              <span class="input-group-addon">.00</span>
+            </div>
+          </div>
+
+          <div class="form-error" ng-show="formTarget.revenue_pa.$dirty && formTarget.revenue_pa.$invalid">
+            <span ng-show="formTarget.revenue_pa.$error.required">Please insert your expected annual revenue.</span>
+            <span ng-show="formTarget.revenue_pa.$error.number">Please insert a number.</span>
+            <span ng-show="formTarget.revenue_pa.$error.pattern">Decimals are not allowed.</span>
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3 no-padd-right no-padd-top">VC Founding amount</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <span class="input-group-addon">€</span>
+              <input type="dotted-integer"
+                class="form-control"
+                placeholder="VC Founding amount"
+                name="funding_amount"
+                ng-disabled="loading"
+                ng-model="model.funding_amount">
+                <span class="input-group-addon">.00</span>
+            </div>
+            
+            <div class="form-error" ng-show="formTarget.funding_amount.$dirty && formTarget.funding_amount.$invalid">
+              <span ng-show="formTarget.funding_amount.$error.required">Please insert your expected annual revenue.</span>
+              <span ng-show="formTarget.funding_amount.$error.number">Please insert a number.</span>
+              <span ng-show="formTarget.funding_amount.$error.pattern">Decimals are not allowed.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3">Company size</label>
+          <div class="col-sm-9">
+            <input type="number"
+              class="form-control"
+              placeholder="Company size"
+              name="no_of_employees"
+              ng-disabled="loading"
+              ng-model="model.no_of_employees">
+
+            <div class="form-error"
+              ng-show="formSignupMission.no_of_employees.$dirty && formSignupMission.no_of_employees.$invalid">
+              <span ng-show="formSignupMission.no_of_employees.$error.required">
+                Please insert the number or employees in your company.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="merg-btm-small mrg-top">Company Mission</label>
+          <text-angular ng-model="model.mission_text"></text-angular>
+
+          <div class="form-error" ng-show="missionDirty && errorMissionEmpty">
+            <span>Please insert a description of the mission of your company.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons-wrap mrg-top mrg-btm">
+          <button type="submit"
+          class="fl-rg bg-green btn-small"
+          ng-disabled="loading">
+          Continue
+          </button>
+      </div>
     </div>
   </div>
-
-  <div class="form-group">
-    <label>Annual revenue</label>
-    <div class="input-group">
-      <span class="input-group-addon">€</span>
-      <input type="dotted-integer"
-        class="form-control"
-        placeholder="Annual revenue"
-        name="revenue_pa"
-        ng-disabled="loading"
-        ng-model="model.revenue_pa">
-      <span class="input-group-addon">.00</span>
+  <div class="col-sm-4 bg-gray-lighter2">
+    <div class="padd-vert">
+      <div class="box-title box-title_left mrg-btm gray-darker">
+        Help</div>
+      <div class="">
+        <p>
+          There will be a text written in here as it is at the candidate sign up forms.
+        </p>
+      
+      </div>
     </div>
-
-    <div class="form-error" ng-show="formTarget.revenue_pa.$dirty && formTarget.revenue_pa.$invalid">
-      <span ng-show="formTarget.revenue_pa.$error.required">Please insert your expected annual revenue.</span>
-      <span ng-show="formTarget.revenue_pa.$error.number">Please insert a number.</span>
-      <span ng-show="formTarget.revenue_pa.$error.pattern">Decimals are not allowed.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>VC Founding amount</label>
-    <div class="input-group">
-      <span class="input-group-addon">€</span>
-      <input type="dotted-integer"
-        class="form-control"
-        placeholder="VC Founding amount"
-        name="funding_amount"
-        ng-disabled="loading"
-        ng-model="model.funding_amount">
-        <span class="input-group-addon">.00</span>
-    </div>
-
-    <div class="form-error" ng-show="formTarget.funding_amount.$dirty && formTarget.funding_amount.$invalid">
-      <span ng-show="formTarget.funding_amount.$error.required">Please insert your expected annual revenue.</span>
-      <span ng-show="formTarget.funding_amount.$error.number">Please insert a number.</span>
-      <span ng-show="formTarget.funding_amount.$error.pattern">Decimals are not allowed.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Company size</label>
-    <input type="number"
-      class="form-control"
-      placeholder="Company size"
-      name="no_of_employees"
-      ng-disabled="loading"
-      ng-model="model.no_of_employees">
-
-    <div class="form-error"
-      ng-show="formSignupMission.no_of_employees.$dirty && formSignupMission.no_of_employees.$invalid">
-      <span ng-show="formSignupMission.no_of_employees.$error.required">
-        Please insert the number or employees in your company.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Mission</label>
-    <text-angular ng-model="model.mission_text"></text-angular>
-
-    <div class="form-error" ng-show="missionDirty && errorMissionEmpty">
-      <span>Please insert a description of the mission of your company.</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
   </div>
 </form>

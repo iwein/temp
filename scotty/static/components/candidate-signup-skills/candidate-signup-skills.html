@@ -1,31 +1,34 @@
 <div class="component-candidate-signup-skills row" ng-show="ready">
   <div class="col-sm-8">
-    <h3>Skills</h3>
-
-    <hc-skills-form
+    <div class="col-sm-12">
+      <h3 class="signup-title">Skills</h3>
+      <hc-skills-form
             name="form"
             hc-disabled="loading"
             on-submit="signupSkills.submit()">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
-      </form>
+        <div class="buttons-wrap mrg-top">
+          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading">Continue</button>
+        </div>
+      </hc-skills-form>
+    </div>
   </div>
 
-  <div class="col-sm-4">
-    <div class="panel panel-default helpbox">
-      <div class="panel-heading">
-        <h3 class="panel-title">Help</h3>
-      </div>
-      <div class="panel-body">
+  <div class="col-sm-4 bg-gray-lighter2">
+    <div class="padd-vert">
+      <div class="box-title box-title_left mrg-btm gray-darker">
+        Help</div>
+      <div class="">
         <p>
-          Add any programming languages, technologies or methodologies you have experience with.
-          Please only list the skills with relevant working experience and define your knowledge level.
-        </p>
+          Add any programming language, software technologies or methodologies you have experience with.
+Please only list the skills with relevant working experience and define you knowledge level.</p>
 
-        <dl>
-          <dt>basic</dt><dd>worked with that but rather short or not extensively</dd>
-          <dt>advanced</dt><dd>several years of practical experience</dd>
-          <dt>master</dt><dd>in-depth knowledge and comprehensive multi-project experience</dd>
-        </dl>
+<p><span class="smbd">Basic</span></br>
+worked with that but rather short or not extensively</p>
+<p><span class="smbd">Advanced</span></br>
+several years of practical experience</p>
+<p><span class="smbd">Master</span></br>
+in-depth knowledge and comprehensive multi-project experience</p>
+      
       </div>
     </div>
   </div>

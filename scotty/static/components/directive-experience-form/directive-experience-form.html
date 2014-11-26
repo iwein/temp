@@ -1,9 +1,9 @@
-<form name="formExperience" class="edit-form form-wrap form-signup" ng-show="ready" ng-submit="submit()">
+<form name="formExperience" class="edit-form form-wrap form-signup no-padd-horz" ng-show="ready" ng-submit="submit()">
 <div class="row">
 
   <div class="col-sm-12">
+    
     <div class="row mrg-btm">
-     
       <label class="col-sm-3 no-padd-right">Company Name</label>
       <div class="col-sm-9">
         <input type="text"
@@ -22,33 +22,32 @@
           Please insert the company name.
         </span>
       </div>
-      
     </div>
+
     <div class="row mrg-btm">
-      
-        <label class="col-sm-3 no-padd-right">Location</label>
-        <div class="col-sm-9">
-          <div class="row">
-            <div class="col-sm-6">
-              <select class="form-control"
-                name="country"
-                ng-disabled="hcDisabled"
-                ng-model="model.country_iso"
-                ng-options="country.iso as country.name for country in countries">
-                <option value="">Select...</option>
-              </select>
-            </div>
-            <div class="col-sm-6">
-              <input type="text"
-                name="city"
-                class="form-control"
-                ng-disabled="hcDisabled"
-                ng-model="model.city">
-            </div>
+      <label class="col-sm-3 no-padd-right">Location</label>
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="col-sm-6">
+            <select class="form-control"
+              name="country"
+              ng-disabled="hcDisabled"
+              ng-model="model.country_iso"
+              ng-options="country.iso as country.name for country in countries">
+              <option value="">Select...</option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <input type="text"
+              name="city"
+              class="form-control"
+              ng-disabled="hcDisabled"
+              ng-model="model.city">
           </div>
         </div>
-
+      </div>
     </div>
+
     <div class="row mrg-btm">
       <label class="col-sm-3 no-padd-right">Period</label>
         

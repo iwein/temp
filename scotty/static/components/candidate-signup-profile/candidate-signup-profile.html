@@ -1,26 +1,25 @@
 <div class="component-candidate-signup-profile row">
   <div class="col-sm-8">
-
-    <h3>Final step</h3>
-
-    <hc-profile-form
-      name="form"
-      hc-disabled="loading"
-      on-submit="signupProfile.submit()">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
-    </hc-profile-form>
+    <div class="col-sm-12">
+      <h3 class="signup-title">Final step</h3>
+      <hc-profile-form
+        name="form"
+        hc-disabled="loading"
+        on-submit="signupProfile.submit()">
+        <div class="buttons-wrap mrg-top">
+          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading">Continue</button>
+        </div>
+      </hc-profile-form>
+    </div>
   </div>
 
-  <div class="col-sm-4">
-    <div class="panel panel-default helpbox">
-      <div class="panel-heading">
-        <h3 class="panel-title">Help</h3>
-      </div>
-      <div class="panel-body">
-        Allmost done!
-        Just add the final touches to your profile and employers will start making offers.
-        No employer or anybody else will ever see your contact details.
-        You can set your profile offline at anytime.
+  <div class="col-sm-4 bg-gray-lighter2">
+    <div class="padd-vert">
+      <div class="box-title box-title_left mrg-btm gray-darker">
+        Help</div>
+      <div class="">
+        <p>
+          Almost done! Just add the final touches to your profile and employer will start making offers. No employer or anybody esle will ever see your contact details. You can set your profile offline at anytime.</p>
       </div>
     </div>
   </div>

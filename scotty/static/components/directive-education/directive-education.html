@@ -1,68 +1,85 @@
-<div class="panel panel-default">
+<div>
   <div ng-if="hcTitle" class="panel-heading">
-    <h3 class="panel-title">
+    <h3>
       {{ hcTitle }}
     </h3>
   </div>
-  <ul class="list-group">
-    <li class="list-group-item">
+  <ul>
+    <li class="bg-gray-lighter pad-30">
       <div class="row">
-        <strong>
-          <span class="col-sm-offset-1 col-sm-6">Institution</span>
-          <span class="col-sm-3">Duration</span>
-          <span class="col-sm-2 text-right">Add</span>
-        </strong>
-      </div>
-    </li>
-
-    <li class="list-group-item" ng-repeat="entry in model">
-      <div class="row" ng-hide="active === $index">
-        <span class="col-sm-1">
-          <i class="fa fa-chevron-right"
-            ng-show="hcEditable"
-            ng-click="hcEducationCtrl.setActive($index)"></i>
-        </span>
-        <span class="col-sm-6">{{ entry.institution }}</span>
-        <span class="col-sm-4">{{ entry.start }} ({{ entry.end || 'current' }})</span>
-        <span class="col-sm-1" ng-show="entry.imported">
-          <input type="checkbox" ng-model="entry.import">
-        </span>
-      </div>
-
-      <hc-education-form
-        ng-if="active === $index"
-        ng-model="entry"
-        hc-required="true"
-        hc-disabled="loading"
-        on-submit="edit($model, $form, $index)">
-
-        <div class="col-sm-12">
-          <button type="button"
-            class="btn btn-default"
-            ng-disabled="loading"
-            ng-click="hcEducationCtrl.setActive(-1)">
-            Cancel
-          </button>
-          <button type="submit"
-            class="btn btn-primary"
-            ng-disabled="loading">
-            Done
-          </button>
+        <div class="col-sm-4 caps blue-link smbd lt">Institution</div>
+        <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
+        <div class="col-sm-2 alg-cen">
+          <span class="lt smbd gray-darker caps">Edit</span>
         </div>
-      </hc-education-form>
+
+        <div class="col-sm-2 alg-cen" >
+          <!--button type="button"
+            class="btn btn-primary pull-right"
+            ng-disabled="loading"
+            ng-click="hcEducationCtrl.setAdding(true)">
+            Add More
+          </button-->
+          <span class="lt smbd gray-darker caps">Add</span>
+        </div>
+
+        <div class="col-sm-12" ng-repeat="entry in model">
+          <div class="row mrg-top" ng-hide="active === $index">
+            <div class="col-sm-4 no-padd-right">
+              <div class="data-box">{{ entry.institution }}</div>
+            </div>
+            <div class="col-sm-4">
+              <div class="data-box">{{ entry.start }} ({{ entry.end || 'current' }})</div>
+            </div>
+            <div class="col-sm-2 alg-cen pad-top-5">
+              <i class="fa fa-pencil blue-link"
+              ng-show="hcEditable"
+              ng-click="hcExperienceCtrl.setActive($index)"></i>
+            </div>
+            <div class="col-sm-2  alg-cen pad-top-5" >
+              <input type="checkbox" ng-model="entry.import">
+            </div>
+          </div>
+        </div>
+        <hc-education-form
+          ng-if="active === $index"
+          ng-model="entry"
+          hc-required="true"
+          hc-disabled="loading"
+          on-submit="edit($model, $form, $index)">
+
+          <div class="">
+            <button type="submit"
+              class="bg-green btn-small fl-rg mrg-lft"
+              ng-disabled="loading">
+              Done
+            </button>
+            <button type="button"
+              class="bg-gray-light btn-small fl-rg"
+              ng-disabled="loading"
+              ng-click="hcEducationCtrl.setActive(-1)">
+              Cancel
+            </button>
+          </div>
+        </hc-education-form>
+
+    
+
+        <div class="col-sm-12" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
+          <button type="button"
+            class="add-btn no-fl"
+            ng-disabled="loading"
+            ng-click="hcEducationCtrl.setAdding(true)">
+             <i class="fa fa-plus"></i> Add
+          </button>
+           <div class="clearfix"></div>
+        </div>
+
+      </div>
     </li>
 
-    <li class="list-group-item" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
-      <button type="button"
-        class="btn btn-primary pull-right"
-        ng-disabled="loading"
-        ng-click="hcEducationCtrl.setAdding(true)">
-        Add More
-      </button>
-      <div class="clearfix"></div>
-    </li>
 
-    <li class="list-group-item" ng-if="adding || (!editing && hcAutomaticAdd)">
+    <li class="bg-gray-lighter2 brd-top pad-30 no-padd-top no-padd-btm" ng-if="adding || (!editing && hcAutomaticAdd)">
       <hc-education-form
         hc-scope="formContainer"
         name="form"
@@ -70,19 +87,21 @@
         hc-disabled="loading"
         on-submit="submit($model, $form, model.length)">
 
-        <div class="col-sm-12">
-          <button type="button"
-            ng-show="adding"
-            class="btn btn-default"
-            ng-disabled="loading"
-            ng-click="hcEducationCtrl.setAdding(false)">
-            Cancel
-          </button>
-          <button type="submit"
-            class="btn btn-primary"
-            ng-disabled="loading">
-            Save
-          </button>
+       <div class="">
+          <div class="buttons-wrap">
+             <button type="submit"
+              class="bg-green btn-small fl-rg mrg-lft"
+              ng-disabled="loading">
+              Save
+            </button>
+            <button type="button"
+              ng-show="adding"
+              class="bg-gray-light btn-small fl-rg"
+              ng-disabled="loading"
+              ng-click="hcEducationCtrl.setAdding(false)">
+              Cancel
+            </button>
+          </div>
         </div>
       </hc-education-form>
     </li>

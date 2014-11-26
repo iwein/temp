@@ -1,13 +1,14 @@
-<form class="edit-form row" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
-<div class="col-sm-8">
-  <h5 class="edit-title">Enter your technical skills:</h5>
-  <div class="row">
+<form class="edit-form form-wrap" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
+<div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
+<div class="col-sm-12">
+  <label class="col-sm-3">Skills</label>
+  <div class="col-sm-9">
     <div ng-repeat="entry in model">
 
-      <div class="col-sm-6 mrg-btm">
+      <div class="col-sm-12 mrg-btm">
         <div class="row">
 
-          <div class="col-sm-6">
+          <div class="col-sm-7">
             <input type="text"
               class="form-control"
               name="skill{{ $index }}"
@@ -31,7 +32,7 @@
             </select>
           </div>
 
-          <div class="col-sm-1 no-padd-left">
+          <div class="col-sm-1 no-padd-left pad-top-5">
             <span class="close"
               ng-if="entry.skill"
               ng-click="remove($index)">
@@ -55,19 +56,9 @@
     </div>
   </div>
 </div>
-<div class="col-sm-4">
- 
-    <h5 class="edit-title">Other skills</h5>
-
-    <hc-label-typeahead
-      placeholder="Type a skill..."
-      ng-disabled="hcDisabled"
-      ng-model="skills"
-      hc-source="searchSkills($viewValue)"
-      hc-allow-new>
-    </hc-label-typeahead>
+<div class="clearfix"></div>
 </div>
-  <div class="col-sm-12">
+ 
     <div ng-transclude></div>
-  </div>
+  
 </form>

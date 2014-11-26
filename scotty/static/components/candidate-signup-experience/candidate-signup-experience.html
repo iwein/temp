@@ -11,13 +11,15 @@
         hc-editable="true"
         hc-remove-last="true">
       </hc-experience>
-
-      <button type="button"
-        class="btn btn-primary"
-        ng-disabled="list.length === 0"
-        ng-click="submit()">
-        Continue
-      </button>
+      
+      <div class="buttons-wrap mrg-top mrg-btm">
+        <button type="button"
+          class="bg-green btn-small fl-rg"
+          ng-disabled="list.length === 0"
+          ng-click="submit()">
+          Continue
+        </button>
+      </div>
     </div>
   </div>
 
