@@ -1,29 +1,38 @@
 <div class="row">
-  <div class="col-sm-6 col-sm-offset-3">
   <form class="component-employer-login" ng-submit="login.submit(email, password)">
+    <div class="col-sm-6 col-sm-offset-3">
     <h3>Log in</h3>
 
-    <div class="form-group required">
-      <label>Email</label>
-      <input
-        type="email"
-        class="form-control"
-        required
-        ng-disabled="loading"
-        ng-model="email">
+    <div class="form-group required row">
+      <label class="col-sm-3">Email</label>
+      <div class="col-sm-9">
+        <input
+          type="email"
+          class="form-control"
+          required
+          ng-disabled="loading"
+          ng-model="email">
+      </div>
     </div>
 
-    <div class="form-group required">
-      <label>Password</label>
-      <input
-        type="password"
-        class="form-control"
-        required
-        ng-disabled="loading"
-        ng-model="password">
+    <div class="form-group required row">
+      <label class="col-sm-3">Password</label>
+      <div class="col-sm-9">
+        <input
+          type="password"
+          class="form-control"
+          required
+          ng-disabled="loading"
+          ng-model="password">
+      </div>
     </div>
-
-    <button type="submit" class="btn btn-primary" ng-disabled="loading">Submit</button>
-    <a ui-sref="forget-password">Forgot your password?</a>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="buttons-wrap">
+          <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" ng-disabled="loading">Submit</button>
+          <a ui-sref="forget-password" class="forget">Forgot your password?</a>
+        </div>
+      </div>
+    </div>
   </form>
 </div>

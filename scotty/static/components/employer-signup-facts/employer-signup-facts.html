@@ -1,65 +1,86 @@
 <form name="formSignupFacts"
-  class="component-employer-signup-facts form-horizontal"
+  class="component-employer-signup-facts row"
   ng-submit="signupFacts.submit()">
 
-  <h3>Sign up - Tech Facts</h3>
-
-  <div class="form-group">
-    <label class="col-sm-3">Tech team size</label>
-    <div class="col-sm-9">
-      <input type="number"
-        class="form-control"
-        placeholder="Tech team size"
-        name="tech_team_size"
-        ng-disabled="loading"
-        ng-model="model.tech_team_size">
-    </div>
-
-    <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
-      <span ng-show="formSignupFacts.tech_team_size.$error.required">
-        Please insert the number of employees of the tech team.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label class="col-sm-3">Technology tags</label>
-
-    <div class="col-sm-9">
-      <hc-label-typeahead
-        name="techTags"
-        placeholder="Technology tags"
-        ng-disabled="loading"
-        ng-model="model.tech_tags"
-        hc-source="signupFacts.searchTags($viewValue)"
-        hc-error-message="Please choose at least one tag"
-        hc-allow-new>
-      </hc-label-typeahead>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="col-sm-3">Technology philosophy</label>
-    <div class="col-sm-9">
-      <textarea
-        class="form-control"
-        placeholder="Technology philosophy"
-        name="tech_team_philosophy"
-        ng-disabled="loading"
-        ng-model="model.tech_team_philosophy">
-      </textarea>
-    </div>
-
-    <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
-      <span ng-show="formSignupFacts.tech_team_size.$error.required">
-        Please describe the philosophy of your company's tech.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
+   <div class="col-sm-8">
     <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      <h3 class="signup-title">Tech Facts</h3>
+      <div class="form-wrap edit-form mrg-btm bg-gray-lighter pad-30 form-signup">
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3">Tech team size</label>
+          <div class="col-sm-9">
+            <input type="number"
+              class="form-control"
+              placeholder="Tech team size"
+              name="tech_team_size"
+              ng-disabled="loading"
+              ng-model="model.tech_team_size">
+          </div>
+
+          <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
+            <span ng-show="formSignupFacts.tech_team_size.$error.required">
+              Please insert the number of employees of the tech team.
+            </span>
+          </div>
+        </div>
+
+        <div class="row mrg-btm required">
+          <label class="col-sm-3 no-padd-top">Technology tags</label>
+
+          <div class="col-sm-9">
+            <hc-label-typeahead
+              name="techTags"
+              placeholder="Technology tags"
+              ng-disabled="loading"
+              ng-model="model.tech_tags"
+              hc-source="signupFacts.searchTags($viewValue)"
+              hc-error-message="Please choose at least one tag"
+              hc-allow-new>
+            </hc-label-typeahead>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-sm-12">Technology philosophy</label>
+          <div class="col-sm-12">
+            <textarea
+              class="form-control"
+              placeholder="Technology philosophy"
+              name="tech_team_philosophy"
+              ng-disabled="loading"
+              ng-model="model.tech_team_philosophy">
+            </textarea>
+          </div>
+
+          <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
+            <span ng-show="formSignupFacts.tech_team_size.$error.required">
+              Please describe the philosophy of your company's tech.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons-wrap mrg-top mrg-btm">
+        <button type="submit"
+        class="fl-rg bg-green btn-small"
+        ng-disabled="loading">
+        Continue
+        </button>
+      </div>
+      
+    </div>
+  </div>
+  <div class="col-sm-4 bg-gray-lighter2">
+    <div class="padd-vert">
+      <div class="box-title box-title_left mrg-btm gray-darker">
+        Help</div>
+      <div class="">
+        <p>
+          There will be a text written in here as it is at the candidate sign up forms.
+        </p>
+      
+      </div>
     </div>
   </div>
 </form>
