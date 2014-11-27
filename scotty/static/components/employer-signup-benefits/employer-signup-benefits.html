@@ -1,66 +1,82 @@
 <form name="formSignupBenefits"
-      class="component-employer-signup-benefits form-horizontal"
+      class="component-employer-signup-benefits form-horizontal row"
       ng-submit="signupBenefits.submit()">
 
-  <h3>Sign up - Benefits</h3>
-
-  <div class="form-group">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Benefits</h3>
-      </div>
-
-      <div class="col-sm-12">
-        <ul class="list-group">
-          <li class="list-group-item" ng-repeat="benefit in benefits">
-            <label>
-              <input type="checkbox"
-                     ng-disabled="loading"
-                     ng-model="benefit.selected">
-              {{ benefit.value }}
-            </label>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label class="col-sm-3">Recruitment process</label>
-    <div class="col-sm-9">
-      <textarea
-        class="form-control"
-        placeholder="Recruitment process"
-        name="recruitment"
-        required
-        ng-disabled="loading"
-        ng-model="model.recruitment_process">
-      </textarea>
-    </div>
-
-    <div class="form-error" ng-show="formSignupBenefits.recruitment.$dirty && formSignupBenefits.recruitment.$invalid">
-      <span ng-show="formSignupBenefits.recruitment.$error.required">
-        Please, provide a description of your recruitment process.
-      </span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="col-sm-3">Training policy</label>
-    <div class="col-sm-9">
-      <textarea
-        class="form-control"
-        placeholder="Training policy"
-        name="training"
-        ng-disabled="loading"
-        ng-model="model.training_policy">
-      </textarea>
-    </div>
-  </div>
-
-  <div class="form-group">
+  <div class="col-sm-8">
     <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary" ng-disabled="loading">Continue</button>
+      <h3 class="signup-title">Benefits</h3>
+        <div class="form-wrap edit-form mrg-btm bg-gray-lighter pad-30 form-signup">
+          <div class="row mrg-btm">
+            <div class="col-sm-9">
+                <ul class="row check-wrap">
+                  <li class="col-sm-6 form-benefits mrg-btm" ng-repeat="benefit in benefits">
+                    <label class="{{ benefit.value }}">
+                      
+                      {{ benefit.value }}
+                      <input type="checkbox"
+                             ng-disabled="loading"
+                             ng-model="benefit.selected">
+                    </label>
+                  </li>
+                </ul>
+            </div>
+          </div>
+
+          <div class="mrg-btm row required">
+            <label class="col-sm-12">Recruitment process</label>
+            <div class="col-sm-12">
+              <textarea
+                class="form-control"
+                placeholder="Recruitment process"
+                name="recruitment"
+                required
+                ng-disabled="loading"
+                ng-model="model.recruitment_process">
+              </textarea>
+            </div>
+
+            <div class="form-error" ng-show="formSignupBenefits.recruitment.$dirty && formSignupBenefits.recruitment.$invalid">
+              <span ng-show="formSignupBenefits.recruitment.$error.required">
+                Please, provide a description of your recruitment process.
+              </span>
+            </div>
+          </div>
+
+          <div class="row mrg-btm">
+            <label class="col-sm-12">Training policy</label>
+            <div class="col-sm-12">
+              <textarea
+                class="form-control"
+                placeholder="Training policy"
+                name="training"
+                ng-disabled="loading"
+                ng-model="model.training_policy">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      
+  
+      <div class="buttons-wrap mrg-top mrg-btm">
+          <button type="submit"
+          class="fl-rg bg-green btn-small"
+          ng-disabled="loading">
+          Continue
+          </button>
+      </div>
+  </div>
+</div>
+
+<div class="col-sm-4 bg-gray-lighter2">
+  <div class="padd-vert">
+    <div class="box-title box-title_left mrg-btm gray-darker">
+      Help</div>
+    <div class="">
+      <p>
+        There will be a text written in here as it is at the candidate sign up forms.
+      </p>
+    
     </div>
   </div>
+</div>
 </form>
