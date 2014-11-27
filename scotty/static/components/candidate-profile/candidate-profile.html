@@ -756,9 +756,11 @@
                     </hc-education-form>
                   </div>
                   <!--End  EDIT panel -->
-                  <hc-accordion hc-hide-control="!entry.course" ng-hide="education.editing === $index">
+
+                  <div class="accordion-container">
                     <h3 class="accordion-subtitle">
                       {{ entry.degree }}
+                      <span>{{ entry.course }}</span>
                       <button type="button"
                         class="btn-edit-sub no-fl"
                         ng-show="isEditing && !formOpen"
@@ -773,9 +775,7 @@
                       {{ entry.end || 'today' | showMonthYear }}
                       ({{ entry | momentDiff | toMonthsYears }})
                     </span>
-                    <!-- WARN: replaced UI by DIV -->
-                    <div class="accordion-text">{{ entry.course }}</div>
-                  </hc-accordion>
+                  </div>
                 </div>
               </div>
             </div>
