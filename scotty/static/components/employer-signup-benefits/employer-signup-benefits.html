@@ -11,7 +11,7 @@
                 <ul class="row check-wrap">
                   <li class="col-sm-6 form-benefits mrg-btm" ng-repeat="benefit in benefits">
                     <label class="{{ benefit.value }}">
-                      
+
                       {{ benefit.value }}
                       <input type="checkbox"
                              ng-disabled="loading"
@@ -19,6 +19,15 @@
                     </label>
                   </li>
                 </ul>
+            </div>
+            <div class="col-sm-9">
+              <textarea
+                class="form-control"
+                placeholder="Other benefits"
+                name="recruitment"
+                ng-disabled="loading"
+                ng-model="model.other_benefits">
+              </textarea>
             </div>
           </div>
 
@@ -55,8 +64,8 @@
             </div>
           </div>
         </div>
-      
-  
+
+
       <div class="buttons-wrap mrg-top mrg-btm">
           <button type="submit"
           class="fl-rg bg-green btn-small"
@@ -75,7 +84,7 @@
       <p>
         There will be a text written in here as it is at the candidate sign up forms.
       </p>
-    
+
     </div>
   </div>
 </div>

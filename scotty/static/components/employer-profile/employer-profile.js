@@ -67,16 +67,21 @@ define(function(require) {
     $scope.benefits = formSimple({
       set: function(data) {
         $scope.data = data;
-        return benefits.map(function(value) {
-          return {
-            value: value,
-            selected: data.benefits.indexOf(value) !== -1
-          };
-        });
+        return {
+          other_benefits: data.other_benefits,
+          benefits: benefits.map(function(value) {
+            return {
+              value: value,
+              selected: data.benefits.indexOf(value) !== -1
+            };
+          })
+        };
       },
       save: function(model, form, user) {
-        var values = model.filter(fn.get('selected')).map(fn.get('value'));
-        return user.updateData({ benefits: values });
+        return user.updateData({
+          other_benefits: model.other_benefits,
+          benefits: model.benefits.filter(fn.get('selected')).map(fn.get('value'))
+        });
       }
     });
     $scope.webProfiles = formSimple({
