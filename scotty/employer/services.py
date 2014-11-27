@@ -146,7 +146,8 @@ EMPLOYER_EDITABLES = {'company_name': ID, 'website': ID, 'address_line1': ID, 'a
                       'contact_salutation': lambda name: get_by_name_or_raise(Salutation, name),
                       'traffic_source': lambda name: get_by_name_or_create(TrafficSource, name),
                       'tech_tags': lambda tags: get_or_create_named_collection(Skill, tags),
-                      'benefits': lambda tags: get_or_create_named_collection(Benefit, tags)}
+                      'benefits': lambda tags: get_or_create_named_collection(Benefit, tags),
+                      'other_benefits': ID}
 
 
 def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):

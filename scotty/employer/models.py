@@ -108,6 +108,7 @@ class Employer(Base, JsonSerialisable):
     tech_team_philosophy = Column(Text, info=PUBLIC)
 
     tech_tags = relationship(Skill, secondary=employer_skills, info=PUBLIC)
+    other_benefits = Column(Text, info=PUBLIC)
     benefits = relationship(Benefit, secondary=employer_benefits, info=PUBLIC)
 
     external_rating = Column(Integer, CheckConstraint('external_rating between 0 and 5'), info=PUBLIC)
