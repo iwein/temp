@@ -487,21 +487,24 @@ h3 {
     .sidenav {
       border-right: 1px solid @gray-lighter;
       li {
-        padding: 15px 10px;
+        
         color: @text-color;
         font-family: @font-family-headings;
         text-transform: uppercase;
-        padding-left: 100px;
+        padding-left: 65px;
+        line-height: 40px;
         font-size: 12px;
-        i{
-          display: none;
-        }
+
         &.active {
           background-color: @blue-link;
           color: white;
           font-weight: 700;
 
         }
+      }
+      li.unactive {
+        color: @gray-lighter2;
+
       }
     }
 
