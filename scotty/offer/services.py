@@ -19,7 +19,7 @@ def set_offer_signed(offer, params, emailer):
     return offer
 
 
-def get_offer_timeline(offer):
+def get_offer_newsfeed(offer, **extra):
     events = []
     now = datetime.utcnow()
 
@@ -28,12 +28,18 @@ def get_offer_timeline(offer):
             return None
         return (now - t).total_seconds()
 
-    events.append({'name': 'OFFER_MADE', 'recency': recency(offer.created), 'date':offer.created})
-    events.append({'name': 'ACCEPTED', 'recency': recency(offer.accepted), 'date':offer.accepted})
-    events.append({'name': 'REJECTED', 'recency': recency(offer.rejected), 'date':offer.rejected})
-    events.append({'name': 'INTERVIEWING', 'recency': recency(offer.interview), 'date':offer.interview})
-    events.append({'name': 'NEGOCIATING', 'recency': recency(offer.contract_negotiation), 'date':offer.contract_negotiation})
-    events.append({'name': 'CONTRACT_SIGNED', 'recency': recency(offer.contract_signed), 'date':offer.contract_signed})
+    def wrap_event(name, field):
+        d = getattr(offer, field)
+        e = {'name': name, 'recency': recency(d), 'date': d}
+        e.update(extra)
+        return e
+
+    events.append(wrap_event('OFFER_MADE', 'created'))
+    events.append(wrap_event('ACCEPTED', 'accepted'))
+    events.append(wrap_event('REJECTED', 'rejected'))
+    events.append(wrap_event('INTERVIEWING', 'interview'))
+    events.append(wrap_event('NEGOCIATING', 'contract_negotiation'))
+    events.append(wrap_event('CONTRACT_SIGNED', 'contract_signed'))
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
     return sorted(events_with_recency, key=lambda k: k['recency'])
