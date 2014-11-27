@@ -4,74 +4,59 @@
       {{ hcTitle }}
     </h3>
   </div>
-  <ul>
 
-    <li class="" ng-if="adding || (!editing && hcAutomaticAdd)">
-      <hc-office-form
-        hc-scope="formContainer"
-        name="form"
-        hc-required="model.length === 0 || !form.isPristine()"
-        hc-disabled="loading"
-        on-submit="submit($model, $form, model.length)">
+  <hc-office-form
+    hc-scope="formContainer"
+    name="form"
+    hc-required="model.length === 0 || !form.isPristine()"
+    hc-disabled="loading"
+    on-submit="submit($model, $form)">
 
-        <div class="col-sm-12 mrg-top">
-          <button type="submit"
-            class="bg-green btn-small fl-rg mrg-lft"
-            ng-disabled="loading">
-            Save
+    <div class="col-sm-12 mrg-top">
+      <button type="submit"
+        class="bg-green btn-small fl-rg mrg-lft"
+        ng-disabled="loading">
+        Save and add another
+      </button>
+      <button type="button"
+        ng-show="editing"
+        class="bg-gray btn-small fl-rg mrg-lft"
+        ng-disabled="loading"
+        ng-click="hcOfficesCtrl.setActive(-1)">
+        Cancel
+      </button>
+    </div>
+  </hc-office-form>
+
+  <div ng-if="model.length">
+    <h4>Saved</h4>
+    <ul>
+      <li ng-repeat="entry in model" ng-hide="active === $index">
+        <div class="edit-form form-wrap form-signup bg-gray-lighter">
+          <button class="col-sm-1" ng-show="hcEditable" ng-click="hcOfficesCtrl.setActive($index, entry)">
+            <i class="fa fa-pencil"></i>
           </button>
-          <button type="button"
-            class="bg-gray btn-small fl-rg mrg-lft"
-            ng-disabled="loading"
-            ng-click="hcOfficesCtrl.setActive(-1)">
-            Cancel
-          </button>
+          <dl class="dl-horizontal">
+            <dt>Address</dt>
+            <dd>
+              <address>
+                {{ entry.address_line1 }}<br>
+                {{ entry.address_line2 }}<br ng-if="entry.address_line2">
+                {{ entry.address_line3 }}<br ng-if="entry.address_line3">
+                {{ entry.address_city.city }},
+                {{ entry.address_city.country_iso }}
+                {{ entry.address_zipcode }}
+              </address>
+            </dd>
+            <dt>Contact name</dt>
+            <dd>{{ entry.contact_first_name }} {{ entry.contact_last_name }}</dd>
+            <dt>Contact phone</dt>
+            <dd>{{ entry.contact_phone }}</dd>
+            <dt>Contact email</dt>
+            <dd>{{ entry.contact_email }}</dd>
+          </dl>
         </div>
-      </hc-office-form>
-    </li>
-
-
-    <li class="" ng-repeat="entry in model">
-      <div class="edit-form form-wrap form-signup bg-gray-lighter">
-        <div class="row" ng-hide="active === $index">
-          <span class="col-sm-1">
-            <i class="fa fa-chevron-right"
-              ng-show="hcEditable"
-              ng-click="hcOfficesCtrl.setActive($index)"></i>
-          </span>
-          <span class="col-sm-6">{{ entry.address_city.city }}, {{ entry.address_city.country_iso }}</span>
-        </div>
-
-        <hc-office-form
-          ng-if="active === $index"
-          ng-model="entry"
-          hc-disabled="loading"
-          on-submit="edit($model, $form, $index)">
-
-          <div class="col-sm-12">
-            <button type="submit"
-              class="bg-green btn-small fl-rg mrg-lft"
-              ng-disabled="loading">
-              Done
-            </button>
-            <button type="button"
-              class="bg-gray btn-small fl-rg mrg-lft"
-              ng-disabled="loading"
-              ng-click="hcOfficesCtrl.setActive(-1)">
-              Cancel
-            </button>
-          </div>
-        </hc-office-form>
-        <div class="" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
-          <button type="button"
-            class="btn btn-primary pull-right"
-            ng-disabled="loading"
-            ng-click="hcOfficesCtrl.setAdding(true)">
-            Add More
-          </button>
-          <div class="clearfix"></div>
-        </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
 </div>
