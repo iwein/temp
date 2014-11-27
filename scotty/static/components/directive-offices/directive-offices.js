@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('components/directive-office-form/directive-office-form');
+  var _ = require('underscore');
   var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
@@ -23,12 +24,10 @@ define(function(require) {
       controllerAs: 'hcOfficesCtrl',
       controller: function($scope, $attrs) {
         var self = this;
-        $scope.edit = edit;
         $scope.remove = remove;
         $scope.submit = submit;
         $scope.formContainer = {};
         $scope.active = -1;
-        this.setAdding = setAdding;
         this.setActive = setActive;
         this.refresh = list;
 
@@ -37,37 +36,28 @@ define(function(require) {
           $scope.onLoad();
         });
 
-        function setAdding(value) {
-          setActive(-1);
-          $scope.adding = value;
-        }
-
-        function setActive(index) {
-          if ($scope.formContainer.form)
-            $scope.formContainer.form.reset();
-
+        function setActive(index, entry) {
           $scope.active = index;
           $scope.editing = index !== -1;
-        }
 
-        function edit(model, form, index) {
-          return $scope.onEdit({
-            $entry: model,
-            $form: form,
-            $index: index,
-          }).then(function() {
-            return list();
-          }).then(function() {
-            return setActive(-1);
-          });
+          if ($scope.formContainer.form) {
+            if ($scope.editing)
+              $scope.formContainer.form.setModel(entry);
+            else
+              $scope.formContainer.form.reset();
+          }
         }
 
         function submit(model, form) {
-          return $scope.onAdd({
+          var data = {
             $entry: model,
             $form: form,
-          }).then(function() {
-            $scope.adding = false;
+          };
+
+          return ($scope.active === -1 ?
+            $scope.onAdd(data) :
+            $scope.onEdit(_.extend(data, { $index: $scope.active }))
+          ).then(function() {
             return list();
           }).then(function() {
             return setActive(-1);

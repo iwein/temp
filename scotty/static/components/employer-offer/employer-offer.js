@@ -7,7 +7,6 @@ define(function(require) {
 
   // jshint maxparams:8
   module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
-    $scope.getTimelineText = getTimelineText;
     $scope.toggleForm = toggleForm;
     $scope.withdraw = withdraw;
     $scope.sign = sign;
@@ -83,21 +82,6 @@ define(function(require) {
       offer.withdraw(form)
         .then(toggleForm.bind(null, 'withdraw'))
         .finally(function() { Loader.remove('offer-withdraw') });
-    }
-
-    function getTimelineText(name, offer) {
-      var candidate = offer.data.candidate.first_name;
-
-      return {
-        REJECTED: candidate + ' had turned down the offer',
-        WITHDRAWN: 'You have turned down the offer',
-        OFFER_MADE: 'Awesome, you sent an offer to ' + candidate,
-        ACCEPTED: 'Brilliant ' + candidate + ' had accepted an interview with you',
-        INTERVIEWING: 'Great! you have started interviewing with ' + candidate,
-        NEGOCIATING: 'Nearly there, you have started negotiating the details with ' + candidate,
-        CONTRACT_SIGNED: 'Winning! you have signed a contract with ' + candidate +
-          ' and will receive your golden handshake soon',
-      }[name];
     }
   });
 

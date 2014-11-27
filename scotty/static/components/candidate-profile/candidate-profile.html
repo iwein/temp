@@ -146,6 +146,7 @@
                   ng-click="salary.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
+                <div class="box-title box-title_left mrg-btm gray-darker">Expectation</div>
                 <div class="mrg-btm-small">
                   <span class="iconParent"><i class="fa fa-euro orange"></i></span>
                   {{ targetPosition.data.minimum_salary | dottedInteger }}
@@ -381,7 +382,8 @@
 
             <!-- Availability box -->
             <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="availability.editing">
-               <h5 class="edit-title">Availability <span> 0 characters left</span><h5>
+              <h5 class="edit-title">Availability <span> 0 characters left</span><h5>
+              <p class="font-12">Please enter your notice period or when you will be available.</p>
               <form class="edit-form" ng-submit="availability.save(availability.data)">
                 <textarea class="fw" required ng-model="availability.data"></textarea>
                 <div class="buttons-wrap">
@@ -754,9 +756,11 @@
                     </hc-education-form>
                   </div>
                   <!--End  EDIT panel -->
-                  <hc-accordion hc-hide-control="!entry.course" ng-hide="education.editing === $index">
+
+                  <div class="accordion-container">
                     <h3 class="accordion-subtitle">
                       {{ entry.degree }}
+                      <span>{{ entry.course }}</span>
                       <button type="button"
                         class="btn-edit-sub no-fl"
                         ng-show="isEditing && !formOpen"
@@ -771,9 +775,7 @@
                       {{ entry.end || 'today' | showMonthYear }}
                       ({{ entry | momentDiff | toMonthsYears }})
                     </span>
-                    <!-- WARN: replaced UI by DIV -->
-                    <div class="accordion-text">{{ entry.course }}</div>
-                  </hc-accordion>
+                  </div>
                 </div>
               </div>
             </div>

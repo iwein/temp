@@ -18,8 +18,6 @@ define(function(require) {
       return user.listOffices();
     }).then(function(_list) {
       list = _list;
-      if (!list.length)
-        $scope.list.setAdding(true);
     }).finally(function() {
       $scope.list.refresh();
       Loader.page(false);

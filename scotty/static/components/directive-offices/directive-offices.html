@@ -4,74 +4,76 @@
       {{ hcTitle }}
     </h3>
   </div>
-  <ul>
 
-    <li class="" ng-if="adding || (!editing && hcAutomaticAdd)">
-      <hc-office-form
-        hc-scope="formContainer"
-        name="form"
-        hc-required="model.length === 0 || !form.isPristine()"
-        hc-disabled="loading"
-        on-submit="submit($model, $form, model.length)">
+  <hc-office-form
+    hc-scope="formContainer"
+    name="form"
+    hc-required="model.length === 0 || !form.isPristine()"
+    hc-disabled="loading"
+    on-submit="submit($model, $form)">
 
-        <div class="col-sm-12 mrg-top">
-          <button type="submit"
-            class="bg-green btn-small fl-rg mrg-lft"
-            ng-disabled="loading">
-            Save
+    <div class="col-sm-12 mrg-top">
+      <div class="buttons-wrap">
+        <button type="submit"
+          class="bg-green btn-small fl-rg mrg-lft"
+          ng-disabled="loading">
+          Save and add another
+        </button>
+        <button type="button"
+          ng-show="editing"
+          class="bg-gray-lighter2 btn-small fl-rg mrg-lft"
+          ng-disabled="loading"
+          ng-click="hcOfficesCtrl.setActive(-1)">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </hc-office-form>
+
+  <div ng-if="model.length">
+    <div class="bg-gray-lighter col-sm-12 edit-form form-wrap" ng-repeat="entry in model" ng-hide="active === $index">
+      <label class="col-sm-3 alg-right gray-dark font-14">Saved</label>
+      <div class="col-sm-9">
+        <div class="bg-white address-box">
+          <button class="btn-edit-sub-skills" ng-show="hcEditable" ng-click="hcOfficesCtrl.setActive($index, entry)">
+            <i class="fa fa-pencil"></i>
           </button>
-          <button type="button"
-            class="bg-gray btn-small fl-rg mrg-lft"
-            ng-disabled="loading"
-            ng-click="hcOfficesCtrl.setActive(-1)">
-            Cancel
-          </button>
-        </div>
-      </hc-office-form>
-    </li>
-
-
-    <li class="" ng-repeat="entry in model">
-      <div class="edit-form form-wrap form-signup bg-gray-lighter">
-        <div class="row" ng-hide="active === $index">
-          <span class="col-sm-1">
-            <i class="fa fa-chevron-right"
-              ng-show="hcEditable"
-              ng-click="hcOfficesCtrl.setActive($index)"></i>
-          </span>
-          <span class="col-sm-6">{{ entry.address_city.city }}, {{ entry.address_city.country_iso }}</span>
-        </div>
-
-        <hc-office-form
-          ng-if="active === $index"
-          ng-model="entry"
-          hc-disabled="loading"
-          on-submit="edit($model, $form, $index)">
-
-          <div class="col-sm-12">
-            <button type="submit"
-              class="bg-green btn-small fl-rg mrg-lft"
-              ng-disabled="loading">
-              Done
-            </button>
-            <button type="button"
-              class="bg-gray btn-small fl-rg mrg-lft"
-              ng-disabled="loading"
-              ng-click="hcOfficesCtrl.setActive(-1)">
-              Cancel
-            </button>
+          <div class="row">
+            <div class="col-sm12 mrg-btm">
+              <div class="">
+                <div class="col-sm-5 address-box-label">Address</div>
+                <div class="col-sm-7">
+                  <address>
+                    {{ entry.address_line1 }}<br>
+                    {{ entry.address_line2 }}<br ng-if="entry.address_line2">
+                    {{ entry.address_line3 }}<br ng-if="entry.address_line3">
+                    {{ entry.address_city.city }},
+                    {{ entry.address_city.country_iso }}
+                    {{ entry.address_zipcode }}
+                  </address>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-5 address-box-label">Contact name</div>
+              <div class="col-sm-7">{{ entry.contact_first_name }} {{ entry.contact_last_name }}</div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-5 address-box-label">Contact phone</div>
+              <div class="col-sm-7">{{ entry.contact_phone }}</div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-5 address-box-label">Contact email</div>
+              <div class="col-sm-7">{{ entry.contact_email }}</div>
+              <div class="clearfix"></div>
+            </div>
           </div>
-        </hc-office-form>
-        <div class="" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
-          <button type="button"
-            class="btn btn-primary pull-right"
-            ng-disabled="loading"
-            ng-click="hcOfficesCtrl.setAdding(true)">
-            Add More
-          </button>
-          <div class="clearfix"></div>
         </div>
       </div>
-    </li>
-  </ul>
+      <div class="clearfix">
+    </div>
+  </div>
 </div>

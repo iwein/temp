@@ -8,8 +8,8 @@
       'bookmark_active': employer.isBookmarked,
       'bookmark_inactive': !employer.isBookmarked,
     }"></i></button>
-    <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">
-          Company profile <i class="fa fa-angle-right"></i></a>
+    <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
+          View profile <i class="fa fa-angle-right"></i></a>
   </div>
   <div class="col-sm-12 no-padd-left">
     <div class="row">
