@@ -2,26 +2,30 @@
   <div class="status-wrap"></div>
   <div class="signup-container" ng-show="ready">
     <ol class="list-unstyled col-sm-3  sidenav bg-white">
-      <li ng-class="{ active: signup.atStep('signup.target') }" class="row">Target position <i class="fa fa-check"></i></li>
-      <li ng-class="{ active: signup.atStep('signup.user') }" class="row">Free Sign up</li>
+      <li ng-class="{ active: signup.atStep('signup.target') }" class="row">
+        Target position <i class="fa fa-check" ng-if="signup.afterStep('signup.target')"></i>
+      </li>
+      <li ng-class="{ active: signup.atStep('signup.user') }" class="row">
+        Free Sign up <i class="fa fa-check" ng-if="signup.afterStep('signup.user')"></i>
+      </li>
       <li ng-class="{ active: signup.atStep('signup.experience') }" class="row">
-        <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Work Experience</a>
+        <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">Work Experience <i class="fa fa-check"></i></a>
         <span ng-if="!signup.afterStep('signup.experience')">Work Experience</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.education') }" class="row">
-        <a ng-if="signup.afterStep('signup.education')" ui-sref="signup.education"> Education</a>
+        <a ng-if="signup.afterStep('signup.education')" ui-sref="signup.education">Education <i class="fa fa-check"></i></a>
         <span ng-if="!signup.afterStep('signup.education')"> Education</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.skills') }" class="row">
-        <a ng-if="signup.afterStep('signup.skills')" ui-sref="signup.skills">Skills</a>
+        <a ng-if="signup.afterStep('signup.skills')" ui-sref="signup.skills">Skills <i class="fa fa-check"></i></a>
         <span ng-if="!signup.afterStep('signup.skills')">Skills</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.languages') }" class="row">
-        <a ng-if="signup.afterStep('signup.languages')" ui-sref="signup.languages">Languages</a>
+        <a ng-if="signup.afterStep('signup.languages')" ui-sref="signup.languages">Languages <i class="fa fa-check"></i></a>
         <span ng-if="!signup.afterStep('signup.languages')"> Languages</span>
       </li>
       <li ng-class="{ active: signup.atStep('signup.profile') }" class="row">
-        <a ng-if="signup.afterStep('signup.profile')" ui-sref="signup.profile">Final step</a>
+        <a ng-if="signup.afterStep('signup.profile')" ui-sref="signup.profile">Final step <i class="fa fa-check"></i></a>
         <span ng-if="!signup.afterStep('signup.profile')">Final step</span>
       </li>
       <div class="clearfix"></div>
