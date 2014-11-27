@@ -319,7 +319,7 @@
 
               <div class="form-wrap">
                 <ul>
-                  <li class="form-benefits clearfix mrg-btm-small" ng-repeat="benefit in benefits.data">
+                  <li class="form-benefits clearfix mrg-btm-small" ng-repeat="benefit in benefits.data.benefits">
                     <label class="{{ benefit.value }} col-sm-6 ">
                       {{ benefit.value }}
                       <input type="checkbox"
@@ -328,6 +328,13 @@
                     </label>
                   </li>
                 </ul>
+                <textarea
+                  class="form-control"
+                  placeholder="Other benefits"
+                  name="recruitment"
+                  ng-disabled="loading"
+                  ng-model="benefits.data.other_benefits">
+                </textarea>
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -357,6 +364,7 @@
               <div class="col-sm-6 mrg-btm-small" ng-repeat="benefit in data.benefits">
                 <div class="benefit-item {{ benefit }}">{{ benefit }}</div>
               </div>
+              <div class="col-sm-12 mrg-btm-small">{{ data.other_benefits }}</div>
             </div>
           </div>
         </div>
