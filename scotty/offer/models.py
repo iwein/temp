@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
+from pyramid.decorator import reify
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String, Sequence, \
     func
 
@@ -58,6 +59,10 @@ class OfferStatusWorkflow(object):
         for status in self.statuses[::-1]:
             if getattr(self, status.col_name) is not None:
                 return status, getattr(self, status.col_name)
+
+    @reify
+    def last_updated(self):
+        return self._status_time[1]
 
     @property
     def status(self):
@@ -249,6 +254,7 @@ class Offer(Base, OfferStatusWorkflow):
     def __json__(self, request):
         result = json_encoder(self, request)
         result['status'] = self.status
+        result['last_updated'] = self.last_updated
         result['technologies'] = self.technologies
         result['benefits'] = self.benefits
         result['role'] = self.role
@@ -278,6 +284,7 @@ class AnonymisedCandidateOffer(Offer):
     def __json__(self, request):
         results = json_encoder(self, request)
         results['status'] = self.status
+        results['last_updated'] = self.last_updated
         results['role'] = self.role
 
         if request.employer_id == self.employer.id:
@@ -308,6 +315,7 @@ class NewsfeedOffer(Offer):
     def __json__(self, request):
         results = json_encoder(self, request)
         results['status'] = self.status
+        results['last_updated'] = self.last_updated
         results['role'] = self.role
         results['employer'] = self.employer
         results['candidate'] = self.candidate

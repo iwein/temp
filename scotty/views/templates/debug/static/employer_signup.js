@@ -81,6 +81,7 @@ var EMPLOYER_SIGNUP = function(email){
         {url: '/api/v1/employers/me', title: 'employer-edit-workflow-step-5', method: 'PUT',
             data: {
                 benefits: ['Coffee', 'Breakfasts', 'Massages', 'Dogs Allowed', 'Remote Work'],
+                other_benefits:"And lots of other great nebefits for you!!!!!!",
                 recruitment_process: "really long recruiting process definition",
                 training_policy: "really long training description"
             }
