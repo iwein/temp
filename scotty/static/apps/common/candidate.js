@@ -128,7 +128,28 @@ define(function(require) {
 
     getLastPosition: function() {
       return this._api.when(this._data.work_experience || this.getExperience())
-        .then(function(experience) { return experience[experience.length - 1] });
+        .then(function(experience) {
+          if (experience.length === 1)
+            return experience[0];
+
+          var noEnd;
+          experience.some(function(entry) {
+            if (!entry.end) {
+              noEnd = entry;
+              return true;
+            }
+          });
+          if (noEnd)
+            return noEnd;
+
+          experience.forEach(function(entry) {
+            entry.startDate = new Date(entry.start);
+          });
+
+          return experience.sort(function(a, b) {
+            return b.startDate - a.startDate;
+          })[0];
+        });
     },
 
     dispose: function() {
