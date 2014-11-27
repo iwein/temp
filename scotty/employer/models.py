@@ -21,7 +21,6 @@ APPLIED = 'APPLIED'
 APPROVED = 'APPROVED'
 
 
-
 class Office(Base):
     __tablename__ = 'employer_office'
     id = Column(Integer, primary_key=True, info=PUBLIC)
@@ -62,7 +61,6 @@ employer_skills = Table('employer_skill', Base.metadata,
 employer_benefits = Table('employer_benefit', Base.metadata,
                           Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
                           Column('benefit_id', Integer, ForeignKey('benefit.id'), primary_key=True))
-
 
 
 class Employer(Base, JsonSerialisable):
@@ -176,7 +174,14 @@ class Employer(Base, JsonSerialisable):
 
 class EmbeddedEmployer(Employer):
     def __json__(self, request):
-        return json_encoder(self, request)
+        return {"id": self.id,
+                "company_name": self.company_name,
+                "founding_year": self.founding_year,
+                "website": self.website,
+                "logo_url": self.logo_url,
+                "image_video_url": self.image_video_url,
+                "fb_url": self.fb_url,
+                "linkedin_url": self.linkedin_url}
 
 
 class FullEmployer(Employer):

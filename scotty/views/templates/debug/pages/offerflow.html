@@ -132,11 +132,11 @@ tests = tests
 
 
 
-            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id+'/timeline';},
-                title: 'employer-get-offer-tineline'},
+            {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/offers/'+extr.offer1Id+'/newsfeed';},
+                title: 'employer-get-offer-newsfeed'},
 
-            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/timeline';},
-                title: 'candidate-get-offer-tineline'},
+            {url:function(r, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers/'+extr.offer1Id+'/newsfeed';},
+                title: 'candidate-get-offer-newsfeed'},
 
             {'title': 'Offer Responses'},
 
@@ -278,6 +278,7 @@ tests = tests
             },
 
             {url: '/api/v1/employers/me/newsfeed', title: 'employer-newsfeed'},
+            {url: '/api/v1/candidates/me/newsfeed', title: 'candidate-newsfeed'}
 
         ]);
 

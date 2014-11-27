@@ -12,7 +12,7 @@ from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency
     Course, City
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
-from scotty.offer.models import FullOffer
+from scotty.offer.models import FullOffer, NewsfeedOffer
 from scotty.services.pagingservice import Pager
 
 
@@ -125,7 +125,8 @@ def set_candidate_work_experiences(candidate, params):
         role = get_by_name_or_create(Role, wxp_params.get("role"))
         company = get_by_name_or_create(Company, wxp_params['company'])
         skills = get_or_create_named_collection(Skill, wxp_params.get('skills'))
-        wexp = WorkExperience(company=company, start=start, end=end, summary=summary, country_iso=wxp_params.get('country_iso'),
+        wexp = WorkExperience(company=company, start=start, end=end, summary=summary,
+                              country_iso=wxp_params.get('country_iso'),
                               city=wxp_params.get('city'), role=role, skills=skills)
         candidate.work_experience.append(wexp)
     DBSession.flush()
@@ -164,6 +165,7 @@ def set_languages_on_candidate(candidate, params):
 def get_locations_from_structure(locations):
     if not locations:
         return []
+
     def identify(arg):
         c, l = arg
         return len(c) == 2 and (not l or (len(l) > 0 and not isinstance(l, basestring) and (isinstance(l, list))))
@@ -249,37 +251,28 @@ def get_candidate_newsfeed(c):
             return None
         return (now - t).total_seconds()
 
-    events.append({'name': 'SIGN_UP', 'recency': recency(candidate.created), 'date':candidate.created,
-                   'note': 'Congrats you joined Scotty'})
-    events.append({'name': 'PROFILE_PENDING', 'recency': recency(candidate.activation_sent), 'date': candidate.activation_sent,
-                   'note': 'Your profile is done, just waiting for you to click the activation email'})
-    events.append({'name': 'PROFILE_LIVE', 'recency': recency(candidate.activated), 'date': candidate.activated,
-                   'note': 'Nicely done, you are now live and can start receiving great offers'})
+    events.append({'name': 'SIGN_UP', 'recency': recency(candidate.created), 'date': candidate.created})
+    events.append({'name': 'PROFILE_PENDING', 'recency': recency(candidate.activation_sent),
+                   'date': candidate.activation_sent})
+    events.append({'name': 'PROFILE_LIVE', 'recency': recency(candidate.activated), 'date': candidate.activated})
 
-    offers = DBSession.query(FullOffer).filter(FullOffer.candidate_id == c.id).options(
+    offers = DBSession.query(NewsfeedOffer).filter(NewsfeedOffer.candidate_id == c.id).options(
         joinedload_all("employer.benefits"), joinedload_all("candidate.skills")).all()
     for o in offers:
-        events.append({'name': 'OFFER_RECEIVED', 'recency': recency(o.created), 'date': o.created,
-                       'note': 'Awesome, you received an interview offer from %s' % o.employer.company_name})
-        events.append({'name': 'OFFER_REJECTED', 'recency': recency(o.rejected), 'date': o.rejected,
-                       'note': 'You have turned down the offer from %s' % o.employer.company_name})
-        events.append({'name': 'OFFER_ACCEPTED', 'recency': recency(o.accepted), 'date': o.accepted,
-                       'note': 'Brilliant you have accepted an interview with %s' % o.employer.company_name})
-        events.append({'name': 'OFFER_NEGOTIATION', 'recency': recency(o.contract_negotiation), 'date': o.contract_negotiation,
-                       'note': 'Nearly there you have started negotiating the details with %s'
-                               % o.employer.company_name})
-        events.append({'name': 'OFFER_SIGNED', 'recency': recency(o.contract_signed), 'date': o.contract_signed,
-                       'note': 'Winning! you have signed a contract with  %s and will receive you golden handshake soon'
-                               % o.employer.company_name})
-        events.append({'name': 'OFFER_START_DATE', 'recency': recency(o.job_start_date), 'date': o.job_start_date,
-                       'note': 'Good luck! you have set a start date of %s with %s' % (o.job_start_date,
-                                                                                       o.employer.company_name)})
+        events.append({'name': 'OFFER_RECEIVED', 'recency': recency(o.created), 'date': o.created, 'offer': o})
+        events.append({'name': 'OFFER_REJECTED', 'recency': recency(o.rejected), 'date': o.rejected, 'offer': o})
+        events.append({'name': 'OFFER_ACCEPTED', 'recency': recency(o.accepted), 'date': o.accepted, 'offer': o})
+        events.append({'name': 'OFFER_NEGOTIATION', 'recency': recency(o.contract_negotiation),
+                       'date': o.contract_negotiation, 'offer': o})
+        events.append(
+            {'name': 'OFFER_SIGNED', 'recency': recency(o.contract_signed), 'date': o.contract_signed, 'offer': o})
+        events.append(
+            {'name': 'OFFER_START_DATE', 'recency': recency(o.job_start_date), 'date': o.job_start_date, 'offer': o})
     for bookmark in candidate.bookmarks:
-        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(bookmark.created), 'date': bookmark.created,
-                       'note': 'You liked %s they have been notified and should get in touch' % bookmark.employer.company_name})
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(bookmark.created), 'date': bookmark.created})
     for blacklisted in candidate.blacklist:
-        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(blacklisted.created), 'date': blacklisted.created,
-                       'note': 'You liked %s they have been notified and should get in touch' % blacklisted.employer.company_name})
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(blacklisted.created),
+                       'date': blacklisted.created})
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
     return sorted(events_with_recency, key=lambda k: k['recency'])

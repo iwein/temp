@@ -304,7 +304,8 @@ class Candidate(Base, JsonSerialisable):
 
 class EmbeddedCandidate(Candidate):
     def __json__(self, request):
-        return json_encoder(self, request)
+        return {"first_name": self.first_name, "last_name": self.last_name, "id": self.id,
+                "picture_url": self.picture_url}
 
 
 class WXPCandidate(Candidate):

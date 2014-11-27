@@ -270,6 +270,21 @@ class FullOffer(Offer):
         return results
 
 
+class NewsfeedOffer(Offer):
+    employer = relationship("EmbeddedEmployer")
+    candidate = relationship("EmbeddedCandidate")
+
+    def __json__(self, request):
+        results = json_encoder(self, request)
+        results['status'] = self.status
+        results['role'] = self.role
+        results['employer'] = self.employer
+        results['candidate'] = self.candidate
+        results['rejected_reason'] = self.rejected_reason
+        results['withdrawal_reason'] = self.withdrawal_reason
+        return results
+
+
 
 
 
