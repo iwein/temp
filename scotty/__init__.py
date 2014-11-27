@@ -10,7 +10,7 @@ from pyramid_beaker import session_factory_from_settings
 import pyramid_mako
 from sqlalchemy.ext.associationproxy import _AssociationList
 from sqlalchemy.util import KeyedTuple
-from scotty.auth.provider import AuthProvider, RootResource
+from scotty.auth.provider import AuthProvider, RootResource, get_candidate_id, get_employer_id
 from scotty.models.tools import json_encoder, association_proxy, keyed_tuple_slsr
 from scotty.predicates import ContentTypePredicate
 from scotty.services.emailer import emailer_factory
@@ -112,6 +112,8 @@ def main(global_config, **settings):
     config.add_view_predicate('content_type', ContentTypePredicate)
 
     config.add_request_method(emailer_factory(settings), 'emailer', reify=True)
+    config.add_request_method(get_candidate_id, 'candidate_id', property=True)
+    config.add_request_method(get_employer_id, 'employer_id', property=True)
 
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.include('scotty.views')
