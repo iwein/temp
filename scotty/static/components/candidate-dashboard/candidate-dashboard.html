@@ -34,9 +34,45 @@
           </div>
           <div class="col-sm-10">
             <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
-            <!-- TODO No links?? -->
-            <div class="note">{{ entry.note }}</div>
-          </div>
+            <div class="note" ng-if="entry.name === 'SIGN_UP'">
+              Congrats you joined Scotty
+            </div>
+            <div class="note" ng-if="entry.name === 'PROFILE_PENDING'">
+              Your profile is done, just waiting for you to click the activation email
+            </div>
+            <div class="note" ng-if="entry.name === 'PROFILE_LIVE'">
+              Nicely done, you are now live and can start receiving great offers
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_RECEIVED'">
+              Awesome, you received <a ui-sref="offer({ id: entry.offer.id })">an interview offer</a> from
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_REJECTED'">
+              You have turned down <a ui-sref="offer({ id: entry.offer.id })">the offer</a> from
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'">
+              Brilliant you have accepted an interview with
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'">
+              Nearly there you have started negotiating the details with
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_SIGNED'">
+              Winning! you have signed a contract with
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+              and will receive you golden handshake soon
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_START_DATE'">
+              Good luck! you have set a start date of {{ entry.offer.job_start_date }} with
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+            </div>
+            <div class="note" ng-if="entry.name === 'BOOKMARKED_EMPLOYER'">
+              You liked
+              <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+              they have been notified and should get in touch
+            </div>
         </div>
       </div>
 
@@ -77,7 +113,7 @@
                   </div>
                 </div>
               </div>
-          
+
             </div>
 
             <div class="search-results" ng-show="terms.length">
@@ -92,7 +128,7 @@
             </div>
 
           </div>
-          
+
           <div class="col-sm-12 bg-white">
             <h2 class="main-title">WE RECOMMEND</h2>
             <h3 class="main-subtitle pad-all-15 ">Top companies using your target tech!</h3>

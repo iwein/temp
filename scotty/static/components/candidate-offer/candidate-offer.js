@@ -8,7 +8,6 @@ define(function(require) {
   // jshint maxparams:8
   module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
     $scope.flags = {};
-    $scope.getTimelineText = getTimelineText;
     $scope.toggleForm = toggleForm;
     $scope.accept = accept;
     $scope.reject = reject;
@@ -76,21 +75,6 @@ define(function(require) {
       offer.sign(form)
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() { Loader.remove('offer-sign') });
-    }
-
-    function getTimelineText(name, offer) {
-      var company = offer.data.employer.company_name;
-
-      return {
-        REJECTED: 'You have turned down the offer',
-        WITHDRAWN: company + ' had turned down the offer',
-        OFFER_MADE: 'Awesome, you received an offer from ' + company,
-        ACCEPTED: 'Brilliant you have accepted an interview with ' + company,
-        INTERVIEWING: 'Great! you have started interviewing with ' + company,
-        NEGOCIATING: 'Nearly there, you have started negotiating the details with ' + company,
-        CONTRACT_SIGNED: 'Winning! you have signed a contract with ' + company +
-          ' and will receive your golden handshake soon',
-      }[name];
     }
   });
 
