@@ -1,8 +1,22 @@
+html,
+body {
+  height: 100%;
+}
 body {
   overflow-y: scroll;
   #container {
     background-color: #FFFCF5;
   }
+}
+
+.page-wrap {
+   min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -374px; 
+}
+.pag-wrap:after {
+  content: "";
+  display: block;
 }
 
 h1 {

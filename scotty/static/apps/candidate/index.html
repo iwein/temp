@@ -27,11 +27,13 @@
     <div class="spinner-container" ng-show="showSpinner">
       <div class="spinner"></div>
     </div>
-    <ng-include src="'navbar.html'"></ng-include>
+    <div class="page-wrap">
+      <ng-include src="'navbar.html'"></ng-include>
 
-    <div id="content">
-      <ui-view class="container"></ui-view>
-      <div class="clearfix"></div>
+      <div id="content">
+        <ui-view class="container"></ui-view>
+        <div class="clearfix"></div>
+      </div>
     </div>
 
     <ng-include src="'footer.html'"></ng-include>
