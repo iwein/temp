@@ -21,7 +21,6 @@ define(function(require) {
     this.setLocation = setLocation;
     this.search = search;
     $scope.today = new Date();
-    $scope.getTimelineText = getTimelineText;
     $scope.ready = false;
     Loader.page(true);
 
@@ -91,25 +90,6 @@ define(function(require) {
         .finally(function() {
           $scope.loading = false;
         });
-    }
-
-    function getTimelineText(name, entry) {
-      var candidate = entry.candidate && entry.candidate.first_name;
-
-      return {
-        SIGN_UP: 'You signed up',
-        BOOKMARKED: candidate + ' has bookmarked you.',
-        //OFFER_RECEIVED: '',
-        OFFER_ACCEPTED: 'Brilliant you have accepted an interview with ' + candidate,
-        OFFER_REJECTED: 'Offer sent to ' + candidate + ' was rejected',
-        OFFER_SENT: 'You sent an offer to ' + candidate,
-        OFFER_START_DATE: 'Amazing! You started working with ' + candidate,
-        OFFER_NEGOTIATION: 'Nearly there, you have started negotiating the details with ' + candidate,
-        OFFER_SIGNED: 'Winning! you have signed a contract with ' + candidate +
-          ' and will receive your golden handshake soon',
-        PROFILE_PENDING: 'You agreed terms and conditions',
-        PROFILE_LIVE: 'Congrats! You were approved!',
-      }[name];
     }
   });
 
