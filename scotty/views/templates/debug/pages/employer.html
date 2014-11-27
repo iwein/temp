@@ -7,8 +7,14 @@
 </%def>
 
 
+
+
+
 <%def name="tests()">
 <script>
+
+    var a =
+
     var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
             tests = EMPLOYER_SIGNUP(email).concat([
                 {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
