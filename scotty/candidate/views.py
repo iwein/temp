@@ -19,7 +19,7 @@ from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
-from scotty.offer.models import InvalidStatusError
+from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
@@ -77,6 +77,11 @@ class CandidateController(RootController):
     model_cls = FullCandidate
 
     @reify
+    def is_me(self):
+        candidate_id = self.request.matchdict["candidate_id"]
+        return candidate_id == 'me'
+
+    @reify
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
         if candidate_id == 'me':
@@ -88,8 +93,7 @@ class CandidateController(RootController):
                                                             joinedload_all('languages.language'),
                                                             joinedload_all('languages.proficiency'),
                                                             joinedload_all('work_experience.company'),
-                                                            joinedload_all('work_experience.skills'),
-                                                            ).get(candidate_id)
+                                                            joinedload_all('work_experience.skills')).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
@@ -340,19 +344,22 @@ class CandidateOfferController(CandidateController):
 
     @view_config(route_name='candidate_offer_timeline', **GET)
     @view_config(route_name='candidate_offer_newsfeed', **GET)
-    def offer_timeline(self):
+    def offer_newsfeed(self):
         offer_id = self.request.matchdict["id"]
         offer = DBSession.query(CandidateOffer).get(offer_id)
         if not offer:
             raise HTTPNotFound("Unknown Offer ID")
         elif offer.candidate_id != self.candidate.id:
             raise HTTPForbidden("Offer not for this candidate.")
-        timeline = get_offer_newsfeed(offer, employer=offer.employer)
-        return timeline
+        return get_offer_newsfeed(offer, employer=offer.employer)
 
     @view_config(route_name='candidate_offers', **GET)
     def list(self):
-        return self.candidate.offers
+        if self.is_me:
+            return self.candidate.offers
+        else:
+            offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active()).all()
+            return offers
 
     @view_config(route_name='candidate_offer', **GET)
     def get(self):

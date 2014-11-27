@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String, Sequence
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String, Sequence, \
+    func
 
 from scotty.models.tools import json_encoder, PUBLIC
 from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason, WithdrawalReason
@@ -98,6 +99,22 @@ class OfferStatusWorkflow(object):
                 filter.append(columns[status.col_name] >= expiry_cutoff)
                 break
         return and_(*filter)
+
+    @classmethod
+    def by_active(cls):
+        columns = class_mapper(cls).columns
+        filter = []
+        expiry_cols = []
+
+        for status in cls.statuses[::-1]:
+            if status.is_final:
+                filter.append(columns[status.col_name].is_(None))
+            else:
+                expiry_cols.append(columns[status.col_name])
+
+        # make sure not expired only
+        expiry_cutoff = datetime.now() - timedelta(STATUS_EXPIRATION_DAYS)
+        return and_(func.coalesce(*expiry_cols) > expiry_cutoff, *filter)
 
     def accept(self, email, phone=None):
         if self.status == self.statuses[0]:
@@ -243,7 +260,6 @@ class Offer(Base, OfferStatusWorkflow):
 
 class EmployerOffer(Offer):
     candidate = relationship("EmbeddedCandidate")
-
     def __json__(self, request):
         results = super(EmployerOffer, self).__json__(request)
         results['candidate'] = self.candidate
@@ -252,10 +268,25 @@ class EmployerOffer(Offer):
 
 class CandidateOffer(Offer):
     employer = relationship("EmbeddedEmployer")
-
     def __json__(self, request):
         results = super(CandidateOffer, self).__json__(request)
         results['employer'] = self.employer
+        return results
+
+class AnonymisedCandidateOffer(Offer):
+    employer = relationship("EmbeddedEmployer")
+    def __json__(self, request):
+        results = json_encoder(self, request)
+        results['status'] = self.status
+        results['role'] = self.role
+
+        if request.employer_id == self.employer.id:
+            results['employer'] = self.employer
+        else:
+            results['employer'] = {"company_name": "Company"}
+
+        results['rejected_reason'] = self.rejected_reason
+        results['withdrawal_reason'] = self.withdrawal_reason
         return results
 
 
