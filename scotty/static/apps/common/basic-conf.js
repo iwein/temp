@@ -17,6 +17,10 @@ define(function(require) {
       $httpProvider.defaults.withCredentials = true;
     });
 
+    module.run(function($templateCache) {
+      $templateCache.put('footer.html', require('text!../common/footer.html'));
+    });
+
     module.factory('toaster', function(Notifier) {
       Notifier.defaultError = function(error) {
         if (error) console.error(error);

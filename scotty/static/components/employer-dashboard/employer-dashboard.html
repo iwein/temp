@@ -31,14 +31,67 @@
               'news-ico-offer-start-date': entry.name === 'OFFER_START_DATE',
               'news-ico-offer-bookmarked-employer': entry.name === 'BOOKMARKED_EMPLOYER',
             }"></div>
+            <!-- TODO: @Cristiano please add icon for
+              entry.name === 'OFFER_SENT'
+            -->
           </div>
           <div class="col-sm-10">
             <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
-            <div class="note">{{ getTimelineText(entry.name, entry) }}</div>
+            <div class="note" ng-if="entry.name === 'SIGN_UP'">You signed up.</div>
+            <div class="note" ng-if="entry.name === 'BOOKMARKED'">
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+              </a>
+              has bookmarked you.
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'">
+              Brilliant you have accepted an interview with
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+              </a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_REJECTED'">
+              Offer sent to
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+              </a>
+              was rejected.
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_SENT'">
+              You sent an offer to
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+              </a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_START_DATE'">
+              Amazing! You started working with
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+              </a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'">
+              Nearly there, you have started negotiating the details with
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+              </a>
+            </div>
+            <div class="note" ng-if="entry.name === 'OFFER_SIGNED'">
+              Winning! you have signed a contract with
+              <a ui-sref="candidate({ id: entry.candidate.id })">
+                {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+              </a>
+              and will receive your golden handshake soon
+            </div>
+            <div class="note" ng-if="entry.name === 'PROFILE_PENDING'">
+              You agreed terms and conditions
+            </div>
+            <div class="note" ng-if="entry.name === 'PROFILE_LIVE'">
+              Congrats! You were approved!
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div class="col-sm-6">
         <div class="row">
           <div class="col-sm-12 bg-gray-light mrg-btm">

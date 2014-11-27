@@ -455,7 +455,7 @@
 
         <!-- MAIN CONTENT -->
         <div class="col-sm-9">
-          
+
 
           <!-- Summary box (remove class hidden to display)-->
             <div class="edit-summary" ng-show="summary.editing">
@@ -489,7 +489,7 @@
                   <div class="col-sm-12">
                     <div class="user-desc">
                       <div class="">
-                        <h2 class="main-title">{{ user.first_name }} {{ user.last_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                        <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
                       </div>
                       <div class="emp-off-desc">
                         <!-- Edit target position div (remove class hidden to display)-->
@@ -625,12 +625,14 @@
 
           <div class="row bg-white">
             <div class="job-bar">
-              <div class="job-bar-item" ng-repeat="entry in timeline"  style="width: {{ entry.percent }}%">
-                <div class="job-bar-item_up" title="{{ entry.duration | yearMonth }}" ng-class="{
+              <div class="job-bar-item" ng-repeat="entry in timeline"
+                style="width: {{ entry.percent }}%"
+                title="{{ entry.role }} - {{ entry.duration | yearMonth }}">
+                <div class="job-bar-item_up" ng-class="{
                   'bg-gray-light': $even,
                   'bg-blue-light': $odd,
                 }">{{ entry.duration | yearMonth:entry.percent }}</div>
-                <div class="job-bar-item_down" title="{{ entry.role }}">{{ entry.percent > 5 && entry.role || '' }}</div>
+                <div class="job-bar-item_down">{{ entry.percent > 5 && entry.role || '' }}</div>
               </div>
             </div>
           </div>

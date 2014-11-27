@@ -26,7 +26,7 @@
               <i class="fa fa-camera-retro"></i>
             </button>
             <div class="edit-user-pic" ng-show="picture.editing">
-              <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data)">
+              <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data.logo_url)">
                 <h5 class="edit-title">Profile picture</h5>
                 <input type="file"
                   class="mrg-btm"
@@ -34,10 +34,10 @@
                   accept="image/*"
                   ng-required="true"
                   ng-disabled="loading"
-                  ng-model="picture.data"
+                  ng-model="picture.data.logo_url"
                   hc-file-select="selectFile($files)"
                   hc-data-url="selectedPicture">
-                <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
+                <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || data.logo_url }})"></div>
                 <div class="buttons-wrap mrg-btm">
                   <button type="button"
                     class="fl-lf bg-gray-lighter2 btn-small"
@@ -131,11 +131,11 @@
               ng-click="company.edit()">
               <i class="fa fa-pencil"></i>
             </button>
-            <p class="smbd">founded in {{ data.funding_year }}</p>
-            <p class="smbd">{{ data.no_of_employees }} employees</p>
-            <p>Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
-            <p>VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
-            <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
+            <p class="smbd" ng-show="data.funding_year">founded in {{ data.funding_year }}</p>
+            <p class="smbd" ng-show="data.no_of_employees">{{ data.no_of_employees }} employees</p>
+            <p ng-show="data.revenue_pa">Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
+            <p ng-show="data.funding_amount">VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
+            <a ng-show="data.website" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
               {{ data.website }}
             </a>
           </div>
@@ -274,8 +274,8 @@
                   Offices
                 </div>
                 <div class="fl-rg">
-                  <a ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
-                  <a ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  <a ng-show="data.facebook_url" ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                  <a ng-show="data.linkedin_url" ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
                 </div>
               </div>
               <div class="padd-vert col-sm-12 brd-btm office-list">
@@ -353,6 +353,7 @@
               </button>
             </div>
             <div class="row">
+              <div class="col-sm-12 mrg-btm-small" ng-show="!data.benefits.length">Not defined yet</div>
               <div class="col-sm-6 mrg-btm-small" ng-repeat="benefit in data.benefits">
                 <div class="benefit-item {{ benefit }}">{{ benefit }}</div>
               </div>
@@ -394,7 +395,8 @@
                   </div>
                   <div class="emp-off-desc">
                     <div>
-                      {{ data.mission_text }} <button type="submit"
+                      <span ng-bind-html="data.mission_text"></span>
+                      <button type="submit"
                         class="btn-edit-sub no-fl"
                         ng-disabled="loading"
                         ng-show="isEditing && !formOpen"
@@ -469,7 +471,7 @@
               <div class="col-sm-3">
                 <div class="skills-head">
                   <div class="big-title skills-title">TECH</div>
-                  <span><span class="smbd">Team size</span> </br> {{ data.no_of_employees }}</span>
+                  <span ng-show="data.no_of_employees"><span class="smbd">Team size</span> </br> {{ data.no_of_employees }}</span>
                 </div>
               </div>
               <div class="col-sm-9">
@@ -542,15 +544,18 @@
             <div class="accordion-wrap">
               <div>
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>
-                <p class="pad-btm-15" ng-bind-html="data.tech_team_philosophy"></p>
+                <p class="pad-btm-15" ng-show="data.tech_team_philosophy" ng-bind-html="data.tech_team_philosophy"></p>
+                <p class="pad-btm-15" ng-show="!data.tech_team_philosophy">Not defined yet</p>
               </div>
               <div>
                 <h3 class="accordion-subtitle">Hiring process</h3>
-                <p class="pad-btm-15" ng-bind-html="data.recruitment_process"></p>
+                <p class="pad-btm-15" ng-show="data.recruitment_process" ng-bind-html="data.recruitment_process"></p>
+                <p class="pad-btm-15" ng-show="!data.recruitment_process">Not defined yet</p>
               </div>
               <div>
                 <h3 class="accordion-subtitle">Training policy</h3>
-                <p class="pad-btm-15" ng-bind-html="data.training_policy"></p>
+                <p class="pad-btm-15" ng-show="data.training_policy" ng-bind-html="data.training_policy"></p>
+                <p class="pad-btm-15" ng-show="!data.training_policy">Not defined yet</p>
               </div>
             </div>
           </div>
