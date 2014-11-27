@@ -13,50 +13,67 @@
     on-submit="submit($model, $form)">
 
     <div class="col-sm-12 mrg-top">
-      <button type="submit"
-        class="bg-green btn-small fl-rg mrg-lft"
-        ng-disabled="loading">
-        Save and add another
-      </button>
-      <button type="button"
-        ng-show="editing"
-        class="bg-gray btn-small fl-rg mrg-lft"
-        ng-disabled="loading"
-        ng-click="hcOfficesCtrl.setActive(-1)">
-        Cancel
-      </button>
+      <div class="buttons-wrap">
+        <button type="submit"
+          class="bg-green btn-small fl-rg mrg-lft"
+          ng-disabled="loading">
+          Save and add another
+        </button>
+        <button type="button"
+          ng-show="editing"
+          class="bg-gray-lighter2 btn-small fl-rg mrg-lft"
+          ng-disabled="loading"
+          ng-click="hcOfficesCtrl.setActive(-1)">
+          Cancel
+        </button>
+      </div>
     </div>
   </hc-office-form>
 
   <div ng-if="model.length">
-    <h4>Saved</h4>
-    <ul>
-      <li ng-repeat="entry in model" ng-hide="active === $index">
-        <div class="edit-form form-wrap form-signup bg-gray-lighter">
-          <button class="col-sm-1" ng-show="hcEditable" ng-click="hcOfficesCtrl.setActive($index, entry)">
+    <div class="bg-gray-lighter col-sm-12 edit-form form-wrap" ng-repeat="entry in model" ng-hide="active === $index">
+      <label class="col-sm-3 alg-right gray-dark font-14">Saved</label>
+      <div class="col-sm-9">
+        <div class="bg-white address-box">
+          <button class="btn-edit-sub-skills" ng-show="hcEditable" ng-click="hcOfficesCtrl.setActive($index, entry)">
             <i class="fa fa-pencil"></i>
           </button>
-          <dl class="dl-horizontal">
-            <dt>Address</dt>
-            <dd>
-              <address>
-                {{ entry.address_line1 }}<br>
-                {{ entry.address_line2 }}<br ng-if="entry.address_line2">
-                {{ entry.address_line3 }}<br ng-if="entry.address_line3">
-                {{ entry.address_city.city }},
-                {{ entry.address_city.country_iso }}
-                {{ entry.address_zipcode }}
-              </address>
-            </dd>
-            <dt>Contact name</dt>
-            <dd>{{ entry.contact_first_name }} {{ entry.contact_last_name }}</dd>
-            <dt>Contact phone</dt>
-            <dd>{{ entry.contact_phone }}</dd>
-            <dt>Contact email</dt>
-            <dd>{{ entry.contact_email }}</dd>
-          </dl>
+          <div class="row">
+            <div class="col-sm12 mrg-btm">
+              <div class="">
+                <div class="col-sm-5 address-box-label">Address</div>
+                <div class="col-sm-7">
+                  <address>
+                    {{ entry.address_line1 }}<br>
+                    {{ entry.address_line2 }}<br ng-if="entry.address_line2">
+                    {{ entry.address_line3 }}<br ng-if="entry.address_line3">
+                    {{ entry.address_city.city }},
+                    {{ entry.address_city.country_iso }}
+                    {{ entry.address_zipcode }}
+                  </address>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-5 address-box-label">Contact name</div>
+              <div class="col-sm-7">{{ entry.contact_first_name }} {{ entry.contact_last_name }}</div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-5 address-box-label">Contact phone</div>
+              <div class="col-sm-7">{{ entry.contact_phone }}</div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-5 address-box-label">Contact email</div>
+              <div class="col-sm-7">{{ entry.contact_email }}</div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+      <div class="clearfix">
+    </div>
   </div>
 </div>
