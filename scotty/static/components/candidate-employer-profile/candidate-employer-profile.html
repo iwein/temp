@@ -16,12 +16,16 @@
               <div class="contacts">
                 <div class="fl-lf">
                   <button class="toggler" ng-click="toggle('officesSection')">
-                    Offices <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i>
+                    Offices
+                    <span ng-show="data.offices.length > 1">
+                      <i ng-show="!officesSection" class="fa fa-angle-down"></i>
+                      <i ng-show="officesSection" class="fa fa-angle-up"></i>
+                    </span>
                   </button>
                 </div>
                 <div class="fl-rg">
-                  <a ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
-                  <a ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  <a ng-show="data.facebook_url" ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                  <a ng-show="data.linkedin_url" ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
                 </div>
               </div>
               <div class="padd-vert col-sm-12 brd-btm office-list">
@@ -51,17 +55,17 @@
                 </div>
               </div>
               <div class="padd-vert col-sm-12">
-                <p class="smbd">founded in {{ data.funding_year }}</p>
-                <p class="smbd">{{ data.no_of_employees }} employees</p>
-                <p>Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
-                <p>VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
+                <p ng-show="data.funding_year" class="smbd">founded in {{ data.funding_year }}</p>
+                <p ng-show="data.no_of_employees" class="smbd">{{ data.no_of_employees }} employees</p>
+                <p ng-show="data.revenue_pa">Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
+                <p ng-show="data.funding_amount">VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
                 <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
                   {{ data.website }}
                 </a>
               </div>
             </div>
           </div>
-          <div class="col-sm-12 border-box mrg-btm padd-vert">
+          <div class="col-sm-12 border-box mrg-btm padd-vert" ng-show="data.benefits || data.other_benefits">
             <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS</div>
             <div class="row">
               <div class="col-sm-6 mrg-btm-small" ng-repeat="benefit in data.benefits">
@@ -79,7 +83,15 @@
               <div class="col-sm-12">
                 <div class="user-desc">
                   <div>
-                    <h2 class="main-title">{{ data.company_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                    <h2 class="main-title">
+                      {{ data.company_name }}
+                      <button type="button" ng-click="employerProfile.toogleBookmark()">
+                        <i class="bookmark" ng-class="{
+                          bookmark_inactive: !isBookmarked,
+                          bookmark_active: isBookmarked,
+                        }"></i>
+                      </button>
+                    </h2>
                   </div>
                   <div class="emp-off-desc">
                     <div ng-bind-html="data.mission_text"></div>
@@ -111,7 +123,7 @@
               <div class="col-sm-3">
                 <div class="skills-head">
                   <div class="big-title skills-title">TECH</div>
-                  <span><span class="smbd">Team size</span> </br> {{ data.tech_team_size }}</span>
+                  <span ng-show="data.tech_team_size"><span class="smbd">Team size</span> </br> {{ data.tech_team_size }}</span>
                 </div>
               </div>
               <div class="col-sm-9">
@@ -128,15 +140,15 @@
           <div class="col-sm-12 pad-top-10">
             <div class="accordion-wrap">
               <!--TODO implement dynamic variables -->
-              <div>
+              <div ng-show="data.tech_team_philosophy">
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>
                 <p class="pad-btm-15" ng-bind-html="data.tech_team_philosophy"></p>
               </div>
-              <div>
+              <div ng-show="data.recruitment_process">
                 <h3 class="accordion-subtitle">Hiring process</h3>
                 <p class="pad-btm-15" ng-bind-html="data.recruitment_process"></p>
               </div>
-              <div>
+              <div ng-show="data.training_policy">
                 <h3 class="accordion-subtitle">Training policy</h3>
                 <p class="pad-btm-15" ng-bind-html="data.training_policy"></p>
               </div>

@@ -19,9 +19,11 @@ define(function(require) {
     this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.setLocation = setLocation;
-    this.search = search;
+    $scope.loadPage = loadPage;
+    $scope.search = search;
     $scope.today = new Date();
     $scope.ready = false;
+    var resultsPerPage = 10;
     Loader.page(true);
 
     Permission.requireActivated().then(function() {
@@ -64,6 +66,12 @@ define(function(require) {
       search();
     }
 
+    function loadPage(page) {
+      $scope.searchCandidates = $scope.searchResults
+        .slice(page * resultsPerPage, (page + 1) * resultsPerPage);
+      $scope.page = page;
+    }
+
     function search() {
       var tags = $scope.terms && $scope.terms.join();
       var params = _.extend({}, $scope.location, tags ? { tags: tags } : null);
@@ -79,12 +87,20 @@ define(function(require) {
               candidate._data.skills = candidate._data.skills.sort(function(a, b) {
                 return levels[b.level] - levels[a.level];
               }).slice(9);
-              return candidate._data;
+              return candidate;
             });
           });
         })
-        .then(function(result) {
-          $scope.searchResults = result;
+        .then(function(results) {
+          var pagesCount = results.length / resultsPerPage;
+          var pages = [];
+
+          for (var i = 0; i < pagesCount; i++)
+            pages.push(i + 1);
+
+          $scope.searchResults = results;
+          $scope.pages = pages;
+          loadPage(0);
         })
         .catch(toaster.defaultError)
         .finally(function() {

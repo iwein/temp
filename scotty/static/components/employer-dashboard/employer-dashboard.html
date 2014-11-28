@@ -103,8 +103,7 @@
                       <hc-label-typeahead
                         placeholder="Skills"
                         ng-model="terms"
-                        hc-source="dashboard.searchSkills($viewValue)"
-                        on-change="dashboard.search()">
+                        hc-source="dashboard.searchSkills($viewValue)">
                       </hc-label-typeahead>
                     </div>
                   </div>
@@ -124,21 +123,28 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-sm-offset-8 col-sm-4">
+                  <button type="button" ng-click="search()">
+                    Search
+                  </button>
+                </div>
               </div>
             </div>
             <!--the whole box search result must be shown only after the user has selected some-->
-            <div class="search-results" ng-show="terms.length">
+            <div class="search-results">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
-              <div ng-show="terms.length && !loading && !candidates.length">No employer found</div>
-              <div ng-show="suggested.length">
-                <div class="offer-list">
-                  <hc-candidate
-                    ng-repeat="candidate in candidates"
-                    ng-model="candidate"
-                    hc-link-profile>
-                  </hc-candidate>
-                </div>
+              <div class="offer-list">
+                <hc-candidate
+                  ng-repeat="candidate in searchCandidates"
+                  ng-model="candidate"
+                  hc-link-profile>
+                </hc-candidate>
+                <ul>
+                  <li ng-repeat="page in pages">
+                    <button type="button" ng-click="loadPage(page - 1)">{{ page }}</button>
+                  </li>
+                <ul>
               </div>
             </div>
               <!--end item-->
