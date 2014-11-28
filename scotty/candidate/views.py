@@ -139,6 +139,17 @@ class CandidateController(RootController):
             result = run_paginated_query(self.request, basequery)
         return result
 
+    @view_config(route_name='candidate', **GET)
+    def get(self):
+        return self.candidate
+
+    @view_config(route_name='candidate_picture', **GET)
+    def get_picture(self):
+        if self.request.params.get('redirect') == 'false':
+            return {'url': self.candidate.picture_url}
+        else:
+            raise HTTPFound(location=self.candidate.picture_url)
+
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):
         token = self.request.matchdict['token']
@@ -161,10 +172,6 @@ class CandidateController(RootController):
     def logout(self):
         self.request.session.invalidate()
         return {'success': True}
-
-    @view_config(route_name='candidate', **GET)
-    def get(self):
-        return self.candidate
 
     @view_config(route_name='candidate', **PUT)
     def edit(self):
@@ -197,12 +204,6 @@ class CandidateController(RootController):
                     'summary': bool(candidate.summary), 'availability': bool(candidate.availability)}
         return workflow
 
-    @view_config(route_name='candidate_picture', **GET)
-    def get_picture(self):
-        if self.request.params.get('redirect') == 'false':
-            return {'url': self.candidate.picture_url}
-        else:
-            raise HTTPFound(location=self.candidate.picture_url)
 
     @view_config(route_name='candidate_picture', **POST)
     def save_picture(self):

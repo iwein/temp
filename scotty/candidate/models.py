@@ -2,14 +2,15 @@ import hashlib
 from operator import attrgetter
 from uuid import uuid4
 from datetime import datetime
+
+from scotty.auth.provider import ADMIN_USER
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
-
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.orm import relationship
-
+from sqlalchemy.orm import relationship, class_mapper
 from scotty.models.common import get_by_name_or_raise
-from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN, allow_display, DISPLAY_ALWAYS, \
+    DISPLAY_PRIVATE, get_request_role, DISPLAY_ADMIN
 from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
@@ -207,14 +208,14 @@ class Candidate(Base, JsonSerialisable):
     activation_sent = Column(DateTime, info=PRIVATE)
     activated = Column(DateTime, info=PRIVATE)
 
-    email = Column(String(512), nullable=False, unique=True, info=PUBLIC)
-    pwd = Column(String(128), nullable=False)
+    email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
+    pwd = Column(String(128), nullable=False, info=PRIVATE)
 
     first_name = Column(String(512), nullable=False, info=PUBLIC)
     last_name = Column(String(512), nullable=False, info=PUBLIC)
+    picture_url = Column(String(1024), info=PUBLIC)
     dob = Column(Date, info=PUBLIC)
     pob = Column(String(512), info=PUBLIC)
-    picture_url = Column(String(1024), info=PUBLIC)
 
     salutation_id = Column(Integer, ForeignKey(Salutation.id))
     salutation = relationship(Salutation, info=PUBLIC)
@@ -332,29 +333,49 @@ class Candidate(Base, JsonSerialisable):
             elif pl.city_id:
                 ciso = pl.city.country_iso
                 results.setdefault(country_lookup.get(ciso, ciso), []).append(pl.city.name)
-
         return results
+
+    def obfuscate_result(self, result):
+        result['first_name'] = ''
+        result['last_name'] = str(self.id)[:13]
+        result['picture_url'] = '/candidate/resources/images/holder.png'
+        return result
+
 
     def __json__(self, request):
         result = self.to_json(request)
-        result.update(json_encoder(self, request))
-        result['id'] = self.id
+
+        display = get_request_role(request, self.id)
+        obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
+        result.update(json_encoder(self, request, display, obfuscator))
 
         result['summary'] = self.summary or self.generated_summary
-
         result['salutation'] = self.salutation
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills
         result['preferred_location'] = self.get_preferred_locations()
         result['location'] = self.location
+
+        if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
+            result['traffic_source'] = self.traffic_source
+            result['activation_token'] = self.activation_token
+            result['activation_sent'] = self.activation_sent
+            result['admin_comment'] = self.admin_comment
+            result['invite_code'] = self.invite_code
         return result
 
 
 class EmbeddedCandidate(Candidate):
     def __json__(self, request):
-        return {"first_name": self.first_name, "last_name": self.last_name, "id": self.id,
-                "picture_url": self.picture_url}
+        result = {"first_name": self.first_name, "last_name": self.last_name, "id": self.id,
+                  "picture_url": self.picture_url}
+
+        display = get_request_role(request, self.id)
+        do_obfuscate = self.anonymous and display == [DISPLAY_ALWAYS]
+        if do_obfuscate:
+            result = self.obfuscate_result(result)
+        return result
 
 
 class WXPCandidate(Candidate):
@@ -363,14 +384,4 @@ class WXPCandidate(Candidate):
         result['work_experience'] = self.work_experience
         return result
 
-
-class FullCandidate(WXPCandidate):
-    def __json__(self, request):
-        result = super(FullCandidate, self).__json__(request)
-        result['email'] = self.email
-        result['traffic_source'] = self.traffic_source
-        result['activation_token'] = self.activation_token
-        result['activation_sent'] = self.activation_sent
-        result['admin_comment'] = self.admin_comment
-        result['invite_code'] = self.invite_code
-        return result
+FullCandidate = WXPCandidate

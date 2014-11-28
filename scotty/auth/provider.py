@@ -7,6 +7,7 @@ import logging
 
 from pyramid.authentication import CallbackAuthenticationPolicy
 from pyramid.security import Allow, ALL_PERMISSIONS, Authenticated, Everyone
+from scotty.tools import split_strip
 
 
 ADMIN_USER = 'ADMIN_USER'
@@ -43,22 +44,22 @@ class AuthProvider(CallbackAuthenticationPolicy):
     """
 
     def __init__(self, settings):
+        self.whitelist = split_strip(settings.get('auth.whitelist'))
         super(AuthProvider, self).__init__()
 
     def authenticated_userid(self, request):
-        return request.session.get('candidate_id')
+        return request.session.get('candidate_id') or request.session.get('employer_id')
 
     def unauthenticated_userid(self, request):
         return None
 
     def effective_principals(self, request, *args, **kwargs):
-        principals = [Everyone]
-        principals += [ADMIN_USER]  # TODO: at some time not everyone should be superuser
+        principals = {Everyone}
 
-        if request.candidate_id or request.employer_id:
-            principals += [Authenticated]
         if request.candidate_id:
-            principals += [CANDIDATE]
+            principals = principals | {Authenticated, CANDIDATE}
         if request.employer_id:
-            principals += [EMPLOYER]
+            principals = principals | {Authenticated, EMPLOYER}
+        if request.params.get('apikey') in self.whitelist:
+            principals = principals | {Authenticated, ADMIN_USER}
         return principals
