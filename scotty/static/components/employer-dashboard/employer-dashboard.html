@@ -92,7 +92,7 @@
 
       <div class="col-sm-6">
         <div class="row">
-          <div class="col-sm-12 bg-gray-light mrg-btm">
+          <div class="col-sm-12 bg-gray-light mrg-btm" ng-class="{ 'no-results': !searchCandidates.length }">
             <div class="search-box">
               <h4 class="search-box-title">Search for candidates</h4>
               <div class="row">
@@ -153,10 +153,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-offset-8 col-sm-4">
-                  <button type="button" ng-click="search()">
-                    Search
-                  </button>
+                <div class="col-sm-12">
+                  <div class="buttons-wrap mrg-top">
+                    <button type="button" class="fl-rg btn bg-green" ng-click="search()">
+                      Search
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -170,7 +172,7 @@
                   ng-model="candidate"
                   hc-link-profile>
                 </hc-candidate>
-                <ul>
+                <ul class="pager-list">
                   <li ng-repeat="page in pages">
                     <button type="button" ng-click="loadPage(page - 1)">{{ page }}</button>
                   </li>
