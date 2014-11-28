@@ -102,3 +102,21 @@
 .search-result-item:last-child {
   border: none
 }
+.no-results {
+  .search-result {
+    display: none;
+  }
+}
+
+.pager-list {
+  padding:  0 0 15px 0;
+  text-align: center;
+  li {
+    padding: 0 4px 4px 4px;
+    color: @blue-link;
+    display: inline-block;
+  }
+  li.active {
+    color: @white
+  }
+}
