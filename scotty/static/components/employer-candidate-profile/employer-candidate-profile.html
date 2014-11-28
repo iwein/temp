@@ -109,8 +109,8 @@
             <div class="row">
               <div class="buttons-wrap mrg">
                 <a ng-show="!offerSent" ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
-                <span ng-show="offerSent" class="fw btn bg-blue">offer made</span>
               </div>
+              <span ng-show="offerSent" class="fw btn-fake bg-blue-light">offer made</span>
             </div>
           </div>
           <div class="col-sm-12 mrg-btm">
@@ -128,7 +128,8 @@
               <div class="col-sm-9">
                 <div class="skills-wrap row">
                   <div class="col-sm-4" ng-repeat="skill in leveledSkills">
-                    <div class="skills-item">{{ skill.skill }}
+                    <div class="skills-item">
+                      <span>{{ skill.skill }}</span>
                       <hc-stars ng-model="skill.level" hc-values="starValues"></hc-stars>
                     </div>
                   </div>

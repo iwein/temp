@@ -46,7 +46,7 @@
                   </div>
                   <div class="smbd orange mrg-btm-small">
                     <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    {{ office.contact_email }}
+                    <a href="mailto:{{ office.contact_email }}" target="_blank">{{ office.contact_email }}</a>
                   </div>
                   <div>
                     <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
@@ -110,8 +110,9 @@
                     ng-click="employerProfile.toogleBookmark()">
                     Request an interview
                   </button>
-                  <div ng-show="isBookmarked" class="fw btn bg-green-dark">interview requested</div>
+                  
                 </div>
+                <div ng-show="isBookmarked" class="fw btn-fake bg-blue-light">interview requested</div>
               </div>
             </div>
           </div>

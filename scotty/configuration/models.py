@@ -34,8 +34,14 @@ class OfficeType(Base, NamedModel):
 
 class SkillLevel(Base, NamedModel):
     __tablename__ = 'skill_level'
+    ROLES = {'basic': 'Beginner', 'advanced': "Proficient", "expert": 'Expert'}
+
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
+
+    @property
+    def name_as_subject(self):
+        return self.ROLES.get(self.name, self.name)
 
 
 class Proficiency(Base, NamedModel):
