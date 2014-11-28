@@ -10,10 +10,12 @@ define(function(require) {
     $scope.searchLocations = ConfigAPI.locationsText;
     $scope.searchSkills = ConfigAPI.skills;
     $scope.setLocation = setLocation;
+    $scope.loadPage = loadPage;
     $scope.search = search;
     $scope.toggle = toggle;
     $scope.ready = false;
     $scope.today = new Date();
+    var resultsPerPage = 10;
     Loader.page(true);
 
     ConfigAPI.companyTypes().then(function(data) {
@@ -55,6 +57,11 @@ define(function(require) {
       search();
     }
 
+    function loadPage(page) {
+      $scope.employers = $scope.searchResults.slice(page * resultsPerPage, (page + 1) * resultsPerPage);
+      $scope.page = page;
+    }
+
     function search() {
       var tags = $scope.terms && $scope.terms.join();
       var companyTypes = $scope.companyTypes
@@ -73,7 +80,17 @@ define(function(require) {
         .then(function(employers) {
           return $q.all(employers.map(fn.invoke('getData', [])));
         })
-        .then(function(results) { $scope.employers = results })
+        .then(function(results) {
+          var pagesCount = results.length / resultsPerPage;
+          var pages = [];
+
+          for (var i = 0; i < pagesCount; i++)
+            pages.push(i + 1);
+
+          $scope.searchResults = results;
+          $scope.pages = pages;
+          loadPage(0);
+        })
         .catch(toaster.defaultError)
         .finally(function() {
           $scope.loading = false;
