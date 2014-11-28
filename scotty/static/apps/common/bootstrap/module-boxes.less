@@ -55,9 +55,22 @@
 }
 
 .skills-item {
-  padding-right: 40px;
+  padding-right: 95px;
   color: @orange;
   text-align: right;
+  position: relative;
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+    width: 100%;
+    display:block;
+  }
+  hc-stars {
+    position: absolute;
+    right: 35px;
+    top: 0;
+  }
 }
 .skills-others {
   padding-top: 10px;
@@ -68,6 +81,18 @@
 .info {
   position: relative;
   color: @white;
+  .col-sm-12 {
+    .orange {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
+      width: 100%;
+      display:inline-block;
+    }
+    a {
+      color: @orange;
+    }
+  }
 }
 
 .border-box {
@@ -165,6 +190,25 @@
   text-transform: uppercase;
   font-size: 16px;
   color: @orange
+}
+.office-wrap.closed .toggler {
+  color: @white;
+  .fa-angle-down {
+    display: none;
+  }
+  &:hover {
+    color: @orange
+  }
+}
+
+.office-wrap.open .toggler {
+  color: @orange;
+  .fa-angle-up {
+    display: none;
+  }
+  &:hover {
+    color: @white
+  }
 }
 /* box offices */
 .office-wrap.closed {

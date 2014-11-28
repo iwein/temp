@@ -30,10 +30,8 @@
               'news-ico-offer-signed': entry.name === 'OFFER_SIGNED',
               'news-ico-offer-start-date': entry.name === 'OFFER_START_DATE',
               'news-ico-offer-bookmarked-employer': entry.name === 'BOOKMARKED_EMPLOYER',
+              'news-ico-offer-received': entry.name === 'OFFER_SENT',
             }"></div>
-            <!-- TODO: @Cristiano please add icon for
-              entry.name === 'OFFER_SENT'
-            -->
           </div>
           <div class="col-sm-10">
             <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
