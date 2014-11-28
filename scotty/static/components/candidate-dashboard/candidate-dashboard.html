@@ -91,8 +91,7 @@
                       <hc-label-typeahead
                         placeholder="Skills"
                         ng-model="terms"
-                        hc-source="searchSkills($viewValue)"
-                        on-change="search()">
+                        hc-source="searchSkills($viewValue)">
                       </hc-label-typeahead>
                     </div>
                   </div>
@@ -113,21 +112,30 @@
                     </div>
                   </div>
                 </div>
-              </div>
 
+                <div class="col-sm-offset-8 col-sm-4">
+                  <button type="button" ng-click="search()">
+                    Search
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div class="search-results" ng-show="terms.length">
+            <div class="search-results">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
-              <div ng-show="terms.length && !loading && !employers.length">No employer found</div>
               <hc-employer
                 ng-repeat="employer in employers"
                 ng-model="employer"
                 hc-link-profile>
               </hc-employer>
-            </div>
 
+              <ul>
+                <li ng-repeat="page in pages">
+                  <button type="button" ng-click="loadPage(page - 1)">{{ page }}</button>
+                </li>
+              <ul>
+            </div>
           </div>
 
           <div class="col-sm-12 bg-white">

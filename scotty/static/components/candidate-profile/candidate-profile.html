@@ -514,15 +514,15 @@
                           <!-- Summary box (remove class hidden to display)-->
                             <div class="edit-summary" ng-show="summary.editing">
                               <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
-                              <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
+                              <h5 class="edit-title">Summary <span> {{ 250 - summary.data.length }} characters left</span></h5>
                               <div class="">
-                                
+
                                 <form class="edit-form" ng-submit="summary.save(summary.data)">
                                   <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
                                   <div class="buttons-wrap">
                                     <button type="submit"
                                       class="fl-rg bg-green btn-small mrg-lft-small"
-                                      ng-disabled="loading">
+                                      ng-disabled="loading || summary.data.length > 250">
                                       Save
                                     </button>
                                     <button type="button"
@@ -534,7 +534,7 @@
                                   </div>
                                   <div class="clearfix"></div>
                                 </form>
-                                
+
                               </div>
                             </div>
                           <!-- END summary box -->
