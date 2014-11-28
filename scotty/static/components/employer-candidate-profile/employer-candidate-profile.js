@@ -26,6 +26,7 @@ define(function(require) {
           candidate.getExperience(),
           candidate.getEducation(),
           candidate.getOffers(),
+          candidate.getHighestDegree(),
         ]);
       }).then(function(data) {
         var user = data[0];
@@ -33,6 +34,7 @@ define(function(require) {
         $scope.targetPosition = data[1];
         $scope.workExperience = data[2];
         $scope.education = data[3];
+        $scope.highestDegree = data[5];
 
         $scope.offerSent = offers.some(function(entry) {
           return entry.data.employer_id === Session.user.id;

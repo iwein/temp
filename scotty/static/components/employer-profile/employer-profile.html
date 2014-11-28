@@ -126,8 +126,8 @@
             <!-- END EDIT Contacts box-->
             <button type="submit"
               class="btn-edit-sub"
-              ng-disabled="loading"
-              ng-show="isEditing && !formOpen"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
               ng-click="company.edit()">
               <i class="fa fa-pencil"></i>
             </button>
@@ -264,8 +264,8 @@
             <div class="row" ng-show="!webProfiles.editing">
               <button type="submit"
                 class="btn-edit-sub-skills btn-edit-sub-skills_bot"
-                ng-disabled="loading"
-                ng-show="isEditing && !formOpen"
+                ng-disabled="loading || formOpen"
+                ng-show="isEditing"
                 ng-click="webProfiles.edit()">
                 <i class="fa fa-pencil"></i>
               </button>
@@ -353,8 +353,8 @@
             <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS
               <button type="submit"
                 class="btn-edit-sub"
-                ng-disabled="loading"
-                ng-show="isEditing && !formOpen"
+                ng-disabled="loading || formOpen"
+                ng-show="isEditing"
                 ng-click="benefits.edit()">
                 <i class="fa fa-pencil"></i>
               </button>
@@ -406,8 +406,8 @@
                       <span ng-bind-html="data.mission_text"></span>
                       <button type="submit"
                         class="btn-edit-sub no-fl"
-                        ng-disabled="loading"
-                        ng-show="isEditing && !formOpen"
+                        ng-disabled="loading || formOpen"
+                        ng-show="isEditing"
                         ng-click="summary.edit()">
                         <i class="fa fa-pencil"></i>
                       </button>
@@ -470,8 +470,8 @@
             </div>
             <button type="submit"
               class="btn-edit-sub-skills"
-              ng-disabled="loading"
-              ng-show="isEditing && !formOpen"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
               ng-click="tech.edit()">
               <i class="fa fa-pencil"></i>
             </button>
@@ -496,8 +496,8 @@
           <div class="col-sm-12 pad-top-10">
             <button type="submit"
               class="btn-edit-sub no-marg-top"
-              ng-disabled="loading"
-              ng-show="isEditing && !formOpen"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
               ng-click="descriptions.edit()">
               <i class="fa fa-pencil"></i>
             </button>
