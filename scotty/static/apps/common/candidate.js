@@ -152,6 +152,19 @@ define(function(require) {
         });
     },
 
+    getHighestDegree: function() {
+      return this.getEducation().then(function(education) {
+        var entry = education.sort(function(a, b) {
+          if (a.end && !b.end) return -1;
+          if (b.end && !a.end) return 1;
+          if (a.degree && !b.degree) return -1;
+          if (b.degree && !a.degree) return 1;
+          return b.end - a.end;
+        })[0];
+        return entry.degree || entry.end || '';
+      });
+    },
+
     dispose: function() {
       // TODO
     },
