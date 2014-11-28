@@ -33,7 +33,8 @@ define(function() {
           return false;
 
         var index = order.indexOf(name);
-        return index <= suggested;
+        var current = order.indexOf($state.current.name);
+        return index < current;
       }
 
       function nextStep() {
