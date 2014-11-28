@@ -292,7 +292,7 @@ class Candidate(Base, JsonSerialisable):
     @property
     def generated_summary(self):
         skills = self.highest_level_skills
-        locs = self.get_preferred_locations(resolve_countries=True)
+        locs = self.get_preferred_locations(resolve_countries=False)
         if skills and self.target_position and locs:
             locations = []
             for country, cities in locs.items():
@@ -341,7 +341,6 @@ class Candidate(Base, JsonSerialisable):
         result['picture_url'] = '/candidate/resources/images/holder.png'
         return result
 
-
     def __json__(self, request):
         result = self.to_json(request)
 
@@ -355,6 +354,7 @@ class Candidate(Base, JsonSerialisable):
         result['languages'] = self.languages
         result['skills'] = self.skills
         result['preferred_location'] = self.get_preferred_locations()
+        result['target_position'] = self.target_position
         result['location'] = self.location
 
         if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
@@ -373,9 +373,7 @@ class EmbeddedCandidate(Candidate):
 
         display = get_request_role(request, self.id)
         do_obfuscate = self.anonymous and display == [DISPLAY_ALWAYS]
-        if do_obfuscate:
-            result = self.obfuscate_result(result)
-        return result
+        return self.obfuscate_result(result) if do_obfuscate else result
 
 
 class WXPCandidate(Candidate):

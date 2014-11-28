@@ -5,23 +5,26 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
+from scotty.tools import split_strip
+from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
-    CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus
+    CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
+    CandidateSkill
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
     set_candidate_work_experiences, set_candidate_education
-from scotty.configuration.models import RejectionReason
+from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
 from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
-from scotty.services.pagingservice import ObjectBuilder
+from scotty.services.pagingservice import ObjectBuilder, PseudoPager
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT, run_paginated_query
@@ -37,6 +40,7 @@ def includeme(config):
     config.add_route('candidate_requestpassword', 'requestpassword')
     config.add_route('candidate_resetpassword', 'resetpassword/{token}')
     config.add_route('candidate_activate', 'activate/{token}')
+    config.add_route('candidates_advanced_search', 'advancedsearch')
 
     config.add_route('candidate_offer_timeline', '{candidate_id}/offers/{id}/timeline')
     config.add_route('candidate_offer_newsfeed', '{candidate_id}/offers/{id}/newsfeed')
@@ -117,38 +121,6 @@ class CandidateController(RootController):
         candidate.activation_sent = datetime.now()
         return candidate
 
-    @view_config(route_name='candidates', **GET)
-    def search(self):
-        params = self.request.params
-        tags = filter(None, params.get('tags', '').split(','))
-        status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
-        city_id = None
-        if 'country_iso' in params and 'city' in params:
-            city_id = get_location_by_name_or_raise(params).id
-
-        def optimise_query(q):
-            return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
-                             joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                             joinedload('preferred_locations'))
-
-        if tags:
-            pager = get_candidates_by_techtags_pager(tags, city_id, status_id=status.id)
-            result = ObjectBuilder(Candidate).serialize(pager, adjust_query=optimise_query)
-        else:
-            basequery = optimise_query(DBSession.query(Candidate).filter(Candidate.status_id == status.id))
-            result = run_paginated_query(self.request, basequery)
-        return result
-
-    @view_config(route_name='candidate', **GET)
-    def get(self):
-        return self.candidate
-
-    @view_config(route_name='candidate_picture', **GET)
-    def get_picture(self):
-        if self.request.params.get('redirect') == 'false':
-            return {'url': self.candidate.picture_url}
-        else:
-            raise HTTPFound(location=self.candidate.picture_url)
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):
@@ -234,6 +206,94 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_skills', **GET)
     def list_skills(self):
         return self.candidate.skills
+
+
+class CandidateViewController(CandidateController):
+
+    @view_config(route_name='candidates_advanced_search', **POST)
+    def candidates_advanced_search(self):
+        params = self.request.json
+
+        offset = int(self.request.params.get('offset', 0))
+        limit = int(self.request.params.get('limit', 10))
+        skills = params.get('skills')
+        locations = params.get('locations')
+        role = params.get('role')
+        salary = params.get('salary')
+        status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
+
+        query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+        if locations:
+            query = query.join(PreferredLocation)
+
+            country_filter = [c['country_iso'] for c in locations]
+            city_filter = [and_(City.name == loc['city'], City.country_iso == loc['country_iso']) for loc in locations]
+            city_ids = DBSession.query(City.id).filter(or_(*city_filter)).all()
+
+            query = query.filter(or_(PreferredLocation.city_id.in_(city_ids),
+                                     PreferredLocation.country_iso.in_(country_filter)))
+
+        if salary or role:
+            query = query.join(TargetPosition)
+            if salary:
+                query = query.filter(TargetPosition.minimum_salary < salary)
+            if role:
+                role = get_by_name_or_raise(Role, role)
+                query = query.filter(TargetPosition.role_id == role.id)
+
+
+        query = query.group_by(Candidate.id)
+
+        if skills:
+            query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills))\
+                .having(func.count(Skill.name) == len(skills))
+
+        pager = PseudoPager(query, offset, limit)
+
+        def optimise_query(q):
+            return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
+                             joinedload_all('skills.skill'), joinedload_all('skills.level'),
+                             joinedload('preferred_locations'), joinedload_all('target_position.role'),
+                             joinedload_all('target_position.skills'))
+
+        return ObjectBuilder(Candidate, joins=optimise_query).serialize(pager)
+
+    @view_config(route_name='candidates', **GET)
+    def search(self):
+        params = self.request.params
+
+        tags = filter(None, params.get('tags', '').split(','))
+        status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
+        city_id = None
+        if 'country_iso' in params and 'city' in params:
+            city_id = get_location_by_name_or_raise(params).id
+
+        def optimise_query(q):
+            return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
+                             joinedload_all('skills.skill'), joinedload_all('skills.level'),
+                             joinedload('preferred_locations'))
+
+        if tags:
+            pager = get_candidates_by_techtags_pager(tags, city_id, status_id=status.id)
+            result = ObjectBuilder(Candidate).serialize(pager, adjust_query=optimise_query)
+        else:
+            basequery = optimise_query(DBSession.query(Candidate).filter(Candidate.status_id == status.id))
+            result = run_paginated_query(self.request, basequery)
+        return result
+
+
+    @view_config(route_name='candidate', **GET)
+    def get(self):
+        return self.candidate
+
+    @view_config(route_name='candidate_picture', **GET)
+    def get_picture(self):
+        if self.request.params.get('redirect') == 'false':
+            return {'url': self.candidate.picture_url}
+        else:
+            raise HTTPFound(location=self.candidate.picture_url)
+
+
 
 
 class CandidateEducationController(CandidateController):

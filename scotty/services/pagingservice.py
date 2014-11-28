@@ -3,7 +3,6 @@ __author__ = 'marti_000'
 from sqlalchemy import text
 from scotty.models.meta import DBSession
 
-
 def get_paging_params(request, default_offset=0, default_limit=20):
     offset = int(request.params.get('offset', default_offset))
     limit = int(request.params.get('limit', default_limit))
@@ -23,16 +22,26 @@ class Pager(object):
         self.offset = params.get('offset', 0)
 
 
-class ObjectBuilder(object):
-    def __init__(self, cls, field_name='id'):
-        self.cls = cls
+class PseudoPager(object):
+    def __init__(self, basequery, offset, limit):
+        results = list(basequery.offset(offset).limit(limit).all())
+        self.ids = [row.id for row in results]
+        self.extra = {row.id: {k: getattr(row, k) for k in row._fields if k not in ['id', 'total']} for row in results}
+        self.total = basequery.count()
+        self.offset = offset
 
-    def serialize(self, pager, adjust_query=None):
+
+class ObjectBuilder(object):
+    def __init__(self, cls, joins=None, field_name='id'):
+        self.cls = cls
+        self.joins = joins
+
+    def serialize(self, pager):
         query = DBSession.query(self.cls).filter(self.cls.id.in_(pager.ids))
-        if adjust_query:
-            query = adjust_query(query)
+        if self.joins:
+            query = self.joins(query)
         results = query.all()
-        result_lookup = {str(r.id): r for r in results}
+        result_lookup = {r.id: r for r in results}
         ordered_results = []
         for id in pager.ids:
             obj = result_lookup.get(id)

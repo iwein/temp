@@ -11,7 +11,7 @@ def split_strip(value):
     """
     if value is None:
         return []
-    return [key.strip() for key in value.split(',')]
+    return filter(None, [v.strip() for v in value.split(',')])
 
 
 def ensure_list(l, path=None):
