@@ -9,6 +9,13 @@
             email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
             inviteCode = 'INVITE-CODE-'+ guid(),
             tests = [
+                {url: '/api/v1/candidates?q=Bayley', title: 'candidate-search'},
+
+                {url: '/api/v1/candidates?q=Peschke Python Berlin', title: 'candidate-search'},
+
+                {url: '/api/v1/candidates?q=Sandra Design', title: 'candidate-search'},
+
+
                 {url: '/api/v1/candidates/advancedsearch', METHOD: "post",
                     title: 'candidate-adv-search', data: {'salary': 20000000}},
                 {url: '/api/v1/candidates/advancedsearch', METHOD: "post",

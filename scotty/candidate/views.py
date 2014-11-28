@@ -6,19 +6,20 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.tools import split_strip
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_, func, String
+from sqlalchemy.sql.expression import cast
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill
+    CandidateSkill, V_CANDIDATE_FT_INDEX
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
     set_candidate_work_experiences, set_candidate_education
-from scotty.configuration.models import RejectionReason, Skill, City, Role
+from scotty.configuration.models import RejectionReason, Skill, City, Role, Country
 from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
@@ -245,7 +246,7 @@ class CandidateViewController(CandidateController):
         query = query.group_by(Candidate.id)
 
         if skills:
-            query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills))\
+            query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills)) \
                 .having(func.count(Skill.name) == len(skills))
 
         pager = PseudoPager(query, offset, limit)
@@ -260,26 +261,36 @@ class CandidateViewController(CandidateController):
 
     @view_config(route_name='candidates', **GET)
     def search(self):
+        offset = int(self.request.params.get('offset', 0))
+        limit = int(self.request.params.get('limit', 10))
+
         params = self.request.params
+        terms = params.get('q', '').replace(' ', '&')
+        status = self.request.params.get('status', CandidateStatus.ACTIVE)
+        #
+        # city = [City.name.startswith(term) for term in terms]
+        # country = [Country.name.startswith(term) for term in terms]
+        # fname = [Candidate.first_name.startswith(term) for term in terms]
+        # lname = [Candidate.last_name.startswith(term) for term in terms]
+        # id = [cast(Candidate.id, String).startswith(term) for term in terms]
+        # skills = [Skill.name.startswith(term) for term in terms]
+        #
+        # query = DBSession.query(Candidate.id).filter(Candidate.status == status) \
+        #     .join(CandidateSkill).join(Skill)\
+        #     .join(PreferredLocation).join(City).join(Country)\
+        #     .filter(or_(*city + country + fname + lname + id + skills))\
+        #     .group_by(Candidate.id)
 
-        tags = filter(None, params.get('tags', '').split(','))
-        status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
-        city_id = None
-        if 'country_iso' in params and 'city' in params:
-            city_id = get_location_by_name_or_raise(params).id
-
+        query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status)\
+            .filter(V_CANDIDATE_FT_INDEX.c.search_index.match(terms, postgresql_regconfig='english'))
+        pager = PseudoPager(query, offset, limit)
         def optimise_query(q):
             return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                              joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                             joinedload('preferred_locations'))
+                             joinedload('preferred_locations'), joinedload_all('target_position.role'),
+                             joinedload_all('target_position.skills'))
 
-        if tags:
-            pager = get_candidates_by_techtags_pager(tags, city_id, status_id=status.id)
-            result = ObjectBuilder(Candidate).serialize(pager, adjust_query=optimise_query)
-        else:
-            basequery = optimise_query(DBSession.query(Candidate).filter(Candidate.status_id == status.id))
-            result = run_paginated_query(self.request, basequery)
-        return result
+        return ObjectBuilder(Candidate, joins=optimise_query).serialize(pager)
 
 
     @view_config(route_name='candidate', **GET)

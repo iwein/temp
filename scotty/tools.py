@@ -1,5 +1,5 @@
 
-def split_strip(value):
+def split_strip(value, char=','):
     """
     Split a string by comma and strip whitespace.
     >>> split_strip('a')
@@ -11,7 +11,7 @@ def split_strip(value):
     """
     if value is None:
         return []
-    return filter(None, [v.strip() for v in value.split(',')])
+    return filter(None, [v.strip() for v in value.split(char)])
 
 
 def ensure_list(l, path=None):

@@ -15,6 +15,7 @@ from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
+from sqlalchemy.sql import table, column
 
 
 class InviteCode(Base):
@@ -383,3 +384,7 @@ class WXPCandidate(Candidate):
         return result
 
 FullCandidate = WXPCandidate
+
+
+
+V_CANDIDATE_FT_INDEX = table('v_candidate_search', column('id', GUID), column('status'), column('search_index'))
