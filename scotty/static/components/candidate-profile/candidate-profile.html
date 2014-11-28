@@ -58,9 +58,9 @@
           </div>
           <div class="row">
             <!-- Salary box-->
-            <div class="col-sm-12 border-box mrg-btm">
-              <!-- Edit Salary box (remove class hidden to display)-->
-              <form class="edit-salary" ng-if="salary.editing" ng-submit="salary.save(salary.data)">
+            <!-- Edit Salary box (remove class hidden to display)-->
+              <form class="edit-salary mrg-btm" ng-if="salary.editing" ng-submit="salary.save(salary.data)">
+                <button class="add-panel-close" ng-click="salary.close()"><i class="fa fa-close"></i></button>
                 <h5 class="edit-title">Annual Salary </h5>
                 <div class="edit-form mrg-btm">
                   <input type="dotted-integer"
@@ -107,20 +107,18 @@
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <div class="pad-label">
-                      <hc-label-typeahead
-                        name="cities"
-                        placeholder="Type a city..."
-                        ng-show="salary.data.other"
-                        ng-disabled="loading"
-                        ng-model="preferred_locations"
-                        hc-required="salary.data.other"
-                        hc-render="locationToText($entry)"
-                        hc-source="searchCities($viewValue)"
-                        on-change="updateLocations()">
-                      </hc-label-typeahead>
-                    </div>
+                  <div class="pad-label edit-form">
+                    <hc-label-typeahead
+                      name="cities"
+                      placeholder="Type a city..."
+                      ng-show="salary.data.other"
+                      ng-disabled="loading"
+                      ng-model="preferred_locations"
+                      hc-required="salary.data.other"
+                      hc-render="locationToText($entry)"
+                      hc-source="searchCities($viewValue)"
+                      on-change="updateLocations()">
+                    </hc-label-typeahead>
                   </div>
                   <div class="buttons-wrap">
                     <button type="submit"
@@ -135,9 +133,11 @@
                       Cancel
                     </button>
                   </div>
+                  <div class="clearfix"></div>
                 </div>
               </form>
               <!-- End Edit Salary box-->
+            <div class="col-sm-12 border-box mrg-btm" ng-hide="salary.editing">
               <div class="padd-vert">
                 <button type="submit"
                   class="btn-edit-sub-skills"
@@ -159,11 +159,10 @@
             </div>
 
             <!--  Contacts box-->
-            <div class="col-sm-12 info bg-gray-light mrg-btm">
-
-              <!--  EDIT Contacts box (remove hidden class to display)-->
-              <div class="edit-contacts" ng-show="contact.editing" ng-submit="contact.save(contact.data)">
+            <!--  EDIT Contacts box (remove hidden class to display)-->
+              <div class="edit-contacts mrg-btm" ng-show="contact.editing" ng-submit="contact.save(contact.data)">
                 <form class="edit-form">
+                  <button class="add-panel-close" ng-click="contact.close()"><i class="fa fa-close"></i></button>
                   <h5 class="edit-title">Address</h5>
                   <div class="">
                     <input type="text"
@@ -270,11 +269,12 @@
                       Cancel
                     </button>
                   </div>
+                  <div class="clearfix"></div>
                 </form>
               </div>
 
               <!-- END EDIT Contacts box-->
-
+            <div class="col-sm-12 info bg-gray-light mrg-btm" ng-hide="contact.editing">
               <button type="submit"
                 class="btn-edit-sub-skills btn-edit-sub-skills_bot"
                 ng-show="isEditing"
@@ -309,11 +309,11 @@
 
 
             <!-- Age Visa box -->
-            <div class="col-sm-12 border-box mrg-btm">
-              <!-- Edit Age Visa box (remove class hidden to display)-->
-              <div class="edit-salary" ng-if="dob.editing" ng-submit="dob.save(dob.data)">
-                <h5 class="edit-title">Birthday <h5>
-                <form class="edit-form mrg-btm">
+            <!-- Edit Age Visa box (remove class hidden to display)-->
+              <div class="edit-salary mrg-btm" ng-if="dob.editing" ng-submit="dob.save(dob.data)">
+                <button class="add-panel-close" ng-click="dob.close()"><i class="fa fa-close"></i></button>
+                <h5 class="edit-title">Birthday </h5>
+                <form class="edit-form ">
                   <input type="date"
                     class="form-control mrg-btm"
                     placeholder="YYYY-MM-DD"
@@ -344,9 +344,11 @@
                       Cancel
                     </button>
                   </div>
+                  <div class="clearfix"></div>
                 </form>
               </div>
               <!-- End Edit Age Visa box-->
+            <div class="col-sm-12 border-box mrg-btm" ng-hide="dob.editing">
               <div class="padd-vert">
                 <button type="submit"
                   class="btn-edit-sub-skills"
@@ -381,11 +383,12 @@
             </div>
 
             <!-- Availability box -->
-            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="availability.editing">
-              <h5 class="edit-title">Availability <span> 0 characters left</span><h5>
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-avail" ng-if="availability.editing">
+              <button class="add-panel-close" ng-click="availability.close()"><i class="fa fa-close"></i></button>
+              <h5 class="edit-title">Availability<h5>
               <p class="font-12">Please enter your notice period or when you will be available.</p>
               <form class="edit-form" ng-submit="availability.save(availability.data)">
-                <textarea class="fw" required ng-model="availability.data"></textarea>
+                <textarea class="fw mrg-btm" required ng-model="availability.data"></textarea>
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
@@ -415,7 +418,7 @@
             </div>
 
             <!-- Languages box -->
-            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="isEditing && languages.editing">
+            <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="languages.editing">
               <div class="box-title box-title_left mrg-btm">Languages
                 <button type="submit"
                   class="btn-edit-sub"
@@ -429,7 +432,8 @@
                 <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
               </div>
             </div>
-            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert" ng-if="isEditing && languages.editing">
+            <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-lang" ng-if="languages.editing">
+              <button class="add-panel-close" ng-click="languages.close()"><i class="fa fa-close"></i></button>
               <hc-languages-form
                 ng-model="languages.data"
                 hc-disabled="loading"
@@ -457,36 +461,8 @@
 
         <!-- MAIN CONTENT -->
         <div class="col-sm-9">
-
-
-          <!-- Summary box (remove class hidden to display)-->
-            <div class="edit-summary" ng-show="summary.editing">
-              <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
-              <div class="row">
-                <div class="col-sm-5">
-                  <form class="edit-form" ng-submit="summary.save(summary.data)">
-                    <textarea class="fw" ng-model="summary.data"></textarea>
-                    <div class="buttons-wrap">
-                      <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading">
-                        Save
-                      </button>
-                      <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="summary.close()"
-                        ng-disabled="loading">
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          <!-- END summary box -->
-
-          <div class="row">
-             <div class="col-sm-8 bg-white">
+          <div class="row bg-white  mrg-btm">
+             <div class="col-sm-8 ">
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="user-desc">
@@ -496,10 +472,11 @@
                       <div class="emp-off-desc">
                         <!-- Edit target position div (remove class hidden to display)-->
                         <div class="edit-tarpos" ng-show="targetPosition.editing">
-                          <div class="col-sm-5">
+                          <div class="">
+                            <button class="add-panel-close" ng-click="targetPosition.close()"><i class="fa fa-close"></i></button>
                             <h5 class="edit-title">Target position</h5>
                             <form class="edit-form" ng-submit="targetPosition.save(targetPosition.data)">
-                              <select class="form-control"
+                              <select class="form-control mrg-btm"
                                 ng-disabled="loading"
                                 ng-model="targetPosition.data.role"
                                 ng-options="role for role in featuredRoles">
@@ -534,7 +511,34 @@
                           </button>
                         </h3>
                         <div>
-                          <p>{{ summary.data }} <button type="submit"
+                          <!-- Summary box (remove class hidden to display)-->
+                            <div class="edit-summary" ng-show="summary.editing">
+                              <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
+                              <h5 class="edit-title">Summary <span> 0 characters left</span></h5>
+                              <div class="">
+                                
+                                <form class="edit-form" ng-submit="summary.save(summary.data)">
+                                  <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
+                                  <div class="buttons-wrap">
+                                    <button type="submit"
+                                      class="fl-rg bg-green btn-small mrg-lft-small"
+                                      ng-disabled="loading">
+                                      Save
+                                    </button>
+                                    <button type="button"
+                                      class="fl-rg bg-gray-lighter2 btn-small"
+                                      ng-click="summary.close()"
+                                      ng-disabled="loading">
+                                      Cancel
+                                    </button>
+                                  </div>
+                                  <div class="clearfix"></div>
+                                </form>
+                                
+                              </div>
+                            </div>
+                          <!-- END summary box -->
+                          <p  ng-hide="summary.editing">{{ summary.data }} <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing"
                             ng-disabled="loading || formOpen"
@@ -564,29 +568,31 @@
                   </span>
                 </div>
               </div>
-              <div class="col-sm-12 mrg-btm">
+              <div class="col-sm-12">
                 <div class="row">
-                  <div class="border-box clearfix skills-box">
-                    <div class="wrap-form-skills bg-gray-lighter3" ng-if="isEditing && skills.editing">
-                      <hc-skills-form
-                        ng-model="skills.data"
-                        hc-disabled="loading"
-                        on-submit="skills.save($model, $form)">
-                        <div class="buttons-wrap">
-                          <button type="submit"
-                            class="fl-rg bg-green btn-small mrg-lft-small"
-                            ng-disabled="loading">
-                            Save
-                          </button>
-                          <button type="button"
-                            class="fl-rg bg-gray-lighter2 btn-small"
-                            ng-click="skills.close()"
-                            ng-disabled="loading">
-                            Cancel
-                          </button>
-                        </div>
-                      </hc-skills-form>
-                    </div>
+                  <div class="wrap-form-skills bg-gray-lighter3" ng-if="isEditing && skills.editing">
+                    <button class="add-panel-close" ng-click="skills.close()"><i class="fa fa-close"></i></button>
+                    <hc-skills-form
+                      ng-model="skills.data"
+                      hc-disabled="loading"
+                      on-submit="skills.save($model, $form)">
+                      <div class="buttons-wrap">
+                        <button type="submit"
+                          class="fl-rg bg-green btn-small mrg-lft-small"
+                          ng-disabled="loading">
+                          Save
+                        </button>
+                        <button type="button"
+                          class="fl-rg bg-gray-lighter2 btn-small"
+                          ng-click="skills.close()"
+                          ng-disabled="loading">
+                          Cancel
+                        </button>
+                      </div>
+                      <div class="clearfix"></div>
+                    </hc-skills-form>
+                  </div>
+                  <div class="border-box clearfix skills-box" ng-hide="isEditing && skills.editing">
                     <button type="submit"
                       class="btn-edit-sub-skills"
                       ng-show="isEditing"
