@@ -7,75 +7,89 @@
 </%def>
 
 
+
+
+
 <%def name="tests()">
 <script>
-  var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
-          tests = EMPLOYER_SIGNUP(email).concat([
-            {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
-            {url: '/api/v1/employers/me/suggestedcandidates', title: 'employer-suggestedcandidates', method: 'GET'},
 
-            {title: 'Password Forgot'},
-            {url: '/api/v1/employers/requestpassword', title: 'candidate-pwd-forgot', data: {email: email},
-            extract: function(r, extr){return {pwdToken: r.token}}},
-            {url: function(r, extr){ return '/api/v1/employers/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-validate-token'},
-            {url: function(r, extr){ return '/api/v1/employers/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-reset', data: {pwd: 'helloworld'}},
-            {url: function(r, extr){return '/api/v1/employers/login'}, title: 'candidate-login-after pwd-reset',
-              data: {"email": email, pwd:"helloworld"}
-            },
+    var a =
 
-            {title: 'Offices'},
+    var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+            tests = EMPLOYER_SIGNUP(email).concat([
+                {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
+                {url: '/api/v1/employers/me/suggestedcandidates', title: 'employer-suggestedcandidates', method: 'GET'},
 
-            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-HQ',
-              data: {
-                contact_salutation: 'Mr',
-                contact_first_name: 'Martha',
-                contact_last_name: 'Stewart',
-                contact_phone: "+49 232314 2435",
-                contact_email: 'harald@kliockner2.com',
-                address_line1: "Schoenhausener Allee 104",
-                address_zipcode: 'zipcode',
-                address_city: {city: "Dresden", country_iso: "DE"}
-              },
-              extract: function (r, extr) {
-                return {officeId: r.id}
-              }},
+                {title: 'Password Forgot'},
+                {url: '/api/v1/employers/requestpassword', title: 'employer-pwd-forgot', data: {email: email},
+                    extract: function(r, extr){return {pwdToken: r.token}}},
+                {url: function(r, extr){ return '/api/v1/employers/resetpassword/'+extr.pwdToken;}, title: 'employer-pwd-validate-token'},
+                {url: function(r, extr){ return '/api/v1/employers/resetpassword/'+extr.pwdToken;}, title: 'employer-pwd-reset', data: {pwd: 'helloworld'}},
+                {url: function(r, extr){return '/api/v1/employers/login'}, title: 'employer-login-after pwd-reset',
+                    data: {"email": email, pwd:"helloworld"}
+                },
+                {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
+                {url: function(r, extr){return '/api/v1/login'}, title: 'unified-login-fail',
+                    data: {"email": email, pwd:guid()}, expectedErrors: [404]
+                },
 
-            {url: function (r, extr) {
-              return '/api/v1/employers/' + extr.employerId + '/offices'
-            }, title: 'employer-add-office-2',
-              data: {
-                address_line1: "Schoenhausener Allee 104",
-                address_zipcode: "08712",
-                address_city: {'city': "Hamburg", country_iso: "DE"},
-                contact_salutation: 'Mr',
-                contact_first_name: 'Martha',
-                contact_last_name: 'Stewart',
-                contact_phone: "+49 232314 2435",
-                contact_email: 'harald@kliockner.com',
-                website: 'welcome'
-              },
-              extract: function (r, extr) {
-                return {officeId: r.id}
-              }
-            },
+                {url: function(r, extr){return '/api/v1/login'}, title: 'unified-login',
+                    data: {"email": email, pwd:"helloworld"}
+                },
 
-            {url: '/api/v1/employers/me/offices', title: 'employer-me-offices-list'},
-            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices'}, title: 'employer-offices-list'},
+                {title: 'Offices'},
 
-            {url: function (r, extr) {
-              return '/api/v1/employers/' + extr.employerId + '/offices/' + extr.officeId
-            }, title: 'office-delete', method: "DELETE"},
+                {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-HQ',
+                    data: {
+                        contact_salutation: 'Mr',
+                        contact_first_name: 'Martha',
+                        contact_last_name: 'Stewart',
+                        contact_phone: "+49 232314 2435",
+                        contact_email: 'harald@kliockner2.com',
+                        address_line1: "Schoenhausener Allee 104",
+                        address_zipcode: 'zipcode',
+                        address_city: {city: "Dresden", country_iso: "DE"}
+                    },
+                    extract: function (r, extr) {
+                        return {officeId: r.id}
+                    }},
 
-            {url: '/api/v1/employers/me/newsfeed', title: 'employer-newsfeed'},
+                {url: function (r, extr) {
+                    return '/api/v1/employers/' + extr.employerId + '/offices'
+                }, title: 'employer-add-office-2',
+                    data: {
+                        address_line1: "Schoenhausener Allee 104",
+                        address_zipcode: "08712",
+                        address_city: {'city': "Hamburg", country_iso: "DE"},
+                        contact_salutation: 'Mr',
+                        contact_first_name: 'Martha',
+                        contact_last_name: 'Stewart',
+                        contact_phone: "+49 232314 2435",
+                        contact_email: 'harald@kliockner.com',
+                        website: 'welcome'
+                    },
+                    extract: function (r, extr) {
+                        return {officeId: r.id}
+                    }
+                },
 
-            {'sectionTitle': 'Cleanup'},
-            {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
-            //{url: '/api/v1/employers/me', title: 'employer-me-after-logout', method: "GET", expectedErrors: [403]},
-            {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-delete', method: "DELETE"}
-          ]);
+                {url: '/api/v1/employers/me/offices', title: 'employer-me-offices-list'},
+                {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices'}, title: 'employer-offices-list'},
 
-  $(function () {
-    getTestRunner(tests)(0, {});
-  })
+                {url: function (r, extr) {
+                    return '/api/v1/employers/' + extr.employerId + '/offices/' + extr.officeId
+                }, title: 'office-delete', method: "DELETE"},
+
+                {url: '/api/v1/employers/me/newsfeed', title: 'employer-newsfeed'},
+
+                {'sectionTitle': 'Cleanup'},
+                {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
+                //{url: '/api/v1/employers/me', title: 'employer-me-after-logout', method: "GET", expectedErrors: [403]},
+                {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-delete', method: "DELETE"}
+            ]);
+
+    $(function () {
+        getTestRunner(tests)(0, {});
+    })
 </script>
 </%def>
