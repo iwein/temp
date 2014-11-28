@@ -8,7 +8,12 @@
   </div>
   <div class="col-sm-9">
     <div class="row">
-      <div class="offer-date col-sm-7 mrg-btm">created: {{ model.data.created | moment:"MMMM Do, YYYY" }}</div>
+      <div class="offer-date col-sm-7 mrg-btm" ng-show="model.data.created === model.data.last_updated">
+        created: {{ model.data.created | moment:"MMMM Do, YYYY" }}
+      </div>
+      <div class="offer-date col-sm-7 mrg-btm" ng-show="model.data.created !== model.data.last_updated">
+        last update: {{ model.data.last_updated | moment:"MMMM Do, YYYY" }}
+      </div>
       <div class="col-sm-5 mrg-btm alg-right lbl">
         <div class="pad-rgt-15">
           <div class="status-{{model.status}}">

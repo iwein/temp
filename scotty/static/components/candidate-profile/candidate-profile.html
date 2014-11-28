@@ -141,8 +141,8 @@
               <div class="padd-vert">
                 <button type="submit"
                   class="btn-edit-sub-skills"
-                  ng-show="isEditing && !formOpen"
-                  ng-disabled="loading"
+                  ng-show="isEditing"
+                  ng-disabled="loading || formOpen"
                   ng-click="salary.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -277,8 +277,8 @@
 
               <button type="submit"
                 class="btn-edit-sub-skills btn-edit-sub-skills_bot"
-                ng-show="isEditing && !formOpen"
-                ng-disabled="loading"
+                ng-show="isEditing"
+                ng-disabled="loading || formOpen"
                 ng-click="contact.edit(skills)">
                 <i class="fa fa-pencil"></i>
               </button>
@@ -350,8 +350,8 @@
               <div class="padd-vert">
                 <button type="submit"
                   class="btn-edit-sub-skills"
-                  ng-show="isEditing && !formOpen"
-                  ng-disabled="loading"
+                  ng-show="isEditing"
+                  ng-disabled="loading || formOpen"
                   ng-click="dob.edit(dob.data)">
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -405,8 +405,8 @@
               <div class="box-title box-title_left mrg-btm">Availability
                 <button type="submit"
                   class="btn-edit-sub"
-                  ng-show="isEditing && !formOpen"
-                  ng-disabled="loading"
+                  ng-show="isEditing"
+                  ng-disabled="loading || formOpen"
                   ng-click="availability.edit(availability)">
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -419,8 +419,8 @@
               <div class="box-title box-title_left mrg-btm">Languages
                 <button type="submit"
                   class="btn-edit-sub"
-                  ng-show="isEditing && !formOpen"
-                  ng-disabled="loading"
+                  ng-show="isEditing"
+                  ng-disabled="loading || formOpen"
                   ng-click="languages.edit()">
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -527,8 +527,8 @@
                           <span>{{ targetPosition.data.role }}</span>
                           <button type="submit"
                             class="btn-edit-sub no-fl"
-                            ng-show="isEditing && !formOpen"
-                            ng-disabled="loading"
+                            ng-show="isEditing"
+                            ng-disabled="loading || formOpen"
                             ng-click="targetPosition.edit()">
                             <i class="fa fa-pencil"></i>
                           </button>
@@ -536,8 +536,8 @@
                         <div>
                           <p>{{ summary.data }} <button type="submit"
                             class="btn-edit-sub no-fl"
-                            ng-show="isEditing && !formOpen"
-                            ng-disabled="loading"
+                            ng-show="isEditing"
+                            ng-disabled="loading || formOpen"
                             ng-click="summary.edit()">
                             <i class="fa fa-pencil"></i>
                           </button></p>
@@ -589,8 +589,8 @@
                     </div>
                     <button type="submit"
                       class="btn-edit-sub-skills"
-                      ng-show="isEditing && !formOpen"
-                      ng-disabled="loading"
+                      ng-show="isEditing"
+                      ng-disabled="loading || formOpen"
                       ng-click="skills.edit(skills)">
                       <i class="fa fa-pencil"></i>
                     </button>
@@ -690,8 +690,8 @@
                       {{ entry.role }}
                       <button type="button"
                         class="btn-edit-sub no-fl"
-                        ng-show="isEditing && !formOpen"
-                        ng-disabled="loading"
+                        ng-show="isEditing"
+                        ng-disabled="loading || formOpen"
                         ng-click="experience.edit(entry, $index)">
                         <i class="fa fa-pencil"></i>
                       </button>
@@ -713,7 +713,7 @@
           <div class="row bg-white">
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
-                EDUCATION <span>Master of Arts</span>
+                EDUCATION <span>{{ highestDegree }}</span>
                 <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="education.add()">
                   <i class="fa fa-plus"></i> ADD
                 </button>
@@ -763,8 +763,8 @@
                       <span>{{ entry.course }}</span>
                       <button type="button"
                         class="btn-edit-sub no-fl"
-                        ng-show="isEditing && !formOpen"
-                        ng-disabled="loading"
+                        ng-show="isEditing"
+                        ng-disabled="loading || formOpen"
                         ng-click="education.edit(entry, $index)">
                         <i class="fa fa-pencil"></i>
                       </button>

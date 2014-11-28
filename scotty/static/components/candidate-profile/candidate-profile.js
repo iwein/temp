@@ -215,12 +215,14 @@ define(function(require) {
           user.getData(),
           user.getTargetPosition(),
           user.getOffers(),
+          user.getHighestDegree(),
           experience.refresh(),
           education.refresh(),
         ]);
       }).then(function(data) {
         var user = data[0];
         $scope.offers = data[2].slice(3);
+        $scope.highestDegree = data[3];
         $scope.targetPosition.data = data[1];
         $scope.skills.data = user.skills;
         $scope.languages.data = user.languages;
