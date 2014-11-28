@@ -1,4 +1,5 @@
 import hashlib
+from operator import attrgetter
 from uuid import uuid4
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
@@ -12,7 +13,7 @@ from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable,
 from scotty.offer.models import CandidateOffer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
-from scotty.models.meta import Base, NamedModel, GUID
+from scotty.models.meta import Base, NamedModel, GUID, DBSession
 
 
 class InviteCode(Base):
@@ -182,7 +183,8 @@ class PreferredLocation(Base):
     __table_args__ = (
         UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique'),
         UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
-        CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL', name='candidate_preferred_location_has_some_fk'), )
+        CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL',
+                        name='candidate_preferred_location_has_some_fk'), )
     id = Column(Integer, primary_key=True)
     candidate_id = Column(GUID, ForeignKey('candidate.id'))
     country_iso = Column(String(2), ForeignKey(Country.iso), nullable=True)
@@ -278,21 +280,68 @@ class Candidate(Base, JsonSerialisable):
     def is_active(self):
         return self.status == get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
 
-    def get_preferred_locations(self):
+    @property
+    def highest_level_skills(self):
+        skills = sorted(self.skills, key=attrgetter('level_id'), reverse=True)
+        if skills:
+            highest_level = skills[0].level_id
+            skills = filter(lambda s: s.level_id == highest_level, skills)
+        return skills
+
+    @property
+    def generated_summary(self):
+        skills = self.highest_level_skills
+        locs = self.get_preferred_locations(resolve_countries=True)
+        if skills and self.target_position and locs:
+            locations = []
+            for country, cities in locs.items():
+                if len(cities) > 0:
+                    locations.append(u'%s (%s)' % (', '.join(cities), country))
+                else:
+                    locations.append(country)
+            location_str = u' or '.join(locations)
+
+            skill = skills[0]
+            if skill.level:
+                level_name = skill.level.name_as_subject
+            else:
+                level_name = "Candidate with skills"
+
+            if len(skills) > 1:
+                skills[-2:] = [u"%s and %s" % (skills[-2], skills[-1])]
+            skill_str = u', '.join(unicode(s) for s in skills)
+
+            return u'%s in %s looking for %s position in %s.' % (
+                level_name, skill_str, self.target_position.role, location_str)
+        else:
+            return 'No summary yet'
+
+    def get_preferred_locations(self, resolve_countries=False):
         if not self.preferred_locations:
             return None
         results = {}
+        country_lookup = {}
+        if resolve_countries:
+            isos = [pl.country_iso or pl.city.country_iso for pl in self.preferred_locations]
+            countries = DBSession.query(Country).filter(Country.iso.in_(isos)).all()
+            country_lookup = {country.iso: country.name for country in countries}
+
         for pl in self.preferred_locations:
             if pl.country_iso:
-                results.setdefault(pl.country_iso, [])
+                results.setdefault(country_lookup.get(pl.country_iso, pl.country_iso), [])
             elif pl.city_id:
-                results.setdefault(pl.city.country_iso, []).append(pl.city.name)
+                ciso = pl.city.country_iso
+                results.setdefault(country_lookup.get(ciso, ciso), []).append(pl.city.name)
+
         return results
 
     def __json__(self, request):
         result = self.to_json(request)
         result.update(json_encoder(self, request))
         result['id'] = self.id
+
+        result['summary'] = self.summary or self.generated_summary
+
         result['salutation'] = self.salutation
         result['status'] = self.status
         result['languages'] = self.languages
