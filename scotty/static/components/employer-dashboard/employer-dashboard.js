@@ -2,7 +2,6 @@ define(function(require) {
   'use strict';
   require('components/directive-candidate/directive-candidate');
   require('components/directive-offer/directive-offer');
-  var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
   var levels = {
@@ -16,15 +15,20 @@ define(function(require) {
 
   // jshint maxparams:8
   module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, ConfigAPI, Permission, Session) {
-    this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.setLocation = setLocation;
+    $scope.locationToText = ConfigAPI.locationToText;
+    $scope.searchCities = ConfigAPI.locations;
+    $scope.updateLocations = updateLocations;
     $scope.loadPage = loadPage;
     $scope.search = search;
     $scope.today = new Date();
+    $scope.terms = {};
     $scope.ready = false;
     var resultsPerPage = 10;
     Loader.page(true);
+
+    ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
 
     Permission.requireActivated().then(function() {
       return Session.getUser();
@@ -61,6 +65,33 @@ define(function(require) {
     });
 
 
+    function addLocation(locations, entry) {
+      if (!locations[entry.country_iso])
+        locations[entry.country_iso] = [ entry.city ];
+      else
+        locations[entry.country_iso].push(entry.city);
+    }
+
+    function updateLocations() {
+      var locations = {};
+      var add = addLocation.bind(null, locations);
+      $scope.errorLocationRequired = false;
+      $scope.model.preferred_locations = locations;
+
+      $scope.featuredLocations
+        .filter(fn.get('selected'))
+        .map(fn.get('value'))
+        .forEach(add);
+
+      if ($scope.anywhereInGermany)
+        locations.DE = [];
+
+      if ($scope.locationOther) {
+        $scope.preferred_locations.forEach(add);
+        $scope.errorLocationRequired = !Object.keys(locations).length;
+      }
+    }
+
     function setLocation(text) {
       $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
       search();
@@ -73,8 +104,11 @@ define(function(require) {
     }
 
     function search() {
-      var tags = $scope.terms && $scope.terms.join();
-      var params = _.extend({}, $scope.location, tags ? { tags: tags } : null);
+      var params = JSON.parse(JSON.stringify($scope.terms));
+      Object.keys(params).forEach(function(key) {
+        if (!params[key] || (Array.isArray(params[key]) && !params[key].length))
+          delete params[key];
+      });
 
       $scope.loading = true;
       Session.searchCandidates(params)
