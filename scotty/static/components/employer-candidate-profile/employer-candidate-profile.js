@@ -84,7 +84,7 @@ define(function(require) {
         var leveledSkills = user.skills.filter(fn.get('level'));
         var unleveledSkills = user.skills.filter(fn.not(fn.get('level')));
         $scope.leveledSkills = leveledSkills.slice(0, 9);
-        $scope.unleveledSkills = leveledSkills.slice(9)
+        $scope.unleveledSkills = leveledSkills.slice(0, 9)
           .concat(unleveledSkills)
           .map(fn.get('skill'))
           .join(', ');

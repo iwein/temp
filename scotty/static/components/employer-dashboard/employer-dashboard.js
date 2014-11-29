@@ -120,7 +120,7 @@ define(function(require) {
               candidate._data.position = positions[index];
               candidate._data.skills = candidate._data.skills.sort(function(a, b) {
                 return levels[b.level] - levels[a.level];
-              }).slice(9);
+              }).slice(0, 9);
               return candidate;
             });
           });

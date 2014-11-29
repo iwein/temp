@@ -98,7 +98,7 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="row">
-                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-3 search-label">Role</div>
                     <div class="col-sm-9 no-padd-left">
                       <select class="form-control"
                         name="country"
@@ -139,7 +139,7 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="row">
-                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-3 search-label">Salary</div>
                     <div class="col-sm-9 no-padd-left">
                       <div class="input-group">
                         <span class="input-group-addon">€</span>
@@ -170,7 +170,7 @@
                 <hc-candidate
                   ng-repeat="candidate in searchCandidates"
                   ng-model="candidate"
-                  hc-link-profile>
+                  hc-link-profile="true">
                 </hc-candidate>
                 <ul class="pager-list">
                   <li ng-repeat="page in pages">

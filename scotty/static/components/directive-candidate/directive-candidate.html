@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="img-wrap mrg-btm-small" style="background-image: url({{ model._data.picture_url }})"></div>
-        <a class="link-profile link-search-hide" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
+        <a class="link-profile" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
           {{ model._data.first_name }} {{ model._data.last_name }} <i class="fa fa-angle-right"></i>
         </a>
         <span ng-if="!hcLinkProfile">

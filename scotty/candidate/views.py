@@ -227,7 +227,7 @@ class CandidateViewController(CandidateController):
         if locations:
             query = query.join(PreferredLocation)
 
-            country_filter = [c['country_iso'] for c in locations]
+            country_filter = set([c['country_iso'] for c in locations])
             city_filter = [and_(City.name == loc['city'], City.country_iso == loc['country_iso']) for loc in locations]
             city_ids = DBSession.query(City.id).filter(or_(*city_filter)).all()
 
@@ -266,7 +266,7 @@ class CandidateViewController(CandidateController):
 
         params = self.request.params
         terms = params.get('q', '').replace(' ', '&')
-        status = self.request.params.get('status', CandidateStatus.ACTIVE)
+        status = selfd.request.params.get('status', CandidateStatus.ACTIVE)
         #
         # city = [City.name.startswith(term) for term in terms]
         # country = [Country.name.startswith(term) for term in terms]
