@@ -39,7 +39,8 @@ define(function(require) {
                 scope.$watch('model', function(model) {
                     var data = model._data || model;
                     _.extend(scope, {
-                        currentPosition: data.position || data.work_experience && data.work_experience[data.work_experience.length - 1],
+                        currentPosition: data.position ||
+                            data.work_experience && data.work_experience[data.work_experience.length - 1],
                         years: calcExperience(data.work_experience),
                         city: data.contact_city && data.contact_country_iso ?
                             (data.contact_city + ', ' + data.contact_country_iso) :
@@ -49,14 +50,14 @@ define(function(require) {
 
 
                     if(!model._data.targetPosition){
-                        $scope.targetPosition = model._data.targetPosition;
+                       $scope.targetPosition = model._data.targetPosition;
                     } else {
                         model.getTargetPosition().then(function(targetposition) {
                             scope.targetPosition = targetposition;
                         });
                     }
                 });
-            },
+            }
         };
     });
 });
