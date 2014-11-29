@@ -100,9 +100,23 @@
                   <div class="row">
                     <div class="col-sm-3 search-label">Skills</div>
                     <div class="col-sm-9 no-padd-left">
+                      <select class="form-control"
+                        name="country"
+                        ng-disabled="loading"
+                        ng-model="terms.role"
+                        ng-options="role for role in featuredRoles">
+                        <option value="">Select...</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-9 no-padd-left">
                       <hc-label-typeahead
                         placeholder="Skills"
-                        ng-model="terms"
+                        ng-model="terms.skills"
                         hc-source="dashboard.searchSkills($viewValue)">
                       </hc-label-typeahead>
                     </div>
@@ -112,14 +126,30 @@
                   <div class="row">
                     <div class="col-sm-3 search-label no-padd-left">Location</div>
                     <div class="col-sm-9 no-padd-left">
-                      <input type="text"
-                        class="form-control"
-                        placeholder="Location"
-                        ng-disabled="!terms.length"
-                        ng-model="locationText"
-                        ng-blur="dashboard.setLocation(locationText)"
-                        typeahead-on-select="dashboard.setLocation(locationText)"
-                        typeahead="location for location in dashboard.searchLocations($viewValue)">
+                      <hc-label-typeahead
+                        name="cities"
+                        placeholder="Type a city..."
+                        ng-disabled="loading"
+                        ng-model="terms.locations"
+                        hc-render="locationToText($entry)"
+                        hc-source="searchCities($viewValue)">
+                      </hc-label-typeahead>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-9 no-padd-left">
+                      <div class="input-group">
+                        <span class="input-group-addon">€</span>
+                        <input type="dotted-integer"
+                          class="form-control"
+                          name="salary"
+                          ng-disabled="loading"
+                          ng-model="terms.salary">
+                        <span class="input-group-addon">.00</span>
+                      </div>
                     </div>
                   </div>
                 </div>
