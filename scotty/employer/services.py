@@ -173,7 +173,7 @@ def get_employers_pager(tags, city_id, company_types):
     return Pager(query, params)
 
 
-def get_employer_suggested_candidate_ids(employer_id):
+def get_employer_suggested_candidate_ids(employer_id, limit=5):
     results = DBSession.execute(text("""
         select c.id as id, count(s.id) as noskills
             from employer e
@@ -188,7 +188,8 @@ def get_employer_suggested_candidate_ids(employer_id):
             where e.id = :employer_id
             group by c.id
             order by noskills desc
-    """), {'employer_id': str(employer_id)})
+            limit :limit
+    """), {'employer_id': str(employer_id), 'limit': limit})
 
     # TODO: order results sometime
     return [r[0] for r in results]
