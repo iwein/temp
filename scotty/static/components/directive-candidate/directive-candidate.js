@@ -50,7 +50,7 @@ define(function(require) {
 
 
                     if(!model._data.targetPosition){
-                       $scope.targetPosition = model._data.targetPosition;
+                       scope.targetPosition = model._data.targetPosition;
                     } else {
                         model.getTargetPosition().then(function(targetposition) {
                             scope.targetPosition = targetposition;
