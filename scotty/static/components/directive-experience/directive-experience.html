@@ -8,10 +8,7 @@
     <li class="bg-gray-lighter pad-30">
       <div class="row">
 
-          <div class="caps blue-link smbd lt" ng-class="{
-            'col-sm-4': importing,
-            'col-sm-4': !importing
-          }">Company</div>
+          <div class="caps blue-link smbd lt col-sm-4">Company</div>
           <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
           <div class="col-sm-2 alg-cen">
             <span class="lt smbd gray-darker caps">Edit</span>
@@ -26,7 +23,7 @@
             </button>
             <span class="lt smbd gray-darker caps" ng-show="adding || model.length">Add</span>
           </div>
-
+      
       <div class="col-sm-12" ng-repeat="entry in model">
         <div class="row mrg-top" ng-hide="active === $index">
 
@@ -34,10 +31,7 @@
             <div class="data-box">{{ entry.company }}</div>
           </div>
 
-          <div class="no-padd-right" ng-class="{
-              'col-sm-4': importing,
-              'col-sm-4': !importing
-          }"><div class="data-box">{{ entry.start }} ({{ entry.end || 'current' }})</div></div>
+          <div class="no-padd-right col-sm-4"><div class="data-box">{{ entry.start }} ({{ entry.end || 'current' }})</div></div>
 
           <div class="col-sm-2 alg-cen pad-top-5">
             <i class="fa fa-pencil blue-link"
@@ -87,7 +81,7 @@
     </li>
 
 
-    <li class="bg-gray-lighter2 brd-top pad-30 no-padd-top no-padd-btm" ng-if="adding || (!editing && hcAutomaticAdd)">
+    <li class="bg-gray-lighter brd-top pad-30 no-padd-top no-padd-btm" ng-if="adding || (!editing && hcAutomaticAdd)">
       <hc-experience-form
         hc-scope="formContainer"
         name="form"

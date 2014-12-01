@@ -49,6 +49,20 @@
   .link-red.active {
     background: @gray-lighter2;
   }
+  .bg-gray-light {
+    &:hover {
+      /* IE 8 */
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+      /* IE 5-7 */
+      filter: alpha(opacity=2);
+      /* Netscape */
+      -moz-opacity: 0.2;
+      /* Safari 1.x */
+      -khtml-opacity: 0.2;
+      /* Good browsers */
+      opacity: 0.2;
+    }
+  }
 
 }
 
