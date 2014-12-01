@@ -20,8 +20,9 @@ define(function(require) {
     $scope.locationToText = ConfigAPI.locationToText;
     $scope.searchCities = ConfigAPI.locations;
     $scope.updateLocations = updateLocations;
+    $scope.advancedSearch = advancedSearch;
+    $scope.simpleSearch = simpleSearch;
     $scope.loadPage = loadPage;
-    $scope.search = search;
     $scope.today = new Date();
     $scope.terms = {};
     $scope.ready = false;
@@ -103,43 +104,69 @@ define(function(require) {
       $scope.page = page;
     }
 
-    function search() {
+    function advancedSearch() {
+      var count = 0;
       var params = JSON.parse(JSON.stringify($scope.terms));
       Object.keys(params).forEach(function(key) {
         if (!params[key] || (Array.isArray(params[key]) && !params[key].length))
           delete params[key];
+        else
+          count++;
       });
 
+      if (!count)
+        return resetSearch();
+
       $scope.loading = true;
-      Session.searchCandidates(params)
-        .then(function(candidates) {
-          return $q.all(candidates.map(function(candidate) {
-            return candidate.getLastPosition();
-          })).then(function(positions) {
-            return candidates.map(function(candidate, index) {
-              candidate._data.position = positions[index];
-              candidate._data.skills = candidate._data.skills.sort(function(a, b) {
-                return levels[b.level] - levels[a.level];
-              }).slice(0, 9);
-              return candidate;
-            });
-          });
-        })
-        .then(function(results) {
-          var pagesCount = results.length / resultsPerPage;
-          var pages = [];
-
-          for (var i = 0; i < pagesCount; i++)
-            pages.push(i + 1);
-
-          $scope.searchResults = results;
-          $scope.pages = pages;
-          loadPage(0);
-        })
+      return Session.searchCandidatesAdvanced(params)
+        .then(search)
         .catch(toaster.defaultError)
         .finally(function() {
           $scope.loading = false;
         });
+    }
+
+    function simpleSearch() {
+      if (!$scope.simpleSearchTerms)
+        return resetSearch();
+
+      $scope.loading = true;
+      return Session.searchCandidates({ q: $scope.simpleSearchTerms })
+        .then(search)
+        .catch(toaster.defaultError)
+        .finally(function() {
+          $scope.loading = false;
+        });
+    }
+
+    function resetSearch() {
+      $scope.searchCandidates = [];
+      $scope.searchResults = [];
+      $scope.pages = [];
+    }
+
+    function search(candidates) {
+      return $q.all(candidates.map(function(candidate) {
+        return candidate.getLastPosition();
+      })).then(function(positions) {
+        return candidates.map(function(candidate, index) {
+          candidate._data.position = positions[index];
+          candidate._data.skills = candidate._data.skills.sort(function(a, b) {
+            return levels[b.level] - levels[a.level];
+          }).slice(9);
+          return candidate;
+        });
+      }).then(function(results) {
+        var pagesCount = results.length / resultsPerPage;
+        var pages = [];
+
+        for (var i = 0; i < pagesCount; i++)
+          pages.push(i + 1);
+
+        $scope.searchResults = results;
+        $scope.pages = pages;
+        loadPage(0);
+      });
     }
   });
 

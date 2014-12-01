@@ -95,74 +95,90 @@
           <div class="col-sm-12 bg-gray-light mrg-btm" ng-class="{ 'no-results': !searchCandidates.length }">
             <div class="search-box">
               <h4 class="search-box-title">Search for candidates</h4>
-              <div class="row">
+              <form class="row" ng-show="flags.advancedSearch">
                 <div class="col-sm-6">
-                  <div class="row">
-                    <div class="col-sm-3 search-label">Role</div>
-                    <div class="col-sm-9 no-padd-left">
-                      <select class="form-control"
-                        name="country"
+                  <div class="search-label">Role / Target position</div>
+                  <div class="no-padd-left">
+                    <select class="form-control"
+                      name="country"
+                      ng-disabled="loading"
+                      ng-model="terms.role"
+                      ng-options="role for role in featuredRoles">
+                      <option value="">Select...</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="search-label">Skills</div>
+                  <div class="no-padd-left">
+                    <hc-label-typeahead
+                      placeholder="Skills"
+                      ng-model="terms.skills"
+                      hc-source="dashboard.searchSkills($viewValue)">
+                    </hc-label-typeahead>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="search-label no-padd-left">Location</div>
+                  <div class="no-padd-left">
+                    <hc-label-typeahead
+                      name="cities"
+                      placeholder="Type a city..."
+                      ng-disabled="loading"
+                      ng-model="terms.locations"
+                      hc-render="locationToText($entry)"
+                      hc-source="searchCities($viewValue)">
+                    </hc-label-typeahead>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="search-label">Salary</div>
+                  <div class="no-padd-left">
+                    <div class="input-group">
+                      <span class="input-group-addon">€</span>
+                      <input type="dotted-integer"
+                        class="form-control"
+                        name="salary"
                         ng-disabled="loading"
-                        ng-model="terms.role"
-                        ng-options="role for role in featuredRoles">
-                        <option value="">Select...</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="row">
-                    <div class="col-sm-3 search-label">Skills</div>
-                    <div class="col-sm-9 no-padd-left">
-                      <hc-label-typeahead
-                        placeholder="Skills"
-                        ng-model="terms.skills"
-                        hc-source="dashboard.searchSkills($viewValue)">
-                      </hc-label-typeahead>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="row">
-                    <div class="col-sm-3 search-label no-padd-left">Location</div>
-                    <div class="col-sm-9 no-padd-left">
-                      <hc-label-typeahead
-                        name="cities"
-                        placeholder="Type a city..."
-                        ng-disabled="loading"
-                        ng-model="terms.locations"
-                        hc-render="locationToText($entry)"
-                        hc-source="searchCities($viewValue)">
-                      </hc-label-typeahead>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="row">
-                    <div class="col-sm-3 search-label">Salary</div>
-                    <div class="col-sm-9 no-padd-left">
-                      <div class="input-group">
-                        <span class="input-group-addon">€</span>
-                        <input type="dotted-integer"
-                          class="form-control"
-                          name="salary"
-                          ng-disabled="loading"
-                          ng-model="terms.salary">
-                        <span class="input-group-addon">.00</span>
-                      </div>
+                        ng-model="terms.salary">
+                      <span class="input-group-addon">.00</span>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="buttons-wrap mrg-top">
-                    <button type="button" class="fl-rg btn bg-green" ng-click="search()">
+                    <button type="button" class="fl-rg btn bg-green" ng-click="advancedSearch()">
                       Search
+                    </button>
+                    <button type="button" class="fl-rg" ng-click="flags.advancedSearch = false">
+                      Go back to general search <i class="fa fa-angle-up"></i>
                     </button>
                   </div>
                 </div>
-              </div>
+              </form>
+              <form class="row" ng-show="!flags.advancedSearch">
+                <div class="col-sm-12">
+                  <div class="search-label">Name / Skill / Location</div>
+                  <div class="no-padd-left">
+                    <input type="text"
+                      class="form-control"
+                      name="general"
+                      ng-disabled="loading"
+                      ng-model="simpleSearchTerms">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="buttons-wrap mrg-top">
+                    <button type="button" class="fl-rg btn bg-green" ng-click="simpleSearch()">
+                      Search
+                    </button>
+                    <button type="button" class="fl-rg" ng-click="flags.advancedSearch = true">
+                      Search by target position / role <i class="fa fa-angle-down"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <!--the whole box search result must be shown only after the user has selected some-->
             <div class="search-results">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
@@ -173,8 +189,12 @@
                   hc-link-profile="true">
                 </hc-candidate>
                 <ul class="pager-list">
-                  <li ng-repeat="page in pages">
-                    <button type="button" ng-click="loadPage(page - 1)">{{ page }}</button>
+                  <li ng-repeat="entry in pages" ng-class="{ active: page === (entry - 1) }">
+                    <button type="button"
+                      ng-click="loadPage(entry - 1)"
+                      ng-disabled="page === (entry - 1)">
+                      {{ entry }}
+                    </button>
                   </li>
                 <ul>
               </div>

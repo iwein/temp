@@ -111,6 +111,14 @@ define(function(require) {
     },
 
     searchCandidates: function(query) {
+      return this._api.get('/candidates', query).then(function(response) {
+        return response.data.map(function(data) {
+          return new Candidate(this._api, data.id, data);
+        }.bind(this));
+      }.bind(this));
+    },
+
+    searchCandidatesAdvanced: function(query) {
       return this._api.post('/candidates/advancedsearch', query).then(function(response) {
         return response.data.map(function(data) {
           return new Candidate(this._api, data.id, data);
