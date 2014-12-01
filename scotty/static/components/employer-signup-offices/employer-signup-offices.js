@@ -14,6 +14,7 @@ define(function(require) {
     var list = [];
     Loader.page(true);
 
+
     Session.getUser().then(function(user) {
       return user.listOffices();
     }).then(function(_list) {
@@ -53,25 +54,6 @@ define(function(require) {
         Loader.remove('signup-offices-saving');
       });
     }
-
-    /*
-        Session.getUser().then(function(user) {
-          return user && user.getData();
-        }).then(function(data) {
-          $scope.model = _.pick(data, [
-            'contact_first_name',
-            'contact_last_name',
-            'contact_salutation',
-          ]);
-          $scope.model.contact_email = data.email;
-
-          if (data.address_city)
-            $scope.locationText = ConfigAPI.locationToText(data.address_city);
-        }).finally(function() {
-          $scope.ready = true;
-          $scope.loading = false;
-        });
-    /* */
   });
 
   return {
