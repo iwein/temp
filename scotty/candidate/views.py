@@ -266,21 +266,7 @@ class CandidateViewController(CandidateController):
 
         params = self.request.params
         terms = params.get('q', '').replace(' ', '&')
-        status = selfd.request.params.get('status', CandidateStatus.ACTIVE)
-        #
-        # city = [City.name.startswith(term) for term in terms]
-        # country = [Country.name.startswith(term) for term in terms]
-        # fname = [Candidate.first_name.startswith(term) for term in terms]
-        # lname = [Candidate.last_name.startswith(term) for term in terms]
-        # id = [cast(Candidate.id, String).startswith(term) for term in terms]
-        # skills = [Skill.name.startswith(term) for term in terms]
-        #
-        # query = DBSession.query(Candidate.id).filter(Candidate.status == status) \
-        #     .join(CandidateSkill).join(Skill)\
-        #     .join(PreferredLocation).join(City).join(Country)\
-        #     .filter(or_(*city + country + fname + lname + id + skills))\
-        #     .group_by(Candidate.id)
-
+        status = self.request.params.get('status', CandidateStatus.ACTIVE)
         query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status)\
             .filter(V_CANDIDATE_FT_INDEX.c.search_index.match(terms, postgresql_regconfig='english'))
         pager = PseudoPager(query, offset, limit)
