@@ -43,7 +43,7 @@
                         unactive: signup.afterStep('signup.benefits')
                       }" class="">
           <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits"><span class="ico-emp-signup ico-emp-signup_ben"></span>Benefits <i class="fa fa-check green" ng-if="signup.afterStep('signup.benefits')"></i></a>
-          <span ng-if="!signup.afterStep('signup.benefits')"> <span class="ico-emp-signup ico-emp-signup_ben"></span>Benefits</span>
+          <span ng-if="!signup.afterStep('signup.benefits')"> <span class="ico-emp-signup ico-emp-signup_ben"></span>Benefits &amp; Process</span>
         </li>
 
         <li ng-class="{ active: signup.atStep('signup.terms'),
