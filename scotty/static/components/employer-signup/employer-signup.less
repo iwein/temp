@@ -7,12 +7,12 @@
 .component-employer-signup-suggest {
   .col-sm-12 {
     min-height: 600px
-  } 
+  }
 }
 
 .contact-me {
+  .resources-images-help();
   border: 1px solid @gray-lighter2;
-  background: url(../candidate/resources/images/help.jpg) left bottom no-repeat;
   font-size: 10px;
   font-family: @font-family-headings;
   padding: 15px 30px 8px;
@@ -28,8 +28,8 @@
 }
 
 .ico-emp-signup {
+  .resources-images-sprite-employer-signup();
   display: inline-block;
-  background: url(../candidate/resources/images/sprite-employer-signup.png) center 2px no-repeat;
   width: 17px;
   height: 20px;
   float: left;
@@ -69,9 +69,9 @@
 }
 
 
-.signup-container li.active{ 
+.signup-container li.active{
   .ico-emp-signup {
-    background-image: url(../candidate/resources/images/sprite-employer-signup-white.png);
+    .resources-images-sprite-employer-signup-white();
     background-size: 13px 210px;
   }
   .ico-emp-signup_start {
@@ -106,9 +106,9 @@
   }
 }
 
-.signup-container li.unactive{ 
+.signup-container li.unactive{
   .ico-emp-signup {
-    background-image: url(../candidate/resources/images/sprite-employer-signup-gray.png);
+    .resources-images-sprite-employer-signup-gray();
     background-size: 13px 210px;
   }
   .ico-emp-signup_start {
