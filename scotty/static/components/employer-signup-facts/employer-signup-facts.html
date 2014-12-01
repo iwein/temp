@@ -12,7 +12,7 @@
           <div class="col-sm-9">
             <input type="number"
               class="form-control"
-              placeholder="Tech team size"
+              placeholder="Number of staff in IT"
               name="tech_team_size"
               ng-disabled="loading"
               ng-model="model.tech_team_size">
@@ -31,22 +31,22 @@
           <div class="col-sm-9">
             <hc-label-typeahead
               name="techTags"
-              placeholder="Technology tags"
+              placeholder="Enter your key technologies, press enter after each one"
               ng-disabled="loading"
               ng-model="model.tech_tags"
               hc-source="signupFacts.searchTags($viewValue)"
-              hc-error-message="Please choose at least one tag"
+              hc-error-message="Please enter at least one technology"
               hc-allow-new>
             </hc-label-typeahead>
           </div>
         </div>
 
         <div class="row">
-          <label class="col-sm-12">Technology philosophy</label>
+          <label class="col-sm-12">Tech philosophy</label>
           <div class="col-sm-12">
             <textarea
               class="form-control"
-              placeholder="Technology philosophy"
+              placeholder="Why is your tech team special? Tell us more about the methodologies and tools you are using."
               name="tech_team_philosophy"
               ng-disabled="loading"
               ng-model="model.tech_team_philosophy">
@@ -55,7 +55,7 @@
 
           <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
             <span ng-show="formSignupFacts.tech_team_size.$error.required">
-              Please describe the philosophy of your company's tech.
+              Please describe the philosophy of your company's tech team.
             </span>
           </div>
         </div>
