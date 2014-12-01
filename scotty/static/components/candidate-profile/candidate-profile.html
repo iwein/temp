@@ -295,8 +295,9 @@
                 </div>
                 <div class="padd-vert col-sm-12">
                   <div class="smbd orange mrg-btm-small">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    {{ contact.data.email }}
+                    <a ng-href="mailto:{{ contact.data.email }}">
+                      <span class="iconParent"><i class="fa fa-envelope orange"></i></span> {{ contact.data.email }}
+                    </a>
                   </div>
                   <div ng-show="contact.data.contact_phone">
                     <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
@@ -429,7 +430,7 @@
                 </button>
               </div>
               <div ng-repeat="entry in languages.data">
-                <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
+                <span class="value gray">{{ entry.language }}: <span class="smbd">{{ entry.proficiency }}</span></span>
               </div>
             </div>
             <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-lang" ng-if="languages.editing">

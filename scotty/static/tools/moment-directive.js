@@ -83,7 +83,7 @@ define(function(require) {
 
       if (years) result += years + (size && size < 15 ? 'y ' : ' years ');
       if (months) result += months + (size && size < 15 ? 'm' : ' months');
-      return result;
+      return result || 'less than one month';
     };
   });
 
