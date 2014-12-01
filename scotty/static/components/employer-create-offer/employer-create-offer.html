@@ -25,7 +25,7 @@
             <div class="col-sm-8">
               <textarea
                 class="form-control"
-                placeholder="Personal message"
+                placeholder="Please introduce yourself to the candidate and tell them why you are a good fit. Make your message personal as this will get a better response."
                 name="message"
                 required
                 ng-disabled="loading"
@@ -41,14 +41,13 @@
 
           <div class="form-group required col-sm-12">
             <div class="col-sm-4">
-              <label>Annual salary</label>
+              <label>Offered annual salary</label>
             </div>
             <div class="col-sm-8">
               <div class="input-group">
                 <span class="input-group-addon">€</span>
                 <input type="dotted-integer"
                   class="form-control"
-                  placeholder="Annual salary"
                   name="salary"
                   required
                   ng-disabled="loading"
@@ -83,6 +82,7 @@
                 name="location"
                 class="form-control"
                 required
+                placeholder="Where is the role based." 
                 ng-disabled="loading"
                 ng-model="locationText"
                 ng-blur="createOffer.setLocation(locationText)"
@@ -128,7 +128,7 @@
             </div>
             <div class="col-sm-8">
               <hc-label-typeahead
-                placeholder="Technologies &amp; skills"
+                placeholder="Technical skills required. Press enter after each one."
                 ng-disabled="loading"
                 ng-model="model.technologies"
                 hc-source="createOffer.searchSkills($viewValue)"
