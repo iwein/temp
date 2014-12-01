@@ -46,11 +46,12 @@
                 </div>
               </div>
               <div class="padd-vert col-sm-12">
-                <div class="smbd orange mrg-btm-small">
-                  <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                  <a ng-href="mailto:{{ user.email }}">{{ user.email }}</a>
+                <div class="smbd orange mrg-btm-small" ng-show="user.email">
+                  <a ng-href="mailto:{{ user.email }}">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span> {{ user.email }}
+                  </a>
                 </div>
-                <div ng-show="contact.data.contact_phone">
+                <div ng-show="user.contact_phone">
                   <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
                   {{ user.contact_phone }}
                 </div>
@@ -73,7 +74,7 @@
           <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
             <div class="box-title box-title_left mrg-btm">Languages</div>
             <div ng-repeat="entry in languages">
-              <span class="value gray">{{ entry.language }}: <span class="smbd">({{ entry.proficiency }})</span></span>
+              <span class="value gray">{{ entry.language }}: <span class="smbd">{{ entry.proficiency }}</span></span>
             </div>
           </div>
         </div>
@@ -161,16 +162,16 @@
               <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>{{ totalWorkExperience | toMonthsYears }}</span></h2>
               <div class="accordion-wrap">
 
-                <hc-accordion ng-repeat="experience in workExperience" hc-hide-control="!entry.summary">
-                  <h3 class="accordion-subtitle">{{ experience.role }}</h3>
-                  <h4 class="accordion-subtitle2">{{ experience.company }}</h4>
+                <hc-accordion ng-repeat="entry in workExperience" hc-hide-control="!entry.summary">
+                  <h3 class="accordion-subtitle">{{ entry.role }}</h3>
+                  <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
                   <span class="accordion-date">
-                    {{ experience.start | showMonthYear }} –
-                    {{ experience.end || 'today' | showMonthYear }}
-                    ({{ experience | momentDiff | toMonthsYears }})
+                    {{ entry.start | showMonthYear }} –
+                    {{ entry.end || 'today' | showMonthYear }}
+                    <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
                   </span>
                   <!-- WARN: replaced UI by DIV -->
-                  <div class="accordion-text">{{ experience.summary }}</div>
+                  <div class="accordion-text">{{ entry.summary }}</div>
                 </hc-accordion>
               </div>
             </div>
@@ -179,19 +180,24 @@
           <div class="row bg-white">
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title ">EDUCATION <span>{{ highestDegree }}</span></h2>
-              <div class="accordion-wrap">
-
-                <hc-accordion ng-repeat="entry in education" hc-hide-control="!entry.course">
-                  <h3 class="accordion-subtitle">{{ entry.degree }}</h3>
-                  <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
-                  <span class="accordion-date">
-                    {{ entry.start | showMonthYear }} –
-                    {{ entry.end || 'today' | showMonthYear }}
-                    ({{ entry | momentDiff | toMonthsYears }})
-                  </span>
-                  <!-- WARN: replaced UI by DIV -->
-                  <div class="accordion-text">{{ entry.course }}</div>
-                </hc-accordion>
+              <div class="accordion-container" ng-repeat="entry in education">
+                <h3 class="accordion-subtitle">
+                  {{ entry.degree }}
+                  <span>{{ entry.course }}</span>
+                  <button type="button"
+                    class="btn-edit-sub no-fl"
+                    ng-show="isEditing"
+                    ng-disabled="loading || formOpen"
+                    ng-click="education.edit(entry, $index)">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </h3>
+                <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
+                <span class="accordion-date">
+                  {{ entry.start | showMonthYear }} –
+                  {{ entry.end || 'today' | showMonthYear }}
+                  <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
+                </span>
               </div>
             </div>
           </div>

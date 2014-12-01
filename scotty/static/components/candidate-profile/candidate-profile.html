@@ -706,9 +706,8 @@
                     <span class="accordion-date">
                       {{ entry.start | showMonthYear }} –
                       {{ entry.end || 'today' | showMonthYear }}
-                      ({{ entry | momentDiff | toMonthsYears }})
+                      <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
                     </span>
-                    <!-- WARN: replaced UI by DIV -->
                     <div class="accordion-text">{{ entry.summary }}</div>
                   </hc-accordion>
                 </div>
@@ -779,7 +778,7 @@
                     <span class="accordion-date">
                       {{ entry.start | showMonthYear }} –
                       {{ entry.end || 'today' | showMonthYear }}
-                      ({{ entry | momentDiff | toMonthsYears }})
+                      <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
                     </span>
                   </div>
                 </div>
