@@ -279,28 +279,28 @@
                 </div>
               </div>
               <div class="padd-vert col-sm-12 brd-btm office-list">
-                <div class="mrg-btm-big office-list-item" ng-repeat="office in data.offices">
-                  <div class="orange smbd">{{ office.address_city.city }}</div>
-                  <div>{{ office.address_line1 }}</div>
-                  <div>{{ office.address_line2 }}</div>
-                  <div>{{ office.address_line3 }}</div>
-                  <div>
+                <div class="mrg-btm-big office-list-item " ng-repeat="office in data.offices">
+                  <div class="orange smbd mrg-btm-small">{{ office.address_city.city }}</div>
+                  <div class="mrg-btm-small">{{ office.address_line1 }}</div>
+                  <div class="mrg-btm-small">{{ office.address_line2 }}</div>
+                  <div class="mrg-btm-small">{{ office.address_line3 }}</div>
+                  <div class="mrg-btm-small">
                     {{ office.address_city.city }},
                     {{ office.address_city.country_iso }}
                     {{ office.address_zipcode }}
                   </div>
-                  <div>
+                  <div class="mrg-btm-small">
                     {{ office.contact_salutation }},
                     {{ office.contact_first_name }}
                     {{ office.contact_last_name }}
                   </div>
-                  <div class="smbd orange mrg-btm-small">
+                  <div class="smbd orange mail mrg-btm-small">
                     <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
                     {{ office.contact_email }}
                   </div>
-                  <div>
+                  <div class="mobile">
                     <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    {{ office.contact_phone }}
+                    <span class="text">{{ office.contact_phone }}</span>
                   </div>
                 </div>
               </div>
