@@ -5,7 +5,7 @@ define(function(require) {
   var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
-  module.directive('hcOffices', function() {
+  module.directive('hcOffices', function(Session) {
     return {
       restrict: 'EA',
       scope: {
@@ -36,15 +36,32 @@ define(function(require) {
           $scope.onLoad();
         });
 
+        Session.getUser().then(function(user) {
+          return user && user.getData();
+        }).then(function(data) {
+          var prefill = _.pick(data, [
+            'contact_first_name',
+            'contact_last_name',
+            'contact_salutation',
+            'address_city',
+          ]);
+          prefill.contact_email = data.email;
+
+          $scope.$watch('::formContainer.form', function(value) {
+            value.setModel(prefill);
+          });
+        });
+
         function setActive(index, entry) {
+          var form = $scope.formContainer.form;
           $scope.active = index;
           $scope.editing = index !== -1;
 
-          if ($scope.formContainer.form) {
+          if (form) {
             if ($scope.editing)
-              $scope.formContainer.form.setModel(entry);
+              form.setModel(entry);
             else
-              $scope.formContainer.form.reset();
+              form.reset();
           }
         }
 
