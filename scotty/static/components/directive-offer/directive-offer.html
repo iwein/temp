@@ -86,10 +86,10 @@
               <span class="iconParent"><i class="fa fa-map-marker gray-light"></i></span>
               {{ model.data.location.city }}, {{ model.data.location.country_iso }}
             </div>
-            <a class="link-blue smbd caps font-18" ui-sref="employer({ id: model.data.employer_id })">Company profile <i class="fa fa-angle-right"></i></a>
+            <a class="link-blue smbd caps font-18" ui-sref="employer({ id: model.data.employer.id })">Company profile <i class="fa fa-angle-right"></i></a>
           </div>
           <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
-            <div class="name"><a ui-sref="candidate({ id: model.data.candidate_id })">
+            <div class="name"><a ui-sref="candidate({ id: model.data.candidate.id })">
               {{ model.data.candidate.first_name}} {{ model.data.candidate.last_name }}
             </a></div>
             <div class="position">{{ model.position.role }}</div>

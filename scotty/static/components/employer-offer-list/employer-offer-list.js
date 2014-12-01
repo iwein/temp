@@ -23,7 +23,7 @@ define(function(require) {
         });
 
         return $q.all(offers.map(function(offer) {
-          return Session.getCandidate(offer.data.candidate_id).then(function(candidate) {
+          return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
             return candidate.getExperience();
           }).then(function(experience) {
             offer.position = experience.sort(function(a, b) {
