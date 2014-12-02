@@ -2,20 +2,21 @@
   <div class="col-sm-8">
     <div class="col-sm-12">
       <h3 class="signup-title">Work Experience</h3>
-    
+
       <hc-experience
         name="list"
         hc-source="listExperience()"
         on-edit="update($entry, $index)"
         on-add="add($entry)"
+        on-import-change="updateImports($list)"
         hc-editable="true"
         hc-remove-last="true">
       </hc-experience>
-      
+
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="button"
           class="bg-green btn-small fl-rg"
-          ng-disabled="list.length === 0"
+          ng-disabled="!someImport"
           ng-click="submit()">
           Continue
         </button>
@@ -31,7 +32,7 @@
         <p>
           Enter your previous jobs and where you currently work. We make sure that neither your current and nor any former employer will ever see your profile. You can edit your entries anytime.
         </p>
-      
+
       </div>
     </div>
   </div>

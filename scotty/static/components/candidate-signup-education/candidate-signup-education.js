@@ -9,6 +9,7 @@ define(function(require) {
 
   module.controller('CandidateSignupEducationCtrl', function($scope, $q, toaster, Loader, Session) {
     $scope.listEducation = listEducation;
+    $scope.updateImports = updateImports;
     $scope.update = update;
     $scope.add = add;
     $scope.submit = submit;
@@ -31,6 +32,7 @@ define(function(require) {
       if (load)
         return importLinkedin();
     }).then(function() {
+      updateImports(list);
       if (!list.length)
         $scope.list.setAdding(true);
     }).finally(function() {
@@ -53,6 +55,10 @@ define(function(require) {
       entry.import = true;
       list.push(entry);
       return $q.when(true);
+    }
+
+    function updateImports(list) {
+      $scope.someImport = list.some(fn.get('import'));
     }
 
     function importLinkedin() {

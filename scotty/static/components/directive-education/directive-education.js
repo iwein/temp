@@ -13,6 +13,7 @@ define(function(require) {
         onLoad: '&',
         onEdit: '&',
         onRemove: '&',
+        onImportChange: '&',
         hcSource: '&',
         hcSourceRemove: '&',
         hcEditable: '=',
@@ -26,6 +27,7 @@ define(function(require) {
         $scope.edit = edit;
         $scope.remove = remove;
         $scope.submit = submit;
+        $scope.importChange = importChange;
         $scope.formContainer = {};
         $scope.active = -1;
         this.setAdding = setAdding;
@@ -36,6 +38,10 @@ define(function(require) {
         list().then(function() {
           $scope.onLoad();
         });
+
+        function importChange() {
+          $scope.onImportChange({ $list: $scope.model });
+        }
 
         function setAdding(value) {
           setActive(-1);
