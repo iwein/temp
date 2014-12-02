@@ -3,10 +3,10 @@
   name="formCreateOffer"
   ng-show="ready"
   ng-submit="createOffer.submit()">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-9">
+  
+  <div class="col-sm-12">
   <div class="row">
-    <div class="col-sm-8 bg-white pad-btm-20">
+    <div class="col-sm-8 col-sm-offset-1 bg-white pad-btm-20">
       <h3 class="col-sm-12 pad-top-10 pad-btm-20 big-title orange caps">Make an offer</h3>
       <div class="col-sm-12">
         <div class="bg-gray-lighter">
@@ -19,10 +19,10 @@
           </div>
 
           <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+            <div class="col-sm-12">
               <label>Personal Message</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12">
               <textarea
                 class="form-control"
                 placeholder="Please introduce yourself to the candidate and tell them why you are a good fit. Make your message personal as this will get a better response."
@@ -39,11 +39,11 @@
             </div>
           </div>
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+          <div class="form-group required col-sm-6">
+            <div class="col-sm-12 no-padd-right">
               <label>Offered annual salary</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 no-padd-right">
               <div class="input-group">
                 <span class="input-group-addon">€</span>
                 <input type="dotted-integer"
@@ -73,11 +73,11 @@
             </div>
           </div>
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+          <div class="form-group required col-sm-6">
+            <div class="col-sm-12 no-padd-left">
               <label>Location</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 no-padd-left">
               <input type="text"
                 name="location"
                 class="form-control"
@@ -102,11 +102,11 @@
             </div>
           </div>
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+          <div class="form-group required col-sm-6">
+            <div class="col-sm-12 no-padd-right">
               <label>Role</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 no-padd-right">
               <input type="text"
                 class="form-control"
                 name="role"
@@ -122,11 +122,11 @@
           </div>
 
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+          <div class="form-group required col-sm-6">
+            <div class="col-sm-12 no-padd-left">
               <label>Technologies &amp; Skills</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 no-padd-left">
               <hc-label-typeahead
                 placeholder="Technical skills required. Press enter after each one."
                 ng-disabled="loading"
@@ -138,11 +138,11 @@
             </div>
           </div>
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+          <div class="form-group required col-sm-6">
+            <div class="col-sm-12 no-padd-right">
               <label>Job description</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 no-padd-right">
               <text-angular
                 name="jobDescription"
                 required
@@ -155,11 +155,11 @@
             </div>
           </div>
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-4">
+          <div class="form-group required col-sm-6">
+            <div class="col-sm-12 no-padd-left">
               <label>Hiring process</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 no-padd-left">
               <text-angular
                 name="hiringProcess"
                 required
@@ -171,11 +171,9 @@
             </div>
           </div>
 
-          <div class="col-sm-12">
-            <div class="col-sm-4">
+          <div class="col-sm-12 mrg-btm-30">
+            <div class="col-sm-6">
               <label>Benefits</label>
-            </div>
-            <div class="col-sm-8">
               <ul class="row">
                 <li class="col-sm-6 form-benefits" ng-repeat="benefit in benefits">
                   <label class="{{ benefit.value }}">
@@ -186,6 +184,8 @@
                   </label>
                 </li>
               </ul>
+            </div>
+            <div class="col-sm-6">
               <textarea
                 class="form-control"
                 placeholder="Other benefits"
@@ -196,18 +196,19 @@
             </div>
           </div>
 
-          <div class="form-group col-sm-12">
-            <div class="buttons-wrap col-sm-12 mrg-btm mrg-top-30">
-              <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="loading">Submit offer</button>
-            </div>
-          </div>
+          
 
 
           <div class="clearfix"></div>
         </div>
+        <div class="col-sm-12">
+          <div class="buttons-wrap col-sm-12 mrg-btm mrg-top-30">
+            <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="loading">Submit offer</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-sm-4 bg-gray-lighter2">
+    <div class="col-sm-3 bg-gray-lighter2">
     <div class="padd-vert">
       <div class="box-title box-title_left mrg-btm gray-darker">
         Help</div>

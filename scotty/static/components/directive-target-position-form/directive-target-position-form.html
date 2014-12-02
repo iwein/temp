@@ -1,7 +1,7 @@
 <form role="form" name="formTarget" class="form-wrap mrg-btm" ng-if="ready" ng-submit="submit()">
 <div class="form-signup bg-gray-lighter mrg-btm">
   <div class="form-group required row">
-    <label class="col-sm-3">Role*</label>
+    <label class="col-sm-3">Role</label>
     <div class="col-sm-9">
       <select class="form-control"
               name="country"
@@ -13,13 +13,13 @@
       </select>
 
       <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
-        <span ng-show="formTarget.role.$error.required">Please insert your role.</span>
+        <span ng-show="formTarget.role.$error.required">Please select your role.</span>
       </div>
     </div>
   </div>
 
   <div class="form-group required row">
-    <label class="col-sm-3">Technologies & Skills*</label>
+    <label class="col-sm-3">Technologies & Skills</label>
     <div class="col-sm-9">
       <div class="row check-wrap">
         <div class="col-sm-6" ng-repeat="skill in featuredSkills">
@@ -48,12 +48,12 @@
               hc-error-message="Please choose at least one skill"
               hc-allow-new>
       </hc-label-typeahead>
-      <p class="mrg-top-small">You can write down any technology or skill you've been working with for a longer period of time</p>
+      <p class="mrg-top-small">You can write down any technology or skill you've been working with for a longer period of time.</p>
     </div>
   </div>
 
   <div class="form-group required row">
-    <label class="col-sm-3 no-padd-right">Annual Salary*</label>
+    <label class="col-sm-3 no-padd-right">Annual Salary</label>
     <div class="col-sm-9">
       <div class="input-group">
         <span class="input-group-addon">€</span>
@@ -66,7 +66,8 @@
                ng-change="onSalaryChange()">
         <span class="input-group-addon">.00</span>
       </div>
-      <p class="mrg-top-small">Do not set your salary too high, as it will block employers to send you interesting offers, that havea slightly lower nominal salary but huge other benefits</p>
+      <p class="mrg-top-small">Do not set your salary too high, as it will block employers to send you interesting offers,
+          that have a slightly lower nominal salary but huge other benefits.</p>
     </div>
 
     <div class="form-error col-sm-9 col-sm-offset-3" ng-show="(formTarget.salary.$dirty && formTarget.salary.$invalid) || errorSalaryTooHigh">
@@ -78,7 +79,7 @@
   </div>
 
   <div class="required row">
-    <label class="col-sm-3">Locations*</label>
+    <label class="col-sm-3">Locations</label>
 
     <div class="col-sm-9 check-wrap">
       <div class="mrg-btm">
@@ -130,7 +131,8 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-9 col-sm-offset-3"><p class="mrg-top-small">We currently focus our efforts on the 3 listedlocations. Feel freeto name any other city in Germany so we know where to focus in the future.</p></div>
+    <div class="col-sm-9 col-sm-offset-3"><p class="mrg-top-small">We currently focus our efforts on the 3 listed locations.
+        Feel free to name any other city in Germany so we know where to focus in the future.</p></div>
   </div>
   
 </div>
