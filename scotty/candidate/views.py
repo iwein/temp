@@ -210,7 +210,6 @@ class CandidateController(RootController):
 
 
 class CandidateViewController(CandidateController):
-
     @view_config(route_name='candidates_advanced_search', **POST)
     def candidates_advanced_search(self):
         params = self.request.json
@@ -242,7 +241,6 @@ class CandidateViewController(CandidateController):
                 role = get_by_name_or_raise(Role, role)
                 query = query.filter(TargetPosition.role_id == role.id)
 
-
         query = query.group_by(Candidate.id)
 
         if skills:
@@ -267,9 +265,10 @@ class CandidateViewController(CandidateController):
         params = self.request.params
         terms = params.get('q', '').replace(' ', '&')
         status = self.request.params.get('status', CandidateStatus.ACTIVE)
-        query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status)\
+        query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status) \
             .filter(V_CANDIDATE_FT_INDEX.c.search_index.match(terms, postgresql_regconfig='english'))
         pager = PseudoPager(query, offset, limit)
+
         def optimise_query(q):
             return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                              joinedload_all('skills.skill'), joinedload_all('skills.level'),
@@ -289,8 +288,6 @@ class CandidateViewController(CandidateController):
             return {'url': self.candidate.picture_url}
         else:
             raise HTTPFound(location=self.candidate.picture_url)
-
-
 
 
 class CandidateEducationController(CandidateController):
@@ -383,7 +380,8 @@ class CandidateBookmarkController(CandidateController):
     @view_config(route_name='candidate_bookmark', **DELETE)
     def delete(self):
         employer_id = self.request.matchdict['id']
-        DBSession.query(CandidateBookmarkEmployer).filter(CandidateBookmarkEmployer.candidate_id == self.candidate.id).delete()
+        DBSession.query(CandidateBookmarkEmployer).filter(
+            CandidateBookmarkEmployer.candidate_id == self.candidate.id).delete()
         self.candidate.bookmarked_employers = [e for e in self.candidate.bookmarked_employers if str(e.id) !=
                                                employer_id]
         return {"status": "success"}
