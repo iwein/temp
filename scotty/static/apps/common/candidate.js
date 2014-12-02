@@ -134,8 +134,8 @@ define(function(require) {
           });
 
           return experience.sort(function(a, b) {
-            if (a.end && !b.end) return -1;
-            if (b.end && !a.end) return 1;
+            if (a.end && !b.end) return 1;
+            if (b.end && !a.end) return -1;
             return b.startDate - a.startDate;
           })[0];
         });

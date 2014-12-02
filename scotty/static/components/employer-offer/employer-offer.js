@@ -40,14 +40,10 @@ define(function(require) {
           data.accepted = statuses.indexOf(data.status) !== -1;
         });
 
-        return Session.getCandidate(offer.data.candidate_id).then(function(candidate) {
-          return candidate.getExperience();
-        }).then(function(experience) {
-          var last = experience.sort(function(a, b) {
-            return b.start - a.start;
-          })[0];
-
-          return [ offer, data[1], last ];
+        return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
+          return candidate.getLastPosition();
+        }).then(function(position) {
+          return [ offer, data[1], position ];
         });
       }).then(function(result) {
         self.onStatusChange = onStatusChange;

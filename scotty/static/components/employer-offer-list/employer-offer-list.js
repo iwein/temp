@@ -8,7 +8,6 @@ define(function(require) {
     Loader, ConfigAPI, Permission, Session) {
 
     Loader.page(true);
-
     Permission.requireActivated().then(function() {
 
       Session.getUser().then(function(user) {
@@ -24,11 +23,9 @@ define(function(require) {
 
         return $q.all(offers.map(function(offer) {
           return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
-            return candidate.getExperience();
-          }).then(function(experience) {
-            offer.position = experience.sort(function(a, b) {
-              return b.start - a.start;
-            })[0];
+            return candidate.getLastPosition();
+          }).then(function(position) {
+            offer.position = position;
           });
         }));
       }).catch(function() {
