@@ -7,7 +7,23 @@
       <h3 class="signup-title">Terms and services</h3>
 
       <div class=" mrg-btm bg-gray-lighter pad-30 form-signup">
-        <label>
+        <p>By selecting "I agree terms of service", you agree to the terms at
+        <a ui-sref="signup.tos" class="smbd">4scotty.com/termsofservice</a>.</br></br></p>
+
+        <p>In summary:</p>
+        <ul class="terms">
+          <li>After your company profile was approved, you‘ll be able to browse 
+            the 4Scotty pool of IT-Professionals and make them interview offers.</li>
+
+          <li>You agree not to approach one of our candidates outside of 4Scotty,
+            or circumvent us in any way.</li>
+
+          <li>4Scotty will only charge you a success fee if you successfully hire 
+            someone through our marketplace.
+            You will have the option of paying 18% of the first year base salary 
+            upfront, or 2% of the annual salary per month for 12 months.</li>
+        </ul>
+        <label class="font-nor">
           <input type="checkbox"
             required
             ng-disabled="loading"
@@ -15,7 +31,7 @@
             >
           <span class="mrg-lft-small">I agree</span>
         </label>
-        <a ui-sref="signup.tos" class="smbd">terms &amp; services</a>
+        terms &amp; services
         
 
         <div class="form-error" ng-show="formSignupTerms.recruitment.$dirty && formSignupTerms.recruitment.$invalid">
