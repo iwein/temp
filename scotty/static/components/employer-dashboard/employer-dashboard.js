@@ -146,27 +146,15 @@ define(function(require) {
     }
 
     function search(candidates) {
-      return $q.all(candidates.map(function(candidate) {
-        return candidate.getLastPosition();
-      })).then(function(positions) {
-        return candidates.map(function(candidate, index) {
-          candidate._data.position = positions[index];
-          candidate._data.skills = candidate._data.skills.sort(function(a, b) {
-            return levels[b.level] - levels[a.level];
-          }).slice(9);
-          return candidate;
-        });
-      }).then(function(results) {
-        var pagesCount = results.length / resultsPerPage;
-        var pages = [];
+      var pagesCount = candidates.length / resultsPerPage;
+      var pages = [];
 
-        for (var i = 0; i < pagesCount; i++)
-          pages.push(i + 1);
+      for (var i = 0; i < pagesCount; i++)
+        pages.push(i + 1);
 
-        $scope.searchResults = results;
-        $scope.pages = pages;
-        loadPage(0);
-      });
+      $scope.searchResults = candidates;
+      $scope.pages = pages;
+      loadPage(0);
     }
   });
 
