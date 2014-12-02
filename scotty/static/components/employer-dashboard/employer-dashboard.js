@@ -4,13 +4,6 @@ define(function(require) {
   require('components/directive-offer/directive-offer');
   var fn = require('tools/fn');
   var module = require('app-module');
-  var levels = {
-    'null': 0,
-    'undefined': 0,
-    'basic': 1,
-    'advanced': 2,
-    'expert': 3,
-  };
 
 
   // jshint maxparams:8
