@@ -42,14 +42,18 @@
   <div class="col-sm-12 required mrg-btm">
     <label class="col-sm-3">Photo</label>
     <div class="col-sm-9">
-      <input type="file"
-        name="photo"
-        accept="image/*"
-        ng-required="!model.picture_url"
-        ng-disabled="hcDisabled"
-        ng-model="files"
-        hc-file-select="selectFile($files)"
-        hc-data-url="selectedFiles">
+      <div class="uploadFile">
+        <span>Select</span>
+        <input type="file"
+          name="photo"
+          accept="image/*"
+          ng-required="!model.picture_url"
+          ng-disabled="hcDisabled"
+          ng-model="files"
+          hc-file-select="selectFile($files)"
+          hc-data-url="selectedFiles">
+      </div>
+      <div class="uploadText">Upload a photo at least 235 px wide.</div>
     </div>
     <div class="col-sm-offset-3 col-sm-9">
       <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
@@ -112,15 +116,17 @@
   <div class="col-sm-12">
     <label class="col-sm-3">CV</label>
     <div class="col-sm-9">
-      <input type="file"
-        name="photo"
-        accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ng-disabled="hcDisabled"
-        hc-file-select
-        ng-model="cv_file">
+      <div class="uploadFile">
+        <span>Select</span>
+        <input type="file"
+          name="photo"
+          accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ng-disabled="hcDisabled"
+          hc-file-select
+          ng-model="cv_file">
+      </div>
+      <div class="uploadText">Upload CV if you have one.</div>
     </div>
-
-    <p class="help-block col-sm-offset-3 col-sm-9">Upload CV if you have one. It will be disclosed to employers when you accept a job offer.</p>
 
     <div class="form-error" ng-show="false && (errorFileRequired || errorFileImage)">
       <span ng-show="errorFileRequired">Please select a photo.</span>
@@ -128,7 +134,7 @@
     </div>
   </div>
 
-  <div class="col-sm-12 check-wrap">
+  <div class="col-sm-12 check-wrap mrg-top">
     <div class="col-sm-offset-3 col-sm-9">
       <div class="">
         <label>
