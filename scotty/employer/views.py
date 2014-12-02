@@ -124,7 +124,7 @@ class EmployerController(RootController):
 
         if tags:
             pager = get_employers_pager(tags, city_id, company_types)
-            result = ObjectBuilder(Employer).serialize(pager, adjust_query=adjust_query)
+            result = ObjectBuilder(Employer, joins=adjust_query).serialize(pager)
         else:
             basequery = adjust_query(DBSession.query(Employer))
             result = run_paginated_query(self.request, basequery)

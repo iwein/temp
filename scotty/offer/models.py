@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 from pyramid.decorator import reify
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, UniqueConstraint, and_, String, Sequence, \
-    func
+    func, or_
 
 from scotty.models.tools import json_encoder, PUBLIC
 from scotty.configuration.models import City, Role, Benefit, Skill, RejectionReason, WithdrawalReason
@@ -110,16 +110,20 @@ class OfferStatusWorkflow(object):
         columns = class_mapper(cls).columns
         filter = []
         expiry_cols = []
+        success_state = None
 
         for status in cls.statuses[::-1]:
-            if status.is_final:
+            if status.key == OFFER_STATUS_CONTRACT_SIGNED_KEY:
+                success_state = columns[status.col_name].isnot(None)
+            elif status.is_final:
                 filter.append(columns[status.col_name].is_(None))
             else:
                 expiry_cols.append(columns[status.col_name])
 
         # make sure not expired only
         expiry_cutoff = datetime.now() - timedelta(STATUS_EXPIRATION_DAYS)
-        return and_(func.coalesce(*expiry_cols) > expiry_cutoff, *filter)
+        # when hired, it cant expire, and should be returned in any case
+        return or_(success_state, and_(func.coalesce(*expiry_cols) > expiry_cutoff, *filter))
 
     def accept(self, email, phone=None):
         if self.status == self.statuses[0]:
@@ -224,8 +228,8 @@ class Offer(Base, OfferStatusWorkflow):
     contract_negotiation = Column(DateTime)
 
     contract_signed = Column(DateTime)
-    job_start_date = Column(DateTime)
-    job_start_salary = Column(Integer)
+    job_start_date = Column(DateTime, info=PUBLIC)
+    job_start_salary = Column(Integer, info=PUBLIC)
 
     rejected_reason_id = Column(Integer, ForeignKey("rejectionreason.id"))
     rejected_reason = relationship(RejectionReason, info=PUBLIC)
