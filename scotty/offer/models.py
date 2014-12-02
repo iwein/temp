@@ -224,8 +224,8 @@ class Offer(Base, OfferStatusWorkflow):
     contract_negotiation = Column(DateTime)
 
     contract_signed = Column(DateTime)
-    job_start_date = Column(DateTime)
-    job_start_salary = Column(Integer)
+    job_start_date = Column(DateTime, info=PUBLIC)
+    job_start_salary = Column(Integer, info=PUBLIC)
 
     rejected_reason_id = Column(Integer, ForeignKey("rejectionreason.id"))
     rejected_reason = relationship(RejectionReason, info=PUBLIC)
