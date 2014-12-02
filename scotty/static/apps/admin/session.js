@@ -63,7 +63,12 @@ define(function(require) {
 
 
     searchCandidates: function(query) {
-      return this._api.get('/admin/search/candidates' + getParams, query);
+      return this._api.get('/admin/search/candidates' + getParams, query).then(function(response) {
+        response.data = response.data.map(function(data) {
+          return new Candidate(this._api, data.id, data);
+        }.bind(this));
+        return response;
+      }.bind(this));
     },
 
     getCandidate: function(id) {
