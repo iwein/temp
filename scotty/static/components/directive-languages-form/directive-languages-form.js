@@ -22,7 +22,7 @@ define(function(require) {
       },
       transclude: true,
       template: require('text!./directive-languages-form.html'),
-      controllerAs: 'skillsCtrl',
+      controllerAs: 'languagesCtrl',
       controller: function($scope, $attrs, ConfigAPI, Session) {
         $scope.searchLanguages = searchLanguages;
         $scope.remove = remove;
@@ -42,7 +42,10 @@ define(function(require) {
         ConfigAPI.proficiencies()
           .then(fn.setTo('proficiencies', $scope))
           .then(function() {
-            setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : []);
+            if ($attrs.ngModel)
+              setModel(getModel($attrs.ngModel));
+            else if (!$scope.model)
+              setModel([]);
           });
 
         function searchLanguages(term) {

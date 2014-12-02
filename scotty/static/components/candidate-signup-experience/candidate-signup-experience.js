@@ -47,12 +47,14 @@ define(function(require) {
     function update(entry, index) {
       entry.import = true;
       list[index] = entry;
+      updateImports(list);
       return $q.when(true);
     }
 
     function add(entry) {
       entry.import = true;
       list.push(entry);
+      updateImports(list);
       return $q.when(true);
     }
 
