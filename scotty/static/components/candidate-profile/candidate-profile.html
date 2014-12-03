@@ -290,7 +290,7 @@
                   <div class="fl-rg">
                     <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
                     <a ng-show="user.stackoverflow_url" ng-href="{{ user.stackoverflow_url }}"><i class="fa fa-stack-overflow"></i></a>
-                    <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
+                    <a ng-show="user.blog_url" ng-href="{{ user.blog_url }}"><i class="fa fa-globe"></i></a>
                   </div>
                 </div>
                 <div class="padd-vert col-sm-12">
