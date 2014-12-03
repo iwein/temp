@@ -93,6 +93,10 @@ define(function(require) {
           });
         }
 
+        function afterModelChange() {
+          $scope.model.country_iso = $scope.model.country_iso || 'DE';
+        }
+
         function reset() {
           $scope.editing = false;
           $scope.skills.setDirty(false);
@@ -106,6 +110,7 @@ define(function(require) {
           $scope.startYear = '';
           $scope.endMonth = '';
           $scope.endYear = '';
+          afterModelChange();
         }
 
         function setModel(model) {
@@ -123,7 +128,6 @@ define(function(require) {
               featured.selected = true;
               $scope.model.skills.splice(index, 1);
             });
-
           }
 
           if (model.start) {
@@ -141,6 +145,8 @@ define(function(require) {
           } else {
             $scope.current = false;
           }
+
+          afterModelChange();
         }
 
         function isPristine() {
