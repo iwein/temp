@@ -5,6 +5,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
+from scotty.auth.provider import ADMIN_PERM
 from scotty.tools import split_strip
 from sqlalchemy import or_, and_, func, String
 from sqlalchemy.sql.expression import cast
@@ -90,15 +91,14 @@ class CandidateController(RootController):
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
         if candidate_id == 'me':
-            candidate_id = self.request.session.get('candidate_id')
-            if not candidate_id:
+            if not self.request.candidate_id:
                 raise HTTPForbidden("Not logged in.")
         candidate = DBSession.query(self.model_cls).options(joinedload_all('skills.skill'),
                                                             joinedload_all('skills.level'),
                                                             joinedload_all('languages.language'),
                                                             joinedload_all('languages.proficiency'),
                                                             joinedload_all('work_experience.company'),
-                                                            joinedload_all('work_experience.skills')).get(candidate_id)
+                                                            joinedload_all('work_experience.skills')).get(self.request.candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
@@ -141,7 +141,7 @@ class CandidateController(RootController):
         self.request.session['candidate_id'] = candidate.id
         return candidate
 
-    @view_config(route_name='candidate_logout', **GET)
+    @view_config(route_name='candidate_logout', permission=NO_PERMISSION_REQUIRED, **GET)
     def logout(self):
         self.request.session.invalidate()
         return {'success': True}
@@ -151,7 +151,7 @@ class CandidateController(RootController):
         candidate = edit_candidate(self.candidate, self.request.json)
         return candidate
 
-    @view_config(route_name='candidate', **DELETE)
+    @view_config(route_name='candidate', permission=ADMIN_PERM, **DELETE)
     def delete(self):
         self.candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.DELETED)
         if self.is_me:
@@ -501,18 +501,18 @@ class CandidatePasswordController(RootController):
     def send_email(self, candidate):
         self.request.emailer.send_candidate_pwdforgot(candidate.email, candidate.first_name, candidate.pwdforgot_token)
 
-    @view_config(route_name='candidate_requestpassword', **POST)
+    @view_config(route_name='candidate_requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def requestpassword(self):
         email = self.request.json['email']
         resend = bool(self.request.json.get('resend'))
         return requestpassword(Candidate, email, resend, self.send_email)
 
-    @view_config(route_name='candidate_resetpassword', **GET)
+    @view_config(route_name='candidate_resetpassword', permission=NO_PERMISSION_REQUIRED, **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
         return validatepassword(Candidate, token)
 
-    @view_config(route_name='candidate_resetpassword', **POST)
+    @view_config(route_name='candidate_resetpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def resetpassword(self):
         token = self.request.matchdict['token']
         pwd = self.request.json['pwd']
