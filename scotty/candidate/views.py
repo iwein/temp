@@ -259,14 +259,19 @@ class CandidateViewController(CandidateController):
 
     @view_config(route_name='candidates', **GET)
     def search(self):
-        offset = int(self.request.params.get('offset', 0))
-        limit = int(self.request.params.get('limit', 10))
-
         params = self.request.params
+        offset = int(params.get('offset', 0))
+        limit = int(params.get('limit', 10))
+        status = params.get('status', CandidateStatus.ACTIVE)
+
         terms = params.get('q', '').replace(' ', '&')
-        status = self.request.params.get('status', CandidateStatus.ACTIVE)
-        query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status) \
-            .filter(V_CANDIDATE_FT_INDEX.c.search_index.match(terms, postgresql_regconfig='english'))
+        if terms:
+            query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status)
+            query = query.filter(V_CANDIDATE_FT_INDEX.c.search_index.match(terms, postgresql_regconfig='english'))
+        else:
+            status = get_by_name_or_raise(CandidateStatus, status)
+            query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+
         pager = PseudoPager(query, offset, limit)
 
         def optimise_query(q):
