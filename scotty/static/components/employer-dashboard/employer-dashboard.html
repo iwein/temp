@@ -182,13 +182,14 @@
             <div class="search-results">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
-              <div class="offer-list">
+              <div class="offer-list" ng-show="!loading">
+                <div ng-show="searchResults.length">{{ searchResults.length }} candidates found</div>
                 <hc-candidate
                   ng-repeat="candidate in searchCandidates"
                   ng-model="candidate"
                   hc-link-profile="true">
                 </hc-candidate>
-                <ul class="pager-list">
+                <ul class="pager-list" ng-show="pages.length > 1">
                   <li ng-repeat="entry in pages" ng-class="{ active: page === (entry - 1) }">
                     <button type="button"
                       ng-click="loadPage(entry - 1)"

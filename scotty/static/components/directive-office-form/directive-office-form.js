@@ -39,11 +39,18 @@ define(function(require) {
         setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
 
 
+        function afterModelChange() {
+          var model = $scope.model;
+          var location = model.address_city = model.address_city || {};
+          location.country_iso = location.country_iso || 'DE';
+        }
+
         function reset() {
           $scope.editing = false;
           if ($scope.formOffice)
             $scope.formOffice.$setPristine();
           $scope.model = {};
+          afterModelChange();
         }
 
         function isPristine() {
@@ -54,6 +61,7 @@ define(function(require) {
           model = JSON.parse(JSON.stringify(model));
           $scope.editing = !!model.id;
           $scope.model = model;
+          afterModelChange();
         }
 
         function submit() {
