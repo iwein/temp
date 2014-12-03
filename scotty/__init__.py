@@ -102,7 +102,8 @@ def main(global_config, **settings):
                           authentication_policy=AuthProvider(settings),
                           authorization_policy=ACLAuthorizationPolicy(),
                           session_factory=session_factory_from_settings(settings),
-                          root_factory=RootResource)
+                          root_factory=RootResource,
+                          default_permission='default_permission')
 
     config.add_directive('add_mako_renderer', pyramid_mako.add_mako_renderer)
     config.add_mako_renderer(".html")

@@ -6,13 +6,16 @@ Authentication works in 2 stages:
 import logging
 
 from pyramid.authentication import CallbackAuthenticationPolicy
-from pyramid.security import Allow, ALL_PERMISSIONS, Authenticated, Everyone
+from pyramid.security import Allow, ALL_PERMISSIONS, Authenticated, Everyone, Deny
 from scotty.tools import split_strip
+from sqlalchemy.dialects.postgresql import All
 
 
-ADMIN_USER = 'ADMIN_USER'
-CANDIDATE = 'CANDIDATE'
-EMPLOYER = 'EMPLOYER'
+ADMIN_USER = 'scotty.ADMIN_USER'
+CANDIDATE = 'scotty.CANDIDATE'
+EMPLOYER = 'scotty.EMPLOYER'
+
+ADMIN_PERM = 'scotty.ADMIN_PERMISSION'
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +25,9 @@ class RootResource(object):
     Central Principal -> Permission Translation
     """
     __acl__ = [
-        (Allow, Authenticated, ALL_PERMISSIONS)
+        (Allow, ADMIN_USER, ADMIN_PERM),
+        (Allow, Authenticated, 'default_permission'),
+        (Deny, All, ALL_PERMISSIONS)
     ]
 
     def __init__(self, request):

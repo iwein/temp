@@ -3,6 +3,7 @@ from datetime import datetime
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
 from pyramid.view import view_config
+from scotty.auth.provider import ADMIN_PERM
 from sqlalchemy.sql.elements import and_
 from scotty.candidate.services import get_candidates_by_techtags_pager
 from scotty.configuration.models import WithdrawalReason, RejectionReason
@@ -63,7 +64,7 @@ class SearchResultEmployer(Employer):
 
 
 class AdminInviteCodeController(RootController):
-    @view_config(route_name='admin_invite_codes', **GET)
+    @view_config(route_name='admin_invite_codes', permission=ADMIN_PERM, **GET)
     def list(self):
         cstatus = get_by_name_or_raise(CandidateStatus,
                                        self.request.params.get('candidate_status', CandidateStatus.ACTIVE))
@@ -79,7 +80,7 @@ class AdminInviteCodeController(RootController):
 
         return run_paginated_query(self.request, codes_query, serializer=serializer)
 
-    @view_config(route_name='admin_invite_codes', **POST)
+    @view_config(route_name='admin_invite_codes', permission=ADMIN_PERM, **POST)
     def create(self):
         code = self.request.json.get('code')
         if not code:
@@ -94,7 +95,7 @@ class AdminInviteCodeController(RootController):
 
 
 class AdminController(RootController):
-    @view_config(route_name='admin_employer', **POST)
+    @view_config(route_name='admin_employer', permission=ADMIN_PERM, **POST)
     def invite(self):
         try:
             employer = invite_employer(self.request.json)
@@ -104,7 +105,7 @@ class AdminController(RootController):
         self.request.emailer.send_employer_invite(employer.email, employer.contact_name, employer.company_name, employer.invite_token)
         return employer
 
-    @view_config(route_name='admin_employer_by_status', **GET)
+    @view_config(route_name='admin_employer_by_status', permission=ADMIN_PERM, **GET)
     def admin_employer_by_status(self):
         status = self.request.matchdict['status']
         query = DBSession.query(FullEmployer).filter(*FullEmployer.by_status(status))
@@ -115,7 +116,7 @@ class AdminController(RootController):
 
         return run_paginated_query(self.request, query)
 
-    @view_config(route_name='admin_employer_approve', **GET)
+    @view_config(route_name='admin_employer_approve', permission=ADMIN_PERM, **GET)
     def admin_employer_approve(self):
         employer_id = self.request.matchdict['employer_id']
         employer = DBSession.query(FullEmployer).get(employer_id)
@@ -127,7 +128,7 @@ class AdminController(RootController):
                                                     company_name=employer.company_name,)
         return employer
 
-    @view_config(route_name='admin_candidate_approve', **GET)
+    @view_config(route_name='admin_candidate_approve', permission=ADMIN_PERM, **GET)
     def admin_candidate_approve(self):
         candidate_id = self.request.matchdict['candidate_id']
         candidate = DBSession.query(Candidate).get(candidate_id)
@@ -136,7 +137,7 @@ class AdminController(RootController):
         candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
         return candidate
 
-    @view_config(route_name="admin_search_candidates", **GET)
+    @view_config(route_name="admin_search_candidates", permission=ADMIN_PERM, **GET)
     def admin_search_candidates(self):
         params = self.request.params
         q = params.get('q')
@@ -160,7 +161,7 @@ class AdminController(RootController):
             result = run_paginated_query(self.request, basequery)
         return result
 
-    @view_config(route_name="admin_search_employer", **GET)
+    @view_config(route_name="admin_search_employer", permission=ADMIN_PERM, **GET)
     def admin_search_employer(self):
         q = self.request.params['q'].lower()
         base_query = DBSession.query(SearchResultEmployer).filter(
@@ -178,7 +179,7 @@ class AdminOfferController(RootController):
             raise HTTPNotFound("Offer not found")
         return offer
 
-    @view_config(route_name='admin_offers', **GET)
+    @view_config(route_name='admin_offers', permission=ADMIN_PERM, **GET)
     def admin_offers(self):
         query = DBSession.query(FullOffer).options(joinedload('technologies'), joinedload('role'),
                                                    joinedload('location'), joinedload('benefits'),
@@ -195,7 +196,7 @@ class AdminOfferController(RootController):
 
         return run_paginated_query(self.request, query, default_limit=50)
 
-    @view_config(route_name='admin_offer', **GET)
+    @view_config(route_name='admin_offer', permission=ADMIN_PERM, **GET)
     def admin_offer(self):
         return self.offer
 
@@ -207,11 +208,11 @@ class AdminOfferController(RootController):
             raise HTTPBadRequest(e.message)
         return self.offer.full_status_flow
 
-    @view_config(route_name='admin_offer_status', **GET)
+    @view_config(route_name='admin_offer_status', permission=ADMIN_PERM, **GET)
     def admin_get_offer_status(self):
         return self.offer.full_status_flow
 
-    @view_config(route_name='admin_offer_signed', **POST)
+    @view_config(route_name='admin_offer_signed', permission=ADMIN_PERM, **POST)
     def contract_signed(self):
         try:
             offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
@@ -220,7 +221,7 @@ class AdminOfferController(RootController):
         DBSession.flush()
         return offer.full_status_flow
 
-    @view_config(route_name='admin_offer_withdraw', **POST)
+    @view_config(route_name='admin_offer_withdraw', permission=ADMIN_PERM, **POST)
     def withdraw(self):
         reason = get_by_name_or_raise(WithdrawalReason, self.request.json['reason'])
         try:
@@ -230,7 +231,7 @@ class AdminOfferController(RootController):
         DBSession.flush()
         return self.offer.full_status_flow
 
-    @view_config(route_name='admin_offer_accept', **POST)
+    @view_config(route_name='admin_offer_accept', permission=ADMIN_PERM, **POST)
     def accept(self):
         try:
             self.offer.accept(**self.request.json)
@@ -239,7 +240,7 @@ class AdminOfferController(RootController):
         DBSession.flush()
         return self.offer.full_status_flow
 
-    @view_config(route_name='admin_offer_reject', **POST)
+    @view_config(route_name='admin_offer_reject', permission=ADMIN_PERM, **POST)
     def reject(self):
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
         try:
@@ -249,7 +250,7 @@ class AdminOfferController(RootController):
         DBSession.flush()
         return self.offer.full_status_flow
 
-    @view_config(route_name='admin_offer_rollback', **POST)
+    @view_config(route_name='admin_offer_rollback', permission=ADMIN_PERM, **POST)
     def rollback(self):
         try:
             self.offer.rollback()

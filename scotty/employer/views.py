@@ -1,4 +1,6 @@
 from datetime import datetime
+from pyramid.security import NO_PERMISSION_REQUIRED
+from scotty.auth.provider import ADMIN_PERM
 from sqlalchemy import or_, func
 
 from pyramid.decorator import reify
@@ -61,11 +63,11 @@ class EmployerInviteController(RootController):
             raise HTTPNotFound("Unknown Invite Token: %s" % token)
         return employer
 
-    @view_config(route_name='employers_invite', **GET)
+    @view_config(route_name='employers_invite', permission=NO_PERMISSION_REQUIRED, **GET)
     def validate_invite(self):
         return self.invited_employer
 
-    @view_config(route_name='employers_invite', **POST)
+    @view_config(route_name='employers_invite', permission=NO_PERMISSION_REQUIRED, **POST)
     def respond_invite(self):
         employer = self.invited_employer
         employer.password = self.request.json['pwd']
@@ -130,7 +132,7 @@ class EmployerController(RootController):
             result = run_paginated_query(self.request, basequery)
         return result
 
-    @view_config(route_name='employer_signup_stage', **GET)
+    @view_config(route_name='employer_signup_stage', permission=NO_PERMISSION_REQUIRED, **GET)
     def signup_stage(self):
         employer = self.employer
         workflow = {'status': employer.status, 'ordering': ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'],
@@ -159,12 +161,12 @@ class EmployerController(RootController):
                                                    employer.id)
         return self.employer
 
-    @view_config(route_name='employer', **DELETE)
+    @view_config(route_name='employer', permission=ADMIN_PERM, **DELETE)
     def delete(self):
         DBSession.delete(self.employer)
         return {"status": "success"}
 
-    @view_config(route_name='employer_login', **POST)
+    @view_config(route_name='employer_login', permission=NO_PERMISSION_REQUIRED, **POST)
     def login(self):
         employer = employer_from_login(self.request.json)
         if not employer:
@@ -172,7 +174,7 @@ class EmployerController(RootController):
         self.request.session['employer_id'] = employer.id
         return employer
 
-    @view_config(route_name='employer_logout', **GET)
+    @view_config(route_name='employer_logout', permission=NO_PERMISSION_REQUIRED, **GET)
     def logout(self):
         self.request.session.invalidate()
         return {'success': True}
@@ -293,19 +295,19 @@ class EmployerPasswordController(RootController):
         self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
                                                      employer.company_name, employer.pwdforgot_token)
 
-    @view_config(route_name='employer_requestpassword', **POST)
+    @view_config(route_name='employer_requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def requestpassword(self):
         email = self.request.json['email']
         resend = bool(self.request.json.get('resend'))
         return requestpassword(Employer, email, resend, self.send_email)
 
 
-    @view_config(route_name='employer_resetpassword', **GET)
+    @view_config(route_name='employer_resetpassword', permission=NO_PERMISSION_REQUIRED, **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
         return validatepassword(Employer, token)
 
-    @view_config(route_name='employer_resetpassword', **POST)
+    @view_config(route_name='employer_resetpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def resetpassword(self):
         token = self.request.matchdict['token']
         pwd = self.request.json['pwd']
