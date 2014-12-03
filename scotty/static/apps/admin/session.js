@@ -5,8 +5,8 @@ define(function(require) {
   var Office = require('apps/common/offer');
   var Employer = require('apps/common/employer');
   var Candidate = require('apps/common/candidate');
-  var apiKey = 'apikey=6b23dd93c33e4100ce9332eff5df6e7b01e5a289681cdff';
-  var getParams = '?' + apiKey;
+  var apiKey = require('conf').admin_key;
+  var getParams = '?apikey=' + apiKey;
 
   function AdminSession(api, promise) {
     this._api = api;
