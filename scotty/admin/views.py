@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest, HTTPFound
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
 from sqlalchemy.sql.elements import and_
@@ -27,6 +27,9 @@ from sqlalchemy.orm import joinedload_all, joinedload
 def includeme(config):
     config.add_route('admin_search_employer', 'search/employers')
     config.add_route('admin_search_candidates', 'search/candidates')
+
+    config.add_route('admin_sudo_employer', 'sudo/employer/:id')
+    config.add_route('admin_sudo_candidate', 'sudo/candidate/:id')
 
     config.add_route('admin_employer', 'employers')
     config.add_route('admin_employer_by_status', 'employers/{status}')
@@ -95,6 +98,26 @@ class AdminInviteCodeController(RootController):
 
 
 class AdminController(RootController):
+    @view_config(route_name='admin_sudo_employer', permission=ADMIN_PERM, **GET)
+    def sudo_employer(self):
+        employer_id = self.request.matchdict['id']
+        employer = DBSession.query(Employer).get(employer_id)
+        if not employer:
+            raise HTTPNotFound('Unknown employer id')
+        else:
+            self.request.session['employer_id'] = employer.id
+        raise HTTPFound('/employer')
+
+    @view_config(route_name='admin_sudo_candidate', permission=ADMIN_PERM, **GET)
+    def sudo_candidate(self):
+        candidate_id = self.request.matchdict['id']
+        candidate = DBSession.query(Candidate).get(candidate_id)
+        if not candidate:
+            raise HTTPNotFound('Unknown candidate id')
+        else:
+            self.request.session['candidate_id'] = candidate.id
+        raise HTTPFound('/candidate')
+
     @view_config(route_name='admin_employer', permission=ADMIN_PERM, **POST)
     def invite(self):
         try:
