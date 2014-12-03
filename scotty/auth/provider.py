@@ -8,7 +8,6 @@ import logging
 from pyramid.authentication import CallbackAuthenticationPolicy
 from pyramid.security import Allow, ALL_PERMISSIONS, Authenticated, Everyone, Deny
 from scotty.tools import split_strip
-from sqlalchemy.dialects.postgresql import All
 
 
 ADMIN_USER = 'scotty.ADMIN_USER'
@@ -27,7 +26,7 @@ class RootResource(object):
     __acl__ = [
         (Allow, ADMIN_USER, ADMIN_PERM),
         (Allow, Authenticated, 'default_permission'),
-        (Deny, All, ALL_PERMISSIONS)
+        (Deny, Everyone, ALL_PERMISSIONS)
     ]
 
     def __init__(self, request):
