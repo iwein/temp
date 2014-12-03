@@ -126,17 +126,21 @@
             <div class="search-results">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
-              <hc-employer
-                ng-repeat="employer in employers"
-                ng-model="employer"
-                hc-link-profile>
-              </hc-employer>
+              <div ng-show="!loading">
+                <div ng-show="searchResults.length">{{ searchResults.length }} employers found</div>
 
-              <ul class="pager-list">
-                <li ng-repeat="page in pages">
-                  <button type="button" ng-click="loadPage(page - 1)">{{ page }}</button>
-                </li>
-              <ul>
+                <hc-employer
+                  ng-repeat="employer in employers"
+                  ng-model="employer"
+                  hc-link-profile>
+                </hc-employer>
+
+                <ul class="pager-list" ng-show="pages.length > 1">
+                  <li ng-repeat="page in pages">
+                    <button type="button" ng-click="loadPage(page - 1)">{{ page }}</button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
