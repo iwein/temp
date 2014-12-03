@@ -13,7 +13,7 @@
           <span class="lt smbd gray-darker caps">Edit</span>
         </div>
 
-        <div class="col-sm-2 alg-cen" >
+        <div class="col-sm-2 alg-cen">
           <!--button type="button"
             class="btn btn-primary pull-right"
             ng-disabled="loading"
@@ -34,36 +34,36 @@
             <div class="col-sm-2 alg-cen pad-top-5">
               <i class="fa fa-pencil blue-link"
               ng-show="hcEditable"
-              ng-click="hcExperienceCtrl.setActive($index)"></i>
+              ng-click="hcEducationCtrl.setActive($index)"></i>
             </div>
             <div class="col-sm-2  alg-cen pad-top-5" >
-              <input type="checkbox" ng-model="entry.import">
+              <input type="checkbox" ng-model="entry.import" ng-change="importChange()">
             </div>
           </div>
+          <hc-education-form
+            ng-if="active === $index"
+            ng-model="entry"
+            hc-required="true"
+            hc-disabled="loading"
+            on-submit="edit($model, $form, $index)">
+
+            <div class="">
+              <button type="submit"
+                class="bg-green btn-small fl-rg mrg-lft"
+                ng-disabled="loading">
+                Done
+              </button>
+              <button type="button"
+                class="bg-gray-light btn-small fl-rg"
+                ng-disabled="loading"
+                ng-click="hcEducationCtrl.setActive(-1)">
+                Cancel
+              </button>
+            </div>
+          </hc-education-form>
         </div>
-        <hc-education-form
-          ng-if="active === $index"
-          ng-model="entry"
-          hc-required="true"
-          hc-disabled="loading"
-          on-submit="edit($model, $form, $index)">
 
-          <div class="">
-            <button type="submit"
-              class="bg-green btn-small fl-rg mrg-lft"
-              ng-disabled="loading">
-              Done
-            </button>
-            <button type="button"
-              class="bg-gray-light btn-small fl-rg"
-              ng-disabled="loading"
-              ng-click="hcEducationCtrl.setActive(-1)">
-              Cancel
-            </button>
-          </div>
-        </hc-education-form>
 
-    
 
         <div class="col-sm-12" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
           <button type="button"

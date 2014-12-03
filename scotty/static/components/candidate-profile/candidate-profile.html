@@ -468,7 +468,33 @@
                   <div class="col-sm-12">
                     <div class="user-desc">
                       <div class="">
-                        <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
+                        <div class="edit-main-title">
+                          <button class="add-panel-close" ng-click="xxxPosition.close()"><i class="fa fa-close"></i></button>
+                          <label><input type="checkbox"> Hide my name and picture from employers until i caccepted their offer.</label>
+                          <div class="buttons-wrap">
+                            <button type="submit"
+                              class="fl-rg bg-green btn-small mrg-lft-small"
+                              ng-disabled="loading">
+                              Save
+                            </button>
+                            <button type="button"
+                              class="fl-rg bg-gray-lighter2 btn-small"
+                              ng-click="targetPosition.close()"
+                              ng-disabled="loading">
+                              Cancel
+                            </button>
+                          </div>
+                          <div class="clearfix"></div>
+                        </div>
+                        <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}
+                           <button type="submit"
+                            class="btn-edit-sub no-fl"
+                            ng-show="isEditing"
+                            ng-disabled="loading || formOpen"
+                            ng-click="xxxPosition.edit()">
+                            <i class="fa fa-pencil"></i>
+                          </button>
+                        </h2>
                       </div>
                       <div class="emp-off-desc">
                         <!-- Edit target position div (remove class hidden to display)-->

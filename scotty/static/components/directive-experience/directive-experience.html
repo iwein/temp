@@ -23,7 +23,7 @@
             </button>
             <span class="lt smbd gray-darker caps" ng-show="adding || model.length">Add</span>
           </div>
-      
+
       <div class="col-sm-12" ng-repeat="entry in model">
         <div class="row mrg-top" ng-hide="active === $index">
 
@@ -31,7 +31,12 @@
             <div class="data-box">{{ entry.company }}</div>
           </div>
 
-          <div class="no-padd-right col-sm-4"><div class="data-box">{{ entry.start }} ({{ entry.end || 'current' }})</div></div>
+          <div class="no-padd-right col-sm-4">
+            <div class="data-box">
+              {{ entry.start | showMonthYear }}
+              ({{ entry.end || 'current' | showMonthYear }})
+            </div>
+          </div>
 
           <div class="col-sm-2 alg-cen pad-top-5">
             <i class="fa fa-pencil blue-link"
@@ -40,7 +45,7 @@
           </div>
 
           <div class="col-sm-2 alg-cen pad-top-5">
-            <input type="checkbox" ng-model="entry.import">
+            <input type="checkbox" ng-model="entry.import" ng-change="importChange()">
           </div>
 
         </div>

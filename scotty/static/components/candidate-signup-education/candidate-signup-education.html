@@ -3,26 +3,27 @@
     <div class="col-sm-12">
       <h3 class="signup-title">Education</h3>
 
-        <hc-education
-          name="list"
-          hc-source="listEducation()"
-          on-edit="update($entry, $index)"
-          on-add="add($entry)"
-          hc-editable="true"
-          hc-remove-last="true">
-        </hc-education>
+      <hc-education
+        name="list"
+        hc-source="listEducation()"
+        on-edit="update($entry, $index)"
+        on-add="add($entry)"
+        on-import-change="updateImports($list)"
+        hc-editable="true"
+        hc-remove-last="true">
+      </hc-education>
 
 
-        <div class="buttons-wrap mrg-top mrg-btm-30">
-          <button type="button"
-            class="bg-green btn-small fl-rg"
-            ng-disabled="list.length === 0"
-            ng-click="submit()">
-            Continue
-          </button>
-        </div>
+      <div class="buttons-wrap mrg-top mrg-btm-30">
+        <button type="button"
+          class="bg-green btn-small fl-rg"
+          ng-disabled="!someImport"
+          ng-click="submit()">
+          Continue
+        </button>
       </div>
     </div>
+  </div>
 
   <div class="col-sm-4">
 
@@ -34,7 +35,7 @@
           <p>
             What and where did you study? No need to mention your A-levels, just name the University, College or other higher education you received.
           </p>
-        
+
         </div>
       </div>
     </div>

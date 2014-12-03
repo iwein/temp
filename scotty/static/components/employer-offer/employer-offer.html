@@ -115,7 +115,9 @@
             <div class="col-sm-10">
               <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
               <div class="note" ng-if="entry.name === 'REJECTED'">
-                <a ui-sref="candidate({ id: entry.candidate.id })">{{ entry.candidate.first_name }} {{ entry.candidate.last_name }}</a>
+                <a ui-sref="candidate({ id: entry.candidate.id })">
+                  {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+                </a>
                 had turned down the offer
               </div>
               <div class="note" ng-if="entry.name === 'WITHDRAWN'">
@@ -123,24 +125,34 @@
               </div>
               <div class="note" ng-if="entry.name === 'OFFER_MADE'">
                 Awesome, you sent an offer to
-                <a ui-sref="candidate({ id: entry.candidate.id })">{{ entry.candidate.first_name }} {{ entry.candidate.last_name }}</a>
+                <a ui-sref="candidate({ id: entry.candidate.id })">
+                  {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+                </a>
               </div>
               <div class="note" ng-if="entry.name === 'ACCEPTED'">
                 Brilliant
-                <a ui-sref="candidate({ id: entry.candidate.id })">{{ entry.candidate.first_name }} {{ entry.candidate.last_name }}</a>
+                <a ui-sref="candidate({ id: entry.candidate.id })">
+                  {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+                </a>
                 had accepted an interview with you
               </div>
               <div class="note" ng-if="entry.name === 'INTERVIEWING'">
                 Great! you have started interviewing with
-                <a ui-sref="candidate({ id: entry.candidate.id })">{{ entry.candidate.first_name }} {{ entry.candidate.last_name }}</a>
+                <a ui-sref="candidate({ id: entry.candidate.id })">
+                  {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+                </a>
               </div>
               <div class="note" ng-if="entry.name === 'NEGOCIATING'">
                 Nearly there, you have started negotiating the details with
-                <a ui-sref="candidate({ id: entry.candidate.id })">{{ entry.candidate.first_name }} {{ entry.candidate.last_name }}</a>
+                <a ui-sref="candidate({ id: entry.candidate.id })">
+                  {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+                </a>
               </div>
               <div class="note" ng-if="entry.name === 'CONTRACT_SIGNED'">
                 Winning! you have signed a contract with
-                <a ui-sref="candidate({ id: entry.candidate.id })">{{ entry.candidate.first_name }} {{ entry.candidate.last_name }}</a>
+                <a ui-sref="candidate({ id: entry.candidate.id })">
+                  {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+                </a>
                 and will receive your golden handshake soon
               </div>
             </div>
@@ -177,7 +189,9 @@
           <div class="col-sm-12 padd-vert status-{{offer.status}}">
             <div class="font-22">
               <span class="iconParent"><i class="fa fa-euro"></i></span>
-              <span class="smbd custom">{{ offer.data.annual_salary | dottedInteger }}.00</span>
+              <span class="smbd custom">
+                {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
+              </span>
               / year
             </div>
             <div class="font-22">

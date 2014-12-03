@@ -10,6 +10,7 @@ define(function(require) {
 
   module.controller('CandidateSignupExperienceCtrl', function($scope, $q, toaster, Loader, Session) {
     $scope.listExperience = listExperience;
+    $scope.updateImports = updateImports;
     $scope.update = update;
     $scope.add = add;
     $scope.submit = submit;
@@ -31,6 +32,8 @@ define(function(require) {
     }).then(function(load) {
       if (load)
         return importLinkedin();
+    }).then(function() {
+      updateImports(list);
     }).finally(function() {
       $scope.list.refresh();
       Loader.page(false);
@@ -44,13 +47,19 @@ define(function(require) {
     function update(entry, index) {
       entry.import = true;
       list[index] = entry;
+      updateImports(list);
       return $q.when(true);
     }
 
     function add(entry) {
       entry.import = true;
       list.push(entry);
+      updateImports(list);
       return $q.when(true);
+    }
+
+    function updateImports(list) {
+      $scope.someImport = list.some(fn.get('import'));
     }
 
     function importLinkedin() {

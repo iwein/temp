@@ -106,6 +106,7 @@
         "dist/disclaimer.html",
         "dist/faq.html",
         "dist/imprint.html",
+        "dist/login.html",
         "dist/terms-of-service.html"
       ]
     }

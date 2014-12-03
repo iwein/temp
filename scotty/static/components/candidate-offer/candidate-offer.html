@@ -132,7 +132,9 @@
           <div class="col-sm-12 padd-vert status-{{offer.status}}">
             <div class="font-22">
               <span class="iconParent"><i class="fa fa-euro"></i></span>
-              <span class="smbd custom">{{ offer.data.annual_salary | dottedInteger }}.00</span>
+              <span class="smbd custom">
+                {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
+              </span>
               / year
             </div>
             <div class="font-22">
