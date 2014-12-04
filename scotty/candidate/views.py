@@ -24,7 +24,7 @@ from scotty.configuration.models import RejectionReason, Skill, City, Role, Coun
 from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
-from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer
+from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer, Offer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
 from scotty.services.pagingservice import ObjectBuilder, PseudoPager
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
@@ -420,7 +420,8 @@ class CandidateOfferController(CandidateController):
         if self.is_me:
             return self.candidate.offers
         else:
-            offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active()).all()
+            offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active())\
+                .filter(Offer.candidate_id == self.candidate.id).all()
             return offers
 
     @view_config(route_name='candidate_offer', **GET)
