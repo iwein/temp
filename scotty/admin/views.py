@@ -188,7 +188,7 @@ class AdminController(RootController):
 
         if tags:
             pager = get_candidates_by_techtags_pager(tags, None)
-            result = ObjectBuilder(SearchResultCandidate).serialize(pager, adjust_query=adjust_query)
+            result = ObjectBuilder(SearchResultCandidate, joins=adjust_query).serialize(pager)
         else:
             basequery = adjust_query(DBSession.query(SearchResultCandidate), q)
             result = run_paginated_query(self.request, basequery)
