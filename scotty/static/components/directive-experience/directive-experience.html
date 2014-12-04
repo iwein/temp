@@ -5,50 +5,38 @@
     </h3>
   </div>
   <ul>
-    <li class="bg-gray-lighter pad-30">
+    <li class="bg-gray-lighter pad-30" ng-show="model.length">
       <div class="row">
+        <div class="caps blue-link smbd lt col-sm-4">Company</div>
+        <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
+        <div class="col-sm-2 alg-cen">
+          <span class="lt smbd gray-darker caps">Edit</span>
+        </div>
+        <div class="col-sm-2 alg-cen">
+          <span class="lt smbd gray-darker caps">Add</span>
+        </div>
 
-          <div class="caps blue-link smbd lt col-sm-4">Company</div>
-          <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
-          <div class="col-sm-2 alg-cen">
-            <span class="lt smbd gray-darker caps">Edit</span>
-          </div>
-          <div class="col-sm-2 alg-cen" >
-            <button type="button"
-              class="add-btn no-fl no-marg-top"
-              ng-show="!adding && !model.length"
-              ng-disabled="loading"
-              ng-click="hcExperienceCtrl.setAdding(true)">
-              <i class="fa fa-plus"></i> Add
-            </button>
-            <span class="lt smbd gray-darker caps" ng-show="adding || model.length">Add</span>
-          </div>
-
-      <div class="col-sm-12" ng-repeat="entry in model">
-        <div class="row mrg-top" ng-hide="active === $index">
-
-          <div class="col-sm-4 no-padd-right">
-            <div class="data-box">{{ entry.company }}</div>
-          </div>
-
-          <div class="no-padd-right col-sm-4">
-            <div class="data-box">
-              {{ entry.start | showMonthYear }}
-              ({{ entry.end || 'current' | showMonthYear }})
+        <div class="col-sm-12" ng-repeat="entry in model">
+          <div class="row mrg-top" ng-hide="active === $index">
+            <div class="col-sm-4 no-padd-right">
+              <div class="data-box">{{ entry.company }}</div>
+            </div>
+            <div class="no-padd-right col-sm-4">
+              <div class="data-box">
+                {{ entry.start | showMonthYear }}
+                ({{ entry.end || 'current' | showMonthYear }})
+              </div>
+            </div>
+            <div class="col-sm-2 alg-cen pad-top-5">
+              <i class="fa fa-pencil blue-link"
+                ng-show="hcEditable"
+                ng-click="hcExperienceCtrl.setActive($index)"></i>
+            </div>
+            <div class="col-sm-2 alg-cen pad-top-5">
+              <input type="checkbox" ng-model="entry.import" ng-change="importChange()">
             </div>
           </div>
 
-          <div class="col-sm-2 alg-cen pad-top-5">
-            <i class="fa fa-pencil blue-link"
-              ng-show="hcEditable"
-              ng-click="hcExperienceCtrl.setActive($index)"></i>
-          </div>
-
-          <div class="col-sm-2 alg-cen pad-top-5">
-            <input type="checkbox" ng-model="entry.import" ng-change="importChange()">
-          </div>
-
-        </div>
           <hc-experience-form
             ng-if="active === $index"
             ng-model="entry"
@@ -72,17 +60,17 @@
               </div>
             </div>
           </hc-experience-form>
-      </div>
-      <div class="col-sm-12" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd && (adding || model.length)">
-        <button type="button"
-          class="add-btn no-fl"
-          ng-disabled="loading"
-          ng-click="hcExperienceCtrl.setAdding(true)">
-          <i class="fa fa-plus"></i> Add
-        </button>
-        <div class="clearfix"></div>
-      </div>
+        </div>
 
+        <div class="col-sm-12" ng-if="hcEditable" ng-show="!editing && !adding && !hcAutomaticAdd">
+          <button type="button"
+            class="add-btn no-fl"
+            ng-disabled="loading"
+            ng-click="hcExperienceCtrl.setAdding(true)">
+            <i class="fa fa-plus"></i> Add
+          </button>
+          <div class="clearfix"></div>
+        </div>
     </li>
 
 
@@ -94,7 +82,7 @@
         hc-disabled="loading"
         on-submit="submit($model, $form, model.length)">
 
-        <div class="">
+        <div>
           <div class="buttons-wrap">
             <button type="submit"
               class="bg-green btn-small fl-rg mrg-lft"
@@ -102,7 +90,7 @@
               Save
             </button>
             <button type="button"
-              ng-show="adding"
+              ng-show="adding && model.length"
               class="bg-gray-light btn-small fl-rg"
               ng-disabled="loading"
               ng-click="hcExperienceCtrl.setAdding(false)">
