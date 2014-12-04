@@ -26,7 +26,7 @@ define(function(require) {
         $scope.anywhereInGermany = true;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
-        $scope.model.preferred_locations = $scope.model.preferred_locations || {};
+        $scope.model.preferred_locations = $scope.model.preferred_locations || { 'DE': [] };
         $scope.preferred_locations = [];
         this.save = save;
         this.reset = reset;

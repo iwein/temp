@@ -18,6 +18,34 @@
       </div>
     </div>
 
+    <div class="profile-workflow" ng-if="!isEditing && completionStage">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form ng-show="completionStage === 'summary'" ng-submit="sendCompletion(completion)">
+            <div class="form-group required">
+              <label>Summary</label>
+              <textarea class="form-control" required ng-model="completion.summary">
+              </textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+
+          <form ng-show="completionStage === 'availability'" ng-submit="sendCompletion(completion)">
+            <div class="form-group required">
+              <label>Availability</label>
+              <textarea class="form-control" required ng-model="completion.availability">
+              </textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
       <div class="row">
         <div class="col-sm-3">
           <div class="row">
