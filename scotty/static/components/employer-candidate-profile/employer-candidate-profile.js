@@ -51,7 +51,7 @@ define(function(require) {
           var nonAccepted = finalStatus.concat([ 'ACTIVE' ]);
           $scope.accepted = offers
             .filter(function(entry) { return entry.data.employer.id === user.id })
-            .some(function(entry) { return finalStatus.indexOf(entry.status) === -1 });
+            .some(function(entry) { return nonAccepted.indexOf(entry.status) === -1 });
         });
 
         // TIMELINE
