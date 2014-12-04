@@ -86,7 +86,7 @@
 
                 <div class="col-sm-6">
                   <div class="row">
-                    <div class="col-sm-3 search-label">Skills</div>
+                    <div class="col-sm-3 search-label font-12">Skills</div>
                     <div class="col-sm-9 no-padd-left">
                       <hc-label-typeahead
                         placeholder="Skills"
@@ -99,7 +99,7 @@
 
                 <div class="col-sm-6">
                   <div class="row">
-                    <div class="col-sm-3 search-label no-padd-left">Location</div>
+                    <div class="col-sm-3 search-label no-padd-left font-12">Location</div>
                     <div class="col-sm-9 no-padd-left">
                       <input type="text"
                         class="form-control"
@@ -123,11 +123,11 @@
               </div>
             </div>
 
-            <div class="search-results">
+            <div class="search-results" ng-show="searchResults.length">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
               <div ng-show="!loading">
-                <div ng-show="searchResults.length">{{ searchResults.length }} employers found</div>
+                <div ng-show="searchResults.length" class="search-response">{{ searchResults.length }} employers found</div>
 
                 <hc-employer
                   ng-repeat="employer in employers"

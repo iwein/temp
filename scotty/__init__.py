@@ -105,6 +105,11 @@ def main(global_config, **settings):
                           root_factory=RootResource,
                           default_permission='default_permission')
 
+    def get_front_end_domain(request):
+        return settings['frontend.domain']
+
+    config.add_request_method(get_front_end_domain, 'frontend_domain', reify=True)
+
     config.add_directive('add_mako_renderer', pyramid_mako.add_mako_renderer)
     config.add_mako_renderer(".html")
 
