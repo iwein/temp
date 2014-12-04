@@ -74,9 +74,10 @@ define(function(require) {
           return a.start - b.start;
         });
 
-
-        $q.all(offers.slice(0, 3).map(fn.invoke('getData', [])))
-          .then(fn.setTo('offers', $scope));
+        $scope.offers = offers
+          .sort(function(a, b) { return b.data.annual_salary - a.data.annual_salary })
+          .slice(0, 3)
+          .map(fn.get('data'));
 
         $scope.cities = user.preferred_location;
         $scope.languages = user.languages;

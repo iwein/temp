@@ -223,7 +223,11 @@ define(function(require) {
         ]);
       }).then(function(data) {
         var user = data[0];
-        $scope.offers = data[2].slice(0, 3);
+        $scope.offers = data[2]
+          .sort(function(a, b) { return b.data.annual_salary - a.data.annual_salary })
+          .slice(0, 3)
+          .map(fn.get('data'));
+
         $scope.highestDegree = data[3];
         $scope.targetPosition.data = data[1];
         $scope.skills.data = user.skills;
