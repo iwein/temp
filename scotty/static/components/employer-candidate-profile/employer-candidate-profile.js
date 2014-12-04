@@ -37,7 +37,7 @@ define(function(require) {
         $scope.highestDegree = data[5];
 
         $scope.offerSent = offers.some(function(entry) {
-          return entry.data.employer_id === Session.user.id;
+          return entry.data.employer.id === Session.user.id;
         });
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
@@ -47,12 +47,10 @@ define(function(require) {
           return summary || 'reviewing';
         }, null) || 'searching';
 
-        Session.getUser().then(function(user) {
-          var nonAccepted = finalStatus.concat([ 'ACTIVE' ]);
-          $scope.accepted = offers
-            .filter(function(entry) { return entry.data.employer.id === user.id })
-            .some(function(entry) { return nonAccepted.indexOf(entry.status) === -1 });
-        });
+        var nonAccepted = finalStatus.concat([ 'ACTIVE' ]);
+        $scope.accepted = offers
+          .filter(function(entry) { return entry.data.employer.id === Session.user.id })
+          .some(function(entry) { return nonAccepted.indexOf(entry.status) === -1 });
 
         // TIMELINE
 
