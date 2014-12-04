@@ -16,6 +16,18 @@ define(function(require) {
   AdminSession.prototype = {
     constructor: AdminSession,
 
+    getLoginAsEmployerLink: function(employer) {
+      if (!employer) return '';
+      return this._api.root() + '/admin/sudo/employer/' + employer.id + getParams +
+        '&furl=' + document.location.origin + document.location.pathname + '../employer';
+    },
+
+    getLoginAsCandidateLink: function(candidate) {
+      if (!candidate) return '';
+      return this._api.root() + '/admin/sudo/candidate/' + candidate.id + getParams +
+        '&furl=' + document.location.origin + document.location.pathname + '../candidate';
+    },
+
     inviteEmployer: function(model) {
       return this._api.post('/admin/employers' + getParams, model);
     },

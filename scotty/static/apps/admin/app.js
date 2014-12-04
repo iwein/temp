@@ -22,7 +22,8 @@ define(function(require) {
       ;
   });
 
-  module.run(function($templateCache) {
+  module.run(function($rootScope, $templateCache, Session) {
+    $rootScope.session = Session;
     $templateCache.put('navbar.html', require('text!./navbar.html'));
   });
 
