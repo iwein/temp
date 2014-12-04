@@ -91,14 +91,15 @@ class CandidateController(RootController):
     def candidate(self):
         candidate_id = self.request.matchdict["candidate_id"]
         if candidate_id == 'me':
-            if not self.request.candidate_id:
+            candidate_id = self.request.candidate_id
+            if not candidate_id:
                 raise HTTPForbidden("Not logged in.")
         candidate = DBSession.query(self.model_cls).options(joinedload_all('skills.skill'),
                                                             joinedload_all('skills.level'),
                                                             joinedload_all('languages.language'),
                                                             joinedload_all('languages.proficiency'),
                                                             joinedload_all('work_experience.company'),
-                                                            joinedload_all('work_experience.skills')).get(self.request.candidate_id)
+                                                            joinedload_all('work_experience.skills')).get(candidate_id)
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         return candidate
