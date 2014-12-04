@@ -1,10 +1,7 @@
-from functools import wraps
-
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
-from pyramid.view import view_config
-
 import json
 
+from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection
+from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
 from pyramid.response import Response
 from sqlalchemy.exc import DBAPIError
@@ -21,6 +18,8 @@ def all_error(exc, request):
 
 
 def http_error(exc, request):
+    if isinstance(exc, HTTPRedirection):
+        return exc
     return Response(json.dumps({'db_message': exc.detail}), status_code=exc.code,
                     headers=[('Content-Type', 'application/json')])
 

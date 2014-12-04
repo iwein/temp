@@ -106,7 +106,7 @@ class AdminController(RootController):
             raise HTTPNotFound('Unknown employer id')
         else:
             self.request.session['employer_id'] = employer.id
-        raise HTTPFound('/employer')
+        raise HTTPFound('http://%s/employer' % self.request.frontend_domain)
 
     @view_config(route_name='admin_sudo_candidate', permission=ADMIN_PERM, **GET)
     def sudo_candidate(self):
@@ -116,7 +116,7 @@ class AdminController(RootController):
             raise HTTPNotFound('Unknown candidate id')
         else:
             self.request.session['candidate_id'] = candidate.id
-        raise HTTPFound('/candidate')
+        raise HTTPFound('http://%s/candidate' % self.request.frontend_domain)
 
     @view_config(route_name='admin_employer', permission=ADMIN_PERM, **POST)
     def invite(self):
