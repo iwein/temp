@@ -264,7 +264,6 @@ define(function(require) {
 
     function updateCompletionStage() {
       return Session.getCompletionStage().then(function(result) {
-        console.log('COMPLETION STAGE', result);
         $scope.completionStage = result;
       });
     }
