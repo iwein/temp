@@ -17,6 +17,10 @@
       </div>
     </div>
 
+    <a ng-href="{{ session.getLoginAsEmployerLink(employer) }}">
+      Login as this employer
+    </a>
+
     <div class="page-header">
       <h1>
         <img class="logo" ng-show="data.logo_url" ng-src="{{ data.logo_url }}">

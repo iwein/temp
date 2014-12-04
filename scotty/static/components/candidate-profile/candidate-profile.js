@@ -20,6 +20,7 @@ define(function(require) {
     $scope.searchCities = ConfigAPI.locations;
     $scope.onSalaryChange = onSalaryChange;
     $scope.updateLocations = updateLocations;
+    $scope.sendCompletion = sendCompletion;
     $scope.isEditing = false;
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
@@ -218,6 +219,7 @@ define(function(require) {
           user.getHighestDegree(),
           experience.refresh(),
           education.refresh(),
+          updateCompletionStage(),
         ]);
       }).then(function(data) {
         var user = data[0];
@@ -249,6 +251,20 @@ define(function(require) {
           if (value.status === 'CONTRACT_SIGNED') return 'hired';
           return summary || 'reviewing';
         }, null) || 'searching';
+      });
+    }
+
+    function sendCompletion(model) {
+      Loader.add('profile-completion');
+      return Session.getUser()
+        .then(function(user) { return user.updateData(model) })
+        .then(refresh)
+        .finally(function() { Loader.remove('profile-completion') });
+    }
+
+    function updateCompletionStage() {
+      return Session.getCompletionStage().then(function(result) {
+        $scope.completionStage = result;
       });
     }
 
