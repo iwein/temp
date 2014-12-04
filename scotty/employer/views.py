@@ -90,7 +90,7 @@ class EmployerController(RootController):
             raise HTTPNotFound("Unknown Employer ID")
         return employer
 
-    @view_config(route_name='employers', **POST)
+    @view_config(route_name='employers', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup(self):
         try:
             employer = employer_from_signup(self.request.json)
