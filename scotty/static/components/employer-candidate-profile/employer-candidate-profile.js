@@ -74,9 +74,17 @@ define(function(require) {
           return a.start - b.start;
         });
 
+        $scope.offers = offers
+          .map(fn.get('data'))
+          .sort(function(a, b) { return b.annual_salary - a.annual_salary })
+          .slice(0, 3);
 
-        $q.all(offers.slice(0, 3).map(fn.invoke('getData', [])))
-          .then(fn.setTo('offers', $scope));
+        var counter = 0;
+        $scope.offers.forEach(function(entry) {
+          var employer = entry.employer;
+          if (employer.company_name.toLowerCase() === 'company')
+            employer.company_name = employer.company_name + ' ' + (counter++);
+        });
 
         $scope.cities = user.preferred_location;
         $scope.languages = user.languages;
