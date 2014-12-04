@@ -8,7 +8,7 @@ define(function(require) {
     Loader, ConfigAPI, Permission, Session) {
 
     Loader.page(true);
-    Permission.requireActivated().then(function() {
+    Permission.requireSignup().then(function() {
 
       Session.getUser().then(function(user) {
         return user.getOffers();

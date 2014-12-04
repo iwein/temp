@@ -5,7 +5,7 @@ define(function(require) {
 
   module.controller('CandidateSignupApproveCtrl', function($scope, $state, Session) {
     $scope.ready = false;
-    Session.isActivated().then(function(approved) {
+    Session.isSignupComplete().then(function(approved) {
       if (approved)
         $state.go('profile');
     }).finally(function() {

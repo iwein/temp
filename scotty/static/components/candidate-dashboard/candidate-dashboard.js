@@ -24,7 +24,7 @@ define(function(require) {
       });
     });
 
-    Permission.requireActivated().then(function() {
+    Permission.requireSignup().then(function() {
       $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {

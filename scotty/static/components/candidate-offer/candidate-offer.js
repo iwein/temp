@@ -16,7 +16,7 @@ define(function(require) {
     Loader.page(true);
     var email;
 
-    Permission.requireActivated().then(function() {
+    Permission.requireSignup().then(function() {
       $scope.id = $state.params.id;
 
       ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));

@@ -33,7 +33,7 @@ define(function(require) {
     ConfigAPI.countries({ limit: 500 })
       .then(fn.setTo('countries', $scope));
 
-    Permission.requireActivated()
+    Permission.requireSignup()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 

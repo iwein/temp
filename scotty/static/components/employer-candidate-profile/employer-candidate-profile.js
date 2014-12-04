@@ -16,7 +16,7 @@ define(function(require) {
       $scope[key] = !$scope[key];
     }
 
-    Permission.requireActivated()
+    Permission.requireSignup()
       .then(function() { return Session.getCandidate($scope.id) })
       .then(function(candidate) {
         $scope.candidate = candidate;

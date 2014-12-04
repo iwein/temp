@@ -14,10 +14,11 @@ define(function(require) {
       $scope.activated = activated;
     });
 
-    Permission.requireActivated().then(function() {
+    Permission.requireSignup().then(function() {
       this.toogleBookmark = toogleBookmark;
       $scope.toggle = toggle;
       $scope.id = $state.params.id;
+      $scope.approved = Session.isActivated();
 
       getIsBookmarked();
 

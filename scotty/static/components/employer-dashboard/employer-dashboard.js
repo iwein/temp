@@ -24,7 +24,7 @@ define(function(require) {
 
     ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
 
-    Permission.requireActivated().then(function() {
+    Permission.requireSignup().then(function() {
       return Session.getUser();
     }).then(function(user) {
       return $q.all([
