@@ -768,7 +768,7 @@
                     </hc-experience-form>
                   </div>
                   <!--End  EDIT panel -->
-                  <hc-accordion hc-hide-control="!entry.summary" ng-hide="experience.editing === $index">
+                  <hc-accordion hc-hide-control="!entry.summary && !entry.skills.length" ng-hide="experience.editing === $index">
                     <h3 class="accordion-subtitle">
                       {{ entry.role }}
                       <button type="button"
@@ -786,6 +786,10 @@
                       <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
                     </span>
                     <div class="accordion-text">{{ entry.summary }}</div>
+                    <div class="accordion-text" ng-show="entry.skills.length">
+                      <strong>Technologies/Skills:</strong>
+                      {{ entry.skills.join(', ') }}
+                    </div>
                   </hc-accordion>
                 </div>
               </div>
