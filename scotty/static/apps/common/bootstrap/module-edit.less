@@ -1,3 +1,4 @@
+
 .edit-user-pic-btn {
   position: absolute;
   left: 0;
@@ -75,6 +76,9 @@
     border: none !important;
     height: 150px;
   }
+  textarea.two-liner {
+    height: 2 * @line-height-computed;
+  }
 }
 .edit-panel {
   position: relative;
@@ -106,7 +110,7 @@
 
 .spacer {
   line-height: 30px;
-  text-align: center 
+  text-align: center
 }
 
 .error {
@@ -165,6 +169,9 @@
   textarea {
     border: none !important;
     height: 150px;
+  }
+  textarea.two-liner {
+    height: 52px;
   }
   span.close {
     font-size: 14px;
@@ -240,7 +247,7 @@
 .edit-textarea {
   margin: 0 -15px;
   background: @gray-lighter3;
-  padding: 20px 30px; 
+  padding: 20px 30px;
 }
 .edit-summary {
   background: @gray-lighter3;
@@ -350,7 +357,7 @@
     width: 100%;
     margin-bottom: 15px;
   }
-} 
+}
 
 .edit-main-title {
   margin: 0 15px;
