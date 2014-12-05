@@ -93,10 +93,11 @@ define(function(require) {
     _checkSignupStage: function(skip) {
       return this.getSignupStage().then(function(stage) {
         if (!stage) return false;
+        this.activated = stage.active;
         return stage.ordering.every(function(item) {
           return skip.indexOf(item) !== -1 || stage[item];
         });
-      });
+      }.bind(this));
     },
 
     isSignupComplete: function() {
