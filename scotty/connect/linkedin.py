@@ -6,6 +6,7 @@ import urllib
 
 from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 from pyramid.response import Response
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 import requests
 from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, \
@@ -20,25 +21,25 @@ SETTINGS = {'network': 'linkedin', 'default_picture': "//www.gravatar.com/avatar
 
 def includeme(config):
     config.add_route("api_connect_linkedin", pattern="linkedin", factory=SocialResource)
-    config.add_view(redirect_view, route_name="api_connect_linkedin")
+    config.add_view(redirect_view, route_name="api_connect_linkedin", permission=NO_PERMISSION_REQUIRED)
 
     config.add_route("api_connect_linkedin_cb", pattern="linkedin/cb", factory=SocialResource)
-    config.add_view(callback_view, route_name="api_connect_linkedin_cb")
+    config.add_view(callback_view, route_name="api_connect_linkedin_cb", permission=NO_PERMISSION_REQUIRED)
 
     config.add_route("api_connect_linkedin_me", pattern="linkedin/me", factory=SocialResource)
-    config.add_view(view_me, route_name="api_connect_linkedin_me")
+    config.add_view(view_me, route_name="api_connect_linkedin_me", permission=NO_PERMISSION_REQUIRED)
 
     config.add_route("api_connect_linkedin_me_forget", pattern="linkedin/me/forget", factory=SocialResource)
-    config.add_view(forget_my_profile, route_name="api_connect_linkedin_me_forget")
+    config.add_view(forget_my_profile, route_name="api_connect_linkedin_me_forget", permission=NO_PERMISSION_REQUIRED)
 
     config.add_route("api_connect_linkedin_wxp", pattern="linkedin/work_experience", factory=SocialResource)
-    config.add_view(view_my_positions, route_name="api_connect_linkedin_wxp")
+    config.add_view(view_my_positions, route_name="api_connect_linkedin_wxp", permission=NO_PERMISSION_REQUIRED)
 
     config.add_route("api_connect_linkedin_edu", pattern="linkedin/education", factory=SocialResource)
-    config.add_view(view_my_education, route_name="api_connect_linkedin_edu")
+    config.add_view(view_my_education, route_name="api_connect_linkedin_edu", permission=NO_PERMISSION_REQUIRED)
 
     config.add_route("api_connect_linkedin_profile", pattern="linkedin/profile", factory=SocialResource)
-    config.add_view(view_my_profile, route_name="api_connect_linkedin_profile")
+    config.add_view(view_my_profile, route_name="api_connect_linkedin_profile", permission=NO_PERMISSION_REQUIRED)
 
     settings = config.registry.settings
 

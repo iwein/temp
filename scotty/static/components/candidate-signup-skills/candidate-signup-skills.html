@@ -3,11 +3,11 @@
     <div class="col-sm-12">
       <h3 class="signup-title">Skills</h3>
       <hc-skills-form
-            name="form"
-            hc-disabled="loading"
-            on-submit="signupSkills.submit()">
+        name="form"
+        hc-disabled="loading"
+        on-submit="signupSkills.submit()">
         <div class="buttons-wrap mrg-top mrg-btm-30">
-          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading">Continue</button>
+          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading || !form.$valid">Continue</button>
         </div>
       </hc-skills-form>
     </div>
@@ -29,7 +29,7 @@
   several years of practical experience</p>
   <p><span class="smbd">Master</span></br>
   in-depth knowledge and comprehensive multi-project experience</p>
-        
+
         </div>
       </div>
     </div>

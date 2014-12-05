@@ -3,14 +3,13 @@
   <form name="formSignupUser" class="col-sm-8 form-horizontal bg-white" ng-submit="signupUser.submit()">
     <div class="col-sm-12">
       <h3 class="signup-title">Signup for free</h3>
-    
 
       <div class="form-group" ng-show="!imported && !linkedin.isConnected">
         <div class="col-sm-12">
           <hc-linkedin-connect ng-click="linkedin.connect()"></hc-linkedin-connect>
         </div>
       </div>
-    
+
       <div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">
         <div class="form-group required">
           <label class="col-sm-3">First Name</label>
@@ -105,10 +104,14 @@
         </div>
       </div>
 
-      
-          <div class="buttons-wrap mrg-top mrg-btm-30">
-            <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading">Continue</button>
-          </div>
+
+      <div class="buttons-wrap mrg-top mrg-btm-30">
+        <button type="submit"
+          class="fl-rg bg-green btn-small"
+          ng-disabled="loading || !formSignupUser.$valid">
+          Continue
+        </button>
+      </div>
     </div>
   </form>
 
@@ -125,7 +128,7 @@
           </p>
           <h4 class="caps lt font-14 mrg-btm-small">Don't have an invite code?</h4>
           <p class="mrg-top-small">If you received an invite code, plese enter it here.</br>Leave the field blank if you didn't have one and we will contact you afterwards to validate your profile.</p>
-        
+
         </div>
       </div>
     </div>
