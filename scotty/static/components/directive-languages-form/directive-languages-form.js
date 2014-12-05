@@ -29,6 +29,7 @@ define(function(require) {
         $scope.setLanguage = validateLang;
         $scope.onBlur = onBlur;
         $scope.onChange = onChange;
+        $scope.recheck = recheck;
         $scope.submit = submit;
         $scope.loading = false;
         $scope.model = [{}];
@@ -78,11 +79,18 @@ define(function(require) {
           entry.errorInvalidLanguage = !ConfigAPI.isValidLanguage(entry.language);
         }
 
+        function recheck() {
+          ctrl.$valid = $scope.model.length >= 1 && $scope.model
+            .filter(function(entry) { return entry.language })
+            .every(function(entry) { return entry.proficiency });
+        }
+
         function onBlur(entry, index, isLast) {
           entry.$dirty = true;
           validateLang(entry);
           if (!entry.language && !isLast)
             remove(index);
+          recheck();
         }
 
         function onChange(entry, index, isLast) {
@@ -90,6 +98,7 @@ define(function(require) {
           validateLang(entry);
           if (entry.language && isLast)
             $scope.model.push({});
+          recheck();
         }
 
         function submit() {

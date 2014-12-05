@@ -8,7 +8,7 @@
               hc-disabled="loading"
               on-submit="signupLanguages.submit()">
         <div class="buttons-wrap mrg-top mrg-btm-30">
-          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading">Continue</button>
+          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading || !form.$valid">Continue</button>
         </div>
       </hc-languages-form>
     </div>
@@ -31,7 +31,7 @@
   You can conduct business in the language.</p>
   <p><span class="smbd">Basis</span></br>
   You can express yoursef in the language with limited working proficiency.</p>
-        
+
         </div>
       </div>
     </div>
