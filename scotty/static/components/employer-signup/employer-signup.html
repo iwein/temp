@@ -12,7 +12,7 @@
                       }" class=""><span class="ico-emp-signup ico-emp-signup_start"></span>Start <i class="fa fa-check green" ng-if="signup.afterStep('signup.start')"></i></li>
 
         <li ng-class="{ active: signup.atStep('signup.basic'),
-                        unactive: signup.afterStep('signup.basic') 
+                        unactive: signup.afterStep('signup.basic')
                       }" class="">
           <a ng-if="signup.afterStep('signup.basic')" ui-sref="signup.basic"><span class="ico-emp-signup ico-emp-signup_basic"></span>Basic information <i class="fa fa-check green" ng-if="signup.afterStep('signup.basic')"></i></a>
           <span ng-if="!signup.afterStep('signup.basic')"><span class="ico-emp-signup ico-emp-signup_basic"></span>Basic information </span>
@@ -50,12 +50,12 @@
                         unactive: signup.afterStep('signup.terms')
                       }" class="">
           <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms"><span class="ico-emp-signup ico-emp-signup_terms"></span>Terms &amp; services <i class="fa fa-check green" ng-if="signup.afterStep('signup.terms')"></i></a>
-          <span ng-if="!signup.afterStep('signup.terms')"><span class="ico-emp-signup ico-emp-signup_terms"></span>Terms &amp; services</span>
+          <span ng-if="!signup.afterStep('signup.terms')"><span class="ico-emp-signup ico-emp-signup_terms"></span>Terms of services</span>
         </li>
 
         <li ng-class="{ active: signup.atStep('signup.suggest'),
                         unactive: signup.afterStep('signup.suggest')
-                      }" class="">
+                      }" class="hidden">
           <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest"><span class="ico-emp-signup ico-emp-signup_app"></span>Approval <i class="fa fa-check green" ng-if="signup.afterStep('signup.suggest')"></i></a>
           <span ng-if="!signup.afterStep('signup.suggest')"><span class="ico-emp-signup ico-emp-signup_app"></span>Approval</span>
         </li>

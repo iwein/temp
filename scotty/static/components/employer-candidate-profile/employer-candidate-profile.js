@@ -16,7 +16,7 @@ define(function(require) {
       $scope[key] = !$scope[key];
     }
 
-    Permission.requireActivated()
+    Permission.requireSignup()
       .then(function() { return Session.getCandidate($scope.id) })
       .then(function(candidate) {
         $scope.candidate = candidate;
@@ -79,7 +79,7 @@ define(function(require) {
           .sort(function(a, b) { return b.annual_salary - a.annual_salary })
           .slice(0, 3);
 
-        var counter = 0;
+        var counter = 1;
         $scope.offers.forEach(function(entry) {
           var employer = entry.employer;
           if (employer.company_name.toLowerCase() === 'company')

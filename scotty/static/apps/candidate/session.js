@@ -90,27 +90,22 @@ define(function(require) {
       });
     },
 
-    isSignupComplete: function() {
+    _checkSignupStage: function(skip) {
       return this.getSignupStage().then(function(stage) {
-        if (!stage)
-          return false;
-
+        this.activated = stage.active;
+        if (!stage) return false;
         return stage.ordering.every(function(item) {
-          return item === 'active' || stage[item];
+          return skip.indexOf(item) !== -1 || stage[item];
         });
-      });
+      }.bind(this));
+    },
+
+    isSignupComplete: function() {
+      return this._checkSignupStage([ 'approved', 'active' ]);
     },
 
     isActivated: function() {
-      return this.getSignupStage().then(function(stage) {
-        if (!stage)
-          return false;
-
-        this.activated = stage.active;
-        return stage.ordering.every(function(item) {
-          return item === 'active' || stage[item];
-        });
-      }.bind(this));
+      return this._checkSignupStage([ 'active' ]);
     },
 
     getCompletionWorkflow: function() {

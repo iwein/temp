@@ -20,7 +20,7 @@ define(function(require) {
       'CONTRACT_SIGNED',
     ];
 
-    Permission.requireLogged().then(function() {
+    Permission.requireSignup().then(function() {
       $scope.id = $state.params.id;
       ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
 

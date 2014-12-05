@@ -85,11 +85,11 @@
                   <div>
                     <h2 class="main-title">
                       {{ data.company_name }}
-                      <button type="button" ng-click="employerProfile.toogleBookmark()">
+                      <!--button type="button" ng-click="employerProfile.toogleBookmark()">
                         <i class="bookmark" ng-class="{
                           bookmark_inactive: !isBookmarked,
                           bookmark_active: isBookmarked,
-                        }"></i>
+                        }"></i-->
                       </button>
                     </h2>
                   </div>
@@ -107,10 +107,11 @@
                   <button type="button"
                     class="fw btn bg-green"
                     ng-show="!isBookmarked"
+                    ng-disabled="!approved"
                     ng-click="employerProfile.toogleBookmark()">
                     Request an interview
                   </button>
-                  
+                  <div ng-show="!approved">You need to be approved to request an interview</div>
                 </div>
                 <div ng-show="isBookmarked" class="fw btn-fake bg-blue-light">interview requested</div>
               </div>

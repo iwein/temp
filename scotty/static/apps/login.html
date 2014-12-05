@@ -46,15 +46,35 @@
         </div>
     </nav>
 
-    <div id="content" class="content-static">
+    <div id="content" class="">
         <div class="banner">
-            <div class="banner-inner">
-                <form id="login-form">
-                    <div id="error" style="display: none">Unknown email or password.</div>
-                    <input type="email" name="email" required>
-                    <input type="password" name="password" required>
-                    <button type="submit">Log in</button>
-                </form>
+            <div class="banner-inner banner-inner-small">
+                <div class="banner-login">
+                    <h3>Enter as candidate or employer</h3>
+                    <form id="login-form">
+                        
+                        <div class="form-group required row">
+                            <label class="col-sm-4">Email</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group required row">
+                            <label class="col-sm-4">Password</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="password" name="password" required>
+                            </div>
+                        </div>
+                        <div id="error" style="display: none">Unknown email or password.</div>
+                        <div class="buttons-wrap">
+                            <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">Login</button>
+                            <a class="forget" href="#">Forgot your password?</a>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="signup-link">Don‘t have a login yet, sign up <a href="#" class="orange">here</a>.</div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -105,7 +125,7 @@
 
 </div>
 
-<div class="footer footer-static">
+<div class="footer">
     <div class="bg-blue">
 
         <div class="container ">

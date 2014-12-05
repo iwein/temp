@@ -4,10 +4,10 @@
       <i class="fa  fa-map-marker gray-light"></i>
       {{ model._data.location.city }}, {{ model._data.location.country_iso }}
     </div>
-    <button class="bookmark"><i  ng-class="{
+    <!--button class="bookmark"><i  ng-class="{
       'bookmark_active': employer.isBookmarked,
       'bookmark_inactive': !employer.isBookmarked,
-    }"></i></button>
+    }"></i></button-->
     <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
           View profile <i class="fa fa-angle-right"></i></a>
   </div>
@@ -36,7 +36,7 @@
         <div class="row">
           <div class="col-sm-12 req-list">
             <div class="key">
-              <i class="fa fa-star ico-req-list"></i>
+              <i class="fa fa-gear ico-req-list"></i>
             </div>
             <div class="row">
               <div class="col-sm-12">

@@ -7,8 +7,7 @@ define(function(require) {
   module.controller('OfferListCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
     Loader.page(true);
 
-    Permission.requireActivated().then(function() {
-
+    Permission.requireSignup().then(function() {
       Session.getUser().then(function(user) {
         return user.getOffers();
       }).then(function(offers) {

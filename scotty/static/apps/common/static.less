@@ -7,7 +7,8 @@
 }
 
 .banner {
-  height: 480px;
+  min-height: 480px;
+  padding: 1px;
   background-image: url(../candidate/resources/images/bg-home.jpg);
   background-repeat: no-repeat;
   background-position: center center;
@@ -49,6 +50,49 @@
   max-width: 880px;
   margin-top: 200px;
 }
+
+.banner-inner-small {
+  max-width: 450px;
+  margin-bottom: 120px;
+  label {
+    font-size: 14px;
+    font-family: @font-family-sans-serif-mid;
+    color: @gray-darker;
+    text-transform: uppercase;
+    padding-top: 5px;
+  }
+  .forget {
+    color: @blue-link;
+    text-transform: none;
+    float: right;
+    font-family: @font-family-sans-serif-bld;
+    border-bottom: 1px solid @blue-link; 
+    margin-top: 9px;
+    line-height: 18px;
+    text-decoration: none;
+    margin-right: 5px;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .signup-link {
+    text-align: right;
+    padding-top: 40px;
+    clear: both
+  }
+}
+.banner-login {
+  padding: 15px;
+  text-align: left;
+  h3 {
+    color: @orange;
+    text-transform: uppercase;
+    font-size: 18px;
+    margin: 0 0 40px 0
+  }
+}
+
+
 .sign {
   max-width: 190px;
   height: 50px;
@@ -88,7 +132,7 @@
 
 .steps {
   max-width: 920px;
-  margin: 0 auto 80px auto;
+  margin: 55px auto 60px auto;
   .num {
     font-family: @font-family-headings;
     font-size: 40px;

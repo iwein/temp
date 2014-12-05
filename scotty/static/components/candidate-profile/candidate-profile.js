@@ -33,11 +33,22 @@ define(function(require) {
     ConfigAPI.countries({ limit: 500 })
       .then(fn.setTo('countries', $scope));
 
-    Permission.requireActivated()
+    Permission.requireSignup()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 
 
+    $scope.name = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          $scope.user = data;
+          return _.pick(data, 'first_name', 'last_name', 'anonymous');
+        });
+      },
+      save: function(model, form, user) {
+        return user.updateData(model);
+      },
+    });
     $scope.contact = form({
       source: function(user) {
         return user.getData().then(function(data) {
@@ -235,6 +246,7 @@ define(function(require) {
         $scope.summary.data = user.summary;
         $scope.user = user;
         $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
+        $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
         $scope.contact.data = _.pick(user, 'contact_line1', 'contact_line2', 'contact_phone',
           'contact_skype', 'contact_zipcode', 'email', 'github_url',
           'location', 'pob', 'stackoverflow_url');

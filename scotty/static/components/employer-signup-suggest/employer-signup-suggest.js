@@ -10,7 +10,7 @@ define(function(require) {
     $scope.approved = false;
     Loader.page(true);
 
-    Session.isActivated().then(function(value) {
+    Session.isSignupComplete().then(function(value) {
       if (value)
         $state.go('dashboard');
     }).finally(function() {

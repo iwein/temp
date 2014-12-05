@@ -22,6 +22,9 @@ define(function(require) {
       $scope.errorMissionEmpty = !value;
       $scope.missionDirty = $scope.missionDirty || !!value;
     });
+    Permission.requireSignup()
+      .then(refresh)
+      .finally(function() { Loader.page(false) });
 
 
     $scope.summary = formSimple({
@@ -115,12 +118,6 @@ define(function(require) {
     $scope.picture._clean = function(model) {
       return model;
     };
-
-
-
-    Permission.requireActivated()
-      .then(refresh)
-      .finally(function() { Loader.page(false) });
 
 
     function refresh() {
