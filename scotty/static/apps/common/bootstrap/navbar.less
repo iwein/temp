@@ -412,15 +412,21 @@
   }
 
   .navbar-nav {
+    > li {
+      color: @navbar-default-link-color;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-family: @font-family-headings;
+      font-weight: 400;
+      padding: 20px 22px 0;
+    }
     > li > a {
       color: @navbar-default-link-color;
       font-size: 14px;
       text-transform: uppercase;
-      margin: 0 22px;
-      padding: 0;
       font-family: @font-family-headings;
       font-weight: 400;
-      padding: 20px 0 0 0;
+      padding: 0;
       &:hover {
         border-bottom: 1px solid @blue;
       }
