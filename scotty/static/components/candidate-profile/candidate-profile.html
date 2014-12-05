@@ -503,42 +503,45 @@
                   <div class="col-sm-12">
                     <div class="user-desc">
                       <div class="">
-                        <div class="edit-main-title">
-                          <button class="add-panel-close" ng-click="xxxPosition.close()"><i class="fa fa-close"></i></button>
-                          <form class="edit-form">
+                        <div class="edit-main-title" ng-show="name.editing">
+                          <button class="add-panel-close" ng-click="name.close()"><i class="fa fa-close"></i></button>
+                          <form class="edit-form" ng-submit="name.save(name.data)">
                             <div class="row mrg-btm">
                               <div class="col-sm-6">
                                 <h5 class="edit-title">First name</h5>
-                                <input class="form-control" type="text">
+                                <input type="text" class="form-control" ng-model="name.data.first_name">
                               </div>
                               <div class="col-sm-6">
                                 <h5 class="edit-title">Last name</h5>
-                                <input class="form-control" type="text">
+                                <input type="text" class="form-control" ng-model="name.data.last_name">
                               </div>
                             </div>
+                            <label>
+                              <input type="checkbox" ng-model="name.data.anonymous">
+                              Hide my name and picture from employers until i caccepted their offer.
+                            </label>
+                            <div class="buttons-wrap">
+                              <button type="submit"
+                                class="fl-rg bg-green btn-small mrg-lft-small"
+                                ng-disabled="loading">
+                                Save
+                              </button>
+                              <button type="button"
+                                class="fl-rg bg-gray-lighter2 btn-small"
+                                ng-click="name.close()"
+                                ng-disabled="loading">
+                                Cancel
+                              </button>
+                            </div>
                           </form>
-                          <label><input type="checkbox"> Hide my name and picture from employers until i caccepted their offer.</label>
-                          <div class="buttons-wrap">
-                            <button type="submit"
-                              class="fl-rg bg-green btn-small mrg-lft-small"
-                              ng-disabled="loading">
-                              Save
-                            </button>
-                            <button type="button"
-                              class="fl-rg bg-gray-lighter2 btn-small"
-                              ng-click="targetPosition.close()"
-                              ng-disabled="loading">
-                              Cancel
-                            </button>
-                          </div>
                           <div class="clearfix"></div>
                         </div>
-                        <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}
+                        <h2 class="main-title" ng-show="!name.editing">{{ user.first_name }} {{ user.last_name }}
                            <button type="submit"
                             class="btn-edit-sub no-fl"
                             ng-show="isEditing"
                             ng-disabled="loading || formOpen"
-                            ng-click="xxxPosition.edit()">
+                            ng-click="name.edit()">
                             <i class="fa fa-pencil"></i>
                           </button>
                         </h2>
