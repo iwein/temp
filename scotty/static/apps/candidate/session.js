@@ -92,11 +92,12 @@ define(function(require) {
 
     _checkSignupStage: function(skip) {
       return this.getSignupStage().then(function(stage) {
+        this.activated = stage.active;
         if (!stage) return false;
         return stage.ordering.every(function(item) {
           return skip.indexOf(item) !== -1 || stage[item];
         });
-      });
+      }.bind(this));
     },
 
     isSignupComplete: function() {
