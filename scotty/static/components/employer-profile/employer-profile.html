@@ -28,15 +28,22 @@
             <div class="edit-user-pic" ng-show="picture.editing">
               <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data.logo_url)">
                 <h5 class="edit-title">Profile picture</h5>
-                <input type="file"
-                  class="mrg-btm"
-                  name="photo"
-                  accept="image/*"
-                  ng-required="true"
-                  ng-disabled="loading"
-                  ng-model="picture.data.logo_url"
-                  hc-file-select="selectFile($files)"
-                  hc-data-url="selectedPicture">
+                <div class="mrg-btm-small">
+                  <div class="uploadFile">
+                    <span>Select</span>
+                    <input type="file"
+                      class="mrg-btm"
+                      name="photo"
+                      accept="image/*"
+                      ng-required="true"
+                      ng-disabled="loading"
+                      ng-model="picture.data.logo_url"
+                      hc-file-select="selectFile($files)"
+                      hc-data-url="selectedPicture">
+                  </div>
+                  <div class="uploadText">Upload a photo at least 235 px wide.</div>
+                  <div class="clearfix"></div>
+                </div>
                 <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || data.logo_url }})"></div>
                 <div class="buttons-wrap mrg-btm">
                   <button type="button"
@@ -55,10 +62,10 @@
             </div>
             <div class="user-pic emp-pic" style="background-image: url({{ data.logo_url }})"></div>
           </div>
-          <div class="col-sm-12 border-box mrg-btm padd-vert">
-          <!--  EDIT Contacts box (remove hidden class to display)-->
-            <div class="edit-salary" ng-show="company.editing">
+                    <!--  EDIT Contacts box (remove hidden class to display)-->
+            <div class="edit-salary mrg-btm" ng-show="company.editing">
               <form class="edit-form" ng-submit="company.save(company.data)">
+                <button class="add-panel-close" ng-click="company.close()"><i class="fa fa-close"></i></button>
                 <h5 class="edit-title">Website</h5>
                 <div>
                   <input type="url"
@@ -115,15 +122,18 @@
                   </button>
                   <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="contact.close()"
+                    ng-click="company.close()"
                     ng-disabled="loading">
                     Cancel
                   </button>
                 </div>
+                <div class="clearfix"></div>
               </form>
             </div>
 
             <!-- END EDIT Contacts box-->
+          <div class="col-sm-12 border-box mrg-btm padd-vert">
+
             <button type="submit"
               class="btn-edit-sub"
               ng-disabled="loading || formOpen"
@@ -139,13 +149,8 @@
               {{ data.website }}
             </a>
           </div>
-          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap" ng-class="{
-            open: officesSection,
-            closed: !officesSection,
-          }">
-
-            <!--  EDIT OFFICES   box (remove hidden class to display)-->
-            <div class="edit-contacts" ng-show="webProfiles.editing">
+          <!--  EDIT OFFICES   box (remove hidden class to display)-->
+            <div class="edit-contacts mrg-btm" ng-show="webProfiles.editing">
               <button class="add-panel-close" ng-click="webProfiles.close()"><i class="fa fa-close"></i></button>
               <div class="edit-form">
                 <div class="row">
@@ -184,11 +189,12 @@
                     </div>
 
                     <!-- End Entry for one office -->
-                    <div class="clearfix mrg-btm add-btn-wrap">
-                      <button class="add-btn no-marg-top" ng-show="isEditing && !formOpen" ng-click="offices.add()">
+                    <div class="clearfix add-btn-wrap" ng-show="isEditing">
+                      <button class="add-btn no-marg-top" ng-click="offices.add()">
                         <i class="fa fa-plus"></i> ADD
                       </button>
                     </div>
+
                     <div class="wrap-office" ng-class="{ open: offices.editing === -2 }">
                       <div class="wrap-office-content">
                         <hc-office-form
@@ -261,7 +267,12 @@
               </div>
             </div>
 
-            <div class="row" ng-show="!webProfiles.editing">
+
+          <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap" ng-show="!webProfiles.editing"  ng-class="{
+            open: officesSection,
+            closed: !officesSection,
+          }">
+            <div class="row" >
               <button type="submit"
                 class="btn-edit-sub-skills btn-edit-sub-skills_bot"
                 ng-disabled="loading || formOpen"
@@ -278,7 +289,7 @@
                   <a ng-show="data.linkedin_url" ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
                 </div>
               </div>
-              <div class="padd-vert col-sm-12 brd-btm office-list">
+              <div class="padd-vert col-sm-12 office-list">
                 <div class="mrg-btm-big office-list-item " ng-repeat="office in data.offices">
                   <div class="orange smbd mrg-btm-small">{{ office.address_city.city }}</div>
                   <div class="mrg-btm-small">{{ office.address_line1 }}</div>
@@ -305,7 +316,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-12 mrg-btm pad-top-15" ng-show="data.offices.length > 1">
+              <div class="col-sm-12 brd-top mrg-btm pad-top-15" ng-show="data.offices.length > 1">
                 <button class="showhide" ng-click="toggle('officesSection')">
                   <span class="more"><i class="fa fa-angle-down"></i> more</span>
                   <span class="less"><i class="fa fa-angle-up"></i> less</span>
@@ -313,11 +324,15 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 border-box mrg-btm padd-vert">
-            <form class="edit-salary" ng-show="benefits.editing" ng-submit="benefits.save(benefits.data)">
+
+
+
+
+          <form class="edit-salary mrg-btm" ng-show="benefits.editing" ng-submit="benefits.save(benefits.data)">
+            <button class="add-panel-close" ng-click="benefits.close()"><i class="fa fa-close"></i></button>
               <h5 class="edit-title mrg-btm">Benefits </h5>
 
-              <div class="form-wrap">
+              <div class="form-wrap edit-form">
                 <ul>
                   <li class="form-benefits clearfix mrg-btm-small" ng-repeat="benefit in benefits.data.benefits">
                     <label class="{{ benefit.value }} col-sm-6 ">
@@ -329,7 +344,7 @@
                   </li>
                 </ul>
                 <textarea
-                  class="form-control"
+                  class="form-control mrg-btm"
                   placeholder="Other benefits"
                   name="recruitment"
                   ng-disabled="loading"
@@ -348,8 +363,11 @@
                     Cancel
                   </button>
                 </div>
+                <div class="clearfix"></div>
               </div>
             </form>
+          <div class="col-sm-12 border-box mrg-btm padd-vert" ng-hide="benefits.editing">
+
             <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS
               <button type="submit"
                 class="btn-edit-sub"
@@ -370,31 +388,8 @@
         </div>
       </div>
       <div class="col-sm-9">
-        <div class="edit-tarpos" ng-show="summary.editing">
-          <h5 class="edit-title">Mission</h5>
-          <div class="row">
-            <div class="col-sm-5">
-              <form class="edit-form" ng-submit="summary.save(summary.data)">
-                <text-angular ng-model="summary.data.mission_text"></text-angular>
-                <div class="buttons-wrap">
-                  <button type="submit"
-                    class="fl-rg bg-green btn-small mrg-lft-small"
-                    ng-disabled="loading">
-                    Save
-                  </button>
-                  <button type="button"
-                    class="fl-rg bg-gray-lighter2 btn-small"
-                    ng-click="summary.close()"
-                    ng-disabled="loading">
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-8 bg-white">
+        <div class="row bg-white">
+          <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-12">
                 <div class="user-desc">
@@ -402,7 +397,30 @@
                     <h2 class="main-title">{{ data.company_name }}</h2>
                   </div>
                   <div class="emp-off-desc">
-                    <div>
+                    <div class="edit-tarpos" ng-show="summary.editing">
+                      <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
+                      <h5 class="edit-title">Mission</h5>
+                      
+                        <form class="edit-form" ng-submit="summary.save(summary.data)">
+                          <text-angular ng-model="summary.data.mission_text"></text-angular>
+                          <div class="buttons-wrap mrg-top">
+                            <button type="submit"
+                              class="fl-rg bg-green btn-small mrg-lft-small"
+                              ng-disabled="loading">
+                              Save
+                            </button>
+                            <button type="button"
+                              class="fl-rg bg-gray-lighter2 btn-small"
+                              ng-click="summary.close()"
+                              ng-disabled="loading">
+                              Cancel
+                            </button>
+                          </div>
+                          <div class="clearfix"></div>
+                        </form>
+
+                    </div>
+                    <div ng-hide="summary.editing">
                       <span ng-bind-html="data.mission_text"></span>
                       <button type="submit"
                         class="btn-edit-sub no-fl"
@@ -425,49 +443,53 @@
           </div>
         </div>
         <div class="row mrg-btm">
-          <div class="col-sm-12 border-box skills-box">
-            <div class="wrap-form-skills bg-gray-lighter3" ng-show="tech.editing">
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <form class="edit-form" ng-submit="tech.save(tech.data)">
-                    <div class="mrg-btm">
-                      <h5 class="edit-title">Tech team size</h5>
-                      <input type="number"
-                        class="form-control"
-                        placeholder="Tech team size"
-                        name="tech_team_size"
-                        ng-disabled="loading"
-                        ng-model="tech.data.tech_team_size">
-                    </div>
-                    <div class="mrg-btm">
-                      <h5 class="edit-title">Technology tags</h5>
-                      <hc-label-typeahead
-                        name="techTags"
-                        placeholder="Technology tags"
-                        ng-disabled="loading"
-                        ng-model="tech.data.tech_tags"
-                        hc-source="searchTags($viewValue)"
-                        hc-error-message="Please choose at least one tag"
-                        hc-allow-new>
-                      </hc-label-typeahead>
-                    </div>
-                    <div class="buttons-wrap">
-                      <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading">
-                        Save
-                      </button>
-                      <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="tech.close()"
-                        ng-disabled="loading">
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
+          <div class="wrap-form-skills bg-gray-lighter3" ng-show="tech.editing">
+            <button class="add-panel-close" ng-click="tech.close()"><i class="fa fa-close"></i></button>
+            <div class="">
+              <div class="col-sm-6">
+                <form class="edit-form" ng-submit="tech.save(tech.data)">
+                  <div class="mrg-btm">
+                    <h5 class="edit-title">Tech team size</h5>
+                    <input type="number"
+                      class="form-control"
+                      placeholder="Tech team size"
+                      name="tech_team_size"
+                      ng-disabled="loading"
+                      ng-model="tech.data.tech_team_size">
+                  </div>
+                  <div class="mrg-btm">
+                    <h5 class="edit-title">Technology tags</h5>
+                    <hc-label-typeahead
+                      name="techTags"
+                      placeholder="Technology tags"
+                      ng-disabled="loading"
+                      ng-model="tech.data.tech_tags"
+                      hc-source="searchTags($viewValue)"
+                      hc-error-message="Please choose at least one tag"
+                      hc-allow-new>
+                    </hc-label-typeahead>
+                  </div>
+                  <div class="buttons-wrap">
+                    <button type="submit"
+                      class="fl-rg bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                    <button type="button"
+                      class="fl-rg bg-gray-lighter2 btn-small"
+                      ng-click="tech.close()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+
               </div>
+              <div class="clearfix"></div>
             </div>
+          </div>
+          <div class="col-sm-12 border-box skills-box" ng-hide="tech.editing">
+            
             <button type="submit"
               class="btn-edit-sub-skills"
               ng-disabled="loading || formOpen"
@@ -485,14 +507,63 @@
               <div class="col-sm-9">
                 <div class="skills-wrap row">
                   <div class="col-sm-4" ng-repeat="tag in data.tech_tags">
-                    <div class="skills-item alg-left"><i class="fa fa-gear"></i> {{ tag }}</div>
+                    <div class="skills-item alg-left"><i class="fa fa-gear"></i><span>{{ tag }}</span></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row bg-white mrg-btm">
+        <!-- Edit panel -->
+          <div class="edit-textarea add-panel" ng-show="descriptions.editing">
+            <div class="row">
+              <div class="col-sm-6">
+                <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
+                  <button class="add-panel-close" ng-click="descriptions.close()"><i class="fa fa-close"></i></button>
+                  <h5 class="edit-title">Technology philosophy</h5>
+                  <textarea
+                    class="fw mrg-btm form-control"
+                    placeholder="Technology philosophy"
+                    name="tech_team_philosophy"
+                    ng-disabled="loading"
+                    ng-model="descriptions.data.tech_team_philosophy">
+                  </textarea>
+                  <h5 class="edit-title">Hiring process</h5>
+                  <textarea
+                    class="fw mrg-btm form-control"
+                    placeholder="Recruitment process"
+                    name="recruitment"
+                    required
+                    ng-disabled="loading"
+                    ng-model="descriptions.data.recruitment_process">
+                  </textarea>
+                  <h5 class="edit-title">Training policy</h5>
+                  <textarea
+                    class="fw mrg-btm form-control"
+                    placeholder="Training policy"
+                    name="training"
+                    ng-disabled="loading"
+                    ng-model="descriptions.data.training_policy">
+                  </textarea>
+                  <div class="buttons-wrap">
+                    <button type="submit"
+                      class="fl-rg bg-green btn-small mrg-lft-small"
+                      ng-disabled="loading">
+                      Save
+                    </button>
+                    <button type="button"
+                      class="fl-rg bg-gray-lighter2 btn-small"
+                      ng-click="descriptions.close()"
+                      ng-disabled="loading">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        <!-- End Edit panel -->
+        <div class="row bg-white mrg-btm" ng-hide="descriptions.editing">
           <div class="col-sm-12 pad-top-10">
             <button type="submit"
               class="btn-edit-sub no-marg-top"
@@ -501,54 +572,7 @@
               ng-click="descriptions.edit()">
               <i class="fa fa-pencil"></i>
             </button>
-            <!-- Edit panel -->
-              <div class="edit-textarea" ng-show="descriptions.editing">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
-                      <h5 class="edit-title">Technology philosophy</h5>
-                      <textarea
-                        class="fw mrg-btm"
-                        placeholder="Technology philosophy"
-                        name="tech_team_philosophy"
-                        ng-disabled="loading"
-                        ng-model="descriptions.data.tech_team_philosophy">
-                      </textarea>
-                      <h5 class="edit-title">Hiring process</h5>
-                      <textarea
-                        class="fw mrg-btm"
-                        placeholder="Recruitment process"
-                        name="recruitment"
-                        required
-                        ng-disabled="loading"
-                        ng-model="descriptions.data.recruitment_process">
-                      </textarea>
-                      <h5 class="edit-title">Training policy</h5>
-                      <textarea
-                        class="fw mrg-btm"
-                        placeholder="Training policy"
-                        name="training"
-                        ng-disabled="loading"
-                        ng-model="descriptions.data.training_policy">
-                      </textarea>
-                      <div class="buttons-wrap">
-                        <button type="submit"
-                          class="fl-rg bg-green btn-small mrg-lft-small"
-                          ng-disabled="loading">
-                          Save
-                        </button>
-                        <button type="button"
-                          class="fl-rg bg-gray-lighter2 btn-small"
-                          ng-click="descriptions.close()"
-                          ng-disabled="loading">
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            <!-- End Edit panel -->
+            
             <div class="accordion-wrap">
               <div>
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>

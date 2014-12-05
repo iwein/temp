@@ -72,6 +72,24 @@
     top: 0;
   }
 }
+
+.skills-item.alg-left {
+  padding-left: 20px;
+  padding-right: 15px;
+  .fa-gear {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    
+  }
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+    width: 100%;
+    display:block;
+  }
+}
 .skills-others {
   padding-top: 10px;
   font-size: 16px;
@@ -252,6 +270,7 @@
 .toggler-office {
   text-transform: uppercase;
 }
+
 .edit-office{
   margin-bottom: 10px;
   padding-top: 5px;
@@ -263,15 +282,48 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+
 .add-btn-wrap {
    border-top: 1px solid @gray;
    margin-top: 15px;
    padding-top: 15px;
+   margin-left: -15px;
+}
+
+.add-btn-wrap.closed {
+  display: none;
 }
 
 .wrap-office-content {
   padding-bottom: 15px;
-  display: none
+  display: none;
+  .form-signup {
+    padding: 0;
+    .col-sm-3:first-child label:first-child {
+      display: none;
+    }
+    .col-sm-3 {
+      width: 100%;
+      text-align: left;
+    }
+    .col-sm-offset-3 {
+      margin-left: 0;
+    }
+    .col-sm-9 {
+      width: 100%;
+    }
+    label.col-sm-3 {
+      padding-top: 0;
+      text-align: left !important;
+      padding-left: 15px;
+    }
+    .bg-green {
+      margin-right: 15px;
+    }
+  }
+  .bg-gray-lighter {
+    background: none;
+  }
 }
 
 .wrap-office.open {
@@ -283,6 +335,17 @@
   }
   .fa-angle-down {
     display: none;
+  }
+}
+.wrap-office.closed {
+  .wrap-office-content {
+    display: none
+  }
+  .fa-angle-up {
+    display: none;
+  }
+  .fa-angle-down {
+    display: inline-block;
   }
 }
 
