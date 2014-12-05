@@ -29,12 +29,14 @@ define(function(require) {
         $scope.remove = remove;
         $scope.onChange = onChange;
         $scope.onBlur = onBlur;
+        $scope.recheck = recheck;
         $scope.submit = submit;
         $scope.model = $scope.model || [];
         $scope.skills = [];
         this.setModel = setModel;
         this.reset = reset;
         this.save = save;
+        var ctrl = this;
         var enabled = false;
 
         recheck();
@@ -51,6 +53,10 @@ define(function(require) {
             if (!$scope.model[i].skill)
               $scope.model.splice(i, 1);
           }
+
+          ctrl.$valid = $scope.model.length >= 3 && $scope.model.every(function(entry) {
+            return typeof entry.level === 'string';
+          });
 
           if ($scope.model.length > 2)
             $scope.model.push({});

@@ -1,71 +1,74 @@
-<form class="edit-form form-wrap" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
-<div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
-<div class="col-sm-12">
-  <label class="col-sm-3">Skills</label>
-  <div class="col-sm-9">
-    <div ng-repeat="entry in model">
-      <div class="col-sm-12 mrg-btm">
-        <div class="row">
+f<form class="edit-form form-wrap" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
+  <div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
+    <div class="col-sm-12">
+      <label class="col-sm-3">Skills</label>
+      <div class="col-sm-9">
+        <div ng-repeat="entry in model">
+          <div class="col-sm-12 mrg-btm">
+            <div class="row">
 
-          <div class="col-sm-7">
-            <input type="text"
-              class="form-control"
-              name="skill{{ $index }}"
-              ng-disabled="hcDisabled"
-              ng-required="model.length < 4"
-              ng-model="entry.skill"
-              ng-blur="onBlur(entry, $index, $last)"
-              ng-change="onChange(entry, $index, $last)"
-              typeahead="skill for skill in searchSkills($viewValue)">
-          </div>
+              <div class="col-sm-7">
+                <input type="text"
+                  class="form-control"
+                  name="skill{{ $index }}"
+                  ng-disabled="hcDisabled"
+                  ng-required="model.length < 4"
+                  ng-model="entry.skill"
+                  ng-blur="onBlur(entry, $index, $last)"
+                  ng-change="onChange(entry, $index, $last)"
+                  typeahead="skill for skill in searchSkills($viewValue)">
+              </div>
 
-          <div class="col-sm-4 no-padd-left">
-            <select
-              class="form-control"
-              name="level{{ $index }}"
-              ng-disabled="hcDisabled"
-              ng-required="entry.skill"
-              ng-model="entry.level"
-              ng-options="level for level in levels">
-              <option value="">Select...</option>
-            </select>
-          </div>
+              <div class="col-sm-4 no-padd-left">
+                <select
+                  class="form-control"
+                  name="level{{ $index }}"
+                  ng-disabled="hcDisabled"
+                  ng-required="entry.skill"
+                  ng-model="entry.level"
+                  ng-change="recheck()"
+                  ng-options="level for level in levels">
+                  <option value="">Select...</option>
+                </select>
+              </div>
 
-          <div class="col-sm-1 no-padd-left pad-top-5">
-            <span class="close"
-              ng-if="entry.skill"
-              ng-click="remove($index)">
-              <i class="fa fa-close"></i>
-            </span>
-          </div>
-          <div class="col-sm-12">
-            <!-- TODO: This doesn't work yet -->
-            <div class="form-error" ng-show="
-              formSkills['skill' + $index].$dirty &&
-              formSkills['skill' + $index].$invalid">
-              <span ng-show="formSkills['skill' + $index].$error.required">
-                Please insert the skill level.
-              </span>
+              <div class="col-sm-1 no-padd-left pad-top-5">
+                <span class="close"
+                  ng-if="entry.skill"
+                  ng-click="remove($index)">
+                  <i class="fa fa-close"></i>
+                </span>
+              </div>
+              <div class="col-sm-12">
+                <!-- TODO: This doesn't work yet -->
+                <div class="form-error" ng-show="
+                  formSkills['skill' + $index].$dirty &&
+                  formSkills['skill' + $index].$invalid">
+                  <span ng-show="formSkills['skill' + $index].$error.required">
+                    Please insert the skill level.
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="skills-help">Please enter at least 3 skills and their levels</div>
+
+      <div class="col-sm-9">
+        <h5 class="edit-title">Other skills</h5>
+        <hc-label-typeahead
+          placeholder="Type a skill and press enter after each one..."
+          ng-disabled="hcDisabled"
+          ng-model="skills"
+          hc-source="searchSkills($viewValue)"
+          hc-allow-new>
+        </hc-label-typeahead>
+      </div>
     </div>
-  </div>
 
-  <div class="col-sm-9">
-    <h5 class="edit-title">Other skills</h5>
-    <hc-label-typeahead
-      placeholder="Type a skill and press enter after each one..."
-      ng-disabled="hcDisabled"
-      ng-model="skills"
-      hc-source="searchSkills($viewValue)"
-      hc-allow-new>
-    </hc-label-typeahead>
+    <div class="clearfix"></div>
   </div>
-</div>
-
-<div class="clearfix"></div>
-</div>
   <div ng-transclude></div>
 </form>
