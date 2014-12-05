@@ -34,7 +34,7 @@
             <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
             </div>
           </div>
-          <div class="col-sm-12 info bg-gray-light mrg-btm">
+          <div class="col-sm-12 info bg-gray-light mrg-btm" ng-hide="status === 'hired' && !user.email">
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">
