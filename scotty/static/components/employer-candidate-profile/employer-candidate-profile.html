@@ -107,7 +107,7 @@
           </div>
 
           <div class="col-sm-4 bg-white user-desc">
-            <div class="bg-gray-light row" ng-hide="!offers.length">
+            <div class="bg-gray-light row" ng-hide="!offers.length || status === 'hired'">
               <div class="offer-box col-sm-12">
                 <div class="box-title box-title_right alg-cen pad-rgt-15">Offers</div>
                 <div ng-repeat="offer in offers">
