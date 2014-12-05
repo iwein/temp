@@ -56,16 +56,23 @@
               <div class="edit-user-pic" ng-show="picture.editing">
                 <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data)">
                   <h5 class="edit-title">Profile picture</h5>
-                    <input type="file"
-                    class="mrg-btm"
-                    name="photo"
-                    accept="image/*"
-                    ng-required="true"
-                    ng-disabled="loading"
-                    ng-model="picture.data"
-                    hc-file-select="selectFile($files)"
-                    hc-data-url="selectedPicture">
-                  <div class="col-sm-6 user-pic-preview mrg-btm" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
+                  <div class="mrg-btm-small">
+                    <div class="uploadFile">
+                      <span>Select</span>
+                      <input type="file"
+                      class="mrg-btm"
+                      name="photo"
+                      accept="image/*"
+                      ng-required="true"
+                      ng-disabled="loading"
+                      ng-model="picture.data"
+                      hc-file-select="selectFile($files)"
+                      hc-data-url="selectedPicture">
+                    </div>
+                    <div class="uploadText">Upload a photo at least 235 px wide.</div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
                   <div class="buttons-wrap mrg-btm-small">
                     <button type="button"
                       class="fl-lf bg-gray-lighter2 btn-small"
@@ -274,7 +281,7 @@
                             ng-model="contact.data.stackoverflow_url">
                         </div>
                       </div>
-                      <div class="row hidden">
+                      <div class="row">
                         <div class="col-sm-2 no-padd-right alg-cen">
                           <i class="fa fa-globe ico-edit"></i>
                         </div>

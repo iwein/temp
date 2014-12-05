@@ -1,7 +1,6 @@
 <div class="component-employer-offer-list">
   <div class="inner">
     <div class="status-wrap">
-      <p class="padd-vert">On that page you find all offers that have been made by your company.</br> It is a quick overview on their statuses. </br>To see the offer data please click on the respective link.</p>
     </div>
     <div class="row">
       <div class="col-sm-12 bg-blue">
@@ -9,8 +8,9 @@
       </div>
       <div class="col-sm-12 bg-white">
         <div class="row">
+          <div class="pad-30" ng-show="!offers.length">No offers</div>
           <div class="col-sm-12">
-            <div class="pad-30" ng-show="!offers.length">No offers</div>
+            <p class="offer-list-desc">On that page you find all offers that have been made by your company.</br> It is a quick overview on their statuses. </br>To see the offer data please click on the respective link.</p>
             <ul class="offer-list">
               <li class="offer-list-item  no-marg-right no-marg-left" ng-repeat="offer in offers" ng-class="{ 'last': $last }">
                 <hc-offer
