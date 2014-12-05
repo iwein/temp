@@ -40,10 +40,6 @@ define(function(require) {
       $scope.suggested = results[2];
       $scope.candidates = results[3];
 
-      $scope.suggested.forEach(function(candidate) {
-        candidate.getTargetPosition().then(fn.setTo('targetPosition', candidate));
-      });
-
       $scope.candidates.forEach(function(candidate) {
         candidate.getLastPosition().then(fn.setTo('position', candidate));
       });

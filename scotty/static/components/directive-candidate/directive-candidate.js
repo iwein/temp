@@ -47,7 +47,7 @@ define(function(require) {
           });
 
           $q.all([
-            data.targetPosition || model.getTargetPosition(),
+            data.targetPosition || data.target_position || model.getTargetPosition(),
             model.position || data.position || model.getLastPosition(),
           ]).then(function(result) {
             scope.targetPosition = result[0];
