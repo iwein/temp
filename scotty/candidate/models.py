@@ -249,7 +249,7 @@ class Candidate(Base, JsonSerialisable):
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan",
                              order_by=Education.start.desc())
-    languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan")
+    languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan", order_by=CandidateLanguage.proficiency_id)
 
     preferred_locations = relationship(PreferredLocation)
 
