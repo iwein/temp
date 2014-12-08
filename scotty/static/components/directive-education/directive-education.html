@@ -5,7 +5,7 @@
     </h3>
   </div>
   <ul>
-    <li class="bg-gray-lighter pad-30">
+    <li class="bg-gray-lighter pad-30" ng-show="model.length">
       <div class="row">
         <div class="col-sm-4 caps blue-link smbd lt">Institution</div>
         <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
@@ -95,7 +95,7 @@
               Save
             </button>
             <button type="button"
-              ng-show="adding"
+              ng-show="adding && model.length"
               class="bg-gray-light btn-small fl-rg"
               ng-disabled="loading"
               ng-click="hcEducationCtrl.setAdding(false)">
