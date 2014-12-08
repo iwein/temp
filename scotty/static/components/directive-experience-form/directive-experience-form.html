@@ -1,199 +1,210 @@
 <form name="formExperience" class="edit-form form-wrap form-signup no-padd-horz" ng-show="ready" ng-submit="submit()">
 <div class="row">
 
-  <div class="col-sm-12">
+<div class="col-sm-12">
 
-    <div class="row mrg-btm required">
-      <label class="col-sm-3 no-padd-right">Company Name</label>
-      <div class="col-sm-9">
-        <input type="text"
-          class="form-control"
-          name="company"
-          ng-required="hcRequired"
-          ng-disabled="hcDisabled"
-          ng-model="model.company"
-          typeahead="company for company in searchCompanies($viewValue)">
-      </div>
-      <div class="form-error col-sm-9 col-sm-offset-3" ng-show="duplicatedError">
-        <span>You already have a company with this name starting on the same month.</span>
-      </div>
-      <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
+  <div class="row mrg-btm">
+    <label class="col-sm-3 no-padd-right">Company Name</label>
+    <div class="col-sm-9">
+      <input type="text"
+             class="form-control"
+             name="company"
+             ng-required="hcRequired"
+             ng-disabled="hcDisabled"
+             ng-model="model.company"
+             typeahead="company for company in searchCompanies($viewValue)">
+    </div>
+    <div class="form-error col-sm-9 col-sm-offset-3" ng-show="duplicatedError">
+      <span>You already have a company with this name starting on the same month.</span>
+    </div>
+    <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
         <span ng-show="formExperience.company.$error.required">
           Please insert the company name.
         </span>
-      </div>
     </div>
+  </div>
 
-    <div class="row mrg-btm">
-      <label class="col-sm-3 no-padd-right">Location</label>
-      <div class="col-sm-9">
-        <div class="row">
-          <div class="col-sm-6">
-            <select class="form-control"
-              name="country"
-              ng-disabled="hcDisabled"
-              ng-model="model.country_iso"
-              ng-options="country.iso as country.name for country in countries">
-            </select>
-          </div>
-          <div class="col-sm-6">
-            <input type="text"
-              name="city"
-              placeholder="City"
-              class="form-control"
-              ng-disabled="hcDisabled"
-              ng-model="model.city">
-          </div>
+  <div class="row mrg-btm">
+    <label class="col-sm-3 no-padd-right">Location</label>
+    <div class="col-sm-9">
+      <div class="row">
+        <div class="col-sm-6">
+          <select class="form-control"
+                  name="country"
+                  ng-disabled="hcDisabled"
+                  ng-model="model.country_iso"
+                  ng-options="country.iso as country.name for country in countries">
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <input type="text"
+                 name="city"
+                 placeholder="City"
+                 class="form-control"
+                 ng-disabled="hcDisabled"
+                 ng-model="model.city">
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="row mrg-btm required">
-      <label class="col-sm-3 no-padd-right">Period</label>
+  <div class="row mrg-btm">
+    <label class="col-sm-3 no-padd-right">Period</label>
 
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-6">
-                <!-- From month -->
-                <div class="row">
-                  <div class="col-sm-7">
-                    <select class="form-control"
+    <div class="col-sm-9">
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- From month -->
+          <div class="row">
+            <div class="col-sm-7">
+              <select class="form-control"
                       name="startMonth"
                       ng-required="hcRequired"
                       ng-disabled="hcDisabled"
                       ng-model="startMonth"
                       ng-options="month for month in months"
                       ng-change="startDateUpdate()">
-                      <option value="">Month</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-5 no-padd-left">
-                    <!-- From year -->
-                    <input type="number"
-                    class="form-control"
-                    name="startYear"
-                    placeholder="Year"
-                    ng-required="hcRequired"
-                    ng-disabled="hcDisabled"
-                    ng-model="startYear"
-                    ng-change="startDateUpdate()">
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="row">
-                  <div class="col-sm-7">
-                    <!-- To month -->
-                    <select class="form-control"
+                <option value="">Month</option>
+              </select>
+            </div>
+            <div class="col-sm-5 no-padd-left">
+              <!-- From year -->
+              <input type="number"
+                     class="form-control"
+                     name="startYear"
+                     placeholder="Year"
+                     ng-min="1900"
+                     ng-max="currentYear"
+                     ng-required="hcRequired"
+                     ng-disabled="hcDisabled"
+                     ng-model="startYear"
+                     ng-change="startDateUpdate()">
+            </div>
+          </div>
+
+          <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
+            <span ng-show="formExperience.startMonth.$error.required">Please insert the month when you started this position.</span>
+          </div>
+          <div class="form-error" ng-show="formExperience.startYear.$dirty && formExperience.startYear.$invalid">
+            <span ng-show="formExperience.startYear.$error.required">Please insert the year when you started this position.</span>
+            <span ng-show="formExperience.startYear.$error.min">Start year must be after 1900.</span>
+            <span ng-show="formExperience.startYear.$error.max">Start year must be in the past.</span>
+          </div>
+
+        </div>
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="col-sm-7">
+              <!-- To month -->
+              <select class="form-control"
                       name="endMonth"
                       ng-disabled="hcDisabled || current"
                       ng-required="!current"
                       ng-model="endMonth"
                       ng-options="month for month in months"
                       ng-change="endDateUpdate()">
-                      <option value="">Month</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-5 no-padd-left">
-                    <!-- To year -->
-                    <input type="number"
-                    class="form-control"
-                    name="endYear"
-                    placeholder="Year"
-                    ng-disabled="hcDisabled ||current"
-                    ng-required="!current"
-                    ng-model="endYear"
-                    ng-change="endDateUpdate()">
-                  </div>
-                  <div class="check-wrap col-sm-12">
-                    <label>
-                      <input type="checkbox"
-                        name="current"
-                        ng-disabled="hcDisabled"
-                        ng-model="current"
-                        ng-change="onCurrentChange()">
-                      Current position
-                    </label>
-                  </div>
-                </div>
-              </div>
-
+                <option value="">Month</option>
+              </select>
+            </div>
+            <div class="col-sm-5 no-padd-left">
+              <!-- To year -->
+              <input type="number"
+                     class="form-control"
+                     name="endYear"
+                     placeholder="Year"
+                     ng-min="1900"
+                     ng-max="currentYear"
+                     ng-disabled="hcDisabled ||current"
+                     ng-required="!current"
+                     ng-model="endYear"
+                     ng-change="endDateUpdate()">
             </div>
           </div>
-          <div class="col-sm-9 col-sm-offset-3">
-            <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
-              <span ng-show="formExperience.startMonth.$error.required">Please insert the month you started at this position.</span>
-            </div>
-            <div class="form-error" ng-show="formExperience.startYear.$dirty && formExperience.startYear.$invalid">
-              <span ng-show="formExperience.startYear.$error.required">Please insert the year you started at this position.</span>
-            </div>
-            <div class="form-error" ng-show="formExperience.endMonth.$dirty && formExperience.endMonth.$invalid">
-              <span ng-show="formExperience.endMonth.$error.required">Please insert the month you leave this position.</span>
-            </div>
-            <div class="form-error" ng-show="formExperience.endYear.$dirty && formExperience.endYear.$invalid">
-              <span ng-show="formExperience.endYear.$error.required">Please insert the year you leave this position.</span>
-            </div>
+          <div class="form-error" ng-show="formExperience.endMonth.$dirty && formExperience.endMonth.$invalid">
+            <span ng-show="formExperience.endMonth.$error.required">Please insert the month when you left this position.</span>
           </div>
-    </div>
-    <div class="row mrg-btm">
+          <div class="form-error" ng-show="formExperience.endYear.$dirty && formExperience.endYear.$invalid">
+            <span ng-show="formExperience.endYear.$error.required">Please insert the year when you left this position.</span>
+            <span ng-show="formExperience.endYear.$error.min">End year must be after 1900.</span>
+            <span ng-show="formExperience.endYear.$error.max">End year must be in the past.</span>
+          </div>
 
-      <label class="col-sm-3">Role</label>
-      <div class="col-sm-9">
-        <input type="text"
-          class="form-control"
-          name="role"
-          ng-disabled="hcDisabled"
-          ng-model="model.role"
-          typeahead="role for role in searchRoles($viewValue)">
-      </div>
-    </div>
-    <div class="row mrg-btm">
-      <label class="col-sm-3">Role description</label>
-      <div class="col-sm-9">
-        <textarea class="form-control"
-          placeholder="Please list the projects you worked on"
-          name="summary"
-          ng-disabled="hcDisabled"
-          ng-model="model.summary">
-        </textarea>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-12">
-    <div class="row">
-      <label class="col-sm-3">Technologies &amp; Skills</label>
-      <div class="col-sm-9">
-        <div class="check-wrap mrg-btm row">
-          <div class="col-sm-6" ng-repeat="skill in featuredSkills">
-            <label class="form-label">
-              <input type="checkbox"
-                ng-disabled="loading"
-                ng-model="skill.selected"
-                ng-change="onFeaturedSkillChange()">
-              {{ skill.value }}
-            </label>
+          <div class="row">
+            <div class="check-wrap col-sm-12">
+              <label>
+                <input type="checkbox"
+                       name="current"
+                       ng-disabled="hcDisabled"
+                       ng-model="current"
+                       ng-change="onCurrentChange()">
+                Current position
+              </label>
+            </div>
           </div>
         </div>
 
-        <div class="mrg-btm">
-          <label>Other skills</label>
-          <hc-label-typeahead
-            name="skills"
-            placeholder="Technologies &amp; skills"
-            ng-disabled="loading"
-            ng-model="model.skills"
-            hc-source="searchSkills($viewValue)"
-            hc-error-message="Please choose at least one skill"
-            hc-allow-new>
-          </hc-label-typeahead>
-        </div>
       </div>
     </div>
   </div>
-    <div class="col-sm-12">
-      <div ng-transclude></div>
+  <div class="row mrg-btm">
+
+    <label class="col-sm-3">Role</label>
+    <div class="col-sm-9">
+      <input type="text"
+             class="form-control"
+             name="role"
+             ng-disabled="hcDisabled"
+             ng-model="model.role"
+             typeahead="role for role in searchRoles($viewValue)">
     </div>
   </div>
+  <div class="row mrg-btm">
+    <label class="col-sm-3">Role description</label>
+    <div class="col-sm-9">
+      <textarea class="form-control"
+                placeholder="Please list the projects you worked on"
+                name="summary"
+                ng-disabled="hcDisabled"
+                ng-model="model.summary">
+      </textarea>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-12">
+  <div class="row">
+    <label class="col-sm-3">Technologies &amp; Skills</label>
+    <div class="col-sm-9">
+      <div class="check-wrap mrg-btm row">
+        <div class="col-sm-6" ng-repeat="skill in featuredSkills">
+          <label class="form-label">
+            <input type="checkbox"
+                   ng-disabled="loading"
+                   ng-model="skill.selected"
+                   ng-change="onFeaturedSkillChange()">
+            {{ skill.value }}
+          </label>
+        </div>
+      </div>
+
+      <div class="mrg-btm">
+        <label>Other skills</label>
+        <hc-label-typeahead
+          name="skills"
+          placeholder="Technologies &amp; skills"
+          ng-disabled="loading"
+          ng-model="model.skills"
+          hc-source="searchSkills($viewValue)"
+          hc-error-message="Please choose at least one skill"
+          hc-allow-new>
+        </hc-label-typeahead>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-12">
+  <div ng-transclude></div>
+</div>
+</div>
 </div>
 </form>

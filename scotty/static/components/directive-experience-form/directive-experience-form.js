@@ -32,6 +32,7 @@ define(function(require) {
         $scope.searchSkills = searchSkills;
         $scope.searchRoles = ConfigAPI.roles;
         $scope.months = months;
+        $scope.currentYear = (new Date()).getFullYear();
         $scope.loading = false;
         $scope.submit = submit;
         this.showDuplicatedError = showDuplicatedError;
