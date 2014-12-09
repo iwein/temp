@@ -13,7 +13,7 @@ define(function(require) {
           scope.$watch(attr.ngModel + '+' + attr.hcGreaterThan, function() {
             var value = model(scope);
             var target = compareTo(scope);
-            if(typeof value != 'undefined')
+            if(typeof value !== 'undefined')
               ctrl.$setValidity('greaterThan', value >= target);
           });
         };
