@@ -19,7 +19,21 @@
   </div>
 
   <div class="form-group required row">
-    <label class="col-sm-3">Technologies & Skills</label>
+    <div class="col-sm-3">
+      <label>Technologies & Skills</label>
+
+      <div class="question">
+        <span>?</span>
+        <div class="tooltip-wrap">
+          <div class="tooltip-arrow"></div>
+          <div class="tooltip-text">
+            Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
     <div class="col-sm-9">
       <div class="row check-wrap">
         <div class="col-sm-6" ng-repeat="skill in featuredSkills">
@@ -48,12 +62,23 @@
               hc-error-message="Please choose at least one skill"
               hc-allow-new>
       </hc-label-typeahead>
-      <p class="mrg-top-small">You can write down any technology or skill you've been working with for a longer period of time.</p>
     </div>
   </div>
 
   <div class="form-group required row">
-    <label class="col-sm-3 no-padd-right">Annual Salary</label>
+    <div class="col-sm-3 no-padd-right">
+      <label>Annual Salary</label>
+      <div class="question">
+        <span>?</span>
+        <div class="tooltip-wrap">
+          <div class="tooltip-arrow"></div>
+          <div class="tooltip-text">
+            Do not set your salary too high, as it will block employers to send you interesting offers,
+          that have a slightly lower nominal salary but huge other benefits.
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-sm-9">
       <div class="input-group">
         <span class="input-group-addon">€</span>
@@ -66,8 +91,6 @@
                ng-change="onSalaryChange()">
         <span class="input-group-addon">.00</span>
       </div>
-      <p class="mrg-top-small">Do not set your salary too high, as it will block employers to send you interesting offers,
-          that have a slightly lower nominal salary but huge other benefits.</p>
     </div>
 
     <div class="form-error col-sm-9 col-sm-offset-3" ng-show="(formTarget.salary.$dirty && formTarget.salary.$invalid) || errorSalaryTooHigh">
@@ -79,7 +102,19 @@
   </div>
 
   <div class="required row">
-    <label class="col-sm-3">Locations</label>
+    <div class="col-sm-3 no-padd-right">
+      <label>Locations</label>
+      <div class="question">
+        <span>?</span>
+        <div class="tooltip-wrap">
+          <div class="tooltip-arrow"></div>
+          <div class="tooltip-text">
+            We currently focus our efforts on the 3 listed locations.
+        Feel free to name any other city in Germany so we know where to focus in the future.
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="col-sm-9 check-wrap">
       <div class="mrg-btm">
@@ -131,8 +166,6 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-9 col-sm-offset-3"><p class="mrg-top-small">We currently focus our efforts on the 3 listed locations.
-        Feel free to name any other city in Germany so we know where to focus in the future.</p></div>
   </div>
   
 </div>
