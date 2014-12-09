@@ -23,6 +23,11 @@ define(function(require) {
         $scope.searchLocations = ConfigAPI.locationsText;
         $scope.setLocation = setLocation;
         $scope.selectFile = selectFile;
+
+        var d = new Date();
+        d.setFullYear(d.getFullYear() - 16);
+        $scope.minBirthDay = d.toISOString().split('T')[0];
+
         $scope.submit = submit;
         $scope.errorNoLocation = false;
         $scope.model = { eu_work_visa: true };

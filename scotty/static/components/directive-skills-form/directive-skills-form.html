@@ -4,7 +4,7 @@
       <label class="col-sm-3">Skills</label>
       <div class="col-sm-9">
         <div ng-repeat="entry in model">
-          <div class="col-sm-12 mrg-btm">
+          <div class="mrg-btm">
             <div class="row">
 
               <div class="col-sm-7">
@@ -28,7 +28,7 @@
                   ng-model="entry.level"
                   ng-change="recheck()"
                   ng-options="level for level in levels">
-                  <option value="">Select...</option>
+                  <option value="">Select Level...</option>
                 </select>
               </div>
 
@@ -52,13 +52,11 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-12">
-          <div class="skills-help">Please enter at least 3 skills and their levels</div>
-        </div>
+        <div class="skills-help">Please enter at least 3 skills and their levels</div>
       </div>
 
 
-      <div class="col-sm-9">
+      <div class="col-sm-12">
         <h5 class="edit-title">Other skills</h5>
         <hc-label-typeahead
           placeholder="Type a skill and press enter after each one..."

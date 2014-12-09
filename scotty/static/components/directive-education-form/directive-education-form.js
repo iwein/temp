@@ -29,6 +29,7 @@ define(function(require) {
         $scope.searchDegrees = ConfigAPI.degrees;
         $scope.submit = submit;
         $scope.months = months;
+        $scope.currentYear = (new Date()).getFullYear();
         $scope.loading = false;
         this.isPristine = isPristine;
         this.setModel = setModel;

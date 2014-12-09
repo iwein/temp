@@ -28,9 +28,10 @@ define(function(require) {
         $scope.model = $scope.model || {};
         $scope.model.preferred_locations = $scope.model.preferred_locations || { 'DE': [] };
         $scope.preferred_locations = [];
-        this.save = save;
-        this.reset = reset;
         this.setModel = setModel;
+        this.reset = reset;
+        this.save = save;
+        var ctrl = this;
 
         nameAttr(this, 'hcTargetPositionForm', $scope, $attrs);
 
@@ -40,7 +41,11 @@ define(function(require) {
           ConfigAPI.featuredLocations().then(toCheckboxModel('featuredLocations')),
         ]).finally(function() {
           $scope.ready = true;
+          var stored = localStorage.getItem('scotty:target_position');
+          if (stored)
+            ctrl.setModel(JSON.parse(stored));
         });
+
 
         function addLocation(locations, entry) {
           if (!locations[entry.country_iso])
@@ -128,7 +133,10 @@ define(function(require) {
           $scope.editing = true;
           $scope.model = model;
           $scope.featuredSkills.forEach(function(item) {
-            item.selected = model.skills.indexOf(item.value) !== -1;
+            item.selected = (
+              (model.skills && model.skills.indexOf(item.value) !== -1) ||
+              (model.featuredSkills && model.featuredSkills.indexOf(item.value) !== -1)
+            );
           });
 
           var countries = Object.keys(model.preferred_locations);
@@ -137,6 +145,8 @@ define(function(require) {
 
           var germany = model.preferred_locations.DE;
           $scope.anywhereInGermany = germany && germany.length === 0;
+          if ($scope.anywhereInGermany)
+            $scope.locationOther = false;
 
           countries.forEach(function(country) {
             model.preferred_locations[country].forEach(function(city) {

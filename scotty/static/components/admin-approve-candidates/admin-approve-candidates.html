@@ -1,5 +1,5 @@
 <div class="component-admin-approve-candidates row">
-  <div class="col-sm-6 col-sm-offset-3">
+  <div class="col-sm-12">
     <h3>Approve candidates</h3>
 
     <div class="form-group">
@@ -17,13 +17,19 @@
     <div class="panel panel-default">
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="candidate in candidates">
-          {{ candidate.first_name }} {{ candidate.last_name }}
-          <button type="button"
-            class="pull-right"
-            ng-if="candidate.status === 'pending'"
-            ng-click="approveCandidates.approve(candidate)">
-            Approve
-          </button>
+          <div class="row">
+            <div class="col-sm-9">
+              {{ candidate.first_name }} {{ candidate.last_name }}
+            </div>
+            <div class="col-sm-3">
+              <button type="button"
+                      class="pull-right"
+                      ng-if="candidate.status === 'pending'"
+                      ng-click="approveCandidates.approve(candidate)">
+                Approve
+              </button>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
