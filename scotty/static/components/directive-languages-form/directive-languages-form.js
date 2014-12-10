@@ -45,7 +45,7 @@ define(function(require) {
           .then(fn.setTo('proficiencies', $scope))
           .then(function() {
             if ($attrs.ngModel)
-              setModel(getModel($attrs.ngModel));
+              setModel(getModel($attrs.ngModel, $scope));
             else if (!$scope.model)
               setModel([]);
           });
