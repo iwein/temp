@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('textangular');
   var _ = require('underscore');
   var module = require('app-module');
 

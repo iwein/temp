@@ -1,8 +1,8 @@
 <form name="formSignupFacts"
-  class="component-employer-signup-facts row"
-  ng-submit="signupFacts.submit()">
+      class="component-employer-signup-facts row"
+      ng-submit="signupFacts.submit()">
 
-   <div class="col-sm-8 bg-white">
+  <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
       <h3 class="signup-title">Tech Facts</h3>
       <div class="form-wrap edit-form mrg-btm bg-gray-lighter pad-30 form-signup">
@@ -11,11 +11,11 @@
           <label class="col-sm-3">Tech team size</label>
           <div class="col-sm-9">
             <input type="number"
-              class="form-control"
-              placeholder="Number of staff in IT"
-              name="tech_team_size"
-              ng-disabled="loading"
-              ng-model="model.tech_team_size">
+                   class="form-control"
+                   placeholder="Number of staff in IT"
+                   name="tech_team_size"
+                   ng-disabled="loading"
+                   ng-model="model.tech_team_size">
           </div>
 
           <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
@@ -44,13 +44,12 @@
         <div class="row">
           <label class="col-sm-12">Tech philosophy</label>
           <div class="col-sm-12">
-            <textarea
-              class="form-control"
-              placeholder="Why is your tech team special? Tell us more about the methodologies and tools you are using."
+            <text-angular
               name="tech_team_philosophy"
+              placeholder="Why is your tech team special? Tell us more about the methodologies and tools you are using."
               ng-disabled="loading"
               ng-model="model.tech_team_philosophy">
-            </textarea>
+            </text-angular>
           </div>
 
           <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
@@ -63,12 +62,12 @@
 
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="submit"
-        class="fl-rg bg-green btn-small"
-        ng-disabled="loading">
-        Continue
+                class="fl-rg bg-green btn-small"
+                ng-disabled="loading">
+          Continue
         </button>
       </div>
-      
+
     </div>
   </div>
   <div class="col-sm-4 bg-gray-lighter2">
@@ -80,7 +79,7 @@
           <p>
             There will be a text written in here as it is at the candidate sign up forms.
           </p>
-        
+
         </div>
       </div>
     </div>
