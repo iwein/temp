@@ -96,7 +96,7 @@ define(function(require) {
     },
 
     addInviteCode: function(data) {
-      return this._api.post('/admin/invite_codes', data + getParams).then(function(response) {
+      return this._api.post('/admin/invite_codes' + getParams, data).then(function(response) {
         if (response.db_message === 'Code already created!')
           throw new Error('DUPLICATED_ENTRY');
         return response;
