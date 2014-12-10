@@ -45,7 +45,11 @@ define(function(require) {
     },
 
     getCandidatesByStatus: function(status) {
-      return this._api.get('/candidates' + getParams + '&status=' + status).then(fn.get('data'));
+      return this._api.get('/candidates' + getParams + '&status=' + status).then(function(response) {
+        return response.data.map(function(data) {
+          return new Candidate(this._api, data.id, data, getParams);
+        }.bind(this));
+      }.bind(this));
     },
 
     getOffers: function() {

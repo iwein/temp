@@ -21,7 +21,7 @@ define(function(require) {
     function approve(candidate) {
       Loader.add('admin-approve-candidates-approve');
       return Session.approveCandidate(candidate).then(function() {
-        candidate.status = 'APPROVED';
+        candidate._data.status = 'APPROVED';
       }).finally(function() {
         Loader.remove('admin-approve-candidates-approve');
       });

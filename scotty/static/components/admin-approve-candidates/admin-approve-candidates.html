@@ -18,17 +18,13 @@
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="candidate in candidates">
           <div class="row">
-            <div class="col-sm-9">
-              {{ candidate.first_name }} {{ candidate.last_name }}
-            </div>
-            <div class="col-sm-3">
-              <button type="button"
-                      class="pull-right"
-                      ng-if="candidate.status === 'pending'"
-                      ng-click="approveCandidates.approve(candidate)">
-                Approve
-              </button>
-            </div>
+            <button type="button"
+                    class="pull-right btn bg-green"
+                    ng-if="candidate._data.status === 'pending'"
+                    ng-click="approveCandidates.approve(candidate)">
+              Approve
+            </button>
+            <hc-candidate ng-model="candidate" hc-link-profile></hc-candidate>
           </div>
         </li>
       </ul>
