@@ -1,62 +1,62 @@
 <div class="status-wrap"></div>
 <form class="component-employer-create-offer edit-form row"
-  name="formCreateOffer"
-  ng-show="ready"
-  ng-submit="createOffer.submit()">
-  
-  <div class="col-sm-12">
-  <div class="row">
-    <div class="col-sm-8 col-sm-offset-1 bg-white pad-btm-20">
-      <h3 class="col-sm-12 pad-top-10 pad-btm-20 big-title orange caps">Make an offer</h3>
-      <div class="col-sm-12">
-        <div class="bg-gray-lighter">
-          <div class="col-sm-12 pad-top-20">
-            <hc-candidate
-              ng-if="ready"
-              ng-model="candidate"
-              hc-link-profile>
-            </hc-candidate>
-          </div>
+      name="formCreateOffer"
+      ng-show="ready"
+      ng-submit="createOffer.submit()">
 
-          <div class="form-group required col-sm-12">
-            <div class="col-sm-12">
-              <label>Personal Message</label>
-            </div>
-            <div class="col-sm-12">
-              <textarea
-                class="form-control"
-                placeholder="Please introduce yourself to the candidate and tell them why you are a good fit. Make your message personal as this will get a better response."
-                name="message"
-                required
-                ng-disabled="loading"
-                ng-model="model.message">
-              </textarea>
-              <div class="form-error" ng-show="formCreateOffer.message.$dirty && formCreateOffer.message.$invalid">
+<div class="col-sm-12">
+<div class="row">
+<div class="col-sm-8 col-sm-offset-1 bg-white pad-btm-20">
+  <h3 class="col-sm-12 pad-top-10 pad-btm-20 big-title orange caps">Make an offer</h3>
+  <div class="col-sm-12">
+    <div class="bg-gray-lighter">
+      <div class="col-sm-12 pad-top-20">
+        <hc-candidate
+          ng-if="ready"
+          ng-model="candidate"
+          hc-link-profile>
+        </hc-candidate>
+      </div>
+
+      <div class="form-group required col-sm-12">
+        <div class="col-sm-12">
+          <label>Personal Message</label>
+        </div>
+        <div class="col-sm-12">
+          <textarea
+            class="form-control"
+            placeholder="Please introduce yourself to the candidate and tell them why you are a good fit. Make your message personal as this will get a better response."
+            name="message"
+            required
+            ng-disabled="loading"
+            ng-model="model.message">
+          </textarea>
+          <div class="form-error" ng-show="formCreateOffer.message.$dirty && formCreateOffer.message.$invalid">
                 <span ng-show="formCreateOffer.message.$error.required">
                   Please insert a personal message for the candidate.
                 </span>
-              </div>
-            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group required col-sm-6">
+        <div class="col-sm-12 no-padd-right">
+          <label>Offered annual salary</label>
+        </div>
+        <div class="col-sm-12 no-padd-right">
+          <div class="input-group">
+            <span class="input-group-addon">€</span>
+            <input type="dotted-integer"
+                   class="form-control"
+                   name="salary"
+                   required
+                   ng-disabled="loading"
+                   ng-model="model.annual_salary"
+                   ng-change="onSalaryChange(model.annual_salary)">
+            <span class="input-group-addon">.00</span>
           </div>
 
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-right">
-              <label>Offered annual salary</label>
-            </div>
-            <div class="col-sm-12 no-padd-right">
-              <div class="input-group">
-                <span class="input-group-addon">€</span>
-                <input type="dotted-integer"
-                  class="form-control"
-                  name="salary"
-                  required
-                  ng-disabled="loading"
-                  ng-model="model.annual_salary"
-                  ng-change="onSalaryChange(model.annual_salary)">
-                <span class="input-group-addon">.00</span>
-              </div>
-
-              <div class="form-error" ng-show="formCreateOffer.salary.$dirty && formCreateOffer.salary.$invalid">
+          <div class="form-error" ng-show="formCreateOffer.salary.$dirty && formCreateOffer.salary.$invalid">
                 <span ng-show="formCreateOffer.salary.$error.required">
                   Please insert your offer's salary.
                 </span>
@@ -66,160 +66,155 @@
                 <span ng-show="formCreateOffer.salary.$error.pattern">
                   Decimals are not allowed.
                 </span>
-              </div>
-              <div class="form-error" ng-show="formCreateOffer.salary.$dirty && errorSalaryTooLow">
-                <span>Salary too low</span>
-              </div>
-            </div>
           </div>
+          <div class="form-error" ng-show="formCreateOffer.salary.$dirty && errorSalaryTooLow">
+            <span>Salary too low</span>
+          </div>
+        </div>
+      </div>
 
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-left">
-              <label>Location</label>
-            </div>
-            <div class="col-sm-12 no-padd-left">
-              <input type="text"
-                name="location"
-                class="form-control"
-                required
-                placeholder="Where is the role based." 
-                ng-disabled="loading"
-                ng-model="locationText"
-                ng-blur="createOffer.setLocation(locationText)"
-                typeahead-on-select="createOffer.setLocation(locationText)"
-                typeahead="location for location in createOffer.searchLocations($viewValue)">
-              <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
+      <div class="form-group required col-sm-6">
+        <div class="col-sm-12 no-padd-left">
+          <label>Location</label>
+        </div>
+        <div class="col-sm-12 no-padd-left">
+          <input type="text"
+                 name="location"
+                 class="form-control"
+                 required
+                 placeholder="Where is the role based."
+                 ng-disabled="loading"
+                 ng-model="locationText"
+                 ng-blur="createOffer.setLocation(locationText)"
+                 typeahead-on-select="createOffer.setLocation(locationText)"
+                 typeahead="location for location in createOffer.searchLocations($viewValue)">
+          <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
                 <span ng-show="formCreateOffer.location.$error.required">
                   Please insert the city of the offer.
                 </span>
-              </div>
-              <div class="form-error" ng-show="errorInvalidCity">
-                <span>Please choose a city from the menu.</span>
-              </div>
-              <div class="form-error" ng-show="errorLocationUnsuitable">
-                <span>Location unsuitable.</span>
-              </div>
-            </div>
           </div>
-
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-right">
-              <label>Role</label>
-            </div>
-            <div class="col-sm-12 no-padd-right">
-              <input type="text"
-                class="form-control"
-                name="role"
-                required
-                ng-disabled="loading"
-                ng-model="model.role"
-                typeahead="role for role in createOffer.searchRoles($viewValue)">
-
-              <div class="form-error" ng-show="formCreateOffer.role.$dirty && formCreateOffer.role.$invalid">
-                <span ng-show="formCreateOffer.role.$error.required">Please insert the role for this offer.</span>
-              </div>
-            </div>
+          <div class="form-error" ng-show="errorInvalidCity">
+            <span>Please choose a city from the menu.</span>
           </div>
-
-
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-left">
-              <label>Technologies &amp; Skills</label>
-            </div>
-            <div class="col-sm-12 no-padd-left">
-              <hc-label-typeahead
-                placeholder="Technical skills required. Press enter after each one."
-                ng-disabled="loading"
-                ng-model="model.technologies"
-                hc-source="createOffer.searchSkills($viewValue)"
-                hc-error-message="Please choose at least one skill"
-                hc-allow-new>
-              </hc-label-typeahead>
-            </div>
-          </div>
-
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-right">
-              <label>Job description</label>
-            </div>
-            <div class="col-sm-12 no-padd-right">
-              <text-angular
-                name="jobDescription"
-                required
-                ng-model="model.job_description">
-              </text-angular>
-
-              <div class="form-error" ng-show="dirty && !model.job_description">
-                <span>Please provide a description of this position.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-left">
-              <label>Hiring process</label>
-            </div>
-            <div class="col-sm-12 no-padd-left">
-              <text-angular
-                name="hiringProcess"
-                required
-                ng-model="model.interview_details">
-              </text-angular>
-              <div class="form-error" ng-show="dirty && !model.interview_details">
-                <span>Please provide a little description of the hiring process.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-12 mrg-btm-30">
-            <div class="col-sm-6">
-              <label>Benefits</label>
-              <ul class="row">
-                <li class="col-sm-6 form-benefits" ng-repeat="benefit in benefits">
-                  <label class="{{ benefit.value }}">
-                    {{ benefit.value }}
-                    <input type="checkbox"
-                      ng-disabled="loading"
-                      ng-model="benefit.selected">
-                  </label>
-                </li>
-              </ul>
-            </div>
-            <div class="col-sm-6">
-              <textarea
-                class="form-control"
-                placeholder="Other benefits"
-                name="recruitment"
-                ng-disabled="loading"
-                ng-model="model.other_benefits">
-              </textarea>
-            </div>
-          </div>
-
-          
-
-
-          <div class="clearfix"></div>
-        </div>
-        <div class="col-sm-12">
-          <div class="buttons-wrap col-sm-12 mrg-btm mrg-top-30">
-            <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="loading">Submit offer</button>
+          <div class="form-error" ng-show="errorLocationUnsuitable">
+            <span>Location unsuitable.</span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-3 bg-gray-lighter2">
-    <div class="padd-vert">
-      <div class="box-title box-title_left mrg-btm gray-darker">
-        Help</div>
-      <div class="">
-        <p>
-          There will be a text written in here as it is at the candidate sign up forms.
-        </p>
 
+      <div class="form-group required col-sm-6">
+        <div class="col-sm-12 no-padd-right">
+          <label>Role</label>
+        </div>
+        <div class="col-sm-12 no-padd-right">
+          <input type="text"
+                 class="form-control"
+                 name="role"
+                 required
+                 ng-disabled="loading"
+                 ng-model="model.role"
+                 typeahead="role for role in createOffer.searchRoles($viewValue)">
+
+          <div class="form-error" ng-show="formCreateOffer.role.$dirty && formCreateOffer.role.$invalid">
+            <span ng-show="formCreateOffer.role.$error.required">Please insert the role for this offer.</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group required col-sm-6">
+        <div class="col-sm-12 no-padd-left">
+          <label>Technologies &amp; Skills</label>
+        </div>
+        <div class="col-sm-12 no-padd-left">
+          <hc-label-typeahead
+            placeholder="Technical skills required. Press enter after each one."
+            ng-disabled="loading"
+            ng-model="model.technologies"
+            hc-source="createOffer.searchSkills($viewValue)"
+            hc-error-message="Please choose at least one skill"
+            hc-allow-new>
+          </hc-label-typeahead>
+        </div>
+      </div>
+
+      <div class="form-group required col-sm-12">
+        <div class="col-sm-12">
+          <label>Job description</label>
+          <text-angular
+            name="jobDescription"
+            required
+            ng-model="model.job_description">
+          </text-angular>
+          <div class="form-error" ng-show="dirty && !model.job_description">
+            <span>Please provide a description of this position.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group required col-sm-12">
+        <div class="col-sm-12">
+          <label>Hiring process</label>
+          <text-angular
+            name="hiringProcess"
+            required
+            ng-model="model.interview_details">
+          </text-angular>
+          <div class="form-error" ng-show="dirty && !model.interview_details">
+            <span>Please provide a little description of the hiring process.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 mrg-btm-30">
+        <div class="col-sm-6">
+          <label>Benefits</label>
+          <ul class="row">
+            <li class="col-sm-6 form-benefits" ng-repeat="benefit in benefits">
+              <label class="{{ benefit.value }}">
+                {{ benefit.value }}
+                <input type="checkbox"
+                       ng-disabled="loading"
+                       ng-model="benefit.selected">
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <textarea
+            class="form-control"
+            placeholder="Other benefits"
+            name="recruitment"
+            ng-disabled="loading"
+            ng-model="model.other_benefits">
+          </textarea>
+        </div>
+      </div>
+
+
+
+
+      <div class="clearfix"></div>
+    </div>
+    <div class="col-sm-12">
+      <div class="buttons-wrap col-sm-12 mrg-btm mrg-top-30">
+        <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="loading">Submit offer</button>
       </div>
     </div>
   </div>
+</div>
+<div class="col-sm-3 bg-gray-lighter2">
+  <div class="padd-vert">
+    <div class="box-title box-title_left mrg-btm gray-darker">
+      Help</div>
+    <div class="">
+      <p>
+        There will be a text written in here as it is at the candidate sign up forms.
+      </p>
+
+    </div>
+  </div>
+</div>
 </div>
 </div>
 </form>
