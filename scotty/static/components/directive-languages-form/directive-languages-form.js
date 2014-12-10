@@ -38,6 +38,7 @@ define(function(require) {
         this.save = save;
         var ctrl = this;
         var enabled = false;
+        var valid = [];
 
         nameAttr(this, 'hcLanguagesForm', $scope, $attrs);
         ConfigAPI.proficiencies()
@@ -67,6 +68,7 @@ define(function(require) {
         }
 
         function setModel(model) {
+          valid = model.map(fn.get('language'));
           $scope.model = JSON.parse(JSON.stringify(model));
           $scope.model.push({});
         }
@@ -76,7 +78,10 @@ define(function(require) {
         }
 
         function validateLang(entry) {
-          entry.errorInvalidLanguage = !ConfigAPI.isValidLanguage(entry.language);
+          entry.errorInvalidLanguage = (
+            valid.indexOf(entry.language) === -1 &&
+            !ConfigAPI.isValidLanguage(entry.language)
+          );
         }
 
         function recheck() {
