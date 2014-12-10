@@ -116,7 +116,7 @@ class CandidateController(RootController):
         DBSession.add(candidate)
         try:
             DBSession.flush()
-        except IntegrityError:
+        except IntegrityError, e:
             raise HTTPConflict("User already signed up!")
         self.request.session['candidate_id'] = candidate.id
         self.request.emailer.send_candidate_welcome(candidate.email, candidate.first_name, candidate.activation_token)
