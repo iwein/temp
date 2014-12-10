@@ -96,7 +96,19 @@
 <!-- Edit Salary box (remove class hidden to display)-->
 <form class="edit-salary mrg-btm" ng-if="salary.editing" ng-submit="salary.save(salary.data)">
   <button class="add-panel-close" ng-click="salary.close()"><i class="fa fa-close"></i></button>
-  <h5 class="edit-title">Annual Salary </h5>
+  <h5 class="edit-title">
+    <span class="question-title">Annual Salary</span>
+    <div class="question">
+      <span>?</span>
+      <div class="tooltip-wrap">
+        <div class="tooltip-arrow"></div>
+        <div class="tooltip-text">
+          Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </h5>
   <div class="edit-form mrg-btm">
     <input type="dotted-integer"
            class="form-control mrg-btm-small"
@@ -107,7 +119,19 @@
            ng-change="onSalaryChange()">
     <p class="red error" ng-show="errorSalaryTooHigh">This seems to be too high</p>
   </div>
-  <h5 class="edit-title">Locations</h5>
+  <h5 class="edit-title">
+    <span class="question-title">Locations</span>
+    <div class="question">
+      <span>?</span>
+      <div class="tooltip-wrap">
+        <div class="tooltip-arrow"></div>
+        <div class="tooltip-text">
+          We currently focus our efforts on the 3 listed locations. Feel free to name any other city in Germany so we know where to focus in the future.
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </h5>
   <div class="form-wrap">
     <div class="row padd-form">
       <div class="label-wrap col-sm-12">

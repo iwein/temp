@@ -1,7 +1,19 @@
 <form class="edit-form form-wrap" name="formSkills" ng-submit="onSubmit({ $model: model, $form: skillsCtrl })">
   <div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
     <div class="col-sm-12">
-      <label class="col-sm-3">Skills</label>
+      <div  class="col-sm-3">
+      <label>Skills</label>
+        <div class="question">
+          <span>?</span>
+          <div class="tooltip-wrap">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-text">
+              Please enter at least three skills and choose their level.
+
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-sm-9">
         <div ng-repeat="entry in model">
           <div class="mrg-btm">
@@ -52,7 +64,7 @@
             </div>
           </div>
         </div>
-        <div class="skills-help">Please enter at least 3 skills and their levels</div>
+
       </div>
 
 
