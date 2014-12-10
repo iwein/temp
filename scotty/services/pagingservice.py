@@ -41,7 +41,7 @@ class ObjectBuilder(object):
         if self.joins:
             query = self.joins(query)
         results = query.all()
-        result_lookup = {r.id: r for r in results}
+        result_lookup = {str(r.id): r for r in results}
         ordered_results = []
         for id in pager.ids:
             obj = result_lookup.get(id)
