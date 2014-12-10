@@ -12,26 +12,27 @@ define(function(require) {
 
   function getHelper(key) {
     return function() {
-      return this._api.get(this._url() + '/' + key);
+      return this._api.get(this._url() + '/' + key + this._sufix);
     };
   }
   function setHelper(key, method) {
     return function(data) {
-      return this._api[method](this._url() + '/' + key, data);
+      return this._api[method](this._url() + '/' + key, data + this._sufix);
     };
   }
   function deleteHelper(key) {
     return function(data) {
-      return this._api.delete(this._url() + '/' + key + '/' + data.id);
+      return this._api.delete(this._url() + '/' + key + '/' + data.id + this._sufix);
     };
   }
 
 
-  function Candidate(api, id, data) {
+  function Candidate(api, id, data, sufix) {
     this.id = data ? data.id : null;
     this.key = id || 'me';
     this._api = api;
     this._data = data;
+    this._sufix = sufix || '';
     if (data) this._sortSkills();
   }
 
@@ -53,7 +54,7 @@ define(function(require) {
     },
 
     updateData: function(model) {
-      return this._api.put(this._url(), model);
+      return this._api.put(this._url() + this._sufix, model);
     },
 
     getData: function() {
@@ -61,7 +62,7 @@ define(function(require) {
     },
 
     refreshData: function() {
-      return this._api.get(this._url()).then(function(response) {
+      return this._api.get(this._url() + this._sufix).then(function(response) {
         this._data = response;
         this.id = response.id;
         this._sortSkills();
@@ -74,11 +75,11 @@ define(function(require) {
     },
 
     setPhoto: function(photo) {
-      return this._api.post(this._url() + '/picture', { url: photo });
+      return this._api.post(this._url() + '/picture' + this._sufix, { url: photo });
     },
 
     delete: function() {
-      return this._api.delete(this._url());
+      return this._api.delete(this._url() + this._sufix);
     },
 
     getExperience: getHelper('work_experience'),
@@ -111,9 +112,9 @@ define(function(require) {
 
     getOffers: function() {
       var url = this._url() + '/offers';
-      return this._api.get(url).then(function(offers) {
+      return this._api.get(url + this._sufix).then(function(offers) {
         return offers.map(function(data) {
-          return new Offer(this._api, url + '/' + data.id, data);
+          return new Offer(this._api, url + '/' + data.id, data, this._sufix);
         }.bind(this));
       }.bind(this));
     },
@@ -121,8 +122,8 @@ define(function(require) {
       // This call uses /candidates/<ID>/ instead of /candidates/me/
       //   so it can validate the offer belongs to the user.
       var url = '/candidates/' + this.id + '/offers/' + id;
-      return this._api.get(url).then(function(data) {
-        return new Offer(this._api, url, data);
+      return this._api.get(url + this._sufix).then(function(data) {
+        return new Offer(this._api, url, data, this._sufix);
       }.bind(this));
     },
 

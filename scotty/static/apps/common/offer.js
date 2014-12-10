@@ -22,10 +22,11 @@ define(function() {
     'EXPIRED': [],
   };
 
-  function Offer(api, baseUrl, data) {
+  function Offer(api, baseUrl, data, sufix) {
     this.id = data.id;
     this._api = api;
     this._baseUrl = baseUrl;
+    this._sufix = sufix || '';
     this._parser = function() {};
     this._setData(data);
     this._updateStatus = this._updateStatus.bind(this);
@@ -66,7 +67,7 @@ define(function() {
     },
 
     refresh: function() {
-      this._api.get(this._url()).then(this._setData);
+      this._api.get(this._url() + this._sufix).then(this._setData);
     },
 
     getData: function() {
@@ -106,27 +107,27 @@ define(function() {
     },
 
     accept: function(params) {
-      return this._api.post(this._url() + '/accept', params)
+      return this._api.post(this._url() + '/accept' + this._sufix, params)
         .then(this._updateStatus);
     },
 
     sign: function(params) {
-      return this._api.post(this._url() + '/signed', params)
+      return this._api.post(this._url() + '/signed' + this._sufix, params)
         .then(this._updateStatus);
     },
 
     reject: function(params) {
-      return this._api.post(this._url() + '/reject', params)
+      return this._api.post(this._url() + '/reject' + this._sufix, params)
         .then(this._updateStatus);
     },
 
     withdraw: function(params) {
-      return this._api.post(this._url() + '/withdraw', params)
+      return this._api.post(this._url() + '/withdraw' + this._sufix, params)
         .then(this._updateStatus);
     },
 
     rollback: function() {
-      return this._api.post(this._url() + '/rollback', {})
+      return this._api.post(this._url() + '/rollback' + this._sufix, {})
         .then(this._updateStatus);
     },
 
@@ -134,13 +135,12 @@ define(function() {
       return this._api.when(this.getNextStatus()).then(function(valid) {
         if (!valid)
           throw new Error('Status ' + this.data.status + ' hasn\'t next step');
-        return this._api.post(this._url() + '/status', { status: valid })
+        return this._api.post(this._url() + '/status' + this._sufix, { status: valid })
           .then(this._updateStatus);
       }.bind(this));
     },
 
     getNextStatus: function() {
-      if (!validStatus[this.data.status]) debugger;
       return validStatus[this.data.status][0] || null;
     },
 
@@ -149,7 +149,7 @@ define(function() {
     },
 
     getTimeline: function() {
-      return this._api.get(this._url() + '/timeline');
+      return this._api.get(this._url() + '/timeline' + this._sufix);
     },
 
     dispose: function() {

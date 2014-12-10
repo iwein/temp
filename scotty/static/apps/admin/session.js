@@ -51,7 +51,7 @@ define(function(require) {
     getOffers: function() {
       return this._api.get('/admin/offers' + getParams).then(function(response) {
         return response.data.map(function(data) {
-          return new Office(this._api, '/admin/offers/' + data.id, data);
+          return new Office(this._api, '/admin/offers/' + data.id, data, getParams);
         }.bind(this));
       }.bind(this));
     },
@@ -59,7 +59,7 @@ define(function(require) {
     getOffer: function(id) {
       var url = '/admin/offers/' + id;
       return this._api.get(url + getParams).then(function(response) {
-        return new Office(this._api, url, response);
+        return new Office(this._api, url, response, getParams);
       }.bind(this));
     },
 
@@ -69,7 +69,7 @@ define(function(require) {
 
     getEmployer: function(id) {
       return this._api.get('/employers/' + id + getParams).then(function(data) {
-        return new Employer(this._api, data.id, data);
+        return new Employer(this._api, data.id, data, getParams);
       }.bind(this));
     },
 
@@ -77,7 +77,7 @@ define(function(require) {
     searchCandidates: function(query) {
       return this._api.get('/admin/search/candidates' + getParams, query).then(function(response) {
         response.data = response.data.map(function(data) {
-          return new Candidate(this._api, data.id, data);
+          return new Candidate(this._api, data.id, data, getParams);
         }.bind(this));
         return response;
       }.bind(this));
@@ -85,7 +85,7 @@ define(function(require) {
 
     getCandidate: function(id) {
       return this._api.get('/candidates/' + id + getParams).then(function(data) {
-        return new Candidate(this._api, data.id, data);
+        return new Candidate(this._api, data.id, data, getParams);
       }.bind(this));
     },
 

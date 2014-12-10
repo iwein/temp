@@ -19,6 +19,7 @@ define(function(require) {
     var email;
 
     ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));
+    ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
 
     Session.getOffer($scope.id).then(function(offer) {
       return [ offer ];

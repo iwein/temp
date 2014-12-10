@@ -4,11 +4,12 @@ define(function(require) {
   var Offer = require('./offer');
 
 
-  function Employer(api, id, data) {
+  function Employer(api, id, data, sufix) {
     this.id = data ? data.id : null;
     this.key = id || 'me';
     this._api = api;
     this._data = data;
+    this._sufix = sufix || '';
   }
 
   Employer.prototype = {
@@ -19,13 +20,13 @@ define(function(require) {
     },
 
     apply: function(data) {
-      return this._api.put(this._url() + '/apply', data).then(function(response) {
+      return this._api.put(this._url() + '/apply' + this._sufix, data).then(function(response) {
         this._data = response;
       }.bind(this));
     },
 
     updateData: function(model) {
-      return this._api.put(this._url(), model);
+      return this._api.put(this._url() + this._sufix, model);
     },
 
     getData: function() {
@@ -33,7 +34,7 @@ define(function(require) {
     },
 
     refreshData: function() {
-      return this._api.get(this._url()).then(function(response) {
+      return this._api.get(this._url() + this._sufix).then(function(response) {
         this._data = response;
         return response;
       }.bind(this), function(request) {
@@ -44,19 +45,19 @@ define(function(require) {
     },
 
     listOffices: function() {
-      return this._api.get(this._url() + '/offices');
+      return this._api.get(this._url() + '/offices' + this._sufix);
     },
 
     setOffices: function(offices) {
-      return this._api.put(this._url() + '/offices', offices);
+      return this._api.put(this._url() + '/offices' + this._sufix, offices);
     },
 
     addOffice: function(data) {
-      return this._api.post(this._url() + '/offices', data);
+      return this._api.post(this._url() + '/offices' + this._sufix, data);
     },
 
     removeOffice: function(data) {
-      return this._api.delete(this._url() + '/offices/' + data.id);
+      return this._api.delete(this._url() + '/offices/' + data.id + this._sufix);
     },
 
     getUserData: function() {
@@ -64,12 +65,12 @@ define(function(require) {
     },
 
     getTimeline: function() {
-      return this._api.get(this._url() + '/newsfeed');
+      return this._api.get(this._url() + '/newsfeed' + this._sufix);
     },
 
     getSuggestedCandidates: function() {
       var api = this._api;
-      return api.get(this._url() + '/suggestedcandidates').then(function(response) {
+      return api.get(this._url() + '/suggestedcandidates' + this._sufix).then(function(response) {
         return response.map(function(data) {
           return new Candidate(api, data.id, data);
         });
@@ -77,7 +78,7 @@ define(function(require) {
     },
     getCandidates: function() {
       var api = this._api;
-      return api.get(this._url() + '/interestedcandidates').then(function(response) {
+      return api.get(this._url() + '/interestedcandidates' + this._sufix).then(function(response) {
         return response.map(function(data) {
           return new Candidate(api, data.id, data);
         });
@@ -86,9 +87,9 @@ define(function(require) {
 
     getOffers: function() {
       var url = this._url() + '/offers';
-      return this._api.get(url).then(function(offers) {
+      return this._api.get(url + this._sufix).then(function(offers) {
         return offers.map(function(data) {
-          return new Offer(this._api, url + '/' + data.id, data);
+          return new Offer(this._api, url + '/' + data.id, data, this._sufix);
         }.bind(this));
       }.bind(this));
     },
@@ -96,14 +97,14 @@ define(function(require) {
       // This call uses /candidates/<ID>/ instead of /candidates/me/
       //   so it can validate the offer belongs to the user.
       var url = this._url() + '/offers/' + id;
-      return this._api.get(url).then(function(data) {
-        return new Offer(this._api, url, data);
+      return this._api.get(url + this._sufix).then(function(data) {
+        return new Offer(this._api, url, data, this._sufix);
       }.bind(this));
     },
     makeOffer: function(data) {
       var url = this._url() + '/offers';
-      return this._api.post(url, data).then(function(data) {
-        return new Offer(this._api, url + '/' + data.id, data);
+      return this._api.post(url + this._sufix, data).then(function(data) {
+        return new Offer(this._api, url + '/' + data.id, data, this._sufix);
       }.bind(this));
     },
 
