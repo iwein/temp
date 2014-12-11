@@ -21,31 +21,34 @@
 
             <span class="accept-message">
               <span class="iconParent"><i class="fa blue-link fa-clock-o"></i></span>
-              <span class="blue-link">waiting for candidate to accept</span>
+              <span class="blue-link" ng-if="hide.candidate">waiting for you to accept</span>
+              <span class="blue-link" ng-if="!hide.candidate">waiting for candidate to accept</span>
             </span>
             <span class="accepted-message">
               <span class="iconParent"><i class="fa blue-link fa-check-square-o"></i></span>
-              <span class="blue-link">candidate accepted this offer</span>
+              <span class="blue-link">Offer is accepted</span>
             </span>
             <span class="interviewing-message">
               <span class="iconParent"><i class="fa blue-link fa-comments"></i></span>
-              <span class="blue-link">in an interview for this offer</span>
+              <span class="blue-link">Interviewed for this offer</span>
             </span>
             <span class="negotiation-message">
               <span class="iconParent"><i class="fa blue-link fa-exchange"></i></span>
-              <span class="blue-link">negotiating contract details</span>
+              <span class="blue-link">Negotiating contract details</span>
             </span>
             <span class="signed-message">
               <span class="iconParent"><i class="fa green fa-pencil"></i></span>
-              <span class="green">contract was signed</span>
+              <span class="green">Contract was signed</span>
             </span>
             <span class="withdrawn-message">
               <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
-              <span class="red">you withdrawnd this offer</span>
+              <span class="red"></span>
+              <span class="blue-link">Offer was withdrawn</span>
+
             </span>
             <span class="reject-message">
               <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
-              <span class="red">candidate has rejected this offer</span>
+              <span class="red">Offer was rejected</span>
             </span>
           </div>
         </div>

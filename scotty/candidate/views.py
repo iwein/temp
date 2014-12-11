@@ -435,6 +435,8 @@ class CandidateOfferController(CandidateController):
         offer = self.offer
         try:
             offer.accept(**self.request.json)
+            if self.request.json.get('phone'):
+                self.candidate.contact_phone = self.request.json['phone']
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()

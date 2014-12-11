@@ -237,7 +237,7 @@ class Candidate(Base, JsonSerialisable):
     location_id = Column(Integer, ForeignKey(City.id))
     location = relationship(City, info=PUBLIC)
 
-    contact_phone = Column(String(128), info=PUBLIC)
+    contact_phone = Column(String(128), info=PRIVATE)
     contact_skype = Column(String(128), info=PUBLIC)
 
     summary = Column(Text, info=PUBLIC)
@@ -374,7 +374,8 @@ class Candidate(Base, JsonSerialisable):
             result['employer_blacklisted'] = blacklist_count > 0
 
             accepted_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
-                                                           Offer.employer_id == request.employer_id).count()
+                                                           Offer.employer_id == request.employer_id,
+                                                           Offer.has_accepted()).count()
             cutoff = datetime.now() - timedelta(180)
             hired_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
                                                         Offer.job_start_date > cutoff).count()
