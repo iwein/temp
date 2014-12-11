@@ -171,7 +171,7 @@
           <label>Benefits</label>
           <ul class="row">
             <li class="col-sm-6 form-benefits" ng-repeat="benefit in benefits">
-              <label class="{{ benefit.value }}">
+              <label class="benefit-icon {{ benefit.value }}">
                 {{ benefit.value }}
                 <input type="checkbox"
                        ng-disabled="loading"
