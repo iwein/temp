@@ -31,14 +31,14 @@ define(function(require) {
       ;
   });
 
-  module.run(function($state, $templateCache, $rootScope, Session) {
+  module.run(function($location, $templateCache, $rootScope, Session) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
     Session.isActivated();
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $state.go('login');
+        $location.url('index.html');
       });
     };
  });
