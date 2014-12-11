@@ -2,7 +2,7 @@
   <div class="col-sm-6 col-sm-offset-3">
 
     <button class="btn btn-danger"
-      ng-click="remove(candidate)">
+            ng-click="remove(candidate)">
       Delete candidate
     </button>
 
@@ -27,10 +27,9 @@
     </a>
 
     <div class="page-header">
-      <h1>
-        <img class="avatar" ng-src="{{ user.picture_url }}">
-        <small>{{ user.first_name }} {{ user.last_name }}</small>
-      </h1>
+      <img class="avatar pull-left" ng-src="{{ user.picture_url }}">
+      <h2 class="candidate-name">{{ user.first_name }} {{ user.last_name }}</h2>
+      <div ng-if="user.invite_code">Invite Code: {{ user.invite_code.code }}</div>
     </div>
 
     <div class="panel panel-default">
@@ -41,8 +40,6 @@
         <dl class="dl-horizontal">
           <dt>status</dt>
           <dd>{{ user.status }}</dd>
-          <dt ng-if="user.invite_code_id">invite code</dt>
-          <dd ng-if="user.invite_code_id">{{ user.invite_code.code }}
           <dt>email</dt>
           <dd>{{ user.email }}</dd>
           <dt>Availabilty</dt>
@@ -108,10 +105,10 @@
         <h3 class="panel-title">
           Target position
           <button type="submit"
-            class="btn btn-default pull-right"
-            ng-show="isEditing && !formOpen"
-            ng-disabled="loading"
-            ng-click="targetPositionForm.edit(targetPosition, cities)">
+                  class="btn btn-default pull-right"
+                  ng-show="isEditing && !formOpen"
+                  ng-disabled="loading"
+                  ng-click="targetPositionForm.edit(targetPosition, cities)">
             Edit
           </button>
           <div class="clearfix"></div>

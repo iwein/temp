@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  require('textangular');
   var _ = require('underscore');
   var module = require('app-module');
 
@@ -38,7 +39,10 @@ define(function(require) {
     });
 
     function submit() {
+      $scope.dirty = true;
       $scope.loading = true;
+      if (!$scope.model.recruitment_process) return;
+
 
       $scope.model.benefits = $scope.benefits
         .filter(function(benefit) { return benefit.selected })

@@ -1,6 +1,7 @@
 import json
 
 from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
 from pyramid.response import Response
@@ -56,6 +57,6 @@ def includeme(config):
     config.include("scotty.connect.linkedin", route_prefix='/api/v1/connect')
     config.include("scotty.cms.views", route_prefix='/api/v1/cms')
 
-    config.add_view(context=DBAPIError, view=db_error)
-    #config.add_view(context=Exception, view=all_error)
-    config.add_view(context=HTTPError, view=http_error)
+    config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
+    config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
+    config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)

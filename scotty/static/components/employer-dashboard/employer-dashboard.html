@@ -179,11 +179,11 @@
                 </div>
               </form>
             </div>
-            <div class="search-results" ng-show="searchResults.length">
+            <div class="search-results">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
               <div class="offer-list" ng-show="!loading">
-                <div ng-show="searchResults.length" class="search-response">{{ searchResults.length }} candidates found</div>
+                <div class="search-response">{{ searchResults.length }} candidates found</div>
                 <hc-candidate
                   ng-repeat="candidate in searchCandidates"
                   ng-model="candidate"

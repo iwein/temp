@@ -110,6 +110,6 @@ define(function(require) {
     url: '/candidate/:id/offer',
     template: require('text!./employer-create-offer.html'),
     controller: 'CreateOfferCtrl',
-    controllerAs: 'createOffer',
+    controllerAs: 'createOffer'
   };
 });

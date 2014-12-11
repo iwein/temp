@@ -12,17 +12,12 @@ define(function(require) {
     $scope.setLocation = setLocation;
     $scope.loadPage = loadPage;
     $scope.search = search;
+    $scope.terms = [];
     $scope.toggle = toggle;
     $scope.ready = false;
     $scope.today = new Date();
     var resultsPerPage = 10;
     Loader.page(true);
-
-    ConfigAPI.companyTypes().then(function(data) {
-      $scope.companyTypes = data.map(function(type) {
-        return { value: type };
-      });
-    });
 
     Permission.requireSignup().then(function() {
       $scope.ready = true;
@@ -64,15 +59,10 @@ define(function(require) {
 
     function search() {
       var tags = $scope.terms && $scope.terms.join();
-      var companyTypes = $scope.companyTypes
-        .filter(fn.get('selected'))
-        .map(fn.get('value'))
-        .join();
 
       var params = _.extend({},
         $scope.location,
-        tags && { tags: tags },
-        companyTypes && { company_types: companyTypes }
+        tags && { tags: tags }
       );
 
       $scope.loading = true;
