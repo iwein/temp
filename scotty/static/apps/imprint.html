@@ -16,39 +16,29 @@
     <!-- endbuild -->
 </head>
 <body>
+<div id="header-container"></div>
+
 <div class="top"></div>
 <div class="left"></div>
 <div class="right"></div>
 <div class="bottom"></div>
 
+<div id="footer-container"></div>
+
+<!-- build:js build.js -->
+<script src="../bower_components/requirejs/require.js"></script>
+<script src="index/requirejs-config.js"></script>
+<!-- endbuild -->
+
 <script type="text/javascript">
-
-    function request(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.withCredentials = true;
-        xhr.send(null);
-        xhr.addEventListener('readystatechange', function() {
-            if (xhr.readyState !== 4) return null;
-            callback(JSON.parse(xhr.responseText));
-        });
-    }
-
-    var url = 'http://sheltered-meadow-1359.herokuapp.com/api/v1/cms/get?keys=';
-    var binding = {
-        'IMPRINT_TOP': 'top',
-        'IMPRINT_LEFT': 'left',
-        'IMPRINT_RIGHT': 'right',
-        'IMPRINT_BOTTOM': 'bottom',
-    };
-
-    request(url + Object.keys(binding).join(','), function(response) {
-        response.forEach(function(item) {
-            var element = document.querySelector('.' + binding[item.key]);
-            element.innerHTML = item.value;
+    require([ 'apps/index/app' ], function(app) {
+        app.loadContent({
+            'IMPRINT_TOP': 'top',
+            'IMPRINT_LEFT': 'left',
+            'IMPRINT_RIGHT': 'right',
+            'IMPRINT_BOTTOM': 'bottom',
         });
     });
-
 </script>
 </body>
 </html>
