@@ -3,6 +3,7 @@ define(function(require) {
   require('angular-sanitize');
   require('components/directive-offer/directive-offer');
   require('components/partial-benefits/partial-benefits');
+  require('components/partial-offer-newsitem/partial-offer-newsitem');
   var fn = require('tools/fn');
   var module = require('app-module');
 

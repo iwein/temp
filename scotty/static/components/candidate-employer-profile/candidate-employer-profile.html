@@ -5,7 +5,7 @@
       <div class="col-sm-3">
         <div class="row">
           <div class="col-sm-12 bg-gray-light">
-             <div class="user-pic emp-pic" ng-show="data.logo_url" style="background-image: url({{ data.logo_url }})"></div>
+            <div class="user-pic emp-pic" ng-show="data.logo_url" style="background-image: url({{ data.logo_url }})"></div>
           </div>
           <!--TODO toggle class .closed with .open to see the content of the hidden div -->
           <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap" ng-class="{
@@ -57,14 +57,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 border-box mrg-btm padd-vert" ng-show="data.benefits || data.other_benefits">
+          <div class="col-sm-12 border-box mrg-btm padd-vert" ng-if="data.benefits.length || data.other_benefits">
             <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS</div>
-            <div class="row">
-              <div class="col-sm-6 mrg-btm-small" ng-repeat="benefit in data.benefits">
-                <div class="benefit-item {{ benefit }}">{{ benefit }}</div>
-              </div>
-              <div class="col-sm-12 mrg-btm-small">{{ data.other_benefits }}</div>
-            </div>
+            <hc-benefits-display col-class="col-sm-12 employer-benefit-icon"
+                                 list-class="row"
+                                 benefits="data.benefits"
+                                 other-benefits="data.other_benefits"></hc-benefits-display>
+
           </div>
         </div>
       </div>
@@ -97,10 +96,10 @@
               <div class="buttons-wrap">
                 <div ng-if="activated">
                   <button type="button"
-                    class="fw btn bg-green"
-                    ng-show="!isBookmarked"
-                    ng-disabled="!approved"
-                    ng-click="employerProfile.toogleBookmark()">
+                          class="fw btn bg-green"
+                          ng-show="!isBookmarked"
+                          ng-disabled="!approved"
+                          ng-click="employerProfile.toogleBookmark()">
                     Request an interview
                   </button>
                   <div ng-show="!approved">You need to be approved to request an interview</div>

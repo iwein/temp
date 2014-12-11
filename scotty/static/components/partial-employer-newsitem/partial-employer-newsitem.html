@@ -1,0 +1,55 @@
+<div class="row timeline-item">
+  <div class="col-sm-2 no-padd-right rel">
+    <div class="news-ico {{ icon(entry) }}"></div>
+  </div>
+  <div class="col-sm-10">
+    <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
+    <div class="note" ng-if="entry.name === 'SIGN_UP'">You signed up.</div>
+    <div class="note" ng-if="entry.name === 'BOOKMARKED'">
+      <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+      </a>
+      has requested an interview with you.
+    </div>
+    <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'">
+      You interviewed
+      <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+      </a>.
+    </div>
+    <div class="note" ng-if="entry.name === 'OFFER_REJECTED'">
+      <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+      </a> rejected your offer.
+    </div>
+    <div class="note" ng-if="entry.name === 'OFFER_SENT'">
+      You sent an offer to
+      <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+      </a>
+    </div>
+    <div class="note" ng-if="entry.name === 'OFFER_START_DATE'">
+      Amazing! <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+      </a> started their job with you!
+    </div>
+    <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'">
+      You started negotiating contract details with
+      <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
+      </a>
+    </div>
+    <div class="note" ng-if="entry.name === 'OFFER_SIGNED'">
+      You signed a contract with
+      <a ui-sref="candidate({ id: entry.candidate.id })">
+        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
+      </a>. They will start soon!
+    </div>
+    <div class="note" ng-if="entry.name === 'PROFILE_PENDING'">
+      You agreed the terms and conditions!
+    </div>
+    <div class="note" ng-if="entry.name === 'PROFILE_LIVE'">
+      Congrats! Your account was approved! Welcome to Scotty!
+    </div>
+  </div>
+</div>

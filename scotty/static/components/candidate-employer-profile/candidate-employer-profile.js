@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('angular-sanitize');
   require('components/directive-office/directive-office');
+  require('components/partial-benefits/partial-benefits');
   var module = require('app-module');
 
 

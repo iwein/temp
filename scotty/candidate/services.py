@@ -270,10 +270,13 @@ def get_candidate_newsfeed(c):
         events.append(
             {'name': 'OFFER_START_DATE', 'recency': recency(o.job_start_date), 'date': o.job_start_date, 'offer': o})
     for bookmark in candidate.bookmarks:
-        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(bookmark.created), 'date': bookmark.created})
-    for blacklisted in candidate.blacklist:
-        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(blacklisted.created),
-                       'date': blacklisted.created})
+        events.append({'name': 'BOOKMARKED_EMPLOYER', 'recency': recency(bookmark.created), 'date': bookmark.created,
+                       'employer': bookmark.employer})
+
+    # this is same as offer rejection timewise
+    #for blacklisted in candidate.blacklist:
+    #    events.append({'name': 'BLACKLISTED_EMPLOYER', 'recency': recency(blacklisted.created),
+    #                   'date': blacklisted.created, 'employer': blacklisted.employer})
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
     return sorted(events_with_recency, key=lambda k: k['recency'])

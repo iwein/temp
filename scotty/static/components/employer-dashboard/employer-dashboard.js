@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('components/directive-candidate/directive-candidate');
   require('components/directive-offer/directive-offer');
+  require('components/partial-employer-newsitem/partial-employer-newsitem');
   var fn = require('tools/fn');
   var module = require('app-module');
 
