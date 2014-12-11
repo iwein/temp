@@ -36,15 +36,15 @@ class ObjectBuilder(object):
         self.cls = cls
         self.joins = joins
 
-    def serialize(self, pager):
+    def serialize(self, pager, key_modifier=str):
         query = DBSession.query(self.cls).filter(self.cls.id.in_(pager.ids))
         if self.joins:
             query = self.joins(query)
         results = query.all()
-        result_lookup = {str(r.id): r for r in results}
+        result_lookup = {key_modifier(r.id): r for r in results}
         ordered_results = []
         for id in pager.ids:
-            obj = result_lookup.get(id)
+            obj = result_lookup.get(key_modifier(id))
             if obj:
                 obj.__extra__ = pager.extra.get(id)
                 ordered_results.append(obj)
