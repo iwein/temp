@@ -40,7 +40,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $window.location.href = '../index.html';
+        $window.location = '../index.html';
       });
     };
   });
