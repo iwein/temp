@@ -3,10 +3,12 @@ import hashlib
 from uuid import uuid4
 
 from pyramid.httpexceptions import HTTPBadRequest
+from scotty.auth.provider import CANDIDATE
+from scotty.candidate.models import CandidateEmployerBlacklist
 from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer
-from scotty.models.meta import Base, GUID
+from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
 from sqlalchemy.orm import relationship
@@ -170,6 +172,12 @@ class Employer(Base, JsonSerialisable):
         result['offices'] = self.offices
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
+
+        if CANDIDATE in request.effective_principals:
+            cebl = CandidateEmployerBlacklist
+            blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == request.candidate_id,
+                                                           cebl.employer_id == self.id).count()
+            result['blacklisted_by_candidate'] = blacklist_count > 0
         return result
 
 

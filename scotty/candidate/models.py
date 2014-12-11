@@ -3,7 +3,7 @@ from operator import attrgetter
 from uuid import uuid4
 from datetime import datetime
 
-from scotty.auth.provider import ADMIN_USER
+from scotty.auth.provider import ADMIN_USER, EMPLOYER
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -367,6 +367,11 @@ class Candidate(Base, JsonSerialisable):
             result['activation_sent'] = self.activation_sent
             result['admin_comment'] = self.admin_comment
             result['invite_code'] = self.invite_code
+
+        if EMPLOYER in request.effective_principals:
+            cebl = CandidateEmployerBlacklist
+            blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == self.id, cebl.employer_id == request.employer_id).count()
+            result['employer_blacklisted'] = blacklist_count > 0
         return result
 
 
