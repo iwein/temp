@@ -17,7 +17,7 @@ define(function(require) {
   }
   function setHelper(key, method) {
     return function(data) {
-      return this._api[method](this._url() + '/' + key, data + this._sufix);
+      return this._api[method](this._url() + '/' + key + this._sufix, data);
     };
   }
   function deleteHelper(key) {
