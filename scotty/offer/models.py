@@ -106,6 +106,11 @@ class OfferStatusWorkflow(object):
         return and_(*filter)
 
     @classmethod
+    def has_accepted(cls, status_key):
+        columns = class_mapper(cls).columns
+        return columns['accepted'].isnot(None)
+
+    @classmethod
     def by_active(cls):
         columns = class_mapper(cls).columns
         filter = []

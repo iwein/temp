@@ -1,7 +1,7 @@
 import hashlib
 from operator import attrgetter
 from uuid import uuid4
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from scotty.auth.provider import ADMIN_USER, EMPLOYER
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship, class_mapper
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN, allow_display, DISPLAY_ALWAYS, \
     DISPLAY_PRIVATE, get_request_role, DISPLAY_ADMIN
-from scotty.offer.models import CandidateOffer
+from scotty.offer.models import CandidateOffer, Offer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
@@ -372,6 +372,15 @@ class Candidate(Base, JsonSerialisable):
             cebl = CandidateEmployerBlacklist
             blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == self.id, cebl.employer_id == request.employer_id).count()
             result['employer_blacklisted'] = blacklist_count > 0
+
+            accepted_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
+                                                           Offer.employer_id == request.employer_id).count()
+            cutoff = datetime.now() - timedelta(180)
+            hired_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
+                                                        Offer.job_start_date > cutoff).count()
+            result['employer_has_accepted_offers'] = accepted_count > 0
+            result['candidate_has_been_hired'] = hired_count > 0
+
         return result
 
 
