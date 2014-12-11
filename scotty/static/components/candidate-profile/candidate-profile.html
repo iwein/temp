@@ -433,11 +433,10 @@
       <div ng-repeat="offer in offers">
         <div class="orange bld"><a ui-sref="offer({ id: offer.id })">
           {{ offer.data.employer.company_name }}
-          <i class="fa fa-angle-right"></i>
         </a></div>
         <div class="mrg-btm-small">€ {{ offer.data.annual_salary | dottedInteger }}.00</div>
       </div>
-      <a ui-sref="offer-list" class="fl-rg smbd gray">View all <i class="fa fa-angle-right"></i></a>
+      <a ui-sref="offer-list" class="fl-rg smbd gray">View all</a>
     </div>
   </div>
 </div>

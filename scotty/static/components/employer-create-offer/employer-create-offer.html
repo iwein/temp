@@ -39,24 +39,27 @@
             </div>
           </div>
 
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-right">
-              <label>Offered annual salary</label>
-            </div>
-            <div class="col-sm-12 no-padd-right">
-              <div class="input-group">
-                <span class="input-group-addon">€</span>
-                <input type="dotted-integer"
-                       class="form-control"
-                       name="salary"
-                       required
-                       ng-disabled="loading"
-                       ng-model="model.annual_salary"
-                       ng-change="onSalaryChange(model.annual_salary)">
-                <span class="input-group-addon">.00</span>
-              </div>
+          <div class="col-sm-12">
+            <div class="row">
 
-              <div class="form-error" ng-show="formCreateOffer.salary.$dirty && formCreateOffer.salary.$invalid">
+              <div class="form-group required col-sm-6">
+                <div class="col-sm-12 no-padd-right">
+                  <label>Offered annual salary</label>
+                </div>
+                <div class="col-sm-12 no-padd-right">
+                  <div class="input-group">
+                    <span class="input-group-addon">€</span>
+                    <input type="dotted-integer"
+                           class="form-control"
+                           name="salary"
+                           required
+                           ng-disabled="loading"
+                           ng-model="model.annual_salary"
+                           ng-change="onSalaryChange(model.annual_salary)">
+                    <span class="input-group-addon">.00</span>
+                  </div>
+
+                  <div class="form-error" ng-show="formCreateOffer.salary.$dirty && formCreateOffer.salary.$invalid">
                 <span ng-show="formCreateOffer.salary.$error.required">
                   Please insert your offer's salary.
                 </span>
@@ -66,38 +69,40 @@
                 <span ng-show="formCreateOffer.salary.$error.pattern">
                   Decimals are not allowed.
                 </span>
+                  </div>
+                  <div class="form-error" ng-show="formCreateOffer.salary.$dirty && errorSalaryTooLow">
+                    <span>Salary too low</span>
+                  </div>
+                </div>
               </div>
-              <div class="form-error" ng-show="formCreateOffer.salary.$dirty && errorSalaryTooLow">
-                <span>Salary too low</span>
-              </div>
-            </div>
-          </div>
 
-          <div class="form-group required col-sm-6">
-            <div class="col-sm-12 no-padd-left">
-              <label>Location</label>
-            </div>
-            <div class="col-sm-12 no-padd-left">
-              <input type="text"
-                     name="location"
-                     class="form-control"
-                     required
-                     placeholder="Where is the role based."
-                     ng-disabled="loading"
-                     ng-model="locationText"
-                     ng-blur="createOffer.setLocation(locationText)"
-                     typeahead-on-select="createOffer.setLocation(locationText)"
-                     typeahead="location for location in createOffer.searchLocations($viewValue)">
-              <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
+              <div class="form-group required col-sm-6">
+                <div class="col-sm-12 no-padd-left">
+                  <label>Location</label>
+                </div>
+                <div class="col-sm-12 no-padd-left">
+                  <input type="text"
+                         name="location"
+                         class="form-control"
+                         required
+                         placeholder="Where is the role based."
+                         ng-disabled="loading"
+                         ng-model="locationText"
+                         ng-blur="createOffer.setLocation(locationText)"
+                         typeahead-on-select="createOffer.setLocation(locationText)"
+                         typeahead="location for location in createOffer.searchLocations($viewValue)">
+                  <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
                 <span ng-show="formCreateOffer.location.$error.required">
                   Please insert the city of the offer.
                 </span>
-              </div>
-              <div class="form-error" ng-show="errorInvalidCity">
-                <span>Please choose a city from the menu.</span>
-              </div>
-              <div class="form-error" ng-show="errorLocationUnsuitable">
-                <span>Location unsuitable.</span>
+                  </div>
+                  <div class="form-error" ng-show="errorInvalidCity">
+                    <span>Please choose a city from the menu.</span>
+                  </div>
+                  <div class="form-error" ng-show="errorLocationUnsuitable">
+                    <span>Location unsuitable.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -9,14 +9,14 @@
       'bookmark_inactive': !employer.isBookmarked,
     }"></i></button-->
     <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">
-          Company profile <i class="fa fa-angle-right"></i></a>
+          Company profile</a>
   </div>
   <div class="col-sm-12 no-padd-left">
     <div class="row">
       <div class="col-sm-4">
         <div class="img-wrap emp-pic mrg-btm-small" style="background-image: url({{ employer.logo_url }})"></div>
         <a class="link-profile link-search-hide" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })">
-          Company profile <i class="fa fa-angle-right"></i>
+          Company profile
         </a>
         <span ng-if="!hcLinkProfile">
           {{ model._data.first_name }} {{ model._data.last_name }}

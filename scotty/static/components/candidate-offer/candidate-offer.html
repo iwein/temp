@@ -213,7 +213,7 @@
           <div class="buttons-wrap alg-cen">
             <button class="link-red" ng-show="offer.canReject()" ng-click="toggleForm('reject')" ng-class="{
               fw: !offer.canAccept() && !offer.canSign() && !offer.canNextStatus(),
-            }"><span>Reject</span><i class="fa fa-angle-right"></i></button>
+            }"><span>Reject</span></button>
           </div>
           <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'reject'">
             <form class="form-wrap"  ng-submit="reject(offer, rejection)">

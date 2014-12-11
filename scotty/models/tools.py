@@ -30,10 +30,10 @@ def allow_display(request, info, lvl):
 def get_request_role(request, owner_id):
     display = [DISPLAY_ALWAYS]
     # hack way, but we are using UUIDs, so they shouldn't collide
-    if request.candidate_id == owner_id or request.employer_id == owner_id:
-        display.append(DISPLAY_PRIVATE)
     if ADMIN_USER in request.effective_principals:
-        display.append(DISPLAY_ADMIN)
+        display.extend([DISPLAY_PRIVATE, DISPLAY_ADMIN])
+    elif request.candidate_id == owner_id or request.employer_id == owner_id:
+        display.append(DISPLAY_PRIVATE)
     return display
 
 

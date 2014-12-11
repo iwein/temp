@@ -108,16 +108,11 @@
 
 
       <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="bookmarks.length">
-        <div class="bookmark-title" ng-click="toggle('showBookmarks')">
-          Required Job Interviews <i class="fa" ng-class="{
-            'fa-angle-up': showBookmarks,
-            'fa-angle-down': !showBookmarks,
-          }"></i>
-        </div>
-        <div class="bookmark-item" ng-show="showBookmarks">
+        <div class="bookmark-title">Requested Job Interviews</div>
+        <div class="bookmark-item">
           <div ng-repeat="entry in bookmarks"  class="mrg-btm">
             <div class="orange mrg-btm-small">
-              <a ui-sref="employer({ id: entry.id })">{{ entry.company_name }} <i class="fa fa-angle-right"></i></a>
+              <a ui-sref="employer({ id: entry.id })">{{ entry.company_name }}</a>
             </div>
             <div>{{ entry.offices[0].address_city.city }}, {{ entry.offices[0].address_city.country_iso }}</div>
           </div>
