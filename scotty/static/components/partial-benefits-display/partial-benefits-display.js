@@ -8,7 +8,8 @@ define(function(require) {
       scope: {
         benefits: '=',
         otherBenefits: '=',
-        colClass: '@'
+        colClass: '@',
+        listClass: '@'
       },
       template: require('text!./partial-benefits-display.html'),
       link: function($scope) {

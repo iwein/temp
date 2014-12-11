@@ -364,8 +364,8 @@
                 <div class="clearfix"></div>
               </div>
             </form>
-          <div class="col-sm-12 border-box mrg-btm padd-vert" ng-hide="benefits.editing">
 
+          <div class="col-sm-12 border-box mrg-btm padd-vert" ng-hide="benefits.editing">
             <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS
               <button type="submit"
                 class="btn-edit-sub"
@@ -375,16 +375,19 @@
                 <i class="fa fa-pencil"></i>
               </button>
             </div>
-            <div class="row">
-              <div class="col-sm-12 mrg-btm-small" ng-show="!data.benefits.length">Not defined yet</div>
-              <div class="col-sm-6 mrg-btm-small" ng-repeat="benefit in data.benefits">
-                <div class="benefit-item {{ benefit }}">{{ benefit }}</div>
-              </div>
-              <div class="col-sm-12 mrg-btm-small">{{ data.other_benefits }}</div>
+            <div class="col-sm-12 mrg-btm-small" ng-if="!data.benefits.length && !data.other_benefits">
+              No Benefits defined yet.
+            </div>
+            <div ng-if="data.benefits.length || data.other_benefits">
+              <hc-benefits-display col-class="col-sm-12 employer-benefit-icon"
+                                   list-class="row"
+                                   benefits="data.benefits"
+                                   other-benefits="data.other_benefits"></hc-benefits-display>
             </div>
           </div>
         </div>
       </div>
+
       <div class="col-sm-9">
         <div class="row bg-white">
           <div class="col-sm-8">
@@ -398,7 +401,7 @@
                     <div class="edit-tarpos" ng-show="summary.editing">
                       <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
                       <h5 class="edit-title">Mission</h5>
-                      
+
                         <form class="edit-form" ng-submit="summary.save(summary.data)">
                           <text-angular ng-model="summary.data.mission_text"></text-angular>
                           <div class="buttons-wrap mrg-top">
@@ -487,7 +490,7 @@
             </div>
           </div>
           <div class="col-sm-12 border-box skills-box" ng-hide="tech.editing">
-            
+
             <button type="submit"
               class="btn-edit-sub-skills"
               ng-disabled="loading || formOpen"
@@ -570,7 +573,7 @@
               ng-click="descriptions.edit()">
               <i class="fa fa-pencil"></i>
             </button>
-            
+
             <div class="accordion-wrap">
               <div>
                 <h3 class="accordion-subtitle">Technology Philosophy</h3>
