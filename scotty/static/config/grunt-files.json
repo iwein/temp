@@ -84,8 +84,9 @@
       "about-us.html",
       "disclaimer.html",
       "faq.html",
-      "index-employer.html",
+      "forgot-password.html",
       "imprint.html",
+      "index-employer.html",
       "login.html",
       "terms-of-service.html"
     ],
@@ -106,6 +107,7 @@
         "dist/about-us.html",
         "dist/disclaimer.html",
         "dist/faq.html",
+        "dist/forgot-password.html",
         "dist/imprint.html",
         "dist/index-employer.html",
         "dist/login.html",
