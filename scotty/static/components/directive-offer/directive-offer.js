@@ -10,9 +10,11 @@ define(function(require) {
       scope: {
         model: '=ngModel',
         hcHide: '@',
-        hcDisabled: '=',
+        hcDisabled: '='
       },
       link: function(scope) {
+        scope.isActive = ['REJECTED', 'WITHDRAWN', 'EXPIRED'].indexOf(scope.model.status) !== -1;
+        scope.canBeViewed = ['REJECTED', 'WITHDRAWN', 'EXPIRED', 'STARTED'].indexOf(scope.model.status) !== -1;
         try {
           scope.hide = angular.fromJson(scope.hcHide || '{}');
         } catch (err) {

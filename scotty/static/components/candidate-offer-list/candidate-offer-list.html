@@ -8,10 +8,14 @@
       </div>
       <div class="col-sm-12 bg-white">
         <div class="row">
-          <div class="pad-30" ng-show="!offers.length">No offers</div>
+          <div class="pad-30" ng-show="!offers.length">
+            <p>No offers yet.</p>
+            <p class="offer-list-desc" ng-show="offers.length == 0">
+              On this page you will see the offers that have been made to you so far.
+            </p>
+
+          </div>
           <div class="col-sm-12">
-            <p class="offer-list-desc">On this page you can see all offers that have been made to you so far.</br>
-                To see the details of an offer, please click on the respective link.</p>
             <ul class="offer-list">
               <li class="offer-list-item no-marg-right no-marg-left" ng-repeat="offer in offers" ng-class="{ 'last': $last }">
                 <hc-offer
@@ -26,7 +30,7 @@
             </ul>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>

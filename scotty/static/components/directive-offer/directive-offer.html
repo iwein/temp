@@ -1,4 +1,4 @@
-<div class="row" ng-class="{ inactive: model.status === 'REJECTED' }">
+<div class="row" ng-class="{ inactive: !isActive }">
   <div class="col-sm-3">
     <div class="pad-lft-15">
       <div class="caps font-14 mrg-btm">Offer No. {{ model.data.reference }}</div>
@@ -50,7 +50,10 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-8 offer-list-title">{{ model.data.role }}
+      <div class="col-sm-8 offer-list-title">
+        {{ model.data.role }}
+        <span ng-if="hide.candidate">@ {{ model.data.employer.company_name }}
+        </span>
         <div ng-if="!hide.candidate" class="subtitle">
           <span class="iconParent">
             <i class="fa fa-euro gray-light"></i>
@@ -60,9 +63,7 @@
       </div>
       <div class="col-sm-4 mrg-btm-big">
         <div class="pad-rgt-15">
-          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })"
-            ng-hide="model.status === 'STARTED' || model.status === 'REJECTED' || model.status === 'WITHDRAWN'">
-            Offer details</a>
+          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })" ng-show="canBeViewed">Offer details</a>
 
           <div class="row" ng-show="model.status === 'REJECTED' || model.status === 'WITHDRAWN'">
             <div class="col-sm-6 col-sm-offset-6 alg-left">

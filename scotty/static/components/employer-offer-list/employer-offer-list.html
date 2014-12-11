@@ -8,9 +8,13 @@
       </div>
       <div class="col-sm-12 bg-white">
         <div class="row">
-          <div class="pad-30" ng-show="!offers.length">No offers</div>
+          <div class="pad-30" ng-show="!offers.length">
+            <p class="offer-list-desc">
+              Here you will find all offers your company made to candidates.
+            </p>
+            <p>No offers yet.</p>
+          </div>
           <div class="col-sm-12">
-            <p class="offer-list-desc">On that page you find all offers that have been made by your company.</br> It is a quick overview on their statuses. </br>To see the offer data please click on the respective link.</p>
             <ul class="offer-list">
               <li class="offer-list-item  no-marg-right no-marg-left" ng-repeat="offer in offers" ng-class="{ 'last': $last }">
                 <hc-offer
