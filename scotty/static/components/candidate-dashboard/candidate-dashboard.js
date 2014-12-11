@@ -1,6 +1,8 @@
 define(function(require) {
   'use strict';
   require('components/directive-employer/directive-employer');
+  require('components/partial-candidate-newsitem/partial-candidate-newsitem');
+
   var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
