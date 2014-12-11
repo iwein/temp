@@ -2,7 +2,7 @@ define(function(require) {
   'use strict';
   require('angular-sanitize');
   require('components/directive-offer/directive-offer');
-  require('components/partial-benefits-display/partial-benefits-display');
+  require('components/partial-benefits/partial-benefits');
   var fn = require('tools/fn');
   var module = require('app-module');
 

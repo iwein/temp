@@ -331,23 +331,9 @@
               <h5 class="edit-title mrg-btm">Benefits </h5>
 
               <div class="form-wrap edit-form">
-                <ul>
-                  <li class="form-benefits clearfix mrg-btm-small" ng-repeat="benefit in benefits.data.benefits">
-                    <label class="benefit-icon {{ benefit.value }} col-sm-6 ">
-                      {{ benefit.value }}
-                      <input type="checkbox"
-                        ng-disabled="loading"
-                        ng-model="benefit.selected">
-                    </label>
-                  </li>
-                </ul>
-                <textarea
-                  class="form-control mrg-btm"
-                  placeholder="Other benefits"
-                  name="recruitment"
-                  ng-disabled="loading"
-                  ng-model="benefits.data.other_benefits">
-                </textarea>
+                <hc-benefit-single-edit benefits="benefits.data.benefits"
+                  other-benefits="benefits.data.other_benefits"></hc-benefit-single-edit>
+
                 <div class="buttons-wrap">
                   <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"

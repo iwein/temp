@@ -6,30 +6,9 @@
     <div class="col-sm-12">
       <h3 class="signup-title">Benefits &amp; Process</h3>
       <div class="form-wrap edit-form mrg-btm bg-gray-lighter pad-30 form-signup">
-        <div class="row mrg-btm">
-          <div class="col-sm-9">
-            <ul class="row check-wrap mrg-btm">
-              <li class="col-sm-6 form-benefits" ng-repeat="benefit in benefits">
-                <label class="benefit-icon {{ benefit.value }}">
 
-                  {{ benefit.value }}
-                  <input type="checkbox"
-                         ng-disabled="loading"
-                         ng-model="benefit.selected">
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div class="col-sm-9">
-            <textarea
-              class="form-control two-liner"
-              placeholder="Other benefits"
-              name="recruitment"
-              ng-disabled="loading"
-              ng-model="model.other_benefits">
-            </textarea>
-          </div>
-        </div>
+        <hc-benefits-edit row-class="row" col-class="col-lg-6 col-sm-12 form-benefits mrg-btm-small"
+                          benefits="benefits" other-benefits="model.other_benefits"></hc-benefits-edit>
 
         <div class="mrg-btm row required">
           <label class="col-sm-12">Recruitment process</label>
@@ -61,7 +40,6 @@
         </div>
       </div>
 
-
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="submit"
                 class="fl-rg bg-green btn-small"
@@ -71,6 +49,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="col-sm-4 ">
     <div class="row bg-gray-lighter2 mrg-btm">

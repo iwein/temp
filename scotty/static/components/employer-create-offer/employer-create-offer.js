@@ -3,6 +3,7 @@ define(function(require) {
   require('textangular');
   require('tools/config-api');
   require('components/directive-candidate/directive-candidate');
+  require('components/partial-benefits/partial-benefits');
   var fn = require('tools/fn');
   var module = require('app-module');
 

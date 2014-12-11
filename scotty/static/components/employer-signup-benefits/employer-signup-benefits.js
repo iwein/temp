@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('session');
   require('textangular');
+  require('components/partial-benefits/partial-benefits');
   var _ = require('underscore');
   var module = require('app-module');
 
