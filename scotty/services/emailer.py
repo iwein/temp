@@ -75,6 +75,18 @@ class MandrillEmailer(object):
                               {'content': candidate_name, 'name': 'candidate_name'},
                               {'content': url, 'name': 'url'}]})
 
+    def send_candidate_hired_email(self, offer, candidate, employer):
+        url = 'http://%s/candidate/#/offer/%s' % (self.frontend, offer.id)
+        return self.send('candidate-hired-and-sleep', [],
+                         {'to': [{'email': candidate.email, 'name': candidate.full_name}],
+                          'global_merge_vars': [
+                              {'content': candidate.first_name, 'name': 'first_name'},
+                              {'content': employer.company_name, 'name': 'company_name'},
+                              # TODO: HARD CODED
+                              {'content': 1001, 'name': 'bonus'},
+                              {'content': 1001, 'name': 'referreal_bonus'},
+                              {'content': url, 'name': 'url'}]})
+
     def send_employer_approved(self, company_email, contact_name, company_name):
         url = 'http://%s/employer' % (self.frontend)
         return self.send('employer-approved', [],
@@ -115,6 +127,20 @@ class MandrillEmailer(object):
                                      company_name, offer_id, candidate_id):
         return self.send_employer_offer(email, candidate_name, contact_name, company_name, offer_id, candidate_id,
                                         'employer-offer-rejected')
+
+    def send_employers_offer_rejected(self, offer, candidate, employers, rejection_reason):
+        offer_url = 'http://%s/employer/#/offer/%s' % (self.frontend, offer.id)
+        candidate_url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate.id)
+        return self.send('employer-offer-rejected', [],
+                         {'to': [{'email': e.email, 'name': e.company_name, 'type': 'bcc'} for e in employers],
+                          'merge_vars': [{'rcpt': e.email, 'vars': [{'content': e.contact_name, 'name': 'contact_name'},
+                                                                    {'content': e.company_name, 'name': 'company_name'}]}
+                                         for e in employers],
+                          'global_merge_vars': [
+                              {'content': candidate.full_name, 'name': 'candidate_name'},
+                              {'content': rejection_reason, 'name': 'rejection_reason'},
+                              {'content': offer_url, 'name': 'offer_url'},
+                              {'content': candidate_url, 'name': 'candidate_url'}]})
 
     def send_employer_offer(self, email,
                             candidate_name,
