@@ -1,3 +1,4 @@
 <div ng-repeat="notification in notifications" class="alert alert-{{ notification.color }}">
-  {{ notification.message }}
+  <span ng-if="notification.html" ng-bind-html="notification.message"></span>
+  <span ng-if="!notification.html">{{ notification.message }}</span>
 </div>
