@@ -3,7 +3,6 @@
     <div class="status-wrap">
       <div class="status status-{{offer.status}}">
         <span>status: </span>
-
         <span class="accept-message">
           <span class="iconParent"><i class="fa blue-link fa-clock-o"></i></span>
           <span class="blue-link">waiting for you to accept</span>
@@ -107,7 +106,7 @@
             </div>
           </div>
         </div>
-        <div class="row mrg-btm active-form-{{ showForm || 'none' }}" >
+        <div class="row mrg-btm active-form-{{ showForm || 'none' }}" ng-if="!has_been_hired">
           <div class="buttons-wrap">
             <button class="col-sm-12 btn bg-green btn-first" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
               {{ offer.getNextStatusText() }}

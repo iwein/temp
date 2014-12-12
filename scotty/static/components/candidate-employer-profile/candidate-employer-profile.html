@@ -95,21 +95,25 @@
             <div class="row">
               <div class="buttons-wrap">
                 <div ng-if="data.blacklisted_by_candidate">
-                  <div ng-show="isBookmarked" class="fw btn-fake bg-blue-light">BLACKLISTED</div>
+                  <div class="fw btn-fake bg-blue-light">BLACKLISTED</div>
                 </div>
                 <div ng-if="!data.blacklisted_by_candidate">
-
-                  <div ng-if="activated">
-                    <button type="button"
-                            class="fw btn bg-green"
-                            ng-show="!isBookmarked"
-                            ng-disabled="!approved"
-                            ng-click="employerProfile.toogleBookmark()">
-                      Request an interview
-                    </button>
-                    <div ng-show="!approved">You need to be approved to request an interview</div>
+                  <div ng-if="has_been_hired">
+                    <div class="fw btn-fake bg-blue-light">You'be already been hired.</div>
                   </div>
-                  <div ng-show="isBookmarked" class="fw btn-fake bg-blue-light">interview requested</div>
+                  <div ng-if="!has_been_hired">
+                    <div ng-if="activated">
+                      <button type="button"
+                              class="fw btn bg-green"
+                              ng-show="!isBookmarked"
+                              ng-disabled="!approved"
+                              ng-click="employerProfile.toogleBookmark()">
+                        Request an interview
+                      </button>
+                      <div ng-show="!approved">You need to be approved to request an interview</div>
+                    </div>
+                    <div ng-show="isBookmarked" class="fw btn-fake bg-blue-light">interview requested</div>
+                  </div>
                 </div>
               </div>
             </div>

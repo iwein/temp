@@ -13,8 +13,9 @@ define(function(require) {
         hcDisabled: '='
       },
       link: function(scope) {
-        scope.isActive = ['REJECTED', 'WITHDRAWN', 'EXPIRED'].indexOf(scope.model.status) === -1;
-        scope.canBeViewed = ['REJECTED', 'WITHDRAWN', 'EXPIRED', 'STARTED'].indexOf(scope.model.status) === -1;
+        scope.isActive = ['REJECTED', 'WITHDRAWN', 'EXPIRED'].indexOf(scope.model.status) === -1 && !scope.hcDisabled;
+        scope.canBeViewed = ['REJECTED', 'WITHDRAWN', 'EXPIRED', 'STARTED'].indexOf(
+          scope.model.status) === -1 && !scope.hcDisabled;
         try {
           scope.hide = angular.fromJson(scope.hcHide || '{}');
         } catch (err) {

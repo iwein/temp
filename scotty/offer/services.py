@@ -1,9 +1,14 @@
 from datetime import datetime
 
 from pyramid.httpexceptions import HTTPBadRequest
+from scotty import DBSession
+from scotty.configuration.models import RejectionReason
+from scotty.employer.models import Employer
+from scotty.models.common import get_by_name_or_create, get_by_name_or_raise
+from scotty.offer.models import Offer
 
 
-def set_offer_signed(offer, params, emailer):
+def set_offer_signed(offer, candidate, employer, params, emailer):
     try:
         start_date = params['start_date']
         start_salary = params['start_salary']
@@ -11,11 +16,30 @@ def set_offer_signed(offer, params, emailer):
         raise HTTPBadRequest("Missing start_date or start_salary")
     offer.set_contract_signed(start_date, start_salary)
 
+    # REJECT OTHER OFFERS
+    reason = get_by_name_or_raise(RejectionReason, RejectionReason.OTHER)
+    offers = DBSession.query(Offer).filter(Offer.candidate_id == offer.candidate_id,
+                                           Offer.id != offer.id,
+                                           Offer.by_active()).all()
+    for offer in offers:
+        offer.set_rejected(reason, 'Accepted another offer.')
+    # EMAIL ADMIN
     emailer.send_admin_candidate_hired_email(
-        candidate_name=offer.candidate.full_name,
-        contact_name=offer.employer.contact_name,
-        company_name=offer.employer.company_name,
+        candidate_name=candidate.full_name,
+        contact_name=employer.contact_name,
+        company_name=employer.company_name,
         offer_id=offer.id)
+
+    # EMAIL CANDIDATE
+    emailer.send_candidate_hired_email(offer, candidate, employer)
+
+    # EMAIL REJECTED EMPLOYERS
+    rejects = DBSession.query(Employer).join(Offer).filter(Offer.candidate_id == offer.candidate_id,
+                                                           Employer.id != offer.employer_id,
+                                                           Offer.by_active()).all()
+    rejection_reason = "I accepted another, better offer."
+    emailer.send_employers_offer_rejected(offer, candidate, rejects, rejection_reason)
+
     return offer
 
 

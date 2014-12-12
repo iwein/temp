@@ -156,7 +156,6 @@ class OfferStatusWorkflow(object):
             self.withdrawal_reason = reason
             self.withdrawal_text = withdrawal_text
 
-
     def set_rejected(self, reason, rejected_text=None):
         if self.status.is_final:
             raise InvalidStatusError("Status cannot be set to REJECTED, "

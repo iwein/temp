@@ -43,6 +43,12 @@ define(function(require) {
       function getIsBookmarked() {
         Loader.add('candidate-employer-profile-isbookmarked');
         return Session.getUser().then(function(user) {
+
+          $scope.has_been_hired = user._data.candidate_has_been_hired;
+          if($scope.has_been_hired){
+            toaster.error('You have been hired', {untilStateChange: true});
+          }
+
           return user.getBookmarks();
         }).then(function(results) {
           $scope.isBookmarked = results.some(function(employer) {

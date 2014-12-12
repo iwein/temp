@@ -51,6 +51,7 @@ class Proficiency(Base, NamedModel):
 
 
 class RejectionReason(Base, NamedModel):
+    OTHER = 'Other'
     __tablename__ = 'rejectionreason'
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False, unique=True)

@@ -5,31 +5,28 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
-from scotty.auth.provider import ADMIN_PERM
-from scotty.tools import split_strip
-from sqlalchemy import or_, and_, func, String
-from sqlalchemy.sql.expression import cast
+from scotty.auth.provider import ADMIN_PERM, ADMIN_USER
+from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
-
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
     CandidateSkill, V_CANDIDATE_FT_INDEX, V_HIRED_CANDIDATE
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
+    set_preferredlocations_on_candidate, edit_candidate, get_candidate_newsfeed, \
     set_candidate_work_experiences, set_candidate_education
-from scotty.configuration.models import RejectionReason, Skill, City, Role, Country
+from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
-from scotty.models.common import get_by_name_or_raise, get_location_by_name_or_raise
+from scotty.models.common import get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer, Offer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
 from scotty.services.pagingservice import ObjectBuilder, PseudoPager
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
-from scotty.views.common import POST, GET, DELETE, PUT, run_paginated_query
+from scotty.views.common import POST, GET, DELETE, PUT
 
 
 log = logging.getLogger(__name__)
@@ -225,8 +222,6 @@ class CandidateViewController(CandidateController):
 
         query = DBSession.query(Candidate.id).filter(Candidate.status == status)
 
-        query = query.outerjoin(V_HIRED_CANDIDATE, Candidate.id == V_HIRED_CANDIDATE.c.id )
-        query = query.filter(V_HIRED_CANDIDATE.c.id == None)
         if locations:
             query = query.join(PreferredLocation)
 
@@ -251,6 +246,10 @@ class CandidateViewController(CandidateController):
             query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills)) \
                 .having(func.count(Skill.name) == len(skills))
 
+        if ADMIN_USER not in self.request.effective_principals:
+            query = query.outerjoin(V_HIRED_CANDIDATE, Candidate.id == V_HIRED_CANDIDATE.c.id)\
+                .filter(V_HIRED_CANDIDATE.c.id.is_(None))
+
         pager = PseudoPager(query, offset, limit)
 
         def optimise_query(q):
@@ -270,17 +269,16 @@ class CandidateViewController(CandidateController):
 
         terms = params.get('q', '').replace(' ', '&')
         if terms:
+            id_col = V_CANDIDATE_FT_INDEX.c.id
             query = DBSession.query(V_CANDIDATE_FT_INDEX.c.id).filter(V_CANDIDATE_FT_INDEX.c.status == status)
             query = query.filter(V_CANDIDATE_FT_INDEX.c.search_index.match(terms, postgresql_regconfig='english'))
         else:
+            id_col = Candidate.id
             status = get_by_name_or_raise(CandidateStatus, status)
             query = DBSession.query(Candidate.id).filter(Candidate.status == status)
 
-        query = query.outerjoin(V_HIRED_CANDIDATE, V_CANDIDATE_FT_INDEX.c.id == V_HIRED_CANDIDATE.c.id )
-        query = query.filter(V_HIRED_CANDIDATE.c.id == None)
-
-
-
+        if ADMIN_USER not in self.request.effective_principals:
+            query = query.outerjoin(V_HIRED_CANDIDATE, id_col == V_HIRED_CANDIDATE.c.id).filter(V_HIRED_CANDIDATE.c.id.is_(None))
 
         pager = PseudoPager(query, offset, limit)
 
@@ -503,7 +501,8 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_signed', **POST)
     def contract_signed(self):
         try:
-            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+            offer = set_offer_signed(self.offer, self.candidate, self.offer.employer,
+                                     self.request.json, self.request.emailer)
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()

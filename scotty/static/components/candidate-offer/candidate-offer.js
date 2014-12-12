@@ -24,7 +24,15 @@ define(function(require) {
       ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));
       Session.getUser()
         .then(fn.invoke('getData', []))
-        .then(function(data) { email = data.email });
+        .then(function(data) {
+          email = data.email;
+
+          $scope.has_been_hired = data.candidate_has_been_hired;
+          if($scope.has_been_hired){
+            toaster.error('You have been hired!', {untilStateChange: true});
+          }
+
+        });
 
       return Session.user.getOffer($scope.id);
     }).then(function(offer) {
