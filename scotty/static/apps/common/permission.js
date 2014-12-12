@@ -34,31 +34,21 @@ define(function(require) {
 
     requireSignup: function() {
       return this.requireLogged().then(function() {
-        return this._session.isSignupComplete().catch(function(error) {
-          this._alert.defaultError();
-          throw error;
-        });
-      }.bind(this)).then(function(isComplete) {
-        if (isComplete) return true;
+        if (this._session.isSignupComplete) return true;
         this._alert.warning('You need complete signup process to see this page.');
         this._location.go('signup');
         throw new SignupRequiredError('Signup required');
       }.bind(this));
     },
 
-    requireActivated: function() {
+    requireApproved: function() {
       return this.requireLogged().then(function() {
-        return this._session.isActivated().catch(function(error) {
-          this._alert.defaultError();
-          throw error;
-        });
-      }.bind(this)).then(function(isActivated) {
-        if (isActivated) return true;
+        if (this._session.isApproved) return true;
         this._alert.warning('You need be approved to see this page.');
         this._location.go('signup');
         throw new ActivationRequiredError('Login required');
       }.bind(this));
-    },
+    }
   };
 
   Permission.LoginRequiredError = LoginRequiredError;

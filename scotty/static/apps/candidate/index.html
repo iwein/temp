@@ -32,6 +32,13 @@
 
       <div id="content">
         <div class="message-container">
+          <div class="alert alert-warning alert-verification" ng-show="session.user && session.isActivated && !session.isApproved">
+            You have not yet been approved
+          </div>
+          <div class="alert alert-warning alert-verification" ng-show="session.user && !session.isActivated">
+            Please check your inbox and confirm your email address.
+          </div>
+
           <hc-notifications></hc-notifications>
           <div ui-view="messages"></div>
         </div>

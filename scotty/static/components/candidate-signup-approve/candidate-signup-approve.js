@@ -2,17 +2,10 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-
   module.controller('CandidateSignupApproveCtrl', function($scope, $state, Session) {
     $scope.ready = false;
-    Session.isSignupComplete().then(function(approved) {
-      if (approved)
-        $state.go('profile');
-    }).finally(function() {
-      $scope.ready = true;
-    });
+    if (Session.isSignupComplete) $state.go('profile');
   });
-
 
   return {
     url: '/approve/',

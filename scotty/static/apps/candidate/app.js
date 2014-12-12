@@ -34,7 +34,7 @@ define(function(require) {
   module.run(function($window, $templateCache, $rootScope, Session) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
-    Session.isActivated();
+    Session.getUser();
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {

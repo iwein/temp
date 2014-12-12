@@ -172,12 +172,14 @@ class Employer(Base, JsonSerialisable):
         result['offices'] = self.offices
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
+        result['is_approved'] = self.approved is not None
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist
             blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == request.candidate_id,
                                                            cebl.employer_id == self.id).count()
             result['blacklisted_by_candidate'] = blacklist_count > 0
+
         return result
 
 

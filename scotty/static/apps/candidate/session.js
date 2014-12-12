@@ -18,6 +18,10 @@ define(function(require) {
     _setUser: function(response) {
       this._unsetUser();
       this.user = new Candidate(this._api, 'me', response);
+
+      this.isSignupComplete = this.user._data.is_approved && this.user._data.is_activated;
+      this.isActivated = this.user._data.is_activated;
+      this.isApproved= this.user._data.is_approved;
       return this.user;
     },
 
@@ -75,7 +79,10 @@ define(function(require) {
     },
 
     activate: function(token) {
-      return this._api.get('/candidates/activate/' + token);
+      return this._api.get('/candidates/activate/' + token).then(function(){
+        this.isActivated = true;
+      }.bind(this));
+
     },
 
     signup: function(data) {
@@ -88,24 +95,6 @@ define(function(require) {
           return null;
         throw request;
       });
-    },
-
-    _checkSignupStage: function(skip) {
-      return this.getSignupStage().then(function(stage) {
-        if (!stage) return false;
-        this.activated = stage.active;
-        return stage.ordering.every(function(item) {
-          return skip.indexOf(item) !== -1 || stage[item];
-        });
-      }.bind(this));
-    },
-
-    isSignupComplete: function() {
-      return this._checkSignupStage([ 'approved', 'active' ]);
-    },
-
-    isActivated: function() {
-      return this._checkSignupStage([ 'active' ]);
     },
 
     getCompletionWorkflow: function() {

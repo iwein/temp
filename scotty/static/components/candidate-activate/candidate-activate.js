@@ -6,10 +6,10 @@ define(function(require) {
     Loader.page(true);
 
     Session.activate($state.params.token).then(function() {
-      return Session.isActivated();
-    }).then(function(result) {
+      return Session.isActivated;
+    }).then(function() {
       $scope.success = true;
-      $scope.signupComplete = result;
+      $scope.signupComplete = Session.isActivated && Session.isApproved;
     }, function(request) {
       if (request.status === 404) {
         toaster.error('Invalid invitation token.');

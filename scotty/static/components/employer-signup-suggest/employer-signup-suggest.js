@@ -10,12 +10,8 @@ define(function(require) {
     $scope.approved = false;
     Loader.page(true);
 
-    Session.isSignupComplete().then(function(value) {
-      if (value)
+    if (Session.isSignupComplete)
         $state.go('dashboard');
-    }).finally(function() {
-      $scope.ready = true;
-    });
 
     Session.getUser().then(function(user) {
       return user && user.getSuggestedCandidates();

@@ -377,6 +377,13 @@ class Candidate(Base, JsonSerialisable):
             blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == self.id, cebl.employer_id == request.employer_id).count()
             result['employer_blacklisted'] = blacklist_count > 0
 
+            if not blacklist_count:
+                cbe = CandidateBookmarkEmployer
+                bookmark_count = DBSession.query(cbe).filter(cbe.candidate_id == self.id,
+                                                             cbe.employer_id == request.employer_id).count()
+                result['employer_bookmarked'] = bookmark_count > 0
+
+
             accepted_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
                                                            Offer.employer_id == request.employer_id,
                                                            Offer.has_accepted()).count()
@@ -387,6 +394,10 @@ class Candidate(Base, JsonSerialisable):
         if self.id == request.candidate_id:
             hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
             result['candidate_has_been_hired'] = hired_count > 0
+
+            result['is_approved'] = self.status.name == 'active'
+            result['is_activated'] = self.activated is not None
+
         return result
 
 

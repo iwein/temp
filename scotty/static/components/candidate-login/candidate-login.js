@@ -14,17 +14,15 @@ define(function(require) {
       Loader.add('candidate-login');
 
       Session.login(email, password).then(function() {
-        return Session.isActivated();
-      }, function(error) {
-        toaster.error('Invalid email or password.');
-        throw error;
-      }).then(function(isActivated) {
         if (redirect) {
           $location.search('go', null);
           $location.path(redirect);
         } else {
-          $state.go(isActivated ? 'dashboard' : 'signup');
+          $state.go(Session.isActivated ? 'dashboard' : 'signup');
         }
+      }, function(error) {
+        toaster.error('Invalid email or password.');
+        throw error;
       }).finally(function() {
         $scope.loading = false;
         Loader.remove('candidate-login');
@@ -37,6 +35,6 @@ define(function(require) {
     url: '/login/?go',
     template: require('text!./candidate-login.html'),
     controller: 'CandidateLoginCtrl',
-    controllerAs: 'login',
+    controllerAs: 'login'
   };
 });

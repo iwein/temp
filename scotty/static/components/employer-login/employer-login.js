@@ -13,12 +13,7 @@ define(function(require) {
       Loader.add('employer-login');
 
       Session.login(email, password).then(function() {
-        return Session.isSignupComplete();
-      }, function(error) {
-        toaster.error('Invalid email or password.');
-        throw error;
-      }).then(function(isComplete) {
-        $state.go(isComplete ? 'dashboard' : 'signup');
+        $state.go(Session.isSignupComplete ? 'dashboard' : 'signup');
       }).finally(function() {
         $scope.loading = false;
         Loader.remove('employer-login');

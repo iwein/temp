@@ -19,7 +19,7 @@ define(function(require) {
     $scope.ready = false;
     Loader.page(true);
 
-    Permission.requireActivated().then(function() {
+    Permission.requireApproved().then(function() {
       $scope.loading = false;
       $scope.model = {};
 

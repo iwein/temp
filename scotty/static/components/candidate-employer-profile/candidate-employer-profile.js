@@ -11,17 +11,9 @@ define(function(require) {
     Loader.page(true);
     $scope.ready = false;
 
-    Session.isActivated().then(function(activated) {
-      $scope.activated = activated;
-    });
-
     Permission.requireSignup().then(function() {
-      this.toogleBookmark = toogleBookmark;
       $scope.toggle = toggle;
       $scope.id = $state.params.id;
-      $scope.approved = Session.isActivated();
-
-      getIsBookmarked();
 
       Session.getEmployer($scope.id).then(function(employer) {
         $scope.employer = employer;
@@ -39,43 +31,22 @@ define(function(require) {
         Loader.page(false);
       });
 
+      Loader.add('candidate-employer-profile-isbookmarked');
+      Session.getUser().then(function(user) {
+        $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
+        $scope.candidate_is_approved = user._data.is_approved;
+        $scope.candidate_is_activated = user._data.is_activated;
+        $scope.candidate_is_bookmarked = user._data.employer_bookmarked;
+        $scope.candidate_is_blacklisted = user._data.employer_blacklisted;
 
-      function getIsBookmarked() {
-        Loader.add('candidate-employer-profile-isbookmarked');
-        return Session.getUser().then(function(user) {
-
-          $scope.has_been_hired = user._data.candidate_has_been_hired;
-          if($scope.has_been_hired){
-            toaster.error('You have been hired', {untilStateChange: true});
-          }
-
-          return user.getBookmarks();
-        }).then(function(results) {
-          $scope.isBookmarked = results.some(function(employer) {
-            return employer.id === $scope.id;
-          });
-          return $scope.isBookmarked;
-        }).finally(function() {
-          Loader.remove('candidate-employer-profile-isbookmarked');
-        });
-      }
-
-      function toogleBookmark() {
-        Loader.add('candidate-employer-profile-toggle');
-        return Session.getUser().then(function(user) {
-          return $scope.isBookmarked ?
-            user.deleteBookmark({ id: $scope.id }) :
-            user.addBookmark({ id: $scope.id });
-        }).then(function() {
-          return getIsBookmarked();
-        }).then(function(isBookmarked) {
-          toaster.success(isBookmarked ? 'Offer requested' : 'Request removed');
-        }).catch(function() {
-          toaster.defaultError();
-        }).finally(function() {
-          Loader.remove('candidate-employer-profile-toggle');
-        });
-      }
+        $scope.can_act =
+          $scope.candidate_is_activated &&
+          $scope.candidate_is_approved &&
+          !$scope.candidate_is_blacklisted &&
+          !$scope.candidate_has_been_hired;
+      }).finally(function() {
+        Loader.remove('candidate-employer-profile-isbookmarked');
+      });
 
       function toggle(key) {
         $scope[key] = !$scope[key];
