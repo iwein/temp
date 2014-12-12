@@ -1,0 +1,28 @@
+<%inherit file="../debug.html"/>
+<%namespace file="candidate.html" name="candidate" />
+
+<%def name="title()">Offer flow</%def>
+
+<%def name="scripts()">
+<script src="/debug/static/employer_signup.js"></script>
+<script src="/debug/static/candidate_signup.js"></script>
+</%def>
+
+<%def name="tests()">
+<script>
+  var cand_email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+    emp_email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+    tests = [{'title': 'Employer Signup'}]
+      .concat(EMPLOYER_SIGNUP(emp_email))
+      .concat([{'title': 'Candidate Signup'}])
+      .concat(CANDIDATE_SIGNUP(cand_email))
+      .concat([
+        {url:'/api/v1/login', title: 'unified-login-employer', method:'POST',
+          data: { email: emp_email, pwd: 'welcomepwd' }},
+        {url:'/api/v1/login', title: 'unified-login-candidate', method:'POST',
+          data: { email: cand_email, pwd: 'welcomepwd' }}
+      ]);
+
+  $(function(){getTestRunner(tests)(0, {});})
+</script>
+</%def>

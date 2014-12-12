@@ -30,6 +30,8 @@ def get_login(email=None, pwd=None, token=None):
     if token:
         login = login.filter(UnifiedLogin.pwdforgot_token == token)
     login = login.first()
+    if not login:
+        raise HTTPNotFound("Unknown Login.")
     lookup = {'employer': Employer, 'candidate': Candidate}
     return login, lookup[login.table_name]
 
@@ -42,29 +44,33 @@ def login(context, request):
     login_obj, cls = get_login(email=email, pwd=pwd)
     user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
     request.session['%s_id' % login_obj.table_name] = user.id
-    return {'preferred': login_obj.table_name}
+    return {'preferred': login_obj.table_name, 'id': user.id}
 
 
 class PasswordController(RootController):
-    def send_email(self, candidate):
-        self.request.emailer.send_candidate_pwdforgot(candidate.email, candidate.first_name, candidate.pwdforgot_token)
+    def send_email(self, obj):
+        if isinstance(obj, Candidate):
+            self.request.emailer.send_candidate_pwdforgot(obj.email, obj.first_name, obj.pwdforgot_token)
+        else:
+            self.request.emailer.send_employer_pwdforgot(obj.email, obj.contact_name,
+                                                         obj.company_name, obj.pwdforgot_token)
 
     @view_config(route_name='requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def requestpassword(self):
         email = self.request.json['email']
-        login_bj, cls = get_login(email=email)
+        login_obj, cls = get_login(email=email)
         resend = bool(self.request.json.get('resend'))
         return requestpassword(cls, email, resend, self.send_email)
 
     @view_config(route_name='resetpassword', permission=NO_PERMISSION_REQUIRED, **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
-        login_bj, cls = get_login(token=token)
+        login_obj, cls = get_login(token=token)
         return validatepassword(cls, token)
 
     @view_config(route_name='resetpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def resetpassword(self):
         token = self.request.matchdict['token']
         pwd = self.request.json['pwd']
-        login_bj, cls = get_login(token=token)
+        login_obj, cls = get_login(token=token)
         return resetpassword(cls, token, pwd)
