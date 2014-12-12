@@ -104,7 +104,7 @@ define(function(require) {
     },
     views: {
       'messages': {
-        template: require('text!/tools/notifier-template.html'),
+        template: require('text!../../tools/notifier-template.html'),
         controller: function($scope, ThisCandidate){
           $scope.notifications = [];
           if(ThisCandidate._data.candidate_has_been_hired){
