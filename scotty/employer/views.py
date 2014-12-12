@@ -99,6 +99,7 @@ class EmployerController(RootController):
         except IntegrityError, e:
             raise HTTPConflict("company_name or email already registered.")
         self.request.session['employer_id'] = employer.id
+        self.request.emailer.send_employer_welcome(employer)
         return employer
 
     @view_config(route_name='employers', **GET)

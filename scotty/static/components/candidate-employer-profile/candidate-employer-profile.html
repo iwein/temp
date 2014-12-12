@@ -99,7 +99,10 @@
                 </div>
                 <div ng-if="!data.blacklisted_by_candidate">
                   <div ng-if="has_been_hired">
-                    <div class="fw btn-fake bg-blue-light">You'be already been hired.</div>
+                    <div class="fw btn-fake bg-blue-light">You've already been hired.</div>
+                  </div>
+                  <div ng-if="has_been_hired">
+                    <div class="fw btn-fake bg-blue-light">You're not approved yet.</div>
                   </div>
                   <div ng-if="!has_been_hired">
                     <div ng-if="activated">

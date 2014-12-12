@@ -156,9 +156,7 @@ class AdminController(RootController):
         if not employer:
             raise HTTPNotFound("Unknown Employer ID")
         employer.approved = datetime.now()
-        self.request.emailer.send_employer_approved(employer.email,
-                                                    contact_name=employer.contact_name,
-                                                    company_name=employer.company_name,)
+        self.request.emailer.send_employer_approved(employer)
         return employer
 
     @view_config(route_name='admin_candidate_approve', permission=ADMIN_PERM, **GET)
@@ -168,6 +166,7 @@ class AdminController(RootController):
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
+        self.request.emailer.send_candidate_approved(candidate)
         return candidate
 
     @view_config(route_name="admin_search_candidates", permission=ADMIN_PERM, **GET)
