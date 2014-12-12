@@ -9,6 +9,12 @@ define(function(require) {
 
     Permission.requireSignup().then(function() {
       Session.getUser().then(function(user) {
+
+        $scope.has_been_hired = user._data.candidate_has_been_hired;
+        if($scope.has_been_hired){
+          toaster.error('You have been hired', {untilStateChange: true});
+        }
+
         return user.getOffers();
       }).then(function(offers) {
         $scope.offers = offers.map(function(offer) {
@@ -23,7 +29,6 @@ define(function(require) {
       }).finally(function() {
         Loader.page(false);
       });
-
     });
   });
 
@@ -32,6 +37,6 @@ define(function(require) {
     url: '/offers/',
     template: require('text!./candidate-offer-list.html'),
     controller: 'OfferListCtrl',
-    controllerAs: 'offerList',
+    controllerAs: 'offerList'
   };
 });

@@ -248,7 +248,8 @@ class AdminOfferController(RootController):
     @view_config(route_name='admin_offer_signed', permission=ADMIN_PERM, **POST)
     def contract_signed(self):
         try:
-            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+            offer = set_offer_signed(self.offer, self.offer.candidate, self.offer.employer,
+                                     self.request.json, self.request.emailer)
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()

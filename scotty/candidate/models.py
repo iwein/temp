@@ -18,6 +18,10 @@ from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.sql import table, column
 
 
+V_CANDIDATE_FT_INDEX = table('v_candidate_search', column('id', GUID), column('status'), column('search_index'))
+V_HIRED_CANDIDATE = table('v_hired_candidate', column('id', GUID))
+
+
 class InviteCode(Base):
     __tablename__ = 'invite_code'
     __name_field__ = 'code'
@@ -376,12 +380,13 @@ class Candidate(Base, JsonSerialisable):
             accepted_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
                                                            Offer.employer_id == request.employer_id,
                                                            Offer.has_accepted()).count()
-            cutoff = datetime.now() - timedelta(180)
-            hired_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
-                                                        Offer.job_start_date > cutoff).count()
+            hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
             result['employer_has_accepted_offers'] = accepted_count > 0
             result['candidate_has_been_hired'] = hired_count > 0
 
+        if self.id == request.candidate_id:
+            hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
+            result['candidate_has_been_hired'] = hired_count > 0
         return result
 
 
@@ -403,7 +408,5 @@ class WXPCandidate(Candidate):
 
 FullCandidate = WXPCandidate
 
-V_CANDIDATE_FT_INDEX = table('v_candidate_search', column('id', GUID), column('status'), column('search_index'))
-V_HIRED_CANDIDATE = table('v_hired_candidate', column('id', GUID))
 
 

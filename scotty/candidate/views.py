@@ -501,7 +501,8 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offer_signed', **POST)
     def contract_signed(self):
         try:
-            offer = set_offer_signed(self.offer, self.request.json, self.request.emailer)
+            offer = set_offer_signed(self.offer, self.candidate, self.offer.employer,
+                                     self.request.json, self.request.emailer)
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
         DBSession.flush()
