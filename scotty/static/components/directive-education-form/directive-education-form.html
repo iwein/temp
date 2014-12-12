@@ -84,12 +84,12 @@
             <div class="col-sm-12">
               <div class="form-error col-sm-12" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
                 <span ng-show="formEducation.start.$error.required">Please insert the year you started at this position.</span>
-                <span ng-show="formEducation.end.$error.max">Start year must not predate 1900.</span>
-                <span ng-show="formEducation.end.$error.max">Start year must be in the past.</span>
+                <span ng-show="formEducation.start.$error.min">Start year must be after 1900.</span>
+                <span ng-show="formEducation.start.$error.max">Start year must be in the past.</span>
               </div>
               <div class="form-error col-sm-12" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
                 <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
-                <span ng-show="formEducation.end.$error.max">Graduation must not predate 1900.</span>
+                <span ng-show="formEducation.end.$error.min">Graduation must be after 1900.</span>
                 <span ng-show="formEducation.end.$error.max">Graduation must be in the past.</span>
                 <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year.</span>
               </div>
