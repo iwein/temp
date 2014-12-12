@@ -88,6 +88,7 @@
       "imprint.html",
       "index-employer.html",
       "login.html",
+      "reset-password.html",
       "terms-of-service.html"
     ],
     "test": [
@@ -111,6 +112,7 @@
         "dist/imprint.html",
         "dist/index-employer.html",
         "dist/login.html",
+        "dist/reset-password.html",
         "dist/terms-of-service.html"
       ]
     }
