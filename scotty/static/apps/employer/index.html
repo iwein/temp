@@ -32,6 +32,10 @@
 
       <div id="content">
         <div class="message-container">
+          <div class="alert alert-warning" ng-show="session.user && !session.approved">
+            Waiting for approval
+          </div>
+
           <hc-notifications></hc-notifications>
           <div ui-view="messages"></div>
         </div>

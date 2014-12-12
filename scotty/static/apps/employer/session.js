@@ -15,6 +15,7 @@ define(function(require) {
     constructor: EmployerSession,
 
     _setUser: function(response) {
+      this.approved = response.status === 'APPROVED';
       this._unsetUser();
       this.user = new Employer(this._api, 'me', response);
       return this.user;

@@ -126,9 +126,6 @@ define(function(require) {
         return user.getData();
       }).then(function(data) {
         $scope.ready = true;
-        if (data.status === 'APPROVED')
-          $scope.approved = true;
-
         $scope.data = data;
         $scope.summary.set(data);
         $scope.tech.set(data);
