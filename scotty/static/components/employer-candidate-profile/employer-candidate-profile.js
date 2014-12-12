@@ -26,11 +26,11 @@ define(function(require) {
       ThisCandidate.getHighestDegree(),
     ]).then(function(data) {
       var user = ThisCandidate._data;
-      var offers = data[4];
-      $scope.targetPosition = data[1];
-      $scope.workExperience = data[2];
-      $scope.education = data[3];
-      $scope.highestDegree = data[5];
+      var offers = data[3];
+      $scope.targetPosition = data[0];
+      $scope.workExperience = data[1];
+      $scope.education = data[2];
+      $scope.highestDegree = data[4];
 
       $scope.offerSent = offers.some(function(entry) {
         return entry.data.employer.id === Session.user.id;

@@ -26,9 +26,15 @@
   </div>
   <ng-include src="'navbar.html'"></ng-include>
 
-  <div class="message-container">
-    <hc-notifications></hc-notifications>
-    <div ui-view="messages"></div>
+  <div id="content">
+    <div class="message-container">
+      <hc-notifications></hc-notifications>
+      <div ui-view="messages"></div>
+
+    </div>
+
+    <ui-view class="container"></ui-view>
+    <div class="clearfix"></div>
   </div>
 
   <ng-include src="'footer.html'"></ng-include>
