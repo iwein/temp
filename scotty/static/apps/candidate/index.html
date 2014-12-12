@@ -17,7 +17,7 @@
     <script>
       less = {
         env: "development",
-        logLevel: 1,
+        logLevel: 1
       };
     </script>
     <script src="../../bower_components/less/dist/less-1.7.0.js"></script>
@@ -31,6 +31,10 @@
       <ng-include src="'navbar.html'"></ng-include>
 
       <div id="content">
+        <div class="message-container">
+          <hc-notifications></hc-notifications>
+          <div ui-view="messages"></div>
+        </div>
         <ui-view class="container"></ui-view>
         <div class="clearfix"></div>
       </div>

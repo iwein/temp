@@ -78,6 +78,6 @@ define(function(require) {
     url: '/signup',
     template: require('text!./candidate-signup.html'),
     controller: 'CandidateSignupCtrl',
-    controllerAs: 'signup',
+    controllerAs: 'signup'
   };
 });

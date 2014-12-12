@@ -28,6 +28,6 @@ define(function(require) {
     url: '/target-position/',
     template: require('text!./candidate-signup-target.html'),
     controller: 'CandidateSignupTargetCtrl',
-    controllerAs: 'signupTarget',
+    controllerAs: 'signupTarget'
   };
 });
