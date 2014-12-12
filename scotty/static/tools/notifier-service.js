@@ -16,12 +16,15 @@ define(function(require) {
       'error': 'danger'
     },
 
-    show: function(type, message, permanent) {
+    show: function(type, message, opts) {
+      opts = opts||{};
+
       var item = {
         id: this.ids++,
         type: type,
         color: this.colors[type] || type,
         message: message,
+        untilStateChange: opts.untilStateChange
       };
 
       var display = function() {
@@ -31,19 +34,31 @@ define(function(require) {
       }.bind(this);
 
       this.list.push(item);
-      if(permanent)
-        display();
-      else
-        this.timeout(display, 5000);
+      if(!opts.untilStateChange)
+        this.timeout(display, 10000);
+    },
+
+    clean: function(){
+      for(var i = this.list.length -1; i >= 0 ; i--){
+        if(!this.list[i].untilStateChange){
+          this.list.splice(i, 1);
+        }
+      }
     }
   };
 
   var module = require('app-module');
   module.factory('Notifier', function($timeout, $rootScope) {
     var notifications = [];
+    var notifierService = new Notifier($timeout, notifications);
     $rootScope.notifications = notifications;
-    return new Notifier($timeout, notifications);
+
+    $rootScope.$on('$stateChangeSuccess', function(){
+      notifierService.clean();
+    });
+    return notifierService;
   });
+
   module.directive('hcNotifications', function() {
     return {
       template: require('text!/tools/notifier-template.html')

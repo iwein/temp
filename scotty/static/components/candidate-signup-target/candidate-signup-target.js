@@ -5,9 +5,10 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('CandidateSignupTargetCtrl', function($scope, Loader) {
+  module.controller('CandidateSignupTargetCtrl', function($scope, Loader, toaster) {
     $scope.onSubmit = onSubmit;
     Loader.page(false);
+    toaster.info('If you are an employer, click <a href="../employer#signup">here</a>!', {untilStateChange: true});
 
     function onSubmit(model) {
       localStorage.setItem('scotty:target_position', JSON.stringify(model));
