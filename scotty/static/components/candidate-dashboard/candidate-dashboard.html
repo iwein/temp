@@ -92,8 +92,8 @@
             <div class="mrg-btm-30 col-sm-12" ng-show="terms.length && !loading && !employers.length">
               We're sorry. </br> There are no companies using your tch yet. We'll notify  you as soon as there is a fitting company. Don't want to wait? Then give it  a try and search our platform for other  technologies/skills or locations.
             </div>
-            <div ng-show="suggested.length">
-              <div class="offer-list">
+            <div>
+              <div class="offer-list" ng-show="suggested.length">
                 <hc-employer
                   ng-repeat="employer in suggested"
                   ng-model="employer"
@@ -101,8 +101,14 @@
                 </hc-employer>
               </div>
             </div>
+            <div ng-hide="suggested.length" class="offer-list mrg-btm-30">
+              <div class="col-sm-12">
+                We're sorry. There are no companies using your tech yet.
+                We'll notify you as soon as there is a fitting company.
+                Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
 

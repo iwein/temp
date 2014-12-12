@@ -26,7 +26,7 @@ define(function(require) {
       var year = new Date().getFullYear();
 
       var policyJson = {
-        'expiration': year + '-12-12T12:00:00.000Z',
+        'expiration': year + '-12-31T23:49:00.000Z',
         'conditions': [
           { 'acl': this._acl },
           { 'key': key },

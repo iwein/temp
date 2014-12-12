@@ -29,10 +29,10 @@
                   <div class="search-label">Role / Target position</div>
                   <div class="no-padd-left">
                     <select class="form-control"
-                      name="country"
-                      ng-disabled="loading"
-                      ng-model="terms.role"
-                      ng-options="role for role in featuredRoles">
+                            name="country"
+                            ng-disabled="loading"
+                            ng-model="terms.role"
+                            ng-options="role for role in featuredRoles">
                       <option value="">Select...</option>
                     </select>
                   </div>
@@ -66,10 +66,10 @@
                     <div class="input-group">
                       <span class="input-group-addon">€</span>
                       <input type="dotted-integer"
-                        class="form-control"
-                        name="salary"
-                        ng-disabled="loading"
-                        ng-model="terms.salary">
+                             class="form-control"
+                             name="salary"
+                             ng-disabled="loading"
+                             ng-model="terms.salary">
                       <span class="input-group-addon">.00</span>
                     </div>
                   </div>
@@ -90,10 +90,10 @@
                   <div class="search-label">Name, Skill, Location</div>
                   <div class="no-padd-left">
                     <input type="text"
-                      class="form-control"
-                      name="general"
-                      ng-disabled="loading"
-                      ng-model="simpleSearchTerms">
+                           class="form-control"
+                           name="general"
+                           ng-disabled="loading"
+                           ng-model="simpleSearchTerms">
                   </div>
                 </div>
                 <div class="col-sm-12">
@@ -121,15 +121,15 @@
                 <ul class="pager-list" ng-show="pages.length > 1">
                   <li ng-repeat="entry in pages" ng-class="{ active: page === (entry - 1) }">
                     <button type="button"
-                      ng-click="loadPage(entry - 1)"
-                      ng-disabled="page === (entry - 1)">
+                            ng-click="loadPage(entry - 1)"
+                            ng-disabled="page === (entry - 1)">
                       {{ entry }}
                     </button>
                   </li>
-                <ul>
+                  <ul>
               </div>
             </div>
-              <!--end item-->
+            <!--end item-->
           </div>
 
 
@@ -140,31 +140,37 @@
             <div ng-show="!suggested.length" class="pad-btm-15 pad-lft-15">
               Sorry, there are no candidates matching your criteria
             </div>
-            <div ng-show="suggested.length">
-              <div class="offer-list">
+            <div>
+              <div class="offer-list" ng-show="suggested.length">
                 <hc-candidate
                   ng-repeat="candidate in suggested"
                   ng-model="candidate"
                   hc-link-profile>
                 </hc-candidate>
               </div>
+              <div ng-hide="suggested.length" class="offer-list mrg-btm-30">
+                <div class="col-sm-12">
+                  We're sorry. There are no candidates with skills in your tech yet.
+                  We'll notify you as soon as there is a fitting candidate.
+                  Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="candidates.length">
-        <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
-        <div ng-repeat="candidate in candidates">
-          <div class="bld">
-            <a ui-sref="candidate({ id: candidate._data.id })">
-              {{ candidate._data.first_name }}, {{ candidate._data.last_name }}
-            </a>
-          </div>
-          <div class="mrg-btm-small">
-            {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
+        <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="candidates.length">
+          <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
+          <div ng-repeat="candidate in candidates">
+            <div class="bld">
+              <a ui-sref="candidate({ id: candidate._data.id })">
+                {{ candidate._data.first_name }}, {{ candidate._data.last_name }}
+              </a>
+            </div>
+            <div class="mrg-btm-small">
+              {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
