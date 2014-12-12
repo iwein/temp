@@ -1,11 +1,11 @@
 define(function(require) {
   'use strict';
 
-  function Notifier(timeout, sce, list) {
+  function Notifier(timeout, sce) {
     this.ids = 0;
-    this.list = list;
     this.sce = sce;
     this.timeout = timeout;
+    this.notifications = [];
     this.error = this.show.bind(this, 'error');
     this.warning = this.show.bind(this, 'warning');
     this.info = this.show.bind(this, 'info');
@@ -30,30 +30,27 @@ define(function(require) {
       };
 
       var display = function() {
-        var index = this.list.indexOf(item);
+        var index = this.notifications.indexOf(item);
         if (index !== -1)
-          this.list.splice(index, 1);
+          this.notifications.splice(index, 1);
       }.bind(this);
 
-      this.list.push(item);
+      this.notifications.push(item);
       if(!opts.untilStateChange)
         this.timeout(display, 10000);
     },
 
-    clean: function(){
-      for(var i = this.list.length -1; i >= 0 ; i--){
-        if(this.list[i].untilStateChange){
-          this.list.splice(i, 1);
-        }
-      }
+    clean: function() {
+      this.notifications = this.notifications.filter(function(entry) {
+        return !entry.untilStateChange;
+      });
     }
   };
 
   var module = require('app-module');
   module.factory('Notifier', function($timeout, $rootScope, $sce) {
-    var notifications = [];
-    var notifierService = new Notifier($timeout, $sce, notifications);
-    $rootScope.notifications = notifications;
+    var notifierService = new Notifier($timeout, $sce);
+    $rootScope.notifier = notifierService;
 
     $rootScope.$on('$stateChangeSuccess', function(){
       notifierService.clean();
