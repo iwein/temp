@@ -17,11 +17,17 @@
     <script src="../bower_components/less/dist/less-1.7.0.js"></script>
     <!-- endbuild -->
 </head>
-<body>
+<body class="static-page">
 <div class="page-wrap">
     <div id="header-container"></div>
 
-    <div id="content" class="">
+    <div class="alert-container">
+        <div id="error" class="alert alert-danger not-visible">
+            Unknown email or password.
+        </div>
+    </div>
+
+    <div id="content">
         <div class="banner">
             <div class="banner-inner banner-inner-small">
                 <div class="banner-login">
@@ -40,7 +46,6 @@
                                 <input class="form-control" type="password" name="password" required>
                             </div>
                         </div>
-                        <div id="error" style="display: none">Unknown email or password.</div>
                         <div class="buttons-wrap">
                             <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small">Login</button>
                             <a class="forget" href="forgot-password.html">Forgot your password?</a>
@@ -71,13 +76,6 @@
         var $password = document.getElementsByName('password')[0];
         var $error = document.getElementById('error');
 
-        function showError() {
-            $error.style.display = 'block';
-            setTimeout(function() {
-                $error.style.display = 'none';
-            }, 5000);
-        }
-
 
         $form.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -93,6 +91,19 @@
             });
         }, true);
 
+
+        function showError() {
+            show($error);
+            setTimeout(hide.bind(null, $error), 5000);
+        }
+
+        function show(element) {
+            element.style.display = 'block';
+        }
+
+        function hide(element) {
+            element.style.display = 'none';
+        }
 
         function request(url, data, callback) {
             var xhr = new XMLHttpRequest();
