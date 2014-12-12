@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="web application">
-    <meta name="author" content="HackandCraft">
-    <title>Scotty - Admin</title>
-    <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="web application">
+  <meta name="author" content="HackandCraft">
+  <title>Scotty - Admin</title>
+  <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
 
-    <!-- build:css build.css -->
-    <link rel="stylesheet/less" href="styles.less">
-    <script>
-      less = {
-        env: "development",
-        logLevel: 1,
-      };
-    </script>
-    <script src="../../bower_components/less/dist/less-1.7.0.js"></script>
-    <!-- endbuild -->
-  </head>
-  <body>
-    <div class="spinner-container" ng-show="showSpinner">
-      <div class="spinner"></div>
-    </div>
-    <ng-include src="'navbar.html'"></ng-include>
+  <!-- build:css build.css -->
+  <link rel="stylesheet/less" href="styles.less">
+  <script>
+    less = {
+      env: "development",
+      logLevel: 1,
+    };
+  </script>
+  <script src="../../bower_components/less/dist/less-1.7.0.js"></script>
+  <!-- endbuild -->
+</head>
+<body>
+  <div class="spinner-container" ng-show="showSpinner">
+    <div class="spinner"></div>
+  </div>
+  <ng-include src="'navbar.html'"></ng-include>
 
-    <div id="content">
-      <ui-view class="container"></ui-view>
-      <div class="clearfix"></div>
-    </div>
+  <div class="message-container">
+    <hc-notifications></hc-notifications>
+    <div ui-view="messages"></div>
+  </div>
 
-    <ng-include src="'footer.html'"></ng-include>
+  <ng-include src="'footer.html'"></ng-include>
 
-    <!-- build:js build.js -->
-    <script src="../../bower_components/requirejs/require.js"></script>
-    <script src="requirejs-config.js"></script>
-    <!-- endbuild -->
-  </body>
+  <!-- build:js build.js -->
+  <script src="../../bower_components/requirejs/require.js"></script>
+  <script src="requirejs-config.js"></script>
+  <!-- endbuild -->
+</body>
 </html>

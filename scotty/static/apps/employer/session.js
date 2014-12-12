@@ -128,7 +128,7 @@ define(function(require) {
       return this._api.get('/candidates/' + id).then(function(data) {
         return new Candidate(this._api, data.id, data);
       }.bind(this));
-    },
+    }
   };
 
   var module = require('app-module');

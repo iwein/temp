@@ -15,34 +15,34 @@ var cand_email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         tests = [
 
             {'title': 'Employer Search'},
-            {url:'/api/v1/employers/?tags=Python', title: 'employer-search',
+            {url:'/api/v1/employers/?tags=Python&apikey=${apikey}', title: 'employer-search',
                 extract: function(r, extr){
                     return {'employers': r}
                 }},
-            {url:'/api/v1/employers/?tags=Python', title: 'employer-search'},
-            {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE', title: 'employer-search-with-city'},
-            {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE&company_types=top500,startup', title: 'employer-search-city-ctype'},
-            {url:'/api/v1/employers/?tags=Python,PHP', title: 'employer-search-multi-3'},
-            {url:'/api/v1/employers/?tags=Python&offset=1&limit=1&&city=Berlin&country_iso=DE', title: 'employer-search-limit-offset'},
+            {url:'/api/v1/employers/?tags=Python&apikey=${apikey}', title: 'employer-search'},
+            {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE&apikey=${apikey}', title: 'employer-search-with-city'},
+            {url:'/api/v1/employers/?tags=Python&city=Berlin&country_iso=DE&company_types=top500,startup&apikey=${apikey}', title: 'employer-search-city-ctype'},
+            {url:'/api/v1/employers/?tags=Python,PHP&apikey=${apikey}', title: 'employer-search-multi-3'},
+            {url:'/api/v1/employers/?tags=Python&offset=1&limit=1&&city=Berlin&country_iso=DE&apikey=${apikey}', title: 'employer-search-limit-offset'},
 
             {'title': 'Candidate Search'},
-            {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search',
+            {url:'/api/v1/candidates/?tags=Python&apikey=${apikey}', title: 'candidates-search',
                 extract: function(r, extr){
                     return {'candidates': r}
                 }},
-            {url:'/api/v1/candidates/?status=pending', title: 'candidates-search-pending'},
-            {url:'/api/v1/candidates/?status=deleted', title: 'candidates-search-deleted'},
-            {url:'/api/v1/candidates/?tags=Python', title: 'candidates-search'},
-            {url:'/api/v1/candidates/?tags=Python&city=Berlin&country_iso=DE', title: 'candidates-search-with-city'},
-            {url:'/api/v1/candidates/?tags=Python,PHP', title: 'candidates-search-multi-3'},
-            {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1&city=Berlin&country_iso=DE', title: 'candidates-search-limit-offset'},
+            {url:'/api/v1/candidates/?status=pending&apikey=${apikey}', title: 'candidates-search-pending'},
+            {url:'/api/v1/candidates/?status=deleted&apikey=${apikey}', title: 'candidates-search-deleted'},
+            {url:'/api/v1/candidates/?tags=Python&apikey=${apikey}', title: 'candidates-search'},
+            {url:'/api/v1/candidates/?tags=Python&city=Berlin&country_iso=DE&apikey=${apikey}', title: 'candidates-search-with-city'},
+            {url:'/api/v1/candidates/?tags=Python,PHP&apikey=${apikey}', title: 'candidates-search-multi-3'},
+            {url:'/api/v1/candidates/?tags=Python&offset=1&limit=1&city=Berlin&country_iso=DE&apikey=${apikey}', title: 'candidates-search-limit-offset'},
 
             {'title': 'Employer Signup'}];
 
 tests = tests
         .concat(EMPLOYER_SIGNUP(emp_email))
         .concat([
-            {url: function(r, extr){return '/api/v1/admin/employers/'+extr.employerId+'/approve';},
+            {url: function(r, extr){return '/api/v1/admin/employers/'+extr.employerId+'/approve?apikey=${apikey}';},
                 title: 'admin-approve-employer'
             }
         ])
@@ -74,7 +74,7 @@ tests = tests
             {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
                 title: 'employer-interested-candidates-empty'},
 
-            {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve';}, title: 'admin-approve-candidates'},
+            {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve?apikey=${apikey}';}, title: 'admin-approve-candidates'},
 
 
 
@@ -149,42 +149,42 @@ tests = tests
 
             {url:function(r, extr){ return '/api/v1/candidates/me/offers';},
                 title: 'candidate-get-my-offers'},
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-set_status',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status?apikey=${apikey}';}, title: 'admin-offer-set_status',
                 data: {'status': 'INTERVIEW'}},
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status-alreadyset',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status?apikey=${apikey}';}, title: 'admin-offer-status-alreadyset',
                 data: {'status': 'INTERVIEW'}, expectedErrors:[400]},
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status';}, title: 'admin-offer-status',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/status?apikey=${apikey}';}, title: 'admin-offer-status',
                 data: {'status': 'CONTRACT_NEGOTIATION'}},
             {url:function(r, extr){ return '/api/v1/candidates/me/offers/'+extr.offer2Id+'/signed';},
                 method: "POST", data:{'start_date':(new Date().toISOString()), 'start_salary':199999}, title: 'candidate-signed'},
 
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/reject';}, title: 'admin-offer-reject',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/reject?apikey=${apikey}';}, title: 'admin-offer-reject',
                 data: {reason: 'Other', 'rejected_text': 'Candidate said: he no like'}, expectedErrors: [400]
             },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/accept';}, title: 'admin-offer-accept',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/accept?apikey=${apikey}';}, title: 'admin-offer-accept',
                 data: {email: cand_email}, expectedErrors: [400]
             },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw';}, title: 'admin-offer-withdraw',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw?apikey=${apikey}';}, title: 'admin-offer-withdraw',
                 data: {reason: 'Other', 'withdrawal_text': 'Employer said: he no like'}, expectedErrors: [400]
             },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/signed';}, title: 'admin-offer-signed',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/signed?apikey=${apikey}';}, title: 'admin-offer-signed',
                 data: {start_date: '2014-12-31', 'start_salary': 240000}, expectedErrors: [400]
             },
 
             {'sectionTitle': 'Rollback'},
 
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'offer-ROLLBACK-contract-signed', data: {} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-contract-nego', data: {} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-interview', data: {} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-accept', data: {} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-no-more', data: {}, expectedErrors: [400] },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/reject';}, title: 'admin-offer-reject',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'offer-ROLLBACK-contract-signed', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-contract-nego', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-interview', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-accept', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-no-more', data: {}, expectedErrors: [400] },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/reject?apikey=${apikey}';}, title: 'admin-offer-reject',
                 data:{reason: 'Salary offer not high enough', rejected_text:null} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-reject', data: {} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw';}, title: 'admin-offer-withdraw',
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-reject', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/withdraw?apikey=${apikey}';}, title: 'admin-offer-withdraw',
                 data: {'reason': 'No Culture Fit', withdrawal_text: 'WE DONT LIKE THIS ONE'} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-withdraw', data: {} },
-            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback';}, title: 'admin-offer-ROLLBACK-no-more', data: {}, expectedErrors: [400] },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-withdraw', data: {} },
+            {url:function(r, extr){ return '/api/v1/admin/offers/'+extr.offer2Id+'/rollback?apikey=${apikey}';}, title: 'admin-offer-ROLLBACK-no-more', data: {}, expectedErrors: [400] },
 
 
             {'sectionTitle': 'Withdrawal'},

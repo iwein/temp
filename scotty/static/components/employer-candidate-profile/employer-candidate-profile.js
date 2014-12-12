@@ -5,7 +5,8 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Permission, Session) {
+  module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Permission, Session,
+                                                     ThisCandidate) {
     $scope.toggle = toggle;
     $scope.id = $state.params.id;
     $scope.ready = false;
@@ -16,85 +17,81 @@ define(function(require) {
       $scope[key] = !$scope[key];
     }
 
-    Permission.requireSignup()
-      .then(function() { return Session.getCandidate($scope.id) })
-      .then(function(candidate) {
-        $scope.candidate = candidate;
-        return $q.all([
-          candidate.getData(),
-          candidate.getTargetPosition(),
-          candidate.getExperience(),
-          candidate.getEducation(),
-          candidate.getOffers(),
-          candidate.getHighestDegree(),
-        ]);
-      }).then(function(data) {
-        var user = data[0];
-        var offers = data[4];
-        $scope.targetPosition = data[1];
-        $scope.workExperience = data[2];
-        $scope.education = data[3];
-        $scope.highestDegree = data[5];
+    $scope.candidate = ThisCandidate;
+    $q.all([
+      ThisCandidate.getData(),
+      ThisCandidate.getTargetPosition(),
+      ThisCandidate.getExperience(),
+      ThisCandidate.getEducation(),
+      ThisCandidate.getOffers(),
+      ThisCandidate.getHighestDegree(),
+    ]).then(function(data) {
+      var user = data[0];
+      var offers = data[4];
+      $scope.targetPosition = data[1];
+      $scope.workExperience = data[2];
+      $scope.education = data[3];
+      $scope.highestDegree = data[5];
 
-        $scope.offerSent = offers.some(function(entry) {
-          return entry.data.employer.id === Session.user.id;
-        });
+      $scope.offerSent = offers.some(function(entry) {
+        return entry.data.employer.id === Session.user.id;
+      });
 
-        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        $scope.status = offers.reduce(function(summary, value) {
-          if (finalStatus.indexOf(value.status) !== -1) return;
-          if (value.status === 'CONTRACT_SIGNED') return 'hired';
-          return summary || 'reviewing';
-        }, null) || 'searching';
+      var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+      $scope.status = offers.reduce(function(summary, value) {
+        if (finalStatus.indexOf(value.status) !== -1) return;
+        if (value.status === 'CONTRACT_SIGNED') return 'hired';
+        return summary || 'reviewing';
+      }, null) || 'searching';
 
-        // TIMELINE
+      // TIMELINE
 
-        var total = 0;
-        var timeline = $scope.workExperience.map(function(entry) {
-          var start = new Date(entry.start);
-          var end = entry.end ? new Date(entry.end) : new Date();
-          var duration = end - start;
-          total += duration;
-          return {
-            start: start,
-            duration: duration,
-            role: entry.role,
-          };
-        });
-        timeline.forEach(function(entry) {
-          entry.percent = 100 / total * entry.duration;
-        });
-        $scope.totalWorkExperience = total;
-        $scope.timeline = timeline.sort(function(a, b) {
-          return a.start - b.start;
-        });
+      var total = 0;
+      var timeline = $scope.workExperience.map(function(entry) {
+        var start = new Date(entry.start);
+        var end = entry.end ? new Date(entry.end) : new Date();
+        var duration = end - start;
+        total += duration;
+        return {
+          start: start,
+          duration: duration,
+          role: entry.role
+        };
+      });
+      timeline.forEach(function(entry) {
+        entry.percent = 100 / total * entry.duration;
+      });
+      $scope.totalWorkExperience = total;
+      $scope.timeline = timeline.sort(function(a, b) {
+        return a.start - b.start;
+      });
 
-        $scope.offers = offers
-          .map(fn.get('data'))
-          .sort(function(a, b) { return b.annual_salary - a.annual_salary })
-          .slice(0, 3);
+      $scope.offers = offers
+        .map(fn.get('data'))
+        .sort(function(a, b) { return b.annual_salary - a.annual_salary })
+        .slice(0, 3);
 
-        var counter = 1;
-        $scope.offers.forEach(function(entry) {
-          var employer = entry.employer;
-          if (employer.company_name.toLowerCase() === 'company')
-            employer.company_name = employer.company_name + ' ' + (counter++);
-        });
+      var counter = 1;
+      $scope.offers.forEach(function(entry) {
+        var employer = entry.employer;
+        if (employer.company_name.toLowerCase() === 'company')
+          employer.company_name = employer.company_name + ' ' + (counter++);
+      });
 
-        $scope.cities = user.preferred_location;
-        $scope.languages = user.languages;
-        $scope.skills = user.skills;
-        $scope.user = user;
-        $scope.ready = true;
+      $scope.cities = user.preferred_location;
+      $scope.languages = user.languages;
+      $scope.skills = user.skills;
+      $scope.user = user;
+      $scope.ready = true;
 
-        var leveledSkills = user.skills.filter(fn.get('level'));
-        var unleveledSkills = user.skills.filter(fn.not(fn.get('level')));
-        $scope.leveledSkills = leveledSkills.slice(0, 9);
-        $scope.unleveledSkills = leveledSkills.slice(9)
-          .concat(unleveledSkills)
-          .map(fn.get('skill'))
-          .join(', ');
-      })
+      var leveledSkills = user.skills.filter(fn.get('level'));
+      var unleveledSkills = user.skills.filter(fn.not(fn.get('level')));
+      $scope.leveledSkills = leveledSkills.slice(0, 9);
+      $scope.unleveledSkills = leveledSkills.slice(9)
+        .concat(unleveledSkills)
+        .map(fn.get('skill'))
+        .join(', ');
+    })
       .catch(toaster.defaultError)
       .finally(function() { Loader.page(false) });
   });
@@ -102,8 +99,26 @@ define(function(require) {
 
   return {
     url: '/candidate/:id',
-    template: require('text!./employer-candidate-profile.html'),
-    controller: 'CandidateProfileCtrl',
-    controllerAs: 'candidateProfile',
+    resolve: {
+      ThisCandidate: function($stateParams, Permission, Session) {
+        return Permission.requireSignup().then(function() { return Session.getCandidate($stateParams.id) });
+      }
+    },
+    views: {
+      'messages': {
+        template: require('text!/tools/notifier-template.html'),
+        controller: function($scope, ThisCandidate){
+          $scope.notifications = [];
+          if(ThisCandidate._data.candidate_has_been_hired){
+            $scope.notifications.push({'message': 'This candidate has been hired!', color: 'danger'});
+          }
+        }
+      },
+      '': {
+        template: require('text!./employer-candidate-profile.html'),
+        controller: 'CandidateProfileCtrl',
+        controllerAs: 'candidateProfile'
+      }
+    }
   };
 });

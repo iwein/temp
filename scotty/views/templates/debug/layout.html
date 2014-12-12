@@ -71,7 +71,7 @@
     <div class="col-sm-6" style="margin-top:30px;">
       <b>Pages:</b>
       %for template in templates:
-      <a href="/debug/${template}?email=${email}">${template}</a> |
+      <a href="/debug/${template}?email=${email}&apikey=${apikey}">${template}</a> |
       %endfor
     </div>
   </div>

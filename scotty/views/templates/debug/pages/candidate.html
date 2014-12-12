@@ -19,15 +19,15 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
                         data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd",
                             'invite_code':inviteCode}, expectedErrors:[400]},
 
-                    {url:'/api/v1/admin/invite_codes', title: 'admin-create-invite-code',
+                    {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-create-invite-code',
                         data: {code: inviteCode, description: "Baylays invite code TEST"}},
 
                     {url:'/api/v1/candidates/', title: 'candidate-signup-with-invite',
                         data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode}},
 
-                    {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'candidate-with-invite-delete', method:"DELETE"},
+                    {url: function(r, extr){return '/api/v1/candidates/me?apikey=${apikey}'}, title: 'candidate-with-invite-delete', method:"DELETE"},
 
-                    {url:'/api/v1/admin/invite_codes', title: 'admin-show-invite-codes'},
+                    {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-show-invite-codes'},
 
                     {title: "Signup"},
                 ].concat(
@@ -210,7 +210,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
                             {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-skills'},
                             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-skills'},
 
-                            {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve';}, title: 'admin-approve-candidates'},
+                            {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve?apikey=${apikey}';}, title: 'admin-approve-candidates'},
                             {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-approved'},
 
                             {'sectionTitle': 'Profile Completion'},
@@ -231,7 +231,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
                             {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
                             {url: '/api/v1/login', data: {"email": email, pwd:"helloworld"}, title: 'unified-login'},
                             {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
-                            {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId}, title: 'candidate-delete', method:"DELETE"},
+                            {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'?apikey=${apikey}'}, title: 'candidate-delete', method:"DELETE"},
                             {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after-delete',
                                 data: {"email": email, pwd:"helloworld"}, expectedErrors:[404]
                             },
