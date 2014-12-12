@@ -224,6 +224,9 @@ class CandidateViewController(CandidateController):
         status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
 
         query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+
+        query = query.outerjoin(V_HIRED_CANDIDATE, Candidate.id == V_HIRED_CANDIDATE.c.id )
+        query = query.filter(V_HIRED_CANDIDATE.c.id == None)
         if locations:
             query = query.join(PreferredLocation)
 
