@@ -22,13 +22,19 @@ class MandrillEmailer(object):
         else:
             return True
 
-    def send_candidate_welcome(self, email, first_name, activation_token):
-        url = 'http://%s/candidate#/activate/%s' % (self.frontend, activation_token)
-        return self.send('signup-welcome', [],
-                         {'to': [{'email': email, 'name': first_name}],
+    def send_candidate_welcome(self, candidate):
+        url = 'http://%s/candidate#/activate/%s' % (self.frontend, candidate.activation_token)
+        return self.send('candidate-confirm-email', [],
+                         {'to': [{'email': candidate.email, 'name': candidate.first_name}],
                           'global_merge_vars': [
-                              {'content': first_name, 'name': 'first_name'},
+                              {'content': candidate.first_name, 'name': 'first_name'},
                               {'content': url, 'name': 'activation_link'}]})
+
+    def send_candidate_approved(self, candidate):
+        return self.send('signup-welcome', [],
+                         {'to': [{'email': candidate.email, 'name': candidate.first_name}],
+                          'global_merge_vars': [{'content': candidate.first_name, 'name': 'first_name'}]})
+
 
     def send_candidate_pwdforgot(self, email, first_name, reset_token):
         url = 'http://%s/candidate#/reset-password/%s' % (self.frontend, reset_token)
@@ -55,6 +61,20 @@ class MandrillEmailer(object):
                               {'content': contact_name, 'name': 'contact_name'},
                               {'content': company_name, 'name': 'company_name'},
                               {'content': url, 'name': 'invite_link'}]})
+
+    def send_employer_welcome(self, employer):
+        return self.send('employer-confirm-email', [],
+                         {'to': [{'email': employer.email, 'name': employer.contact_name}],
+                          'global_merge_vars': [
+                              {'content': employer.contact_name, 'name': 'contact_name'},
+                              {'content': employer.company_name, 'name': 'company_name'}]})
+
+    def send_employer_approved(self, employer):
+        return self.send('employer-welcome', [],
+                         {'to': [{'email': employer.email, 'name': employer.contact_name}],
+                          'global_merge_vars': [
+                              {'content': employer.contact_name, 'name': 'contact_name'},
+                              {'content': employer.company_name, 'name': 'company_name'}]})
 
     def send_pending_approval(self, company_email, contact_name, company_name, employer_id):
         return self.send('admin-pending-employer', [],
@@ -85,16 +105,6 @@ class MandrillEmailer(object):
                               # TODO: HARD CODED
                               {'content': 1001, 'name': 'bonus'},
                               {'content': 1001, 'name': 'referreal_bonus'},
-                              {'content': url, 'name': 'url'}]})
-
-    def send_employer_approved(self, company_email, contact_name, company_name):
-        url = 'http://%s/employer' % (self.frontend)
-        return self.send('employer-approved', [],
-                         {'to': [{'email': company_email, 'name': contact_name}],
-                          'global_merge_vars': [
-                              {'content': contact_name, 'name': 'contact_name'},
-                              {'content': company_name, 'name': 'company_name'},
-                              {'content': company_email, 'name': 'company_email'},
                               {'content': url, 'name': 'url'}]})
 
     def send_employer_joboffer_requested(self, company_email, contact_name, company_name, candidate_name, candidate_id):

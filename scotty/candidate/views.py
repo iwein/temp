@@ -116,10 +116,9 @@ class CandidateController(RootController):
         except IntegrityError, e:
             raise HTTPConflict("User already signed up!")
         self.request.session['candidate_id'] = candidate.id
-        self.request.emailer.send_candidate_welcome(candidate.email, candidate.first_name, candidate.activation_token)
+        self.request.emailer.send_candidate_welcome(candidate)
         candidate.activation_sent = datetime.now()
         return candidate
-
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):
