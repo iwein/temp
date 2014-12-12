@@ -9,24 +9,24 @@
             email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
             inviteCode = 'INVITE-CODE-'+ guid(),
             tests = [
-                {url: '/api/v1/candidates?q=Bayley', title: 'candidate-search'},
+                {url: '/api/v1/candidates?q=Bayley&apikey=${apikey}', title: 'candidate-search'},
 
-                {url: '/api/v1/candidates?q=Peschke Python Berlin', title: 'candidate-search'},
+                {url: '/api/v1/candidates?q=Peschke Python Berlin&apikey=${apikey}', title: 'candidate-search'},
 
-                {url: '/api/v1/candidates?q=Sandra Design', title: 'candidate-search'},
+                {url: '/api/v1/candidates?q=Sandra Design&apikey=${apikey}', title: 'candidate-search'},
 
 
-                {url: '/api/v1/candidates/advancedsearch', METHOD: "post",
+                {url: '/api/v1/candidates/advancedsearch?apikey=${apikey}', METHOD: "post",
                     title: 'candidate-adv-search', data: {'salary': 20000000}},
-                {url: '/api/v1/candidates/advancedsearch', METHOD: "post",
+                {url: '/api/v1/candidates/advancedsearch?apikey=${apikey}', METHOD: "post",
                     title: 'candidate-adv-search-QA', data: {'salary': 20000000, role: 'Quality Assurance'}},
-                {url: '/api/v1/candidates/advancedsearch', METHOD: "post",
+                {url: '/api/v1/candidates/advancedsearch?apikey=${apikey}', METHOD: "post",
                     title: 'candidate-adv-search-QA-DE-Berlin',
                     data: {'salary': 20000000, role: 'Quality Assurance', 'locations': [{city: 'Berlin', 'country_iso':'DE'}]}},
-                {url: '/api/v1/candidates/advancedsearch', METHOD: "post",
+                {url: '/api/v1/candidates/advancedsearch?apikey=${apikey}', METHOD: "post",
                     title: 'candidate-adv-search-DE-Berlin',
                     data: {'locations': [{city: 'Berlin', 'country_iso':'DE'}]}},
-                {url: '/api/v1/candidates/advancedsearch', METHOD: "post",
+                {url: '/api/v1/candidates/advancedsearch?apikey=${apikey}', METHOD: "post",
                     title: 'candidate-adv-search-DE-Berlin-Skills',
                     data: {'locations': [{city: 'Berlin', 'country_iso':'DE'}], 'skills': ['Magento', 'Java', 'PHP']}},
         ];

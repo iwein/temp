@@ -13,10 +13,10 @@ define(function(require) {
 
   Notifier.prototype = {
     colors: {
-      'error': 'danger',
+      'error': 'danger'
     },
 
-    show: function(type, message) {
+    show: function(type, message, permanent) {
       var item = {
         id: this.ids++,
         type: type,
@@ -24,15 +24,19 @@ define(function(require) {
         message: message,
       };
 
-      this.list.push(item);
-      this.timeout(function() {
+      var display = function() {
         var index = this.list.indexOf(item);
         if (index !== -1)
           this.list.splice(index, 1);
-      }.bind(this), 5000);
+      }.bind(this);
+
+      this.list.push(item);
+      if(permanent)
+        display();
+      else
+        this.timeout(display, 5000);
     }
   };
-
 
   var module = require('app-module');
   module.factory('Notifier', function($timeout, $rootScope) {
@@ -42,11 +46,7 @@ define(function(require) {
   });
   module.directive('hcNotifications', function() {
     return {
-      template: [
-        '<div ng-repeat="notification in notifications" class="alert alert-{{ notification.color }}">',
-          '{{ notification.message }}',
-        '</div>',
-      ].join('')
+      template: require('text!/tools/notifier-template.html')
     };
   });
 

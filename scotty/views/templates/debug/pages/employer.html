@@ -12,9 +12,6 @@
 
 <%def name="tests()">
 <script>
-
-    var a =
-
     var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
             tests = EMPLOYER_SIGNUP(email).concat([
                 {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
@@ -85,7 +82,7 @@
                 {'sectionTitle': 'Cleanup'},
                 {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
                 //{url: '/api/v1/employers/me', title: 'employer-me-after-logout', method: "GET", expectedErrors: [403]},
-                {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId}, title: 'employer-delete', method: "DELETE"}
+                {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId+'?apikey=${apikey}'}, title: 'employer-delete', method: "DELETE"}
             ]);
 
     $(function () {

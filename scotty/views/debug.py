@@ -13,6 +13,7 @@ class DebugController(RootController):
     def debug_home(self):
         params = {k: v for k, v in self.request.params.items()}
         params['email'] = params.get('email', 'catch@hackandcraft.com')
+        params['apikey'] = params.get('apikey')
         params.update(TEMPLATES)
         return params
 
@@ -21,6 +22,7 @@ class DebugController(RootController):
         template = self.request.matchdict['template']
         params = {k: v for k, v in self.request.params.items()}
         params['email'] = params.get('email', 'catch@hackandcraft.com')
+        params['apikey'] = params.get('apikey')
         params.update(TEMPLATES)
         return render_to_response("scotty:views/templates/debug/pages/%s.html" % template, params, self.request)
 
