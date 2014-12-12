@@ -403,6 +403,7 @@ class WXPCandidate(Candidate):
 
 FullCandidate = WXPCandidate
 
-
-
 V_CANDIDATE_FT_INDEX = table('v_candidate_search', column('id', GUID), column('status'), column('search_index'))
+V_HIRED_CANDIDATE = table('v_hired_candidate', column('id', GUID))
+
+

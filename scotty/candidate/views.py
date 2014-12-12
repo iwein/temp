@@ -15,7 +15,7 @@ from sqlalchemy.orm import joinedload, joinedload_all
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill, V_CANDIDATE_FT_INDEX
+    CandidateSkill, V_CANDIDATE_FT_INDEX, V_HIRED_CANDIDATE
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidates_by_techtags_pager, get_candidate_newsfeed, \
@@ -272,6 +272,12 @@ class CandidateViewController(CandidateController):
         else:
             status = get_by_name_or_raise(CandidateStatus, status)
             query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+
+        query = query.outerjoin(V_HIRED_CANDIDATE, V_CANDIDATE_FT_INDEX.c.id == V_HIRED_CANDIDATE.c.id )
+        query = query.filter(V_HIRED_CANDIDATE.c.id == None)
+
+
+
 
         pager = PseudoPager(query, offset, limit)
 
