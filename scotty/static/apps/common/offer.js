@@ -4,11 +4,11 @@ define(function() {
     'ACTIVE': 'Active',
     'REJECTED': 'Rejected',
     'ACCEPTED': 'Accept',
-    'INTERVIEW': 'Interview',
-    'CONTRACT_NEGOTIATION': 'Contract negotiation',
-    'CONTRACT_SIGNED': 'Contract signed',
+    'INTERVIEW': 'Interviewed',
+    'CONTRACT_NEGOTIATION': 'Contract Negotiating',
+    'CONTRACT_SIGNED': 'Contract Signed',
     'WITHDRAWN': 'Withdrawn',
-    'EXPIRED': 'Expired',
+    'EXPIRED': 'Expired'
   };
 
   var validStatus = {
