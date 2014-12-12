@@ -50,8 +50,6 @@ define(function(require) {
   var module = require('app-module');
   module.factory('Notifier', function($timeout, $rootScope, $sce) {
     var notifierService = new Notifier($timeout, $sce);
-    $rootScope.notifier = notifierService;
-
     $rootScope.$on('$stateChangeSuccess', function(){
       notifierService.clean();
     });
@@ -60,7 +58,10 @@ define(function(require) {
 
   module.directive('hcNotifications', function() {
     return {
-      template: require('text!./notifier-template.html')
+      template: require('text!./notifier-template.html'),
+      controller: function($scope, Notifier) {
+        $scope.notifier = Notifier;
+      },
     };
   });
 
