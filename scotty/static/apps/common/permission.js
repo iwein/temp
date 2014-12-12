@@ -10,8 +10,9 @@ define(function(require) {
   function ActivationRequiredError() { Error.apply(this, arguments) }
   ActivationRequiredError.prototype = Object.create(Error.prototype);
 
-  function Permission(session, location, alert) {
+  function Permission(session, window, location, alert) {
     this._session = session;
+    this._window = window;
     this._location = location;
     this._alert = alert;
   }
@@ -23,7 +24,7 @@ define(function(require) {
       return this._session.checkSession().then(function(hasSession) {
         if (hasSession) return true;
         this._alert.warning('You need to be logged in to see this page');
-        this._location.go('login', { go: window.location.hash.slice(1) });
+        window.location = '../login.html';
         throw new LoginRequiredError('Login required');
       }.bind(this), function(error) {
         this._alert.defaultError();
@@ -65,8 +66,8 @@ define(function(require) {
   Permission.ActivationRequiredError = ActivationRequiredError;
 
   var module = require('app-module');
-  module.factory('Permission', function($state, toaster, Session) {
-    return new Permission(Session, $state, toaster);
+  module.factory('Permission', function($window, $state, toaster, Session) {
+    return new Permission(Session, $window, $state, toaster);
   });
 
   return Permission;
