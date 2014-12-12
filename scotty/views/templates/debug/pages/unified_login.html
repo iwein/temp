@@ -1,7 +1,7 @@
 <%inherit file="../debug.html"/>
 <%namespace file="candidate.html" name="candidate" />
 
-<%def name="title()">Offer flow</%def>
+<%def name="title()">Unified Login</%def>
 
 <%def name="scripts()">
 <script src="/debug/static/employer_signup.js"></script>
@@ -16,11 +16,36 @@
       .concat(EMPLOYER_SIGNUP(emp_email))
       .concat([{'title': 'Candidate Signup'}])
       .concat(CANDIDATE_SIGNUP(cand_email))
+      .concat([{'title': 'Unified Endpoints'}])
       .concat([
         {url:'/api/v1/login', title: 'unified-login-employer', method:'POST',
           data: { email: emp_email, pwd: 'welcomepwd' }},
         {url:'/api/v1/login', title: 'unified-login-candidate', method:'POST',
-          data: { email: cand_email, pwd: 'welcomepwd' }}
+          data: { email: cand_email, pwd: 'welcomepwd' }},
+
+        {title: 'Candidate Password Forgot'},
+        {url: '/api/v1/candidates/logout', title: 'candidate-logout', method: "GET"},
+        {url: '/api/v1/requestpassword', title: 'candidate-pwd-forgot', data: {email: cand_email},
+            extract: function(r, extr){return {pwdToken: r.token}}},
+        {url: function(r, extr){ return '/api/v1/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-validate-token'},
+        {url: function(r, extr){ return '/api/v1/resetpassword/'+extr.pwdToken;}, title: 'candidate-pwd-reset', data: {pwd: 'helloworld'}},
+        {url: function(r, extr){return '/api/v1/login'}, title: 'candidate-login-after pwd-reset',
+            data: {"email": cand_email, pwd:"helloworld"}
+        },
+
+        {title: 'Employer Password Forgot'},
+
+        {url: '/api/v1/employers/logout', title: 'employer-logout', method: "GET"},
+        {url: '/api/v1/requestpassword', title: 'employer-pwd-forgot', data: {email: emp_email},
+            extract: function(r, extr){return {pwdToken: r.token}}},
+        {url: function(r, extr){ return '/api/v1/resetpassword/'+extr.pwdToken;}, title: 'employer-pwd-validate-token'},
+        {url: function(r, extr){ return '/api/v1/resetpassword/'+extr.pwdToken;}, title: 'employer-pwd-reset', data: {pwd: 'helloworld'}},
+        {url: function(r, extr){return '/api/v1/login'}, title: 'employer-login-after pwd-reset',
+            data: {"email": emp_email, pwd:"helloworld"}
+        }
+
+
+
       ]);
 
   $(function(){getTestRunner(tests)(0, {});})
