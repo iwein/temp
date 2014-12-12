@@ -19,14 +19,13 @@ define(function(require) {
 
     $scope.candidate = ThisCandidate;
     $q.all([
-      ThisCandidate.getData(),
       ThisCandidate.getTargetPosition(),
       ThisCandidate.getExperience(),
       ThisCandidate.getEducation(),
       ThisCandidate.getOffers(),
       ThisCandidate.getHighestDegree(),
     ]).then(function(data) {
-      var user = data[0];
+      var user = ThisCandidate._data;
       var offers = data[4];
       $scope.targetPosition = data[1];
       $scope.workExperience = data[2];
@@ -95,7 +94,6 @@ define(function(require) {
       .catch(toaster.defaultError)
       .finally(function() { Loader.page(false) });
   });
-
 
   return {
     url: '/candidate/:id',

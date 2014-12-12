@@ -18,8 +18,8 @@ def upgrade():
     op.execute("""
             create table if not exists unified_login
             (
-            table_name varchar(255) not null,
-            email varchar(255) not null primary key,
+            table_name varchar(20) not null,
+            email varchar(512) not null primary key,
             pwd character varying(128),
             pwdforgot_sent timestamp without time zone,
             pwdforgot_token uuid,

@@ -48,8 +48,7 @@ def includeme(config):
     config.add_notfound_view(notfound, append_slash=True)
     config.add_forbidden_view(http_error)
 
-    config.add_route('login', '/api/v1/login')
-
+    config.include("scotty.login.views", route_prefix='/api/v1')
     config.include("scotty.configuration.views", route_prefix='/api/v1/config')
     config.include("scotty.candidate.views", route_prefix='/api/v1/candidates')
     config.include("scotty.employer.views", route_prefix='/api/v1/employers')
