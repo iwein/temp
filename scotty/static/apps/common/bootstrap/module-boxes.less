@@ -6,8 +6,8 @@
   border-bottom: 1px solid @white;
   text-transform: uppercase;
   font-family: @font-family-headings;
-  color: @white;
 }
+
 
 .box-title_right {
   margin-right: -15px;
@@ -18,10 +18,18 @@
 }
 
 .offer-box {
-  color: @white;
   padding-top: 15px;
   padding-bottom: 12px;
-  min-height: 215px;
+}
+
+.bg-gray-light {
+  .box-title {
+    color: @white;
+  }
+  .offer-box {
+    color: @white;
+    min-height: 215px;
+  }
 }
 
 /* skills box */
@@ -80,7 +88,7 @@
     position: absolute;
     left: 0;
     top: 5px;
-    
+
   }
   span {
     text-overflow: ellipsis;
@@ -143,7 +151,7 @@
     text-decoration: none;
     color: @orange;
     border-bottom: 1px solid @orange;
-    
+
   }
 }
 /* skills box */
@@ -226,10 +234,10 @@
 }
 /* box offices */
 .office-wrap.closed {
- .office-list-item, {
-  display: none
- }
- .office-list-item:first-child{
+  .office-list-item, {
+    display: none
+  }
+  .office-list-item:first-child{
     display: block !important
   }
   .less {
@@ -270,7 +278,7 @@
   padding-top: 5px;
   color: @gray-dark;
   margin-left: -15px;
-  padding-left: 15px; 
+  padding-left: 15px;
   font-size: 12px;
   font-family: @font-family-headings;
   font-weight: bold;
@@ -278,10 +286,10 @@
 }
 
 .add-btn-wrap {
-   border-top: 1px solid @gray;
-   margin-top: 15px;
-   padding-top: 15px;
-   margin-left: -15px;
+  border-top: 1px solid @gray;
+  margin-top: 15px;
+  padding-top: 15px;
+  margin-left: -15px;
 }
 
 .add-btn-wrap.closed {

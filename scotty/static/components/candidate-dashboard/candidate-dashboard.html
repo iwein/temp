@@ -106,12 +106,13 @@
         </div>
       </div>
 
-      <div class="col-sm-3 bg-white user-desc">
-        <div class="bg-gray-light row" ng-hide="!offers.length || status === 'hired'">
+      <div class="col-sm-3 border-box">
+        <div class="bg-gray-lighter3 row" ng-show="offers.length > 0">
           <div class="offer-box col-sm-12">
             <div class="box-title box-title_right alg-cen pad-rgt-15">Offers</div>
             <div ng-repeat="offer in offers">
-              <div class="orange bld">{{ offer.employer.company_name }}</div>
+              <a class="orange bld underlined-link" ui-sref="offer({ id: offer.id })">
+                {{ offer.role }} @ {{ offer.employer.company_name }}</a>
               <div class="mrg-btm-small">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
             </div>
           </div>
@@ -119,7 +120,7 @@
       </div>
 
 
-      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="bookmarks.length">
+      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="bookmarks.length" ng-class="{'mrg-top-30': offers.length > 0}">
         <div class="bookmark-title">Requested Job Interviews</div>
         <div class="bookmark-item">
           <div ng-repeat="entry in bookmarks"  class="mrg-btm">

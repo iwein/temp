@@ -35,7 +35,7 @@ define(function(require) {
       $scope.news = results[0];
       $scope.suggested = results[1].data.slice(0, 5);
       $scope.bookmarks = results[2];
-      $scope.offers = results[3];
+      $scope.offers = results[3].map(fn.get('data'));
 
       $scope.suggested.forEach(function(employer) {
         employer.mission_text = $sce.trustAsHtml(employer.mission_text);
