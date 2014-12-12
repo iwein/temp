@@ -35,7 +35,6 @@ class MandrillEmailer(object):
                          {'to': [{'email': candidate.email, 'name': candidate.first_name}],
                           'global_merge_vars': [{'content': candidate.first_name, 'name': 'first_name'}]})
 
-
     def send_candidate_pwdforgot(self, email, first_name, reset_token):
         url = 'http://%s/candidate#/reset-password/%s' % (self.frontend, reset_token)
         return self.send('candidate-pwd-reset', [],
