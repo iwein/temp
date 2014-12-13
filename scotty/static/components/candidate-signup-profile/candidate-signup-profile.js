@@ -35,6 +35,8 @@ define(function(require) {
       Loader.add('signup-profile-saving');
 
       $scope.form.save().then(function() {
+        return Session.refreshUser();
+      }).then(function(){
         return $scope.signup.nextStep();
       }).finally(function() {
         $scope.loading = false;
