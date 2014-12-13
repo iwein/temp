@@ -8,7 +8,7 @@ define(function(require) {
   module.controller('CandidateSignupTargetCtrl', function($scope, Loader, toaster) {
     $scope.onSubmit = onSubmit;
     Loader.page(false);
-    toaster.info('If you are an employer, click <a href="../employer/#/signup">here</a>!', {
+    toaster.info('If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!', {
       html: true,
       untilStateChange: true,
     });
