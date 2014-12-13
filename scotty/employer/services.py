@@ -129,7 +129,7 @@ def add_employer_offer(employer, params):
     benefits = get_or_create_named_collection(Benefit, params['benefits'])
     techs = get_or_create_named_collection(Skill, params['technologies'])
     o = EmployerOffer(employer_id=employer.id, candidate_id=candidate.id, role=role, benefits=benefits,
-                      technologies=techs,
+                      technologies=techs, other_benefits=params.get('other_benefits'),
                       location=location, annual_salary=annual_salary, interview_details=params.get('interview_details'),
                       job_description=params.get('job_description'), message=params['message'])
     DBSession.add(o)
