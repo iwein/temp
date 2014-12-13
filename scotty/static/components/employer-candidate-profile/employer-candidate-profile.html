@@ -122,7 +122,7 @@
               <div ng-show="canMakeOffer" class="buttons-wrap mrg">
                 <a ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
               </div>
-              <span ng-show="offerSent" class="fw btn-fake bg-blue-light">offer made</span>
+              <span ng-show="!user.candidate_has_been_hired && offerSent" class="fw btn-fake bg-blue-light">offer made</span>
               <span ng-show="!offerSent && user.employer_blacklisted" class="fw btn-fake bg-blue-light">You were Blocked</span>
             </div>
           </div>

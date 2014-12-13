@@ -13,12 +13,17 @@ define(function(require) {
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
 
+    var user = ThisCandidate._data;
     $scope.canMakeOffer =
           Session.isApproved &&
-          !ThisCandidate.candidate_has_been_hired &&
-          !ThisCandidate.employer_blacklisted &&
-          !ThisCandidate.employer_has_accepted_offers;
-    $scope.offerSent = ThisCandidate.employer_has_accepted_offers;
+          user.candidate_has_been_hired &&
+          user.employer_blacklisted &&
+          user.employer_has_accepted_offers;
+    $scope.offerSent = user.employer_has_accepted_offers;
+
+    if(user.candidate_has_been_hired){
+      toaster.warning('This candidate has been hired!', {untilStateChange: true});
+    }
 
     function toggle(key) {
       $scope[key] = !$scope[key];
@@ -32,7 +37,6 @@ define(function(require) {
       ThisCandidate.getOffers(),
       ThisCandidate.getHighestDegree(),
     ]).then(function(data) {
-      var user = ThisCandidate._data;
       var offers = data[3];
       $scope.targetPosition = data[0];
       $scope.workExperience = data[1];
@@ -105,21 +109,8 @@ define(function(require) {
         return Permission.requireSignup().then(function() { return Session.getCandidate($stateParams.id) });
       }
     },
-    views: {
-      'messages': {
-        template: require('text!../../tools/notifier-template.html'),
-        controller: function($scope, ThisCandidate){
-          $scope.notifications = [];
-          if(ThisCandidate._data.candidate_has_been_hired){
-            $scope.notifications.push({'message': 'This candidate has been hired!', color: 'danger'});
-          }
-        }
-      },
-      '': {
-        template: require('text!./employer-candidate-profile.html'),
-        controller: 'CandidateProfileCtrl',
-        controllerAs: 'candidateProfile'
-      }
-    }
+    template: require('text!./employer-candidate-profile.html'),
+    controller: 'CandidateProfileCtrl',
+    controllerAs: 'candidateProfile'
   };
 });
