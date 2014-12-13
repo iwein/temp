@@ -173,7 +173,6 @@ class Employer(Base, JsonSerialisable):
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
         result['is_approved'] = self.approved is not None
-        result['is_signup_complete'] = self.agreedTos is not None
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist

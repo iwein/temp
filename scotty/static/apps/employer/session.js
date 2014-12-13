@@ -18,8 +18,6 @@ define(function(require) {
       this.approved = response.status === 'APPROVED';
       this._unsetUser();
       this.user = new Employer(this._api, 'me', response);
-
-      this.isSignupComplete = this.user._data.is_signup_complete;
       this.isApproved= this.user._data.is_approved;
       this.isActivated = true;
       return this.user;
@@ -89,6 +87,14 @@ define(function(require) {
         if (request.status === 403)
           return null;
         throw request;
+      });
+    },
+
+    isSignupComplete: function() {
+      return this.getSignupStage().then(function(resp){
+        return resp.ordering.reduce(function(accumulated, key) {
+          return accumulated && resp[key];
+        }, true);
       });
     },
 

@@ -18,8 +18,6 @@ define(function(require) {
     _setUser: function(response) {
       this._unsetUser();
       this.user = new Candidate(this._api, 'me', response);
-
-      this.isSignupComplete = this.user._data.is_signup_complete;
       this.isActivated = this.user._data.is_activated;
       this.isApproved= this.user._data.is_approved;
       return this.user;
@@ -111,6 +109,14 @@ define(function(require) {
           if (value) return value;
           return stage[item] ? null : item;
         }, null);
+      });
+    },
+
+    isSignupComplete: function() {
+      return this.getSignupStage().then(function(resp){
+        return resp.ordering.reduce(function(accumulated, key) {
+          return accumulated && resp[key];
+        }, true);
       });
     },
 
