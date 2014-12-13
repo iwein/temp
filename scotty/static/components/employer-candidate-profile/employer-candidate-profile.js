@@ -16,10 +16,11 @@ define(function(require) {
     var user = ThisCandidate._data;
     $scope.canMakeOffer =
           Session.isApproved &&
-          user.candidate_has_been_hired &&
-          user.employer_blacklisted &&
-          user.employer_has_accepted_offers;
-    $scope.offerSent = user.employer_has_accepted_offers;
+          !user.employer_has_offers &&
+          !user.candidate_has_been_hired &&
+          !user.employer_blacklisted &&
+          !user.employer_has_accepted_offers;
+    $scope.offerSent = user.employer_has_offers;
 
     if(user.candidate_has_been_hired){
       toaster.warning('This candidate has been hired!', {untilStateChange: true});

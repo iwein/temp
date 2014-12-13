@@ -383,12 +383,16 @@ class Candidate(Base, JsonSerialisable):
                                                              cbe.employer_id == request.employer_id).count()
                 result['employer_bookmarked'] = bookmark_count > 0
 
-
-            accepted_count = DBSession.query(Offer).filter(Offer.candidate_id == self.id,
+            active_offers = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
+                                                           Offer.employer_id == request.employer_id,
+                                                           Offer.by_active()).count()
+            result['employer_has_offers'] = active_offers > 0
+            accepted_count = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
                                                            Offer.employer_id == request.employer_id,
                                                            Offer.has_accepted()).count()
-            hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
             result['employer_has_accepted_offers'] = accepted_count > 0
+
+            hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
             result['candidate_has_been_hired'] = hired_count > 0
 
         if self.id == request.candidate_id:
