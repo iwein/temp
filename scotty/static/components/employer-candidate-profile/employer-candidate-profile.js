@@ -13,6 +13,13 @@ define(function(require) {
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
 
+    $scope.canMakeOffer =
+          Session.isApproved &&
+          !ThisCandidate.candidate_has_been_hired &&
+          !ThisCandidate.employer_blacklisted &&
+          !ThisCandidate.employer_has_accepted_offers;
+    $scope.offerSent = ThisCandidate.employer_has_accepted_offers;
+
     function toggle(key) {
       $scope[key] = !$scope[key];
     }
@@ -31,10 +38,6 @@ define(function(require) {
       $scope.workExperience = data[1];
       $scope.education = data[2];
       $scope.highestDegree = data[4];
-
-      $scope.offerSent = offers.some(function(entry) {
-        return entry.data.employer.id === Session.user.id;
-      });
 
       var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
       $scope.status = offers.reduce(function(summary, value) {

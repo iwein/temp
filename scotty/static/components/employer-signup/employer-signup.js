@@ -18,7 +18,7 @@ define(function(require) {
       //   the last item should be the default view
       'signup.terms',
     ],
-    'end': [ 'signup.suggest' ],
+    'end': [ 'dashboard' ]
   };
   var order = [
     'signup.start',
@@ -44,6 +44,6 @@ define(function(require) {
     url: '/signup',
     template: require('text!./employer-signup.html'),
     controller: 'SignupCtrl',
-    controllerAs: 'signup',
+    controllerAs: 'signup'
   };
 });

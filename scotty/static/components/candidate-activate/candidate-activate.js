@@ -6,14 +6,15 @@ define(function(require) {
     Loader.page(true);
 
     Session.activate($state.params.token).then(function() {
-      return Session.isActivated;
+      return Session.getUser();
     }).then(function() {
       $scope.success = true;
-      $scope.signupComplete = Session.isActivated && Session.isApproved;
+      $scope.signupComplete = Session.isSignupComplete;
     }, function(request) {
       if (request.status === 404) {
         toaster.error('Invalid invitation token.');
         $scope.failed = true;
+        $state.go('dashboard');
       } else
         toaster.defaultError();
     }).finally(function() {
@@ -26,6 +27,6 @@ define(function(require) {
     url: '/activate/:token',
     template: require('text!./candidate-activate.html'),
     controller: 'CandidateActivateCtrl',
-    controllerAs: 'activate',
+    controllerAs: 'activate'
   };
 });

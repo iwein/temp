@@ -19,7 +19,7 @@ define(function(require) {
       this._unsetUser();
       this.user = new Candidate(this._api, 'me', response);
 
-      this.isSignupComplete = this.user._data.is_approved && this.user._data.is_activated;
+      this.isSignupComplete = this.user._data.is_signup_complete;
       this.isActivated = this.user._data.is_activated;
       this.isApproved= this.user._data.is_approved;
       return this.user;

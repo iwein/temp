@@ -90,18 +90,17 @@
               <div class="buttons-wrap">
 
                 <div ng-if="can_act">
-                  <div class="fw btn-fake bg-blue-light" ng-if="candidate_is_bookmarked">interview requested</div>
+                  <div class="fw btn-fake bg-blue-light" ng-if="bookmarked_by_candidate && !blacklisted_by_candidate">interview requested</div>
                   <button type="button"
                           class="fw btn bg-green"
-                          ng-show="!candidate_is_bookmarked"
+                          ng-show="!bookmarked_by_candidate && !blacklisted_by_candidate"
                           ng-click="employerProfile.toogleBookmark()">
                     Request an interview
                   </button>
+                  <div ng-if="blacklisted_by_candidate">
+                    <div class="fw btn-fake bg-blue-light">BLACKLISTED</div>
+                  </div>
                 </div>
-                <div ng-if="candidate_is_blacklisted">
-                  <div class="fw btn-fake bg-blue-light">BLACKLISTED</div>
-                </div>
-
               </div>
             </div>
           </div>

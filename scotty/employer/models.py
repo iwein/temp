@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.auth.provider import CANDIDATE
-from scotty.candidate.models import CandidateEmployerBlacklist
+from scotty.candidate.models import CandidateEmployerBlacklist, CandidateBookmarkEmployer
 from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer
@@ -173,12 +173,19 @@ class Employer(Base, JsonSerialisable):
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
         result['is_approved'] = self.approved is not None
+        result['is_signup_complete'] = self.agreedTos is not None
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist
             blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == request.candidate_id,
                                                            cebl.employer_id == self.id).count()
             result['blacklisted_by_candidate'] = blacklist_count > 0
+
+            if not blacklist_count:
+                cbe = CandidateBookmarkEmployer
+                bookmark_count = DBSession.query(cbe).filter(cbe.employer_id == self.id,
+                                                             cbe.candidate_id == request.candidate_id).count()
+                result['bookmarked_by_candidate'] = bookmark_count > 0
 
         return result
 

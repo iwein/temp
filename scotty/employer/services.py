@@ -94,7 +94,7 @@ def add_employer_offer(employer, params):
     if not candidate:
         raise HTTPBadRequest("Unknown candidate")
     if not candidate.is_active:
-        raise HTTPBadRequest("Candidate cannot receive offer, has been hired!")
+        raise HTTPBadRequest("Candidate cannot receive offer, has is already %s!" % candidate.status)
     annual_salary = int(params['annual_salary'])
     location = get_location_by_name_or_raise(params['location'])
 
@@ -185,7 +185,10 @@ def get_employer_suggested_candidate_ids(employer_id, limit=5):
                 on  cs.skill_id = s.id
             join candidate c
                 on cs.candidate_id = c.id
+            join candidatestatus cstatus
+                on c.status_id = cstatus.id
             where e.id = :employer_id
+            and cstatus.name = 'active' and c.activated  is not null
             group by c.id
             order by noskills desc
             limit :limit

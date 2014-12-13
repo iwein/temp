@@ -397,6 +397,7 @@ class Candidate(Base, JsonSerialisable):
 
             result['is_approved'] = self.status.name == 'active'
             result['is_activated'] = self.activated is not None
+            result['is_signup_complete'] = self.picture_url is not None
 
         return result
 

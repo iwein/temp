@@ -35,7 +35,7 @@ define(function(require) {
     requireSignup: function() {
       return this.requireLogged().then(function() {
         if (this._session.isSignupComplete) return true;
-        this._alert.warning('You need complete signup process to see this page.');
+        this._alert.warning('Please complete your signup process.');
         this._location.go('signup');
         throw new SignupRequiredError('Signup required');
       }.bind(this));

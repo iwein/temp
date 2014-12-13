@@ -136,7 +136,7 @@ class EmployerController(RootController):
     @view_config(route_name='employer_signup_stage', permission=NO_PERMISSION_REQUIRED, **GET)
     def signup_stage(self):
         employer = self.employer
-        workflow = {'status': employer.status, 'ordering': ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'],
+        workflow = {'ordering': ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'],
                     'step1': employer.logo_url is not None, 'step2': len(employer.offices) > 0,
                     'step3': employer.mission_text is not None,
                     'step4': len(employer.tech_tags) > 0, 'step5': employer.recruitment_process is not None,

@@ -37,7 +37,7 @@ define(function(require) {
 
       this.notifications.push(item);
       if(!opts.untilStateChange)
-        this.timeout(display, 10000);
+        this.timeout(display, 8000);
     },
 
     clean: function() {

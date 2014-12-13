@@ -97,7 +97,7 @@
               <div class="col-sm-12">
                 <div class="user-desc">
                   <div class="">
-                    <h2 class="main-title">{{ user.first_name }} {{ user.last_name }} <i class="bookmark bookmark_inactive bookmark_active"></i></h2>
+                    <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
                   </div>
                   <div class="emp-off-desc">
                     <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
@@ -119,11 +119,11 @@
               </div>
             </div>
             <div class="row">
-              <div ng-show="!offerSent && !user.employer_blacklisted" class="buttons-wrap mrg">
+              <div ng-show="canMakeOffer" class="buttons-wrap mrg">
                 <a ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
               </div>
               <span ng-show="offerSent" class="fw btn-fake bg-blue-light">offer made</span>
-              <span ng-show="user.employer_blacklisted" class="fw btn-fake bg-blue-light">You were Blocked</span>
+              <span ng-show="!offerSent && user.employer_blacklisted" class="fw btn-fake bg-blue-light">You were Blocked</span>
             </div>
           </div>
           <div class="col-sm-12 mrg-btm">

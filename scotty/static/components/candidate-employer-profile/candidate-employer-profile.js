@@ -11,9 +11,26 @@ define(function(require) {
     Loader.page(true);
     $scope.ready = false;
 
+
+
     Permission.requireSignup().then(function() {
+      this.toogleBookmark = toogleBookmark;
       $scope.toggle = toggle;
       $scope.id = $state.params.id;
+
+      Loader.add('candidate-employer-profile-isbookmarked');
+      Session.getUser().then(function(user) {
+        $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
+        $scope.candidate_is_approved = user._data.is_approved;
+        $scope.candidate_is_activated = user._data.is_activated;
+
+        $scope.can_act =
+          $scope.candidate_is_activated &&
+          $scope.candidate_is_approved &&
+          !$scope.candidate_has_been_hired;
+      }).finally(function() {
+        Loader.remove('candidate-employer-profile-isbookmarked');
+      });
 
       Session.getEmployer($scope.id).then(function(employer) {
         $scope.employer = employer;
@@ -25,28 +42,38 @@ define(function(require) {
         $scope.data.recruitment_process = $sce.trustAsHtml(data.recruitment_process);
         $scope.data.training_policy = $sce.trustAsHtml(data.training_policy);
         $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
+
+        $scope.bookmarked_by_candidate = data.bookmarked_by_candidate;
+        $scope.blacklisted_by_candidate = data.blacklisted_by_candidate;
+
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
         Loader.page(false);
       });
 
-      Loader.add('candidate-employer-profile-isbookmarked');
-      Session.getUser().then(function(user) {
-        $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
-        $scope.candidate_is_approved = user._data.is_approved;
-        $scope.candidate_is_activated = user._data.is_activated;
-        $scope.candidate_is_bookmarked = user._data.employer_bookmarked;
-        $scope.candidate_is_blacklisted = user._data.employer_blacklisted;
+      function toogleBookmark() {
+        Loader.add('candidate-employer-profile-toggle');
+        return Session.getUser().then(function(user) {
 
-        $scope.can_act =
-          $scope.candidate_is_activated &&
-          $scope.candidate_is_approved &&
-          !$scope.candidate_is_blacklisted &&
-          !$scope.candidate_has_been_hired;
-      }).finally(function() {
-        Loader.remove('candidate-employer-profile-isbookmarked');
-      });
+          Session.getEmployer($scope.id).then(function(employer) {
+            return employer.isBookmarked ?
+              user.deleteBookmark({ id: $scope.id }) :
+              user.addBookmark({ id: $scope.id });
+          }).then(function() {
+            return Session.getEmployer($scope.id);
+          }).then(function(employer) {
+            $scope.bookmarked_by_candidate = employer.isBookmarked;
+            toaster.success(employer.isBookmarked ? 'Interview requested' : 'Interview request removed');
+          }).catch(function() {
+            toaster.defaultError();
+          }).finally(function() {
+            Loader.remove('candidate-employer-profile-toggle');
+          });
+
+        });
+
+      }
 
       function toggle(key) {
         $scope[key] = !$scope[key];

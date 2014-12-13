@@ -10,6 +10,8 @@ define(function(require) {
     this._api = api;
     this._data = data;
     this._sufix = sufix || '';
+
+    this.isBookmarked = data.bookmarked_by_candidate;
   }
 
   Employer.prototype = {
