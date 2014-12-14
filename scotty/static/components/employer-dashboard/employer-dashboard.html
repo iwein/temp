@@ -158,19 +158,20 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="candidates.length">
-          <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
-          <div ng-repeat="candidate in candidates">
-            <div class="bld">
-              <a ui-sref="candidate({ id: candidate._data.id })">
-                {{ candidate._data.first_name }}, {{ candidate._data.last_name }}
-              </a>
-            </div>
-            <div class="mrg-btm-small">
-              {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
-            </div>
+      </div>
+      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="candidates.length">
+        <div class="box-title box-title_left mrg-btm orange">New offer requests</div>
+        <div ng-repeat="candidate in candidates">
+          <div class="bld">
+            <a ui-sref="candidate({ id: candidate._data.id })">
+              {{ candidate._data.first_name }}, {{ candidate._data.last_name }}
+            </a>
+          </div>
+          <div class="mrg-btm-small">
+            {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
