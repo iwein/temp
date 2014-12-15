@@ -7,6 +7,7 @@ define(function(require) {
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Permission, Session,
                                                      ThisCandidate) {
+    debugger;
     $scope.toggle = toggle;
     $scope.id = $state.params.id;
     $scope.ready = false;
@@ -106,9 +107,13 @@ define(function(require) {
   return {
     url: '/candidate/:id',
     resolve: {
-      ThisCandidate: function($stateParams, Permission, Session) {
-        return Permission.requireSignup().then(function() { return Session.getCandidate($stateParams.id) });
-      }
+      ThisCandidate: [
+        // ngAnnotate doen't catch this function
+        '$stateParams', 'Permission', 'Session',
+        function($stateParams, Permission, Session) {
+          return Permission.requireSignup().then(function() { return Session.getCandidate($stateParams.id) });
+        }
+      ]
     },
     template: require('text!./employer-candidate-profile.html'),
     controller: 'CandidateProfileCtrl',
