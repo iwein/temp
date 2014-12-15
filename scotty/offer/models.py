@@ -255,6 +255,7 @@ class Offer(Base, OfferStatusWorkflow):
 
     interview_details = Column(Text, info=PUBLIC)
     job_description = Column(Text, info=PUBLIC)
+    other_benefits = Column(Text, info=PUBLIC)
 
     benefits = relationship(Benefit, secondary=offer_benefits, info=PUBLIC)
     technologies = relationship(Skill, secondary=offer_skills, info=PUBLIC)
