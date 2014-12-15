@@ -113,8 +113,8 @@ define(function(require) {
     resolve: {
       ThisCandidate: [
         // ngAnnotate doen't catch this function
-        '$stateParams', 'Permission', 'Session',
-        function($stateParams, Permission, Session) {
+        '$stateParams', 'Session',
+        function($stateParams, Session) {
           return Session.getCandidate($stateParams.id);
         }
       ]
