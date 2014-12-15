@@ -7,7 +7,6 @@ define(function(require) {
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Permission, Session,
                                                      ThisCandidate) {
-    debugger;
     $scope.toggle = toggle;
     $scope.id = $state.params.id;
     $scope.ready = false;
