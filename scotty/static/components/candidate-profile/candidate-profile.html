@@ -417,11 +417,25 @@
             ng-click="dob.edit(dob.data)">
       <i class="fa fa-pencil"></i>
     </button>
+
     <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
     <div> <span class="iconParent"><i class="fa orange" ng-class="{
                   'fa-check': user.eu_work_visa,
                   'fa-times': !user.eu_work_visa,
                 }"></i></span> has a work visa</div>
+
+    <div class="mrg-btm-small">
+      <div class="uploadFile" ng-show="isEditing" ng-disabled="loading || formOpen">
+        <span ng-show="cv.data">Update your CV</span>
+        <span ng-show="!cv.data">Upload CV</span>
+        <input type="file"
+               name="photo"
+               accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+               ng-disabled="hcDisabled"
+               ng-model="cv_file"
+               hc-file-select="cv.save($files)">
+      </div>
+    </div>
   </div>
 </div>
 

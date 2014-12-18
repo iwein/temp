@@ -127,7 +127,8 @@
                  hc-file-select
                  ng-model="cv_file">
         </div>
-        <div class="uploadText">Upload CV if you have one.</div>
+        <div ng-show="!cv_file.length" class="uploadText">Upload CV if you have one.</div>
+        <div ng-show="cv_file.length" class="uploadText">CV uploaded.</div>
       </div>
 
       <div class="form-error" ng-show="false && (errorFileRequired || errorFileImage)">
@@ -164,6 +165,4 @@
 
   </div>
   <div ng-transclude></div>
-
-
 </form>

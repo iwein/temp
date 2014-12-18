@@ -38,6 +38,18 @@ define(function(require) {
       .finally(function() { Loader.page(false) });
 
 
+    $scope.cv = {
+      data: false,
+      load: function() {
+        // TODO
+      },
+      save: function(files) {
+        if (!files || !files.length) return;
+        Session.getUser().then(function(user) {
+          Amazon.upload($scope.cv_file[0], 'cv', Session.id()).then(user.setCVUrl.bind(user))
+        });
+      },
+    };
     $scope.name = form({
       source: function(user) {
         return user.getData().then(function(data) {
