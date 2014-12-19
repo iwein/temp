@@ -111,14 +111,14 @@ class OfferStatusWorkflow(object):
         return columns['accepted'].isnot(None)
 
     @classmethod
-    def by_active(cls):
+    def by_active(cls, includeSigned=True):
         columns = class_mapper(cls).columns
         filter = []
         expiry_cols = []
         success_state = None
 
         for status in cls.statuses[::-1]:
-            if status.key == OFFER_STATUS_CONTRACT_SIGNED_KEY:
+            if includeSigned and status.key == OFFER_STATUS_CONTRACT_SIGNED_KEY:
                 success_state = columns[status.col_name].isnot(None)
             elif status.is_final:
                 filter.append(columns[status.col_name].is_(None))

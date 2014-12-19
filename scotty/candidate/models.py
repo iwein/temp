@@ -390,7 +390,7 @@ class Candidate(Base, JsonSerialisable):
 
             result['candidate_has_been_hired'] = self.status.name == CandidateStatus.SLEEPING
 
-        elif self.id == request.candidate_id:
+        if self.id == request.candidate_id:
             result['candidate_has_been_hired'] = self.status.name == CandidateStatus.SLEEPING
 
             result['is_approved'] = self.status.name in [CandidateStatus.ACTIVE, CandidateStatus.SLEEPING]

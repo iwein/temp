@@ -186,7 +186,9 @@ class AdminController(RootController):
         if not candidate:
             raise HTTPNotFound("Unknown Candidate ID")
         candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
-        self.request.emailer.send_candidate_approved(candidate)
+
+        if self.request.matched_route.name == 'admin_candidate_approve':
+            self.request.emailer.send_candidate_approved(candidate)
         return candidate
 
     @view_config(route_name='admin_candidate_sleep', permission=ADMIN_PERM, **GET)
@@ -208,7 +210,9 @@ class AdminController(RootController):
             if q:
                 q = q.lower()
                 query = query.filter(
-                    or_(func.lower(Candidate.first_name).startswith(q), func.lower(Candidate.last_name).startswith(q),
+                    or_(func.lower(Candidate.first_name).startswith(q),
+                        func.lower(Candidate.last_name).startswith(q),
+                        func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
                         func.lower(Candidate.email).startswith(q)))
             return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                                  joinedload_all('skills.skill'), joinedload_all('skills.level'),

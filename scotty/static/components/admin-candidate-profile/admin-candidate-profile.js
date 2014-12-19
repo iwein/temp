@@ -11,6 +11,12 @@ define(function(require) {
     $scope.ready = false;
     Loader.page(true);
 
+    $scope.wakeCandidate = function(candidate){
+      Session.wakeCandidate(candidate).then(function(){
+
+      });
+    };
+
 
     Session.getCandidate($scope.id).then(function(candidate) {
       $scope.candidate = candidate;
@@ -62,6 +68,6 @@ define(function(require) {
     url: '/candidate/:id',
     template: require('text!./admin-candidate-profile.html'),
     controller: 'CandidateProfileCtrl',
-    controllerAs: 'candidateProfile',
+    controllerAs: 'candidateProfile'
   };
 });

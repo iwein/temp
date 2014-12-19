@@ -22,9 +22,8 @@
       </div>
     </div>
 
-    <a ng-href="{{ session.getLoginAsCandidateLink(candidate) }}">
-      Login as this candidate
-    </a>
+    <a ng-href="{{ session.getLoginAsCandidateLink(user) }}">Login as this candidate</a>
+    <a class="pull-right" ng-click="wakeCandidate(user)" ng-if="user.status == 'sleeping'" style="cursor: pointer">Wake Candidate</a>
 
     <div class="page-header">
       <img class="avatar pull-left" ng-src="{{ user.picture_url }}">
@@ -34,12 +33,13 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Personal data</h3>
+        <h3 class="panel-title">
+          <strong style="color:black" class="pull-right">{{ user.status }}</strong>
+          Personal data
+        </h3>
       </div>
       <div class="panel-body">
         <dl class="dl-horizontal">
-          <dt>status</dt>
-          <dd>{{ user.status }}</dd>
           <dt>email</dt>
           <dd>{{ user.email }}</dd>
           <dt>Availabilty</dt>

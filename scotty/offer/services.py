@@ -20,7 +20,7 @@ def set_offer_signed(offer, candidate, employer, params, emailer):
     reason = get_by_name_or_raise(RejectionReason, RejectionReason.OTHER)
     offers = DBSession.query(Offer).filter(Offer.candidate_id == offer.candidate_id,
                                            Offer.id != offer.id,
-                                           Offer.by_active()).all()
+                                           Offer.by_active(includeSigned=False)).all()
     for offer in offers:
         offer.set_rejected(reason, 'Accepted another offer.')
     # EMAIL ADMIN

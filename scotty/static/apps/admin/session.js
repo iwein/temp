@@ -40,6 +40,10 @@ define(function(require) {
       return this._api.get('/admin/candidates/' + candidate.id + '/approve' + getParams);
     },
 
+    wakeCandidate: function(candidate) {
+      return this._api.get('/admin/candidates/' + candidate.id + '/wake' + getParams);
+    },
+
     getInvitedCandidates: function(code, options) {
       return this._api.get('/admin/invite_codes/' + code + '/candidates' + getParams, options).then(function(response) {
         response.data = response.data.map(function(data) {
