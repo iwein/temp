@@ -46,7 +46,7 @@ define(function(require) {
       save: function(files) {
         if (!files || !files.length) return;
         Session.getUser().then(function(user) {
-          Amazon.upload($scope.cv_file[0], 'cv', Session.id()).then(user.setCVUrl.bind(user))
+          Amazon.upload($scope.cv_file[0], 'cv', Session.id()).then(user.setCVUrl.bind(user));
         });
       },
     };
