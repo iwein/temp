@@ -12,13 +12,13 @@
               <div class="uploadFile">
                 <span>Select</span>
                 <input type="file"
-                  name="photo"
-                  accept="image/*"
-                  required
-                  ng-disabled="loading"
-                  ng-model="files"
-                  hc-file-select="signupBasic.selectFile($files)"
-                  hc-data-url="selectedFiles">
+                       name="photo"
+                       accept="image/*"
+                       required
+                       ng-disabled="loading"
+                       ng-model="files"
+                       hc-file-select="signupBasic.selectFile($files)"
+                       hc-data-url="selectedFiles">
               </div>
               <div class="uploadText">Upload a photo at least 235 px wide.</div>
             </div>
@@ -36,11 +36,11 @@
             <label class="col-sm-3">Website</label>
             <div class="col-sm-9">
               <input type="url"
-                class="form-control"
-                name="website"
-                required
-                ng-disabled="loading"
-                ng-model="model.website">
+                     class="form-control"
+                     name="website"
+                     required
+                     ng-disabled="loading"
+                     ng-model="model.website">
             </div>
 
             <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
@@ -54,10 +54,10 @@
             <label class="col-sm-3 no-padd-right">Facebook page</label>
             <div class="col-sm-9">
               <input type="url"
-                class="form-control"
-                name="fb_url"
-                ng-disabled="loading"
-                ng-model="model.fb_url">
+                     class="form-control"
+                     name="fb_url"
+                     ng-disabled="loading"
+                     ng-model="model.fb_url">
             </div>
           </div>
 
@@ -65,20 +65,20 @@
             <label class="col-sm-3">LinkedIn URL</label>
             <div class="col-sm-9">
               <input type="url"
-                class="form-control"
-                name="linkedin_url"
-                ng-disabled="loading"
-                ng-model="model.linkedin_url">
+                     class="form-control"
+                     name="linkedin_url"
+                     ng-disabled="loading"
+                     ng-model="model.linkedin_url">
             </div>
           </div>
         </div>
 
         <div class="buttons-wrap mrg-top mrg-btm-30">
-            <button type="submit"
-            class="fl-rg bg-green btn-small"
-            ng-disabled="loading">
+          <button type="submit"
+                  class="fl-rg bg-green btn-small"
+                  ng-disabled="loading">
             Continue
-            </button>
+          </button>
         </div>
       </form>
     </div>
@@ -92,7 +92,7 @@
           <p>
             There will be a text written in here as it is at the candidate sign up forms.
           </p>
-        
+
         </div>
       </div>
     </div>

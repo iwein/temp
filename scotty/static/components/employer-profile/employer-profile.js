@@ -114,7 +114,7 @@ define(function(require) {
         return Amazon.upload(model[0], 'logo', Session.id()).then(function(url) {
           return user.updateData({ logo_url: url });
         });
-      },
+      }
     });
     $scope.picture._clean = function(model) {
       return model;
@@ -179,7 +179,7 @@ define(function(require) {
         close: function() {
           this.editing = false;
           $scope.formOpen = false;
-        },
+        }
       };
     }
 
@@ -191,12 +191,11 @@ define(function(require) {
       }));
     }
 
-
     function listForm(options) {
       var base = formSimple(_.extend(options, {
         save: function(model, form) {
           return form.save();
-        },
+        }
       }));
       return _.extend({}, base, {
         editing: -1,
@@ -215,7 +214,7 @@ define(function(require) {
         close: function() {
           this.editing = -1;
           $scope.formOpen = false;
-        },
+        }
       });
     }
 
@@ -229,6 +228,6 @@ define(function(require) {
     url: '/profile/',
     template: require('text!./employer-profile.html'),
     controller: 'ProfileCtrl',
-    controllerAs: 'profile',
+    controllerAs: 'profile'
   };
 });
