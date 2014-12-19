@@ -420,22 +420,9 @@
 
     <div class="mrg-btm-small"> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
     <div> <span class="iconParent"><i class="fa orange" ng-class="{
-                  'fa-check': user.eu_work_visa,
-                  'fa-times': !user.eu_work_visa,
-                }"></i></span> has a work visa</div>
-
-    <div class="mrg-btm-small">
-      <div class="uploadFile" ng-show="isEditing" ng-disabled="loading || formOpen">
-        <span ng-show="cv.data">Update your CV</span>
-        <span ng-show="!cv.data">Upload CV</span>
-        <input type="file"
-               name="photo"
-               accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-               ng-disabled="hcDisabled"
-               ng-model="cv_file"
-               hc-file-select="cv.save($files)">
-      </div>
-    </div>
+      'fa-check': user.eu_work_visa,
+      'fa-times': !user.eu_work_visa,
+    }"></i></span> has a work visa</div>
   </div>
 </div>
 
@@ -654,13 +641,44 @@
               </div>
             </div>
             <!-- END summary box -->
-            <p  ng-hide="summary.editing">{{ summary.data }} <button type="submit"
-                                                                     class="btn-edit-sub no-fl"
-                                                                     ng-show="isEditing"
-                                                                     ng-disabled="loading || formOpen"
-                                                                     ng-click="summary.edit()">
+            <p ng-hide="summary.editing">
+              {{ summary.data }}
+              <button type="submit"
+                class="btn-edit-sub no-fl"
+                ng-show="isEditing"
+                ng-disabled="loading || formOpen"
+                ng-click="summary.edit()">
               <i class="fa fa-pencil"></i>
             </button></p>
+          </div>
+
+          <div class="mrg-btm-small" ng-show="isEditing">
+            <span ng-show="cv.data">Update your CV</span>
+            <span ng-show="!cv.data">Upload CV</span>
+            <button type="submit"
+                    class="btn-edit-sub no-fl"
+                    ng-show="isEditing"
+                    ng-disabled="loading || formOpen"
+                    ng-click="cv.edit()">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <div ng-show="cv.editing" ng-disabled="loading || formOpen">
+              <div class="uploadFile">
+                <span>Select file</span>
+                <input type="file"
+                       name="photo"
+                       accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                       ng-disabled="hcDisabled"
+                       ng-model="cv_file"
+                       hc-file-select="cv.save($files)">
+              </div>
+              <button type="button"
+                      class="bg-gray-lighter2 btn-small"
+                      ng-click="summary.close()"
+                      ng-disabled="loading">
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -671,17 +689,17 @@
 <div class="col-sm-4 bg-white user-desc">
   <div class="fl-rg pad-20  ">
     <span>Status: </span>
-                  <span ng-show="status === 'searching'">
-                    <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
-                    <span>searching</span>
-                  </span>
-                  <span ng-show="status === 'reviewing'">
-                    <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
-                    <span>reviewing offer</span>
-                  </span>
-                  <span ng-show="status === 'hired'">
-                    <span class="green smbd">HIRED</span>
-                  </span>
+    <span ng-show="status === 'searching'">
+      <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+      <span>searching</span>
+    </span>
+    <span ng-show="status === 'reviewing'">
+      <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
+      <span>reviewing offer</span>
+    </span>
+    <span ng-show="status === 'hired'">
+      <span class="green smbd">HIRED</span>
+    </span>
   </div>
 </div>
 <div class="col-sm-12">
