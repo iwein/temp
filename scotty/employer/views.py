@@ -11,7 +11,8 @@ from scotty.configuration.models import CompanyType, WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, set_employer_offices, \
+    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
+    set_employer_offices, \
     get_employer_newsfeed
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
@@ -54,7 +55,6 @@ def includeme(config):
 
 
 class EmployerInviteController(RootController):
-
     @reify
     def invited_employer(self):
         token = self.request.matchdict['token']
@@ -76,7 +76,6 @@ class EmployerInviteController(RootController):
 
 
 class EmployerController(RootController):
-
     @reify
     def employer(self):
         employer_id = self.request.matchdict["employer_id"]
@@ -109,8 +108,6 @@ class EmployerController(RootController):
         city_id = None
         if 'country_iso' in params and 'city' in params:
             city_id = get_location_by_name_or_raise(params).id
-        company_type_names = filter(None, params.get('company_type', '').split(','))
-        company_types = get_or_raise_named_collection(CompanyType, company_type_names).values()
 
         def adjust_query(query, q=None):
             if q:
@@ -125,11 +122,14 @@ class EmployerController(RootController):
                                  joinedload('tech_tags'),
                                  joinedload('company_type'))
 
+        employer_name = params.get('company')
         if tags:
-            pager = get_employers_pager(tags, city_id, company_types)
+            pager = get_employers_pager(tags, city_id, employer_name)
             result = ObjectBuilder(Employer, joins=adjust_query).serialize(pager)
         else:
             basequery = adjust_query(DBSession.query(Employer))
+            if employer_name:
+                basequery = basequery.filter(func.lower(Employer.company_name).like(employer_name.lower() + '%'))
             result = run_paginated_query(self.request, basequery)
         return result
 
@@ -182,7 +182,6 @@ class EmployerController(RootController):
 
 
 class EmployerOfficeController(EmployerController):
-
     @view_config(route_name='employer_offices', **GET)
     def list(self):
         return self.employer.offices
@@ -208,7 +207,6 @@ class EmployerOfficeController(EmployerController):
 
 
 class EmployerOfferController(EmployerController):
-
     @reify
     def offer(self):
         offer_id = self.request.matchdict["offer_id"]
@@ -291,8 +289,8 @@ class EmployerOfferController(EmployerController):
     def get_status(self):
         return self.offer.full_status_flow
 
-class EmployerPasswordController(RootController):
 
+class EmployerPasswordController(RootController):
     def send_email(self, employer):
         self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
                                                      employer.company_name, employer.pwdforgot_token)

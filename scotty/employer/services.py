@@ -156,20 +156,13 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
             setattr(obj, field, transform(params[field]))
 
 
-def get_employers_pager(tags, city_id, company_types):
-    params = {'city_id': city_id}
+def get_employers_pager(tags, city_id, company_name):
+    params = {'city_id': city_id, 'company_name': company_name.lower() if company_name else None}
     tags = {'tag_%d' % i: unicode(tag) for i, tag in enumerate(tags)}
     params.update(tags)
-    if company_types:
-        params['company_type'] = ', '.join([ct.name for ct in company_types])
-        query = """select employer_id as id, matched_tags, count(*) over() as total
-                   from employer_search(array[:%s], :city_id, array[:company_type])
-                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
-
-    else:
-        query = """select employer_id as id, matched_tags, count(*) over() as total
-                   from employer_search(array[:%s], :city_id, null)
-                   order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
+    query = """select employer_id as id, matched_tags, count(*) over() as total
+                from employer_search(array[:%s], :city_id, :company_name)
+                order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
     return Pager(query, params)
 
 

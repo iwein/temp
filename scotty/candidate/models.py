@@ -399,8 +399,6 @@ class Candidate(Base, JsonSerialisable):
 
         obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
         result.update(json_encoder(self, request, display, obfuscator))
-
-
         return result
 
 

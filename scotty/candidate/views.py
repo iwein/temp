@@ -12,7 +12,7 @@ from sqlalchemy.orm import joinedload, joinedload_all
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill, V_CANDIDATE_FT_INDEX
+    CandidateSkill
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidate_newsfeed, \
@@ -23,7 +23,7 @@ from scotty.employer.services import get_employers_pager
 from scotty.models.common import get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer, Offer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
-from scotty.services.pagingservice import ObjectBuilder, PseudoPager, Pager
+from scotty.services.pagingservice import ObjectBuilder, PseudoPager
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT

@@ -53,7 +53,6 @@ define(function(require) {
 
     function setLocation(text) {
       $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
-      search();
     }
 
     function loadPage(page) {
@@ -61,12 +60,13 @@ define(function(require) {
       $scope.page = page;
     }
 
-    function search() {
+    function search(companyName) {
       var tags = $scope.terms && $scope.terms.join();
 
       var params = _.extend({},
         $scope.location,
-        tags && { tags: tags }
+        tags && { tags: tags },
+        companyName && {company: companyName}
       );
 
       $scope.loading = true;

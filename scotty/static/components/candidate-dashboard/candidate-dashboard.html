@@ -25,13 +25,11 @@
             <div class="search-box">
               <h4 class="search-box-title">Search for companies</h4>
               <div class="row">
-
                 <div class="col-sm-6">
                   <div class="row">
                     <div class="col-sm-3 search-label font-12">Skills</div>
                     <div class="col-sm-9 no-padd-left">
                       <hc-label-typeahead
-                        placeholder="Skills"
                         ng-model="terms"
                         hc-source="searchSkills($viewValue)">
                       </hc-label-typeahead>
@@ -45,19 +43,30 @@
                     <div class="col-sm-9 no-padd-left">
                       <input type="text"
                              class="form-control"
-                             placeholder="Location"
+                             placeholder="City or Municipality"
                              ng-disabled="!terms.length"
                              ng-model="locationText"
                              ng-blur="setLocation(locationText)"
                              typeahead-on-select="setLocation(locationText)"
-                             typeahead="location for location in searchLocations($viewValue)">
+                             typeahead="location for location in searchLocations($viewValue)"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mrg-top">
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-3 no-padd-left search-label font-12">Company</div>
+                    <div class="col-sm-9 no-padd-left">
+                      <input type="text" class="form-control" ng-model="companyName"/>
                     </div>
                   </div>
                 </div>
 
-                <div class="col-sm-12">
-                  <div class="buttons-wrap mrg-top">
-                    <button type="button" class="fl-rg btn bg-green" ng-click="search()">
+                <div class="col-sm-6">
+                  <div class="buttons-wrap">
+                    <button type="button" class="fl-rg btn bg-green" ng-click="search(companyName)">
                       Search
                     </button>
                   </div>
@@ -97,7 +106,7 @@
                 <hc-employer
                   ng-repeat="employer in suggested"
                   ng-model="employer"
-                  hc-link-profile>
+                  hc-link-profiaearsle>
                 </hc-employer>
               </div>
             </div>
