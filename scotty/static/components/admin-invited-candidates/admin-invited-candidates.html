@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h3>Candidates who used this invite code</h3>
+    <div class="search-results">
+      <div class="search-border"></div>
+      <div class="spinner" ng-show="loading"></div>
+
+      <div class="offer-list" ng-show="!loading">
+        <hc-candidate
+          ng-repeat="candidate in candidates"
+          ng-model="candidate"
+          hc-link-profile="true">
+        </hc-candidate>
+
+        <ul class="pager-list" ng-show="pages.length">
+          <li ng-repeat="entry in pages" ng-class="{ active: currentPage === entry }">
+            <button type="button" ng-click="getPage(entry)" ng-disabled="currentPage === entry">
+              {{ entry + 1 }}
+            </button>
+          </li>
+          <ul>
+      </div>
+    </div>
+  </div>
+</div>

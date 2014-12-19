@@ -1,5 +1,5 @@
 <div class="component-employer-invite-codes row">
-  <div class="col-sm-6 col-sm-offset-3">
+  <div class="col-sm-8 col-sm-offset-2">
     <h3>Invite codes</h3>
 
     <form name="formInviteCode" ng-submit="submit()">
@@ -45,6 +45,7 @@
             <td>{{ entry.candidate_count }}</td>
             <!--<td>{{ entry.last_used | timeAgo }}</td>-->
             <td>{{ entry.description }}</td>
+            <td><a ui-sref="invited-candidates({ code: entry.code })">Candidates</a></td>
           </tr>
         </tbody>
       </table>
