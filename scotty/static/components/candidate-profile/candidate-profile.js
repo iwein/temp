@@ -13,7 +13,7 @@ define(function(require) {
   var module = require('app-module');
 
   // jshint maxstatements:40
-  module.controller('ProfileCtrl', function($scope, $q, $state, Amazon, Loader, ConfigAPI, Permission, Session) {
+  module.controller('ProfileCtrl', function($scope, $q, $state, toaster, Amazon, Loader, ConfigAPI, Permission, Session) {
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
     $scope.locationToText = ConfigAPI.locationToText;
@@ -38,18 +38,22 @@ define(function(require) {
       .finally(function() { Loader.page(false) });
 
 
-    $scope.cv = {
-      data: false,
-      load: function() {
-        // TODO
+    $scope.cv = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          $scope.user = data;
+          return data.cv_upload_url;
+        });
       },
       save: function(files) {
         if (!files || !files.length) return;
         Session.getUser().then(function(user) {
-          Amazon.upload($scope.cv_file[0], 'cv', Session.id()).then(user.setCVUrl.bind(user));
-        });
-      }
-    };
+          Amazon.upload(files[0], 'cv', Session.id())
+            .then(user.setCVUrl.bind(user))
+            .then(toaster.success.bind(toaster, 'CV Uploaded'));
+        }.bind(this));
+      },
+    });
     $scope.name = form({
       source: function(user) {
         return user.getData().then(function(data) {
@@ -270,6 +274,7 @@ define(function(require) {
         $scope.languages.data = user.languages;
         $scope.picture.data = user.picture_url;
         $scope.summary.data = user.summary;
+        $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
         $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
         $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
