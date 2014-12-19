@@ -12,7 +12,7 @@
           hc-link-profile="true">
         </hc-candidate>
 
-        <ul class="pager-list" ng-show="pages.length">
+        <ul class="pager-list" ng-show="pages.length > 1">
           <li ng-repeat="entry in pages" ng-class="{ active: currentPage === entry }">
             <button type="button" ng-click="getPage(entry)" ng-disabled="currentPage === entry">
               {{ entry + 1 }}
