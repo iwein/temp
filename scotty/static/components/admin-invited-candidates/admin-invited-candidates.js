@@ -2,7 +2,6 @@ define(function(require) {
   'use strict';
   require('session');
   require('tools/config-api');
-  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('InvitedCandidates', function($scope, $state, Loader, Session) {
