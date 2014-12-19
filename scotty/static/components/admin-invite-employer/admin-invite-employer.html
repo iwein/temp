@@ -33,7 +33,7 @@
                 ng-disabled="loading"
                 ng-model="model.contact_salutation"
                 ng-options="salutation for salutation in salutations">
-          <option value="">Please Select...</option>
+          <option value="">Please select</option>
         </select>
         <div class="form-error" ng-show="formInviteEmployer.salutation.$dirty && formInviteEmployer.salutation.$invalid">
           <span ng-show="formInviteEmployer.salutation.$error.required">Please select a salutation</span>
