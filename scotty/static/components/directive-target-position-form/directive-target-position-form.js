@@ -138,6 +138,7 @@ define(function(require) {
               (model.featuredSkills && model.featuredSkills.indexOf(item.value) !== -1)
             );
           });
+          $scope.skillSelected = $scope.featuredSkills.some(fn.get('selected'));
 
           var countries = Object.keys(model.preferred_locations);
           $scope.locationOther = !!countries.length;
