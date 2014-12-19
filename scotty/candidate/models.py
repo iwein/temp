@@ -19,7 +19,6 @@ from sqlalchemy.sql import table, column
 
 
 V_CANDIDATE_FT_INDEX = table('v_candidate_search', column('id', GUID), column('status'), column('search_index'))
-V_HIRED_CANDIDATE = table('v_hired_candidate', column('id', GUID))
 
 
 class InviteCode(Base):
@@ -391,15 +390,12 @@ class Candidate(Base, JsonSerialisable):
                                                            Offer.employer_id == request.employer_id,
                                                            Offer.has_accepted()).count()
             result['employer_has_accepted_offers'] = accepted_count > 0
-
-            hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
-            result['candidate_has_been_hired'] = hired_count > 0
+            result['candidate_has_been_hired'] = self.status.name == CandidateStatus.SLEEPING
 
         if self.id == request.candidate_id:
-            hired_count = DBSession.query(V_HIRED_CANDIDATE).filter(V_HIRED_CANDIDATE.c.id == self.id).count()
-            result['candidate_has_been_hired'] = hired_count > 0
+            result['candidate_has_been_hired'] = self.status.name == CandidateStatus.SLEEPING
 
-            result['is_approved'] = self.status.name == 'active'
+            result['is_approved'] = self.status.name in [CandidateStatus.ACTIVE, CandidateStatus.SLEEPING]
             result['is_activated'] = self.activated is not None
 
         return result

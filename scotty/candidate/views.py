@@ -5,14 +5,14 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HTTPFound, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
-from scotty.auth.provider import ADMIN_PERM, ADMIN_USER
+from scotty.auth.provider import ADMIN_PERM
 from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill, V_CANDIDATE_FT_INDEX, V_HIRED_CANDIDATE
+    CandidateSkill, V_CANDIDATE_FT_INDEX
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidate_newsfeed, \
@@ -243,10 +243,6 @@ class CandidateViewController(CandidateController):
             query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills)) \
                 .having(func.count(Skill.name) == len(skills))
 
-        if ADMIN_USER not in self.request.effective_principals:
-            query = query.outerjoin(V_HIRED_CANDIDATE, Candidate.id == V_HIRED_CANDIDATE.c.id)\
-                .filter(V_HIRED_CANDIDATE.c.id.is_(None))
-
         pager = PseudoPager(query, offset, limit)
 
         def optimise_query(q):
@@ -273,9 +269,6 @@ class CandidateViewController(CandidateController):
             id_col = Candidate.id
             status = get_by_name_or_raise(CandidateStatus, status)
             query = DBSession.query(Candidate.id).filter(Candidate.status == status)
-
-        if ADMIN_USER not in self.request.effective_principals:
-            query = query.outerjoin(V_HIRED_CANDIDATE, id_col == V_HIRED_CANDIDATE.c.id).filter(V_HIRED_CANDIDATE.c.id.is_(None))
 
         pager = PseudoPager(query, offset, limit)
 
