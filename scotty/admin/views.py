@@ -37,6 +37,9 @@ def includeme(config):
     config.add_route('admin_candidate_approve', 'candidates/{candidate_id}/approve')
 
     config.add_route('admin_invite_codes', 'invite_codes')
+    config.add_route('admin_invite_code', 'invite_codes/:code')
+    config.add_route('admin_invite_code_candidates', 'invite_codes/:code/candidates')
+
 
     config.add_route('admin_offers', 'offers')
     config.add_route('admin_offer', 'offers/{id}')
@@ -69,14 +72,11 @@ class SearchResultEmployer(Employer):
 class AdminInviteCodeController(RootController):
     @view_config(route_name='admin_invite_codes', permission=ADMIN_PERM, **GET)
     def list(self):
-        cstatus = get_by_name_or_raise(CandidateStatus,
-                                       self.request.params.get('candidate_status', CandidateStatus.ACTIVE))
         candidate_count = func.count(Candidate.id).label("candidate_count")
         last_used = func.max(Candidate.created).label("last_used")
         codes_query = DBSession.query(InviteCode.code, InviteCode.description, InviteCode.created, candidate_count,
-                                      last_used).outerjoin(Candidate, and_(Candidate.invite_code_id == InviteCode.id,
-                                                                           Candidate.status_id == cstatus.id)).group_by(
-            InviteCode.code, InviteCode.description, InviteCode.created)
+                                      last_used).outerjoin(Candidate, and_(Candidate.invite_code_id == InviteCode.id))\
+            .group_by(InviteCode.code, InviteCode.description, InviteCode.created)
 
         def serializer(result):
             return [r._asdict() for r in result]
@@ -95,6 +95,23 @@ class AdminInviteCodeController(RootController):
         except IntegrityError:
             raise HTTPConflict("Code already created!")
         return icode
+
+    @view_config(route_name='admin_invite_code', permission=ADMIN_PERM, **GET)
+    def get(self):
+        code = self.request.matchdict['code']
+        icode = DBSession.query(InviteCode).filter(InviteCode.code == code).first()
+        if not icode:
+            raise HTTPNotFound('Unknown code.')
+        return icode
+
+    @view_config(route_name='admin_invite_code_candidates', permission=ADMIN_PERM, **GET)
+    def ic_candidates(self):
+        code = self.request.matchdict['code']
+        icode = DBSession.query(InviteCode).filter(InviteCode.code == code).first()
+        if not icode:
+            raise HTTPNotFound('Unknown code.')
+        query = DBSession.query(Candidate).filter(Candidate.invite_code == icode)
+        return run_paginated_query(self.request, query)
 
 
 class AdminController(RootController):
