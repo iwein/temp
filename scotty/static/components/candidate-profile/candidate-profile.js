@@ -12,8 +12,10 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  // jshint maxstatements:40
-  module.controller('ProfileCtrl', function($scope, $q, $state, toaster, Amazon, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxstatements:40, maxparams:9
+  module.controller('ProfileCtrl', function($scope, $q, $state, toaster,
+    Amazon, Loader, ConfigAPI, Permission, Session) {
+
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
     $scope.locationToText = ConfigAPI.locationToText;
