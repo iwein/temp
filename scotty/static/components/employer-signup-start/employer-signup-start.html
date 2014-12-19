@@ -1,7 +1,7 @@
 <div class="row">
   <form name="formSignupStart"
-    class="component-employer-signup-start form-horizontal col-sm-8 bg-white mrg-btm"
-    ng-submit="signupStart.submit()">
+        class="component-employer-signup-start form-horizontal col-sm-8 bg-white mrg-btm"
+        ng-submit="signupStart.submit()">
     <div class="col-sm-12">
       <h3 class="signup-title">Welcome</h3>
 
@@ -11,11 +11,11 @@
           <label class="col-sm-3 no-padd-right">Company name</label>
           <div class="col-sm-9">
             <input type="text"
-              class="form-control"
-              name="companyName"
-              required
-              ng-disabled="loading || invited"
-              ng-model="model.company_name">
+                   class="form-control"
+                   name="companyName"
+                   required
+                   ng-disabled="loading || invited"
+                   ng-model="model.company_name">
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupStart.companyName.$dirty && formSignupStart.companyName.$invalid">
@@ -31,11 +31,11 @@
           <div class="col-sm-9 check-wrap">
             <label class="form-label" ng-repeat="type in companyTypes">
               <input type="radio"
-                name="companyType"
-                value="{{ type }}"
-                required
-                ng-disabled="loading"
-                ng-model="model.company_type">
+                     name="companyType"
+                     value="{{ type }}"
+                     required
+                     ng-disabled="loading"
+                     ng-model="model.company_type">
               {{ type }}
             </label>
           </div>
@@ -70,11 +70,11 @@
 
           <div class="col-sm-9">
             <input type="text"
-              class="form-control"
-              name="contact_first_name"
-              required
-              ng-disabled="loading || invited"
-              ng-model="model.contact_first_name">
+                   class="form-control"
+                   name="contact_first_name"
+                   required
+                   ng-disabled="loading || invited"
+                   ng-model="model.contact_first_name">
           </div>
 
           <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="formSignupStart.contact_first_name.$dirty && formSignupStart.contact_first_name.$invalid">
@@ -89,11 +89,11 @@
 
           <div class="col-sm-9">
             <input type="text"
-              class="form-control"
-              name="contact_last_name"
-              required
-              ng-disabled="loading || invited"
-              ng-model="model.contact_last_name">
+                   class="form-control"
+                   name="contact_last_name"
+                   required
+                   ng-disabled="loading || invited"
+                   ng-model="model.contact_last_name">
           </div>
 
           <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="formSignupStart.contact_last_name.$dirty && formSignupStart.contact_last_name.$invalid">
@@ -107,12 +107,12 @@
           <label class="col-sm-3 no-padd-right">Email</label>
           <div class="col-sm-9">
             <input type="email"
-              class="form-control"
-              name="email"
-              required
-              ng-disabled="loading || invited"
-              ng-model="model.email"
-              ng-change="signupStart.onEmailChange()">
+                   class="form-control"
+                   name="email"
+                   required
+                   ng-disabled="loading || invited"
+                   ng-model="model.email"
+                   ng-change="signupStart.onEmailChange()">
           </div>
 
           <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="errorAlreadyRegistered || (formSignupStart.email.$dirty && formSignupStart.email.$invalid)">
@@ -133,12 +133,12 @@
           <label class="col-sm-3 no-padd-right">Password</label>
           <div class="col-sm-9">
             <input type="password"
-              class="form-control"
-              name="password"
-              required
-              ng-minlength="8"
-              ng-disabled="loading"
-              ng-model="model.pwd">
+                   class="form-control"
+                   name="password"
+                   required
+                   ng-minlength="8"
+                   ng-disabled="loading"
+                   ng-model="model.pwd">
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3"ng-show="formSignupStart.password.$dirty && formSignupStart.password.$invalid">
@@ -147,21 +147,20 @@
           </div>
         </div>
       </div>
-        <div class="buttons-wrap mrg-top mrg-btm-30">
-          <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading">Continue</button>
-        </div>
-    </form>
-  </div>
+      <div class="buttons-wrap mrg-top mrg-btm-30">
+        <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading">Continue</button>
+      </div>
+    </div>
+  </form>
   <div class="col-sm-4">
     <div class="bg-gray-lighter2 mrg-btm row">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Help</div>
+        <div class="box-title box-title_left mrg-btm gray-darker">Help</div>
         <div class="">
           <p>
             There will be a text written in here as it is at the candidate sign up forms.
           </p>
-        
+
         </div>
       </div>
     </div>

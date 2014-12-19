@@ -48,7 +48,7 @@ define(function(require) {
         Session.getUser().then(function(user) {
           Amazon.upload($scope.cv_file[0], 'cv', Session.id()).then(user.setCVUrl.bind(user));
         });
-      },
+      }
     };
     $scope.name = form({
       source: function(user) {
@@ -59,7 +59,7 @@ define(function(require) {
       },
       save: function(model, form, user) {
         return user.updateData(model);
-      },
+      }
     });
     $scope.contact = form({
       source: function(user) {
@@ -182,15 +182,27 @@ define(function(require) {
         return Amazon.upload(model[0], 'users', Session.id()).then(function(url) {
           return user.setPhoto(url + '?nocache=' + Date.now());
         });
-      },
+      }
     });
+
+    function refreshSkills(skills){
+      var leveledSkills = skills.filter(fn.get('level'));
+      var unleveledSkills = skills.filter(fn.not(fn.get('level')));
+      $scope.leveledSkills = leveledSkills.slice(0, 9);
+      $scope.unleveledSkills = leveledSkills.slice(9)
+        .concat(unleveledSkills)
+        .map(fn.get('skill'))
+        .join(', ');
+    }
+
     $scope.skills = formDirective({
       source: function(user) {
         return user.getData().then(function(data) {
           $scope.user = data;
+          refreshSkills(data.skills);
           return data.skills;
         });
-      },
+      }
     });
     $scope.languages = formDirective({
       source: function(user) {
@@ -198,7 +210,7 @@ define(function(require) {
           $scope.user = data;
           return data.languages;
         });
-      },
+      }
     });
     var experience = $scope.experience = listForm({
       source: function(user) {
@@ -212,7 +224,7 @@ define(function(require) {
             return {
               start: start,
               duration: duration,
-              role: entry.role,
+              role: entry.role
             };
           });
           timeline.forEach(function(entry) {
@@ -224,12 +236,12 @@ define(function(require) {
           });
           return list;
         });
-      },
+      }
     });
     var education = $scope.education = listForm({
       source: function(user) {
         return user.getEducation();
-      },
+      }
     });
 
 
@@ -253,6 +265,8 @@ define(function(require) {
         $scope.highestDegree = data[3];
         $scope.targetPosition.data = data[1];
         $scope.skills.data = user.skills;
+        refreshSkills(user.skills);
+
         $scope.languages.data = user.languages;
         $scope.picture.data = user.picture_url;
         $scope.summary.data = user.summary;
@@ -268,7 +282,7 @@ define(function(require) {
         };
         $scope.dob.data = {
           dob: new Date(user.dob),
-          eu_work_visa: user.eu_work_visa,
+          eu_work_visa: user.eu_work_visa
         };
         $scope.ready = true;
 
@@ -354,7 +368,7 @@ define(function(require) {
         close: function() {
           this.editing = -1;
           $scope.formOpen = false;
-        },
+        }
       });
     }
 
@@ -411,6 +425,6 @@ define(function(require) {
     url: '/profile/',
     template: require('text!./candidate-profile.html'),
     controller: 'ProfileCtrl',
-    controllerAs: 'profile',
+    controllerAs: 'profile'
   };
 });
