@@ -7,7 +7,7 @@ from scotty.auth.provider import CANDIDATE
 from scotty.candidate.models import CandidateEmployerBlacklist, CandidateBookmarkEmployer
 from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
-from scotty.offer.models import EmployerOffer
+from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
@@ -185,6 +185,16 @@ class Employer(Base, JsonSerialisable):
                 bookmark_count = DBSession.query(cbe).filter(cbe.employer_id == self.id,
                                                              cbe.candidate_id == request.candidate_id).count()
                 result['bookmarked_by_candidate'] = bookmark_count > 0
+
+            active_offers = DBSession.query(Offer.id).filter(Offer.candidate_id == request.candidate_id,
+                                                             Offer.employer_id == self.id,
+                                                             Offer.by_active()).count()
+            result['candidate_has_offers'] = active_offers > 0
+            accepted_count = DBSession.query(Offer.id).filter(Offer.candidate_id == request.candidate_id,
+                                                              Offer.employer_id == self.id,
+                                                              Offer.has_accepted()).count()
+            result['accepted_offers_by_candidate'] = accepted_count > 0
+
 
         return result
 

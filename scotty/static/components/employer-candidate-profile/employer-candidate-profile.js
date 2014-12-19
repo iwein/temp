@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('components/directive-experience/directive-experience');
   require('components/directive-education/directive-education');
+  require('components/partial-candidate-pic/partial-candidate-pic');
   var fn = require('tools/fn');
   var module = require('app-module');
 
@@ -21,10 +22,6 @@ define(function(require) {
       !user.employer_blacklisted &&
       !user.employer_has_accepted_offers;
     $scope.offerSent = user.employer_has_offers;
-
-    if(user.candidate_has_been_hired){
-      toaster.warning('This candidate has been hired!', {untilStateChange: true});
-    }
 
     function toggle(key) {
       $scope[key] = !$scope[key];

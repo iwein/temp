@@ -44,6 +44,16 @@
                     {{ office.contact_first_name }}
                     {{ office.contact_last_name }}
                   </div>
+
+                  <div class="smbd orange mail mrg-btm-small" ng-show="accepted_offers_by_candidate">
+                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+                    {{ office.contact_email }}
+                  </div>
+                  <div class="mobile" ng-show="accepted_offers_by_candidate">
+                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+                    <span class="text">{{ office.contact_phone }}</span>
+                  </div>
+
                 </div>
               </div>
               <div class="padd-vert col-sm-12">
@@ -88,12 +98,11 @@
           <div class="col-sm-4 bg-white user-desc">
             <div class="row">
               <div class="buttons-wrap">
-
                 <div ng-if="can_act">
                   <div class="fw btn-fake bg-blue-light" ng-if="bookmarked_by_candidate && !blacklisted_by_candidate">interview requested</div>
                   <button type="button"
                           class="fw btn bg-green"
-                          ng-show="!bookmarked_by_candidate && !blacklisted_by_candidate"
+                          ng-hide="bookmarked_by_candidate || blacklisted_by_candidate || accepted_offers_by_candidate"
                           ng-click="employerProfile.toogleBookmark()">
                     Request an interview
                   </button>

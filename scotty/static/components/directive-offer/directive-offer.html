@@ -2,8 +2,9 @@
   <div class="col-sm-3">
     <div class="pad-lft-15">
       <div class="caps font-14 mrg-btm">Offer No. {{ model.data.reference }}</div>
+
       <div class="offer-pic emp-pic" ng-if="!hide.employer" style="background-image: url({{ model.data.employer.logo_url }})"></div>
-      <div class="offer-pic" ng-if="!hide.candidate" style="background-image: url({{ model.data.candidate.picture_url }})"></div>
+      <hc-candidate-pic classes="offer-pic" ng-if="!hide.candidate" picture-url="model.data.candidate.picture_url"></hc-candidate-pic>
     </div>
   </div>
   <div class="col-sm-9">

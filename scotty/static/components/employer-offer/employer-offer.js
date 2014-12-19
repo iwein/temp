@@ -4,6 +4,7 @@ define(function(require) {
   require('components/directive-offer/directive-offer');
   require('components/partial-benefits/partial-benefits');
   require('components/partial-offer-newsitem/partial-offer-newsitem');
+  require('components/partial-candidate-pic/partial-candidate-pic');
   var fn = require('tools/fn');
   var module = require('app-module');
 

@@ -26,7 +26,7 @@
       <div class="col-sm-3">
         <div class="row">
           <div class="col-sm-12 bg-gray-light">
-            <div class="user-pic" style="background-image: url({{ user.picture_url }})"></div>
+              <hc-candidate-pic picture-url="user.picture_url"></hc-candidate-pic>
           </div>
         </div>
         <div class="row">
@@ -38,7 +38,7 @@
             </div>
           </div>
 
-          <div class="col-sm-12 info bg-gray-light mrg-btm" ng-hide="!user.employer_has_accepted_offers || user.employer_blacklisted">
+          <div class="col-sm-12 info bg-gray-light mrg-btm" ng-hide="user.employer_blacklisted">
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">

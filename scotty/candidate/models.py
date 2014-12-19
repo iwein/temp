@@ -202,7 +202,6 @@ class PreferredLocation(Base):
 
 class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
-    PLACEHOLDER_PICTURE = '/candidate/resources/images/holder.png'
 
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
@@ -340,21 +339,16 @@ class Candidate(Base, JsonSerialisable):
                 results.setdefault(country_lookup.get(ciso, ciso), []).append(pl.city.name)
         return results
 
-
-
     def obfuscate_result(self, result):
         result['first_name'] = ''
         result['last_name'] = str(self.id)[:13]
-        result['picture_url'] = self.PLACEHOLDER_PICTURE
+        result['picture_url'] = None
         return result
 
     def __json__(self, request):
         result = self.to_json(request)
 
-        display = get_request_role(request, self.id)
-        obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
-        result.update(json_encoder(self, request, display, obfuscator))
-        result['picture_url'] = self.picture_url or self.PLACEHOLDER_PICTURE
+
         result['summary'] = self.summary or self.generated_summary
         result['salutation'] = self.salutation
         result['status'] = self.status
@@ -364,6 +358,7 @@ class Candidate(Base, JsonSerialisable):
         result['target_position'] = self.target_position
         result['location'] = self.location
 
+        display = get_request_role(request, self.id)
         if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
             result['traffic_source'] = self.traffic_source
             result['activation_token'] = self.activation_token
@@ -383,20 +378,28 @@ class Candidate(Base, JsonSerialisable):
                 result['employer_bookmarked'] = bookmark_count > 0
 
             active_offers = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
-                                                           Offer.employer_id == request.employer_id,
-                                                           Offer.by_active()).count()
+                                                             Offer.employer_id == request.employer_id,
+                                                             Offer.by_active()).count()
             result['employer_has_offers'] = active_offers > 0
             accepted_count = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
-                                                           Offer.employer_id == request.employer_id,
-                                                           Offer.has_accepted()).count()
+                                                              Offer.employer_id == request.employer_id,
+                                                              Offer.has_accepted()).count()
             result['employer_has_accepted_offers'] = accepted_count > 0
+            if accepted_count > 0:
+                display.append(DISPLAY_PRIVATE)
+
             result['candidate_has_been_hired'] = self.status.name == CandidateStatus.SLEEPING
 
-        if self.id == request.candidate_id:
+        elif self.id == request.candidate_id:
             result['candidate_has_been_hired'] = self.status.name == CandidateStatus.SLEEPING
 
             result['is_approved'] = self.status.name in [CandidateStatus.ACTIVE, CandidateStatus.SLEEPING]
             result['is_activated'] = self.activated is not None
+
+
+        obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
+        result.update(json_encoder(self, request, display, obfuscator))
+
 
         return result
 

@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var angular = require('angular');
   var booleanAttrs = require('tools/boolean-attrs');

@@ -8,6 +8,8 @@ define(function(require) {
   require('components/directive-languages-form/directive-languages-form');
   require('components/directive-profile-form/directive-profile-form');
   require('components/directive-skills-form/directive-skills-form');
+  require('components/partial-candidate-pic/partial-candidate-pic');
+
   var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');

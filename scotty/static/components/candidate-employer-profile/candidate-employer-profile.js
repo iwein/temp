@@ -45,6 +45,7 @@ define(function(require) {
 
         $scope.bookmarked_by_candidate = data.bookmarked_by_candidate;
         $scope.blacklisted_by_candidate = data.blacklisted_by_candidate;
+        $scope.accepted_offers_by_candidate = data.accepted_offers_by_candidate;
 
       }).catch(function() {
         toaster.defaultError();

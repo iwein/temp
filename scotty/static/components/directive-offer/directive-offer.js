@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   var angular = require('angular');
   var module = require('app-module');
+  require('components/partial-candidate-pic/partial-candidate-pic');
 
   module.directive('hcOffer', function() {
     return {

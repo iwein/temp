@@ -14,7 +14,7 @@
   <div class="col-sm-12 no-padd-left">
     <div class="row">
       <div class="col-sm-4">
-        <div class="img-wrap mrg-btm-small" style="background-image: url({{ model._data.picture_url }})"></div>
+        <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
         <a class="link-profile" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
           {{ model._data.first_name }} {{ model._data.last_name }}
         </a>
