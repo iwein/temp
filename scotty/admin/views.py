@@ -35,6 +35,8 @@ def includeme(config):
     config.add_route('admin_employer_by_status', 'employers/{status}')
     config.add_route('admin_employer_approve', 'employers/{employer_id}/approve')
     config.add_route('admin_candidate_approve', 'candidates/{candidate_id}/approve')
+    config.add_route('admin_candidate_sleep', 'candidates/{candidate_id}/sleep')
+    config.add_route('admin_candidate_wake', 'candidates/{candidate_id}/wake')
 
     config.add_route('admin_invite_codes', 'invite_codes')
     config.add_route('admin_invite_code', 'invite_codes/:code')
@@ -177,6 +179,7 @@ class AdminController(RootController):
         return employer
 
     @view_config(route_name='admin_candidate_approve', permission=ADMIN_PERM, **GET)
+    @view_config(route_name='admin_candidate_wake', permission=ADMIN_PERM, **GET)
     def admin_candidate_approve(self):
         candidate_id = self.request.matchdict['candidate_id']
         candidate = DBSession.query(Candidate).get(candidate_id)
@@ -184,6 +187,15 @@ class AdminController(RootController):
             raise HTTPNotFound("Unknown Candidate ID")
         candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
         self.request.emailer.send_candidate_approved(candidate)
+        return candidate
+
+    @view_config(route_name='admin_candidate_sleep', permission=ADMIN_PERM, **GET)
+    def admin_candidate_sleep(self):
+        candidate_id = self.request.matchdict['candidate_id']
+        candidate = DBSession.query(Candidate).get(candidate_id)
+        if not candidate:
+            raise HTTPNotFound("Unknown Candidate ID")
+        candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.SLEEPING)
         return candidate
 
     @view_config(route_name="admin_search_candidates", permission=ADMIN_PERM, **GET)

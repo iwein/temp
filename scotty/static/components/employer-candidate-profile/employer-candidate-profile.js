@@ -48,12 +48,14 @@ define(function(require) {
         $scope.highestDegree = data[4];
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        $scope.status = offers.reduce(function(summary, value) {
-          if (finalStatus.indexOf(value.status) !== -1) return;
-          if (value.status === 'CONTRACT_SIGNED') return 'hired';
-          return summary || 'reviewing';
-        }, null) || 'searching';
-
+        $scope.status = (ThisCandidate._data.status === 'sleeping')?'sleeping':
+          (
+            offers.reduce(function(summary, value) {
+              if (finalStatus.indexOf(value.status) !== -1) return;
+              if (value.status === 'CONTRACT_SIGNED') return 'hired';
+              return summary || 'reviewing';
+            }, null) || 'searching'
+          );
         // TIMELINE
 
         var total = 0;

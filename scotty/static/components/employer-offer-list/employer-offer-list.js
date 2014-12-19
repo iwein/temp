@@ -36,8 +36,6 @@ define(function(require) {
 
     });
   });
-
-
   return {
     url: '/offers/',
     template: require('text!./employer-offer-list.html'),

@@ -10,8 +10,8 @@ define(function(require) {
     Permission.requireSignup().then(function() {
       Session.getUser().then(function(user) {
 
-        $scope.has_been_hired = user._data.candidate_has_been_hired;
-        if($scope.has_been_hired){
+        $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
+        if($scope.candidate_has_been_hired){
           toaster.error('You have been hired, offer management is currently disabled.', {untilStateChange: true});
         }
 

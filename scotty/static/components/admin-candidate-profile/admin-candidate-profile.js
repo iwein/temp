@@ -32,7 +32,6 @@ define(function(require) {
       Loader.page(false);
     });
 
-
     function saveAdminComment(comment) {
       Loader.add('admin-candidate-profile-comment');
       return $scope.candidate.updateData({ admin_comment: comment })
