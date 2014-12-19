@@ -1,16 +1,16 @@
 import hashlib
+
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
 from scotty.candidate.models import Candidate
-from scotty.candidate.services import candidate_from_login
 from scotty.employer.models import Employer
-from scotty.employer.services import employer_from_login
 from scotty.login.models import UnifiedLogin
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET
+
 
 __author__ = 'martin'
 

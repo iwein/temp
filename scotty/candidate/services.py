@@ -241,6 +241,13 @@ def get_candidates_by_techtags_pager(tags, city_id, status_id=1):
     return Pager(query, params)
 
 
+def candidate_fulltext_search(terms, employer_id, offset, limit):
+    query = "select candidate_id as id, status, count(*) over() as total " \
+            "from cn_candidate_search(:query, :emp_id) limit :limit"
+    params ={'offset': offset, 'limit': limit, 'query': terms.replace(' ', '&'), 'emp_id': str(employer_id) if employer_id else None}
+    return Pager(query, params)
+
+
 def get_candidate_newsfeed(c):
     candidate = DBSession.query(Candidate).filter(Candidate.id == c.id).first()
 

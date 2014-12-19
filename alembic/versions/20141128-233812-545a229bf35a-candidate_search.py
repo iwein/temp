@@ -54,8 +54,6 @@ def upgrade():
                GROUP BY cpl.candidate_id
              ) y
           ON y.candidate_id = c.id
-
-
     """)
 
 
