@@ -229,7 +229,7 @@ class Candidate(Base, JsonSerialisable):
     github_url = Column(String(1024), info=PUBLIC)
     stackoverflow_url = Column(String(1024), info=PUBLIC)
     eu_work_visa = Column(Boolean, info=PUBLIC)
-    cv_upload_url = Column(String(1024))
+    cv_upload_url = Column(String(1024), info=PRIVATE)
 
     traffic_source_id = Column(Integer, ForeignKey(TrafficSource.id))
     traffic_source = relationship(TrafficSource)
