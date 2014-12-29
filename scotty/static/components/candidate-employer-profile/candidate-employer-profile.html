@@ -10,17 +10,16 @@
           <!--TODO toggle class .closed with .open to see the content of the hidden div -->
           <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap" ng-class="{
             open: officesSection,
-            closed: !officesSection,
+            closed: !officesSection && data.offices.length > 1,
+            'no-toggable': data.offices.length < 2,
           }">
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">
                   <button class="toggler" ng-click="toggle('officesSection')">
                     Offices
-                    <span ng-show="data.offices.length > 1">
-                      <i ng-show="!officesSection" class="fa fa-angle-down"></i>
-                      <i ng-show="officesSection" class="fa fa-angle-up"></i>
-                    </span>
+                    <i class="fa fa-angle-down"></i>
+                    <i class="fa fa-angle-up"></i>
                   </button>
                 </div>
                 <div class="fl-rg">
