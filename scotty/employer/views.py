@@ -127,7 +127,7 @@ class EmployerController(RootController):
             pager = get_employers_pager(tags, city_id, employer_name)
             result = ObjectBuilder(Employer, joins=adjust_query).serialize(pager)
         else:
-            basequery = adjust_query(DBSession.query(Employer))
+            basequery = adjust_query(DBSession.query(Employer).order_by(Employer.company_name))
             if employer_name:
                 basequery = basequery.filter(func.lower(Employer.company_name).like(employer_name.lower() + '%'))
             result = run_paginated_query(self.request, basequery)
