@@ -140,7 +140,7 @@ class MandrillEmailer(object):
     def send_employers_offer_rejected(self, offer, candidate, employers, rejection_reason):
         offer_url = 'http://%s/employer/#/offer/%s' % (self.frontend, offer.id)
         candidate_url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate.id)
-        return self.send('employer-offer-rejected', [],
+        return self.send('employer-candidate-accepted-other-offer', [],
                          {'to': [{'email': e.email, 'name': e.company_name, 'type': 'bcc'} for e in employers],
                           'merge_vars': [{'rcpt': e.email, 'vars': [{'content': e.contact_name, 'name': 'contact_name'},
                                                                     {'content': e.company_name, 'name': 'company_name'}]}
