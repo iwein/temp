@@ -23,10 +23,10 @@ define(function(require) {
         $scope.searchCities = ConfigAPI.locations;
         $scope.updateLocations = updateLocations;
         $scope.searchSkills = searchSkills;
-        $scope.anywhereInGermany = true;
+        $scope.anywhereInGermany = false;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
-        $scope.model.preferred_locations = $scope.model.preferred_locations || { 'DE': [] };
+        $scope.model.preferred_locations = $scope.model.preferred_locations || {};
         $scope.preferred_locations = [];
         this.setModel = setModel;
         this.reset = reset;
