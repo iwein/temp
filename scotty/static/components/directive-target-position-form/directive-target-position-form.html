@@ -120,9 +120,9 @@
       <div class="mrg-btm">
         <label class="form-label">
           <input type="checkbox"
-                 ng-disabled="loading || locationOther"
+                 ng-disabled="loading || locationOther"
                  ng-model="anywhereInGermany"
-                 ng-change="updateLocations()">
+                 ng-change="updateLocations(anywhereInGermany)">
           Anywhere in Germany
         </label>
       </div>
@@ -134,7 +134,7 @@
               <input type="checkbox"
                      ng-disabled="loading || anywhereInGermany"
                      ng-model="location.selected"
-                     ng-change="updateLocations()">
+                     ng-change="updateLocations(anywhereInGermany)">
               {{ location.value.city }}, {{ location.value.country_iso }}
             </label>
           </div>
@@ -144,10 +144,10 @@
           <label class="form-label">
             <input type="checkbox"
                    name="location-radio"
-                   ng-disabled="loading || anywhereInGermany"
+                   ng-disabled="loading || anywhereInGermany"
                    ng-required="errorLocationRequired"
                    ng-model="locationOther"
-                   ng-change="updateLocations()">
+                   ng-change="updateLocations(anywhereInGermany)">
               Other
             </label>
           </div>
@@ -161,13 +161,13 @@
                   hc-required="locationOther"
                   hc-render="locationToText($entry)"
                   hc-source="searchCities($viewValue)"
-                  on-change="updateLocations()">
+                  on-change="updateLocations(anywhereInGermany)">
           </hc-label-typeahead>
         </div>
       </div>
     </div>
   </div>
-  
+
 </div>
 
 <div class="row">
@@ -175,5 +175,5 @@
     <div ng-transclude></div>
   </div>
 </div>
-  
+
 </form>
