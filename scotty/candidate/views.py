@@ -265,7 +265,8 @@ class CandidateViewController(CandidateController):
             pager = candidate_fulltext_search(params.get('q', ''), self.request.employer_id, offset, limit)
         else:
             status = get_by_name_or_raise(CandidateStatus, status)
-            query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+            query = DBSession.query(Candidate.id).filter(Candidate.status == status).order_by(Candidate.first_name,
+                                                                                              Candidate.last_name)
             pager = PseudoPager(query, offset, limit)
 
         def optimise_query(q):
@@ -413,7 +414,7 @@ class CandidateOfferController(CandidateController):
         if self.is_me:
             return self.candidate.offers
         else:
-            offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active())\
+            offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active()) \
                 .filter(Offer.candidate_id == self.candidate.id).all()
             return offers
 

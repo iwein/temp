@@ -10,6 +10,7 @@ define(function(require) {
   require('tools/accordion-directive/accordion-directive');
   require('tools/extend-directives/input-integer-directive');
   require('tools/label-typeahead-directive/label-typeahead-directive');
+  var conf = require('conf');
 
   return function basicConf(module) {
 
@@ -24,7 +25,8 @@ define(function(require) {
     module.factory('toaster', function(Notifier) {
       Notifier.defaultError = function(error) {
         if (error) console.error(error);
-        Notifier.error('Sorry, unknown error ocurred, if this error persist please contact EMAIL_HERE.');
+        Notifier.error('Sorry, unknown error occurred, if this error persists please contact <a target="_blank" href="mailto:'+conf.support_email+'">'+conf.support_email+'</a>',
+        {html: true});
       };
 
       return Notifier;
