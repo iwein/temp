@@ -10,12 +10,14 @@
         <div class="form-group required">
           <label class="col-sm-3 no-padd-right">Company name</label>
           <div class="col-sm-9">
+
             <input type="text"
                    class="form-control"
                    name="companyName"
                    required
                    ng-disabled="loading || invited"
-                   ng-model="model.company_name">
+                   ng-model="model.company_name"
+                   typeahead="company for company in searchCompanies($viewValue)">
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupStart.companyName.$dirty && formSignupStart.companyName.$invalid">
@@ -29,14 +31,14 @@
           <label class="col-sm-3 no-padd-right">Company Type</label>
 
           <div class="col-sm-9 check-wrap">
-            <label class="form-label" ng-repeat="type in companyTypes">
+            <label class="form-label" ng-repeat="type in companyTypes" title="{{ companyTypeMeta[type].help }}">
               <input type="radio"
                      name="companyType"
                      value="{{ type }}"
                      required
                      ng-disabled="loading"
                      ng-model="model.company_type">
-              {{ type }}
+              {{ companyTypeMeta[type].label }}
             </label>
           </div>
 
@@ -155,12 +157,10 @@
   <div class="col-sm-4">
     <div class="bg-gray-lighter2 mrg-btm row">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">Help</div>
+        <div class="box-title box-title_left mrg-btm gray-darker">Company Types</div>
         <div class="">
-          <p>
-            There will be a text written in here as it is at the candidate sign up forms.
-          </p>
-
+          <p ng-repeat="type in companyTypes"><span class="smbd">{{ companyTypeMeta[type].label }}</span></br>
+            {{ companyTypeMeta[type].help }}</p>
         </div>
       </div>
     </div>

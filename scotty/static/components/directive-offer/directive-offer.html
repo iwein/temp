@@ -105,15 +105,26 @@
                 <div class="key">
                   <i class="fa fa-rocket ico-req-list"></i>
                 </div>
-                <div class="row">
+
+
+                <div class="row" ng-if="!hide.employer">
                   <div class="col-sm-12">
-                    <div class="req-list-title mrg-btm-small" ng-if="!hide.employer">Requirements</div>
-                    <div class="req-list-title mrg-btm-small" ng-if="!hide.candidate">Skills</div>
+                    <div class="req-list-title mrg-btm-small">Requirements</div>
                   </div>
                   <div class="col-sm-3 mrg-btm-small" ng-repeat="skill in model.data.technologies">
                     <span>{{ skill }}</span>
                   </div>
                 </div>
+
+                <div class="row" ng-if="!hide.candidate">
+                  <div class="col-sm-12">
+                    <div class="req-list-title mrg-btm-small">Skills</div>
+                  </div>
+                  <div class="col-sm-3 mrg-btm-small" ng-repeat="skill in skills">
+                    <span>{{ skill.skill }}</span>
+                  </div>
+                </div>
+
               </div>
               <div class="col-sm-4"></div>
             </div>

@@ -16,6 +16,27 @@ define(function(require) {
     var token = $state.params.token;
     Loader.page(true);
 
+
+    $scope.companyTypeMeta = {
+      startup:{
+        label: 'Startup Company',
+        help: 'started within the last 5 years'
+      },
+      midsized:{
+        label: 'Mid Sized Company',
+        help: 'established and less than 1.000 employees'
+      },
+      large:{
+        label: 'Large Corporation',
+        help: 'grown player with multi-national operations'
+      },
+      top500:{
+        label: 'Fortune 500 Company',
+        help: 'among the leading 500 companies'
+      }
+    };
+
+    $scope.searchCompanies = ConfigAPI.companies;
     ConfigAPI.companyTypes().then(fn.setTo('companyTypes', $scope));
     ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
 
@@ -53,17 +74,17 @@ define(function(require) {
       (token ?
         Session.signupInvited(token, $scope.model.pwd) :
         Session.signup($scope.model)
-      ).then(function() {
-        $scope.signup.nextStep();
-      }).catch(function(request) {
-        if (request.status === 409)
-          $scope.errorAlreadyRegistered = true;
-        else
-          toaster.defaultError();
-      }).finally(function() {
-        $scope.loading = false;
-        Loader.remove('signup-start-saving');
-      });
+        ).then(function() {
+          $scope.signup.nextStep();
+        }).catch(function(request) {
+          if (request.status === 409)
+            $scope.errorAlreadyRegistered = true;
+          else
+            toaster.defaultError();
+        }).finally(function() {
+          $scope.loading = false;
+          Loader.remove('signup-start-saving');
+        });
     }
   });
 

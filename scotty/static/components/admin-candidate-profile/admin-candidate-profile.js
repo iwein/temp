@@ -13,30 +13,35 @@ define(function(require) {
 
     $scope.wakeCandidate = function(candidate){
       Session.wakeCandidate(candidate).then(function(){
-
+        refresh();
       });
     };
+    refresh();
 
 
-    Session.getCandidate($scope.id).then(function(candidate) {
-      $scope.candidate = candidate;
-      return $q.all([
-        candidate.getData(),
-        candidate.getTargetPosition(),
-      ]);
-    }).then(function(data) {
-      var user = data[0];
-      $scope.targetPosition = data[1];
-      $scope.cities = user.preferred_location;
-      $scope.languages = user.languages;
-      $scope.skills = user.skills;
-      $scope.user = user;
-      $scope.ready = true;
-    }).catch(function() {
-      toaster.defaultError();
-    }).finally(function() {
-      Loader.page(false);
-    });
+    function refresh(){
+      Session.getCandidate($scope.id).then(function(candidate) {
+        $scope.candidate = candidate;
+        return $q.all([
+          candidate.getData(),
+          candidate.getTargetPosition(),
+        ]);
+      }).then(function(data) {
+        var user = data[0];
+        $scope.targetPosition = data[1];
+        $scope.cities = user.preferred_location;
+        $scope.languages = user.languages;
+        $scope.skills = user.skills;
+        $scope.user = user;
+        $scope.ready = true;
+      }).catch(function() {
+        toaster.defaultError();
+      }).finally(function() {
+        Loader.page(false);
+      });
+    }
+
+
 
     function saveAdminComment(comment) {
       Loader.add('admin-candidate-profile-comment');

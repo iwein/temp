@@ -231,7 +231,10 @@ class EmployerOfferController(EmployerController):
 
     @view_config(route_name='employer_offers', **GET)
     def list(self):
-        return self.employer.offers
+        offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == self.employer.id)\
+            .options(joinedload_all('candidate.skills.skill'),
+                     joinedload_all('candidate.skills.level')).all()
+        return offers
 
     @view_config(route_name='employer_offers', **POST)
     def create(self):

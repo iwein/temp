@@ -3,6 +3,7 @@ define(function(require) {
   require('session');
   var nameAttr = require('tools/name-attr');
   var months = require('tools/months');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.directive('hcEducationForm', function($parse) {
@@ -26,7 +27,8 @@ define(function(require) {
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.searchInstitutions = ConfigAPI.institutions;
         $scope.searchCourses = ConfigAPI.courses;
-        $scope.searchDegrees = ConfigAPI.degrees;
+        ConfigAPI.degrees().then(fn.setTo('degrees', $scope));
+
         $scope.submit = submit;
         $scope.months = months;
         $scope.currentYear = (new Date()).getFullYear();

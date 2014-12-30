@@ -81,6 +81,7 @@
     "html": "apps/index.html",
     "less": "apps/index/styles.less",
     "pages": [
+      "favicon.ico",
       "about-us.html",
       "disclaimer.html",
       "faq.html",
