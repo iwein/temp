@@ -1,34 +1,37 @@
 <div class="component-employer-candidate-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <button class="btn btn-danger"
-            ng-click="remove(candidate)">
-      Delete candidate
-    </button>
-
-    <div class="profile-workflow">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <form ng-submit="saveAdminComment(user.admin_comment)">
-            <div class="form-group required">
-              <label>Admin comment</label>
-              <textarea class="form-control" required ng-model="user.admin_comment"></textarea>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
+    <div ng-if="user.status == 'deleted'">
+      <div class="alert alert-danger">DELETED!</div>
+    </div>
+    <div ng-if="user.status != 'deleted'">
+      <div class="profile-workflow">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form ng-submit="saveAdminComment(user.admin_comment)">
+              <div class="form-group required">
+                <label>Admin comment</label>
+                <textarea class="form-control" required ng-model="user.admin_comment"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      <a class="btn btn-success" ng-href="{{ session.getLoginAsCandidateLink(user) }}">Login as this candidate</a>
+      <button class="btn btn-danger" ng-click="remove(candidate)">Delete candidate</button>
+      <a class="pull-right btn btn-link" ng-click="wakeCandidate(user)" ng-if="user.status == 'sleeping'" style="cursor: pointer">Wake Candidate</a>
 
-    <a ng-href="{{ session.getLoginAsCandidateLink(user) }}">Login as this candidate</a>
-    <a class="pull-right" ng-click="wakeCandidate(user)" ng-if="user.status == 'sleeping'" style="cursor: pointer">Wake Candidate</a>
+    </div>
 
     <div class="page-header">
       <img class="avatar pull-left" ng-src="{{ user.picture_url }}">
-      <h2 class="candidate-name">{{ user.first_name }} {{ user.last_name }}</h2>
-      <div ng-if="user.invite_code">Invite Code: {{ user.invite_code.code }}</div>
+      <h2 class="candidate-name">{{ user.first_name }} {{ user.last_name }}
+      </h2>
+      <div ng-if="user.invite_code">Invite Code: <strong>{{ user.invite_code.code }}</strong></div>
+      <div>Candidate is <strong ng-show="!user.anonymous">not</strong> Anonymous</div>
     </div>
 
     <div class="panel panel-default">
@@ -42,7 +45,7 @@
         <dl class="dl-horizontal">
           <dt>email</dt>
           <dd>{{ user.email }}</dd>
-          <dt>Availabilty</dt>
+          <dt>Availability</dt>
           <dd>{{ user.availability }}</dd>
           <dt>EU Work Visa</dt>
           <dd>
