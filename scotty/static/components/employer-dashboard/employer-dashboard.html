@@ -87,13 +87,14 @@
               </form>
               <form class="row" ng-show="!flags.advancedSearch">
                 <div class="col-sm-12">
-                  <div class="search-label">Name, Skill, Location</div>
                   <div class="no-padd-left">
                     <input type="text"
                            class="form-control"
+                           placeholder="Search by NAME or SKILL"
                            name="general"
                            ng-disabled="loading"
-                           ng-model="simpleSearchTerms">
+                           ng-model="simpleSearchTerms"
+                           ng-keydown="onKeyDown($event)">
                   </div>
                 </div>
                 <div class="col-sm-12">
