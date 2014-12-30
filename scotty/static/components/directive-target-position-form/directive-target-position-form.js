@@ -23,7 +23,6 @@ define(function(require) {
         $scope.searchCities = ConfigAPI.locations;
         $scope.updateLocations = updateLocations;
         $scope.searchSkills = searchSkills;
-        $scope.anywhereInGermany = false;
         $scope.submit = submit;
         $scope.model = $scope.model || {};
         $scope.model.preferred_locations = $scope.model.preferred_locations || {};
@@ -54,7 +53,7 @@ define(function(require) {
             locations[entry.country_iso].push(entry.city);
         }
 
-        function updateLocations() {
+        function updateLocations(anywhereInGermany) {
           var locations = {};
           var add = addLocation.bind(null, locations);
           $scope.errorLocationRequired = false;
@@ -65,7 +64,8 @@ define(function(require) {
             .map(fn.get('value'))
             .forEach(add);
 
-          if ($scope.anywhereInGermany)
+          debugger;
+          if (anywhereInGermany)
             locations.DE = [];
 
           if ($scope.locationOther) {

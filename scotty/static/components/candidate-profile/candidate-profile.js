@@ -51,8 +51,8 @@ define(function(require) {
       },
       save: function(files) {
         if (!files || !files.length) return;
-        Session.getUser().then(function(user) {
-          Amazon.upload(files[0], 'cv', Session.id())
+        return Session.getUser().then(function(user) {
+          return Amazon.upload(files[0], 'cv', Session.id())
             .then(user.setCVUrl.bind(user))
             .then(toaster.success.bind(toaster, 'CV Uploaded'));
         }.bind(this));

@@ -653,6 +653,9 @@
             </button></p>
           </div>
 
+          <div class="mrg-btm-small" ng-show="user.cv_upload_url">
+            <a ng-href="{{ user.cv_upload_url }}">Download CV</a>
+          </div>
           <div class="mrg-btm-small" ng-show="isEditing">
             <span ng-show="cv.data">Update your CV</span>
             <span ng-show="!cv.data">Upload CV</span>
@@ -675,7 +678,7 @@
               </div>
               <button type="button"
                       class="bg-gray-lighter2 btn-small"
-                      ng-click="summary.close()"
+                      ng-click="cv.close()"
                       ng-disabled="loading">
                 Cancel
               </button>
