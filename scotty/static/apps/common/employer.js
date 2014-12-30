@@ -62,6 +62,10 @@ define(function(require) {
       return this._api.delete(this._url() + '/offices/' + data.id + this._sufix);
     },
 
+    editOffice: function(data) {
+      return this._api.put(this._url() + '/offices/' + data.id + this._sufix, data);
+    },
+
     getUserData: function() {
       return this.checkSession();
     },

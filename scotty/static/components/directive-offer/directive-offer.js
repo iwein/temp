@@ -15,13 +15,13 @@ define(function(require) {
         hcDisabled: '='
       },
       link: function(scope) {
+        var candidate = scope.model.data.candidate
 
-        if(scope.model.data.candidate.skills){
-          var leveledSkills = scope.model.data.candidate.skills.filter(fn.get('level'));
+        if(candidate && candidate.skills){
+          var leveledSkills = candidate.skills.filter(fn.get('level'));
           scope.skills = leveledSkills.slice(0, 9);
         } else
           scope.skills = [];
-
 
         scope.isActive = ['REJECTED', 'WITHDRAWN', 'EXPIRED'].indexOf(scope.model.status) === -1 && !scope.hcDisabled;
         scope.canBeViewed = ['REJECTED', 'WITHDRAWN', 'EXPIRED', 'STARTED'].indexOf(
