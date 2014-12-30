@@ -396,7 +396,6 @@ class Candidate(Base, JsonSerialisable):
             result['is_approved'] = self.status.name in [CandidateStatus.ACTIVE, CandidateStatus.SLEEPING]
             result['is_activated'] = self.activated is not None
 
-
         obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
         result.update(json_encoder(self, request, display, obfuscator))
         return result
@@ -405,7 +404,7 @@ class Candidate(Base, JsonSerialisable):
 class EmbeddedCandidate(Candidate):
     def __json__(self, request):
         result = {"first_name": self.first_name, "last_name": self.last_name, "id": self.id,
-                  "picture_url": self.picture_url}
+                  "picture_url": self.picture_url, 'skills': self.skills}
 
         display = get_request_role(request, self.id)
         do_obfuscate = self.anonymous and display == [DISPLAY_ALWAYS]

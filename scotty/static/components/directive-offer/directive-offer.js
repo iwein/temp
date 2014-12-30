@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   var angular = require('angular');
   var module = require('app-module');
+  var fn = require('tools/fn');
   require('components/partial-candidate-pic/partial-candidate-pic');
 
   module.directive('hcOffer', function() {
@@ -14,6 +15,14 @@ define(function(require) {
         hcDisabled: '='
       },
       link: function(scope) {
+
+        if(scope.model.data.candidate.skills){
+          var leveledSkills = scope.model.data.candidate.skills.filter(fn.get('level'));
+          scope.skills = leveledSkills.slice(0, 9);
+        } else
+          scope.skills = [];
+
+
         scope.isActive = ['REJECTED', 'WITHDRAWN', 'EXPIRED'].indexOf(scope.model.status) === -1 && !scope.hcDisabled;
         scope.canBeViewed = ['REJECTED', 'WITHDRAWN', 'EXPIRED', 'STARTED'].indexOf(
           scope.model.status) === -1 && !scope.hcDisabled;
