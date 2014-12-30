@@ -16,6 +16,7 @@ define(function(require) {
     $scope.updateLocations = updateLocations;
     $scope.advancedSearch = advancedSearch;
     $scope.simpleSearch = simpleSearch;
+    $scope.onKeyDown = onKeyDown;
     $scope.loadPage = loadPage;
     $scope.today = new Date();
     $scope.terms = {};
@@ -145,6 +146,11 @@ define(function(require) {
       $scope.searchResults = candidates;
       $scope.pages = pages;
       loadPage(0);
+    }
+
+    function onKeyDown(event) {
+      if (event.keyCode === 13)
+        simpleSearch();
     }
   });
 

@@ -15,7 +15,7 @@ define(function(require) {
       },
       controller: function($scope, $attrs, toaster, ConfigAPI) {
         $scope.searchSkills = ConfigAPI.skills;
-        $scope.loadMore = loadMore;
+        $scope.loadPage = loadPage;
         $scope.search = _.debounce(search, 200);
         $scope.output = [];
         $scope.tags = [];
@@ -32,17 +32,7 @@ define(function(require) {
           counter++;
         }
 
-        function setResults(results) {
-          $scope.output = results;
-          $scope.$parent.results = results;
-        }
-        function pushResults(results) {
-          if (!$scope.output)
-            $scope.output = [];
-          $scope.$parent.results = $scope.output.concat(results);
-        }
-
-        function getResults(offset) {
+        function getResults(page) {
           $scope.loading = true;
           var instance = ++counter;
           var params = {
@@ -53,8 +43,8 @@ define(function(require) {
           if ($scope.tags.length)
             params.tags = $scope.tags;
 
-          if (offset)
-            params.offset = offset;
+          if (page)
+            params.offset = page * show;
 
           return $scope.onSearch({ $params: params })
             .then(function(response) {
@@ -63,8 +53,11 @@ define(function(require) {
                 return null;
 
               $scope.total = response.pagination.total;
+              $scope.$parent.results = response.data;
+              $scope.results = response.data;
               $scope.loaded = true;
-              return response.data;
+              $scope.currentPage = page;
+              //document.body.scrollTop = 0
             })
             .catch(toaster.defaultError)
             .finally(function() {
@@ -72,11 +65,9 @@ define(function(require) {
             });
         }
 
-        function loadMore() {
-          getResults($scope.results.length).then(function(results) {
-            if (results)
-              pushResults($scope.output.concat(results));
-          });
+        function loadPage(page) {
+          $scope.loaded = false;
+          return getResults(page - 1);
         }
 
         function search() {
@@ -85,9 +76,12 @@ define(function(require) {
             return;
           }
 
-          getResults().then(function(results) {
-            if (results)
-              setResults(results);
+          reset();
+          getResults(0).then(function() {
+            var pages = Math.ceil($scope.total / show);
+            $scope.pages = [];
+            for (var i = 0; i < pages; i++)
+              $scope.pages.push(i + 1);
           });
         }
       },
