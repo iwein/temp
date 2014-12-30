@@ -75,9 +75,9 @@ define(function(require) {
 
         function save() {
           return Session.getUser().then(function(user) {
-            return $q.when($scope.editing ? user.removeOffice($scope.model) : null).then(function() {
-              return user.addOffice($scope.model);
-            });
+            return $scope.editing ?
+              user.editOffice($scope.model) :
+              user.addOffice($scope.model);
           });
         }
 
