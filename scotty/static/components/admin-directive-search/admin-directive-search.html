@@ -21,14 +21,13 @@
 
   <div class="spinner" ng-show="loading"></div>
 
-  <div ng-show="loaded && !loading && !output.length">No result found</div>
+  <div ng-show="loaded && !loading && !results.length">No result found</div>
 
-  <div ng-transclude></div>
+  <div ng-show="loaded" ng-transclude></div>
 
-  <button type="button"
-    ng-show="output.length < total"
-    ng-disabled="loading"
-    ng-click="loadMore()">
-    Load more
-  </button>
+  <ul class="pager-list" ng-show="pages.length > 1">
+    <li ng-repeat="page in pages">
+      <button type="button" ng-click="loadPage(page)" ng-disabled="currentPage === page - 1">{{ page }}</button>
+    </li>
+  </ul>
 </div>
