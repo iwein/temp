@@ -26,16 +26,24 @@ define(function(require) {
         .then(fn.invoke('getData', []))
         .then(function(data) {
           email = data.email;
-
-          $scope.has_been_hired = data.candidate_has_been_hired;
-          if($scope.has_been_hired){
-            toaster.error('You have been hired!', {untilStateChange: true});
-          }
-
         });
 
       return Session.user.getOffer($scope.id);
     }).then(function(offer) {
+
+      Session.getUser()
+        .then(function(candidate) {
+          $scope.has_been_hired = candidate._data.candidate_has_been_hired;
+          if($scope.has_been_hired){
+            if(offer.status === 'CONTRACT_SIGNED'){
+              toaster.success('You have already accepted this offer!', {untilStateChange: true});
+            } else {
+              toaster.success('You have already accepted another offer!', {untilStateChange: true});
+            }
+          }
+        });
+
+
       return offer.getTimeline().then(function(timeline) {
         return [ offer, timeline ];
       });
@@ -85,7 +93,13 @@ define(function(require) {
       Loader.add('offer-sign');
       offer.sign(form)
         .then(toggleForm.bind(null, 'sign'))
-        .finally(function() { Loader.remove('offer-sign') });
+        .finally(function() {
+          toaster.success(
+              '<h2>Congratulation to your new position!</h2>'+
+              'Your profile will be on sleep!',
+          {untilStateChange: true, 'html': true});
+          Loader.remove('offer-sign');
+        });
     }
   });
 
