@@ -68,6 +68,14 @@ def add_employer_office(employer, params, lookup=EMPLOYER_OFFICE):
     return office
 
 
+def edit_employer_office(office, params, lookup=EMPLOYER_OFFICE):
+    for field, transform in lookup:
+        if field in params:
+            setattr(office, field, transform(params[field]))
+    DBSession.flush()
+    return office
+
+
 def set_employer_offices(employer, office_list, lookup=EMPLOYER_OFFICE):
     if not isinstance(office_list, list):
         raise HTTPBadRequest('Json must contain list of offices at root level.')

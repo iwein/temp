@@ -70,6 +70,10 @@
                     }
                 },
 
+                {url: function(r, extr) { return '/api/v1/employers/me/offices/' + extr.officeId}, method: 'PUT',
+                  data: {address_line1: 'LINE !!!1!!!!', contact_last_name:"Stewardessss"},
+                  title: 'employer-me-update-second-office'},
+
                 {url: '/api/v1/employers/me/offices', title: 'employer-me-offices-list'},
                 {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices'}, title: 'employer-offices-list'},
 

@@ -13,7 +13,7 @@ from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
     set_employer_offices, \
-    get_employer_newsfeed
+    get_employer_newsfeed, edit_employer_office
 from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
@@ -194,13 +194,26 @@ class EmployerOfficeController(EmployerController):
     def set(self):
         return set_employer_offices(self.employer, self.request.json)
 
-    @view_config(route_name='employer_office', **DELETE)
-    def delete(self):
+    @reify
+    def office(self):
         id = self.request.matchdict["office_id"]
         office = DBSession.query(Office).get(id)
         if not office:
             raise HTTPNotFound("Unknown Office ID.")
-        elif office.type.name == 'HQ':
+        return office
+
+    @view_config(route_name='employer_office', **GET)
+    def get(self):
+        return self.office
+
+    @view_config(route_name='employer_office', **PUT)
+    def edit(self):
+        return edit_employer_office(self.office, self.request.json)
+
+    @view_config(route_name='employer_office', **DELETE)
+    def delete(self):
+        office = self.office
+        if office.type.name == 'HQ':
             raise HTTPBadRequest("Cannot Delete HQ")
         DBSession.delete(office)
         return {"status": "success"}
