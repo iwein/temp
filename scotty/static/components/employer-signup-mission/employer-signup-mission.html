@@ -47,28 +47,6 @@
         </div>
 
         <div class="row mrg-btm">
-          <label class="col-sm-3 no-padd-right no-padd-top">VC Founding amount</label>
-          <div class="col-sm-9">
-            <div class="input-group">
-              <span class="input-group-addon">€</span>
-              <input type="dotted-integer"
-                class="form-control"
-                placeholder="How much money have you raised?"
-                name="funding_amount"
-                ng-disabled="loading"
-                ng-model="model.funding_amount">
-                <span class="input-group-addon">.00</span>
-            </div>
-            
-            <div class="form-error" ng-show="formTarget.funding_amount.$dirty && formTarget.funding_amount.$invalid">
-              <span ng-show="formTarget.funding_amount.$error.required">Please insert your expected annual revenue.</span>
-              <span ng-show="formTarget.funding_amount.$error.number">Please insert a number.</span>
-              <span ng-show="formTarget.funding_amount.$error.pattern">Decimals are not allowed.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mrg-btm">
           <label class="col-sm-3">Company size</label>
           <div class="col-sm-9">
             <input type="number"
