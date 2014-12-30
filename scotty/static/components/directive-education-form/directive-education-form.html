@@ -101,13 +101,14 @@
         <label class="col-sm-3">Degree</label>
         <div class="col-sm-9">
           <div class="">
-            <input type="text"
-                   class="form-control"
-                   name="degree"
-                   ng-disabled="hcDisabled || not_completed_degree"
-                   ng-required="hcRequired && !not_completed_degree"
-                   ng-model="model.degree"
-                   typeahead="degree for degree in searchDegrees($viewValue)">
+            <select class="form-control"
+                    name="degree"
+                    ng-disabled="hcDisabled || not_completed_degree"
+                    ng-required="hcRequired && !not_completed_degree"
+                    ng-model="model.degree"
+                    ng-options="degree for degree in degrees">
+              <option value="">Select a Degree...</option>
+            </select>
           </div>
           <div class="check-wrap">
             <label>
@@ -116,12 +117,12 @@
                      ng-disabled="hcDisabled"
                      ng-model="not_completed_degree"
                      ng-change="model.degree = null">
-              Did not complete degree
+              Did not complete degree.
             </label>
           </div>
           <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
             <span ng-show="formEducation.degree.$error.required">
-              Please insert the degree.
+              Please select a degree or check "Did not complete degree".
             </span>
           </div>
         </div>

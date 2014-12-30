@@ -26,7 +26,11 @@ define(function(require) {
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.searchInstitutions = ConfigAPI.institutions;
         $scope.searchCourses = ConfigAPI.courses;
-        $scope.searchDegrees = ConfigAPI.degrees;
+
+        ConfigAPI.degrees().then(function(degrees){
+          $scope.degrees = degrees;
+        });
+
         $scope.submit = submit;
         $scope.months = months;
         $scope.currentYear = (new Date()).getFullYear();
