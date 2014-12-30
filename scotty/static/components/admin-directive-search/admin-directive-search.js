@@ -32,16 +32,6 @@ define(function(require) {
           counter++;
         }
 
-        function setResults(results) {
-          $scope.output = results;
-
-        }
-        function pushResults(results) {
-          if (!$scope.output)
-            $scope.output = [];
-          $scope.$parent.results = $scope.output.concat(results);
-        }
-
         function getResults(page) {
           $scope.loading = true;
           var instance = ++counter;
