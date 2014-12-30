@@ -64,7 +64,6 @@ define(function(require) {
             .map(fn.get('value'))
             .forEach(add);
 
-          debugger;
           if (anywhereInGermany)
             locations.DE = [];
 
