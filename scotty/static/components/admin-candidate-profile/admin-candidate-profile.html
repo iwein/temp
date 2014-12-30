@@ -54,10 +54,7 @@
           </dd>
           <dt ng-if="user.summary">Summary</dt>
           <dd ng-if="user.summary">{{ user.summary }}</dd>
-          <dt ng-if="user.cv_upload_url">CV</dt>
-          <dd ng-if="user.cv_upload_url">
-            <a ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
-          </dd>
+
           <dt ng-if="user.contact_skype">Skype</dt>
           <dd ng-if="user.contact_skype">{{ user.contact_skype }}</dd>
           <dt ng-if="user.stackoverflow_url">Stackoverflow</dt>
@@ -73,6 +70,14 @@
             <address>
               {{ user.location.city }}, {{ user.location.country_iso }}
             </address>
+          </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+          <dt>CV</dt>
+          <dd>
+            <a ng-if="user.cv_upload_url" ng-href="{{ user.cv_upload_url }}">{{ user.cv_upload_url }}</a>
+            <i ng-if="!user.cv_upload_url">No CV uploaded</i>
           </dd>
         </dl>
       </div>
