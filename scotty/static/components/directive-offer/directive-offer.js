@@ -15,7 +15,7 @@ define(function(require) {
         hcDisabled: '='
       },
       link: function(scope) {
-        var candidate = scope.model.data.candidate
+        var candidate = scope.model.data.candidate;
 
         if(candidate && candidate.skills){
           var leveledSkills = candidate.skills.filter(fn.get('level'));

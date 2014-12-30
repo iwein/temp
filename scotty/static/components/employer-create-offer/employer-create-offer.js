@@ -91,9 +91,11 @@ define(function(require) {
 
       Session.getUser()
         .then(function(user) { return user.makeOffer($scope.model) })
-        .then(function() {
+        .then(function(newOffer) {
           toaster.success('Offer sent to ' + $scope.candidateName);
-          $state.go('dashboard');
+
+          $state.go('offer', {'id': newOffer.id});
+
         })
         .catch(function(request) {
           if (request && request.data && request.data.db_message)
