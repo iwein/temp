@@ -108,7 +108,7 @@
               <h4 class="main-subtitle"><a class="smbd" ui-sref="candidate({ id: offer.data.candidate.id })">
                 {{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}
               </a></h4>
-              <h4 class="main-agency">{{ model.position.role }} @ {{ model.position.company }}</h4>
+              <h4 class="main-agency">{{ candidatePosition.role }} @ {{ candidatePosition.company }}</h4>
 
               <p class="typography" ng-bind-html="offer.data.job_description"></p>
 

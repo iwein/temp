@@ -53,7 +53,7 @@ define(function(require) {
         $scope.ready = true;
         $scope.offer = result[0];
         $scope.timeline = result[1];
-        $scope.position = result[2];
+        $scope.candidatePosition = result[2];
       });
     }).finally(function() {
       Loader.page(false);
