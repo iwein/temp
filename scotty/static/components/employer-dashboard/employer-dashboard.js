@@ -152,6 +152,6 @@ define(function(require) {
     url: '/dashboard/',
     template: require('text!./employer-dashboard.html'),
     controller: 'DashboardCtrl',
-    controllerAs: 'dashboard',
+    controllerAs: 'dashboard'
   };
 });

@@ -46,6 +46,7 @@ define(function(require) {
       $scope.timeline = data[1];
 
       $scope.offer.setDataParser(function(data) {
+        data.message = $sce.trustAsHtml(data.message);
         data.interview_details = $sce.trustAsHtml(data.interview_details);
         data.job_description = $sce.trustAsHtml(data.job_description);
       });

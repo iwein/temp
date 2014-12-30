@@ -67,6 +67,7 @@
                 <span class="smbd">{{ offer.data.role }}</span> @
                 <a class="norm" ui-sref="employer({ id: offer.data.employer.id })">{{ offer.data.employer.company_name }}</a>
               </h4>
+              <p class="typography" ng-bind-html="offer.data.message"></p>
               <h4 class="main-subtitle"><span class="blue-link">Job Description</span></h4>
               <p class="typography" ng-bind-html="offer.data.job_description"></p>
             </div>

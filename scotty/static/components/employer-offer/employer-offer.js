@@ -89,6 +89,6 @@ define(function(require) {
     url: '/offer/:id',
     template: require('text!./employer-offer.html'),
     controller: 'OfferCtrl',
-    controllerAs: 'offerDetail',
+    controllerAs: 'offerDetail'
   };
 });

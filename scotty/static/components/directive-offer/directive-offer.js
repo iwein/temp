@@ -16,7 +16,7 @@ define(function(require) {
       },
       link: function(scope) {
 
-        if(scope.model.data.candidate.skills){
+        if(scope.model.data.candidate && scope.model.data.candidate.skills){
           var leveledSkills = scope.model.data.candidate.skills.filter(fn.get('level'));
           scope.skills = leveledSkills.slice(0, 9);
         } else
