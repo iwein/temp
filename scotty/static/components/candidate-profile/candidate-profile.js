@@ -16,7 +16,7 @@ define(function(require) {
 
   // jshint maxstatements:40, maxparams:9
   module.controller('ProfileCtrl', function($scope, $q, $state, toaster,
-    Amazon, Loader, ConfigAPI, Permission, Session) {
+                                            Amazon, Loader, ConfigAPI, Permission, Session) {
 
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
@@ -296,11 +296,18 @@ define(function(require) {
         $scope.ready = true;
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        $scope.status = $scope.offers.reduce(function(summary, value) {
-          if (finalStatus.indexOf(value.status) !== -1) return;
-          if (value.status === 'CONTRACT_SIGNED') return 'hired';
-          return summary || 'reviewing';
-        }, null) || 'searching';
+
+
+        if(user.candidate_has_been_hired)
+          $scope.status = 'hired';
+        else if(user.status === 'sleeping')
+          $scope.status = 'sleeping';
+        else
+          $scope.status = $scope.offers.reduce(function(summary, value) {
+            if (finalStatus.indexOf(value.status) !== -1) return;
+            if (value.status === 'CONTRACT_SIGNED') return 'hired';
+            return summary || 'reviewing';
+          }, null) || 'searching';
       });
     }
 
