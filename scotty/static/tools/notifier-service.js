@@ -14,7 +14,10 @@ define(function(require) {
 
   Notifier.prototype = {
     colors: {
-      'error': 'danger'
+      'error': 'alert alert-danger',
+      'info': 'alert alert-info',
+      'warning': 'alert alert-warning',
+      'success': 'alert alert-success',
     },
 
     show: function(type, message, opts) {
@@ -23,7 +26,7 @@ define(function(require) {
       var item = {
         id: this.ids++,
         type: type,
-        color: this.colors[type] || type,
+        classes: this.colors[type] || type,
         message: opts.html ? this.sce.trustAsHtml(message) : message,
         html: opts.html,
         untilStateChange: opts.untilStateChange,

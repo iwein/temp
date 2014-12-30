@@ -8,10 +8,11 @@ define(function(require) {
   module.controller('CandidateSignupTargetCtrl', function($scope, Loader, toaster) {
     $scope.onSubmit = onSubmit;
     Loader.page(false);
-    toaster.info('If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!', {
-      html: true,
-      untilStateChange: true,
-    });
+
+    toaster.show('alert banner-message',
+        '<h2>Sign up as IT professional and get hired!</h2>'+
+        'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!',
+      {html: true, untilStateChange: true});
 
     function onSubmit(model) {
       localStorage.setItem('scotty:target_position', JSON.stringify(model));
