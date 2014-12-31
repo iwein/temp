@@ -10,10 +10,10 @@
   <div class="col-sm-9">
     <div class="row">
       <div class="offer-date col-sm-7 mrg-btm" ng-show="model.data.created === model.data.last_updated">
-        created: {{ model.data.created | moment:"MMMM Do, YYYY" }}
+        created: {{ model.data.created | momentDate }}
       </div>
       <div class="offer-date col-sm-7 mrg-btm" ng-show="model.data.created !== model.data.last_updated">
-        last update: {{ model.data.last_updated | moment:"MMMM Do, YYYY" }}
+        last update: {{ model.data.last_updated | momentDate }}
       </div>
       <div class="col-sm-5 mrg-btm alg-right lbl">
         <div class="pad-rgt-15">
