@@ -286,6 +286,10 @@ class Candidate(Base, JsonSerialisable):
         return self.status == get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
 
     @property
+    def can_login(self):
+        return self.status.name not in [CandidateStatus.DELETED, CandidateStatus.SUSPENDED]
+
+    @property
     def highest_level_skills(self):
         skills = sorted(self.skills, key=attrgetter('level_id'), reverse=True)
         if skills:

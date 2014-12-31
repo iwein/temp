@@ -21,6 +21,7 @@ INVITED = 'INVITED'
 SIGNEDUP = 'SIGNEDUP'
 APPLIED = 'APPLIED'
 APPROVED = 'APPROVED'
+DELETED = 'DELETED'
 
 
 class Office(Base):
@@ -77,6 +78,7 @@ class Employer(Base, JsonSerialisable):
     created = Column(DateTime, nullable=False, default=datetime.now)
     agreedTos = Column(DateTime)
     approved = Column(DateTime)
+    deleted = Column(DateTime)
 
     company_type_id = Column(Integer, ForeignKey(CompanyType.id), nullable=False, server_default='1')
     company_type = relationship(CompanyType)
@@ -139,8 +141,14 @@ class Employer(Base, JsonSerialisable):
         return u'%s %s' % (self.contact_first_name, self.contact_last_name)
 
     @property
+    def can_login(self):
+        return self.deleted is None
+
+    @property
     def status(self):
-        if self.approved:
+        if self.deleted:
+            return DELETED
+        elif self.approved:
             return APPROVED
         elif self.agreedTos:
             return APPLIED
@@ -152,12 +160,12 @@ class Employer(Base, JsonSerialisable):
     @classmethod
     def by_status(cls, status):
         EMPLOYER_STATUS = {
-            INVITED: (Employer.invite_token != None, Employer.pwd == None),
-            SIGNEDUP: (Employer.pwd != None, Employer.agreedTos == None, Employer.approved == None),
-            APPLIED: (Employer.agreedTos != None, Employer.approved == None),
-            APPROVED: (Employer.approved != None, Employer.pwd != None)
+            INVITED: (Employer.invite_token != None, Employer.pwd == None, Employer.deleted == None),
+            SIGNEDUP: (Employer.pwd != None, Employer.agreedTos == None, Employer.approved == None, Employer.deleted == None),
+            APPLIED: (Employer.agreedTos != None, Employer.approved == None, Employer.deleted == None),
+            APPROVED: (Employer.approved != None, Employer.pwd != None, Employer.deleted == None),
+            DELETED: Employer.deleted != None,
         }
-
         if status not in EMPLOYER_STATUS:
             raise HTTPBadRequest("InvalidStatus Requested: %s is not one of %s" % (status, EMPLOYER_STATUS.keys()))
         else:

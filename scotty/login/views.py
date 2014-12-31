@@ -43,8 +43,11 @@ def login(context, request):
     pwd = hashlib.sha256(params['pwd']).hexdigest()
     login_obj, cls = get_login(email=email, pwd=pwd)
     user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
-    request.session['%s_id' % login_obj.table_name] = user.id
-    return {'preferred': login_obj.table_name, 'id': user.id}
+    if user and user.can_login:
+        request.session['%s_id' % login_obj.table_name] = user.id
+        return {'preferred': login_obj.table_name, 'id': user.id}
+    else:
+        raise HTTPNotFound("Login Disabled. Please contact support.")
 
 
 class PasswordController(RootController):
