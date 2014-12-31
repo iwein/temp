@@ -23,6 +23,7 @@ define(function(require) {
         var counter = 0;
 
         nameAttr(this, 'hcAdminSearch', $scope, $attrs);
+        search();
 
         function reset() {
           $scope.loading = false;
@@ -35,10 +36,10 @@ define(function(require) {
         function getResults(page) {
           $scope.loading = true;
           var instance = ++counter;
-          var params = {
-            q: $scope.term,
-            limit: show,
-          };
+          var params = { limit: show };
+
+          if ($scope.term)
+            params.q = $scope.term;
 
           if ($scope.tags.length)
             params.tags = $scope.tags;
@@ -71,12 +72,6 @@ define(function(require) {
         }
 
         function search() {
-          if (!$scope.term && !($scope.tags && $scope.tags.length)) {
-            $scope.$apply(reset);
-            return;
-          }
-
-          reset();
           getResults(0).then(function() {
             var pages = Math.ceil($scope.total / show);
             $scope.pages = [];
