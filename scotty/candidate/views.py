@@ -38,6 +38,7 @@ def includeme(config):
     config.add_route('candidate_logout', 'logout')
     config.add_route('candidate_requestpassword', 'requestpassword')
     config.add_route('candidate_resetpassword', 'resetpassword/{token}')
+    config.add_route('candidate_resendactivation', '{candidate_id}/resendactivation')
     config.add_route('candidate_activate', 'activate/{token}')
     config.add_route('candidates_advanced_search', 'advancedsearch')
 
@@ -128,6 +129,11 @@ class CandidateController(RootController):
             raise HTTPNotFound("Invalid Token")
         candidate.activated = datetime.now()
         DBSession.flush()
+        return {'success': True}
+
+    @view_config(route_name='candidate_resendactivation', **POST)
+    def candidate_resendactivation(self):
+        self.request.emailer.send_candidate_welcome(self.candidate)
         return {'success': True}
 
     @view_config(route_name='candidate_login', permission=NO_PERMISSION_REQUIRED, **POST)

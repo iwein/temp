@@ -68,7 +68,13 @@ define(function(require) {
       }.bind(this));
     },
 
+    resendActivation: function(params) {
+      return this._api.post('/candidates/me/resendactivation', params);
+    },
     recoverPassword: function(params) {
+      return this._api.post('/candidates/requestpassword', params);
+    },
+    resendPassword: function(params) {
       return this._api.post('/candidates/requestpassword', params);
     },
     valdiateResetToken: function(token) {

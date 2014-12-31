@@ -34,12 +34,9 @@
       <div id="content">
         <div class="message-container">
           <div class="alert alert-warning alert-verification" ng-show="session.user && session.isActivated && !session.isApproved">
-            Your profile has not been reviewed & approved yet.
+            <div class="title">Your profile has not been reviewed & approved yet.</div>
           </div>
-          <div class="alert alert-warning alert-verification" ng-show="session.user && !session.isActivated">
-            Please check your inbox and confirm your email address.
-          </div>
-
+          <hc-candidate-email-confirm-msg model="session" ng-if="session.user && !session.isActivated"></hc-candidate-email-confirm-msg>
           <hc-notifications></hc-notifications>
           <div ui-view="messages"></div>
         </div>
