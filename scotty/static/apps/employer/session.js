@@ -18,8 +18,9 @@ define(function(require) {
       this.approved = response.status === 'APPROVED';
       this._unsetUser();
       this.user = new Employer(this._api, 'me', response);
-      this.isApproved= this.user._data.is_approved;
+      this.isApproved= response.is_approved;
       this.isActivated = true;
+      document.title = '4Scotty – ' + response.company_name;
       return this.user;
     },
 
@@ -27,6 +28,7 @@ define(function(require) {
       if (this.user)
         this.user.dispose();
       this.user = null;
+      document.title = '4Scotty – Employer';
     },
 
     id: function() {

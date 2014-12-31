@@ -18,8 +18,9 @@ define(function(require) {
     _setUser: function(response) {
       this._unsetUser();
       this.user = new Candidate(this._api, 'me', response);
-      this.isActivated = this.user._data.is_activated;
-      this.isApproved = this.user._data.is_approved;
+      this.isActivated = response.is_activated;
+      this.isApproved = response.is_approved;
+      document.title = '4Scotty – ' + response.first_name + ' ' + response.last_name;
       return this.user;
     },
 
@@ -27,6 +28,7 @@ define(function(require) {
       if (this.user)
         this.user.dispose();
       this.user = null;
+      document.title = '4Scotty – Candidate';
     },
 
     id: function() {
