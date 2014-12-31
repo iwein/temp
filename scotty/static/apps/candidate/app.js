@@ -44,4 +44,6 @@ define(function(require) {
  });
 
   angular.bootstrap(document, [ 'scotty-candidate' ]);
+
+  require('components/partial-candidate-email-confirm-msg/partial-candidate-email-confirm-msg');
 });
