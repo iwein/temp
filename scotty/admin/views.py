@@ -214,6 +214,8 @@ class AdminController(RootController):
                         func.lower(Candidate.last_name).startswith(q),
                         func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
                         func.lower(Candidate.email).startswith(q)))
+            else:
+                query = query.order_by(Candidate.first_name, Candidate.last_name)
             return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                                  joinedload_all('skills.skill'), joinedload_all('skills.level'),
                                  joinedload('preferred_locations'))
