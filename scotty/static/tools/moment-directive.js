@@ -69,7 +69,7 @@ define(function(require) {
 
   module.filter('showMonthYear', function() {
     return function(value) {
-      return /\d{4}-\d{2}-\d{2}/.test(value) ? value.substr(0, 7) : value;
+      return moment(value).format('MMM YYYY');
     };
   });
 
