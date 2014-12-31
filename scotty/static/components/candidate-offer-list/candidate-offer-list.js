@@ -12,7 +12,7 @@ define(function(require) {
 
         $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
         if($scope.candidate_has_been_hired){
-          toaster.error('You have been hired, offer management is currently disabled.', {untilStateChange: true});
+          toaster.success('You have been hired, offer management is currently disabled.', {untilStateChange: true});
         }
 
         return user.getOffers();

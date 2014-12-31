@@ -16,6 +16,12 @@ define(function(require) {
     var token = $state.params.token;
     Loader.page(true);
 
+    toaster.show('alert banner-message',
+        '<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>'+
+        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!',
+      {html: true, untilStateChange: true});
+
+
 
     $scope.companyTypeMeta = {
       startup:{
