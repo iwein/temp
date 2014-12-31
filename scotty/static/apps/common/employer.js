@@ -46,6 +46,10 @@ define(function(require) {
       }.bind(this));
     },
 
+    delete: function() {
+      return this._api.delete(this._url() + this._sufix);
+    },
+
     listOffices: function() {
       return this._api.get(this._url() + '/offices' + this._sufix);
     },

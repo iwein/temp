@@ -214,6 +214,8 @@ class AdminController(RootController):
                         func.lower(Candidate.last_name).startswith(q),
                         func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
                         func.lower(Candidate.email).startswith(q)))
+            else:
+                query = query.order_by(Candidate.first_name, Candidate.last_name)
             return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                                  joinedload_all('skills.skill'), joinedload_all('skills.level'),
                                  joinedload('preferred_locations'))
@@ -228,11 +230,16 @@ class AdminController(RootController):
 
     @view_config(route_name="admin_search_employer", permission=ADMIN_PERM, **GET)
     def admin_search_employer(self):
-        q = self.request.params['q'].lower()
-        base_query = DBSession.query(SearchResultEmployer).filter(
-            or_(func.lower(Employer.company_name).startswith(q), func.lower(Employer.contact_first_name).startswith(q),
-                func.lower(Employer.contact_last_name).startswith(q), func.lower(Employer.email).startswith(q)))
+        base_query = DBSession.query(SearchResultEmployer)
+        if 'q' in self.request.params:
+            q = self.request.params['q'].lower()
+            base_query = DBSession.query(SearchResultEmployer).filter(
+                or_(func.lower(Employer.company_name).startswith(q), func.lower(Employer.contact_first_name).startswith(q),
+                    func.lower(Employer.contact_last_name).startswith(q), func.lower(Employer.email).startswith(q)))
+        else:
+            base_query = base_query.order_by(Employer.company_name)
         return run_paginated_query(self.request, base_query)
+
 
 
 class AdminOfferController(RootController):
