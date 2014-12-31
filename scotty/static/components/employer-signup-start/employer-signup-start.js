@@ -15,6 +15,7 @@ define(function(require) {
     $scope.errorAlreadyRegistered = false;
     var token = $state.params.token;
     Loader.page(true);
+    Session.firstLogin = true;
 
     toaster.show('alert banner-message',
         '<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>'+
