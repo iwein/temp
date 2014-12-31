@@ -17,9 +17,8 @@
       </div>
     </div>
 
-    <a ng-href="{{ session.getLoginAsEmployerLink(employer) }}">
-      Login as this employer
-    </a>
+    <a class="btn btn-success" ng-href="{{ session.getLoginAsEmployerLink(employer) }}">Login as this employer</a>
+    <button class="btn btn-danger" ng-click="remove(employer)">Delete employer</button>
 
     <div class="page-header">
       <h1>

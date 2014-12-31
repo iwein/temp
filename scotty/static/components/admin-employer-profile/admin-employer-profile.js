@@ -6,6 +6,7 @@ define(function(require) {
 
   module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Loader, Session) {
     $scope.saveAdminComment = saveAdminComment;
+    $scope.remove = remove;
     $scope.ready = false;
     $scope.id = $state.params.id;
     Loader.page(true);
@@ -23,13 +24,30 @@ define(function(require) {
       Loader.page(false);
     });
 
-
     function saveAdminComment(comment) {
       Loader.add('admin-employer-profile-comment');
       return $scope.employer.updateData({ admin_comment: comment })
         .catch(toaster.defaultError)
         .finally(function() { Loader.remove('admin-employer-profile-comment') });
     }
+
+    function remove(employer) {
+      Loader.add('admin-employer-profile-remove');
+
+      return employer.delete()
+        .then(function(response) {
+          if (response.status !== 'success')
+            throw new Error('Employer was no deleted');
+
+          $state.go('search-employers');
+          toaster.success('Employer deleted');
+        })
+        .catch(toaster.defaultError)
+        .finally(function() {
+          Loader.remove('admin-employer-profile-remove');
+        });
+    }
+
   });
 
 
