@@ -44,17 +44,17 @@ define(function(require) {
 
   module.filter('momentDiff', function() {
     return function(value) {
-      var start = moment(typeof value.start === 'number' ? [value.start] : value.start);
-      var end = moment(value.end && (typeof value.end === 'number' ? [value.end] : value.end));
-      return end.diff(start);
+      if (typeof value.start === 'number' && typeof value.end === 'number')
+        return (value.end - value.start) * 365 * 24 * 60 * 60 * 1000;
+      return moment(value.end).diff(moment(value.start));
     };
   });
 
   module.filter('toMonthsYears', function() {
     return function(value) {
-      var total = value / 1000 / 60 / 60 / 24 / 30;
-      var years = Math.floor(total / 12);
-      var months = Math.round(total % 12);
+      var total = value / 1000 / 60 / 60 / 24 / 365;
+      var years = Math.floor(total);
+      var months = Math.round((total % 1) * 12);
       var result = '';
 
       if (years)
