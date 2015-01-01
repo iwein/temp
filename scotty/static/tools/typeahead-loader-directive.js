@@ -26,7 +26,7 @@ define(function(require) {
           scope.$watch(id, function(value) {
             elem.parent()[value ? 'addClass' : 'removeClass']('typeahead-loading');
           });
-        }
+        };
       },
     };
   });
