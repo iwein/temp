@@ -12,7 +12,8 @@
                  ng-required="hcRequired"
                  ng-disabled="hcDisabled"
                  ng-model="model.institution"
-                 typeahead="institution for institution in searchInstitutions($viewValue)">
+                 typeahead="institution for institution in searchInstitutions($viewValue)"
+                 hc-typeahead-loader>
         </div>
         <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
           <span ng-show="formEducation.institution.$error.required">
@@ -31,7 +32,8 @@
                      name="course"
                      ng-disabled="hcDisabled"
                      ng-model="model.course"
-                     typeahead="course for course in searchCourses($viewValue)">
+                     typeahead="course for course in searchCourses($viewValue)"
+                     hc-typeahead-loader>
             </div>
           </div>
         </div>

@@ -42,13 +42,14 @@
                     <div class="col-sm-3 search-label no-padd-left font-12">Location</div>
                     <div class="col-sm-9 no-padd-left">
                       <input type="text"
-                             class="form-control"
-                             placeholder="City or Municipality"
-                             ng-disabled="!terms.length"
-                             ng-model="locationText"
-                             ng-blur="setLocation(locationText)"
-                             typeahead-on-select="setLocation(locationText)"
-                             typeahead="location for location in searchLocations($viewValue)"/>
+                        class="form-control"
+                        placeholder="City or Municipality"
+                        ng-disabled="!terms.length"
+                        ng-model="locationText"
+                        ng-blur="setLocation(locationText)"
+                        typeahead-on-select="setLocation(locationText)"
+                        typeahead="location for location in searchLocations($viewValue)"
+                        hc-typeahead-loader>
                     </div>
                   </div>
                 </div>

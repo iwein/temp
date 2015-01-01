@@ -90,7 +90,8 @@
                          ng-model="locationText"
                          ng-blur="createOffer.setLocation(locationText)"
                          typeahead-on-select="createOffer.setLocation(locationText)"
-                         typeahead="location for location in createOffer.searchLocations($viewValue)">
+                         typeahead="location for location in createOffer.searchLocations($viewValue)"
+                         hc-typeahead-loader>
                   <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
                 <span ng-show="formCreateOffer.location.$error.required">
                   Please insert the city of the offer.
@@ -118,7 +119,8 @@
                      required
                      ng-disabled="loading"
                      ng-model="model.role"
-                     typeahead="role for role in createOffer.searchRoles($viewValue)">
+                     typeahead="role for role in createOffer.searchRoles($viewValue)"
+                     hc-typeahead-loader>
 
               <div class="form-error" ng-show="formCreateOffer.role.$dirty && formCreateOffer.role.$invalid">
                 <span ng-show="formCreateOffer.role.$error.required">Please insert the role for this offer.</span>

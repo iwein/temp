@@ -12,7 +12,8 @@
              ng-required="hcRequired"
              ng-disabled="hcDisabled"
              ng-model="model.company"
-             typeahead="company for company in searchCompanies($viewValue)">
+             typeahead="company for company in searchCompanies($viewValue)"
+             hc-typeahead-loader>
     </div>
     <div class="form-error col-sm-9 col-sm-offset-3" ng-show="duplicatedError">
       <span>You already have a company with this name starting on the same month.</span>
@@ -155,7 +156,8 @@
              name="role"
              ng-disabled="hcDisabled"
              ng-model="model.role"
-             typeahead="role for role in searchRoles($viewValue)">
+             typeahead="role for role in searchRoles($viewValue)"
+             hc-typeahead-loader>
     </div>
   </div>
   <div class="row mrg-btm">

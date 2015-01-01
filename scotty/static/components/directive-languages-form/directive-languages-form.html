@@ -16,7 +16,8 @@
                  ng-blur="onBlur(entry, $index, $last)"
                  ng-change="onChange(entry, $index, $last)"
                  typeahead-on-select="setLanguage(entry)"
-                 typeahead="language for language in searchLanguages($viewValue)">
+                 typeahead="language for language in searchLanguages($viewValue)"
+                 hc-typeahead-loader>
         </div>
         <div class="col-sm-5 no-padd-left ">
           <select

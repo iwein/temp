@@ -8,7 +8,8 @@
   ng-blur="input = ''"
   ng-keydown="onKeydown($event, input)"
   typeahead-on-select="add(input)"
-  typeahead="entry for entry in getSource($viewValue)">
+  typeahead="entry for entry in getSource($viewValue)"
+  hc-typeahead-loader>
 
 <ul class="skills-list">
   <li ng-repeat="entry in ngModel" class="label label-default" role="label">

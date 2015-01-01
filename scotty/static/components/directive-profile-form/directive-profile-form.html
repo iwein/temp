@@ -11,7 +11,8 @@
                ng-model="locationText"
                ng-blur="setLocation(locationText)"
                typeahead-on-select="setLocation(locationText)"
-               typeahead="location for location in searchLocations($viewValue)">
+               typeahead="location for location in searchLocations($viewValue)"
+               hc-typeahead-loader>
       </div>
 
       <div class="form-error col-sm-9 col-sm-offset-3mrg-btm" ng-show="formProfile.location.$dirty && formProfile.location.$invalid">

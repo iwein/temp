@@ -258,7 +258,8 @@
                        ng-model="contact.data.location.city"
                        ng-blur="setLocation(contact.data.location.city)"
                        typeahead-on-select="setLocation(contact.data.location.city)"
-                       typeahead="city for city in searchLocations($viewValue, contact.data.location.country_iso)">
+                       typeahead="city for city in searchLocations($viewValue, contact.data.location.country_iso)"
+                       hc-typeahead-loader>
               </div>
 
               <!--

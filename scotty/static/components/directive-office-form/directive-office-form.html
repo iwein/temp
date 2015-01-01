@@ -32,7 +32,7 @@
             <span ng-show="formBasic.address_line2.$error.required">Please insert your address.</span>
           </div>
         </div>
-      
+
         <div class="mrg-btm">
           <input type="text"
             class="form-control"
@@ -83,7 +83,8 @@
               ng-model="model.address_city.city"
               ng-blur="setLocation(model.address_city.city)"
               typeahead-on-select="setLocation(model.address_city.city)"
-              typeahead="city for city in searchLocations($viewValue, model.address_city.country_iso)">
+              typeahead="city for city in searchLocations($viewValue, model.address_city.country_iso)"
+              hc-typeahead-loader>
 
             <div class="form-error" ng-show="errorInvalidCity || (formBasic.city.$dirty && formBasic.city.$invalid)">
               <span ng-show="formBasic.city.$error.required">Please insert the city you worked on.</span>
@@ -156,7 +157,7 @@
         </div>
       </div>
     </div>
-    
+
 
     <div class="col-sm-12 mrg-btm">
       <div class="row">
@@ -216,7 +217,7 @@
       </div>
     </div>
 
-    
+
     <span ng-transclude></span>
-  
+
 </form>
