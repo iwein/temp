@@ -226,6 +226,7 @@ class Candidate(Base, JsonSerialisable):
 
     github_url = Column(String(1024), info=PUBLIC)
     stackoverflow_url = Column(String(1024), info=PUBLIC)
+    blog_url = Column(String(1024), info=PUBLIC)
     eu_work_visa = Column(Boolean, info=PUBLIC)
     cv_upload_url = Column(String(1024), info=PRIVATE)
 
@@ -284,6 +285,10 @@ class Candidate(Base, JsonSerialisable):
     @property
     def is_active(self):
         return self.status == get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
+
+    @property
+    def can_login(self):
+        return self.status.name not in [CandidateStatus.DELETED, CandidateStatus.SUSPENDED]
 
     @property
     def highest_level_skills(self):

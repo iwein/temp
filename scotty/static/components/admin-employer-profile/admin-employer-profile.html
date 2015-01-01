@@ -1,24 +1,30 @@
 <div class="component-candidate-employer-profile row" ng-show="ready">
   <div class="col-sm-6 col-sm-offset-3">
 
-    <div class="profile-workflow">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <form ng-submit="saveAdminComment(data.admin_comment)">
-            <div class="form-group required">
-              <label>Admin comment</label>
-              <textarea class="form-control" required ng-model="data.admin_comment"></textarea>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
+    <div ng-if="data.status == 'DELETED'">
+      <div class="alert alert-danger">DELETED!</div>
+    </div>
+    <div ng-if="data.status != 'DELETED'">
+
+      <div class="profile-workflow">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form ng-submit="saveAdminComment(data.admin_comment)">
+              <div class="form-group required">
+                <label>Admin comment</label>
+                <textarea class="form-control" required ng-model="data.admin_comment"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
 
-    <a class="btn btn-success" ng-href="{{ session.getLoginAsEmployerLink(employer) }}">Login as this employer</a>
-    <button class="btn btn-danger" ng-click="remove(employer)">Delete employer</button>
+      <a class="btn btn-success" ng-href="{{ session.getLoginAsEmployerLink(employer) }}">Login as this employer</a>
+      <button class="btn btn-danger" ng-click="remove(employer)">Delete employer</button>
+    </div>
 
     <div class="page-header">
       <h1>
@@ -29,7 +35,10 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Company</h3>
+        <h3 class="panel-title">
+          <strong style="color:black" class="pull-right">{{ data.status }}</strong>
+          Company
+        </h3>
       </div>
       <div class="panel-body">
         <dl class="dl-horizontal">

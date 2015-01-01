@@ -109,13 +109,7 @@ class EmployerController(RootController):
         if 'country_iso' in params and 'city' in params:
             city_id = get_location_by_name_or_raise(params).id
 
-        def adjust_query(query, q=None):
-            if q:
-                query = query.filter(
-                    or_(func.lower(Employer.contact_first_name).startswith(q),
-                        func.lower(Employer.contact_last_name).startswith(q),
-                        func.lower(Employer.email).startswith(q))
-                )
+        def adjust_query(query):
             return query.options(joinedload('contact_salutation'),
                                  joinedload_all('offices.address_city'),
                                  joinedload('benefits'),
@@ -127,7 +121,8 @@ class EmployerController(RootController):
             pager = get_employers_pager(tags, city_id, employer_name)
             result = ObjectBuilder(Employer, joins=adjust_query).serialize(pager)
         else:
-            basequery = adjust_query(DBSession.query(Employer).order_by(Employer.company_name))
+            basequery = DBSession.query(Employer).filter(*Employer.by_status(APPROVED)).order_by(Employer.company_name)
+            basequery = adjust_query(basequery)
             if employer_name:
                 basequery = basequery.filter(func.lower(Employer.company_name).like(employer_name.lower() + '%'))
             result = run_paginated_query(self.request, basequery)
@@ -164,7 +159,7 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer', permission=ADMIN_PERM, **DELETE)
     def delete(self):
-        DBSession.delete(self.employer)
+        self.employer.deleted = datetime.now()
         return {"status": "success"}
 
     @view_config(route_name='employer_login', permission=NO_PERMISSION_REQUIRED, **POST)
@@ -244,7 +239,7 @@ class EmployerOfferController(EmployerController):
 
     @view_config(route_name='employer_offers', **GET)
     def list(self):
-        offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == self.employer.id)\
+        offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == self.employer.id) \
             .options(joinedload_all('candidate.skills.skill'),
                      joinedload_all('candidate.skills.level')).all()
         return offers

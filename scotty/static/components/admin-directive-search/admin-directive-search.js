@@ -25,14 +25,6 @@ define(function(require) {
         nameAttr(this, 'hcAdminSearch', $scope, $attrs);
         search();
 
-        function reset() {
-          $scope.loading = false;
-          $scope.loaded = false;
-          $scope.results = [];
-          $scope.total = 0;
-          counter++;
-        }
-
         function getResults(page) {
           $scope.loading = true;
           var instance = ++counter;

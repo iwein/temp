@@ -30,6 +30,12 @@ define(function(require) {
     Loader.page(true);
 
 
+    var PICK_CONTACT_DATA_FIELDS = function(obj){
+      return _.pick(obj, 'contact_line1', 'contact_line2', 'contact_phone',
+        'contact_skype', 'contact_zipcode', 'email', 'github_url',
+        'location', 'pob', 'stackoverflow_url', 'blog_url');
+    };
+
     ConfigAPI.featuredLocations()
       .then(toCheckboxModel('featuredLocations'));
     ConfigAPI.featuredRoles()
@@ -72,9 +78,7 @@ define(function(require) {
     $scope.contact = form({
       source: function(user) {
         return user.getData().then(function(data) {
-          return _.pick(data, 'contact_line1', 'contact_line2', 'contact_phone',
-            'contact_skype', 'contact_zipcode', 'email', 'github_url',
-            'location', 'pob', 'stackoverflow_url');
+          return PICK_CONTACT_DATA_FIELDS(data);
         });
       },
       save: function(model, form, user) {
@@ -282,9 +286,7 @@ define(function(require) {
         $scope.user = user;
         $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
         $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
-        $scope.contact.data = _.pick(user, 'contact_line1', 'contact_line2', 'contact_phone',
-          'contact_skype', 'contact_zipcode', 'email', 'github_url',
-          'location', 'pob', 'stackoverflow_url');
+        $scope.contact.data = PICK_CONTACT_DATA_FIELDS(user);
         $scope.salary.data = {
           locations: user.preferred_location,
           salary: data[1].minimum_salary
