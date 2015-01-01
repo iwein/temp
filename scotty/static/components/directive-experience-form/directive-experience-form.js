@@ -155,7 +155,13 @@ define(function(require) {
         }
 
         function submit() {
-          $scope.onSubmit({ $model: $scope.model, $form: ctrl });
+          var featured = $scope.featuredSkills
+            .filter(fn.get('selected'))
+            .map(fn.get('value'));
+
+          var model = JSON.parse(JSON.stringify($scope.model));
+          model.skills = model.skills.concat(featured);
+          $scope.onSubmit({ $model: model, $form: ctrl });
         }
 
         function onCurrentChange() {
