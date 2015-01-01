@@ -139,14 +139,29 @@ define(function(require) {
           });
           $scope.skillSelected = $scope.featuredSkills.some(fn.get('selected'));
 
-          var countries = Object.keys(model.preferred_locations);
-          $scope.locationOther = !!countries.length;
           $scope.preferred_locations = [];
-
           var germany = model.preferred_locations.DE;
           $scope.anywhereInGermany = germany && germany.length === 0;
-          if ($scope.anywhereInGermany)
+          if ($scope.anywhereInGermany) {
+            $scope.featuredLocations.forEach(function(entry) { entry.selected = false });
             $scope.locationOther = false;
+            return;
+          }
+
+          $scope.featuredLocations.forEach(function(entry) {
+            var country = entry.value.country_iso;
+            var city = entry.value.city;
+            var index = (model.preferred_locations[country] || []).indexOf(city);
+            entry.selected = index !== -1;
+            if (entry.selected)
+              model.preferred_locations[country].splice(index, 1);
+          });
+
+          var countries = Object.keys(model.preferred_locations);
+          var cities = countries.reduce(function(total, entry) {
+            return total.concat(model.preferred_locations[entry]);
+          }, []);
+          $scope.locationOther = !!cities.length;
 
           countries.forEach(function(country) {
             model.preferred_locations[country].forEach(function(city) {
