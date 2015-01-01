@@ -91,7 +91,7 @@
                 <span ng-show="formEducation.end.$error.required">Please insert the year you leave this position.</span>
                 <span ng-show="formEducation.end.$error.min">Graduation must be after 1900.</span>
                 <span ng-show="formEducation.end.$error.max">Graduation must be in the past.</span>
-                <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be smaller than start year.</span>
+                <span ng-show="formEducation.end.$error.greaterThan && !current">End year should be after start year.</span>
               </div>
             </div>
           </div>

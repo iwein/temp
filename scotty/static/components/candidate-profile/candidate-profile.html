@@ -315,7 +315,11 @@
                       <i class="fa fa-globe ico-edit"></i>
                     </div>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control mrg-btm" value="" />
+                      <input type="url"
+                             class="form-control mrg-btm"
+                             name="blog_url"
+                             ng-disabled="hcDisabled"
+                             ng-model="contact.data.blog_url">
                     </div>
                   </div>
                 </div>

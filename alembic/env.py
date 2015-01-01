@@ -60,7 +60,7 @@ def run_migrations_online():
     engine = engine_from_config(settings, prefix='sqlalchemy.', poolclass=pool.NullPool)
 
     def include_object(object, name, type_, reflected, compare_to):
-        IGNORE_TABLES = ['spatial_ref_sys']
+        IGNORE_TABLES = ['spatial_ref_sys', 'unified_login']
         return not (type_ == "table" and (
             object.name.startswith('v_') or object.name.startswith('stats_') or object.name in IGNORE_TABLES) )
 
