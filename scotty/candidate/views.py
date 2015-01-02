@@ -6,13 +6,13 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_, func, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 from scotty import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill
+    CandidateSkill, V_CANDIDATE_FT_INDEX
 from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
     add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
     set_preferredlocations_on_candidate, edit_candidate, get_candidate_newsfeed, \
@@ -223,7 +223,10 @@ class CandidateViewController(CandidateController):
         salary = params.get('salary')
         status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
 
-        query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+        query = DBSession.query(Candidate.id).filter(Candidate.status == status)\
+            .join(V_CANDIDATE_FT_INDEX, V_CANDIDATE_FT_INDEX.c.id == Candidate.id)\
+            .filter(or_(V_CANDIDATE_FT_INDEX.c.current_employer_ids is None,
+                        text("'%s' != any(current_employer_ids)" % self.request.employer_id)))
 
         if locations:
             query = query.join(PreferredLocation)
