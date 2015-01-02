@@ -37,7 +37,7 @@
     <div class="row">
 
       <div class="col-sm-3">
-        <hc-candidate-pic picture-url="offer.data.candidate.picture_url"></hc-candidate-pic>
+        <hc-candidate-pic picture-url="candidate._data.picture_url"></hc-candidate-pic>
 
         <!--  Contacts box-->
         <div class="row" ng-if="offer.data.accepted">
@@ -45,13 +45,13 @@
               <div class="row ">
                 <div class="contacts">
                   <div class="fl-lf">
-                    <span class="box-title box-title_left" href="#">Contact</span>
+                    <span class="box-title box-title_left">Contact</span>
                   </div>
                   <div class="fl-rg">
-                    <a ng-show="offer.data.candidate.github_url" ng-href="{{ offer.data.candidate.github_url }}">
+                    <a ng-show="candidate._data.github_url" ng-href="{{ candidate._data.github_url }}">
                       <i class="fa fa-github"></i>
                     </a>
-                    <a ng-show="offer.data.candidate.stackoverflow_url" ng-href="{{ offer.data.candidate.stackoverflow_url }}">
+                    <a ng-show="candidate._data.stackoverflow_url" ng-href="{{ candidate._data.stackoverflow_url }}">
                       <i class="fa fa-stack-overflow"></i>
                     </a>
                     <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
@@ -60,11 +60,11 @@
                 <div class="padd-vert col-sm-12">
                   <div class="smbd orange mrg-btm-small">
                     <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    {{ offer.data.candidate.email }}
+                    {{ candidate._data.email }}
                   </div>
-                  <div ng-show="offer.data.candidate.contact_phone">
+                  <div ng-show="candidate._data.contact_phone">
                     <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    {{ offer.data.candidate.contact_phone }}
+                    {{ candidate._data.contact_phone }}
                   </div>
                 </div>
               </div>
@@ -105,8 +105,8 @@
           <div class="col-sm-12">
             <div class="emp-off-desc">
               <h3 class="main-profession">{{ offer.data.role }}</h3>
-              <h4 class="main-subtitle"><a class="smbd" ui-sref="candidate({ id: offer.data.candidate.id })">
-                {{ offer.data.candidate.first_name }} {{ offer.data.candidate.last_name }}
+              <h4 class="main-subtitle"><a class="smbd" ui-sref="candidate({ id: candidate._data.id })">
+                {{ candidate._data.first_name }} {{ candidate._data.last_name }}
               </a></h4>
               <h4 class="main-agency" ng-if="candidatePosition">{{ candidatePosition.role }} @ {{ candidatePosition.company }}</h4>
               <p class="typography" ng-bind-html="offer.data.message"></p>
