@@ -853,11 +853,11 @@
                       </button>
                     </h3>
                     <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
-                              <span class="accordion-date">
-                                {{ entry.start | showMonthYear }} –
-                                {{ entry.end || 'today' | showMonthYear }}
-                                <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
-                              </span>
+                    <span class="accordion-date">
+                      {{ entry.start | showMonthYear }} –
+                      {{ entry.end || 'today' | showMonthYear }}
+                      ({{ entry | momentDiff | toMonthsYears }})
+                    </span>
                     <div class="accordion-text">{{ entry.summary }}</div>
                     <div class="accordion-text" ng-show="entry.skills.length">
                       <strong>Technologies/Skills:</strong>
@@ -931,7 +931,7 @@
                     <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
                     <span class="accordion-date">
                       {{ entry.start}} – {{ entry.end || 'today' }}
-                      <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
+                      ({{ entry | momentDiff | toMonthsYears }})
                     </span>
                   </div>
                 </div>

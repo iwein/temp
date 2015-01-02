@@ -44,9 +44,13 @@ define(function(require) {
 
   module.filter('momentDiff', function() {
     return function(value) {
-      if (typeof value.start === 'number' && typeof value.end === 'number')
-        return (value.end - value.start) * 365 * 24 * 60 * 60 * 1000;
-      return moment(value.end).diff(moment(value.start));
+      if (typeof value.start === 'number') {
+        var endYear = value.end || new Date().getFullYear();
+        return (endYear - value.start) * 365 * 24 * 60 * 60 * 1000;
+      }
+
+      var end = value.end || new Date();
+      return moment.utc(end).diff(moment.utc(value.start));
     };
   });
 
@@ -69,7 +73,7 @@ define(function(require) {
 
   module.filter('showMonthYear', function() {
     return function(value) {
-      return moment(value).format('MMM YYYY');
+      return value === 'today' ? 'today' : moment.utc(value).format('MMM YYYY');
     };
   });
 
