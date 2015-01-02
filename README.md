@@ -85,3 +85,7 @@ To run the test `npm install` is required. Grunt tasks are:
 * `grunt test:unit`: To run unit tests
 * `grunt test:e2e`: To execute end to end tests
 * `grunt test`: All tests with linting
+
+#### Web Interface Tests
+These are built with selenium and are stored in a separate repo [here](https://github.com/HarryMcCarney/ScottySeleniumTests) 
+
