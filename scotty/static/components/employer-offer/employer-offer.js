@@ -44,6 +44,7 @@ define(function(require) {
         });
 
         return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
+          $scope.candidate = candidate;
           return candidate.getLastPosition();
         }).then(function(position) {
           return [ offer, data[1], position ];
