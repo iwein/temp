@@ -183,7 +183,7 @@
                   <span class="accordion-date">
                     {{ entry.start | showMonthYear }} –
                     {{ entry.end || 'today' | showMonthYear }}
-                    <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
+                    ({{ entry | momentDiff | toMonthsYears }})
                   </span>
                   <div class="accordion-text">{{ entry.summary }}</div>
                   <div class="accordion-text" ng-show="entry.skills.length">
@@ -213,9 +213,8 @@
                   </h3>
                   <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
                   <span class="accordion-date">
-                    {{ entry.start | showMonthYear }} –
-                    {{ entry.end || 'today' | showMonthYear }}
-                    <span ng-if="entry.end">({{ entry | momentDiff | toMonthsYears }})</span>
+                    {{ entry.start}} – {{ entry.end || 'today' }}
+                    ({{ entry | momentDiff | toMonthsYears }})
                   </span>
                 </div>
               </div>
