@@ -32,12 +32,14 @@ define(function(require) {
         var citiesCache = [];
         var ctrl = this;
 
-        ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
-        ConfigAPI.salutations().then(fn.setTo('salutations', $scope));
+        $q.all([
+          ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope)),
+          ConfigAPI.salutations().then(fn.setTo('salutations', $scope)),
+        ]).then(function() {
+          setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
+        });
 
         nameAttr(this, 'hcOfficeForm', $scope, $attrs);
-        setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
-
 
         function afterModelChange() {
           var model = $scope.model;
