@@ -3,7 +3,6 @@ define(function(require) {
   require('session');
   var nameAttr = require('tools/name-attr');
   var months = require('tools/months');
-  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.directive('hcEducationForm', function($parse) {
@@ -27,7 +26,10 @@ define(function(require) {
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.searchInstitutions = ConfigAPI.institutions;
         $scope.searchCourses = ConfigAPI.courses;
-        ConfigAPI.degrees().then(fn.setTo('degrees', $scope));
+        ConfigAPI.degrees().then(function(degrees) {
+          $scope.degrees = degrees;
+          setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
+        });
 
         $scope.submit = submit;
         $scope.months = months;
@@ -40,7 +42,6 @@ define(function(require) {
         var ctrl = this;
 
         nameAttr(this, 'hcEducationForm', $scope, $attrs);
-        setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
 
         function save() {
           return Session.getUser().then(function(user) {
