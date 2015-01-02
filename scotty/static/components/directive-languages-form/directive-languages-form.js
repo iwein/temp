@@ -71,6 +71,7 @@ define(function(require) {
           valid = model.map(fn.get('language'));
           $scope.model = JSON.parse(JSON.stringify(model));
           $scope.model.push({});
+          recheck();
         }
 
         function remove(index) {
