@@ -64,7 +64,6 @@ define(function(require) {
           'funding_amount', 'no_of_employees');
       },
       save: function(model, form, user) {
-        if ($scope.errorMissionEmpty) return;
         return user.updateData(model);
       }
     });
