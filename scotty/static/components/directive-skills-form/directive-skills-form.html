@@ -18,7 +18,7 @@
                      ng-model="entry.skill"
                      ng-blur="onBlur(entry, $index, $last)"
                      ng-change="onChange(entry, $index, $last)"
-                     typeahead="skill for skill in searchSkills($viewValue)"
+                     typeahead="skill for skill in searchSkillsProtected($viewValue)"
                      hc-typeahead-loader>
             </div>
 

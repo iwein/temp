@@ -25,6 +25,7 @@ define(function(require) {
       template: require('text!./directive-skills-form.html'),
       controllerAs: 'skillsCtrl',
       controller: function($scope, $attrs, ConfigAPI, Session) {
+        $scope.searchSkillsProtected = searchSkillsProtected;
         $scope.searchSkills = searchSkills;
         $scope.remove = remove;
         $scope.onChange = onChange;
@@ -102,10 +103,11 @@ define(function(require) {
           recheck();
         }
 
-        function searchSkills(term) {
-          if (!enabled)
-            return [];
+        function searchSkillsProtected(term) {
+          return enabled ? searchSkills(term) : [];
+        }
 
+        function searchSkills(term) {
           var skills = getSkills().map(fn.get('skill'));
 
           return ConfigAPI.skills(term).then(function(data) {
