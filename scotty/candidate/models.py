@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from scotty.auth.provider import ADMIN_USER, EMPLOYER
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship, class_mapper
 from scotty.models.common import get_by_name_or_raise
@@ -18,7 +19,12 @@ from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.sql import table, column
 
 
-V_CANDIDATE_FT_INDEX = table('v_candidate_search', column('id', GUID), column('status'), column('search_index'))
+V_CANDIDATE_FT_INDEX = table('v_candidate_search',
+                             column('id', GUID),
+                             column('status'),
+                             column('search_index'),
+                             column('employer_ids', ARRAY(String)),
+                             column('current_employer_ids', ARRAY(String)))
 
 
 class InviteCode(Base):
