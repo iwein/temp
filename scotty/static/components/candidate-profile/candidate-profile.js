@@ -78,6 +78,7 @@ define(function(require) {
     $scope.contact = form({
       source: function(user) {
         return user.getData().then(function(data) {
+          $scope.user = data;
           return PICK_CONTACT_DATA_FIELDS(data);
         });
       },
