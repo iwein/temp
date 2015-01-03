@@ -70,7 +70,7 @@ class Employer(Base, JsonSerialisable):
     __tablename__ = 'employer'
     __name_field__ = 'company_name'
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
-    company_name = Column(String(255), unique=True, nullable=False, info=PUBLIC)
+    company_name = Column(String(255), nullable=False, info=PUBLIC)
     pwdforgot_token = Column(GUID, unique=True, info=PRIVATE)
     pwdforgot_sent = Column(DateTime, info=PRIVATE)
     invite_token = Column(GUID, info=PRIVATE)
@@ -83,7 +83,7 @@ class Employer(Base, JsonSerialisable):
     company_type_id = Column(Integer, ForeignKey(CompanyType.id), nullable=False, server_default='1')
     company_type = relationship(CompanyType)
 
-    email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
+    email = Column(String(512), nullable=False, info=PRIVATE)
     pwd = Column(String(128))
     contact_salutation_id = Column(Integer, ForeignKey(Salutation.id))
     contact_salutation = relationship(Salutation)

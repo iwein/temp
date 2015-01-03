@@ -9,7 +9,7 @@ define(function(require) {
     $scope.importLinkedin = importLinkedin;
     $scope.loading = false;
     $scope.model = {};
-    $scope.errorAlreadyRegistered = false;
+    $scope.errorEmailAlreadyRegistered = false;
     var linkedin = Session.getLinkedIn();
     Loader.page(true);
     var picture;
@@ -36,7 +36,7 @@ define(function(require) {
     }
 
     function onEmailChange() {
-      $scope.errorAlreadyRegistered = false;
+      $scope.errorEmailAlreadyRegistered = false;
     }
 
     function submit() {
@@ -58,7 +58,7 @@ define(function(require) {
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409) {
-          $scope.errorAlreadyRegistered = true;
+          $scope.errorEmailAlreadyRegistered = true;
           return;
         }
 

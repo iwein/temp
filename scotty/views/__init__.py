@@ -56,6 +56,6 @@ def includeme(config):
     config.include("scotty.connect.linkedin", route_prefix='/api/v1/connect')
     config.include("scotty.cms.views", route_prefix='/api/v1/cms')
 
-    # config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
-    # config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
-    # config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)
+    config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
+    config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
+    config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)

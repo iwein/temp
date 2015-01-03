@@ -8,11 +8,13 @@ define(function(require) {
   // jshint maxparams:7
   module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
+    this.onCompanyChange = onCompanyChange;
     this.submit = submit;
     $scope.invited = false;
     $scope.loading = true;
     $scope.model = {};
-    $scope.errorAlreadyRegistered = false;
+    $scope.errorEmailAlreadyRegistered = false;
+    $scope.errorCompanyAlreadyRegistered = false;
     var token = $state.params.token;
     Loader.page(true);
     Session.firstLogin = true;
@@ -68,7 +70,11 @@ define(function(require) {
     });
 
     function onEmailChange() {
-      $scope.errorAlreadyRegistered = false;
+      $scope.errorEmailAlreadyRegistered = false;
+    }
+
+    function onCompanyChange(){
+      $scope.errorCompanyAlreadyRegistered = false;
     }
 
     function submit() {
@@ -84,9 +90,10 @@ define(function(require) {
         ).then(function() {
           $scope.signup.nextStep();
         }).catch(function(request) {
-          if (request.status === 409)
-            $scope.errorAlreadyRegistered = true;
-          else
+          if(request.status === 409) {
+            $scope.errorCompanyAlreadyRegistered = request.data.db_message === 'company_name';
+            $scope.errorEmailAlreadyRegistered = request.data.db_message === 'email';
+          } else
             toaster.defaultError();
         }).finally(function() {
           $scope.loading = false;

@@ -96,7 +96,10 @@ class EmployerController(RootController):
             DBSession.add(employer)
             DBSession.flush()
         except IntegrityError, e:
-            raise HTTPConflict("company_name or email already registered.")
+            if 'Key (company_name)' in e.message:
+                raise HTTPConflict("company_name")
+            else:
+                raise HTTPConflict("email")
         self.request.session['employer_id'] = employer.id
         self.request.emailer.send_employer_welcome(employer)
         return employer
