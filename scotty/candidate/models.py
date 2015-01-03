@@ -26,6 +26,9 @@ V_CANDIDATE_FT_INDEX = table('v_candidate_search',
                              column('employer_ids', ARRAY(String)),
                              column('current_employer_ids', ARRAY(String)))
 
+V_CANDIDATE_CURRENT_EMPLOYERS = table('v_candidate_current_employers',
+                                      column('candidate_id', GUID),
+                                      column('employer_id', GUID))
 
 class InviteCode(Base):
     __tablename__ = 'invite_code'

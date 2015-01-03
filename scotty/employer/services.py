@@ -188,11 +188,11 @@ def get_employer_suggested_candidate_ids(employer_id, limit=5):
                 on cs.candidate_id = c.id
             join candidatestatus cstatus
                 on c.status_id = cstatus.id
-            join v_candidate_search csearch
-            on c.id = csearch.id
+            left join v_candidate_current_employers cemp
+            on c.id = cemp.candidate_id
             where e.id = :employer_id
             and cstatus.name = 'active' and c.activated  is not null
-            and :employer_id != any(csearch.current_employer_ids)
+            and cemp is null
             group by c.id
             order by noskills desc
             limit :limit
