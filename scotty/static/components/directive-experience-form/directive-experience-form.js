@@ -160,7 +160,7 @@ define(function(require) {
             .map(fn.get('value'));
 
           var model = JSON.parse(JSON.stringify($scope.model));
-          model.skills = model.skills.concat(featured);
+          model.skills = (model.skills || []).concat(featured);
           $scope.onSubmit({ $model: model, $form: ctrl });
         }
 
