@@ -73,7 +73,7 @@ define(function(require) {
 
   module.filter('showMonthYear', function() {
     return function(value) {
-      return value === 'today' ? 'today' : moment.utc(value).format('MMM YYYY');
+      return ['today', 'current'].indexOf(value)>=0 ? value : moment.utc(value).format('MMM YYYY');
     };
   });
 
