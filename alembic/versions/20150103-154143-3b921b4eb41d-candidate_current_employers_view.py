@@ -1,4 +1,4 @@
-"""candidate search should also expect empty string end date
+"""candidate current employers view
 
 Revision ID: 3b921b4eb41d
 Revises: 55e0cdfe7177
