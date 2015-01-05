@@ -24,6 +24,7 @@ define(function(require) {
         $scope.updateLocations = updateLocations;
         $scope.searchSkills = searchSkills;
         $scope.submit = submit;
+        $scope.flags = {};
         $scope.model = $scope.model || {};
         $scope.model.preferred_locations = $scope.model.preferred_locations || {};
         $scope.preferred_locations = [];
@@ -67,7 +68,7 @@ define(function(require) {
           if (anywhereInGermany)
             locations.DE = [];
 
-          if ($scope.locationOther) {
+          if ($scope.flags.locationOther) {
             $scope.preferred_locations.forEach(add);
             $scope.errorLocationRequired = !Object.keys(locations).length;
           }

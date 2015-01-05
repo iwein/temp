@@ -146,7 +146,7 @@
                    name="location-radio"
                    ng-disabled="loading || anywhereInGermany"
                    ng-required="errorLocationRequired"
-                   ng-model="locationOther"
+                   ng-model="flags.locationOther"
                    ng-change="updateLocations(anywhereInGermany)">
               Other
             </label>
@@ -155,10 +155,10 @@
           <hc-label-typeahead
                   name="cities"
                   placeholder="Type a city..."
-                  ng-show="locationOther"
+                  ng-show="flags.locationOther"
                   ng-disabled="loading"
                   ng-model="preferred_locations"
-                  hc-required="locationOther"
+                  hc-required="flags.locationOther"
                   hc-render="locationToText($entry)"
                   hc-source="searchCities($viewValue)"
                   on-change="updateLocations(anywhereInGermany)">
