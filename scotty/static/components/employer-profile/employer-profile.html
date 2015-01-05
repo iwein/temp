@@ -506,43 +506,40 @@
     <div class="col-sm-6">
       <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
         <button class="add-panel-close" ng-click="descriptions.close()"><i class="fa fa-close"></i></button>
+
         <h5 class="edit-title">Technology philosophy</h5>
-        <textarea
-          class="fw mrg-btm form-control"
-          placeholder="Technology philosophy"
+        <text-angular
           name="tech_team_philosophy"
+          placeholder="Technology philosophy"
           ng-disabled="loading"
           ng-model="descriptions.data.tech_team_philosophy">
-        </textarea>
+        </text-angular>
+
         <h5 class="edit-title">Hiring process</h5>
-        <textarea
-          class="fw mrg-btm form-control"
-          placeholder="Recruitment process"
-          name="recruitment"
+        <text-angular
+          name="recruitment_process"
           required
+          placeholder="Recruitment process"
           ng-disabled="loading"
           ng-model="descriptions.data.recruitment_process">
-        </textarea>
+        </text-angular>
+
         <h5 class="edit-title">Training policy</h5>
-        <textarea
-          class="fw mrg-btm form-control"
-          placeholder="Training policy"
+        <text-angular
           name="training"
+          placeholder="Training policy"
           ng-disabled="loading"
           ng-model="descriptions.data.training_policy">
-        </textarea>
+        </text-angular>
+
         <div class="buttons-wrap">
           <button type="submit"
-                  class="fl-rg bg-green btn-small mrg-lft-small"
-                  ng-disabled="loading">
-            Save
-          </button>
+            class="fl-rg bg-green btn-small mrg-lft-small"
+            ng-disabled="loading">Save</button>
           <button type="button"
-                  class="fl-rg bg-gray-lighter2 btn-small"
-                  ng-click="descriptions.close()"
-                  ng-disabled="loading">
-            Cancel
-          </button>
+            class="fl-rg bg-gray-lighter2 btn-small"
+            ng-click="descriptions.close()"
+            ng-disabled="loading">Cancel</button>
         </div>
       </form>
     </div>
