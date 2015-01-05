@@ -108,9 +108,16 @@ input::-webkit-inner-spin-button {
   display: none;
 }
 
-.typeahead-loading .dropdown-menu {
-  display: none !important;
-  &.typeahead-loader-container {
+.typeahead-loader-container {
+  position: relative;
+}
+
+.typeahead-loading {
+  .dropdown-menu {
+    display: none !important;
+  }
+
+  .typeahead-loader-container .dropdown-menu {
     display: block !important;
   }
 }
