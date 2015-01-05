@@ -59,16 +59,16 @@
                    ng-change="signupUser.onEmailChange()">
           </div>
 
-          <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
+          <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
             <span ng-show="formSignupUser.email.$error.required">
               Please insert your email.
             </span>
             <span ng-show="formSignupUser.email.$error.email">
               Please insert a valid email.
             </span>
-            <span ng-show="errorAlreadyRegistered">
+            <span ng-show="errorEmailAlreadyRegistered">
               Email already registered.
-              <a ui-sref="forget-password">Forgot your password?</a>
+              <a href="../forgot-password.html">Forgot your password?</a>
             </span>
           </div>
         </div>
@@ -130,7 +130,7 @@
       </div>
     </div>
 
-    
+
     <div class="bg-gray-lighter2 mrg-btm row">
       <div class="padd-vert col-sm-12">
         <div class="box-title box-title_left mrg-btm gray-darker">
