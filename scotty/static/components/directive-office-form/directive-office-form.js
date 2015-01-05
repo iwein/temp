@@ -31,12 +31,18 @@ define(function(require) {
         this.save = save;
         var citiesCache = [];
         var ctrl = this;
+        var modelWaiting;
 
         $q.all([
           ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope)),
           ConfigAPI.salutations().then(fn.setTo('salutations', $scope)),
         ]).then(function() {
-          setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
+          $scope.ready = true;
+
+          if ($attrs.ngModel)
+            setModel(getModel($attrs.ngModel, $scope));
+          else
+            setModel(modelWaiting || {});
         });
 
         nameAttr(this, 'hcOfficeForm', $scope, $attrs);
@@ -62,7 +68,12 @@ define(function(require) {
         function setModel(model) {
           model = JSON.parse(JSON.stringify(model));
           $scope.editing = !!model.id;
-          $scope.model = model;
+
+          if ($scope.ready)
+            $scope.model = model;
+          else
+            modelWaiting = model;
+
           afterModelChange();
         }
 
