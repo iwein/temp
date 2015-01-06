@@ -96,7 +96,7 @@ class EmployerController(RootController):
             DBSession.add(employer)
             DBSession.flush()
         except IntegrityError, e:
-            if 'Key (company_name)' in e.message:
+            if 'employer_company_name_key' in e.message:
                 raise HTTPConflict("company_name")
             else:
                 raise HTTPConflict("email")
