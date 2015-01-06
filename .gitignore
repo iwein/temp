@@ -66,3 +66,4 @@ docs/_build/
 scotty/static/config/config.js
 node_modules
 tests/test-results.xml
+scotty/static/apps/*.html
