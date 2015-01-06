@@ -108,7 +108,7 @@ class MandrillEmailer(object):
 
     def send_employer_joboffer_requested(self, company_email, contact_name, company_name, candidate_name, candidate_id):
         url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
-        return self.send('employer-was-bookmarked-by-candidate', [],
+        return self.send('employer-received-job-offer-request', [],
                          {'to': [{'email': company_email, 'name': contact_name}],
                           'global_merge_vars': [
                               {'content': contact_name, 'name': 'contact_name'},
