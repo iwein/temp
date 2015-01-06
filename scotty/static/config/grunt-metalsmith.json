@@ -11,7 +11,7 @@
         }
       }
     },
-    "src": "apps/index/pages",
-    "dest": "apps/pages"
+    "src": "<%= files.index.pages_folder %>",
+    "dest": "<%= files.index.out.pages_folder %>"
   }
 }

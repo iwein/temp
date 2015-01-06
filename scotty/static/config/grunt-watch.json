@@ -1,4 +1,8 @@
 {
+  "static": {
+    "files": "<%= files.index.pages %>",
+    "tasks": [ "dev:static-pages" ]
+  },
   "e2e": {
     "files": [
       "<%= files.components.js %>",

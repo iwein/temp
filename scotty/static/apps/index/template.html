@@ -41,10 +41,10 @@
       function loadContent(bindings) {
         var url = config.api_url + 'v1/cms/get?keys=';
         request(url + Object.keys(bindings).join(','), function(response) {
-            response.forEach(function(item) {
-                var element = document.querySelector('.' + bindings[item.key]);
-                element.innerHTML = item.value;
-            });
+          response.forEach(function(item) {
+            var element = document.querySelector('.' + bindings[item.key]);
+            element.innerHTML = item.value;
+          });
         });
       }
     });

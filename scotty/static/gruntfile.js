@@ -57,7 +57,6 @@ module.exports = function(grunt) {
       'requirejs:' + app,
       'ngAnnotate:amd',
       'uglify:' + app,
-      'clean:tmp',
     ]);
     grunt.registerTask('build-' + app, [
       'build-' + app + '-js',
@@ -65,8 +64,16 @@ module.exports = function(grunt) {
       'copy:' + app + '-resources',
       'copy:' + app,
       'usemin:' + app,
+      'clean:tmp',
     ]);
   });
+
+  grunt.renameTask('build-index', 'build-index-internal');
+  grunt.registerTask('build-index', [
+    'metalsmith:static-pages',
+    'build-index-internal',
+    'clean:pages-folder',
+  ]);
 
   // generate specific task for tool
 
@@ -85,11 +92,18 @@ module.exports = function(grunt) {
     'protractor_webdriver',
     'protractor',
   ]);
+  grunt.registerTask('dev:static-pages', [
+    'metalsmith:static-pages',
+    'copy:static-pages',
+  ]);
+
+  grunt.registerTask('dev', [ 'dev:static-pages' ]);
   grunt.registerTask('test', [
     'jshint:apps',
     'test:unit',
     'test:e2e',
   ]);
 
+  grunt.registerTask('listen', [ 'watch:static' ]);
   grunt.registerTask('default', [ 'build' ]);
 };

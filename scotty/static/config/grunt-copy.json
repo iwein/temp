@@ -37,9 +37,15 @@
     "dest": "<%= files.index.out.html %>"
   },
   "index-resources": {
-    "cwd": "<%= files.apps.folder %>",
-    "src": "<%= files.index.pages %>",
+    "src": "<%= files.index.out.pages %>",
     "dest": "<%= files.apps.out.folder %>",
-    "expand": true
+    "expand": true,
+    "flatten": true
+  },
+  "static-pages": {
+    "src": "<%= files.index.out.pages %>",
+    "dest": "<%= files.apps.folder %>",
+    "expand": true,
+    "flatten": true
   }
 }

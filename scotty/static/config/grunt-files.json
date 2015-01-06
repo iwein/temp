@@ -80,7 +80,11 @@
   "index": {
     "html": "apps/index.html",
     "less": "apps/index/styles.less",
-    "pages": "apps/index/pages/*.html",
+    "pages_folder": "apps/index/pages",
+    "pages": [
+      "apps/index/pages/*.html",
+      "apps/index/template.html"
+    ],
     "test": [
       "<%= files.tools.test %>",
       "<%= files.components.test.all %>"
@@ -91,12 +95,11 @@
       "<%= files.components.js %>"
     ],
     "out": {
-      "html": "dist/index.html",
+      "html": "dist/*.html",
       "js": "dist/build.TIMESTAMP.js",
       "css": "dist/build.TIMESTAMP.css",
-      "pages-tmp": "tmp/pages",
-      "pages-dev": "apps/",
-      "pages": "dist/"
+      "pages_folder": "tmp/pages",
+      "pages": "tmp/pages/*.html"
     }
   },
 
