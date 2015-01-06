@@ -2,9 +2,11 @@
 
 module.exports = function(grunt) {
   'use strict';
-  require('load-grunt-tasks')(grunt);
+  var configFile = grunt.option('config-file');
+  var configModule = configFile && configFile.replace(/\.js$/, '');
 
   grunt.initConfig({
+    env: require(configModule || './config/config'),
     pkg: grunt.file.readJSON('package.json'),
     files: grunt.file.readJSON('config/grunt-files.json'),
 
@@ -14,6 +16,7 @@ module.exports = function(grunt) {
     githooks: grunt.file.readJSON('config/grunt-githooks.json'),
 
     // build
+    metalsmith: grunt.file.readJSON('config/grunt-metalsmith.json'),
     requirejs: grunt.file.readJSON('config/grunt-requirejs.json'),
     uglify: grunt.file.readJSON('config/grunt-uglify.json'),
     ngAnnotate: grunt.file.readJSON('config/grunt-ngannotate.json'),
@@ -27,12 +30,10 @@ module.exports = function(grunt) {
     protractor_webdriver: grunt.file.readJSON('config/grunt-protractor_webdriver.json'),
   });
 
+  require('load-grunt-tasks')(grunt);
   grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
-
-  var configFile = grunt.option('config-file');
-  if (configFile)
-    grunt.config.set('requirejs.options.paths.conf', configFile.replace(/\.js$/, ''));
-
+  if (configModule)
+    grunt.config.set('requirejs.options.paths.conf', configModule);
 
   var apps = [
     'admin',

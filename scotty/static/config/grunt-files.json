@@ -80,18 +80,7 @@
   "index": {
     "html": "apps/index.html",
     "less": "apps/index/styles.less",
-    "pages": [
-      "favicon.ico",
-      "about-us.html",
-      "disclaimer.html",
-      "faq.html",
-      "forgot-password.html",
-      "imprint.html",
-      "index-employer.html",
-      "login.html",
-      "reset-password.html",
-      "terms-of-service.html"
-    ],
+    "pages": "apps/index/pages/*.html",
     "test": [
       "<%= files.tools.test %>",
       "<%= files.components.test.all %>"
@@ -105,17 +94,9 @@
       "html": "dist/index.html",
       "js": "dist/build.TIMESTAMP.js",
       "css": "dist/build.TIMESTAMP.css",
-      "pages": [
-        "dist/about-us.html",
-        "dist/disclaimer.html",
-        "dist/faq.html",
-        "dist/forgot-password.html",
-        "dist/imprint.html",
-        "dist/index-employer.html",
-        "dist/login.html",
-        "dist/reset-password.html",
-        "dist/terms-of-service.html"
-      ]
+      "pages-tmp": "tmp/pages",
+      "pages-dev": "apps/",
+      "pages": "dist/"
     }
   },
 

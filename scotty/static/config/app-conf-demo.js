@@ -1,4 +1,10 @@
-define(function() {
+(function(factory) {
+  'use strict';
+  if (typeof define === 'function')
+    define(factory);
+  else
+    module.exports = factory();
+})(function() {
   'use strict';
   return {
     'amazon_bucket': 'scotty-demo',

@@ -1,0 +1,17 @@
+{
+  "static-pages": {
+    "options": {
+      "metadata": {
+        "api_url": "<%= env.api_url %>"
+      },
+      "plugins": {
+        "metalsmith-templates": {
+          "engine": "handlebars",
+          "directory": "apps/index"
+        }
+      }
+    },
+    "src": "apps/index/pages",
+    "dest": "apps/pages"
+  }
+}
