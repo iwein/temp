@@ -156,7 +156,7 @@ class EmployerController(RootController):
             raise HTTPBadRequest("agreedTos must be true")
         employer = self.employer
         employer.agreedTos = datetime.now()
-        self.request.emailer.send_pending_approval(employer.email, employer.contact_name, employer.company_name,
+        self.request.emailer.send_admin_pending_approval(employer.email, employer.contact_name, employer.company_name,
                                                    employer.id)
         return self.employer
 
