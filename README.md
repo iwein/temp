@@ -63,6 +63,15 @@ http://stackoverflow.com/questions/3030984/installing-psycopg2-postgresql-in-vir
 
 The main file is at `/scotty/static/public/index.html`
 
+#### Static pages
+
+Static pages are located at `/apps/index/pages`, each one uses `/apps/index/template.html`.
+Static pages need to be built for development & production.
+
+- For production `grunt build` or `grunt build-index` will output it to `/dist` folder.
+- For development `grunt dev:static-pages` or simply `grunt dev` will output it to `/apps` folder.
+- While editing the pages `grunt listen` will execute `grunt dev` every time a static page template is modified.
+
 #### Build
 
 No build process required for development.
@@ -87,5 +96,5 @@ To run the test `npm install` is required. Grunt tasks are:
 * `grunt test`: All tests with linting
 
 #### Web Interface Tests
-These are built with selenium and are stored in a separate repo [here](https://github.com/HarryMcCarney/ScottySeleniumTests) 
+These are built with selenium and are stored in a separate repo [here](https://github.com/HarryMcCarney/ScottySeleniumTests)
 
