@@ -11,13 +11,7 @@ define(function(require) {
     'step3': [ 'signup.mission' ],
     'step4': [ 'signup.facts' ],
     'step5': [ 'signup.benefits' ],
-    'step6': [
-      'signup.terms',
-      'signup.tos',
-      // HACK: now that signup forms share controller
-      //   the last item should be the default view
-      'signup.terms',
-    ],
+    'step6': [ 'signup.terms' ],
     'end': [ 'dashboard' ]
   };
   var order = [

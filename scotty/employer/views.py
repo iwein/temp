@@ -96,7 +96,7 @@ class EmployerController(RootController):
             DBSession.add(employer)
             DBSession.flush()
         except IntegrityError, e:
-            if 'Key (company_name)' in e.message:
+            if 'employer_company_name_key' in e.message:
                 raise HTTPConflict("company_name")
             else:
                 raise HTTPConflict("email")
@@ -156,7 +156,7 @@ class EmployerController(RootController):
             raise HTTPBadRequest("agreedTos must be true")
         employer = self.employer
         employer.agreedTos = datetime.now()
-        self.request.emailer.send_pending_approval(employer.email, employer.contact_name, employer.company_name,
+        self.request.emailer.send_admin_pending_approval(employer.email, employer.contact_name, employer.company_name,
                                                    employer.id)
         return self.employer
 

@@ -378,7 +378,7 @@ class CandidateBookmarkController(CandidateController):
         DBSession.add(bm)
         DBSession.flush()
 
-        self.request.emailer.send_employer_joboffer_requested(employer.email,
+        self.request.emailer.send_employer_offer_requested(employer.email,
                                                               employer.contact_name,
                                                               employer.company_name,
                                                               candidate_name=self.candidate.full_name,
