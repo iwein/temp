@@ -7,7 +7,10 @@
       "plugins": {
         "metalsmith-templates": {
           "engine": "handlebars",
-          "directory": "apps/index"
+          "directory": "apps/index",
+          "partials": {
+            "footer": "../common/footer"
+          }
         }
       }
     },
