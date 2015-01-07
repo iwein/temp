@@ -1,7 +1,10 @@
 {
   "tmp": [ "tmp/" ],
-  "pages": [ "apps/*.html" ],
-  "pages-folder": [ "tmp/pages" ],
   "build": [ "dist/" ],
-  "test-results": [ "test-results/*.xml" ]
+  "test-results": [ "test-results/*.xml" ],
+  "pages-folder": [ "tmp/pages" ],
+  "pages": [
+    "apps/*.html",
+    "apps/de"
+  ]
 }

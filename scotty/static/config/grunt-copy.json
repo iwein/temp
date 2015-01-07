@@ -33,18 +33,27 @@
   },
 
   "index": {
-    "src": "<%= files.index.html %>",
-    "dest": "<%= files.index.out.html %>"
-  },
-  "index-resources": {
-    "src": "<%= files.index.out.pages %>",
+    "src": "<%= files.index.out.pages %>/*.html",
     "dest": "<%= files.apps.out.folder %>",
     "expand": true,
     "flatten": true
   },
-  "static-pages": {
-    "src": "<%= files.index.out.pages %>",
+  "index-resources": {
+    "src": "<%= files.index.out.pages %>/de/*.html",
+    "dest": "<%= files.apps.out.folder %>/de",
+    "expand": true,
+    "flatten": true
+  },
+
+  "static-pages-en": {
+    "src": "<%= files.index.out.pages %>/*.html",
     "dest": "<%= files.apps.folder %>",
+    "expand": true,
+    "flatten": true
+  },
+  "static-pages-de": {
+    "src": "<%= files.index.out.pages %>/de/*.html",
+    "dest": "<%= files.apps.folder %>/de",
     "expand": true,
     "flatten": true
   }

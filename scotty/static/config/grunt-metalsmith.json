@@ -11,7 +11,7 @@
         }
       }
     },
-    "src": "<%= files.index.pages_folder %>",
-    "dest": "<%= files.index.out.pages_folder %>"
+    "src": "<%= files.index.pages %>",
+    "dest": "<%= files.index.out.pages %>"
   }
 }
