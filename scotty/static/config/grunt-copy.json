@@ -46,13 +46,19 @@
   },
 
   "static-pages-en": {
-    "src": "<%= files.index.out.pages %>/*.html",
+    "src": [
+      "<%= files.index.sitemap %>",
+      "<%= files.index.out.pages %>/*.html"
+    ],
     "dest": "<%= files.apps.folder %>",
     "expand": true,
     "flatten": true
   },
   "static-pages-de": {
-    "src": "<%= files.index.out.pages %>/de/*.html",
+    "src": [
+      "<%= files.index.sitemap %>",
+      "<%= files.index.out.pages %>/de/*.html"
+    ],
     "dest": "<%= files.apps.folder %>/de",
     "expand": true,
     "flatten": true

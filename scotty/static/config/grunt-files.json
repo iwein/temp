@@ -80,6 +80,7 @@
   "index": {
     "less": "apps/index/styles.less",
     "pages": "apps/index/pages",
+    "sitemap": "tmp/pages/sitemap.xml",
     "out": {
       "html": "dist/*.html",
       "pages": "tmp/pages",
