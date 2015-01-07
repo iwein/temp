@@ -12,8 +12,7 @@
           "hostname": "http://www.metalsmith.io",
           "defaults": {
             "priority": 0.5,
-            "changefreq": "daily",
-            "modified": "2015-01-06"
+            "changefreq": "daily"
           }
         },
         "metalsmith-templates": {
