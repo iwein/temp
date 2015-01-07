@@ -9,7 +9,7 @@
           "ignoreFiles": [],
           "urlProperty": "path",
           "output": "sitemap.xml",
-          "hostname": "http://www.metalsmith.io",
+          "hostname": "http://4scotty.com",
           "defaults": {
             "priority": 0.5,
             "changefreq": "daily"
