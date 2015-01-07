@@ -1,3 +1,13 @@
+"""
+Mandrill Emailer registry.
+
+You HAVE to use the "register_template" decorator in your email sending function.
+
+All Templates that should be ignored by this check IN MANDRILL have to be labelled "disabled".
+
+
+"""
+
 from functools import wraps
 import mandrill
 import logging
