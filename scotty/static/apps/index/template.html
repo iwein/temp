@@ -65,6 +65,7 @@
           </button>
           <a class="navbar-brand" href="index.html" title="Scotty"></a>
         </div>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
@@ -85,5 +86,16 @@
   </div>
   {{{ contents }}}
 </div>
+<div id="footer-container" class="footer">
+  {{> footer }}
+</div>
 
-{{> footer }}
+<script>
+  var elements = document.querySelectorAll('.footer .foot-item a');
+  var links = [].slice.call(elements);
+  links.forEach(function(link) {
+    link.setAttribute('href', link.getAttribute('href').replace('../', ''));
+  });
+</script>
+</body>
+</html>

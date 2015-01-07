@@ -8,6 +8,7 @@
         "metalsmith-templates": {
           "engine": "handlebars",
           "directory": "apps/index",
+          "helpers": {},
           "partials": {
             "footer": "../common/footer"
           }
