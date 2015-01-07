@@ -37,6 +37,7 @@ def home(request):
 
 
 def recommend(request):
+    request.emailer.send_friend_referral()
     raise HTTPFound(location=request.referer or '/')
 
 
