@@ -102,14 +102,12 @@
     "js": [
       "<%= files.admin.js %>",
       "<%= files.candidate.js %>",
-      "<%= files.employer.js %>",
-      "<%= files.index.js %>"
+      "<%= files.employer.js %>"
     ],
     "test": [
       "<%= files.admin.test %>",
       "<%= files.candidate.test %>",
-      "<%= files.employer.test %>",
-      "<%= files.index.test %>"
+      "<%= files.employer.test %>"
     ]
   },
 
