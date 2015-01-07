@@ -5,6 +5,17 @@
         "api_url": "<%= env.api_url %>"
       },
       "plugins": {
+        "metalsmith-sitemap": {
+          "ignoreFiles": [],
+          "urlProperty": "path",
+          "output": "sitemap.xml",
+          "hostname": "http://www.metalsmith.io",
+          "defaults": {
+            "priority": 0.5,
+            "changefreq": "daily",
+            "modified": "2015-01-06"
+          }
+        },
         "metalsmith-templates": {
           "engine": "handlebars",
           "directory": "apps/index",
