@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="web application">
   <meta name="author" content="HackandCraft">
-  <title>Scotty</title>
+  <title>Scotty {{ title }}</title>
   <link rel="icon" type="image/png" href="/favicon.ico">
   <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/ad86cd99-af73-48f3-b26d-bec8dd63fa59.css"/>
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
@@ -51,7 +51,7 @@
   </script>
 </head>
 <body>
-  <div class="page-wrap">
+  <div class="page-wrap" ID="content">
     <div id="header-container">
       <nav class="navbar navbar-default navbar-home" role="navigation">
         <div class="container">
@@ -71,7 +71,7 @@
               <li><a href="index.html">For it professionals</a></li>
               <li><a href="index-employer.html">For companies</a></li>
               <li><a href="about-us.html">About us</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="contact.html">Contact</a></li>
               <li><a href="login.html" class="login-home">Login</a></li>
               <li>En <i class="fa fa-angle-down hidden"></i></li>
             </ul>
@@ -81,8 +81,8 @@
     </div>
     {{{ contents }}}
   </div>
-  <div id="footer-container">
-    <div class="bg-blue mrg-footer">
+  <div id="footer-container" class="footer">
+    <div class="bg-blue">
       <div class="container footer">
         <div class="footer-inner">
           <div class="foot-item">
@@ -92,14 +92,14 @@
             Country</p>
             <p><span class="iconParent"><i class="fa fa-phone orange"></span></i> +49 xx xx xx x</br>
             <span class="iconParent"><i class="fa fa-envelope orange"></i></span> contact@4scotty.com</p>
-            <p>©  2014 4scotty. </br>All Rights Reserved.</p>
+            <p>©  2014 4Scotty. </br>All Rights Reserved.</p>
           </div>
           <div class="foot-item">
             <h5>This Site</h5>
             <div><a href="index.html">For IT professionals</a></div>
             <div><a href="index-employer.html">For Companies</a></div>
             <div><a href="about-us.html">About us</a></div>
-            <div><a href="#">Contact</a></div>
+            <div><a href="contact.html">Contact</a></div>
             <div><a href="login.html">Log in</a></div>
           </div>
           <div class="foot-item social-item">

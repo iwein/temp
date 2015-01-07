@@ -1,6 +1,6 @@
 import json
 
-from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection
+from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
@@ -34,6 +34,12 @@ class RootController(object):
 @view_config(route_name='home', renderer='scotty:views/templates/index.html')
 def home(request):
     return {}
+
+
+def recommend(request):
+    request.emailer.send_friend_referral()
+    raise HTTPFound(location=request.referer or '/')
+
 
 
 def notfound(exc, request):
