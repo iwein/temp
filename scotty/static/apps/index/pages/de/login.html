@@ -51,10 +51,9 @@ lang: de
     var $password = document.getElementsByName('password')[0];
     var $error = document.getElementById('error');
 
-
     $form.addEventListener('submit', function(event) {
       event.preventDefault();
-      request(url, {
+      app.request(url, {
         email: $email.value,
         pwd: $password.value,
       }, function(response) {
@@ -78,18 +77,6 @@ lang: de
 
     function hide(element) {
       element.style.display = 'none';
-    }
-
-    function request(url, data, callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.withCredentials = true;
-      xhr.send(JSON.stringify(data));
-      xhr.addEventListener('readystatechange', function() {
-        if (xhr.readyState === 4)
-          callback(xhr);
-      });
     }
   })();
 </script>

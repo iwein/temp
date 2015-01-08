@@ -342,7 +342,6 @@
     }
   }
 }
-
 .form-wrap-static {
   padding: 30px 0;
   &.pad-0 {padding: 0;}
@@ -382,7 +381,10 @@
     }
   }
 }
-
+.bg-white .form-control {
+  border: 1px solid #ccc;
+  box-shadow: none;
+}
 .mrg-footer{
   margin-top: 60px;
 }
@@ -534,4 +536,36 @@ img.grayscale:hover{
     font-family: @font-family-sans-serif-mid;
     font-size: 25px;
   }
+}
+
+.faq-expander {
+  .panel-default > .panel-heading {
+    border: 0px solid transparent;
+    border-radius: 0;
+  }
+  .panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border: 0px solid transparent;
+  }
+  .panel-group .panel {
+    border-radius: 0;
+    border: 0px solid transparent;
+    box-shadow: none;
+    background-color: transparent;
+  }
+  .panel-title > a{
+    &:before {
+      content:".";
+      display: block;
+      float:left;
+      width: 15px;
+      height:20px;
+      background-image: url(resources/bullet.png);
+      background-position: center center;
+      margin-right: 10px;
+      text-indent: -999em;
+      overflow: hidden;
+    }
+    &, &:hover, &:visited, &:active {text-decoration: none;}
+  }
+
 }

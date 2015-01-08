@@ -16,9 +16,9 @@
   <!-- build:css build.css -->
   <link rel="stylesheet/less" href="./index/styles.less">
   <script>less = {
-      env: "development",
-      logLevel: 1,
-    };
+    env: "development",
+    logLevel: 1
+  };
   </script>
   <script src="../bower_components/less/dist/less-1.7.0.js"></script>
   <!-- endbuild -->
@@ -27,10 +27,8 @@
     (function() {
       window.app = {
         api_url: '{{ api_url }}',
-        request: request,
-        loadContent: loadContent
-      }
-
+        request: request
+      };
       function request(url, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url);
@@ -39,16 +37,6 @@
         xhr.addEventListener('readystatechange', function() {
           if (xhr.readyState !== 4) return null;
           callback(JSON.parse(xhr.responseText));
-        });
-      }
-
-      function loadContent(bindings) {
-        var url = config.api_url + 'v1/cms/get?keys=';
-        request(url + Object.keys(bindings).join(','), function(response) {
-          response.forEach(function(item) {
-            var element = document.querySelector('.' + bindings[item.key]);
-            element.innerHTML = item.value;
-          });
         });
       }
     })();
@@ -94,6 +82,8 @@
   {{> footer }}
 </div>
 
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script>
   var elements = document.querySelectorAll('.footer .foot-item a');
   var links = [].slice.call(elements);
@@ -103,8 +93,8 @@
 </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', '{{ ga_id }}', 'auto');

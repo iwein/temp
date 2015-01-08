@@ -105,3 +105,130 @@ lang: en
     </div>
   </div>
 </div>
+
+<div class="bg-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="big-title alg-cen mrg-top-30">
+          QUESTIONS FROM OTHER COMPANIES
+        </div>
+        <div class="text-wrap faq-expander">
+          <div class="col-sm-8">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      What makes 4Scotty so different than all other job portals?
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    4Scotty has seasoned IT professionals that many companies are looking for but cannot find. We follow a new, unconventional approach to recruiting: companies present their company brand in an innovative way to target the best and talented from the IT industry.
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      How much does 4Scotty cost?
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                  <div class="panel-body">
+                    Signing up and creating a company profile at 4Scotty is free. A commission is incurred only when a candidate has actually started working at your company. There are two success-based pricing models to choose from: a 18% one-time commission of the first year’s anticipated gross annual salary with a six month money-back guarantee if the candidate leaves the company within his probationary period or a 2% commission of the first year’s anticipated gross annual salary each month for a duration of 12 months, but only as long as the candidate actually works at your company.
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                  <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      What types of candidates use 4Scotty?
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                  <div class="panel-body">
+                    4Scotty is home to a wide range of experienced IT specialists, including software developers, database experts, project managers, process analysts, software testers, network administrators, system engineers and many more. All of them share a passion for information technology. Our pool of candidates span the entire organizational hierarchy: from salaried employees to CTOs, each level is represented. Many candidates on 4Scotty have been referred by friends or colleagues.
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFour">
+                  <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      Why are there only IT candidates on 4Scotty?
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                  <div class="panel-body">
+                    We know that a solid IT department is the foundation and future of every modern company – regardless of the industry. In todays fierce competitive job market it is difficult to find the right people through conventional recruiting channels. 4Scotty is tailored to the specific needs of IT experts and this is why it is easier for us to facilitate the IT recruiting process and help companies successfully fill IT vacancies.
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFive">
+                  <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                      How does 4Scotty find its candidates?
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                  <div class="panel-body">
+                    Our best candidates are recommended by their colleagues and friends. To ensure that this remains the case, we are committed to providing the best service. 4Scotty is designed for IT professionals by IT experts who understand their specific needs. Word gets around and this gets people talking.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <h4 class="caps">
+              DROP US A LINE
+            </h4>
+            <div class="form-wrap-static form-wrap-static-home pad-0">
+              <form method="POST" id="contact-form">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input class="form-control" type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Your Email</label>
+                  <input class="form-control" type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="message">Your message or Question</label>
+                  <textarea class="form-control" type="text" id="message" name="message" required></textarea>
+                </div>
+                <div class="form-group">
+                  <button type="submit" btn>Send</button>
+                </div>
+                <script type="text/javascript">
+                  (function() {
+                    'use strict';
+                    var $form = document.getElementById('contact-form');
+                    $form.action = app.api_url + 'v1/contact';
+                    if(window.location.hash === '#contacted'){
+                      document.getElementById('contacted-success').style.display = 'block';
+                    }
+                  })();
+                </script>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
