@@ -15,6 +15,8 @@ requirejs.config({
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
     'textangular': 'bower_components/textAngular/dist/textAngular.min',
+    'angulartics': 'bower_components/angulartics/dist/angulartics.min',
+    'angulartics-ga': 'bower_components/angulartics/dist/angulartics-ga.min',
 
     // aliases
     'conf': 'config/config',
@@ -24,6 +26,8 @@ requirejs.config({
 
   shim: {
     'angular': { exports: 'angular' },
+    'angulartics': [ 'angular' ],
+    'angulartics-ga': [ 'angulartics' ],
     'ui.bootstrap': [ 'angular' ],
     'angular-router': [ 'angular' ],
     'angular-animate': [ 'angular' ],
