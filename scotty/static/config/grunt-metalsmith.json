@@ -2,7 +2,8 @@
   "static-pages": {
     "options": {
       "metadata": {
-        "api_url": "<%= env.api_url %>"
+        "api_url": "<%= env.api_url %>",
+        "ga_id": "<%= env.ga_id %>"
       },
       "plugins": {
         "metalsmith-sitemap": {

@@ -12,6 +12,9 @@ define(function(require) {
   require('tools/label-typeahead-directive/label-typeahead-directive');
   var conf = require('conf');
 
+  if (window.ga)
+    window.ga('create', conf.ga_id, 'auto');
+
   return function basicConf(module) {
 
     module.config(function($httpProvider) {
