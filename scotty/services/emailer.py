@@ -72,7 +72,7 @@ class MandrillEmailer(object):
 
     def send(self, template, content, message):
         try:
-            self.mandrill.messages.send_template(template, template_content=content, message=message)
+            self.mandrill.messages.send_template(template, template_content=content, message=message, async=True)
         except mandrill.Error, e:
             log.error(e)
             return False
@@ -264,6 +264,15 @@ class MandrillEmailer(object):
                               {'content': company_name, 'name': 'company_name'},
                               {'content': candidate_name, 'name': 'candidate_name'},
                               {'content': url, 'name': 'url'}]})
+
+    @register_template('admin-contact-request')
+    def send_contact_request(self, template, email, name, message):
+        return self.send(template, [],
+                         {'to': [{'email': email, 'name': 'Admin'} for email in self.admin_emails],
+                          'global_merge_vars': [
+                              {'content': name, 'name': 'name'},
+                              {'content': email, 'name': 'email'},
+                              {'content': message, 'name': 'message'}]})
 
 def emailer_factory(settings):
     return MandrillEmailer(settings)

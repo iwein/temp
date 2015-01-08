@@ -49,6 +49,17 @@ def recommend(request):
         request.emailer.send_friend_referral(sndr_email, sndr_name, rcvr_email, rcvr_name)
     raise HTTPFound(location=(request.referer or '/') + '#referred')
 
+@view_config(route_name='contact', permission=NO_PERMISSION_REQUIRED, request_method="POST")
+def contact(request):
+    email = request.params.get('email')
+    name = request.params.get('name')
+    message = request.params.get('message')
+    if not (name and email and message):
+        HTTPFound(location=request.referer or '/')
+    else:
+        request.emailer.send_contact_request(email, name, message)
+    raise HTTPFound(location=(request.referer or '/') + '#contacted')
+
 
 
 def notfound(exc, request):
@@ -58,6 +69,7 @@ def notfound(exc, request):
 def includeme(config):
     config.add_route('home', '/')
     config.add_route('refer', '/api/v1/refer')
+    config.add_route('contact', '/api/v1/contact')
 
     config.include("scotty.views.debug", route_prefix='/debug')
     config.add_notfound_view(notfound, append_slash=True)
