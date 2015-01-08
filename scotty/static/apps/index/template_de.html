@@ -15,7 +15,11 @@
 
   <!-- build:css build.css -->
   <link rel="stylesheet/less" href="../index/styles.less">
-  <script>less = { logLevel: 1 };</script>
+  <script>less = {
+      env: "development",
+      logLevel: 1,
+    };
+  </script>
   <script src="../../bower_components/less/dist/less-1.7.0.js"></script>
   <!-- endbuild -->
 
