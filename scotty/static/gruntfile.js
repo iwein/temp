@@ -81,7 +81,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build-index', [
     'metalsmith:static-pages',
     'build-index-internal',
-    'clean:pages-folder',
+    'clean:pages-folder'
   ]);
 
   // generate specific task for tool

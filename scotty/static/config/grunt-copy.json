@@ -44,7 +44,6 @@
     "expand": true,
     "flatten": true
   },
-
   "static-pages-en": {
     "src": [
       "<%= files.index.sitemap %>",
