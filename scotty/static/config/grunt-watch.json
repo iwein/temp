@@ -1,6 +1,6 @@
 {
   "static": {
-    "files": "<%= files.index.pages %>",
+    "files": "apps/index/**/*.html",
     "tasks": [ "dev:static-pages" ]
   },
   "e2e": {
