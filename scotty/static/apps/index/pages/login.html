@@ -51,7 +51,6 @@ lang: en
     var $password = document.getElementsByName('password')[0];
     var $error = document.getElementById('error');
 
-
     $form.addEventListener('submit', function(event) {
       event.preventDefault();
       request(url, {
@@ -91,5 +90,5 @@ lang: en
           callback(xhr);
       });
     }
-  });
+  })();
 </script>
