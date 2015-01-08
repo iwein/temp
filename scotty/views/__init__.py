@@ -5,6 +5,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
 from pyramid.response import Response
+from scotty.views.common import POST
 from sqlalchemy.exc import DBAPIError
 
 
@@ -36,9 +37,17 @@ def home(request):
     return {}
 
 
+@view_config(route_name='refer', permission=NO_PERMISSION_REQUIRED, request_method="POST")
 def recommend(request):
-    request.emailer.send_friend_referral()
-    raise HTTPFound(location=request.referer or '/')
+    sndr_email = request.params.get('sndr_email')
+    sndr_name = request.params.get('sndr_name')
+    rcvr_email = request.params.get('rcvr_email')
+    rcvr_name = request.params.get('rcvr_name')
+    if not (sndr_name and sndr_email and rcvr_name and rcvr_email) or sndr_email == rcvr_email:
+        HTTPFound(location=request.referer or '/')
+    else:
+        request.emailer.send_friend_referral(sndr_email, sndr_name, rcvr_email, rcvr_name)
+    raise HTTPFound(location=(request.referer or '/') + '#referred')
 
 
 
@@ -48,9 +57,9 @@ def notfound(exc, request):
 
 def includeme(config):
     config.add_route('home', '/')
+    config.add_route('refer', '/api/v1/refer')
 
     config.include("scotty.views.debug", route_prefix='/debug')
-
     config.add_notfound_view(notfound, append_slash=True)
     config.add_forbidden_view(http_error)
 
