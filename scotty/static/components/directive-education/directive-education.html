@@ -9,11 +9,11 @@
       <div class="row">
         <div class="col-sm-4 caps blue-link smbd lt">Institution</div>
         <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
-        <div class="col-sm-2 alg-cen">
+        <div class="col-sm-2 text-center">
           <span class="lt smbd gray-darker caps">Edit</span>
         </div>
 
-        <div class="col-sm-2 alg-cen">
+        <div class="col-sm-2 text-center">
           <!--button type="button"
             class="btn btn-primary pull-right"
             ng-disabled="loading"
@@ -31,12 +31,12 @@
             <div class="col-sm-4">
               <div class="data-box">{{ entry.start }} - {{ entry.end || 'current' }}</div>
             </div>
-            <div class="col-sm-2 alg-cen pad-top-5">
+            <div class="col-sm-2 text-center pad-top-5">
               <i class="fa fa-pencil blue-link"
               ng-show="hcEditable"
               ng-click="hcEducationCtrl.setActive($index)"></i>
             </div>
-            <div class="col-sm-2  alg-cen pad-top-5" >
+            <div class="col-sm-2  text-center pad-top-5" >
               <input type="checkbox" ng-model="entry.import" ng-change="importChange()">
             </div>
           </div>
