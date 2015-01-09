@@ -37,7 +37,7 @@ define(function(require) {
       Session.resetPassword(token, password)
         .then(function() {
           toaster.success('Your password has been updated. You can now login with your new password');
-          $state.go('login');
+          window.location = '../login.html';
         })
         .catch(toaster.defaultError)
         .finally(function() {
