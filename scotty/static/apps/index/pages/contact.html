@@ -7,7 +7,7 @@ lang: en
 ---
 
 <div class="alert-container">
-  <div id="contacted-success" class="alert alert-success not-visible">
+  <div id="automessage-contacted" class="alert alert-success not-visible">
     Your message or question was sent! Our support crew will contact you shortly!
   </div>
 </div>
@@ -58,9 +58,6 @@ lang: en
                     'use strict';
                     var $form = document.getElementById('contact-form');
                     $form.action = app.api_url + 'v1/contact';
-                    if(window.location.hash === '#contacted'){
-                      document.getElementById('contacted-success').style.display = 'block';
-                    }
                   })();
                 </script>
               </form>

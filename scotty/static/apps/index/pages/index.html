@@ -8,10 +8,11 @@ lang: en
 
 
 <div class="alert-container">
-  <div id="referred-success" class="alert alert-success not-visible">
+  <div id="automessage-referred" class="alert alert-success not-visible">
     Ihre Empfehlung wurde versandt!
   </div>
 </div>
+
 <div class="banner">
   <div class="banner-inner">
     <h2>Companies pitching to you</h2>
@@ -178,9 +179,6 @@ lang: en
           'use strict';
           var $form = document.getElementById('recommend-form');
           $form.action = app.api_url + 'v1/refer';
-          if(window.location.hash === '#referred'){
-            document.getElementById('referred-success').style.display = 'block';
-          }
         })();
       </script>
     </div>

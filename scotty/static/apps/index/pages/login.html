@@ -8,7 +8,7 @@ lang: en
 
 <div class="alert-container">
   <div id="error" class="alert alert-danger not-visible">Unknown email or password.</div>
-  <div id="reset-success" class="alert alert-success not-visible">Passwort reset Email sent. Please check your inbox.</div>
+  <div id="automessage-reset-sent" class="alert alert-success not-visible">Passwort reset Email sent. Please check your inbox.</div>
 </div>
 
 <div class="banner">
@@ -44,10 +44,6 @@ lang: en
 <script type="text/javascript">
   (function() {
     'use strict';
-    if(window.location.hash === '#reset-sent'){
-      app.display(document.getElementById('reset-success'));
-    }
-
     var url = app.api_url + 'v1/login';
     var $form = document.getElementById('login-form');
     var $email = document.getElementsByName('email')[0];

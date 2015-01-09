@@ -1,9 +1,11 @@
 <script>
-  var elements = document.querySelectorAll('.footer .foot-item a');
-  var links = [].slice.call(elements);
-  links.forEach(function(link) {
-    link.setAttribute('href', link.getAttribute('href').replace('../', ''));
-  });
+  (function() {
+      'use strict';
+      if(window.location.hash){
+      var $el = document.getElementById('automessage-'+window.location.hash.substr(1));
+      if($el)app.display($el);
+    }
+  })();
 </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
