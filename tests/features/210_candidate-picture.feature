@@ -21,7 +21,7 @@ Feature: Candidate sign up
         """
         { "url": "http://www.hackandcraft.com/" }
         """
-      When I invoke "/candidates/me" endpoint:
+      When I invoke "/candidates/me" endpoint
       Then The response should have:
        """
        { "picture_url": "http://www.hackandcraft.com/" }
