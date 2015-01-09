@@ -16,3 +16,13 @@ Feature: Candidate sign up
        { "picture_url": "http://www.hackandcraft.com/" }
        """
 
+  Scenario: Candidate get photo url
+     Given I post to "/candidates/me/picture":
+        """
+        { "url": "http://www.hackandcraft.com/" }
+        """
+      When I invoke "/candidates/me" endpoint:
+      Then The response should have:
+       """
+       { "picture_url": "http://www.hackandcraft.com/" }
+       """

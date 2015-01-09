@@ -7,7 +7,7 @@ Feature: Invite code behaviour
 
   Scenario: Admin retrieves invitation code's list
      Given I create an invitation code
-      When I invoke "/admin/invite_codes" endpoint
+      When I list invite codes
       Then The response status should be "200"
        And The response should be a list
        And Each item should have fields:

@@ -16,8 +16,8 @@ Feature: Candidate sign up with languages
       When I put to "/candidates/me/languages":
         """
         [
-          { "language": "English", "proficiency": "advanced" },
           { "language": "German", "proficiency": "native" },
+          { "language": "English", "proficiency": "advanced" },
           { "language": "French", "proficiency": "basic" }
         ]
         """
@@ -26,8 +26,8 @@ Feature: Candidate sign up with languages
        And The response should have:
         """
         { "languages": [
-          { "language": "English", "proficiency": "advanced" },
           { "language": "German", "proficiency": "native" },
+          { "language": "English", "proficiency": "advanced" },
           { "language": "French", "proficiency": "basic" }
         ] }
         """
@@ -44,8 +44,8 @@ Feature: Candidate sign up with languages
      Given I put to "/candidates/me/languages":
         """
         [
-          { "language": "English", "proficiency": "advanced" },
           { "language": "German", "proficiency": "native" },
+          { "language": "English", "proficiency": "advanced" },
           { "language": "French", "proficiency": "basic" }
         ]
         """
