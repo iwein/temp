@@ -46,10 +46,17 @@
     }]
   },
   "index-resources": {
-    "cwd": "<%= files.apps.folder %>",
-    "src": "<%= files.index.resources %>",
-    "dest": "<%= files.apps.out.folder %>",
-    "expand": true
+    "files": [{
+      "cwd": "<%= files.apps.folder %>",
+      "src": "<%= files.index.resources %>",
+      "dest": "<%= files.apps.out.folder %>",
+      "expand": true
+    }, {
+      "src": "<%= files.index.vendors %>",
+      "dest": "<%= files.apps.out.folder %>",
+      "expand": true,
+      "flatten": true
+    }]
   },
   "static-pages": {
     "files": [{

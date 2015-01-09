@@ -13,7 +13,7 @@
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <!-- build:css build.css -->
+  <!-- build:css ../build.css -->
   <link rel="stylesheet/less" href="../index/styles.less">
   <script>less = {
     env: "development",
@@ -117,8 +117,12 @@
   </div>
 </div>
 
+<!-- build:js ../jquery.min.js -->
 <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<!-- endbuild -->
+<!-- build:js ../bootstrap.min.js -->
 <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- endbuild -->
 {{> footscripts}}
 </body>
 </html>

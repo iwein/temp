@@ -82,8 +82,15 @@
     "resources": "index/resources/**/*.*",
     "pages": "apps/index/pages",
     "sitemap": "tmp/pages/sitemap.xml",
+    "vendors": [
+      "bower_components/jquery/dist/jquery.min.js",
+      "bower_components/bootstrap/dist/js/bootstrap.min.js"
+    ],
     "out": {
-      "html": "dist/*.html",
+      "html": [
+        "dist/*.html",
+        "dist/de/*.html"
+      ],
       "pages": "tmp/pages",
       "js": "dist/build.TIMESTAMP.js",
       "css": "dist/build.TIMESTAMP.css"
