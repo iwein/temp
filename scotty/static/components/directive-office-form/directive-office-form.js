@@ -48,7 +48,7 @@ define(function(require) {
         nameAttr(this, 'hcOfficeForm', $scope, $attrs);
 
         function afterModelChange() {
-          var model = $scope.model;
+          var model = $scope.model || {};
           var location = model.address_city = model.address_city || {};
           location.country_iso = location.country_iso || 'DE';
         }
