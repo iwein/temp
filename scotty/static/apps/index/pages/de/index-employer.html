@@ -7,10 +7,11 @@ lang: de
 ---
 
 <div class="alert-container">
-  <div id="contacted-success" class="alert alert-success not-visible">
+  <div id="automessage-contacted" class="alert alert-success not-visible">
     Ihre Frage oder Anregung wurde versendet! Unser Support Team setzt sich mit Ihnen umgehend in Verbindung!
   </div>
 </div>
+
 
 <div class="banner">
   <div class="banner-inner banner-inner-employer">
@@ -177,7 +178,6 @@ lang: de
                   </div>
                 </div>
               </div>
-
               <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingTwo">
                   <h4 class="panel-title">
@@ -192,7 +192,6 @@ lang: de
                   </div>
                 </div>
               </div>
-
               <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingThree">
                   <h4 class="panel-title">
@@ -207,7 +206,6 @@ lang: de
                   </div>
                 </div>
               </div>
-
               <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingFour">
                   <h4 class="panel-title">
@@ -237,9 +235,7 @@ lang: de
                 </div>
               </div>
             </div>
-
           </div>
-
           <div class="col-sm-4">
             <h4 class="caps">
               SCHREIBEN SIE UNS
@@ -266,9 +262,6 @@ lang: de
                     'use strict';
                     var $form = document.getElementById('contact-form');
                     $form.action = app.api_url + 'v1/contact';
-                    if(window.location.hash === '#contacted'){
-                      document.getElementById('contacted-success').style.display = 'block';
-                    }
                   })();
                 </script>
               </form>

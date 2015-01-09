@@ -6,6 +6,12 @@ title: For Employers
 lang: en
 ---
 
+<div class="alert-container">
+  <div id="automessage-contacted" class="alert alert-success not-visible">
+    Your message or question was sent! Our support crew will contact you shortly!
+  </div>
+</div>
+
 <div class="banner">
   <div class="banner-inner banner-inner-employer">
     <h2>DIRECT ACCESS TO THE BEST IT EXPERTS</h2>
@@ -255,9 +261,6 @@ lang: en
                     'use strict';
                     var $form = document.getElementById('contact-form');
                     $form.action = app.api_url + 'v1/contact';
-                    if(window.location.hash === '#contacted'){
-                      document.getElementById('contacted-success').style.display = 'block';
-                    }
                   })();
                 </script>
               </form>
