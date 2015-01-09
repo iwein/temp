@@ -10,12 +10,13 @@ lang: de
   <div id="error" class="alert alert-danger not-visible">
     Email oder Passwort unbekannt. Bitte pr&uuml;fen Sie Ihre Eingabe!
   </div>
+  <div id="reset-success" class="alert alert-success not-visible">Passwortzur&uuml;cksetzen-Email wurde versandt. Bitte schauen Sie in Ihren Maileingang.</div>
 </div>
 
 <div class="banner">
   <div class="banner-inner banner-inner-small">
     <div class="banner-login">
-      <h3>Als Kandidate oder Arbeitgeber einloggen:</h3>
+      <h3>Als Kandidat oder Arbeitgeber einloggen:</h3>
       <form id="login-form">
 
         <div class="form-group required row">
@@ -45,6 +46,11 @@ lang: de
 <script type="text/javascript">
   (function() {
     'use strict';
+    if(window.location.hash === '#reset-sent'){
+      document.getElementById('reset-success').style.display = 'block';
+    }
+
+
     var url = app.api_url + 'v1/login';
     var $form = document.getElementById('login-form');
     var $email = document.getElementsByName('email')[0];
@@ -53,30 +59,16 @@ lang: de
 
     $form.addEventListener('submit', function(event) {
       event.preventDefault();
-      app.request(url, {
+      app.POST(url, {
         email: $email.value,
         pwd: $password.value,
       }, function(response) {
         if (response.status === 404)
-          return showError();
-
+          return app.display($error);
         var data = JSON.parse(response.responseText);
-        document.location = data.preferred;
+        document.location = '../'+data.preferred;
       });
     }, true);
-
-
-    function showError() {
-      show($error);
-      setTimeout(hide.bind(null, $error), 5000);
-    }
-
-    function show(element) {
-      element.style.display = 'block';
-    }
-
-    function hide(element) {
-      element.style.display = 'none';
-    }
   })();
 </script>
+

@@ -7,9 +7,8 @@ lang: en
 ---
 
 <div class="alert-container">
-  <div id="error" class="alert alert-danger not-visible">
-    Unknown email or password.
-  </div>
+  <div id="error" class="alert alert-danger not-visible">Unknown email or password.</div>
+  <div id="reset-success" class="alert alert-success not-visible">Passwort reset Email sent. Please check your inbox.</div>
 </div>
 
 <div class="banner">
@@ -45,6 +44,10 @@ lang: en
 <script type="text/javascript">
   (function() {
     'use strict';
+    if(window.location.hash === '#reset-sent'){
+      document.getElementById('reset-success').style.display = 'block';
+    }
+
     var url = app.api_url + 'v1/login';
     var $form = document.getElementById('login-form');
     var $email = document.getElementsByName('email')[0];
@@ -53,30 +56,15 @@ lang: en
 
     $form.addEventListener('submit', function(event) {
       event.preventDefault();
-      app.request(url, {
+      app.POST(url, {
         email: $email.value,
         pwd: $password.value,
       }, function(response) {
         if (response.status === 404)
-          return showError();
-
+          return app.display($error);
         var data = JSON.parse(response.responseText);
         document.location = data.preferred;
       });
     }, true);
-
-
-    function showError() {
-      show($error);
-      setTimeout(hide.bind(null, $error), 5000);
-    }
-
-    function show(element) {
-      element.style.display = 'block';
-    }
-
-    function hide(element) {
-      element.style.display = 'none';
-    }
   })();
 </script>

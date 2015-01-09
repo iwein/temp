@@ -23,24 +23,7 @@
   <script src="../bower_components/less/dist/less-1.7.0.js"></script>
   <!-- endbuild -->
 
-  <script>
-    (function() {
-      window.app = {
-        api_url: '{{ api_url }}',
-        request: request
-      };
-      function request(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.withCredentials = true;
-        xhr.send(null);
-        xhr.addEventListener('readystatechange', function() {
-          if (xhr.readyState !== 4) return null;
-          callback(JSON.parse(xhr.responseText));
-        });
-      }
-    })();
-  </script>
+  {{> headscripts}}
 </head>
 <body>
 <div class="page-wrap static-page" ID="content">
@@ -84,21 +67,6 @@
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script>
-  var elements = document.querySelectorAll('.footer .foot-item a');
-  var links = [].slice.call(elements);
-  links.forEach(function(link) {
-    link.setAttribute('href', link.getAttribute('href').replace('../', ''));
-  });
-</script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', '{{ ga_id }}', 'auto');
-  ga('send', 'pageview');
-</script>
+{{> footscripts}}
 </body>
 </html>
