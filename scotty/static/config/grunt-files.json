@@ -79,6 +79,7 @@
 
   "index": {
     "less": "apps/index/styles.less",
+    "resources": "index/resources/**/*.*",
     "pages": "apps/index/pages",
     "sitemap": "tmp/pages/sitemap.xml",
     "out": {

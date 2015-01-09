@@ -103,8 +103,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('dev:static-pages', [
     'metalsmith:static-pages',
-    'copy:static-pages-en',
-    'copy:static-pages-de',
+    'copy:static-pages',
     'clean:pages-folder',
   ]);
 

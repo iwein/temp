@@ -33,33 +33,41 @@
   },
 
   "index": {
-    "src": "<%= files.index.out.pages %>/*.html",
-    "dest": "<%= files.apps.out.folder %>",
-    "expand": true,
-    "flatten": true
+    "files": [{
+      "src": "<%= files.index.out.pages %>/*.html",
+      "dest": "<%= files.apps.out.folder %>",
+      "expand": true,
+      "flatten": true
+    }, {
+      "src": "<%= files.index.out.pages %>/de/*.html",
+      "dest": "<%= files.apps.out.folder %>/de",
+      "expand": true,
+      "flatten": true
+    }]
   },
   "index-resources": {
-    "src": "<%= files.index.out.pages %>/de/*.html",
-    "dest": "<%= files.apps.out.folder %>/de",
-    "expand": true,
-    "flatten": true
+    "cwd": "<%= files.apps.folder %>",
+    "src": "<%= files.index.resources %>",
+    "dest": "<%= files.apps.out.folder %>",
+    "expand": true
   },
-  "static-pages-en": {
-    "src": [
-      "<%= files.index.sitemap %>",
-      "<%= files.index.out.pages %>/*.html"
-    ],
-    "dest": "<%= files.apps.folder %>",
-    "expand": true,
-    "flatten": true
-  },
-  "static-pages-de": {
-    "src": [
-      "<%= files.index.sitemap %>",
-      "<%= files.index.out.pages %>/de/*.html"
-    ],
-    "dest": "<%= files.apps.folder %>/de",
-    "expand": true,
-    "flatten": true
+  "static-pages": {
+    "files": [{
+      "src": [
+        "<%= files.index.sitemap %>",
+        "<%= files.index.out.pages %>/*.html"
+      ],
+      "dest": "<%= files.apps.folder %>",
+      "expand": true,
+      "flatten": true
+    }, {
+      "src": [
+        "<%= files.index.sitemap %>",
+        "<%= files.index.out.pages %>/de/*.html"
+      ],
+      "dest": "<%= files.apps.folder %>/de",
+      "expand": true,
+      "flatten": true
+    }]
   }
 }
