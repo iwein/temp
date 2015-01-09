@@ -102,15 +102,15 @@
 .banner-inner-employer {
   max-width: 800px
 }
-.sign {
-  max-width: 190px;
+.sign, .sign:active, .sign:visited {
   height: 50px;
   text-transform: uppercase;
   background: @orange;
   color: @white;
-  display: block;
-  margin: 70px auto 0;
+  min-width:200px;
+  display: inline-block;
   text-align: center;
+  padding: 0 25px;
   line-height: 50px;
   font-size: 24px;
   font-family: @font-family-headings;
@@ -122,9 +122,10 @@
     background: @orange-dark;
   }
 }
-.sign-employer {
-  max-width: 270px
+.sign-padded {
+  margin: 70px auto 0;
 }
+
 
 .login-home {
   color: @orange !important;
@@ -146,7 +147,7 @@
 }
 
 .steps {
-  max-width: 920px;
+  text-align: center;
   margin: 55px auto 60px auto;
   .num {
     font-family: @font-family-headings;
@@ -174,54 +175,6 @@
     margin-bottom: 20px;
     font-family: @font-family-headings;
     font-weight: bold
-  }
-}
-.steps-big {
-  max-width: none;
-  margin: 55px -15px 60px -15px;
-  .num {
-    font-family: @font-family-headings;
-    font-size: 40px;
-    border: 2px solid @orange;
-    display: block;
-    line-height: 45px;
-    height: 50px;
-    width: 50px;
-    color: @orange;
-    margin: 0 auto;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-    text-align: center;
-  }
-  .col-sm-3 {
-    text-align: center;
-  }
-  h3 {
-    line-height: 20px;
-    color: @blue
-  }
-}
-.people {
-  max-width: 980px;
-  margin: 50px auto ;
-  .col-sm-3{
-    text-align: center;
-    padding: 0 25px;
-    h4 {
-      color: @blue;
-      text-transform: uppercase;
-      font-size: 16px;
-      font-family: @font-family-headings;
-      font-weight: bold
-    }
-    img {
-      display: block;
-      margin-bottom: 20px;
-      margin-top: 10px;
-      width: 100%;
-      height: auto;
-    }
   }
 }
 .ita {
