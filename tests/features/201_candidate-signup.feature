@@ -30,7 +30,10 @@ Feature: Candidate sign up & log in behavior
        And Candiate logs out
       When Candiate logs in
       Then The response status should be "200"
-       And The response should have candidate's email on "email" field
+       And The response should have:
+        """
+        { "preferred": "candidate" }
+        """
 
   Scenario: Candidate 'me' endpoint after login
      Given I post a new candidate
@@ -39,6 +42,41 @@ Feature: Candidate sign up & log in behavior
        And I invoke "/candidates/me" endpoint
       Then The response status should be "200"
        And The response should have candidate's email on "email" field
+
+  Scenario: Candidate set extra parameters
+     Given I post a new candidate
+      When I put to "/candidates/me":
+        """
+        {
+          "eu_work_visa": true,
+          "location": {
+            "country_iso": "ES",
+            "city": "Barcelona"
+          },
+          "dob": "1975-06-05T15:32:41.878Z",
+          "github_url": "http://localhost/static/apps/candidate/#/signup/profile/",
+          "stackoverflow_url": "http://localhost/static/apps/candidate/#/signup/profile/",
+          "blog_url": "http://localhost/static/apps/candidate/#/signup/profile/"
+        }
+        """
+       And I invoke "/candidates/me" endpoint
+      Then The response status should be "200"
+       And The response should have:
+        """
+        {
+          "eu_work_visa": true,
+          "location": {
+            "country_iso": "ES",
+            "city": "Barcelona"
+          },
+          "dob": "1975-06-05",
+          "github_url": "http://localhost/static/apps/candidate/#/signup/profile/",
+          "stackoverflow_url": "http://localhost/static/apps/candidate/#/signup/profile/",
+          "blog_url": "http://localhost/static/apps/candidate/#/signup/profile/"
+        }
+        """
+
+
 #      But The response don't have something else
 
   # Disabled because there is no way to retrieve activation code from client

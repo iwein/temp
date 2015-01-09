@@ -3,6 +3,17 @@
 stepDefinitions(function(scenario) {
   'use strict';
 
+  function createUser() {
+    this.candidateEmail = this.generateEmail();
+
+    return this.storeRequest(AJAX.post('/candidates/', {
+      'email': this.candidateEmail,
+      'pwd': 'welcomepwd',
+      'first_name': 'Bob',
+      'last_name': 'Bayley',
+    }));
+  }
+
 
   scenario.Before(function() {
     return AJAX.get('/candidates/logout', {}, { log: false })
@@ -13,7 +24,7 @@ stepDefinitions(function(scenario) {
 
 
   scenario.Given(/^Candiate logs in$/, function() {
-    return this.storeRequest(AJAX.post('/candidates/login', {
+    return this.storeRequest(AJAX.post('/login', {
       'email': this.candidateEmail,
       'pwd': 'welcomepwd',
     }));
@@ -23,16 +34,7 @@ stepDefinitions(function(scenario) {
     return this.storeRequest(AJAX.get('/candidates/logout'));
   });
 
-  scenario.When(/^I post a new candidate$/, function() {
-    this.candidateEmail = this.generateEmail();
-
-    return this.storeRequest(AJAX.post('/candidates/', {
-      'email': this.candidateEmail,
-      'pwd': 'welcomepwd',
-      'first_name': 'Bob',
-      'last_name': 'Bayley',
-    }));
-  });
+  scenario.When(/^I post a new candidate$/, createUser);
 
   scenario.Given(/^I post a new candidate with invitation code$/, function() {
     this.candidateEmail = this.generateEmail();
@@ -66,6 +68,52 @@ stepDefinitions(function(scenario) {
     assert(key in this.lastResponse, 'Field "' + key + '" not found in response: ' + JSON.stringify(this.lastResponse));
     assert(this.lastResponse[key] === this.candidateEmail,
       'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found');
+  });
+
+  scenario.Given(/^I create a complete candidate$/, function() {
+    return createUser().then(function() {
+      return Promise.all([
+        AJAX.post('/candidates/me/target_position', {
+          'company_types': ['startup', 'top500'],
+          'role': 'Java Developer',
+          'skills': ['Python', 'PHP'],
+          'relocate': true,
+          'travel_willingness': '>50%',
+          'minimum_salary': 100000
+        }),
+        AJAX.put('/candidates/me/preferred_locations', {
+          'DE': ['Berlin','Leipzig','Hamburg'],
+          'BR': ['Uberlândia']
+        }),
+        AJAX.put('/candidates/me/languages', [
+          { 'language': 'German', 'proficiency': 'native' },
+          { 'language': 'English', 'proficiency': 'advanced' },
+          { 'language': 'French', 'proficiency': 'basic' },
+        ]),
+        AJAX.put('/candidates/me/skills', [
+          { 'skill': 'Python', 'level': 'basic' },
+          { 'skill': 'PHP', 'level': 'advanced' },
+          { 'skill': 'Java', 'level': 'advanced' },
+        ]),
+        AJAX.post('/candidates/me/education', {
+          'institution': 'Eidgenössische Technische Hochschule Zürich, Switzerland',
+          'degree': 'NEWDEGREE-2fbb080a-df19-79b6-d62a-edd989efcee0',
+          'start': 1992,
+          'course': 'Programming'
+        }),
+        AJAX.post('/candidates/me/work_experience', {
+          'company': 'Intel Corp.',
+          'role': 'Project Architect',
+          'city': 'ÜberSigourney Fanatastic Not Existing Town',
+          'country_iso': 'DE',
+          'start': '2004-01-01',
+          'summary': 'Design of Intelligent Protoplasma'
+        }),
+        AJAX.post('/candidates/me/picture', {
+          'url': 'http://www.hackandcraft.com/'
+        }),
+      ]);
+    });
   });
 });
 
