@@ -1,6 +1,7 @@
 /* globals stepDefinitions, assert, AJAX */
 
 stepDefinitions(function(scenario) {
+  /*jshint validthis:true */
   'use strict';
 
   function createUser() {
