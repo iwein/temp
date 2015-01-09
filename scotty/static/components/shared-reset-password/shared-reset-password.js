@@ -12,7 +12,7 @@ define(function(require) {
 
     function invalid() {
       toaster.error('Invalid reset token');
-      $state.go('login');
+      window.location = '../login.html';
     }
 
     Session.valdiateResetToken(token).then(function(isValid) {

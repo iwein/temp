@@ -3,7 +3,7 @@
 
     <div ng-if="success">
       Thanks for activating your account, you can now
-      <a class="orange" ng-if="!session.user" ui-sref="login">log in.</a>
+      <a class="orange" ng-if="!session.user" href="../login.html">log in.</a>
       <a class="orange" ng-if="session.user && signupComplete" ui-sref="profile">go to your profile.</a>
       <a class="orange" ng-if="session.user && !signupComplete" ui-sref="signup">continue signup process.</a>
     </div>
