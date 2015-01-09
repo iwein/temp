@@ -45,7 +45,7 @@ lang: en
   (function() {
     'use strict';
     if(window.location.hash === '#reset-sent'){
-      document.getElementById('reset-success').style.display = 'block';
+      app.display(document.getElementById('reset-success'));
     }
 
     var url = app.api_url + 'v1/login';
