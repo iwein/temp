@@ -527,3 +527,56 @@ img.grayscale:hover{
   }
 
 }
+
+
+
+ul.terms-outer {
+  counter-reset:section;
+  list-style-type:none;
+  color:black;
+
+  & > li {
+    list-style-type: none;
+    margin-bottom: 30px;
+    > .static-mid-title {
+      margin:0;
+      padding: 0;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+    &:before {
+      line-height: 1.4;
+      margin-left:-30px;
+      display: block;
+      float:left;
+      width:30px;
+      font-size: 20px;
+      text-transform: uppercase;
+      counter-increment:section;
+      content:counter(section) ". ";
+    }
+  }
+}
+
+ul.terms-inner {
+  counter-reset:subsection;
+  margin-left:-30px;
+  & > li {
+    padding-left:30px;
+    margin-bottom:5px;
+    &:before {
+      margin-left:-30px;
+      display: block;
+      float:left;
+      width:30px;
+      counter-increment:subsection;
+      content:counter(section) "." counter(subsection) " ";
+    }
+  }
+}
+ul.bulleted {
+  padding-left: 30px;
+  list-style-type: disc;
+  margin-top:10px;
+  > li {margin-bottom: 5px;}
+}
