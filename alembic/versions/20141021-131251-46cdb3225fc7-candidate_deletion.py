@@ -31,7 +31,7 @@ import sqlalchemy as sa
 
 def upgrade():
     op.execute("insert into candidatestatus (name) values ('deleted');")
-    op.execute(sa.text("drop FUNCTION candidate_search(skills varchar[], p_city_id int);"))
+    op.execute(sa.text("DROP FUNCTION IF EXISTS candidate_search(skills varchar[], p_city_id int);"))
     op.execute(sa.text("""
         create or replace FUNCTION candidate_search(skills varchar[], p_city_id int, p_status_id int) RETURNS table (candidate_id uuid, matched_tags varchar[])
         AS $$

@@ -16,7 +16,7 @@ import sqlalchemy as sa
 
 
 def upgrade():
-    op.execute("drop FUNCTION employer_search(techs varchar[], city_id int, company_types int[])")
+    op.execute("DROP FUNCTION IF EXISTS employer_search(techs varchar[], city_id int, company_types int[])")
 
     op.execute(sa.text("""
         create or replace FUNCTION employer_search(techs varchar[], city_id int, cname varchar) RETURNS table (employer_id uuid, matched_tags varchar[])

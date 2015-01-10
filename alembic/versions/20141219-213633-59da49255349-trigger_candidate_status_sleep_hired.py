@@ -15,7 +15,7 @@ import sqlalchemy as sa
 
 
 def upgrade():
-    op.execute("DROP FUNCTION trg_update_candidate_status() cascade;")
+    op.execute("DROP FUNCTION IF EXISTS trg_update_candidate_status() cascade;")
     op.execute("""
         CREATE OR REPLACE FUNCTION trg_update_candidate_status()
             RETURNS trigger AS
