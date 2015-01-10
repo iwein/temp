@@ -91,7 +91,7 @@
           </div>
         </div>
 
-        <div class="form-group no-marg-btm">
+        <div class="form-group">
           <label class="col-sm-3">Invite code</label>
           <div class="col-sm-9">
             <input type="text"
@@ -100,15 +100,31 @@
                    ng-disabled="loading"
                    ng-model="model.invite_code">
           </div>
-
         </div>
+
+        <div class="form-group no-marg-btm">
+          <label class="col-sm-3"></label>
+          <div class="col-sm-9">
+            <label class="checkbox mrg-lft">
+              <input type="checkbox"
+                     required
+                     ng-disabled="loading"
+                     ng-model="model.agreedTos"
+                >
+              I have read and agree to the
+                <BR><a class="link" style="text-decoration: underline;" href="../terms-candidate.html" target="_blank">4Scotty terms of services.</a>
+            </label>
+          </div>
+        </div>
+
+
       </div>
 
 
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="submit"
-          class="fl-rg bg-green btn-small"
-          ng-disabled="loading || !formSignupUser.$valid">
+                class="fl-rg bg-green btn-small"
+                ng-disabled="loading || !formSignupUser.$valid">
           Continue
         </button>
       </div>

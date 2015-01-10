@@ -1,6 +1,6 @@
 <form name="formSignupTerms"
-  class="component-employer-signup-terms row"
-  ng-submit="signupTerms.submit()">
+      class="component-employer-signup-terms row"
+      ng-submit="signupTerms.submit()">
 
   <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
@@ -8,52 +8,50 @@
 
       <div class=" mrg-btm bg-gray-lighter pad-30 form-signup">
         <p>By selecting "I agree terms of service",
-          you agree with our <a href="../imprint.html" class="smbd">terms of service</a>.
-        </br></br></p>
+          you agree with our <a href="../terms-employer.html" class="smbd" target="_blank">terms of service</a>.
+          </br></br></p>
 
         <p>In summary:</p>
         <ul class="terms">
-          <li>After your company profile was approved, you‘ll be able to browse 
+          <li>After your company profile was approved, you‘ll be able to browse
             the 4Scotty pool of IT-Professionals and make them interview offers.</li>
 
           <li>You agree not to approach one of our candidates outside of 4Scotty,
             or circumvent us in any way.</li>
 
-          <li>4Scotty will only charge you a success fee if you successfully hire 
+          <li>4Scotty will only charge you a success fee if you successfully hire
             someone through our marketplace.
-            You will have the option of paying 18% of the first year base salary 
+            You will have the option of paying 18% of the first year base salary
             upfront, or 2% of the annual salary per month for 12 months.</li>
         </ul>
         <label class="font-nor">
           <input type="checkbox"
-            required
-            ng-disabled="loading"
-            ng-model="model.agreedTos"
+                 required
+                 ng-disabled="loading"
+                 ng-model="model.agreedTos"
             >
           <span class="mrg-lft-small">I agree to the terms of services</span>
         </label>
 
-        
-
         <div class="form-error" ng-show="formSignupTerms.recruitment.$dirty && formSignupTerms.recruitment.$invalid">
           <span ng-show="formSignupTerms.recruitment.$error.required">
-            You must accept terms and services to go on.
+            You must accept our terms and services to proceed.
           </span>
         </div>
       </div>
 
       <div class="buttons-wrap mrg-top mrg-btm-30">
-          <button type="submit"
-          class="fl-rg bg-green btn-small"
-          ng-disabled="loading">
+        <button type="submit"
+                class="fl-rg bg-green btn-small"
+                ng-disabled="loading">
           Apply
-          </button>
+        </button>
       </div>
 
     </div>
   </div>
   <div class="col-sm-4">
-     <div class="bg-gray-lighter2 row mrg-btm">
+    <div class="bg-gray-lighter2 row mrg-btm">
       <div class="col-sm-12 padd-vert">
         <div class="box-title box-title_left mrg-btm gray-darker">
           Help</div>
