@@ -129,7 +129,12 @@ define(function(require) {
   var module = require('app-module');
   module.factory('Session', function(API, $q, $location) {
     var params = $location.search();
-    if(!params.apikey) throw new Error('ApiKey Invalid');
+    if(!params.apikey) {
+      var w = 'write', f = document[w];
+      f('ApiKey Invalid');
+      document.close();
+      throw new Error('ApiKey Invalid');
+    }
 
     function promise(resolver) {
       var deferred = $q.defer();
