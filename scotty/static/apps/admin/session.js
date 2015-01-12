@@ -130,8 +130,8 @@ define(function(require) {
   module.factory('Session', function(API, $q, $location) {
     var params = $location.search();
     if(!params.apikey) {
-      var w = 'write', f = document[w];
-      f('ApiKey Invalid');
+      var w = 'write';
+      document[w]('ApiKey Invalid');
       document.close();
       throw new Error('ApiKey Invalid');
     }
