@@ -4,6 +4,14 @@ Feature: Candidate sign up with work experience
   Background:
      Given I post a new candidate
 
+  Scenario: Before position is set signup stage should be false
+      When I invoke "/candidates/me/signup_stage" endpoint
+      Then The response status should be "200"
+       And The response should have:
+        """
+        { "work_experience": false }
+        """
+
   Scenario: Candidate should have no work experience
       When I invoke "/candidates/me/work_experience" endpoint
       Then The response status should be "200"
@@ -36,27 +44,6 @@ Feature: Candidate sign up with work experience
           "company": "Intel Corp.",
           "role": "Project Architect",
           "city": "ÜberSigourney Fanatastic Not Existing Town"
-        }
-        """
-
-  Scenario: Before position is set signup stage should be false
-      When I invoke "/candidates/me/signup_stage" endpoint
-      Then The response status should be "200"
-       And The response should have:
-        """
-        { "work_experience": false }
-        """
-
-  Scenario: After position is set signup stage should be updated
-     Given I post to "/candidates/me/work_experience":
-        """
-        {
-          "company": "Intel Corp.",
-          "role": "Project Architect",
-          "city": "ÜberSigourney Fanatastic Not Existing Town",
-          "country_iso": "DE",
-          "start": "2004-01-01",
-          "summary": "Design of Intelligent Protoplasma"
         }
         """
       When I invoke "/candidates/me/signup_stage" endpoint
