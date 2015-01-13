@@ -10,12 +10,12 @@ stepDefinitions(function(scenario) {
 
     return this.storeRequest(AJAX.post('/employers/', {
       company_name: this.companyName,
-      company_type: "large",
-      contact_first_name: "44836650-076a-51b1-0d22-7ea9e0b2a4c2",
-      contact_last_name: "7a288f18-0227-c9ad-6626-76a1b67caa0f",
-      contact_salutation: "Ms",
+      company_type: 'large',
+      contact_first_name: '44836650-076a-51b1-0d22-7ea9e0b2a4c2',
+      contact_last_name: '7a288f18-0227-c9ad-6626-76a1b67caa0f',
+      contact_salutation: 'Ms',
       email: this.employerEmail,
-      pwd: "welcomepwd",
+      pwd: 'welcomepwd',
     }));
   }
 
