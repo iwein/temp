@@ -76,8 +76,10 @@ Feature: Candidate sign up & log in behavior
         }
         """
 
-
-#      But The response don't have something else
+  Scenario: Candidate is approved by admin
+      Given I post a new candidate
+       When Candidate is approved
+       Then The response status should be "200"
 
   # Disabled because there is no way to retrieve activation code from client
   # Scenario: Candidate activation

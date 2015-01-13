@@ -24,21 +24,18 @@ Feature: Candidate sign up with target position
       When I post to "/candidates/me/target_position":
         """
         {
-          "company_types": ["startup", "top500"],
-          "role": "Java Developer",
+          "role": "System Administration",
           "skills": ["Python", "PHP"],
-          "relocate": true,
-          "travel_willingness": ">50%",
-          "minimum_salary": 100000
+          "minimum_salary": 40000
         }
         """
       Then The response status should be "200"
        And The response should have:
         """
         {
-          "minimum_salary": 100000,
+          "role": "System Administration",
           "skills": [ "PHP", "Python" ],
-          "role": "Java Developer"
+          "minimum_salary": 40000
         }
         """
       When I invoke "/candidates/me/signup_stage" endpoint

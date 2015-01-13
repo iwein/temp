@@ -12,7 +12,11 @@ stepDefinitions(function(scenario) {
       'pwd': 'welcomepwd',
       'first_name': 'Bob',
       'last_name': 'Bayley',
-    }));
+    })).then(function(response) {
+      this.lastCandidateId = response.id;
+      console.log('Created candidate:', this.lastCandidateId);
+      return response;
+    }.bind(this));
   }
 
 
@@ -72,15 +76,12 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^I create a complete candidate$/, function() {
-    return createUser().then(function() {
+    return createUser.call(this).then(function() {
       return Promise.all([
         AJAX.post('/candidates/me/target_position', {
-          'company_types': ['startup', 'top500'],
-          'role': 'Java Developer',
+          'role': 'System Administration',
           'skills': ['Python', 'PHP'],
-          'relocate': true,
-          'travel_willingness': '>50%',
-          'minimum_salary': 100000
+          'minimum_salary': 40000
         }),
         AJAX.put('/candidates/me/preferred_locations', {
           'DE': ['Berlin','Leipzig','Hamburg'],
@@ -108,6 +109,7 @@ stepDefinitions(function(scenario) {
           'city': 'ÜberSigourney Fanatastic Not Existing Town',
           'country_iso': 'DE',
           'start': '2004-01-01',
+          'end': '2014-01-01',
           'summary': 'Design of Intelligent Protoplasma'
         }),
         AJAX.post('/candidates/me/picture', {

@@ -16,7 +16,11 @@ stepDefinitions(function(scenario) {
       contact_salutation: 'Ms',
       email: this.employerEmail,
       pwd: 'welcomepwd',
-    }));
+    })).then(function(response) {
+      this.lastEmployerId = response.id;
+      console.log('Created employer:', this.lastEmployerId);
+      return response;
+    }.bind(this));
   }
 
 
@@ -75,8 +79,8 @@ stepDefinitions(function(scenario) {
       'Expected email to be "' + this.employerEmail + '" but "' + this.lastResponse[key] + '" found');
   });
 
-  scenario.Given(/^I create a complete candidate$/, function() {
-    return createUser().then(function() {
+  scenario.Given(/^I create a complete employer$/, function() {
+    return createUser.call(this).then(function() {
       return AJAX.put('/employers/me', {
           'website': 'http://localhost/static/apps/employer/#/signup/basic/',
           'fb_url': 'http://localhost/static/apps/employer/#/signup/basic/',

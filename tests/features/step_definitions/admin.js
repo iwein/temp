@@ -26,4 +26,11 @@ stepDefinitions(function(scenario) {
       'Expected invite code to be "' + this.inviteCode + '" but "' + code + '" found');
   });
 
+  scenario.When(/^Candidate is approved$/, function() {
+    return this.storeRequest(AJAX.get('/admin/candidates/' + this.lastCandidateId + '/approve?' + apikey));
+  });
+
+  scenario.When(/^Employer is approved$/, function() {
+    return this.storeRequest(AJAX.get('/admin/employers/' + this.lastEmployerId + '/approve?' + apikey));
+  });
 });
