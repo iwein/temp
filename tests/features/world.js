@@ -1,5 +1,8 @@
-/*globals guid */
+/*globals guid, ES6Promise */
 'use strict';
+
+if (typeof Promise === 'undefined')
+  ES6Promise.polyfill();
 
 function World() { }
 
