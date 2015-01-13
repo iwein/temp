@@ -11,7 +11,7 @@
     'amazon_secret_key': 'xWdmpQ8bVSRyDkJ6BLD8i9EUnYWkt8CJ0QjREcD5',
     'amazon_access_key': 'AKIAI72PUNP77JJ4YMFA',
     'amazon_acl': 'public-read',
-    'api_url': 'http://scotty-prod.herokuapp.com/api/',
+    'api_url': 'http://scotty-prod-eu.herokuapp.com/api/',
     'support_email': 'service@4scotty.com',
     'ga_id': 'UA-22621022-14'
   };
