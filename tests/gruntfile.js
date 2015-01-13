@@ -2,12 +2,13 @@
 
 module.exports = function(grunt) {
   'use strict';
+  if (!process.env.APIKEY)
+    throw new Error('APIKEY env variable not provided');
+
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    files: {
-    },
 
     karma: {
       ci: {
@@ -48,15 +49,33 @@ module.exports = function(grunt) {
       all: [ 'features/**/*.js' ],
     },
 
+    'file-creator': {
+      vars: {
+        'test-vars.js': function(fs, fd, done) {
+          fs.writeSync(fd, 'var test_vars = { apikey: "' + process.env.APIKEY + '" };');
+          done();
+        }
+      }
+    },
+
+    clean: {
+      all: [ 'test-vars.js' ],
+    }
   });
 
   grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
   grunt.registerTask('lint', [ 'jshint:all' ]);
-  grunt.registerTask('watch', [ 'karma:watch' ]);
+  grunt.registerTask('watch', [
+    'file-creator:vars',
+    'karma:watch',
+    'clean:all',
+  ]);
 
   grunt.registerTask('ci', [
     'lint',
+    'file-creator:vars',
     'karma:ci',
+    'clean:all',
   ]);
 
   grunt.registerTask('default', [ 'ci' ]);

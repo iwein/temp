@@ -21,6 +21,7 @@ module.exports = function(config) {
 
 
     files: [
+      {pattern: 'test-vars.js', watched: false, included: true},
       {pattern: 'features/tools/es5-shim.min.js', watched: false, included: true},
       {pattern: 'features/tools/es6-promise-2.0.0.js', watched: false, included: true},
       {pattern: 'features/tools/**/*.js', watched: true, included: true},
