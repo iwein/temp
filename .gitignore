@@ -69,3 +69,4 @@ tests/test-results.xml
 scotty/static/apps/*.html
 scotty/static/apps/de/
 scotty/static/apps/sitemap.xml
+tests/test-vars.js
