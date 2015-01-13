@@ -2,7 +2,7 @@
 
 stepDefinitions(function(scenario) {
   'use strict';
-  var apikey = 'apikey=6b23dd93c33e4100ce9332eff5df6e7b01e5a289681cdff';
+  var apikey = 'apikey=870374506b23dd93c33e4100ce9332eff5df6e7b01e5a289681cdff';
 
 
   scenario.Given(/^I create an invitation code$/, function() {
