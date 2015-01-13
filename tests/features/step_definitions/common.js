@@ -26,6 +26,7 @@ stepDefinitions(function(scenario) {
   scenario.When(/^I invoke "([^"]*)" endpoint$/, getEndpoint);
   scenario.When(/^I get "([^"]*)"$/, getEndpoint);
   function getEndpoint(endpoint) {
+    /*jshint validthis:true */
     return this.storeRequest(AJAX.get(endpoint));
   }
 

@@ -10,12 +10,12 @@ stepDefinitions(function(scenario) {
 
     return this.storeRequest(AJAX.post('/employers/', {
       company_name: this.companyName,
-      company_type: "large",
-      contact_first_name: "44836650-076a-51b1-0d22-7ea9e0b2a4c2",
-      contact_last_name: "7a288f18-0227-c9ad-6626-76a1b67caa0f",
-      contact_salutation: "Ms",
+      company_type: 'large',
+      contact_first_name: '44836650-076a-51b1-0d22-7ea9e0b2a4c2',
+      contact_last_name: '7a288f18-0227-c9ad-6626-76a1b67caa0f',
+      contact_salutation: 'Ms',
       email: this.employerEmail,
-      pwd: "welcomepwd",
+      pwd: 'welcomepwd',
     }));
   }
 
@@ -78,20 +78,20 @@ stepDefinitions(function(scenario) {
   scenario.Given(/^I create a complete candidate$/, function() {
     return createUser().then(function() {
       return AJAX.put('/employers/me', {
-          "website": "http://localhost/static/apps/employer/#/signup/basic/",
-          "fb_url": "http://localhost/static/apps/employer/#/signup/basic/",
-          "linkedin_url": "http://localhost/static/apps/employer/#/signup/basic/",
-          "logo_url": "https://s3-eu-west-1.amazonaws.com/scotty-dev/logo/21064839-3bce-4a37-9124-6c2644e9af95"
-          "funding_year": 1931,
-          "no_of_employees": 2008,
-          "revenue_pa": 43420,
-          "mission_text": "336b6c2d-8663-7eac-d8a4-b57570bc0dd4"
-          "tech_tags": ["asdf", "Python"],
-          "tech_team_philosophy": "338b32a1-e460-367d-900a-68fb8c441f09",
-          "tech_team_size": 2003
+          'website': 'http://localhost/static/apps/employer/#/signup/basic/',
+          'fb_url': 'http://localhost/static/apps/employer/#/signup/basic/',
+          'linkedin_url': 'http://localhost/static/apps/employer/#/signup/basic/',
+          'logo_url': 'https://s3-eu-west-1.amazonaws.com/scotty-dev/logo/21064839-3bce-4a37-9124-6c2644e9af95',
+          'funding_year': 1931,
+          'no_of_employees': 2008,
+          'revenue_pa': 43420,
+          'mission_text': '336b6c2d-8663-7eac-d8a4-b57570bc0dd4',
+          'tech_tags': ['asdf', 'Python'],
+          'tech_team_philosophy': '338b32a1-e460-367d-900a-68fb8c441f09',
+          'tech_team_size': 2003
       });
     }).then(function() {
-      return AJAX.put('/employers/me/apply', { "agreedTos":true });
+      return AJAX.put('/employers/me/apply', { 'agreedTos':true });
     });
   });
 });
