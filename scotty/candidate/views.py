@@ -244,7 +244,7 @@ class CandidateViewController(CandidateController):
         if salary or role:
             query = query.join(TargetPosition)
             if salary:
-                query = query.filter(TargetPosition.minimum_salary < salary)
+                query = query.filter(TargetPosition.minimum_salary <= salary)
             if role:
                 role = get_by_name_or_raise(Role, role)
                 query = query.filter(TargetPosition.role_id == role.id)
