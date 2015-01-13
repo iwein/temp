@@ -223,9 +223,13 @@ class CandidateViewController(CandidateController):
         salary = params.get('salary')
         status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
 
-        query = DBSession.query(Candidate.id).filter(Candidate.status == status) \
-            .outerjoin(V_CANDIDATE_CURRENT_EMPLOYERS, V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == Candidate.id) \
-            .filter(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == None)
+        query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+
+        if self.request.employer_id:
+            query = query.outerjoin(V_CANDIDATE_CURRENT_EMPLOYERS,
+                                    and_(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == Candidate.id,
+                                    V_CANDIDATE_CURRENT_EMPLOYERS.c.employer_id == self.request.employer_id)) \
+                .filter(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == None)
 
         if locations:
             query = query.join(PreferredLocation)
@@ -379,10 +383,10 @@ class CandidateBookmarkController(CandidateController):
         DBSession.flush()
 
         self.request.emailer.send_employer_offer_requested(employer.email,
-                                                              employer.contact_name,
-                                                              employer.company_name,
-                                                              candidate_name=self.candidate.full_name,
-                                                              candidate_id=self.candidate.id)
+                                                           employer.contact_name,
+                                                           employer.company_name,
+                                                           candidate_name=self.candidate.full_name,
+                                                           candidate_id=self.candidate.id)
         return self.candidate.bookmarked_employers
 
     @view_config(route_name='candidate_bookmark', **DELETE)
