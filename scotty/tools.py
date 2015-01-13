@@ -1,3 +1,5 @@
+import os
+
 
 def split_strip(value, char=','):
     """
@@ -38,3 +40,10 @@ def ensure_list(l, path=None):
         # place of lists or dictionaries
         return []
     return l if isinstance(l, list) else [l]
+
+
+def resolve_env_value(settings, key):
+    value = settings[key]
+    if value.startswith('__env__'):
+        name, env_key = value.split(':', 1)
+        settings[key] = os.environ[env_key.strip()]

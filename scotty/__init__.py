@@ -8,6 +8,7 @@ from pyramid.config import Configurator
 from pyramid.renderers import JSON
 from pyramid_beaker import session_factory_from_settings
 import pyramid_mako
+from scotty.tools import resolve_env_value
 from sqlalchemy.ext.associationproxy import _AssociationList
 from sqlalchemy.util import KeyedTuple
 from scotty.auth.provider import AuthProvider, RootResource, get_candidate_id, get_employer_id
@@ -81,17 +82,9 @@ class CORS(object):
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-
     # respect Heroku Environment VAR
-    url = settings['sqlalchemy.url']
-    if url.startswith('__env__'):
-        name, value = url.split(':', 1)
-        settings['sqlalchemy.url'] = os.environ[value.strip()]
-
-    frontend = settings['frontend.domain']
-    if frontend.startswith('__env__'):
-        name, value = frontend.split(':', 1)
-        settings['frontend.domain'] = os.environ[value.strip()]
+    resolve_env_value(settings, 'sqlalchemy.url')
+    resolve_env_value(settings, 'frontend.domain')
 
     engine = engine_from_config(settings, 'sqlalchemy.')
     log.info("DB Connected at: %s" % settings['sqlalchemy.url'])
