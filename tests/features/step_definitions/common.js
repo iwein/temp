@@ -23,9 +23,11 @@ stepDefinitions(function(scenario) {
     return this.storeRequest(AJAX[method](url, this.json(json)));
   });
 
-  scenario.When(/^I invoke "([^"]*)" endpoint$/, function(endpoint) {
+  scenario.When(/^I invoke "([^"]*)" endpoint$/, getEndpoint);
+  scenario.When(/^I get "([^"]*)"$/, getEndpoint);
+  function getEndpoint(endpoint) {
     return this.storeRequest(AJAX.get(endpoint));
-  });
+  }
 
   scenario.Then(/^The response status should be "([^"]*)"$/, function(status) {
     status = +status;
