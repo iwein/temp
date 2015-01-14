@@ -85,6 +85,8 @@ def main(global_config, **settings):
     # respect Heroku Environment VAR
     resolve_env_value(settings, 'sqlalchemy.url')
     resolve_env_value(settings, 'frontend.domain')
+    resolve_env_value(settings, 'mandrill.sender', '')
+    resolve_env_value(settings, 'admin.emails')
 
     engine = engine_from_config(settings, 'sqlalchemy.')
     log.info("DB Connected at: %s" % settings['sqlalchemy.url'])
