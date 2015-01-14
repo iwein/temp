@@ -93,16 +93,18 @@ class MandrillEmailer(object):
     # REFERER
 
     @register_template('candidate-invite')
-    def send_friend_referral(self, template, sndr_email, sndr_name, rcvr_email, rcvr_name):
-        return self.send_email_to_candidate(template, [],
-                                            {'to': [{'email': rcvr_email, 'name': rcvr_name}] +
-                                                   [{'email': email, 'name': 'Admin', 'type': 'bcc'}
-                                                    for email in self.admin_emails],
-                                             'global_merge_vars': [
-                                                 {'content': sndr_email, 'name': 'sndr_email'},
-                                                 {'content': sndr_name, 'name': 'sndr_name'},
-                                                 {'content': rcvr_email, 'name': 'rcvr_email'},
-                                                 {'content': rcvr_name, 'name': 'rcvr_name'}]})
+    def send_friend_referral(self, template, sndr_email, sndr_name, rcvr_email, rcvr_name, message):
+        return self.send_email_to_candidate(template, [], {
+            'from_email':sndr_email, 'from_name':sndr_name,
+            'to': [{'email': rcvr_email, 'name': rcvr_name}] +
+                  [{'email': email, 'name': 'Admin', 'type': 'bcc'}
+                   for email in self.admin_emails],
+            'global_merge_vars': [
+                {'content': sndr_email, 'name': 'sndr_email'},
+                {'content': sndr_name, 'name': 'sndr_name'},
+                {'content': rcvr_email, 'name': 'rcvr_email'},
+                {'content': rcvr_name, 'name': 'rcvr_name'},
+                {'content': message, 'name': 'message'}]})
 
     # ========================== CANDIDATE ==========================
     def send_email_to_candidate(self, template, content, message):

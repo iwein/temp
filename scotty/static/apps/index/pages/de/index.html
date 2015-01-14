@@ -7,10 +7,15 @@ lang: de
 ---
 
 
-
 <div class="alert-container">
-  <div id="automessage-referred" class="alert alert-success not-visible">
+  <div id="message-referred" class="alert alert-success not-visible">
     Ihre Empfehlung wurde versandt!
+  </div>
+  <div id="message-not-referred-too-early" class="alert alert-danger not-visible">
+    Sie haben innerhalb der letzten 24 Stunden bereits eine Einladung an diese Adresse versandt.
+  </div>
+  <div id="message-not-referred-too-many" class="alert alert-danger not-visible">
+    Sie haben innerhalb der letzten 24 Stunden zuviele Einladungen verschickt. Bitte versuchen Sie es morgen wieder.
   </div>
 </div>
 
@@ -155,12 +160,7 @@ lang: de
     </p>
     <div class="form-wrap-static form-wrap-static-home">
       <form id="recommend-form" method="POST">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Dein Name</label>
-            <input type="text" name="sndr_name" required class="form-control"/>
-          </div>
-        </div>
+
         <div class="col-sm-6">
           <div class="form-group">
             <label>Name des Freundes(-in)</label>
@@ -169,24 +169,55 @@ lang: de
         </div>
         <div class="col-sm-6">
           <div class="form-group">
-            <label>Deine Email</label>
-            <input type="email" NAME="sndr_email" required class="form-control"/>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
             <label >E-Mail Adresse des Freundes(-in)</label>
             <input type="email" name="rcvr_email" required class="form-control"/>
           </div>
         </div>
+
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Dein Name</label>
+            <input type="text" name="sndr_name" required class="form-control"/>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Deine Email</label>
+            <input type="email" NAME="sndr_email" required class="form-control"/>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="message">Your personal message</label>
+            <textarea class="form-control" name="message" id="message" rows="4">Hey, ich denke 4Scotty könnte Dir gefallen.
+4Scotty hat die besten Arbeitgeber und sie teilen sogar ihre Kommission mit Dir. Schau es dir einfach mal an!</textarea>
+          </div>
+        </div>
         <div class="clearfix"></div>
-        <button>Empfehlen</button>
+        <button type="submit">Empfehlen</button>
       </form>
       <script type="text/javascript">
         (function() {
           'use strict';
+          var url = app.api_url + 'v1/refer';
           var $form = document.getElementById('recommend-form');
-          $form.action = app.api_url + 'v1/refer';
+          function success(xhr){
+            var resp = JSON.parse(xhr.responseText);
+            app.display(document.getElementById('message-'+resp.message));
+            if(resp.success){
+              var i, inputs = $form.querySelectorAll('input,textarea');
+              for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
+            }
+            $('.alert-container').affix({offset: {top: 100}});
+          }
+          $form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var data = {}, i, inputs = $form.querySelectorAll('input,textarea');
+            for (i = 0; i < inputs.length; ++i) {var elem = inputs[i];data[elem.name] = elem.value;}
+            app.POST(url, data, success);
+          });
         })();
       </script>
     </div>
