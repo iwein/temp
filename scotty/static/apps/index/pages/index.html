@@ -202,6 +202,7 @@ They got the perfect companies looking for top talent and they will even give yo
             if(resp.success){
               var i, inputs = $form.querySelectorAll('input.form-emptiable');
               for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
+              $form.querySelectorAll('input.form-emptiable')[0].focus();
             }
             $('.alert-container').affix({offset: {top: 100}});
           }

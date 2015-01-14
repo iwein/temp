@@ -198,6 +198,7 @@ lang: de
         <div class="clearfix"></div>
         <button type="submit">Empfehlen</button>
       </form>
+
       <script type="text/javascript">
         (function() {
           'use strict';
@@ -209,6 +210,7 @@ lang: de
             if(resp.success){
               var i, inputs = $form.querySelectorAll('input.form-emptiable');
               for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
+              $form.querySelectorAll('input.form-emptiable')[0].focus();
             }
             $('.alert-container').affix({offset: {top: 100}});
           }
