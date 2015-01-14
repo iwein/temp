@@ -11,13 +11,19 @@ Feature: Candidate sign up & log in behavior
   Scenario: Candidate simplest signup
       When I post a new candidate
       Then The response status should be "200"
-       And The response should have candidate's email on "email" field
+       And The response should have:
+        """
+        { "email": { "$value": "candidate_email" } }
+        """
 
   Scenario: Candidate 'me' endpoint after signup
      Given I post a new candidate
       When I invoke "/candidates/me" endpoint
       Then The response status should be "200"
-       And The response should have candidate's email on "email" field
+       And The response should have:
+        """
+        { "email": { "$value": "candidate_email" } }
+        """
 
   Scenario: Candidate logout
      Given I post a new candidate
@@ -41,7 +47,10 @@ Feature: Candidate sign up & log in behavior
       When Candiate logs in
        And I invoke "/candidates/me" endpoint
       Then The response status should be "200"
-       And The response should have candidate's email on "email" field
+       And The response should have:
+        """
+        { "email": { "$value": "candidate_email" } }
+        """
 
   Scenario: Candidate set extra parameters
      Given I post a new candidate

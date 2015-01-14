@@ -16,7 +16,8 @@ stepDefinitions(function(scenario) {
 
   scenario.Then(/^The response should have:$/, function(json) {
     assert(this.equal(this.lastResponse, this.json(json)),
-      'Expected "' + JSON.stringify(this.lastResponse) + '" to be "' + json + '"');
+      'Expected "' + JSON.stringify(this.lastResponse) + '" to be "' + json +
+      '"\nVars:' + JSON.stringify(this.vars));
   });
 
   scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, json) {
@@ -36,27 +37,6 @@ stepDefinitions(function(scenario) {
       this.lastRequest.status === status,
       'Expected status "' + status + '" but "' + this.lastRequest.status + '" found'
     );
-  });
-
-  scenario.Then(/^The response should be a list$/, function() {
-    var list = this.lastResponse.data || this.lastResponse;
-    var toString = Object.prototype.toString.call(list);
-    assert(toString === '[object Array]', 'Expected list but "' + toString + '" found.');
-  });
-
-  scenario.Then(/^Each item should have fields:$/, function(table) {
-    var list = this.lastResponse.data || this.lastResponse;
-
-    this.forEach(list, function(object, index) {
-      this.forEach(table, function(entry) {
-        var key = entry[0];
-        var type = entry[1];
-        var typeOf = typeof object[key];
-        assert(typeOf === type,
-          'At [' + index + '] expected "' + key + '" to be "' + type + '" but "' + typeOf + '" found');
-        assert(object[key], 'At [' + index + '] "' + key + '" is falsy');
-      });
-    }, this);
   });
 
   scenario.Then(/^The response should be:$/, function(json) {

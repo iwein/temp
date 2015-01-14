@@ -15,7 +15,10 @@ Feature: Employer sign up & log in behavior
      Given I post a new employer
       When I invoke "/employers/me" endpoint
       Then The response status should be "200"
-       And The response should have employer's email on "email" field
+       And The response should have:
+        """
+        { "email": { "$value": "employer_email" } }
+        """
 
   Scenario: Employer logout
      Given I post a new employer
@@ -39,4 +42,7 @@ Feature: Employer sign up & log in behavior
       When Employer logs in
        And I invoke "/employers/me" endpoint
       Then The response status should be "200"
-       And The response should have employer's email on "email" field
+       And The response should have:
+        """
+        { "email": { "$value": "employer_email" } }
+        """
