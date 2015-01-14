@@ -164,13 +164,13 @@ lang: de
         <div class="col-sm-6">
           <div class="form-group">
             <label>Name des Freundes(-in)</label>
-            <input type="text" name="rcvr_name" required class="form-control"/>
+            <input type="text" name="rcvr_name" required class="form-control form-emptiable"/>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             <label >E-Mail Adresse des Freundes(-in)</label>
-            <input type="email" name="rcvr_email" required class="form-control"/>
+            <input type="email" name="rcvr_email" required class="form-control form-emptiable"/>
           </div>
         </div>
 
@@ -207,7 +207,7 @@ lang: de
             var resp = JSON.parse(xhr.responseText);
             app.display(document.getElementById('message-'+resp.message));
             if(resp.success){
-              var i, inputs = $form.querySelectorAll('input');
+              var i, inputs = $form.querySelectorAll('input.form-emptiable');
               for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
             }
             $('.alert-container').affix({offset: {top: 100}});

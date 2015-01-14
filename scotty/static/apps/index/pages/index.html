@@ -157,13 +157,13 @@ lang: en
         <div class="col-sm-6">
           <div class="form-group">
             <label>Your friend's name</label>
-            <input type="text" name="rcvr_name" required class="form-control"/>
+            <input type="text" name="rcvr_name" required class="form-control form-emptiable"/>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             <label >Your friend's email</label>
-            <input type="email" name="rcvr_email" required class="form-control"/>
+            <input type="email" name="rcvr_email" required class="form-control form-emptiable"/>
           </div>
         </div>
 
@@ -200,7 +200,7 @@ They got the perfect companies looking for top talent and they will even give yo
             var resp = JSON.parse(xhr.responseText);
             app.display(document.getElementById('message-'+resp.message));
             if(resp.success){
-              var i, inputs = $form.querySelectorAll('input');
+              var i, inputs = $form.querySelectorAll('input.form-emptiable');
               for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
             }
             $('.alert-container').affix({offset: {top: 100}});
