@@ -207,7 +207,7 @@ lang: de
             var resp = JSON.parse(xhr.responseText);
             app.display(document.getElementById('message-'+resp.message));
             if(resp.success){
-              var i, inputs = $form.querySelectorAll('input,textarea');
+              var i, inputs = $form.querySelectorAll('input');
               for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
             }
             $('.alert-container').affix({offset: {top: 100}});
