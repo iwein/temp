@@ -20,7 +20,16 @@ define(function(require) {
       this.user = new Candidate(this._api, 'me', response);
       this.isActivated = response.is_activated;
       this.isApproved = response.is_approved;
-      document.title = '4Scotty – ' + response.first_name + ' ' + response.last_name;
+      var fullName = response.first_name + ' ' + response.last_name;
+      document.title = '4Scotty – ' + fullName;
+      if(window.UserVoice !== null){
+        window.UserVoice.push(['identify', {
+          email: response.email,
+          name: fullName,
+          id: response.id,
+          type: 'candidate'
+        }]);
+      }
       return this.user;
     },
 

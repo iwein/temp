@@ -21,6 +21,14 @@ define(function(require) {
       this.isApproved= response.is_approved;
       this.isActivated = true;
       document.title = '4Scotty – ' + response.company_name;
+      if(window.UserVoice !== null){
+        window.UserVoice.push(['identify', {
+          email: response.email,
+          name: response.company_name,
+          id: response.id,
+          type: 'employer'
+        }]);
+      }
       return this.user;
     },
 
