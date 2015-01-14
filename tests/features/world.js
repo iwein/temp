@@ -4,29 +4,48 @@
 if (typeof Promise === 'undefined')
   ES6Promise.polyfill();
 
-function World() { }
+function World() {
+  this.vars = {};
+}
 
 (function() {
+  var toString = Function.prototype.call.bind(Object.prototype.toString);
+  var privateKey = /^\$/;
 
   function isArray(value) {
-    return Object.prototype.toString.call(value) === '[object Array]';
+    return toString(value) === '[object Array]';
   }
 
   function isObject(value) {
-    return Object.prototype.toString.call(value) === '[object Object]';
+    return toString(value) === '[object Object]';
   }
 
-  function equal(object, expected) {
+  function equal(vars, object, expected, negated) {
+    if (expected) {
+      if (expected.$not && !negated)
+        return !equal(vars, object, expected, true);
+      else if (expected.$exist)
+        return object !== undefined;
+      else if (expected.$value) {
+        if (!(expected.$value in vars))
+          throw new Error('Undefined test variable: ' + expected.$value);
+        expected = vars[expected.$value];
+      }
+    }
+
     if (isArray(expected)) {
       if (!isArray(object)) return false;
-      return expected.every(function(item, index) {
-        return equal(object[index], item);
+      return expected.every(function(item) {
+        return object.some(function(target) {
+          return equal(vars, target, item);
+        });
       });
 
     } else if (isObject(expected)) {
       if (!isObject(object)) return false;
       return Object.keys(expected).every(function(key) {
-        return equal(object[key], expected[key]);
+        if (privateKey.test(key)) return;
+        return equal(vars, object[key], expected[key]);
       });
 
     } else {
@@ -39,7 +58,9 @@ function World() { }
     guid: guid,
     isArray: isArray,
     isObject: isObject,
-    equal: equal,
+    equal: function(object, expected) {
+      return equal(this.vars, object, expected);
+    },
 
     generateEmail: function() {
       return 'catch+candidate-' + this.guid() + '@hackandcraft.com';

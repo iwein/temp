@@ -1,20 +1,20 @@
-/* globals stepDefinitions, assert, AJAX */
+/* globals stepDefinitions, AJAX */
 
 stepDefinitions(function(scenario) {
   /*jshint validthis:true */
   'use strict';
 
   function createUser() {
-    this.candidateEmail = this.generateEmail();
+    this.vars.candidate_email = this.generateEmail();
 
     return this.storeRequest(AJAX.post('/candidates/', {
-      'email': this.candidateEmail,
+      'email': this.vars.candidate_email,
       'pwd': 'welcomepwd',
       'first_name': 'Bob',
       'last_name': 'Bayley',
     })).then(function(response) {
-      this.lastCandidateId = response.id;
-      console.log('Created candidate:', this.lastCandidateId);
+      this.vars.candidate_id = response.id;
+      console.log('Created candidate:', this.vars.candidate_id);
       return response;
     }.bind(this));
   }
@@ -30,7 +30,7 @@ stepDefinitions(function(scenario) {
 
   scenario.Given(/^Candiate logs in$/, function() {
     return this.storeRequest(AJAX.post('/login', {
-      'email': this.candidateEmail,
+      'email': this.vars.candidate_email,
       'pwd': 'welcomepwd',
     }));
   });
@@ -42,11 +42,11 @@ stepDefinitions(function(scenario) {
   scenario.When(/^I post a new candidate$/, createUser);
 
   scenario.Given(/^I post a new candidate with invitation code$/, function() {
-    this.candidateEmail = this.generateEmail();
+    this.vars.candidate_email = this.generateEmail();
 
     return this.storeRequest(AJAX.post('/candidates/', {
-      'invite_code': this.inviteCode,
-      'email': this.candidateEmail,
+      'invite_code': this.vars.invite_code,
+      'email': this.vars.candidate_email,
       'pwd': 'welcomepwd',
       'first_name': 'Bob',
       'last_name': 'Bayley',
@@ -55,24 +55,18 @@ stepDefinitions(function(scenario) {
 
   scenario.When(/^Candidate request a password reset$/, function() {
     return this.storeRequest(AJAX.post('/candidates/requestpassword', {
-      email: this.candidateEmail,
+      email: this.vars.candidate_email,
     })).then(function(response) {
-      this.passwordToken = response.token;
+      this.vars.password_token = response.token;
     }.bind(this));
   });
 
   scenario.When(/^Candidate validates password token$/, function() {
-    return this.storeRequest(AJAX.get('/candidates/resetpassword/' + this.passwordToken));
+    return this.storeRequest(AJAX.get('/candidates/resetpassword/' + this.vars.password_token));
   });
 
   scenario.When(/^Candidate resets password to "([^"]*)"$/, function(password) {
-    return this.storeRequest(AJAX.post('/candidates/resetpassword/' + this.passwordToken, { pwd: password }));
-  });
-
-  scenario.Then(/^The response should have candidate's email on "([^"]*)" field$/, function(key) {
-    assert(key in this.lastResponse, 'Field "' + key + '" not found in response: ' + JSON.stringify(this.lastResponse));
-    assert(this.lastResponse[key] === this.candidateEmail,
-      'Expected email to be "' + this.candidateEmail + '" but "' + this.lastResponse[key] + '" found');
+    return this.storeRequest(AJAX.post('/candidates/resetpassword/' + this.vars.password_token, { pwd: password }));
   });
 
   scenario.Given(/^I create a complete candidate$/, function() {
