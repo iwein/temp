@@ -7,9 +7,20 @@ lang: en
 ---
 
 
-<div class="alert-container">
-  <div id="automessage-referred" class="alert alert-success not-visible">
-    Ihre Empfehlung wurde versandt!
+<div class="alert-container" data-spy="affix" data-offset-top="60">
+  <div id="message-referred" class="alert alert-success not-visible">
+    Your recommendation has been sent.
+  </div>
+
+
+
+  ssh thefc.cloudapp.net
+
+  <div id="message-not-referred-too-early" class="alert alert-danger not-visible">
+    You have already sent a recommendation to this email address within the last 24 hours. Please try again later.
+  </div>
+  <div id="message-not-referred-too-many" class="alert alert-danger not-visible">
+    You have sent too many recommendations within the last 24 hours. Please try again later.
   </div>
 </div>
 
@@ -147,6 +158,20 @@ lang: en
     </p>
     <div class="form-wrap-static form-wrap-static-home">
       <form id="recommend-form" method="POST">
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Your friend's name</label>
+            <input type="text" name="rcvr_name" required class="form-control form-emptiable"/>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label >Your friend's email</label>
+            <input type="email" name="rcvr_email" required class="form-control form-emptiable"/>
+          </div>
+        </div>
+
         <div class="col-sm-6">
           <div class="form-group">
             <label>Your Name</label>
@@ -155,30 +180,42 @@ lang: en
         </div>
         <div class="col-sm-6">
           <div class="form-group">
-            <label>Your friend's name</label>
-            <input type="text" name="rcvr_name" required class="form-control"/>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
             <label>Your Email</label>
             <input type="email" NAME="sndr_email" required class="form-control"/>
           </div>
         </div>
-        <div class="col-sm-6">
+
+        <div class="col-sm-12">
           <div class="form-group">
-            <label >Your friend's email</label>
-            <input type="email" name="rcvr_email" required class="form-control"/>
+            <label for="message">Your personal message</label>
+            <textarea class="form-control" name="message" id="message" rows="4">Hey, ever heard of 4Scotty? They promise the best fitting IT-Job for you and even provide free coaching to you. Then they turn the tables by letting top companies send you personalized job offers, which you can accept or reject. They even share their commission with you. Just have a look. Here you can easily find out, how you could improve yourself professionally.</textarea>
           </div>
         </div>
         <div class="clearfix"></div>
-        <button>Refer a friend</button>
+        <button type="submit">Refer a friend</button>
       </form>
+
       <script type="text/javascript">
         (function() {
           'use strict';
+          var url = app.api_url + 'v1/refer';
           var $form = document.getElementById('recommend-form');
-          $form.action = app.api_url + 'v1/refer';
+          function success(xhr){
+            var resp = JSON.parse(xhr.responseText);
+            app.display(document.getElementById('message-'+resp.message));
+            if(resp.success){
+              var i, inputs = $form.querySelectorAll('input.form-emptiable');
+              for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
+              $form.querySelectorAll('input.form-emptiable')[0].focus();
+            }
+            $('.alert-container').affix({offset: {top: 100}});
+          }
+          $form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var data = {}, i, inputs = $form.querySelectorAll('input,textarea');
+            for (i = 0; i < inputs.length; ++i) {var elem = inputs[i];data[elem.name] = elem.value;}
+            app.POST(url, data, success);
+          });
         })();
       </script>
     </div>

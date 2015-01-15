@@ -1,10 +1,13 @@
 import json
+from datetime import timedelta, datetime
 
 from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
 from pyramid.response import Response
+from scotty import DBSession
+from scotty.models import Referral
 from scotty.views.common import POST
 from sqlalchemy.exc import DBAPIError
 
@@ -37,17 +40,43 @@ def home(request):
     return {}
 
 
-@view_config(route_name='refer', permission=NO_PERMISSION_REQUIRED, request_method="POST")
+@view_config(route_name='refer', permission=NO_PERMISSION_REQUIRED, **POST)
 def recommend(request):
-    sndr_email = request.params.get('sndr_email')
-    sndr_name = request.params.get('sndr_name')
-    rcvr_email = request.params.get('rcvr_email')
-    rcvr_name = request.params.get('rcvr_name')
-    if not (sndr_name and sndr_email and rcvr_name and rcvr_email) or sndr_email == rcvr_email:
-        HTTPFound(location=request.referer or '/')
+    sndr_email = request.json.get('sndr_email')
+    sndr_name = request.json.get('sndr_name')
+    rcvr_email = request.json.get('rcvr_email')
+    rcvr_name = request.json.get('rcvr_name')
+    message = request.json.get('message')
+    if not (sndr_name and sndr_email and rcvr_name and rcvr_email and message):
+        return {'success': False, 'message': 'Missing Info'}
     else:
-        request.emailer.send_friend_referral(sndr_email, sndr_name, rcvr_email, rcvr_name)
-    raise HTTPFound(location=(request.referer or '/') + '#referred')
+        sndr_email = sndr_email.lower()
+        rcvr_email = rcvr_email.lower()
+
+        spam_cutoff = datetime.now() - timedelta(1)
+
+        def send_email():
+            request.emailer.send_friend_referral(sndr_email, sndr_name, rcvr_email, rcvr_name, message)
+
+        referral = DBSession.query(Referral).filter(Referral.rcvr_email == rcvr_email,
+                                                    Referral.sndr_email == sndr_email).first()
+
+        if referral:
+            if referral.last_sent > spam_cutoff:
+                return {'success': False, 'message': 'not-referred-too-early'}
+            referral.last_sent = datetime.now()
+            referral.sent_count += 1
+            send_email()
+        else:
+            spam_count = DBSession.query(Referral).filter(Referral.last_sent > spam_cutoff,
+                                                          Referral.sndr_email == sndr_email).count()
+            if spam_count > 25:
+                return {'success': False, 'message': 'not-referred-too-many'}
+            send_email()
+            referral = Referral(sndr_email=sndr_email, sndr_name=sndr_name,
+                                rcvr_email=rcvr_email, rcvr_name=rcvr_name)
+            DBSession.add(referral)
+    return {'success': True, 'message': 'referred'}
 
 @view_config(route_name='contact', permission=NO_PERMISSION_REQUIRED, request_method="POST")
 def contact(request):

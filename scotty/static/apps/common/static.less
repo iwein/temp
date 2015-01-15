@@ -1,3 +1,21 @@
+@static-font-size-base: 16px;
+@static-text-color: @text-color;
+
+.static-page {
+  font-size: @static-font-size-base;
+  color: @static-text-color;
+  .alert-container {
+    position: absolute;
+    top: @navbar-height;
+    width:100%;
+    &.affix {
+      position: fixed;
+      top:0;
+      z-index:100;
+    }
+  }
+}
+
 .navbar-home {
   /* Fallback for web browsers that doesn't support RGBa */
   background: rgb(255, 255, 255) transparent;
@@ -46,8 +64,8 @@
   }
   span {
     font-size: 20px;
-    border-top: 1px solid @text-color;
-    color:@text-color;
+    border-top: 1px solid @static-text-color;
+    color:@static-text-color;
     display: inline-block;
     margin-top: 8px;
     padding-top: 12px;
@@ -65,7 +83,7 @@
   max-width: 450px;
   margin-bottom: 120px;
   label {
-    font-size: 16px;
+    font-size: @static-font-size-base + 2px;
     font-family: @font-family-sans-serif-mid;
     color: @gray-darker;
     text-transform: uppercase;
@@ -174,7 +192,7 @@
   h3{
     color: @orange;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: @static-font-size-base + 2px;
     margin-bottom: 20px;
     font-family: @font-family-headings;
     font-weight: bold
@@ -203,7 +221,7 @@
   h5{
     color: @orange;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: @static-font-size-base;
     margin-bottom: 10px;
     font-family: @font-family-headings;
     font-weight: bold;
@@ -306,7 +324,7 @@
     padding-bottom: 10px
   }
   label {
-    font-size: 14px;
+    font-size: @static-font-size-base;
     color: @blue;
     line-height: 32px;
     text-transform: uppercase;
@@ -324,7 +342,7 @@
   button {
     background: @green;
     color: @white;
-    font-size: 16px;
+    font-size: @static-font-size-base;
     text-transform: uppercase;
     text-align: center;
     height: 35px;
@@ -379,12 +397,12 @@
     width: 180px;
     display: block;
     margin: 0 auto 10px auto;
-    color: @text-color;
+    color: @static-text-color;
   }
   button {
     background: @green;
     color: @white;
-    font-size: 16px;
+    font-size: @static-font-size-base;
     text-transform: uppercase;
     text-align: center;
     height: 35px;
@@ -438,7 +456,7 @@ img.grayscale:hover{
   h4 {
     color: @blue;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: @static-font-size-base + 2px;
     font-family: @font-family-headings;
     font-weight: bold
   }
@@ -458,7 +476,7 @@ img.grayscale:hover{
 
 .performance {
   text-align: center;
-  h4 {
+  h2 {
     text-align: center;
     font-size: 25px;
     color: @blue;
@@ -466,14 +484,14 @@ img.grayscale:hover{
     padding: 40px 0;
     margin: 0;
   }
-  h5 {
+  h1 {
     font-size: 60px;
     color: @orange;
     font-family: @font-family-sans-serif-mid;
   }
-  h6 {
+  h3 {
     color: @blue;
-    font-size: 14px;
+    font-size: @static-font-size-base + 2px;
     text-transform: uppercase;
     padding: 10px 0 10px 0;
   }
@@ -498,7 +516,7 @@ img.grayscale:hover{
   .panel-default > .panel-heading {
     border: 0px solid transparent;
     border-radius: 0;
-    color: @text-color;
+    color: @static-text-color;
     background-color: #ddd;
   }
   .panel-default > .panel-heading + .panel-collapse > .panel-body {

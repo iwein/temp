@@ -1,4 +1,5 @@
 import os
+from pyramid.exceptions import ConfigurationError
 
 
 def split_strip(value, char=','):
@@ -42,8 +43,15 @@ def ensure_list(l, path=None):
     return l if isinstance(l, list) else [l]
 
 
-def resolve_env_value(settings, key):
+def resolve_env_value(settings, key, default=None):
     value = settings[key]
     if value.startswith('__env__'):
         name, env_key = value.split(':', 1)
-        settings[key] = os.environ[env_key.strip()]
+        actual_value = os.environ.get(env_key.strip())
+        if actual_value is None:
+            if default is None:
+                raise ConfigurationError("Environment Variable %s not defined" % env_key)
+            else:
+                actual_value = default
+        settings[key] = actual_value
+

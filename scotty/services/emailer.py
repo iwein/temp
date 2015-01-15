@@ -12,6 +12,7 @@ from functools import wraps
 import mandrill
 import logging
 from pyramid.exceptions import ConfigurationError
+from email.utils import parseaddr
 
 log = logging.getLogger(__name__)
 
@@ -19,20 +20,27 @@ TEMPLATE_REGISTRY = set()
 
 
 def register_template(template):
-
     TEMPLATE_REGISTRY.add(template)
 
     def register_template_inner(f):
         @wraps(f)
         def inner_function(self, *args, **kwargs):
             return f(self, template, *args, **kwargs)
+
         return inner_function
+
     return register_template_inner
 
 
 class MandrillEmailer(object):
     def __init__(self, settings):
         apikey = settings['mandrill.apikey']
+
+        sender = settings.get('mandrill.sender')
+        if sender:
+            sender = parseaddr(sender)
+        self.override_sender = sender
+
         self.admin_emails = [r.strip() for r in settings['admin.emails'].split(',')]
         self.frontend = settings['frontend.domain']
         self.mandrill = mandrill.Mandrill(apikey)
@@ -71,6 +79,9 @@ class MandrillEmailer(object):
         return self
 
     def send(self, template, content, message):
+        if self.override_sender:
+            message.setdefault('from_name', self.override_sender[0])
+            message.setdefault('from_email', self.override_sender[1])
         try:
             self.mandrill.messages.send_template(template, template_content=content, message=message, async=True)
         except mandrill.Error, e:
@@ -79,20 +90,21 @@ class MandrillEmailer(object):
         else:
             return True
 
-
     # REFERER
 
     @register_template('candidate-invite')
-    def send_friend_referral(self, template, sndr_email, sndr_name, rcvr_email, rcvr_name):
-        return self.send_email_to_candidate(template, [],
-                                            {'to': [{'email': rcvr_email, 'name': rcvr_name}] +
-                                                   [{'email': email, 'name': 'Admin', 'type': 'bcc'}
-                                                    for email in self.admin_emails],
-                                             'global_merge_vars': [
-                                                 {'content': sndr_email, 'name': 'sndr_email'},
-                                                 {'content': sndr_name, 'name': 'sndr_name'},
-                                                 {'content': rcvr_email, 'name': 'rcvr_email'},
-                                                 {'content': rcvr_name, 'name': 'rcvr_name'}]})
+    def send_friend_referral(self, template, sndr_email, sndr_name, rcvr_email, rcvr_name, message):
+        return self.send_email_to_candidate(template, [], {
+            'from_email':sndr_email, 'from_name':sndr_name,
+            'to': [{'email': rcvr_email, 'name': rcvr_name}] +
+                  [{'email': email, 'name': 'Admin', 'type': 'bcc'}
+                   for email in self.admin_emails],
+            'global_merge_vars': [
+                {'content': sndr_email, 'name': 'sndr_email'},
+                {'content': sndr_name, 'name': 'sndr_name'},
+                {'content': rcvr_email, 'name': 'rcvr_email'},
+                {'content': rcvr_name, 'name': 'rcvr_name'},
+                {'content': message, 'name': 'message'}]})
 
     # ========================== CANDIDATE ==========================
     def send_email_to_candidate(self, template, content, message):
@@ -113,7 +125,8 @@ class MandrillEmailer(object):
     def send_candidate_approved(self, template, candidate):
         return self.send_email_to_candidate(template, [],
                                             {'to': [{'email': candidate.email, 'name': candidate.first_name}],
-                                             'global_merge_vars': [{'content': candidate.first_name, 'name': 'first_name'}]})
+                                             'global_merge_vars': [
+                                                 {'content': candidate.first_name, 'name': 'first_name'}]})
 
     @register_template('candidate-pwd-reset')
     def send_candidate_pwdforgot(self, template, email, first_name, reset_token):
@@ -128,12 +141,12 @@ class MandrillEmailer(object):
     def send_candidate_received_offer(self, template, email, personal_message, candidate_name, company_name, offer_id):
         url = 'http://%s/candidate/#/offer/%s' % (self.frontend, offer_id)
         return self.send_email_to_candidate(template, [],
-                         {'to': [{'email': email, 'name': candidate_name}],
-                          'global_merge_vars': [
-                              {'content': candidate_name, 'name': 'candidate_name'},
-                              {'content': personal_message, 'name': 'personal_message'},
-                              {'content': company_name, 'name': 'company_name'},
-                              {'content': url, 'name': 'offer_url'}]})
+                                            {'to': [{'email': email, 'name': candidate_name}],
+                                             'global_merge_vars': [
+                                                 {'content': candidate_name, 'name': 'candidate_name'},
+                                                 {'content': personal_message, 'name': 'personal_message'},
+                                                 {'content': company_name, 'name': 'company_name'},
+                                                 {'content': url, 'name': 'offer_url'}]})
 
     @register_template('candidate-hired-and-sleep')
     def send_candidate_hired_email(self, template, offer, candidate, employer):
@@ -188,7 +201,8 @@ class MandrillEmailer(object):
                                                 {'content': url, 'name': 'url'}]})
 
     @register_template('employer-received-job-offer-request')
-    def send_employer_offer_requested(self, template, company_email, contact_name, company_name, candidate_name, candidate_id):
+    def send_employer_offer_requested(self, template, company_email, contact_name, company_name, candidate_name,
+                                      candidate_id):
         url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
         return self.send(template, [],
                          {'to': [{'email': company_email, 'name': contact_name}],
@@ -220,12 +234,14 @@ class MandrillEmailer(object):
     @register_template('employer-offer-accepted')
     def send_employer_offer_accepted(self, template, email, candidate_name, contact_name,
                                      company_name, offer_id, candidate_id):
-        return self.send_employer_offer(template, email, candidate_name, contact_name, company_name, offer_id, candidate_id)
+        return self.send_employer_offer(template, email, candidate_name, contact_name, company_name, offer_id,
+                                        candidate_id)
 
     @register_template('employer-offer-rejected')
     def send_employer_offer_rejected(self, template, email, candidate_name, contact_name,
                                      company_name, offer_id, candidate_id):
-        return self.send_employer_offer(template, email, candidate_name, contact_name, company_name, offer_id, candidate_id)
+        return self.send_employer_offer(template, email, candidate_name, contact_name, company_name, offer_id,
+                                        candidate_id)
 
     @register_template('employer-candidate-accepted-other-offer')
     def send_employers_offer_rejected(self, template, offer, candidate, employers, rejection_reason):
@@ -273,6 +289,7 @@ class MandrillEmailer(object):
                               {'content': name, 'name': 'name'},
                               {'content': email, 'name': 'email'},
                               {'content': message, 'name': 'message'}]})
+
 
 def emailer_factory(settings):
     return MandrillEmailer(settings)
