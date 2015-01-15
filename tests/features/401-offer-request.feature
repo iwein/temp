@@ -31,3 +31,18 @@ Feature: Candidate request offer
           "company_name": "<%= company_name %>"
         }]
         """
+
+  Scenario: Employer should see candidates than requested an offer
+      Given I post to "/candidates/me/bookmarks":
+        """
+        { "id": "<%= employer_id %>" }
+        """
+        And Candidate logs out
+        And Employer logs in
+       When I get "/employers/me/interestedcandidates"
+       Then The response status should be "200"
+        And The response should have:
+        """
+        [{ "id": "<%= candidate_id %>" }]
+        """
+
