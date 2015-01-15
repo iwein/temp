@@ -10,7 +10,7 @@
   request.post = post;
   request.delete = _delete;
   request._delete = _delete;
-  request.server = 'http://sheltered-meadow-1359.herokuapp.com/api/v1';
+  request.server = window.config.api_url;
   window.AJAX = request;
 
 
