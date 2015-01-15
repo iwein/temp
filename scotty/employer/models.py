@@ -9,7 +9,8 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
-from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable
+from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
+    DISPLAY_PRIVATE
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
 from sqlalchemy.orm import relationship
 
@@ -181,6 +182,13 @@ class Employer(Base, JsonSerialisable):
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
         result['is_approved'] = self.approved is not None
+
+        display = get_request_role(request, self.id)
+        if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
+            result['invite_token'] = self.invite_token
+            result['invite_sent'] = self.invite_sent
+            result['email'] = self.email
+            result['admin_comment'] = self.admin_comment
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist
