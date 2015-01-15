@@ -72,7 +72,7 @@
 <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- endbuild -->
 <script>
-  var elements = document.querySelectorAll('.footer .foot-item a[href]');
+  var elements = document.querySelectorAll('.footer .foot-item a[data-adjust]');
   var links = [].slice.call(elements);
   links.forEach(function(link) {
     link.setAttribute('href', link.getAttribute('href').replace('../', ''));
