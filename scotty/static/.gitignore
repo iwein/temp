@@ -4,3 +4,4 @@ tmp
 test-results/*
 apps/de
 apps/*.html
+apps/en

@@ -39,8 +39,8 @@
       "expand": true,
       "flatten": true
     }, {
-      "src": "<%= files.index.out.pages %>/de/*.html",
-      "dest": "<%= files.apps.out.folder %>/de",
+      "src": "<%= files.index.out.pages %>/en/*.html",
+      "dest": "<%= files.apps.out.folder %>/en",
       "expand": true,
       "flatten": true
     }]
@@ -70,9 +70,9 @@
     }, {
       "src": [
         "<%= files.index.sitemap %>",
-        "<%= files.index.out.pages %>/de/*.html"
+        "<%= files.index.out.pages %>/en/*.html"
       ],
-      "dest": "<%= files.apps.folder %>/de",
+      "dest": "<%= files.apps.folder %>/en",
       "expand": true,
       "flatten": true
     }]
