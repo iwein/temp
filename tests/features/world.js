@@ -73,7 +73,7 @@ function World() {
         variable = match[1];
 
         if (!(variable in this.vars))
-          throw new Error('Undefined test variable: ' + expected.$value);
+          throw new Error('Undefined test variable: ' + variable);
 
         string = string.replace(token, this.vars[variable]);
         match = string.match(variableToken);

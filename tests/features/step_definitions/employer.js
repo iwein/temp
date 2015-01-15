@@ -90,17 +90,17 @@ stepDefinitions(function(scenario) {
           'tech_team_size': 2003
         }),
         AJAX.put('/employers/me/offices', [{
-          "contact_first_name": "Martha",
-          "contact_last_name": "Stewart",
-          "contact_salutation": "Mr",
-          "contact_email": this.vars.employer_email,
-          "address_city": {
-            "country_iso": "DE",
-            "city": "Berlin"
+          'contact_first_name': 'Martha',
+          'contact_last_name': 'Stewart',
+          'contact_salutation': 'Mr',
+          'contact_email': this.vars.employer_email,
+          'address_city': {
+            'country_iso': 'DE',
+            'city': 'Berlin'
           },
-          "address_line1": "Schoenhauser Allee 106",
-          "address_zipcode": "08712",
-          "contact_phone": "+49 232314 2435"
+          'address_line1': 'Schoenhauser Allee 106',
+          'address_zipcode': '08712',
+          'contact_phone': '+49 232314 2435'
         }]),
       ]);
     }.bind(this)).then(function() {
