@@ -17,7 +17,7 @@ Feature: Employer sign up & log in behavior
       Then The response status should be "200"
        And The response should have:
         """
-        { "email": { "$value": "employer_email" } }
+        { "email": "<%= employer_email %>" }
         """
 
   Scenario: Employer logout
@@ -44,5 +44,5 @@ Feature: Employer sign up & log in behavior
       Then The response status should be "200"
        And The response should have:
         """
-        { "email": { "$value": "employer_email" } }
+        { "email": "<%= employer_email %>" }
         """

@@ -5,7 +5,7 @@ Feature: Invite code behaviour
       Then The response status should be "200"
        And The response should have:
         """
-        { "code": { "$value": "invite_code" } }
+        { "code": "<%= invite_code %>" }
         """
 
   Scenario: Admin retrieves invitation code's list
@@ -21,7 +21,7 @@ Feature: Invite code behaviour
         """
 
 # Disabled for now, because the new code can be after pagination
-#          "data": [{ "code": { "$value": "invite_code" } }]
+#          "data": [{ "code": "<%= invite_code %>" }]
 
   Scenario: Candidate signup with invitation code
      Given I create an invitation code
@@ -30,9 +30,9 @@ Feature: Invite code behaviour
        And The response should have:
         """
         {
-          "email": { "$value": "candidate_email" },
+          "email": "<%= candidate_email %>",
           "invite_code": {
-            "code": { "$value": "invite_code" }
+            "code": "<%= invite_code %>"
           }
         }
         """
