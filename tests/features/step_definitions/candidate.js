@@ -28,14 +28,14 @@ stepDefinitions(function(scenario) {
   });
 
 
-  scenario.Given(/^Candiate logs in$/, function() {
+  scenario.Given(/^Candidate logs in$/, function() {
     return this.storeRequest(AJAX.post('/login', {
       'email': this.vars.candidate_email,
       'pwd': 'welcomepwd',
     }));
   });
 
-  scenario.Given(/^Candiate logs out$/, function() {
+  scenario.Given(/^Candidate logs out$/, function() {
     return this.storeRequest(AJAX.get('/candidates/logout'));
   });
 
