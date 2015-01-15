@@ -1,8 +1,8 @@
-/* globals stepDefinitions, AJAX, test_vars */
+/* globals stepDefinitions, AJAX */
 
 stepDefinitions(function(scenario) {
   'use strict';
-  var apikey = 'apikey=' + test_vars.apikey;
+  var apikey = 'apikey=' + window.config.admin_apikey;
 
 
   scenario.Given(/^I create an invitation code$/, function() {
