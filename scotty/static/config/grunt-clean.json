@@ -5,6 +5,7 @@
   "pages-folder": [ "tmp/pages" ],
   "pages": [
     "apps/*.html",
-    "apps/de"
+    "apps/de",
+    "apps/en"
   ]
 }
