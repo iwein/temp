@@ -75,7 +75,8 @@ stepDefinitions(function(scenario) {
 
   scenario.Given(/^I create a complete employer$/, function() {
     return createUser.call(this).then(function() {
-      return AJAX.put('/employers/me', {
+      return Promise.all([
+        AJAX.put('/employers/me', {
           'website': 'http://localhost/static/apps/employer/#/signup/basic/',
           'fb_url': 'http://localhost/static/apps/employer/#/signup/basic/',
           'linkedin_url': 'http://localhost/static/apps/employer/#/signup/basic/',
@@ -87,8 +88,22 @@ stepDefinitions(function(scenario) {
           'tech_tags': ['asdf', 'Python'],
           'tech_team_philosophy': '338b32a1-e460-367d-900a-68fb8c441f09',
           'tech_team_size': 2003
-      });
-    }).then(function() {
+        }),
+        AJAX.put('/employers/me/offices', [{
+          "contact_first_name": "Martha",
+          "contact_last_name": "Stewart",
+          "contact_salutation": "Mr",
+          "contact_email": this.vars.employer_email,
+          "address_city": {
+            "country_iso": "DE",
+            "city": "Berlin"
+          },
+          "address_line1": "Schoenhauser Allee 106",
+          "address_zipcode": "08712",
+          "contact_phone": "+49 232314 2435"
+        }]),
+      ]);
+    }.bind(this)).then(function() {
       return AJAX.put('/employers/me/apply', { 'agreedTos':true });
     });
   });

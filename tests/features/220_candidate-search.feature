@@ -45,3 +45,23 @@ Feature: Employer sign up process
           }]
         }
         """
+
+  Scenario: Search by all possible parameters
+       When I get "/employers/?city=Berlin&country_iso=DE&tags=Python&company=<%= company_name %>"
+       Then The response status should be "200"
+        And The response should have:
+        """
+        {
+          "pagination": {},
+          "data": [{
+            "tech_tags": [ "Python" ],
+            "company_name": "<%= company_name %>",
+            "offices": [{
+              "address_city": {
+                "country_iso": "DE",
+                "city": "Berlin"
+              }
+            }]
+          }]
+        }
+        """
