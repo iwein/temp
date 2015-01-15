@@ -14,22 +14,17 @@ stepDefinitions(function(scenario) {
     this.lastResponse = null;
   });
 
-  scenario.Then(/^The response should have:$/, function(json) {
-    assert(this.equal(this.lastResponse, this.json(json)),
-      'Expected "' + JSON.stringify(this.lastResponse) + '" to be "' + json +
-      '"\nVars:' + JSON.stringify(this.vars));
-  });
-
-  scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, json) {
-    return this.storeRequest(AJAX[method](url, this.json(json)));
-  });
-
   scenario.When(/^I invoke "([^"]*)" endpoint$/, getEndpoint);
   scenario.When(/^I get "([^"]*)"$/, getEndpoint);
   function getEndpoint(endpoint) {
     /*jshint validthis:true */
-    return this.storeRequest(AJAX.get(endpoint));
+    return this.storeRequest(AJAX.get(this.setVars(endpoint)));
   }
+
+  scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, json) {
+    var post = this.json(this.setVars(json));
+    return this.storeRequest(AJAX[method](this.setVars(url), post));
+  });
 
   scenario.Then(/^The response status should be "([^"]*)"$/, function(status) {
     status = +status;
@@ -39,8 +34,17 @@ stepDefinitions(function(scenario) {
     );
   });
 
+  scenario.Then(/^The response should have:$/, function(json) {
+    var parsed = this.setVars(json);
+    var expected = this.json(parsed);
+    assert(this.equal(this.lastResponse, expected),
+      'Expected "' + JSON.stringify(this.lastResponse) + '" to be "' + parsed +
+      '"\nVars:' + JSON.stringify(this.vars));
+  });
+
   scenario.Then(/^The response should be:$/, function(json) {
-    var expected = this.json(json);
-    assert(this.lastResponse === expected, 'Expected "' + expected + '" but "' + this.lastResponse + '" found');
+    var parsed = this.setVars(json);
+    var expected = this.json(parsed);
+    assert(this.lastResponse === expected, 'Expected "' + parsed + '" but "' + this.lastResponse + '" found');
   });
 });

@@ -10,6 +10,7 @@ function World() {
 
 (function() {
   var toString = Function.prototype.call.bind(Object.prototype.toString);
+  var variableToken = /<%=\s*(\w+)\s*%>/;
   var privateKey = /^\$/;
 
   function isArray(value) {
@@ -20,24 +21,19 @@ function World() {
     return toString(value) === '[object Object]';
   }
 
-  function equal(vars, object, expected, negated) {
+  function equal(object, expected, negated) {
     if (expected) {
       if (expected.$not && !negated)
-        return !equal(vars, object, expected, true);
+        return !equal(object, expected, true);
       else if (expected.$exist)
         return object !== undefined;
-      else if (expected.$value) {
-        if (!(expected.$value in vars))
-          throw new Error('Undefined test variable: ' + expected.$value);
-        expected = vars[expected.$value];
-      }
     }
 
     if (isArray(expected)) {
       if (!isArray(object)) return false;
       return expected.every(function(item) {
         return object.some(function(target) {
-          return equal(vars, target, item);
+          return equal(target, item);
         });
       });
 
@@ -45,7 +41,7 @@ function World() {
       if (!isObject(object)) return false;
       return Object.keys(expected).every(function(key) {
         if (privateKey.test(key)) return;
-        return equal(vars, object[key], expected[key]);
+        return equal(object[key], expected[key]);
       });
 
     } else {
@@ -58,9 +54,7 @@ function World() {
     guid: guid,
     isArray: isArray,
     isObject: isObject,
-    equal: function(object, expected) {
-      return equal(this.vars, object, expected);
-    },
+    equal: equal,
 
     generateEmail: function() {
       return 'catch+candidate-' + this.guid() + '@hackandcraft.com';
@@ -68,6 +62,24 @@ function World() {
 
     json: function(string) {
       return JSON.parse(string);
+    },
+
+    setVars: function(string) {
+      var match = string.match(variableToken);
+      var token, variable;
+
+      while (match) {
+        token = match[0];
+        variable = match[1];
+
+        if (!(variable in this.vars))
+          throw new Error('Undefined test variable: ' + expected.$value);
+
+        string = string.replace(token, this.vars[variable]);
+        match = string.match(variableToken);
+      }
+
+      return string;
     },
 
     storeRequest: function(promise) {

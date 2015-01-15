@@ -13,7 +13,7 @@ Feature: Candidate sign up & log in behavior
       Then The response status should be "200"
        And The response should have:
         """
-        { "email": { "$value": "candidate_email" } }
+        { "email": "<%= candidate_email %>" }
         """
 
   Scenario: Candidate 'me' endpoint after signup
@@ -22,7 +22,7 @@ Feature: Candidate sign up & log in behavior
       Then The response status should be "200"
        And The response should have:
         """
-        { "email": { "$value": "candidate_email" } }
+        { "email": "<%= candidate_email %>" }
         """
 
   Scenario: Candidate logout
@@ -49,7 +49,7 @@ Feature: Candidate sign up & log in behavior
       Then The response status should be "200"
        And The response should have:
         """
-        { "email": { "$value": "candidate_email" } }
+        { "email": "<%= candidate_email %>" }
         """
 
   Scenario: Candidate set extra parameters

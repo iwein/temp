@@ -1,5 +1,5 @@
 Feature: Employer sign up process
-  This feature describes a employer moving though signup process
+  This feature describes a employer searching for candidates
 
   Background:
        Given I create a complete employer
@@ -12,7 +12,9 @@ Feature: Employer sign up process
        Then The response status should be "200"
         And The response should have:
         """
-        { "pagination": {}, "data": [{}] }
+        { "pagination": {}, "data": [{
+          "skills": [{ "skill": "Python" }]
+        }] }
         """
 
   Scenario: Simple name search
@@ -45,12 +47,14 @@ Feature: Employer sign up process
   Scenario: Advanced search by skill
        When I post to "/candidates/advancedsearch":
         """
-        { "skills": ["Python"] }
+        { "skills": [ "Python" ] }
         """
        Then The response status should be "200"
         And The response should have:
         """
-        { "pagination": {}, "data": [{}] }
+        { "pagination": {}, "data": [{
+          "skills": [{ "skill": "Python" }]
+        }] }
         """
 
   Scenario: Advanced search by salary
@@ -90,7 +94,7 @@ Feature: Employer sign up process
         """
         {
           "role": "System Administration",
-          "skills": ["Python"],
+          "skills": [ "Python" ],
           "salary": "50000",
           "locations": [{
             "city": "Berlin",
@@ -105,7 +109,8 @@ Feature: Employer sign up process
           "pagination": {},
           "data": [{
             "target_position": { "role": "System Administration" },
-            "preferred_location": { "DE": [] }
+            "preferred_location": { "DE": [] },
+            "skills": [{ "skill": "Python" }]
           }]
         }
         """

@@ -5,7 +5,7 @@ stepDefinitions(function(scenario) {
   'use strict';
 
   function createUser() {
-    this.vars.company_name = this.guid();
+    this.vars.company_name = 'test-company-' + this.guid();
     this.vars.employer_email = this.generateEmail();
 
     return this.storeRequest(AJAX.post('/employers/', {
