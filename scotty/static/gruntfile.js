@@ -23,6 +23,7 @@ module.exports = function(grunt) {
     less: grunt.file.readJSON('config/grunt-less.json'),
     clean: grunt.file.readJSON('config/grunt-clean.json'),
     githooks: grunt.file.readJSON('config/grunt-githooks.json'),
+    nggettext_extract: grunt.file.readJSON('config/grunt-nggettext_extract.json'),
 
     // build
     metalsmith: grunt.file.readJSON('config/grunt-metalsmith.json'),
@@ -114,6 +115,8 @@ module.exports = function(grunt) {
     'test:e2e',
   ]);
 
+  grunt.registerTask('i18n', [ 'i18n:extract' ]);
+  grunt.registerTask('i18n:extract', [ 'nggettext_extract:pot' ]);
   grunt.registerTask('listen', [ 'watch:static' ]);
   grunt.registerTask('default', [ 'build' ]);
 };
