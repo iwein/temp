@@ -1,7 +1,6 @@
 /* globals addStepDefinitions */
-/* exported stepDefinitions */
 
-function stepDefinitions(callback) {
+(function() {
   'use strict';
 
   function wrapPromise(context, callback, code, args) {
@@ -44,33 +43,37 @@ function stepDefinitions(callback) {
     };
   }
 
+  var wrapper = {
+    _steps: {},
+    step: function(name, args) {
+      if (!(name in this._steps))
+        console.error('Unkown step', name.toString());
+      return this._steps[name].apply(this._world, args);
+    },
+  };
 
-  addStepDefinitions(function(scenario) {
-    var wrapper = {
-      Around: wrapHook(scenario.Around),
-      Before: wrapHook(scenario.Before),
-      After: wrapHook(scenario.After),
-      Given: wrapStep(scenario.Given),
-      Then: wrapStep(scenario.Then),
-      When: wrapStep(scenario.When),
-      defineStep: wrapStep(scenario.defineStep),
-      _steps: {},
-      step: function(name, args) {
-        if (!(name in this._steps))
-          console.error('Unkown step', name);
-        return this._steps[name].apply(this._world, args);
-      },
-    };
+  function stepDefinitions(callback) {
+    addStepDefinitions(function(scenario) {
+      wrapper.Around = wrapHook(scenario.Around);
+      wrapper.Before = wrapHook(scenario.Before);
+      wrapper.After = wrapHook(scenario.After);
+      wrapper.Given = wrapStep(scenario.Given);
+      wrapper.Then = wrapStep(scenario.Then);
+      wrapper.When = wrapStep(scenario.When);
+      wrapper.defineStep = wrapStep(scenario.defineStep);
 
-    var result = callback(wrapper);
+      var result = callback(wrapper);
 
-    if (wrapper.World) {
-      scenario.World = function WorldWrapper(callback) {
-        wrapPromise(this, callback, wrapper.World, []);
-      };
-      scenario.World.prototype = wrapper.World.prototype;
-    }
+      if (wrapper.World) {
+        scenario.World = function WorldWrapper(callback) {
+          wrapPromise(this, callback, wrapper.World, []);
+        };
+        scenario.World.prototype = wrapper.World.prototype;
+      }
 
-    return result;
-  });
-}
+      return result;
+    });
+  }
+
+  window.stepDefinitions = stepDefinitions;
+})();
