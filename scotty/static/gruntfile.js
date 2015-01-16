@@ -123,6 +123,7 @@ module.exports = function(grunt) {
   grunt.registerTask('i18n:extract', [ 'nggettext_extract:pot' ]);
   grunt.registerTask('i18n:compile', [ 'nggettext_compile:all' ]);
 
+  grunt.registerTask('lint', [ 'jshint:pre-commit' ]);
   grunt.registerTask('listen', [ 'watch:static' ]);
   grunt.registerTask('default', [ 'build' ]);
 };
