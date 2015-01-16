@@ -2,7 +2,7 @@ Feature: Candidate forgot password & password reset
 
   Background:
      Given I post a new candidate
-       And Candiate logs out
+       And Candidate logs out
 
   Scenario: Candidate request a password reset
       When Candidate request a password reset
