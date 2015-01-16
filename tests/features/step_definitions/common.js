@@ -22,6 +22,7 @@ stepDefinitions(function(scenario) {
   }
 
   scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, json) {
+    console.log(this.setVars(url));
     var post = this.json(this.setVars(json));
     return this.storeRequest(AJAX[method](this.setVars(url), post));
   });
