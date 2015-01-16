@@ -1,0 +1,5 @@
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+/* jshint -W100 */
+    gettextCatalog.setStrings('en', {"1 employer found":["1 employer found","{{$count}} employers found"],"Company":"Company","Location":"Location","Requested Job Interviews":"Requested Job Interviews","Search":"FOOBAR","Search for companies":"Search for companies","Skills":"Skills","Top companies using your target tech!":"Top companies using your target tech!","We're sorry. <br> There are no companies using your tch yet. We'll notify  you as soon as there is a fitting company. Don't want to wait? Then give it  a try and search our platform for other  technologies/skills or locations.":"We're sorry. <br> There are no companies using your tch yet. We'll notify  you as soon as there is a fitting company. Don't want to wait? Then give it  a try and search our platform for other  technologies/skills or locations."});
+/* jshint +W100 */
+}]);

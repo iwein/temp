@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 1.7.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+#: components/candidate-dashboard/candidate-dashboard.html:82
+msgid "1 employer found"
+msgid_plural "{{$count}} employers found"
+msgstr[0] "1 employer found"
+msgstr[1] "{{$count}} employers found"
+
+#: components/candidate-dashboard/candidate-dashboard.html:61
+msgid "Company"
+msgstr "Company"
+
+#: components/candidate-dashboard/candidate-dashboard.html:42
+msgid "Location"
+msgstr "Location"
+
+#: components/candidate-dashboard/candidate-dashboard.html:130
+msgid "Offers"
+msgstr ""
+
+#: components/candidate-dashboard/candidate-dashboard.html:141
+msgid "Requested Job Interviews"
+msgstr "Requested Job Interviews"
+
+#: components/candidate-dashboard/candidate-dashboard.html:70
+msgid "Search"
+msgstr "FOOBAR"
+
+#: components/candidate-dashboard/candidate-dashboard.html:26
+msgid "Search for companies"
+msgstr "Search for companies"
+
+#: components/candidate-dashboard/candidate-dashboard.html:30
+msgid "Skills"
+msgstr "Skills"
+
+#: components/candidate-dashboard/candidate-dashboard.html:103
+msgid "Top companies using your target tech!"
+msgstr "Top companies using your target tech!"
+
+#: components/candidate-dashboard/candidate-dashboard.html:104
+msgid ""
+"We're sorry. <br> There are no companies using your tch yet. We'll notify  "
+"you as soon as there is a fitting company. Don't want to wait? Then give it  "
+"a try and search our platform for other  technologies/skills or locations."
+msgstr ""
+"We're sorry. <br> There are no companies using your tch yet. We'll notify  "
+"you as soon as there is a fitting company. Don't want to wait? Then give it  "
+"a try and search our platform for other  technologies/skills or locations."
+
+#: components/candidate-dashboard/candidate-dashboard.html:117
+msgid ""
+"We're sorry. There are no companies using your tech yet.\n"
+"                We'll notify you as soon as there is a fitting company.\n"
+"                Don't want to wait? Then give it a try and search our "
+"platform for other technologies/skills or locations."
+msgstr ""

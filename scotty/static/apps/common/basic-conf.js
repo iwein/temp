@@ -10,6 +10,7 @@ define(function(require) {
   require('tools/accordion-directive/accordion-directive');
   require('tools/extend-directives/input-integer-directive');
   require('tools/label-typeahead-directive/label-typeahead-directive');
+  require('./translations');
   var conf = require('conf');
 
   if (window.ga)
@@ -21,8 +22,10 @@ define(function(require) {
       $httpProvider.defaults.withCredentials = true;
     });
 
-    module.run(function($templateCache) {
+    module.run(function($templateCache, gettextCatalog) {
       $templateCache.put('footer.html', require('text!../common/footer.html'));
+      gettextCatalog.setCurrentLanguage('en');
+      gettextCatalog.debug = true;
     });
 
     module.factory('toaster', function(Notifier) {

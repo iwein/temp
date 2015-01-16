@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     clean: grunt.file.readJSON('config/grunt-clean.json'),
     githooks: grunt.file.readJSON('config/grunt-githooks.json'),
     nggettext_extract: grunt.file.readJSON('config/grunt-nggettext_extract.json'),
+    nggettext_compile: grunt.file.readJSON('config/grunt-nggettext_compile.json'),
 
     // build
     metalsmith: grunt.file.readJSON('config/grunt-metalsmith.json'),
@@ -93,7 +94,11 @@ module.exports = function(grunt) {
   grunt.registerTask('build-js', [ 'jshint:apps' ].concat(apps.map(function(app) {
     return 'build-' + app + '-js';
   })));
-  grunt.registerTask('build', [ 'jshint:apps', 'clean:build' ].concat(apps.map(function(app) {
+  grunt.registerTask('build', [
+    'jshint:apps',
+    'clean:build',
+    'i18n:compile',
+  ].concat(apps.map(function(app) {
     return 'build-' + app;
   })));
 
@@ -115,8 +120,9 @@ module.exports = function(grunt) {
     'test:e2e',
   ]);
 
-  grunt.registerTask('i18n', [ 'i18n:extract' ]);
   grunt.registerTask('i18n:extract', [ 'nggettext_extract:pot' ]);
+  grunt.registerTask('i18n:compile', [ 'nggettext_compile:all' ]);
+
   grunt.registerTask('listen', [ 'watch:static' ]);
   grunt.registerTask('default', [ 'build' ]);
 };

@@ -33,7 +33,9 @@ requirejs.config({
     'angular-router': [ 'angular' ],
     'angular-animate': [ 'angular' ],
     'angular-sanitize': [ 'angular' ],
+    'angular-gettext': [ 'angular' ],
     'textangular': [ 'angular-sanitize' ],
+    'apps/common/translations': [ 'angular-gettext' ],
   }
 
 })([ 'apps/common/mock-data', 'apps/employer/app' ]);
