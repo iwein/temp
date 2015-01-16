@@ -57,7 +57,7 @@ function World() {
     equal: equal,
 
     generateEmail: function() {
-      return 'catch+candidate-' + this.guid() + '@hackandcraft.com';
+      return 'catch+' + this.guid() + '@hackandcraft.com';
     },
 
     json: function(string) {

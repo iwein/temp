@@ -27,14 +27,14 @@ Feature: Candidate sign up & log in behavior
 
   Scenario: Candidate logout
      Given I post a new candidate
-      When Candiate logs out
+      When Candidate logs out
        And I invoke "/candidates/me" endpoint
       Then The response status should be "403"
 
   Scenario: Candidate login
      Given I post a new candidate
-       And Candiate logs out
-      When Candiate logs in
+       And Candidate logs out
+      When Candidate logs in
       Then The response status should be "200"
        And The response should have:
         """
@@ -43,8 +43,8 @@ Feature: Candidate sign up & log in behavior
 
   Scenario: Candidate 'me' endpoint after login
      Given I post a new candidate
-       And Candiate logs out
-      When Candiate logs in
+       And Candidate logs out
+      When Candidate logs in
        And I invoke "/candidates/me" endpoint
       Then The response status should be "200"
        And The response should have:
