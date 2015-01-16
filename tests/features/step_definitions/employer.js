@@ -4,7 +4,14 @@ stepDefinitions(function(scenario) {
   /*jshint validthis:true */
   'use strict';
 
-  function createUser() {
+  scenario.Before(function() {
+    return AJAX.get('/employers/logout', {}, { log: false })
+      // if logout fails doesn't mean the test is failed
+      // so we catch it and pass
+      .catch(function() { });
+  });
+
+  scenario.When(/^I post a new employer$/, function() {
     this.vars.company_name = 'test-company-' + this.guid();
     this.vars.employer_email = this.generateEmail();
 
@@ -21,60 +28,10 @@ stepDefinitions(function(scenario) {
       console.log('Created employer:', this.vars.employer_id);
       return response;
     }.bind(this));
-  }
-
-
-  scenario.Before(function() {
-    return AJAX.get('/employers/logout', {}, { log: false })
-      // if logout fails doesn't mean the test is failed
-      // so we catch it and pass
-      .catch(function() { });
-  });
-
-
-  scenario.Given(/^Employer logs in$/, function() {
-    return this.storeRequest(AJAX.post('/login', {
-      'email': this.vars.employer_email,
-      'pwd': 'welcomepwd',
-    }));
-  });
-
-  scenario.Given(/^Employer logs out$/, function() {
-    return this.storeRequest(AJAX.get('/employers/logout'));
-  });
-
-  scenario.When(/^I post a new employer$/, createUser);
-
-  scenario.Given(/^I post a new employer with invitation code$/, function() {
-    this.vars.employer_email = this.generateEmail();
-
-    return this.storeRequest(AJAX.post('/employers/', {
-      'invite_code': this.inviteCode,
-      'email': this.vars.employer_email,
-      'pwd': 'welcomepwd',
-      'first_name': 'Bob',
-      'last_name': 'Bayley',
-    }));
-  });
-
-  scenario.When(/^Employer request a password reset$/, function() {
-    return this.storeRequest(AJAX.post('/employers/requestpassword', {
-      email: this.vars.employer_email,
-    })).then(function(response) {
-      this.passwordToken = response.token;
-    }.bind(this));
-  });
-
-  scenario.When(/^Employer validates password token$/, function() {
-    return this.storeRequest(AJAX.get('/employers/resetpassword/' + this.passwordToken));
-  });
-
-  scenario.When(/^Employer resets password to "([^"]*)"$/, function(password) {
-    return this.storeRequest(AJAX.post('/employers/resetpassword/' + this.passwordToken, { pwd: password }));
   });
 
   scenario.Given(/^I create a complete employer$/, function() {
-    return createUser.call(this).then(function() {
+    return scenario.step(/^I post a new employer$/).then(function() {
       return Promise.all([
         AJAX.put('/employers/me', {
           'website': 'http://localhost/static/apps/employer/#/signup/basic/',
@@ -107,4 +64,44 @@ stepDefinitions(function(scenario) {
       return AJAX.put('/employers/me/apply', { 'agreedTos':true });
     });
   });
+
+  scenario.Given(/^Employer logs in$/, function() {
+    return this.storeRequest(AJAX.post('/login', {
+      'email': this.vars.employer_email,
+      'pwd': 'welcomepwd',
+    }));
+  });
+
+  scenario.Given(/^Employer logs out$/, function() {
+    return this.storeRequest(AJAX.get('/employers/logout'));
+  });
+
+  scenario.Given(/^I post a new employer with invitation code$/, function() {
+    this.vars.employer_email = this.generateEmail();
+
+    return this.storeRequest(AJAX.post('/employers/', {
+      'invite_code': this.inviteCode,
+      'email': this.vars.employer_email,
+      'pwd': 'welcomepwd',
+      'first_name': 'Bob',
+      'last_name': 'Bayley',
+    }));
+  });
+
+  scenario.When(/^Employer request a password reset$/, function() {
+    return this.storeRequest(AJAX.post('/employers/requestpassword', {
+      email: this.vars.employer_email,
+    })).then(function(response) {
+      this.passwordToken = response.token;
+    }.bind(this));
+  });
+
+  scenario.When(/^Employer validates password token$/, function() {
+    return this.storeRequest(AJAX.get('/employers/resetpassword/' + this.passwordToken));
+  });
+
+  scenario.When(/^Employer resets password to "([^"]*)"$/, function(password) {
+    return this.storeRequest(AJAX.post('/employers/resetpassword/' + this.passwordToken, { pwd: password }));
+  });
+
 });

@@ -4,7 +4,14 @@ stepDefinitions(function(scenario) {
   /*jshint validthis:true */
   'use strict';
 
-  function createUser() {
+  scenario.Before(function() {
+    return AJAX.get('/candidates/logout', {}, { log: false })
+      // if logout fails doesn't mean the test is failed
+      // so we catch it and pass
+      .catch(function() { });
+  });
+
+  scenario.When(/^I post a new candidate$/, function() {
     this.vars.candidate_email = this.generateEmail();
 
     return this.storeRequest(AJAX.post('/candidates/', {
@@ -17,60 +24,10 @@ stepDefinitions(function(scenario) {
       console.log('Created candidate:', this.vars.candidate_id);
       return response;
     }.bind(this));
-  }
-
-
-  scenario.Before(function() {
-    return AJAX.get('/candidates/logout', {}, { log: false })
-      // if logout fails doesn't mean the test is failed
-      // so we catch it and pass
-      .catch(function() { });
-  });
-
-
-  scenario.Given(/^Candidate logs in$/, function() {
-    return this.storeRequest(AJAX.post('/login', {
-      'email': this.vars.candidate_email,
-      'pwd': 'welcomepwd',
-    }));
-  });
-
-  scenario.Given(/^Candidate logs out$/, function() {
-    return this.storeRequest(AJAX.get('/candidates/logout'));
-  });
-
-  scenario.When(/^I post a new candidate$/, createUser);
-
-  scenario.Given(/^I post a new candidate with invitation code$/, function() {
-    this.vars.candidate_email = this.generateEmail();
-
-    return this.storeRequest(AJAX.post('/candidates/', {
-      'invite_code': this.vars.invite_code,
-      'email': this.vars.candidate_email,
-      'pwd': 'welcomepwd',
-      'first_name': 'Bob',
-      'last_name': 'Bayley',
-    }));
-  });
-
-  scenario.When(/^Candidate request a password reset$/, function() {
-    return this.storeRequest(AJAX.post('/candidates/requestpassword', {
-      email: this.vars.candidate_email,
-    })).then(function(response) {
-      this.vars.password_token = response.token;
-    }.bind(this));
-  });
-
-  scenario.When(/^Candidate validates password token$/, function() {
-    return this.storeRequest(AJAX.get('/candidates/resetpassword/' + this.vars.password_token));
-  });
-
-  scenario.When(/^Candidate resets password to "([^"]*)"$/, function(password) {
-    return this.storeRequest(AJAX.post('/candidates/resetpassword/' + this.vars.password_token, { pwd: password }));
   });
 
   scenario.Given(/^I create a complete candidate$/, function() {
-    return createUser.call(this).then(function() {
+    return scenario.step(/^I post a new candidate$/).then(function() {
       return Promise.all([
         AJAX.post('/candidates/me/target_position', {
           'role': 'System Administration',
@@ -111,6 +68,45 @@ stepDefinitions(function(scenario) {
         }),
       ]);
     });
+  });
+
+  scenario.Given(/^Candidate logs in$/, function() {
+    return this.storeRequest(AJAX.post('/login', {
+      'email': this.vars.candidate_email,
+      'pwd': 'welcomepwd',
+    }));
+  });
+
+  scenario.Given(/^Candidate logs out$/, function() {
+    return this.storeRequest(AJAX.get('/candidates/logout'));
+  });
+
+  scenario.Given(/^I post a new candidate with invitation code$/, function() {
+    this.vars.candidate_email = this.generateEmail();
+
+    return this.storeRequest(AJAX.post('/candidates/', {
+      'invite_code': this.vars.invite_code,
+      'email': this.vars.candidate_email,
+      'pwd': 'welcomepwd',
+      'first_name': 'Bob',
+      'last_name': 'Bayley',
+    }));
+  });
+
+  scenario.When(/^Candidate request a password reset$/, function() {
+    return this.storeRequest(AJAX.post('/candidates/requestpassword', {
+      email: this.vars.candidate_email,
+    })).then(function(response) {
+      this.vars.password_token = response.token;
+    }.bind(this));
+  });
+
+  scenario.When(/^Candidate validates password token$/, function() {
+    return this.storeRequest(AJAX.get('/candidates/resetpassword/' + this.vars.password_token));
+  });
+
+  scenario.When(/^Candidate resets password to "([^"]*)"$/, function(password) {
+    return this.storeRequest(AJAX.post('/candidates/resetpassword/' + this.vars.password_token, { pwd: password }));
   });
 });
 

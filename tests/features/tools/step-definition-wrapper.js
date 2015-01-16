@@ -33,7 +33,10 @@ function stepDefinitions(callback) {
 
   function wrapStep(fn) {
     return function(name, code) {
+      var self = this;
+      this._steps[name] = code;
       return fn.call(this, name, function() {
+        self._world = this;
         var args = Array.prototype.slice.call(arguments);
         var callback = args.pop();
         return wrapPromise(this, callback, code, args);
@@ -51,6 +54,12 @@ function stepDefinitions(callback) {
       Then: wrapStep(scenario.Then),
       When: wrapStep(scenario.When),
       defineStep: wrapStep(scenario.defineStep),
+      _steps: {},
+      step: function(name, args) {
+        if (!(name in this._steps))
+          console.error('Unkown step', name);
+        return this._steps[name].apply(this._world, args);
+      },
     };
 
     var result = callback(wrapper);
