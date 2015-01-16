@@ -8,7 +8,7 @@ stepDefinitions(function(scenario) {
     return this.storeRequest(AJAX.get('/admin/candidates/' + this.vars.candidate_id + '/approve?' + apikey));
   });
   scenario.When(/^Employer is approved$/, function() {
-    return this.storeRequest(AJAX.get('/admin/employers/' + this.vars.employer_id + '/approve?' + apikey))
+    return this.storeRequest(AJAX.get('/admin/employers/' + this.vars.employer_id + '/approve?' + apikey));
   });
 
   scenario.Given(/^I create an invitation code$/, function() {

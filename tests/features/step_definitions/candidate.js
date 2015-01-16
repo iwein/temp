@@ -112,9 +112,9 @@ stepDefinitions(function(scenario) {
 
   scenario.Given(/^Candidate wants to be anonymous$/, function() {
     return scenario.step(/^Candidate logs in$/).then(function() {
-      return AJAX.put('/candidates/me', { "anonymous": true });
+      return AJAX.put('/candidates/me', { 'anonymous': true });
     }).then(function() {
-      return scenario.step(/^Employer logs in$/)
+      return scenario.step(/^Employer logs in$/);
     });
   });
 });
