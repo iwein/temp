@@ -21,10 +21,10 @@ function World() {
     return toString(value) === '[object Object]';
   }
 
-  function equal(object, expected, negated) {
+  function equal(object, expected) {
     if (expected) {
-      if (expected.$not && !negated)
-        return !equal(object, expected, true);
+      if (expected.$not)
+        return !equal(object, expected.$not);
       else if (expected.$exist)
         return object !== undefined;
     }

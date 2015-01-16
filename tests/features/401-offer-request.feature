@@ -2,10 +2,8 @@ Feature: Candidate request offer
   This feature describes a candidate asking an employer for a offer
 
   Background:
-       Given I create a complete employer
-         And Employer is approved
-         And I create a complete candidate
-         And Candidate is approved
+       Given An employer and a candidate are created
+         And Candidate logs in
 
   Scenario: Candidate retrieves employer profile
        When I get "/employers/<%= employer_id %>"
@@ -27,7 +25,6 @@ Feature: Candidate request offer
         """"
         [{
           "id": "<%= employer_id %>",
-          "email": "<%= employer_email %>",
           "company_name": "<%= company_name %>"
         }]
         """
@@ -45,4 +42,3 @@ Feature: Candidate request offer
         """
         [{ "id": "<%= candidate_id %>" }]
         """
-

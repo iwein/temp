@@ -1,0 +1,7 @@
+{
+  "all": {
+    "files": {
+      "apps/common/translations.js": ["po/*.po"]
+    }
+  }
+}
