@@ -61,7 +61,7 @@ lang: de
         if (response.status === 404)
           return app.display($error);
         var data = JSON.parse(response.responseText);
-        document.location = './'+data.preferred;
+        document.location = './' + data.preferred + '/';
       });
     }, true);
   })();
