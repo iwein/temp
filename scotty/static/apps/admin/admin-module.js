@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   require('angular-router');
-  require('angular-geettext');
+  require('angular-gettext');
   require('ui.bootstrap');
   var angular = require('angular');
 
