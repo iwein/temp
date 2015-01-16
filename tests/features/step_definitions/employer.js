@@ -42,7 +42,7 @@ stepDefinitions(function(scenario) {
           'no_of_employees': 2008,
           'revenue_pa': 43420,
           'mission_text': '336b6c2d-8663-7eac-d8a4-b57570bc0dd4',
-          'tech_tags': ['asdf', 'Python'],
+          'tech_tags': [this.vars.unique_skill, 'Python'],
           'tech_team_philosophy': '338b32a1-e460-367d-900a-68fb8c441f09',
           'tech_team_size': 2003
         }),

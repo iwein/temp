@@ -12,12 +12,13 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.When(/^I post a new candidate$/, function() {
+    this.vars.candidate_name = 'test-candidate-' + this.guid();
     this.vars.candidate_email = this.generateEmail();
 
     return this.storeRequest(AJAX.post('/candidates/', {
       'email': this.vars.candidate_email,
       'pwd': 'welcomepwd',
-      'first_name': 'Bob',
+      'first_name': this.vars.candidate_name,
       'last_name': 'Bayley',
     })).then(function(response) {
       this.vars.candidate_id = response.id;
@@ -44,8 +45,8 @@ stepDefinitions(function(scenario) {
           { 'language': 'French', 'proficiency': 'basic' },
         ]),
         AJAX.put('/candidates/me/skills', [
-          { 'skill': 'Python', 'level': 'basic' },
-          { 'skill': 'PHP', 'level': 'advanced' },
+          { 'skill': this.vars.unique_skill, 'level': 'expert' },
+          { 'skill': 'PHP', 'level': 'basic' },
           { 'skill': 'Java', 'level': 'advanced' },
         ]),
         AJAX.post('/candidates/me/education', {
@@ -67,7 +68,7 @@ stepDefinitions(function(scenario) {
           'url': 'http://www.hackandcraft.com/'
         }),
       ]);
-    });
+    }.bind(this));
   });
 
   scenario.Given(/^Candidate logs in$/, function() {
@@ -107,6 +108,14 @@ stepDefinitions(function(scenario) {
 
   scenario.When(/^Candidate resets password to "([^"]*)"$/, function(password) {
     return this.storeRequest(AJAX.post('/candidates/resetpassword/' + this.vars.password_token, { pwd: password }));
+  });
+
+  scenario.Given(/^Candidate wants to be anonymous$/, function() {
+    return scenario.step(/^Candidate logs in$/).then(function() {
+      return AJAX.put('/candidates/me', { "anonymous": true });
+    }).then(function() {
+      return scenario.step(/^Employer logs in$/)
+    });
   });
 });
 

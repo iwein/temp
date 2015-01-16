@@ -6,7 +6,7 @@ stepDefinitions(function(scenario) {
   scenario.World = window.World;
 
   scenario.Before(function() {
-    // Something
+    this.vars.unique_skill = 'test-skill-' + this.guid();
   });
 
   scenario.After(function () {
