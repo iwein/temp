@@ -1,6 +1,6 @@
 import hashlib
 
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -10,6 +10,7 @@ from scotty.login.models import UnifiedLogin
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET
+from simplejson import JSONDecodeError
 
 
 __author__ = 'martin'
@@ -36,18 +37,29 @@ def get_login(email=None, pwd=None, token=None):
     return login, lookup[login.table_name]
 
 
-@view_config(route_name='login', permission=NO_PERMISSION_REQUIRED, **POST)
+@view_config(route_name='login', permission=NO_PERMISSION_REQUIRED, xhr=True, **POST)
+@view_config(route_name='login', permission=NO_PERMISSION_REQUIRED, xhr=False, request_method="POST")
 def login(context, request):
-    params = request.json
+    try:
+        params = request.json
+    except ValueError, e:
+        params = request.POST
     email = params['email']
     pwd = hashlib.sha256(params['pwd']).hexdigest()
     login_obj, cls = get_login(email=email, pwd=pwd)
     user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
     if user and user.can_login:
         request.session['%s_id' % login_obj.table_name] = user.id
+
+        if request.GET.get('redirect'):
+            if login_obj.table_name == 'candidate':
+                raise HTTPFound(request.emailer.candidate_dashboard_url)
+            else:
+                raise HTTPFound(request.emailer.employer_dashboard_url)
+
         return {'preferred': login_obj.table_name, 'id': user.id}
     else:
-        raise HTTPNotFound("Login Disabled. Please contact support.")
+        raise HTTPFound(location=(request.referer or '/') + '#unknown')
 
 
 class PasswordController(RootController):
