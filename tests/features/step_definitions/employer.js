@@ -66,10 +66,8 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^Employer logs in$/, function() {
-    return this.storeRequest(AJAX.post('/login', {
-      'email': this.vars.employer_email,
-      'pwd': 'welcomepwd',
-    }));
+    return this.storeRequest(AJAX.post('/login', 'pwd=welcomepwd&email=' +
+      encodeURIComponent(this.vars.employer_email)));
   });
 
   scenario.Given(/^Employer logs out$/, function() {
