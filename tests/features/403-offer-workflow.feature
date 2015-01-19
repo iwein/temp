@@ -62,26 +62,26 @@ Feature: Candidate request offer
 
 ### This tests fail for 404
 
-  # Scenario: Employer withdraws the offer
-  #     Given Employer logs in
-  #      When I post to "/employer/me/offers/<%= offer_id %>/withdraw":
-  #       """
-  #       { "reason": "Other", "withdrawal_text": "Employer said: he no like" }
-  #       """
-  #      Then The response status should be "200"
-  #       And The response should have:
-  #       """
-  #       [{ "status": "WITHDRAW", "completed": true }]
-  #       """
+  Scenario: Employer withdraws the offer
+      Given Employer logs in
+       When I post to "/employers/me/offers/<%= offer_id %>/withdraw":
+        """
+        { "reason": "Other", "withdrawal_text": "Employer said: he no like" }
+        """
+       Then The response status should be "200"
+        And The response should have:
+        """
+        [{ "status": "WITHDRAWN", "completed": true }]
+        """
 
-  # Scenario: Candidate rejects the offer
-  #     Given Candidate logs in
-  #      When I post to "/candidate/me/offers/<%= offer_id %>/reject":
-  #       """
-  #       { "reason": "Salary offer not high enough", "rejected_text": null }
-  #       """
-  #      Then The response status should be "200"
-  #       And The response should have:
-  #       """
-  #       [{ "status": "REJECTED", "completed": true }]
-  #       """
+  Scenario: Candidate rejects the offer
+      Given Candidate logs in
+       When I post to "/candidates/me/offers/<%= offer_id %>/reject":
+        """
+        { "reason": "Salary offer not high enough", "rejected_text": null }
+        """
+       Then The response status should be "200"
+        And The response should have:
+        """
+        [{ "status": "REJECTED", "completed": true }]
+        """

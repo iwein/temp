@@ -26,7 +26,7 @@
         </span>
         <span class="withdrawn-message">
           <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
-          <span class="red" translate>you withdrawnd this offer</span>
+          <span class="red" translate>you withdrew this offer</span>
         </span>
         <span class="reject-message">
           <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
@@ -222,7 +222,7 @@
                         value="{{ reason }}"
                         ng-required="!withdrawal.reason"
                         ng-model="withdrawal.reason"
-                        ng-change="withdrawal.rejected_text = null">
+                        ng-change="withdrawal.withdrawal_text = null">
                       </span>
                       {{ reason }}
                     </label>
