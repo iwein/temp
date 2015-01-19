@@ -5,13 +5,11 @@
 
     <div class="col-sm-12">
       <h3 class="signup-title" translate>Welcome</h3>
-
       <div class="form-signup bg-gray-lighter mrg-btm form-wrap">
 
         <div class="form-group required">
           <label class="col-sm-3 no-padd-right" translate>Company name</label>
           <div class="col-sm-9">
-
             <input type="text"
                    class="form-control"
                    name="companyName"
@@ -130,8 +128,8 @@
             <span ng-show="formSignupStart.email.$error.email" translate>
               Please insert a valid email.
             </span>
-            <span ng-show="errorEmailAlreadyRegistered" translate>
-              Email already registered.
+            <span ng-show="errorEmailAlreadyRegistered">
+              <translate>Email already registered.</translate>
               <a ui-sref="forget-password" translate>Forgot your password?</a>
             </span>
           </div>

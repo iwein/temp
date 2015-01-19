@@ -472,26 +472,26 @@
           <!-- Availability box -->
           <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-avail" ng-if="availability.editing">
             <button class="add-panel-close" ng-click="availability.close()"><i class="fa fa-close"></i></button>
-            <h5 class="edit-title" translate>Availability<h5>
-              <p class="font-12" translate>Please enter your notice period or when you will be available.</p>
-              <form class="edit-form" ng-submit="availability.save(availability.data)">
-                <textarea class="fw mrg-btm" required ng-model="availability.data"></textarea>
-                <div class="buttons-wrap">
-                  <button type="submit"
-                          class="fl-rg bg-green btn-small mrg-lft-small"
-                          ng-disabled="loading"
-                          translate>
-                    Save
-                  </button>
-                  <button type="button"
-                          class="fl-rg bg-gray-lighter2 btn-small"
-                          ng-click="availability.close()"
-                          ng-disabled="loading"
-                          translate>
-                    Cancel
-                  </button>
-                </div>
-              </form>
+            <h5 class="edit-title" translate>Availability</h5>
+            <p class="font-12" translate>Please enter your notice period or when you will be available.</p>
+            <form class="edit-form" ng-submit="availability.save(availability.data)">
+              <textarea class="fw mrg-btm" required ng-model="availability.data"></textarea>
+              <div class="buttons-wrap">
+                <button type="submit"
+                        class="fl-rg bg-green btn-small mrg-lft-small"
+                        ng-disabled="loading"
+                        translate>
+                  Save
+                </button>
+                <button type="button"
+                        class="fl-rg bg-gray-lighter2 btn-small"
+                        ng-click="availability.close()"
+                        ng-disabled="loading"
+                        translate>
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
           <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="availability.editing">
             <div class="box-title box-title_left mrg-btm">
