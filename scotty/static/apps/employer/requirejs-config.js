@@ -17,7 +17,7 @@ requirejs.config({
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
     'textangular': 'bower_components/textAngular/dist/textAngular.min',
     'angulartics': 'bower_components/angulartics/dist/angulartics.min',
-    'angulartics-ga': 'bower_components/angulartics/dist/angulartics-ga.min',
+    'angulartics-ga': 'tools/angulartics-ga',
 
     // aliases
     'conf': 'config/config',

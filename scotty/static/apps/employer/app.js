@@ -6,7 +6,8 @@ define(function(require) {
   var module = require('app-module');
   require('../common/basic-conf')(module);
 
-  module.config(function($stateProvider, $urlRouterProvider) {
+  module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
+    $analyticsProvider.prefix = '/employer';
     $urlRouterProvider.otherwise('/dashboard/');
 
     $stateProvider
