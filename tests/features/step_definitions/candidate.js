@@ -46,7 +46,7 @@ stepDefinitions(function(scenario) {
         ]),
         AJAX.put('/candidates/me/skills', [
           { 'skill': this.vars.unique_skill, 'level': 'expert' },
-          { 'skill': 'PHP', 'level': 'basic' },
+          { 'skill': 'Python', 'level': 'basic' },
           { 'skill': 'Java', 'level': 'advanced' },
         ]),
         AJAX.post('/candidates/me/education', {
