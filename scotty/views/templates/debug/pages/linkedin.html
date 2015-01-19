@@ -5,8 +5,7 @@
 <%def name="scripts()">
 <script>
     $(function(){
-      var furl = encodeURIComponent(window.location.href);
-      $("#nav").append('<a href="/api/v1/connect/xing?furl='+ furl +'">Connect with XING</a>');
+        $("#nav").append('<a href="/api/v1/connect/linkedin?furl='+ window.location.href +'">Connect with Linkedin</a>')
     });
 </script>
 </%def>
