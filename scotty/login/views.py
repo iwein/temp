@@ -1,6 +1,6 @@
 import hashlib
 
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty import DBSession
@@ -10,6 +10,7 @@ from scotty.login.models import UnifiedLogin
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET
+from simplejson import JSONDecodeError
 
 
 __author__ = 'martin'
@@ -21,7 +22,7 @@ def includeme(config):
     config.add_route('resetpassword', 'resetpassword/{token}')
 
 
-def get_login(email=None, pwd=None, token=None):
+def get_login(email=None, pwd=None, token=None, raise_404=True):
     login = DBSession.query(UnifiedLogin)
     if email:
         login = login.filter(UnifiedLogin.email == email)
@@ -31,12 +32,15 @@ def get_login(email=None, pwd=None, token=None):
         login = login.filter(UnifiedLogin.pwdforgot_token == token)
     login = login.first()
     if not login:
-        raise HTTPNotFound("Unknown Login.")
+        if raise_404:
+            raise HTTPNotFound("Unknown Login.")
+        else:
+            return None, None
     lookup = {'employer': Employer, 'candidate': Candidate}
     return login, lookup[login.table_name]
 
 
-@view_config(route_name='login', permission=NO_PERMISSION_REQUIRED, **POST)
+@view_config(route_name='login', permission=NO_PERMISSION_REQUIRED, xhr=True, **POST)
 def login(context, request):
     params = request.json
     email = params['email']
@@ -48,6 +52,33 @@ def login(context, request):
         return {'preferred': login_obj.table_name, 'id': user.id}
     else:
         raise HTTPNotFound("Login Disabled. Please contact support.")
+
+
+@view_config(route_name='login', permission=NO_PERMISSION_REQUIRED, xhr=False, request_method="POST")
+def login_post(context, request):
+    redirect = request.GET.get('redirect')
+    params = request.POST
+    email = params['email']
+    pwd = hashlib.sha256(params['pwd']).hexdigest()
+    login_obj, cls = get_login(email=email, pwd=pwd, raise_404=not redirect)
+
+    if login_obj is None:
+        raise HTTPFound(location=(request.referer or '/') + '#unknown')
+    else:
+        user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
+        if user and user.can_login:
+            request.session['%s_id' % login_obj.table_name] = user.id
+
+            if redirect:
+                if login_obj.table_name == 'candidate':
+                    raise HTTPFound(request.emailer.candidate_dashboard_url)
+                else:
+                    raise HTTPFound(request.emailer.employer_dashboard_url)
+
+            return {'preferred': login_obj.table_name, 'id': user.id}
+        else:
+            raise HTTPFound(location=(request.referer or '/') + '#unknown')
+
 
 
 class PasswordController(RootController):

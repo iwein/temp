@@ -78,6 +78,7 @@ def recommend(request):
             DBSession.add(referral)
     return {'success': True, 'message': 'referred'}
 
+
 @view_config(route_name='contact', permission=NO_PERMISSION_REQUIRED, request_method="POST")
 def contact(request):
     email = request.params.get('email')
@@ -88,7 +89,6 @@ def contact(request):
     else:
         request.emailer.send_contact_request(email, name, message)
     raise HTTPFound(location=(request.referer or '/') + '#contacted')
-
 
 
 def notfound(exc, request):
@@ -102,7 +102,7 @@ def includeme(config):
 
     config.include("scotty.views.debug", route_prefix='/debug')
     config.add_notfound_view(notfound, append_slash=True)
-    config.add_forbidden_view(http_error)
+    # config.add_forbidden_view(http_error)
 
     config.include("scotty.login.views", route_prefix='/api/v1')
     config.include("scotty.configuration.views", route_prefix='/api/v1/config')
@@ -110,8 +110,9 @@ def includeme(config):
     config.include("scotty.employer.views", route_prefix='/api/v1/employers')
     config.include("scotty.admin.views", route_prefix='/api/v1/admin')
     config.include("scotty.connect.linkedin", route_prefix='/api/v1/connect')
+    config.include("scotty.connect.xing", route_prefix='/api/v1/connect')
     config.include("scotty.cms.views", route_prefix='/api/v1/cms')
 
-    config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
-    config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
-    config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)
+    # config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
+    # config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
+    # config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)

@@ -7,7 +7,7 @@ lang: de
 ---
 
 <div class="alert-container">
-  <div id="error" class="alert alert-danger not-visible">
+  <div id="automessage-unknown" class="alert alert-danger not-visible">
     Email oder Passwort unbekannt. Bitte pr&uuml;fen Sie Ihre Eingabe!
   </div>
   <div id="automessage-reset-sent" class="alert alert-success not-visible">Passwortzur&uuml;cksetzen-Email wurde versandt. Bitte schauen Sie in Ihren Maileingang.</div>
@@ -17,7 +17,7 @@ lang: de
   <div class="banner-inner banner-inner-small">
     <div class="banner-login">
       <h3>Als Kandidat oder Arbeitgeber einloggen:</h3>
-      <form id="login-form">
+      <form id="login-form" method="POST">
 
         <div class="form-group required row">
           <label class="col-sm-4">Email</label>
@@ -28,7 +28,7 @@ lang: de
         <div class="form-group required row">
           <label class="col-sm-4">Passwort</label>
           <div class="col-sm-8">
-            <input class="form-control" type="password" name="password" required>
+            <input class="form-control" type="password" name="pwd" required>
           </div>
         </div>
         <div class="buttons-wrap">
@@ -46,23 +46,7 @@ lang: de
 <script type="text/javascript">
   (function() {
     'use strict';
-    var url = app.api_url + 'v1/login';
     var $form = document.getElementById('login-form');
-    var $email = document.getElementsByName('email')[0];
-    var $password = document.getElementsByName('password')[0];
-    var $error = document.getElementById('error');
-
-    $form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      app.POST(url, {
-        email: $email.value,
-        pwd: $password.value,
-      }, function(response) {
-        if (response.status === 404)
-          return app.display($error);
-        var data = JSON.parse(response.responseText);
-        document.location = './' + data.preferred + '/';
-      });
-    }, true);
+    $form.action = app.api_url + 'v1/login?redirect=true';
   })();
 </script>
