@@ -46,7 +46,7 @@ stepDefinitions(function(scenario) {
         ]),
         AJAX.put('/candidates/me/skills', [
           { 'skill': this.vars.unique_skill, 'level': 'expert' },
-          { 'skill': 'PHP', 'level': 'basic' },
+          { 'skill': 'Python', 'level': 'basic' },
           { 'skill': 'Java', 'level': 'advanced' },
         ]),
         AJAX.post('/candidates/me/education', {
@@ -72,10 +72,8 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^Candidate logs in$/, function() {
-    return this.storeRequest(AJAX.post('/login', {
-      'email': this.vars.candidate_email,
-      'pwd': 'welcomepwd',
-    }));
+    return this.storeRequest(AJAX.post('/login', 'pwd=welcomepwd&email=' +
+      encodeURIComponent(this.vars.candidate_email)));
   });
 
   scenario.Given(/^Candidate logs out$/, function() {

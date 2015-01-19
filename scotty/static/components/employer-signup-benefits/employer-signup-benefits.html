@@ -1,17 +1,17 @@
 <form name="formSignupBenefits"
-      class="component-employer-signup-benefits form-horizontal row"
-      ng-submit="signupBenefits.submit()">
+  class="component-employer-signup-benefits form-horizontal row"
+  ng-submit="signupBenefits.submit()">
 
   <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
-      <h3 class="signup-title">Benefits &amp; Process</h3>
+      <h3 class="signup-title" translate>Benefits &amp; Process</h3>
       <div class="form-wrap edit-form mrg-btm bg-gray-lighter pad-30 form-signup">
 
         <hc-benefits-edit row-class="row" col-class="col-lg-6 col-sm-12 form-benefits mrg-btm-small"
-                          benefits="benefits" other-benefits="model.other_benefits"></hc-benefits-edit>
+          benefits="benefits" other-benefits="model.other_benefits"></hc-benefits-edit>
 
         <div class="mrg-btm row required">
-          <label class="col-sm-12">Recruitment process</label>
+          <label class="col-sm-12" translate>Recruitment process</label>
           <div class="col-sm-12">
             <text-angular
               name="recruitment_process"
@@ -22,13 +22,13 @@
             </text-angular>
           </div>
 
-          <div class="col-sm-12 form-error" ng-show="dirty && !model.recruitment_process">
+          <div class="col-sm-12 form-error" ng-show="dirty && !model.recruitment_process" translate>
             Please, provide a description of your recruitment process.
           </div>
         </div>
 
         <div class="row mrg-btm">
-          <label class="col-sm-12">Training policy</label>
+          <label class="col-sm-12" translate>Training policy</label>
           <div class="col-sm-12">
             <text-angular
               name="training"
@@ -41,9 +41,7 @@
       </div>
 
       <div class="buttons-wrap mrg-top mrg-btm-30">
-        <button type="submit"
-                class="fl-rg bg-green btn-small"
-                ng-disabled="loading">
+        <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading" translate>
           Continue
         </button>
       </div>
@@ -54,14 +52,13 @@
   <div class="col-sm-4 ">
     <div class="row bg-gray-lighter2 mrg-btm">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Help</div>
-        <div class="">
-          <p>
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Help</div>
+        <div>
+          <p translate>
             Tell candidates what other, non-monetary benefits they can expect when they come work for you.
             This is the place to mention your catering chef's Michellin stars and your outstanding training policies!
           </p>
-          <p>
+          <p translate>
             Please describe in detail your recruitment process.
             Candidates are more likely to accept offers with clear next steps!
           </p>
@@ -71,17 +68,16 @@
     </div>
     <div class="row  border-box">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Our Values</div>
-        <div class="">
-          <h4 class="orange lt caps font-14 mrg-btm-small">The Best candidates</h4>
-          <p class="mrg-btm font-12">We are not a conventional job portal, which is the real reason that IT pros love 4Scotty. That’s our secret to providing access to the most competent experts that the market has to offer.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Convenient & time-saving</h4>
-          <p class="mrg-btm font-12">At 4Scotty, HR reps can see at first glance which skills a candidate possesses. This prevents the need for unnecessary and expensive job interviews.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Only Pay if you hire</h4>
-          <p class="mrg-btm font-12">Whether you choose the one-time payment or monthly pricing model – at 4Scotty you only pay once you have actually hired a candidate.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Quality-Assured</h4>
-          <p class="mrg-btm font-12">Our close contact to candidates ensures authentic and  comprehensive profiles. Manipulation is virtually impossible.</p>
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Our Values</div>
+        <div>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>The Best candidates</h4>
+          <p class="mrg-btm font-12" translate>We are not a conventional job portal, which is the real reason that IT pros love 4Scotty. That’s our secret to providing access to the most competent experts that the market has to offer.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Convenient & time-saving</h4>
+          <p class="mrg-btm font-12" translate>At 4Scotty, HR reps can see at first glance which skills a candidate possesses. This prevents the need for unnecessary and expensive job interviews.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Only Pay if you hire</h4>
+          <p class="mrg-btm font-12" translate>Whether you choose the one-time payment or monthly pricing model – at 4Scotty you only pay once you have actually hired a candidate.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Quality-Assured</h4>
+          <p class="mrg-btm font-12" translate>Our close contact to candidates ensures authentic and  comprehensive profiles. Manipulation is virtually impossible.</p>
         </div>
       </div>
     </div>
