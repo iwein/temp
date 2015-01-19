@@ -3,20 +3,20 @@
 
     <div class="status-wrap">
       <div class="status">
-        <span>Status: </span>
+        <span><translate>Status</translate: </span>
         <span ng-show="status === 'searching'">
           <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
-          <span>searching</span>
+          <span translate>searching</span>
         </span>
         <span ng-show="status === 'reviewing'">
           <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
-          <span>reviewing offers</span>
+          <span translate>reviewing offers</span>
         </span>
         <span ng-show="status === 'sleeping'">
-          <span class="green smbd">SLEEPING</span>
+          <span class="green smbd" translate>SLEEPING</span>
         </span>
         <span ng-show="status === 'hired'">
-          <span class="green smbd">HIRED</span>
+          <span class="green smbd" translate>HIRED</span>
         </span>
       </div>
     </div>
@@ -32,7 +32,7 @@
         <div class="row">
           <div class="col-sm-12 border-box mrg-btm">
             <div class="padd-vert">
-              <div class="box-title box-title_left mrg-btm gray-darker">Expectation</div>
+              <div class="box-title box-title_left mrg-btm gray-darker" translate>Expectation</div>
               <div> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
             <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span> {{ user.location.city }}, {{ user.location.country_iso }}</div>
             </div>
@@ -42,7 +42,7 @@
             <div class="row">
               <div class="contacts">
                 <div class="fl-lf">
-                  <span class="box-title box-title_left">Contact</span>
+                  <span class="box-title box-title_left" translate>Contact</span>
                 </div>
                 <div class="fl-rg" ng-show="user.employer_has_accepted_offers">
                   <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
@@ -54,7 +54,7 @@
               <div class="padd-vert col-sm-12">
                 <div ng-show="!user.employer_has_accepted_offers">
                   <div class="info bg-gray-light">
-                    <p class="pad-xl">The contact details will be visible after the candidate accepts your offer.</p>
+                    <p class="pad-xl" translate>The contact details will be visible after the candidate accepts your offer.</p>
                   </div>
                 </div>
                 <div ng-show="user.employer_has_accepted_offers">
@@ -74,19 +74,25 @@
 
           <div class="col-sm-12 border-box mrg-btm">
             <div class="padd-vert">
-              <div> <span class="iconParent"><i class="fa fa-birthday-cake orange"></i> </span> Age {{ user.dob | yearsAgo }}</div>
-              <div> <span class="iconParent"><i class="fa orange" ng-class="{
-                'fa-check': user.eu_work_visa,
-                'fa-times': !user.eu_work_visa,
-              }"></i></span> has a work visa</div>
+              <div>
+                <span class="iconParent"><i class="fa fa-birthday-cake orange"></i></span>
+                <translate>Age</translate> {{ user.dob | yearsAgo }}
+              </div>
+              <div>
+                <span class="iconParent"><i class="fa orange" ng-class="{
+                  'fa-check': user.eu_work_visa,
+                  'fa-times': !user.eu_work_visa,
+                }"></i></span>
+                <translate>has a work visa</translate>
+              </div>
             </div>
           </div>
           <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
-            <div class="box-title box-title_left mrg-btm">Availability</div>
-            <p class="gray">{{ user.availability || 'Not specified' }}</p>
+            <div class="box-title box-title_left mrg-btm" translate>Availability</div>
+            <p class="gray">{{ (user.availability || 'Not specified') | translate }}</p>
           </div>
           <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
-            <div class="box-title box-title_left mrg-btm">Languages</div>
+            <div class="box-title box-title_left mrg-btm" translate>Languages</div>
             <div ng-repeat="entry in languages">
               <span class="value gray">{{ entry.language }}: <span class="smbd">{{ entry.proficiency }}</span></span>
             </div>
@@ -103,7 +109,10 @@
                     <h2 class="main-title">{{ user.first_name }} {{ user.last_name }}</h2>
                   </div>
                   <div class="emp-off-desc">
-                    <h3 class="main-subtitle">Target position: <span>{{ targetPosition.role }}</span></h3>
+                    <h3 class="main-subtitle">
+                      <translate>Target position</translate>:
+                      <span>{{ targetPosition.role }}</span>
+                    </h3>
                     <p>{{ user.summary }}</p>
                   </div>
                 </div>
@@ -114,30 +123,41 @@
           <div class="col-sm-4 bg-white user-desc">
             <div class="bg-gray-light row" ng-hide="!offers.length || status === 'hired'">
               <div class="offer-box col-sm-12">
-                <div class="box-title box-title_right text-center pad-rgt-15">Offers</div>
+                <div class="box-title box-title_right text-center pad-rgt-15" translate>Offers</div>
                 <div ng-repeat="offer in offers">
                   <div class="orange bld">{{ offer.employer.company_name }}</div>
-                  <div class="mrg-btm-small">€ {{ offer.annual_salary | dottedInteger }}.00 / year</div>
+                  <div class="mrg-btm-small">
+                    € {{ offer.annual_salary | dottedInteger }}.00 / <translate>year</translate>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="row">
               <div ng-show="canMakeOffer" class="buttons-wrap mrg">
-                <a ui-sref="create-offer({ id: id })" class="fw btn bg-green">Make an offer</a>
+                <a ui-sref="create-offer({ id: id })" class="fw btn bg-green" translate>Make an offer</a>
               </div>
-              <span ng-show="!user.candidate_has_been_hired && offerSent" class="fw btn-fake bg-blue-light">offer made</span>
-              <span ng-show="!offerSent && user.employer_blacklisted" class="fw btn-fake bg-blue-light">You were Blocked</span>
+              <span ng-show="!user.candidate_has_been_hired && offerSent" class="fw btn-fake bg-blue-light" translate>offer made</span>
+              <span ng-show="!offerSent && user.employer_blacklisted" class="fw btn-fake bg-blue-light" translate>You were Blocked</span>
             </div>
           </div>
           <div class="col-sm-12 mrg-btm">
             <div class="border-box row skills-box">
               <div class="col-sm-3">
                 <div class="skills-head">
-                  <div class="big-title skills-title">SKILLS</div>
+                  <div class="big-title skills-title" translate>SKILLS</div>
                   <div class="caption">
-                    <div>expert  <hc-stars hc-value="expert" hc-values="starValues"></hc-stars></div>
-                    <div>advanced <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars></div>
-                    <div>basic <hc-stars hc-value="basic" hc-values="starValues"></hc-stars></div>
+                    <div>
+                      <translate>expert</translate>
+                      <hc-stars hc-value="expert" hc-values="starValues"></hc-stars>
+                    </div>
+                    <div>
+                      <translate>advanced</translate>
+                      <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars>
+                    </div>
+                    <div>
+                      <translate>basic</translate>
+                      <hc-stars hc-value="basic" hc-values="starValues"></hc-stars>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -151,8 +171,10 @@
                   </div>
                   <div class="col-sm-12" ng-if="unleveledSkills">
                     <div class="skills-others">
-                      <span class="smbd">Others:</span> {{ unleveledSkills }}</div>
+                      <span class="smbd"><translate>Others</translate>:</span>
+                      {{ unleveledSkills }}
                     </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -174,9 +196,11 @@
 
           <div class="row bg-white mrg-btm">
             <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title">WORK EXPERIENCE <span>{{ totalWorkExperience | toMonthsYears }}</span></h2>
+              <h2 class="big-title accordion-main-title">
+                <translate>WORK EXPERIENCE</translate>
+                <span>{{ totalWorkExperience | toMonthsYears }}</span>
+              </h2>
               <div class="accordion-wrap">
-
                 <hc-accordion ng-repeat="entry in workExperience" hc-hide-control="!entry.summary && !entry.skills.length">
                   <h3 class="accordion-subtitle">{{ entry.role }}</h3>
                   <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
@@ -187,7 +211,7 @@
                   </span>
                   <div class="accordion-text">{{ entry.summary }}</div>
                   <div class="accordion-text" ng-show="entry.skills.length">
-                    <strong>Technologies/Skills:</strong>
+                    <strong translate>Technologies/Skills:</strong>
                     {{ entry.skills.join(', ') }}
                   </div>
                 </hc-accordion>
@@ -197,7 +221,10 @@
 
           <div class="row bg-white">
             <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title ">EDUCATION <span>{{ highestDegree }}</span></h2>
+              <h2 class="big-title accordion-main-title">
+                <translate>EDUCATION</translate>
+                <span>{{ highestDegree }}</span>
+              </h2>
               <div class="accordion-wrap">
                 <div class="accordion-container" ng-repeat="entry in education">
                   <h3 class="accordion-subtitle">

@@ -1,19 +1,17 @@
 <div>
   <div ng-if="hcTitle" class="panel-heading">
-    <h3>
-      {{ hcTitle }}
-    </h3>
+    <h3>{{ hcTitle }}</h3>
   </div>
   <ul>
     <li class="bg-gray-lighter pad-30" ng-show="model.length">
       <div class="row">
-        <div class="caps blue-link smbd lt col-sm-4">Company</div>
-        <div class="col-sm-4 caps blue-link smbd lt">Duration</div>
+        <div class="caps blue-link smbd lt col-sm-4" translate>Company</div>
+        <div class="col-sm-4 caps blue-link smbd lt" translate>Duration</div>
         <div class="col-sm-2 text-center">
-          <span class="lt smbd gray-darker caps">Edit</span>
+          <span class="lt smbd gray-darker caps" translate>Edit</span>
         </div>
         <div class="col-sm-2 text-center">
-          <span class="lt smbd gray-darker caps">Add</span>
+          <span class="lt smbd gray-darker caps" translate>Add</span>
         </div>
 
         <div class="col-sm-12" ng-repeat="entry in model">
@@ -48,13 +46,15 @@
               <div class="buttons-wrap">
                 <button type="submit"
                   class="bg-green btn-small fl-rg mrg-lft"
-                  ng-disabled="loading">
+                  ng-disabled="loading"
+                  translate>
                   Done
                 </button>
                 <button type="button"
                   class="bg-gray-light btn-small fl-rg"
                   ng-disabled="loading"
-                  ng-click="hcExperienceCtrl.setActive(-1)">
+                  ng-click="hcExperienceCtrl.setActive(-1)"
+                  translate>
                   Cancel
                 </button>
               </div>
@@ -67,7 +67,8 @@
             class="add-btn no-fl"
             ng-disabled="loading"
             ng-click="hcExperienceCtrl.setAdding(true)">
-            <i class="fa fa-plus"></i> Add
+            <i class="fa fa-plus"></i>
+            <translate>Add</translate>
           </button>
           <div class="clearfix"></div>
         </div>
@@ -86,14 +87,16 @@
           <div class="buttons-wrap">
             <button type="submit"
               class="bg-green btn-small fl-rg mrg-lft"
-              ng-disabled="loading">
+              ng-disabled="loading"
+              translate>
               Save
             </button>
             <button type="button"
               ng-show="adding && model.length"
               class="bg-gray-light btn-small fl-rg"
               ng-disabled="loading"
-              ng-click="hcExperienceCtrl.setAdding(false)">
+              ng-click="hcExperienceCtrl.setAdding(false)"
+              translate>
               Cancel
             </button>
           </div>

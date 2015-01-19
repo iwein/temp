@@ -5,59 +5,88 @@
       <li ng-class="{
         active: signup.atStep('signup.target'),
         unactive: signup.afterStep('signup.target'),
-         }" ng-class="{  }" class="row">
-        <span class="ico-can-signup ico-can-signup_tar"></span>Target position <i class="fa fa-check green" ng-if="signup.afterStep('signup.target')"></i>
+      }" ng-class="{  }" class="row">
+        <span class="ico-can-signup ico-can-signup_tar"></span>
+        <translate>Target position</translate>
+        <i class="fa fa-check green" ng-if="signup.afterStep('signup.target')"></i>
       </li>
       <li ng-class="{
         active: signup.atStep('signup.user'),
         unactive: signup.afterStep('signup.user'),
       }" class="row">
-        <span class="ico-can-signup ico-can-signup_free"></span>Free Sign up <i class="fa fa-check green" ng-if="signup.afterStep('signup.user')"></i>
+        <span class="ico-can-signup ico-can-signup_free"></span>
+        <translate>Free Sign up</translate>
+        <i class="fa fa-check green" ng-if="signup.afterStep('signup.user')"></i>
       </li>
       <li ng-class="{
         active: signup.atStep('signup.experience'),
         unactive: signup.afterStep('signup.experience'),
       }" class="row">
         <a ng-if="signup.afterStep('signup.experience')" ui-sref="signup.experience">
-          <span class="ico-can-signup ico-can-signup_work"></span>Work Experience <i class="fa fa-check green"></i>
+          <span class="ico-can-signup ico-can-signup_work"></span>
+          <translate>Work Experience</translate>
+          <i class="fa fa-check green"></i>
         </a>
-        <span ng-if="!signup.afterStep('signup.experience')"><span class="ico-can-signup ico-can-signup_work"></span>Work Experience</span>
+        <span ng-if="!signup.afterStep('signup.experience')">
+          <span class="ico-can-signup ico-can-signup_work"></span>
+          <translate>Work Experience</translate>
+        </span>
       </li>
       <li ng-class="{
         active: signup.atStep('signup.education'),
         unactive: signup.afterStep('signup.education'),
       }" class="row">
         <a ng-if="signup.afterStep('signup.education')" ui-sref="signup.education">
-          <span class="ico-can-signup ico-can-signup_edu"></span>Education <i class="fa fa-check green"></i>
+          <span class="ico-can-signup ico-can-signup_edu"></span>
+          <translate>Education</translate>
+          <i class="fa fa-check green"></i>
         </a>
-        <span ng-if="!signup.afterStep('signup.education')"> <span class="ico-can-signup ico-can-signup_edu"></span>Education</span>
+        <span ng-if="!signup.afterStep('signup.education')">
+          <span class="ico-can-signup ico-can-signup_edu"></span>
+          <translate>Education</translate>
+        </span>
       </li>
       <li ng-class="{
         active: signup.atStep('signup.skills'),
         unactive: signup.afterStep('signup.skills'),
       }" class="row">
         <a ng-if="signup.afterStep('signup.skills')" ui-sref="signup.skills">
-          <span class="ico-can-signup ico-can-signup_skills"></span>Skills <i class="fa fa-check green"></i>
+          <span class="ico-can-signup ico-can-signup_skills"></span>
+          <translate>Skills</translate>
+          <i class="fa fa-check green"></i>
         </a>
-        <span ng-if="!signup.afterStep('signup.skills')"><span class="ico-can-signup ico-can-signup_skills"></span>Skills</span>
+        <span ng-if="!signup.afterStep('signup.skills')">
+          <span class="ico-can-signup ico-can-signup_skills"></span>
+          <translate>Skills</translate>
+        </span>
       </li>
       <li ng-class="{
         active: signup.atStep('signup.languages'),
         unactive: signup.afterStep('signup.languages'),
       }" class="row">
         <a ng-if="signup.afterStep('signup.languages')" ui-sref="signup.languages">
-          <span class="ico-can-signup ico-can-signup_lang"></span>Languages <i class="fa fa-check green"></i>
+          <span class="ico-can-signup ico-can-signup_lang"></span>
+          <translate>Languages</translate>
+          <i class="fa fa-check green"></i>
         </a>
-        <span ng-if="!signup.afterStep('signup.languages')"> <span class="ico-can-signup ico-can-signup_lang"></span>Languages</span>
+        <span ng-if="!signup.afterStep('signup.languages')">
+          <span class="ico-can-signup ico-can-signup_lang"></span>
+          <translate>Languages</translate>
+        </span>
       </li>
       <li ng-class="{
         active: signup.atStep('signup.profile'),
         unactive: signup.afterStep('signup.profile'),
       }" class="row">
         <a ng-if="signup.afterStep('signup.profile')" ui-sref="signup.profile">
-          <span class="ico-can-signup ico-can-signup_final"></span>Final step <i class="fa fa-check green"></i>
+          <span class="ico-can-signup ico-can-signup_final"></span>
+          <translate>Final step</translate>
+          <i class="fa fa-check green"></i>
         </a>
-        <span ng-if="!signup.afterStep('signup.profile')"><span class="ico-can-signup ico-can-signup_final"></span>Final step</span>
+        <span ng-if="!signup.afterStep('signup.profile')">
+          <span class="ico-can-signup ico-can-signup_final"></span>
+          <translate>Final step</translate>
+        </span>
       </li>
       <div class="clearfix"></div>
     </ol>

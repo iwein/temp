@@ -9,7 +9,7 @@
         <dt>Website</dt>
         <dd>{{ entry.website }}</dd>
         -->
-        <dt>Address</dt>
+        <dt translate>Address</dt>
         <dd>
           <address>
             {{ entry.address_line1 }}<br>
@@ -20,17 +20,17 @@
             {{ entry.address_zipcode }}
           </address>
         </dd>
-        <dt>Contact name</dt>
+        <dt translate>Contact name</dt>
         <dd>{{ entry.contact_first_name }} {{ entry.contact_last_name }}</dd>
-        <dt>Contact phone</dt>
+        <dt translate>Contact phone</dt>
         <dd>{{ entry.contact_phone }}</dd>
-        <dt>Contact email</dt>
+        <dt translate>Contact email</dt>
         <dd>{{ entry.contact_email }}</dd>
-        <dt ng-if="entry.contact_position">Contact position</dt>
+        <dt ng-if="entry.contact_position" translate>Contact position</dt>
         <dd ng-if="entry.contact_position">{{ entry.contact_position }}</dd>
         <dd ng-if="hcEditable && entry.type !== 'HQ'">
-          <button type="button" class="btn btn-default" ng-click="edit(entry)">Edit</button>
-          <button type="button" class="btn btn-default" ng-click="remove(entry)">Remove</button>
+          <button type="button" class="btn btn-default" ng-click="edit(entry)" translate>Edit</button>
+          <button type="button" class="btn btn-default" ng-click="remove(entry)" translate>Remove</button>
         </dd>
       </dl>
     </li>

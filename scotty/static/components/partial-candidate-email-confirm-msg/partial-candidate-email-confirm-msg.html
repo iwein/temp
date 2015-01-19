@@ -1,9 +1,10 @@
 <div class="alert {{ resent?'alert-success':'alert-warning' }} alert-verification">
-  <div class="title">Please check your inbox and confirm your email address.</div>
-  <small ng-if="!resent">You have not received your email confirmation? You checked your spam folder?
-    <a class="link" ng-click="resend()" >Resend confirmation now!</a>.
+  <div class="title" translate>Please check your inbox and confirm your email address.</div>
+  <small ng-if="!resent">
+    <translate>You have not received your email confirmation? You checked your spam folder?</translate>
+    <a class="link" ng-click="resend()" translate>Resend confirmation now!</a>.
   </small>
-  <small ng-if="resent">
+  <small ng-if="resent" translate>
     Your account confirmation email has been resent!
   </small>
 </div>

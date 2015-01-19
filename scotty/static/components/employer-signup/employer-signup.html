@@ -3,61 +3,130 @@
   <div class="signup-container" ng-show="ready">
     <div class="col-sm-3">
       <div class="contact-me row">
-        <p>Please don't hesitate to contact me at <a href="mailto:mschleuthner@4scotty.com">mschleuthner@4scotty.com</a> or by phone at +49(0)30 2639389-15, if you've got questions regarding the sign up.</p>
-        <p><span>Matthias Schleuthner</span></br>Employer Advocate</p>
+        <p>
+          <translate>Please don't hesitate to contact me at</translate>
+          <a href="mailto:mschleuthner@4scotty.com">mschleuthner@4scotty.com</a>
+          <translate>or by phone at</translate>
+          +49(0)30 2639389-15,
+          <translate>if you've got questions regarding the sign up.</translate>
+        </p>
+        <p>
+          <span>Matthias Schleuthner</span><br/>
+          <translate>Employer Advocate</translate>
+        </p>
       </div>
       <ol class="list-unstyled sidenav bg-white row">
-        <li ng-class="{ active: signup.atStep('signup.start'),
-                        unactive: signup.afterStep('signup.start')
-                      }" class=""><span class="ico-emp-signup ico-emp-signup_start"></span>Start <i class="fa fa-check green" ng-if="signup.afterStep('signup.start')"></i></li>
-
-        <li ng-class="{ active: signup.atStep('signup.basic'),
-                        unactive: signup.afterStep('signup.basic')
-                      }" class="">
-          <a ng-if="signup.afterStep('signup.basic')" ui-sref="signup.basic"><span class="ico-emp-signup ico-emp-signup_basic"></span>Basic information <i class="fa fa-check green" ng-if="signup.afterStep('signup.basic')"></i></a>
-          <span ng-if="!signup.afterStep('signup.basic')"><span class="ico-emp-signup ico-emp-signup_basic"></span>Basic information </span>
+        <li ng-class="{
+          active: signup.atStep('signup.start'),
+          unactive: signup.afterStep('signup.start')
+        }">
+          <span class="ico-emp-signup ico-emp-signup_start"></span>
+          <translate>Start</translate>
+          <i class="fa fa-check green" ng-if="signup.afterStep('signup.start')"></i>
         </li>
 
-        <li ng-class="{ active: signup.atStep('signup.offices'),
-                        unactive: signup.afterStep('signup.offices')
-                      }" class="">
-          <a ng-if="signup.afterStep('signup.offices')" ui-sref="signup.offices"><span class="ico-emp-signup ico-emp-signup_offices"></span>Offices <i class="fa fa-check green" ng-if="signup.afterStep('signup.offices')"></i></a>
-          <span ng-if="!signup.afterStep('signup.offices')"><span class="ico-emp-signup ico-emp-signup_offices"></span>Offices</span>
+        <li ng-class="{
+          active: signup.atStep('signup.basic'),
+          unactive: signup.afterStep('signup.basic')
+        }">
+          <a ng-if="signup.afterStep('signup.basic')" ui-sref="signup.basic">
+            <span class="ico-emp-signup ico-emp-signup_basic"></span>
+            <translate>Basic information</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.basic')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.basic')">
+            <span class="ico-emp-signup ico-emp-signup_basic"></span>
+            <translate>Basic information</translate>
+          </span>
         </li>
 
-        <li ng-class="{ active: signup.atStep('signup.mission'),
-                        unactive: signup.afterStep('signup.mission')
-                      }" class="">
-          <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission"><span class="ico-emp-signup ico-emp-signup_facts"></span>Company Facts <i class="fa fa-check green" ng-if="signup.afterStep('signup.mission')"></i></a>
-          <span ng-if="!signup.afterStep('signup.mission')"><span class="ico-emp-signup ico-emp-signup_facts"></span>Company Facts</span>
+        <li ng-class="{
+          active: signup.atStep('signup.offices'),
+          unactive: signup.afterStep('signup.offices')
+        }">
+          <a ng-if="signup.afterStep('signup.offices')" ui-sref="signup.offices">
+            <span class="ico-emp-signup ico-emp-signup_offices"></span>
+            <translate>Offices</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.offices')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.offices')">
+            <span class="ico-emp-signup ico-emp-signup_offices"></span>
+            <translate>Offices</translate>
+          </span>
         </li>
 
-        <li ng-class="{ active: signup.atStep('signup.facts'),
-                        unactive: signup.afterStep('signup.facts')
-                      }" class="">
-          <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts"><span class="ico-emp-signup ico-emp-signup_tech"></span>Tech Facts <i class="fa fa-check green" ng-if="signup.afterStep('signup.facts')"></i></a>
-          <span ng-if="!signup.afterStep('signup.facts')"><span class="ico-emp-signup ico-emp-signup_tech"></span>Tech Facts</span>
+        <li ng-class="{
+          active: signup.atStep('signup.mission'),
+          unactive: signup.afterStep('signup.mission')
+        }">
+          <a ng-if="signup.afterStep('signup.mission')" ui-sref="signup.mission">
+            <span class="ico-emp-signup ico-emp-signup_facts"></span>
+            <translate>Company Facts</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.mission')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.mission')">
+            <span class="ico-emp-signup ico-emp-signup_facts"></span>
+            <translate>Company Facts</translate>
+          </span>
         </li>
 
-        <li ng-class="{ active: signup.atStep('signup.benefits'),
-                        unactive: signup.afterStep('signup.benefits')
-                      }" class="">
-          <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits"><span class="ico-emp-signup ico-emp-signup_ben"></span>Benefits <i class="fa fa-check green" ng-if="signup.afterStep('signup.benefits')"></i></a>
-          <span ng-if="!signup.afterStep('signup.benefits')"> <span class="ico-emp-signup ico-emp-signup_ben"></span>Benefits &amp; Process</span>
+        <li ng-class="{
+          active: signup.atStep('signup.facts'),
+          unactive: signup.afterStep('signup.facts')
+        }">
+          <a ng-if="signup.afterStep('signup.facts')" ui-sref="signup.facts">
+            <span class="ico-emp-signup ico-emp-signup_tech"></span>
+            <translate>Tech Facts</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.facts')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.facts')">
+            <span class="ico-emp-signup ico-emp-signup_tech"></span>
+            <translate>Tech Facts</translate>
+          </span>
         </li>
 
-        <li ng-class="{ active: signup.atStep('signup.terms'),
-                        unactive: signup.afterStep('signup.terms')
-                      }" class="">
-          <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms"><span class="ico-emp-signup ico-emp-signup_terms"></span>Terms &amp; services <i class="fa fa-check green" ng-if="signup.afterStep('signup.terms')"></i></a>
-          <span ng-if="!signup.afterStep('signup.terms')"><span class="ico-emp-signup ico-emp-signup_terms"></span>Terms of services</span>
+        <li ng-class="{
+          active: signup.atStep('signup.benefits'),
+          unactive: signup.afterStep('signup.benefits')
+        }">
+          <a ng-if="signup.afterStep('signup.benefits')" ui-sref="signup.benefits">
+            <span class="ico-emp-signup ico-emp-signup_ben"></span>
+            <translate>Benefits &amp; Process</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.benefits')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.benefits')"> <span class="ico-emp-signup ico-emp-signup_ben"></span>
+          <translate>Benefits &amp; Process</translate>
+        </span>
         </li>
 
-        <li ng-class="{ active: signup.atStep('signup.suggest'),
-                        unactive: signup.afterStep('signup.suggest')
-                      }" class="hidden">
-          <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest"><span class="ico-emp-signup ico-emp-signup_app"></span>Approval <i class="fa fa-check green" ng-if="signup.afterStep('signup.suggest')"></i></a>
-          <span ng-if="!signup.afterStep('signup.suggest')"><span class="ico-emp-signup ico-emp-signup_app"></span>Approval</span>
+        <li ng-class="{
+          active: signup.atStep('signup.terms'),
+          unactive: signup.afterStep('signup.terms')
+        }">
+          <a ng-if="signup.afterStep('signup.terms')" ui-sref="signup.terms">
+            <span class="ico-emp-signup ico-emp-signup_terms"></span>
+            <translate>Terms of services</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.terms')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.terms')">
+            <span class="ico-emp-signup ico-emp-signup_terms"></span>
+            <translate>Terms of services</translate>
+          </span>
+        </li>
+
+        <li ng-class="{
+          active: signup.atStep('signup.suggest'),
+          unactive: signup.afterStep('signup.suggest')
+        }" class="hidden">
+          <a ng-if="signup.afterStep('signup.suggest')" ui-sref="signup.suggest">
+            <span class="ico-emp-signup ico-emp-signup_app"></span>
+            <translate>Approval</translate>
+            <i class="fa fa-check green" ng-if="signup.afterStep('signup.suggest')"></i>
+          </a>
+          <span ng-if="!signup.afterStep('signup.suggest')">
+            <span class="ico-emp-signup ico-emp-signup_app"></span>
+            <translate>Approval</translate>
+          </span>
         </li>
 
         <div class="clearfix"></div>
