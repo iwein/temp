@@ -4,22 +4,24 @@
 
   <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
-      <h3 class="signup-title">Terms and services</h3>
+      <h3 class="signup-title" translate>Terms and services</h3>
 
       <div class=" mrg-btm bg-gray-lighter pad-30 form-signup">
-        <p>By selecting "I agree terms of service",
-          you agree with our <a href="../en/terms-employer.html" class="smbd" target="_blank">terms of service</a>.
-          </br></br></p>
+        <p>
+          <translate>By selecting "I agree terms of service", you agree with our</translate>
+          <a href="../en/terms-employer.html" class="smbd" target="_blank" translate>terms of service</a>.
+          </br></br>
+        </p>
 
-        <p>In summary:</p>
+        <p><translate>In summary</translate>:</p>
         <ul class="terms">
-          <li>After your company profile was approved, you‘ll be able to browse
+          <li translate>After your company profile was approved, you‘ll be able to browse
             the 4Scotty pool of IT-Professionals and make them interview offers.</li>
 
-          <li>You agree not to approach one of our candidates outside of 4Scotty,
+          <li translate>You agree not to approach one of our candidates outside of 4Scotty,
             or circumvent us in any way.</li>
 
-          <li>4Scotty will only charge you a success fee if you successfully hire
+          <li translate>4Scotty will only charge you a success fee if you successfully hire
             someone through our marketplace.
             You will have the option of paying 18% of the first year base salary
             upfront, or 2% of the annual salary per month for 12 months.</li>
@@ -28,13 +30,12 @@
           <input type="checkbox"
                  required
                  ng-disabled="loading"
-                 ng-model="model.agreedTos"
-            >
-          <span class="mrg-lft-small">I agree to the terms of services</span>
+                 ng-model="model.agreedTos">
+          <span class="mrg-lft-small" translate>I agree to the terms of services</span>
         </label>
 
         <div class="form-error" ng-show="formSignupTerms.recruitment.$dirty && formSignupTerms.recruitment.$invalid">
-          <span ng-show="formSignupTerms.recruitment.$error.required">
+          <span ng-show="formSignupTerms.recruitment.$error.required" translate>
             You must accept our terms and services to proceed.
           </span>
         </div>
@@ -43,7 +44,8 @@
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="submit"
                 class="fl-rg bg-green btn-small"
-                ng-disabled="loading">
+                ng-disabled="loading"
+                translate>
           Apply
         </button>
       </div>
@@ -53,29 +55,24 @@
   <div class="col-sm-4">
     <div class="bg-gray-lighter2 row mrg-btm">
       <div class="col-sm-12 padd-vert">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Help</div>
-        <div class="">
-          <p>
-            Please read the terms carefully. You need to accept them to start using the 4Scotty platform.
-          </p>
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Help</div>
+        <div>
+          <p translate>Please read the terms carefully. You need to accept them to start using the 4Scotty platform.</p>
         </div>
       </div>
     </div>
     <div class="row  border-box">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Our Values
-        </div>
-        <div class="">
-          <h4 class="orange lt caps font-14 mrg-btm-small">The Best candidates</h4>
-          <p class="mrg-btm font-12">We are not a conventional job portal, which is the real reason that IT pros love 4Scotty. That’s our secret to providing access to the most competent experts that the market has to offer.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Convenient & time-saving</h4>
-          <p class="mrg-btm font-12">At 4Scotty, HR reps can see at first glance which skills a candidate possesses. This prevents the need for unnecessary and expensive job interviews.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Only Pay if you hire</h4>
-          <p class="mrg-btm font-12">Whether you choose the one-time payment or monthly pricing model – at 4Scotty you only pay once you have actually hired a candidate.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Quality-Assured</h4>
-          <p class="mrg-btm font-12">Our close contact to candidates ensures authentic and comprehensive profiles. Manipulation is virtually impossible.</p>
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Our Values</div>
+        <div>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>The Best candidates</h4>
+          <p class="mrg-btm font-12" translate>We are not a conventional job portal, which is the real reason that IT pros love 4Scotty. That’s our secret to providing access to the most competent experts that the market has to offer.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Convenient & time-saving</h4>
+          <p class="mrg-btm font-12" translate>At 4Scotty, HR reps can see at first glance which skills a candidate possesses. This prevents the need for unnecessary and expensive job interviews.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Only Pay if you hire</h4>
+          <p class="mrg-btm font-12" translate>Whether you choose the one-time payment or monthly pricing model – at 4Scotty you only pay once you have actually hired a candidate.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Quality-Assured</h4>
+          <p class="mrg-btm font-12" translate>Our close contact to candidates ensures authentic and comprehensive profiles. Manipulation is virtually impossible.</p>
         </div>
       </div>
     </div>

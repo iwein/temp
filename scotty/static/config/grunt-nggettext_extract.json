@@ -1,0 +1,7 @@
+{
+  "pot": {
+    "files": {
+      "po/template.pot": [ "<%= files.components.html %>" ]
+    }
+  }
+}

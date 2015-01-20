@@ -42,14 +42,10 @@
       var xhr = new XMLHttpRequest();
       var path = addUrlParams(url, options.params);
       var finalUrl = request.server + path;
-      var body = getBody(options.body);
-
       xhr.open(method, finalUrl);
       xhr.withCredentials = true;
 
-      if (options.body)
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
+      var body = getBody(options.body, xhr);
       setHeaders(xhr, options.headers);
       xhr.send(body);
 
@@ -90,9 +86,18 @@
     });
   }
 
-  function getBody(body) {
-    if (!body) return null;
-    return JSON.stringify(body);
+  function getBody(body, xhr) {
+    if (typeof body === 'string') {
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      return body;
+    }
+
+    if (body) {
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      return JSON.stringify(body);
+    }
+
+    return null;
   }
 
 })();

@@ -84,17 +84,11 @@ define(function(require) {
 
         function selectFile(files) {
           $scope.model.picture_url = null;
-          $scope.errorFileRequired = !files.length;
           if (files.length)
             $scope.errorFileImage = files[0].type.indexOf('image/') !== 0;
         }
 
         function submit() {
-          if ((!$scope.files || !$scope.files.length) && !$scope.model.picture_url) {
-            $scope.errorFileRequired = true;
-            return;
-          }
-
           if (!$scope.model.location)
             $scope.errorNoLocation = true;
 

@@ -1,8 +1,6 @@
 <div>
   <div ng-if="hcTitle" class="panel-heading">
-    <h3>
-      {{ hcTitle }}
-    </h3>
+    <h3>{{ hcTitle }}</h3>
   </div>
 
   <hc-office-form
@@ -16,14 +14,16 @@
       <div class="buttons-wrap">
         <button type="submit"
           class="bg-green btn-small fl-rg mrg-lft"
-          ng-disabled="loading">
+          ng-disabled="loading"
+          translate>
           Save and add another
         </button>
         <button type="button"
           ng-show="editing"
           class="bg-gray-lighter2 btn-small fl-rg mrg-lft"
           ng-disabled="loading"
-          ng-click="hcOfficesCtrl.setActive(-1)">
+          ng-click="hcOfficesCtrl.setActive(-1)"
+          translate>
           Cancel
         </button>
       </div>
@@ -32,7 +32,7 @@
 
   <div ng-if="model.length">
     <div class="bg-gray-lighter col-sm-12 edit-form form-wrap" ng-repeat="entry in model" ng-hide="active === $index">
-      <label class="col-sm-3 alg-right gray-dark font-14">Saved</label>
+      <label class="col-sm-3 alg-right gray-dark font-14" translate>Saved</label>
       <div class="col-sm-9">
         <div class="bg-white address-box">
           <button class="btn-edit-sub-skills" ng-show="hcEditable" ng-click="hcOfficesCtrl.setActive($index, entry)">
@@ -41,7 +41,7 @@
           <div class="row">
             <div class="col-sm12 mrg-btm">
               <div class="">
-                <div class="col-sm-5 address-box-label">Address</div>
+                <div class="col-sm-5 address-box-label" translate>Address</div>
                 <div class="col-sm-7">
                   <address>
                     {{ entry.address_line1 }}<br>
@@ -56,17 +56,17 @@
               <div class="clearfix"></div>
             </div>
             <div class="col-sm-12 mrg-btm">
-              <div class="col-sm-5 address-box-label">Contact name</div>
+              <div class="col-sm-5 address-box-label" translate>Contact name</div>
               <div class="col-sm-7">{{ entry.contact_first_name }} {{ entry.contact_last_name }}</div>
               <div class="clearfix"></div>
             </div>
             <div class="col-sm-12 mrg-btm">
-              <div class="col-sm-5 address-box-label">Contact phone</div>
+              <div class="col-sm-5 address-box-label" translate>Contact phone</div>
               <div class="col-sm-7">{{ entry.contact_phone }}</div>
               <div class="clearfix"></div>
             </div>
             <div class="col-sm-12 mrg-btm">
-              <div class="col-sm-5 address-box-label">Contact email</div>
+              <div class="col-sm-5 address-box-label" translate>Contact email</div>
               <div class="col-sm-7">{{ entry.contact_email }}</div>
               <div class="clearfix"></div>
             </div>

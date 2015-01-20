@@ -1,7 +1,7 @@
 <form name="formProfile" class="edit-form form-wrap" ng-submit="submit()">
   <div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
     <div class="required col-sm-12 mrg-btm">
-      <label class="col-sm-3 no-padd-top no-padd-right">Current place of residence</label>
+      <label class="col-sm-3 no-padd-top no-padd-right" translate>Current place of residence</label>
       <div class="col-sm-9">
         <input type="text"
                name="location"
@@ -14,17 +14,16 @@
                typeahead="location for location in searchLocations($viewValue)"
                hc-typeahead-loader>
       </div>
-
       <div class="form-error col-sm-9 col-sm-offset-3mrg-btm" ng-show="formProfile.location.$dirty && formProfile.location.$invalid">
-        <span ng-show="formProfile.location.$error.required">Please insert your city.</span>
+        <span ng-show="formProfile.location.$error.required" translate>Please insert your city.</span>
       </div>
       <div class="form-error col-sm-9 col-sm-offset-3 mrg-btm" ng-show="formProfile.location.$dirty && errorNoLocation">
-        <span>Please select a entry from the menu.</span>
+        <span translate>Please select a entry from the menu.</span>
       </div>
     </div>
 
     <div class="col-sm-12 mrg-btm required">
-      <label class="col-sm-3">Birth date</label>
+      <label class="col-sm-3" translate>Birth date</label>
       <div class="col-sm-9">
         <input type="date"
                class="form-control"
@@ -35,40 +34,35 @@
                ng-disabled="hcDisabled"
                ng-model="model.dob">
         <div class="form-error" ng-show="formProfile.birth.$dirty && formProfile.birth.$invalid">
-          <span ng-show="formProfile.birth.$error.required">Please insert your birth date.</span>
-          <span ng-show="formProfile.birth.$error.max">You need to be at least 16 years of age.</span>
+          <span ng-show="formProfile.birth.$error.required" translate>Please insert your birth date.</span>
+          <span ng-show="formProfile.birth.$error.max" translate>You need to be at least 16 years of age.</span>
         </div>
-
       </div>
     </div>
 
     <div class="col-sm-12 required mrg-btm">
-      <label class="col-sm-3">Photo</label>
+      <label class="col-sm-3" translate>Photo</label>
       <div class="col-sm-9">
         <div class="uploadFile">
-          <span>Select</span>
+          <span translate>Select</span>
           <input type="file"
                  name="photo"
                  accept="image/*"
-                 ng-required="!model.picture_url"
                  ng-disabled="hcDisabled"
                  ng-model="files"
                  hc-file-select="selectFile($files)"
                  hc-data-url="selectedFiles">
         </div>
-        <div class="uploadText">Upload a photo at least 235 px wide.</div>
+        <div class="uploadText" translate>Upload a photo at least 235 px wide.</div>
       </div>
       <div class="col-sm-offset-3 col-sm-9">
         <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
       </div>
-      <p class="help-block col-sm-offset-3 col-sm-9">Anonymous will hide your photo.</p>
-
-      <div class="form-error" ng-show="errorFileRequired || errorFileImage">
-        <span ng-show="errorFileRequired">Please select a photo.</span>
-        <span ng-show="errorFileImage">The file should be an image.</span>
+      <p class="help-block col-sm-offset-3 col-sm-9" translate>Anonymous will hide your photo.</p>
+      <div class="form-error" ng-show="errorFileImage">
+        <span translate>The file should be an image.</span>
       </div>
     </div>
-
 
     <div class="col-sm-12 mrg-btm">
       <label class="col-sm-3 alg-right">
@@ -84,7 +78,6 @@
       </div>
     </div>
 
-
     <div class="col-sm-12 mrg-btm">
       <label class="col-sm-3 alg-right">
         <i class="fa fa-stack-overflow font-22"></i>
@@ -98,8 +91,6 @@
                placeholder="Stackoverflow URL (Starting with  http://...)">
       </div>
     </div>
-
-
 
     <div class="col-sm-12 mrg-btm">
       <label class="col-sm-3 alg-right">
@@ -116,10 +107,10 @@
     </div>
 
     <div class="col-sm-12">
-      <label class="col-sm-3">CV</label>
+      <label class="col-sm-3" translate>CV</label>
       <div class="col-sm-9">
         <div class="uploadFile">
-          <span>Select</span>
+          <span translate>Select</span>
           <input type="file"
                  name="photo"
                  accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -127,13 +118,13 @@
                  hc-file-select
                  ng-model="cv_file">
         </div>
-        <div ng-show="!cv_file.length" class="uploadText">Upload CV if you have one.</div>
-        <div ng-show="cv_file.length" class="uploadText">CV uploaded.</div>
+        <div ng-show="!cv_file.length" class="uploadText" translate>Upload CV if you have one.</div>
+        <div ng-show="cv_file.length" class="uploadText" translate>CV uploaded.</div>
       </div>
 
       <div class="form-error" ng-show="false && (errorFileRequired || errorFileImage)">
-        <span ng-show="errorFileRequired">Please select a photo.</span>
-        <span ng-show="errorFileImage">The file should be an image.</span>
+        <span ng-show="errorFileRequired" translate>Please select a photo.</span>
+        <span ng-show="errorFileImage" translate>The file should be an image.</span>
       </div>
     </div>
 
@@ -145,7 +136,7 @@
                    name="eu_work_visa"
                    ng-disabled="hcDisabled"
                    ng-model="model.eu_work_visa">
-            Permitted to work in EU
+            <translate>Permitted to work in EU</translate>
           </label>
         </div>
         <div class="">
@@ -154,15 +145,13 @@
                    name="anonymous"
                    ng-disabled="hcDisabled"
                    ng-model="model.anonymous">
-            Anonymous
+            <translate>Anonymous</translate>
           </label>
-          <p class="mrg-top-small">By selecting "Anonymous" employers will see your name, picture and contact details only after you accepted their job offer.</p>
+          <p class="mrg-top-small" translate>By selecting "Anonymous" employers will see your name, picture and contact details only after you accepted their job offer.</p>
         </div>
       </div>
     </div>
-    <div class="clearfix">
-    </div>
-
+    <div class="clearfix"></div>
   </div>
   <div ng-transclude></div>
 </form>

@@ -7,13 +7,13 @@
             ng-show="isEditing && !formOpen"
             ng-click="profile.edit()">
       <i class="fa fa-pencil"></i>
-      Edit mode
+      <translate>Edit mode</translate>
     </button>
     <button class="fl-rg btn-edit"
             ng-show="isEditing && !formOpen"
             ng-click="profile.stopEdit()">
       <i class="fa fa-check"></i>
-      Finish editing
+      <translate>Finish editing</translate>
     </button>
   </div>
 </div>
@@ -26,10 +26,10 @@
   </button>
   <div class="edit-user-pic" ng-show="picture.editing">
     <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data.logo_url)">
-      <h5 class="edit-title">Profile picture</h5>
+      <h5 class="edit-title" translate>Profile picture</h5>
       <div class="mrg-btm-small">
         <div class="uploadFile">
-          <span>Select</span>
+          <span translate>Select</span>
           <input type="file"
                  class="mrg-btm"
                  name="photo"
@@ -40,7 +40,7 @@
                  hc-file-select="selectFile($files)"
                  hc-data-url="selectedPicture">
         </div>
-        <div class="uploadText">Upload a photo at least 235 px wide.</div>
+        <div class="uploadText" translate>Upload a photo at least 235 px wide.</div>
         <div class="clearfix"></div>
       </div>
       <div class="col-sm-6 company-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || data.logo_url }})"></div>
@@ -48,12 +48,14 @@
         <button type="button"
                 class="fl-lf bg-gray-lighter2 btn-small"
                 ng-click="picture.close()"
-                ng-disabled="loading">
+                ng-disabled="loading"
+                translate>
           Cancel
         </button>
         <button type="submit"
                 class="fl-lf bg-green btn-small mrg-lft-small"
-                ng-disabled="loading">
+                ng-disabled="loading"
+                translate>
           Save
         </button>
       </div>
@@ -65,7 +67,7 @@
 <div class="edit-salary mrg-btm" ng-show="company.editing">
   <form class="edit-form" ng-submit="company.save(company.data)">
     <button class="add-panel-close" ng-click="company.close()"><i class="fa fa-close"></i></button>
-    <h5 class="edit-title">Website</h5>
+    <h5 class="edit-title" translate>Website</h5>
     <div>
       <input type="url"
              class="form-control mrg-btm"
@@ -74,7 +76,7 @@
              ng-disabled="loading"
              ng-model="company.data.website">
     </div>
-    <h5 class="edit-title">Founding year</h5>
+    <h5 class="edit-title" translate>Founding year</h5>
     <div>
       <input type="number"
              class="form-control mrg-btm"
@@ -85,7 +87,7 @@
              ng-disabled="loading"
              ng-model="company.data.funding_year">
     </div>
-    <h5 class="edit-title">Annual Revenue</h5>
+    <h5 class="edit-title" translate>Annual Revenue</h5>
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
@@ -94,7 +96,7 @@
              ng-disabled="loading"
              ng-model="company.data.revenue_pa">
     </div>
-    <h5 class="edit-title">Vic Fund Amounting</h5>
+    <h5 class="edit-title" translate>Vic Fund Amounting</h5>
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
@@ -103,7 +105,7 @@
              ng-disabled="loading"
              ng-model="company.data.funding_amount">
     </div>
-    <h5 class="edit-title">Company size</h5>
+    <h5 class="edit-title" translate>Company size</h5>
     <div>
       <input type="number"
              class="form-control mrg-btm"
@@ -116,13 +118,15 @@
     <div class="buttons-wrap">
       <button type="submit"
               class="fl-rg bg-green btn-small mrg-lft-small"
-              ng-disabled="loading">
+              ng-disabled="loading"
+              translate>
         Save
       </button>
       <button type="button"
               class="fl-rg bg-gray-lighter2 btn-small"
               ng-click="company.close()"
-              ng-disabled="loading">
+              ng-disabled="loading"
+              translate>
         Cancel
       </button>
     </div>
@@ -140,10 +144,18 @@
           ng-click="company.edit()">
     <i class="fa fa-pencil"></i>
   </button>
-  <p class="smbd" ng-show="data.funding_year">founded in {{ data.funding_year }}</p>
-  <p class="smbd" ng-show="data.no_of_employees">{{ data.no_of_employees }} employees</p>
-  <p ng-show="data.revenue_pa">Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
-  <p ng-show="data.funding_amount">VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
+  <p class="smbd" ng-show="data.funding_year">
+    <translate>founded in</translate> {{ data.funding_year }}
+  </p>
+  <p class="smbd" ng-show="data.no_of_employees" translate translate-n="data.no_of_employees" translate-plural="{{$count}} employees">
+    1 employee
+  </p>
+  <p ng-show="data.revenue_pa">
+    <translate>Annual revenue</translate>: {{ data.revenue_pa | dottedInteger }}.00 €
+  </p>
+  <p ng-show="data.funding_amount">
+    <translate>VC Founding amount</translate>: {{ data.funding_amount | dottedInteger }}.00 €
+  </p>
   <a ng-show="data.website" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
     {{ data.website }}
   </a>
@@ -154,7 +166,7 @@
   <div class="edit-form">
     <div class="row">
       <div class="col-sm-12">
-        <h5 class="edit-title">Offices</h5>
+        <h5 class="edit-title" translate>Offices</h5>
         <!--  Entry for one office, we should repate this part for each office we are gonna create-->
         <!-- ti toggle the content just swith the class "closed" with the class "open" -->
         <div class="wrap-office" ng-repeat="office in offices.data" ng-class="{
@@ -174,13 +186,15 @@
 
               <button type="submit"
                       class="fl-rg bg-green btn-small mrg-lft-small"
-                      ng-disabled="loading">
+                      ng-disabled="loading"
+                      translate>
                 Save
               </button>
               <button type="button"
                       class="fl-rg bg-gray-lighter2 btn-small"
                       ng-click="offices.close()"
-                      ng-disabled="loading">
+                      ng-disabled="loading"
+                      translate>
                 Cancel
               </button>
             </hc-office-form>
@@ -190,7 +204,8 @@
         <!-- End Entry for one office -->
         <div class="clearfix add-btn-wrap" ng-show="isEditing">
           <button class="add-btn no-marg-top" ng-click="offices.add()">
-            <i class="fa fa-plus"></i> ADD
+            <i class="fa fa-plus"></i>
+            <translate>ADD</translate>
           </button>
         </div>
 
@@ -206,13 +221,15 @@
               <div class="buttons-wrap">
                 <button type="submit"
                         class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading">
+                        ng-disabled="loading"
+                        translate>
                   Save
                 </button>
                 <button type="button"
                         class="fl-rg bg-gray-lighter2 btn-small"
                         ng-click="offices.close()"
-                        ng-disabled="loading">
+                        ng-disabled="loading"
+                        translate>
                   Cancel
                 </button>
               </div>
@@ -222,7 +239,7 @@
         <!-- end add new office -->
 
         <form ng-submit="webProfiles.save(webProfiles.data)">
-          <h5 class="edit-title pad-top-20">Web profiles</h5>
+          <h5 class="edit-title pad-top-20" translate>Web profiles</h5>
           <div class="row mrg-btm">
             <div class="col-sm-2 no-padd-right text-center">
               <i class="fa fa-facebook ico-edit"></i>
@@ -250,13 +267,15 @@
           <div class="buttons-wrap">
             <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
-                    ng-disabled="loading">
+                    ng-disabled="loading"
+                    translate>
               Save
             </button>
             <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
                     ng-click="webProfiles.close()"
-                    ng-disabled="loading">
+                    ng-disabled="loading"
+                    translate>
               Cancel
             </button>
           </div>
@@ -268,9 +287,9 @@
 
 
 <div class="col-sm-12 info bg-gray-light mrg-btm office-wrap" ng-show="!webProfiles.editing"  ng-class="{
-            open: officesSection,
-            closed: !officesSection,
-          }">
+  open: officesSection,
+  closed: !officesSection,
+}">
   <div class="row" >
     <button type="submit"
             class="btn-edit-sub-skills btn-edit-sub-skills_bot"
@@ -280,9 +299,7 @@
       <i class="fa fa-pencil"></i>
     </button>
     <div class="contacts">
-      <div class="fl-lf">
-        Offices
-      </div>
+      <div class="fl-lf" translate>Offices</div>
       <div class="fl-rg">
         <a ng-show="data.facebook_url" ng-href="{{ data.facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a>
         <a ng-show="data.linkedin_url" ng-href="{{ data.linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a>
@@ -317,8 +334,14 @@
 
     <div class="col-sm-12 brd-top mrg-btm pad-top-15" ng-show="data.offices.length > 1">
       <button class="showhide" ng-click="toggle('officesSection')">
-        <span class="more"><i class="fa fa-angle-down"></i> more</span>
-        <span class="less"><i class="fa fa-angle-up"></i> less</span>
+        <span class="more">
+          <i class="fa fa-angle-down"></i>
+          <translate>more</translate>
+        </span>
+        <span class="less">
+          <i class="fa fa-angle-up"></i>
+          <translate>less</translate>
+        </span>
       </button>
     </div>
   </div>
@@ -327,7 +350,7 @@
 
 <form class="edit-salary mrg-btm" ng-show="benefits.editing" ng-submit="benefits.save(benefits.data)">
   <button class="add-panel-close" ng-click="benefits.close()"><i class="fa fa-close"></i></button>
-  <h5 class="edit-title mrg-btm">Benefits </h5>
+  <h5 class="edit-title mrg-btm" translate>Benefits</h5>
 
   <div class="form-wrap edit-form">
     <hc-benefits-edit benefits="benefits.data.benefits"
@@ -336,13 +359,15 @@
     <div class="buttons-wrap">
       <button type="submit"
               class="fl-rg bg-green btn-small mrg-lft-small"
-              ng-disabled="loading">
+              ng-disabled="loading"
+              translate>
         Save
       </button>
       <button type="button"
               class="fl-rg bg-gray-lighter2 btn-small"
               ng-click="benefits.close()"
-              ng-disabled="loading">
+              ng-disabled="loading"
+              translate>
         Cancel
       </button>
     </div>
@@ -351,7 +376,8 @@
 </form>
 
 <div class="col-sm-12 border-box mrg-btm padd-vert" ng-hide="benefits.editing">
-  <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS
+  <div class="box-title box-title_left mrg-btm gray-darker">
+    <translate>BENEFITS</translate>
     <button type="submit"
             class="btn-edit-sub"
             ng-disabled="loading || formOpen"
@@ -360,7 +386,7 @@
       <i class="fa fa-pencil"></i>
     </button>
   </div>
-  <div class="col-sm-12 mrg-btm-small" ng-if="!data.benefits.length && !data.other_benefits">
+  <div class="col-sm-12 mrg-btm-small" ng-if="!data.benefits.length && !data.other_benefits" translate>
     No Benefits defined yet.
   </div>
   <div ng-if="data.benefits.length || data.other_benefits">
@@ -385,20 +411,22 @@
           <div class="emp-off-desc">
             <div class="edit-tarpos" ng-show="summary.editing">
               <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
-              <h5 class="edit-title">Mission</h5>
+              <h5 class="edit-title" translate>Mission</h5>
 
               <form class="edit-form" ng-submit="summary.save(summary.data)">
                 <text-angular ng-model="summary.data.mission_text"></text-angular>
                 <div class="buttons-wrap mrg-top">
                   <button type="submit"
                           class="fl-rg bg-green btn-small mrg-lft-small"
-                          ng-disabled="loading">
+                          ng-disabled="loading"
+                          translate>
                     Save
                   </button>
                   <button type="button"
                           class="fl-rg bg-gray-lighter2 btn-small"
                           ng-click="summary.close()"
-                          ng-disabled="loading">
+                          ng-disabled="loading"
+                          translate>
                     Cancel
                   </button>
                 </div>
@@ -435,7 +463,7 @@
       <div class="col-sm-6">
         <form class="edit-form" ng-submit="tech.save(tech.data)">
           <div class="mrg-btm">
-            <h5 class="edit-title">Tech team size</h5>
+            <h5 class="edit-title" translate>Tech team size</h5>
             <input type="number"
                    class="form-control"
                    placeholder="Tech team size"
@@ -444,7 +472,7 @@
                    ng-model="tech.data.tech_team_size">
           </div>
           <div class="mrg-btm">
-            <h5 class="edit-title">Technology tags</h5>
+            <h5 class="edit-title" translate>Technology tags</h5>
             <hc-label-typeahead
               name="techTags"
               placeholder="Technology tags"
@@ -458,13 +486,15 @@
           <div class="buttons-wrap">
             <button type="submit"
                     class="fl-rg bg-green btn-small mrg-lft-small"
-                    ng-disabled="loading">
+                    ng-disabled="loading"
+                    translate>
               Save
             </button>
             <button type="button"
                     class="fl-rg bg-gray-lighter2 btn-small"
                     ng-click="tech.close()"
-                    ng-disabled="loading">
+                    ng-disabled="loading"
+                    translate>
               Cancel
             </button>
           </div>
@@ -486,8 +516,11 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="skills-head">
-          <div class="big-title skills-title">TECH</div>
-          <span ng-show="data.no_of_employees"><span class="smbd">Team size</span> </br> {{ data.tech_team_size }}</span>
+          <div class="big-title skills-title" translate>TECH</div>
+          <span ng-show="data.no_of_employees">
+            <span class="smbd" translate>Team size</span></br>
+            {{ data.tech_team_size }}
+          </span>
         </div>
       </div>
       <div class="col-sm-9">
@@ -507,15 +540,15 @@
       <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
         <button class="add-panel-close" ng-click="descriptions.close()"><i class="fa fa-close"></i></button>
 
-        <h5 class="edit-title">Technology philosophy</h5>
+        <h5 class="edit-title" translate>Technology Philosophy</h5>
         <text-angular
           name="tech_team_philosophy"
-          placeholder="Technology philosophy"
+          placeholder="Technology Philosophy"
           ng-disabled="loading"
           ng-model="descriptions.data.tech_team_philosophy">
         </text-angular>
 
-        <h5 class="edit-title">Hiring process</h5>
+        <h5 class="edit-title" translate>Hiring Process</h5>
         <text-angular
           name="recruitment_process"
           required
@@ -524,7 +557,7 @@
           ng-model="descriptions.data.recruitment_process">
         </text-angular>
 
-        <h5 class="edit-title">Training policy</h5>
+        <h5 class="edit-title" translate>Training Policy</h5>
         <text-angular
           name="training"
           placeholder="Training policy"
@@ -535,11 +568,11 @@
         <div class="buttons-wrap">
           <button type="submit"
             class="fl-rg bg-green btn-small mrg-lft-small"
-            ng-disabled="loading">Save</button>
+            ng-disabled="loading" translate>Save</button>
           <button type="button"
             class="fl-rg bg-gray-lighter2 btn-small"
             ng-click="descriptions.close()"
-            ng-disabled="loading">Cancel</button>
+            ng-disabled="loading" translate>Cancel</button>
         </div>
       </form>
     </div>
@@ -558,19 +591,19 @@
 
     <div class="accordion-wrap">
       <div>
-        <h3 class="accordion-subtitle">Technology Philosophy</h3>
+        <h3 class="accordion-subtitle" translate>Technology Philosophy</h3>
         <p class="pad-btm-15" ng-show="data.tech_team_philosophy" ng-bind-html="data.tech_team_philosophy"></p>
-        <p class="pad-btm-15" ng-show="!data.tech_team_philosophy">Not defined yet</p>
+        <p class="pad-btm-15" ng-show="!data.tech_team_philosophy" translate>Not defined yet</p>
       </div>
       <div>
-        <h3 class="accordion-subtitle">Hiring process</h3>
+        <h3 class="accordion-subtitle" translate>Hiring process</h3>
         <p class="pad-btm-15" ng-show="data.recruitment_process" ng-bind-html="data.recruitment_process"></p>
-        <p class="pad-btm-15" ng-show="!data.recruitment_process">Not defined yet</p>
+        <p class="pad-btm-15" ng-show="!data.recruitment_process" translate>Not defined yet</p>
       </div>
       <div>
-        <h3 class="accordion-subtitle">Training policy</h3>
+        <h3 class="accordion-subtitle" translate>Training policy</h3>
         <p class="pad-btm-15" ng-show="data.training_policy" ng-bind-html="data.training_policy"></p>
-        <p class="pad-btm-15" ng-show="!data.training_policy">Not defined yet</p>
+        <p class="pad-btm-15" ng-show="!data.training_policy" translate>Not defined yet</p>
       </div>
     </div>
   </div>

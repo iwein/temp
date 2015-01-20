@@ -2,35 +2,35 @@
   <div class="inner">
     <div class="status-wrap">
       <div class="status status-{{offer.status}}">
-        <span>status: </span>
+        <span><translate>status</translate>: </span>
 
         <span class="accept-message">
           <span class="iconParent"><i class="fa blue-link fa-clock-o"></i></span>
-          <span class="blue-link">waiting for candidate to accept</span>
+          <span class="blue-link" translate>waiting for candidate to accept</span>
         </span>
         <span class="accepted-message">
           <span class="iconParent"><i class="fa blue-link fa-check-square-o"></i></span>
-          <span class="blue-link">candidate accepted this offer</span>
+          <span class="blue-link" translate>candidate accepted this offer</span>
         </span>
         <span class="interviewing-message">
           <span class="iconParent"><i class="fa blue-link fa-comments"></i></span>
-          <span class="blue-link">in an interview for this offer</span>
+          <span class="blue-link" translate>in an interview for this offer</span>
         </span>
         <span class="negotiation-message">
           <span class="iconParent"><i class="fa blue-link fa-exchange"></i></span>
-          <span class="blue-link">negotiating contract details</span>
+          <span class="blue-link" translate>negotiating contract details</span>
         </span>
         <span class="signed-message">
           <span class="iconParent"><i class="fa green fa-pencil"></i></span>
-          <span class="green">contract was signed</span>
+          <span class="green" translate>contract was signed</span>
         </span>
         <span class="withdrawn-message">
           <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
-          <span class="red">you withdrawnd this offer</span>
+          <span class="red" translate>you withdrew this offer</span>
         </span>
         <span class="reject-message">
           <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
-          <span class="red">candidate has rejected this offer</span>
+          <span class="red" translate>candidate has rejected this offer</span>
         </span>
       </div>
     </div>
@@ -45,7 +45,7 @@
               <div class="row ">
                 <div class="contacts">
                   <div class="fl-lf">
-                    <span class="box-title box-title_left">Contact</span>
+                    <span class="box-title box-title_left" translate>Contact</span>
                   </div>
                   <div class="fl-rg">
                     <a ng-show="candidate._data.github_url" ng-href="{{ candidate._data.github_url }}">
@@ -73,7 +73,7 @@
         <!--  Contacts placeholder-->
         <div class="row" ng-show="!offer.data.accepted">
           <div class="col-sm-12 info bg-gray-light mrg-btm">
-            <p class="pad-xl">The contact details will be visible after the candidate accepted your offer.</p>
+            <p class="pad-xl" translate>The contact details will be visible after the candidate accepted your offer.</p>
           </div>
         </div>
 
@@ -98,7 +98,7 @@
       <div class="col-sm-6 bg-white">
         <div class="row bg-blue">
           <div class="col-sm-12">
-            <h2 class="main-title-blue">Offer</h2>
+            <h2 class="main-title-blue" translate>Offer</h2>
           </div>
         </div>
         <div class="row bg-white">
@@ -110,7 +110,7 @@
               </a></h4>
               <h4 class="main-agency" ng-if="candidatePosition">{{ candidatePosition.role }} @ {{ candidatePosition.company }}</h4>
               <p class="typography" ng-bind-html="offer.data.message"></p>
-              <h4 class="main-subtitle"><span class="blue-link">Job Description</span></h4>
+              <h4 class="main-subtitle"><span class="blue-link" translate>Job Description</span></h4>
               <p class="typography" ng-bind-html="offer.data.job_description"></p>
             </div>
           </div>
@@ -125,14 +125,14 @@
               <span class="smbd custom">
                 {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
               </span>
-              / year
+              / <translate>year</translate>
             </div>
             <div class="font-22">
               <span class="iconParent"><i class="fa fa-map-marker"></i></span>
               {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
             </div>
             <div class="box-title box-title_left mrg-btm"></div>
-            <h5 ><span class="custom">Skills</span></h5>
+            <h5 ><span class="custom" translate>Skills</span></h5>
             <div class="clearfix skills-wrap-right row">
               <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
                 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>{{ tech }}</span>
@@ -140,7 +140,7 @@
             </div>
             <div ng-if="offer.data.benefits.length">
               <div class="box-title box-title_left mrg-btm"></div>
-              <h5><span class="custom">Benefits</h5>
+              <h5><span class="custom" translate>Benefits</h5>
               <hc-benefits-display benefits="offer.data.benefits" other-benefits="offer.data.other_benefits"></hc-benefits-display>
             </div>
           </div>
@@ -156,14 +156,14 @@
 
           <!-- Contract Signed -->
           <div class="buttons-wrap">
-            <button class="fw btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')">Contract Signed</button>
+            <button class="fw btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
           </div>
 
           <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
             <form class="form-wrap"  ng-submit="sign(offer, signing)">
-              <p>Please provide the following information.</p>
+              <p translate>Please provide the following information.</p>
               <div class="row padd-form">
-                <label class="col-sm-3">Start date</label>
+                <label class="col-sm-3" translate>Start date</label>
                 <div class="col-sm-9">
                   <input type="date"
                     class="form-control"
@@ -173,12 +173,12 @@
                     ng-model="signing.start_date">
                 </div>
                 <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-                  <span ng-show="formProfile.contactEmail.$error.required">Please insert your email.</span>
+                  <span ng-show="formProfile.contactEmail.$error.required" translate>Please insert your email.</span>
                 </div>
               </div>
 
               <div class="row padd-form">
-                <label class="col-sm-3">Start salary</label>
+                <label class="col-sm-3" translate>Start salary</label>
                 <div class="col-sm-9">
                   <input type="dotted-integer"
                     class="form-control"
@@ -188,15 +188,15 @@
                     ng-model="signing.start_salary">
                 </div>
                 <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
-                  <span ng-show="formProfile.phoneNumber.$error.required">Please insert your phone.</span>
-                  <span ng-show="formProfile.phoneNumber.$error.pattern">Valid chacters are: Numbers - / ( )</span>
+                  <span ng-show="formProfile.phoneNumber.$error.required" translate>Please insert your phone.</span>
+                  <span ng-show="formProfile.phoneNumber.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
                 </div>
               </div>
               <div class="form-error">
-                <span>Please choose your start date</span>
+                <span translate>Please choose your start date</span>
               </div>
               <div class="buttons-wrap">
-                <button class="bg-green fl-rg btn-small">Submit</button>
+                <button class="bg-green fl-rg btn-small" translate>Submit</button>
               </div>
             </form>
           </div>
@@ -206,12 +206,12 @@
           <div class="buttons-wrap text-center">
             <button class="link-red" ng-show="offer.canWithdraw()" ng-click="toggleForm('withdraw')" ng-class="{
               fw: !offer.canNextStatus() && !offer.canSign(),
-            }"><span>Withdraw</span></button>
+            }"><span translate>Withdraw</span></button>
           </div>
 
           <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'withdraw'">
             <form class="form-wrap"  ng-submit="withdraw(offer, withdrawal)">
-              <p>Please define the reason for your withdrawal.</p>
+              <p translate>Please define the reason for your withdrawal.</p>
               <div class="row padd-form">
                 <div class="label-wrap col-sm-12 mrg-btm">
                   <div ng-repeat="reason in withdrawReasons">
@@ -222,7 +222,7 @@
                         value="{{ reason }}"
                         ng-required="!withdrawal.reason"
                         ng-model="withdrawal.reason"
-                        ng-change="withdrawal.rejected_text = null">
+                        ng-change="withdrawal.withdrawal_text = null">
                       </span>
                       {{ reason }}
                     </label>
@@ -241,7 +241,7 @@
                 </div>
               </div>
               <div class="buttons-wrap">
-                <button type="submit" class="bg-green fl-rg btn-small">Submit</button>
+                <button type="submit" class="bg-green fl-rg btn-small" translate>Submit</button>
               </div>
             </form>
           </div>
@@ -250,7 +250,7 @@
         </div>
         <div class="row border-box">
           <div class="col-sm-12 padd-vert">
-            <div class="box-title box-title_left lt gray-darker">Hiring process</div>
+            <div class="box-title box-title_left lt gray-darker" translate>Hiring process</div>
             <p class="gray" ng-bind-html="offer.data.interview_details"></p>
           </div>
         </div>

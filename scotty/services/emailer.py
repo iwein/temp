@@ -42,6 +42,7 @@ class MandrillEmailer(object):
         self.override_sender = sender
 
         self.admin_emails = [r.strip() for r in settings['admin.emails'].split(',')]
+        log.info('Sending to ADMINS: %s', '/'.join(self.admin_emails))
         self.frontend = settings['frontend.domain']
         self.mandrill = mandrill.Mandrill(apikey)
         self.employer_dashboard_url = 'http://%s/employer' % self.frontend
@@ -66,7 +67,7 @@ class MandrillEmailer(object):
 
         error_unused = [u for u in unused if 'disabled' not in u['labels']]
         if len(error_unused):
-            raise ConfigurationError("UNUSED REQUIRED TEMPLATES in MANDRILL: %s " % ', '.join(
+            log.warning("UNUSED REQUIRED TEMPLATES in MANDRILL: %s " % ', '.join(
                 [u['slug'] for u in error_unused]))
 
         for u in unused:

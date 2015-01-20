@@ -17,7 +17,7 @@
               <div class="contacts">
                 <div class="fl-lf">
                   <button class="toggler" ng-click="toggle('officesSection')">
-                    Offices
+                    <translate>Offices</translate>
                     <i class="fa fa-angle-down"></i>
                     <i class="fa fa-angle-up"></i>
                   </button>
@@ -56,10 +56,18 @@
                 </div>
               </div>
               <div class="padd-vert col-sm-12">
-                <p ng-show="data.funding_year" class="smbd">founded in {{ data.funding_year }}</p>
-                <p ng-show="data.no_of_employees" class="smbd">{{ data.no_of_employees }} employees</p>
-                <p ng-show="data.revenue_pa">Annual revenue: {{ data.revenue_pa | dottedInteger }}.00 €</p>
-                <p ng-show="data.funding_amount">VC Founding amount: {{ data.funding_amount | dottedInteger }}.00 €</p>
+                <p ng-show="data.funding_year" class="smbd">
+                  <translate>Founded in</translate> {{ data.funding_year }}
+                </p>
+                <p ng-show="data.no_of_employees" translate translate-n="data.no_of_employees" translate-plural="{{$count}} employees">
+                  1 employee
+                </p>
+                <p ng-show="data.revenue_pa">
+                  <translate>Annual revenue</translate>: {{ data.revenue_pa | dottedInteger }}.00 €
+                </p>
+                <p ng-show="data.funding_amount">
+                  <translate>VC Founding amount</translate>: {{ data.funding_amount | dottedInteger }}.00 €
+                </p>
                 <a class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
                   {{ data.website }}
                 </a>
@@ -67,7 +75,7 @@
             </div>
           </div>
           <div class="col-sm-12 border-box mrg-btm padd-vert" ng-if="data.benefits.length || data.other_benefits">
-            <div class="box-title box-title_left mrg-btm gray-darker">BENEFITS</div>
+            <div class="box-title box-title_left mrg-btm gray-darker" translate>BENEFITS</div>
             <hc-benefits-display col-class="col-sm-12 employer-benefit-icon"
                                  list-class="row"
                                  benefits="data.benefits"
@@ -98,15 +106,16 @@
             <div class="row">
               <div class="buttons-wrap">
                 <div ng-if="can_act">
-                  <div class="fw btn-fake bg-blue-light" ng-if="bookmarked_by_candidate && !blacklisted_by_candidate">interview requested</div>
+                  <div class="fw btn-fake bg-blue-light" ng-if="bookmarked_by_candidate && !blacklisted_by_candidate" translate>interview requested</div>
                   <button type="button"
                           class="fw btn bg-green"
                           ng-hide="bookmarked_by_candidate || blacklisted_by_candidate || accepted_offers_by_candidate"
-                          ng-click="employerProfile.toogleBookmark()">
+                          ng-click="employerProfile.toogleBookmark()"
+                          translate>
                     Request an interview
                   </button>
                   <div ng-if="blacklisted_by_candidate">
-                    <div class="fw btn-fake bg-blue-light">BLACKLISTED</div>
+                    <div class="fw btn-fake bg-blue-light" translate>BLACKLISTED</div>
                   </div>
                 </div>
               </div>
@@ -118,8 +127,11 @@
             <div class="row">
               <div class="col-sm-3">
                 <div class="skills-head">
-                  <div class="big-title skills-title">TECH</div>
-                  <span ng-show="data.tech_team_size"><span class="smbd">Team size</span> </br> {{ data.tech_team_size }}</span>
+                  <div class="big-title skills-title" translate>TECH</div>
+                  <span ng-show="data.tech_team_size">
+                    <span class="smbd" translate>Team size</span></br>
+                    {{ data.tech_team_size }}
+                  </span>
                 </div>
               </div>
               <div class="col-sm-9">
@@ -136,15 +148,15 @@
           <div class="col-sm-12 pad-top-10">
             <div class="accordion-wrap">
               <div ng-show="data.tech_team_philosophy">
-                <h3 class="accordion-subtitle">Technology Philosophy</h3>
+                <h3 class="accordion-subtitle" translate>Technology Philosophy</h3>
                 <p class="pad-btm-15" ng-bind-html="data.tech_team_philosophy"></p>
               </div>
               <div ng-show="data.recruitment_process">
-                <h3 class="accordion-subtitle">Hiring process</h3>
+                <h3 class="accordion-subtitle" translate>Hiring process</h3>
                 <p class="pad-btm-15" ng-bind-html="data.recruitment_process"></p>
               </div>
               <div ng-show="data.training_policy">
-                <h3 class="accordion-subtitle">Training policy</h3>
+                <h3 class="accordion-subtitle" translate>Training policy</h3>
                 <p class="pad-btm-15" ng-bind-html="data.training_policy"></p>
               </div>
             </div>

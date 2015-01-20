@@ -6,7 +6,8 @@ stepDefinitions(function(scenario) {
   scenario.World = window.World;
 
   scenario.Before(function() {
-    // Something
+    this.vars.year = new Date().getFullYear();
+    this.vars.unique_skill = 'test-skill-' + this.guid();
   });
 
   scenario.After(function () {
@@ -22,6 +23,7 @@ stepDefinitions(function(scenario) {
   }
 
   scenario.When(/^I (post|put) to "([^"]*)":$/, function(method, url, json) {
+    console.log(this.setVars(url));
     var post = this.json(this.setVars(json));
     return this.storeRequest(AJAX[method](this.setVars(url), post));
   });

@@ -2,7 +2,7 @@
 
   <form name="formSignupUser" class="col-sm-8 form-horizontal bg-white" ng-submit="signupUser.submit()">
     <div class="col-sm-12">
-      <h3 class="signup-title">Signup for free</h3>
+      <h3 class="signup-title" translate>Signup for free</h3>
 
       <div class="form-group" ng-show="!imported && !linkedin.isConnected">
         <div class="col-sm-12">
@@ -12,7 +12,7 @@
 
       <div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">
         <div class="form-group required">
-          <label class="col-sm-3">First Name</label>
+          <label class="col-sm-3" translate>First Name</label>
           <div class="col-sm-9">
             <input type="text"
                    class="form-control"
@@ -23,14 +23,14 @@
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
-            <span ng-show="formSignupUser.firstName.$error.required">
+            <span ng-show="formSignupUser.firstName.$error.required" translate>
               Please insert your first name.
             </span>
           </div>
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3">Last Name</label>
+          <label class="col-sm-3" translate>Last Name</label>
           <div class="col-sm-9">
             <input type="text"
                    class="form-control"
@@ -41,14 +41,14 @@
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
-            <span ng-show="formSignupUser.lastName.$error.required">
+            <span ng-show="formSignupUser.lastName.$error.required" translate>
               Please insert your last name.
             </span>
           </div>
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3">Email</label>
+          <label class="col-sm-3" translate>Email</label>
           <div class="col-sm-9">
             <input type="email"
                    class="form-control"
@@ -60,21 +60,21 @@
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
-            <span ng-show="formSignupUser.email.$error.required">
+            <span ng-show="formSignupUser.email.$error.required" translate>
               Please insert your email.
             </span>
-            <span ng-show="formSignupUser.email.$error.email">
+            <span ng-show="formSignupUser.email.$error.email" translate>
               Please insert a valid email.
             </span>
             <span ng-show="errorEmailAlreadyRegistered">
-              Email already registered.
-              <a href="../forgot-password.html">Forgot your password?</a>
+              <translate>Email already registered.</translate>
+              <a href="../forgot-password.html" translate>Forgot your password?</a>
             </span>
           </div>
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3">Password</label>
+          <label class="col-sm-3" translate>Password</label>
           <div class="col-sm-9">
             <input type="password"
                    class="form-control"
@@ -86,13 +86,13 @@
           </div>
 
           <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
-            <span ng-show="formSignupUser.password.$error.required">Please choose a password.</span>
-            <span ng-show="formSignupUser.password.$error.minlength">Password must have at least 8 characters.</span>
+            <span ng-show="formSignupUser.password.$error.required" translate>Please choose a password.</span>
+            <span ng-show="formSignupUser.password.$error.minlength" translate>Password must have at least 8 characters.</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3">Invite code</label>
+          <label class="col-sm-3" translate>Invite code</label>
           <div class="col-sm-9">
             <input type="text"
                    class="form-control"
@@ -111,8 +111,8 @@
                      ng-disabled="loading"
                      ng-model="model.agreedTos"
                 >
-              I have read and agree to the
-                <BR><a class="link" style="text-decoration: underline;" href="../en/terms-candidate.html" target="_blank">4Scotty terms of services.</a>
+              <translate>I have read and agree to the</translate><br>
+              <a class="link" style="text-decoration: underline;" href="../en/terms-candidate.html" target="_blank" translate>4Scotty terms of services.</a>
             </label>
           </div>
         </div>
@@ -124,7 +124,8 @@
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="submit"
                 class="fl-rg bg-green btn-small"
-                ng-disabled="loading || !formSignupUser.$valid">
+                ng-disabled="loading || !formSignupUser.$valid"
+                translate>
           Continue
         </button>
       </div>
@@ -134,10 +135,9 @@
   <div class="col-sm-4">
     <div class="bg-gray-lighter2 mrg-btm row">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Help</div>
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Help</div>
         <div class="">
-          <p class="mrg-btm">
+          <p class="mrg-btm" translate>
             Please set up your free profile.</br>
             We guarantee your data privacy.</br>
             Employers will not see your name and contact data until you accept their offers or decide so at a later point of this sign up.
@@ -149,10 +149,9 @@
 
     <div class="bg-gray-lighter2 mrg-btm row">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Don't have an invite code?</div>
-        <div class="">
-          <p class="mrg-btm">
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Don't have an invite code?</div>
+        <div>
+          <p class="mrg-btm" translate>
             If you received an invite code, plese enter it here.</br>Leave the field blank if you didn't have one and we will contact you afterwards to validate your profile.
           </p>
         </div>
@@ -162,17 +161,16 @@
 
     <div class="row  border-box">
       <div class="padd-vert col-sm-12">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Our Promises</div>
-        <div class="">
-          <h4 class="orange lt caps font-14 mrg-btm-small">No Spam</h4>
-          <p class="mrg-btm font-12">You’ll only receive job offers that match your profile.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Full disclosure</h4>
-          <p class="mrg-btm font-12">You’ll always find all essential job details about every job offer posted on 4Scotty – including the salary.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Privacy standards</h4>
-          <p class="mrg-btm font-12">Companies only receive your contact details once you have explicitly accepted their offers. Your profile cannot be seen by your current employer.</p>
-          <h4 class="orange lt caps font-14 mrg-btm-small">Quality support</h4>
-          <p class="mrg-btm font-12">We will accompany you throughout the entire process. And if you find a new job, we’ll even share our commission with you.</p>
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Our Promises</div>
+        <div>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>No Spam</h4>
+          <p class="mrg-btm font-12" translate>You’ll only receive job offers that match your profile.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Full disclosure</h4>
+          <p class="mrg-btm font-12" translate>You’ll always find all essential job details about every job offer posted on 4Scotty – including the salary.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Privacy standards</h4>
+          <p class="mrg-btm font-12" translate>Companies only receive your contact details once you have explicitly accepted their offers. Your profile cannot be seen by your current employer.</p>
+          <h4 class="orange lt caps font-14 mrg-btm-small" translate>Quality support</h4>
+          <p class="mrg-btm font-12" translate>We will accompany you throughout the entire process. And if you find a new job, we’ll even share our commission with you.</p>
         </div>
       </div>
     </div>

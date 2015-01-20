@@ -1,0 +1,40 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">Admin</%def>
+<%def name="scripts()">
+<script>
+    $(function(){
+      var furl = encodeURIComponent(window.location.href);
+      $("#nav").append('<a href="/api/v1/connect/xing?furl='+ furl +'">Connect with XING</a>');
+    });
+</script>
+</%def>
+
+<%def name="tests()">
+<script>
+    var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+            tests = [
+                {sectionTitle: 'XING'},
+                {url: '/api/v1/connect/xing/me', title: 'xing-my-base-data', expectedErrors:[403],
+                    extract: function(r, extr){return {picture: r.picture}}},
+                {
+                    title: 'User Picture',
+                    url: function(r, extr){return extr.picture||'unknown'},
+                    execute: function(root, extr){
+                        if(extr.picture) root.append('<img src="'+extr.picture+'"/>');
+                        else root.append('<div>Unknown</div>');
+                    }
+                },
+                {url: '/api/v1/connect/xing/work_experience', title: 'xing-my-work-experience', expectedErrors:[403]},
+                {url: '/api/v1/connect/xing/education', title: 'xing-my-education', expectedErrors:[403]},
+                {url: '/api/v1/connect/xing/profile', title: 'xing-profile', expectedErrors:[403]},
+                {url: '/api/v1/connect/xing/me/forget', title: 'xing-forget-me'},
+                {url: '/api/v1/connect/xing/me', title: 'xing-my-base-data', expectedErrors:[403]},
+            ];
+
+    $(function () {
+        getTestRunner(tests)(0, {});
+    })
+</script>
+</%def>

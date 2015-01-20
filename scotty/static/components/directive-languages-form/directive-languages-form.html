@@ -1,56 +1,53 @@
 <form class="edit-form form-wrap " name="formLanguages" ng-submit="submit()">
-<div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
-<div class="col-sm-12">
-  <label class="col-sm-3">Languages</label>
-  <div class="col-sm-9">
-    <div class="form-group" ng-repeat="entry in model">
-      <div class="row">
-        <div class="col-sm-6">
-          <input type="text"
-                 class="form-control"
-                 name="language{{ $index }}"
-                 placeholder="Language"
-                 ng-disabled="hcDisabled"
-                 ng-required="$first"
-                 ng-model="entry.language"
-                 ng-blur="onBlur(entry, $index, $last)"
-                 ng-change="onChange(entry, $index, $last)"
-                 typeahead-on-select="setLanguage(entry)"
-                 typeahead="language for language in searchLanguages($viewValue)"
-                 hc-typeahead-loader>
-        </div>
-        <div class="col-sm-5 no-padd-left ">
-          <select
-                  class="form-control"
-                  name="proficiency{{ $index }}"
-                  ng-disabled="hcDisabled"
-                  ng-required="entry.language"
-                  ng-change="recheck()"
-                  ng-model="entry.proficiency"
-                  ng-options="proficiency for proficiency in proficiencies">
-            <option value="">Select...</option>
-          </select>
-        </div>
-        <div class="col-sm-1 no-padd-left pad-top-5">
-          <span class="close"
-                ng-if="!$last"
-                ng-click="remove($index)">
-            <i class="fa fa-close"></i>
-          </span>
-        </div>
-        <div class="col-sm-12">
-          <div class="form-error" ng-show="!$last && entry.$dirty && entry.errorInvalidLanguage">
-            <span ng-show="entry.errorInvalidLanguage">Please choose a language from the menu.</span>
+  <div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
+    <div class="col-sm-12">
+      <label class="col-sm-3" translate>Languages</label>
+      <div class="col-sm-9">
+        <div class="form-group" ng-repeat="entry in model">
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="text"
+                     class="form-control"
+                     name="language{{ $index }}"
+                     placeholder="Language"
+                     ng-disabled="hcDisabled"
+                     ng-required="$first"
+                     ng-model="entry.language"
+                     ng-blur="onBlur(entry, $index, $last)"
+                     ng-change="onChange(entry, $index, $last)"
+                     typeahead-on-select="setLanguage(entry)"
+                     typeahead="language for language in searchLanguages($viewValue)"
+                     hc-typeahead-loader>
+            </div>
+            <div class="col-sm-5 no-padd-left ">
+              <select
+                      class="form-control"
+                      name="proficiency{{ $index }}"
+                      ng-disabled="hcDisabled"
+                      ng-required="entry.language"
+                      ng-change="recheck()"
+                      ng-model="entry.proficiency"
+                      ng-options="proficiency for proficiency in proficiencies">
+                <option value="" translate>Select...</option>
+              </select>
+            </div>
+            <div class="col-sm-1 no-padd-left pad-top-5">
+              <span class="close"
+                    ng-if="!$last"
+                    ng-click="remove($index)">
+                <i class="fa fa-close"></i>
+              </span>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-error" ng-show="!$last && entry.$dirty && entry.errorInvalidLanguage">
+                <span ng-show="entry.errorInvalidLanguage" translate>Please choose a language from the menu.</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="clearfix"></div>
   </div>
-
-</div>
-<div class="clearfix"></div>
-</div>
-
-    <div ng-transclude></div>
-
+  <div ng-transclude></div>
 </form>

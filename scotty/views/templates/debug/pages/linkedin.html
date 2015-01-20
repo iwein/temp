@@ -15,7 +15,7 @@
     var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
             tests = [
 
-                {sectionTitle: 'Search'},
+                {sectionTitle: 'LINKEDIN'},
                 {url: '/api/v1/connect/linkedin/me', title: 'linkedin-my-base-data', expectedErrors:[403],
                     extract: function(r, extr){return {picture: r.picture}}},
                 {

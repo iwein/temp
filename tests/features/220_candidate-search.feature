@@ -2,12 +2,21 @@ Feature: Employer sign up process
   This feature describes a candidate searching for employers
 
   Background:
-       Given I create a complete candidate
-         And Candidate is approved
-         And I create a complete employer
-         And Employer is approved
+       Given An employer and a candidate are created
+         And Candidate logs in
 
-  Scenario: Simple skill search
+  Scenario: Not approved employer should not be shown
+      Given I create a complete employer
+        And Employer logs out
+        And Candidate logs in
+       When I get "/employers/?company=<%= company_name %>"
+       Then The response status should be "200"
+        And The response should have:
+        """
+        { "pagination": { "total":0 }, "data": [] }
+        """
+
+  Scenario: Search by technologies
        When I get "/employers/?tags=Python"
        Then The response status should be "200"
         And The response should have:

@@ -7,7 +7,7 @@
 <div class="col-sm-12">
   <div class="row">
     <div class="col-sm-8 col-sm-offset-1 bg-white pad-btm-20">
-      <h3 class="col-sm-12 pad-top-10 pad-btm-20 big-title orange caps">Make an offer</h3>
+      <h3 class="col-sm-12 pad-top-10 pad-btm-20 big-title orange caps" translate>Make an offer</h3>
       <div class="col-sm-12">
         <div class="bg-gray-lighter">
           <div class="col-sm-12 pad-top-20">
@@ -20,7 +20,7 @@
 
           <div class="form-group required col-sm-12">
             <div class="col-sm-12">
-              <label>Personal Message</label>
+              <label translate>Personal Message</label>
             </div>
             <div class="col-sm-12">
               <textarea
@@ -32,7 +32,7 @@
                 ng-model="model.message">
               </textarea>
               <div class="form-error" ng-show="formCreateOffer.message.$dirty && formCreateOffer.message.$invalid">
-                <span ng-show="formCreateOffer.message.$error.required">
+                <span ng-show="formCreateOffer.message.$error.required" translate>
                   Please insert a personal message for the candidate.
                 </span>
               </div>

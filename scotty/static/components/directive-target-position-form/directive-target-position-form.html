@@ -1,179 +1,178 @@
 <form role="form" name="formTarget" class="form-wrap mrg-btm" ng-if="ready" ng-submit="submit()">
-<div class="form-signup bg-gray-lighter mrg-btm">
-  <div class="form-group required row">
-    <label class="col-sm-3">Role</label>
-    <div class="col-sm-9">
-      <select class="form-control"
-              name="country"
-              required
-              ng-disabled="loading"
-              ng-model="model.role"
-              ng-options="role for role in featuredRoles">
-        <option value="">Select...</option>
-      </select>
+  <div class="form-signup bg-gray-lighter mrg-btm">
+    <div class="form-group required row">
+      <label class="col-sm-3" translate>Role</label>
+      <div class="col-sm-9">
+        <select class="form-control"
+                name="country"
+                required
+                ng-disabled="loading"
+                ng-model="model.role"
+                ng-options="role for role in featuredRoles">
+          <option value="" translate>Select...</option>
+        </select>
 
-      <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
-        <span ng-show="formTarget.role.$error.required">Please select your role.</span>
+        <div class="form-error" ng-show="formTarget.role.$dirty && formTarget.role.$invalid">
+          <span ng-show="formTarget.role.$error.required" translate>Please select your role.</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="form-group required row">
-    <div class="col-sm-3">
-      <label>Technologies & Skills</label>
+    <div class="form-group required row">
+      <div class="col-sm-3">
+        <label translate>Technologies &amp; Skills</label>
 
-      <div class="question">
-        <span>?</span>
-        <div class="tooltip-wrap">
-          <div class="tooltip-arrow"></div>
-          <div class="tooltip-text">
-            Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+        <div class="question">
+          <span>?</span>
+          <div class="tooltip-wrap">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-text" translate>
+              Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+            </div>
           </div>
         </div>
+
       </div>
 
-    </div>
-
-    <div class="col-sm-9">
-      <div class="row check-wrap">
-        <div class="col-sm-6" ng-repeat="skill in featuredSkills">
-          <label class="form-label">
-            <input type="checkbox"
-                   ng-disabled="loading"
-                   ng-model="skill.selected"
-                   ng-change="onFeaturedSkillChange()">
-            {{ skill.value }}
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <div class="col-sm-offset-3 col-sm-9">
-      <label>Other</label>
-      <hc-label-typeahead
-              name="skill"
-              placeholder="Type a skill and press enter on each one..."
-              ng-disabled="loading"
-              ng-model="model.skills"
-              hc-required="!skillSelected"
-              hc-source="searchSkills($viewValue)"
-              hc-error-message="Please choose at least one skill"
-              hc-allow-new>
-      </hc-label-typeahead>
-    </div>
-  </div>
-
-  <div class="form-group required row">
-    <div class="col-sm-3 no-padd-right">
-      <label>Annual Salary</label>
-      <div class="question">
-        <span>?</span>
-        <div class="tooltip-wrap">
-          <div class="tooltip-arrow"></div>
-          <div class="tooltip-text">
-            Do not set your salary too high, as it will block employers to send you interesting offers,
-          that have a slightly lower nominal salary but huge other benefits.
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-9">
-      <div class="input-group">
-        <span class="input-group-addon">€</span>
-        <input type="dotted-integer"
-               class="form-control"
-               name="salary"
-               required
-               ng-disabled="loading"
-               ng-model="model.minimum_salary"
-               ng-change="onSalaryChange()">
-        <span class="input-group-addon">.00</span>
-      </div>
-    </div>
-
-    <div class="form-error col-sm-9 col-sm-offset-3" ng-show="(formTarget.salary.$dirty && formTarget.salary.$invalid) || errorSalaryTooHigh">
-      <span ng-show="formTarget.salary.$error.required">Please insert your expected salary.</span>
-      <span ng-show="formTarget.salary.$error.number">Please insert a number.</span>
-      <span ng-show="formTarget.salary.$error.pattern">Decimals are not allowed.</span>
-      <span ng-show="errorSalaryTooHigh">Please, select a salary below 99,000,000.</span>
-    </div>
-  </div>
-
-  <div class="required row">
-    <div class="col-sm-3 no-padd-right">
-      <label>Locations</label>
-      <div class="question">
-        <span>?</span>
-        <div class="tooltip-wrap">
-          <div class="tooltip-arrow"></div>
-          <div class="tooltip-text">
-            We currently focus our efforts on the 3 listed locations.
-        Feel free to name any other city in Germany so we know where to focus in the future.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-9 check-wrap">
-      <div class="mrg-btm">
-        <label class="form-label">
-          <input type="checkbox"
-                 ng-disabled="loading || locationOther"
-                 ng-model="anywhereInGermany"
-                 ng-change="updateLocations(anywhereInGermany)">
-          Anywhere in Germany
-        </label>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="" ng-repeat="location in featuredLocations">
+      <div class="col-sm-9">
+        <div class="row check-wrap">
+          <div class="col-sm-6" ng-repeat="skill in featuredSkills">
             <label class="form-label">
               <input type="checkbox"
-                     ng-disabled="loading || anywhereInGermany"
-                     ng-model="location.selected"
-                     ng-change="updateLocations(anywhereInGermany)">
-              {{ location.value.city }}, {{ location.value.country_iso }}
+                     ng-disabled="loading"
+                     ng-model="skill.selected"
+                     ng-change="onFeaturedSkillChange()">
+              {{ skill.value }}
             </label>
           </div>
         </div>
-        <div class="col-sm-6">
-        <div class="">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-offset-3 col-sm-9">
+        <label translate>Other</label>
+        <hc-label-typeahead
+                name="skill"
+                placeholder="Type a skill and press enter on each one..."
+                ng-disabled="loading"
+                ng-model="model.skills"
+                hc-required="!skillSelected"
+                hc-source="searchSkills($viewValue)"
+                hc-error-message="Please choose at least one skill"
+                hc-allow-new>
+        </hc-label-typeahead>
+      </div>
+    </div>
+
+    <div class="form-group required row">
+      <div class="col-sm-3 no-padd-right">
+        <label translate>Annual Salary</label>
+        <div class="question">
+          <span>?</span>
+          <div class="tooltip-wrap">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-text" translate>
+              Do not set your salary too high, as it will block employers to send you interesting offers,
+            that have a slightly lower nominal salary but huge other benefits.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="input-group">
+          <span class="input-group-addon">€</span>
+          <input type="dotted-integer"
+                 class="form-control"
+                 name="salary"
+                 required
+                 ng-disabled="loading"
+                 ng-model="model.minimum_salary"
+                 ng-change="onSalaryChange()">
+          <span class="input-group-addon">.00</span>
+        </div>
+      </div>
+
+      <div class="form-error col-sm-9 col-sm-offset-3" ng-show="(formTarget.salary.$dirty && formTarget.salary.$invalid) || errorSalaryTooHigh">
+        <span ng-show="formTarget.salary.$error.required" translate>Please insert your expected salary.</span>
+        <span ng-show="formTarget.salary.$error.number" translate>Please insert a number.</span>
+        <span ng-show="formTarget.salary.$error.pattern" translate>Decimals are not allowed.</span>
+        <span ng-show="errorSalaryTooHigh" translate>Please select a salary below &euro;99,000,000.</span>
+      </div>
+    </div>
+
+    <div class="required row">
+      <div class="col-sm-3 no-padd-right">
+        <label translate>Locations</label>
+        <div class="question">
+          <span>?</span>
+          <div class="tooltip-wrap">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-text" translate>
+              We currently focus our efforts on the 3 listed locations.
+          Feel free to name any other city in Germany so we know where to focus in the future.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9 check-wrap">
+        <div class="mrg-btm">
           <label class="form-label">
             <input type="checkbox"
-                   name="location-radio"
-                   ng-disabled="loading || anywhereInGermany"
-                   ng-required="errorLocationRequired"
-                   ng-model="flags.locationOther"
+                   ng-disabled="loading || locationOther"
+                   ng-model="anywhereInGermany"
                    ng-change="updateLocations(anywhereInGermany)">
-              Other
-            </label>
-          </div>
+            <translate>Anywhere in Germany</translate>
+          </label>
+        </div>
 
-          <hc-label-typeahead
-                  name="cities"
-                  placeholder="Type a city..."
-                  ng-show="flags.locationOther"
-                  ng-disabled="loading"
-                  ng-model="preferred_locations"
-                  hc-required="flags.locationOther"
-                  hc-render="locationToText($entry)"
-                  hc-source="searchCities($viewValue)"
-                  on-change="updateLocations(anywhereInGermany)">
-          </hc-label-typeahead>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="" ng-repeat="location in featuredLocations">
+              <label class="form-label">
+                <input type="checkbox"
+                       ng-disabled="loading || anywhereInGermany"
+                       ng-model="location.selected"
+                       ng-change="updateLocations(anywhereInGermany)">
+                {{ location.value.city }}, {{ location.value.country_iso }}
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6">
+          <div class="">
+            <label class="form-label">
+              <input type="checkbox"
+                     name="location-radio"
+                     ng-disabled="loading || anywhereInGermany"
+                     ng-required="errorLocationRequired"
+                     ng-model="flags.locationOther"
+                     ng-change="updateLocations(anywhereInGermany)">
+                <translate>Other</translate>
+              </label>
+            </div>
+
+            <hc-label-typeahead
+                    name="cities"
+                    placeholder="Type a city..."
+                    ng-show="flags.locationOther"
+                    ng-disabled="loading"
+                    ng-model="preferred_locations"
+                    hc-required="flags.locationOther"
+                    hc-render="locationToText($entry)"
+                    hc-source="searchCities($viewValue)"
+                    on-change="updateLocations(anywhereInGermany)">
+            </hc-label-typeahead>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-</div>
-
-<div class="row">
-  <div class="col-sm-12">
-    <div ng-transclude></div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div ng-transclude></div>
+    </div>
   </div>
-</div>
 
 </form>

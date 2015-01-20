@@ -13,6 +13,7 @@ requirejs.config({
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-animate': 'bower_components/angular-animate/angular-animate',
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
+    'angular-gettext': 'bower_components/angular-gettext/dist/angular-gettext',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
     'angulartics': 'bower_components/angulartics/dist/angulartics.min',
     'angulartics-ga': 'tools/angulartics-ga',
@@ -31,6 +32,8 @@ requirejs.config({
     'angular-router': [ 'angular' ],
     'angular-animate': [ 'angular' ],
     'angular-sanitize': [ 'angular' ],
+    'angular-gettext': [ 'angular' ],
+    'apps/common/translations': [ 'angular-gettext' ],
   }
 
 })([ 'apps/common/mock-data', 'apps/candidate/app' ]);

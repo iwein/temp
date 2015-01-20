@@ -2,7 +2,7 @@
   <div class="form-signup no-padd-horz bg-gray-lighter mrg-btm clearfix">
     <div class="col-sm-12">
       <div class="col-sm-12">
-        <label>Enter at least three of your core skills and select their level</label>
+        <label translate>Enter at least three of your core skills and select their level</label>
       </div>
 
       <div class="col-sm-12" ng-repeat="entry in model">
@@ -31,7 +31,7 @@
                 ng-model="entry.level"
                 ng-change="recheck()"
                 ng-options="level for level in levels">
-                <option value="">Select Level...</option>
+                <option value="" translate>Select Level...</option>
               </select>
             </div>
 
@@ -47,7 +47,7 @@
               <div class="form-error" ng-show="
                   formSkills['skill' + $index].$dirty &&
                   formSkills['skill' + $index].$invalid">
-                  <span ng-show="formSkills['skill' + $index].$error.required">
+                  <span ng-show="formSkills['skill' + $index].$error.required" translate>
                     Please insert the skill level.
                   </span>
               </div>
@@ -57,7 +57,7 @@
       </div>
 
       <div class="col-sm-12">
-        <label class="edit-title">List other skills</label>
+        <label class="edit-title" translate>List other skills</label>
         <hc-label-typeahead
           placeholder="Type a skill and press enter after each one..."
           ng-disabled="hcDisabled"

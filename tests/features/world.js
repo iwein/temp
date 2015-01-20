@@ -21,12 +21,14 @@ function World() {
     return toString(value) === '[object Object]';
   }
 
-  function equal(object, expected, negated) {
+  function equal(object, expected) {
     if (expected) {
-      if (expected.$not && !negated)
-        return !equal(object, expected, true);
-      else if (expected.$exist)
+      if (expected.$not)
+        return !equal(object, expected.$not);
+      else if (expected.$exists === true)
         return object !== undefined;
+      else if (expected.$exists === false)
+        return object === undefined;
     }
 
     if (isArray(expected)) {
@@ -57,7 +59,7 @@ function World() {
     equal: equal,
 
     generateEmail: function() {
-      return 'catch+' + this.guid() + '@hackandcraft.com';
+      return 'catch+test-entity-' + this.guid() + '@hackandcraft.com';
     },
 
     json: function(string) {

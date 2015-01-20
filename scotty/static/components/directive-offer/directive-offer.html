@@ -1,7 +1,10 @@
 <div class="row" ng-class="{ inactive: !isActive }">
   <div class="col-sm-3">
     <div class="pad-lft-15">
-      <div class="caps font-14 mrg-btm">Offer No. {{ model.data.reference }}</div>
+      <div class="caps font-14 mrg-btm">
+        <translate>Offer No.</translate>
+        {{ model.data.reference }}
+      </div>
 
       <div class="offer-pic emp-pic" ng-if="!hide.employer" style="background-image: url({{ model.data.employer.logo_url }})"></div>
       <hc-candidate-pic classes="offer-pic" ng-if="!hide.candidate" picture-url="model.data.candidate.picture_url"></hc-candidate-pic>
@@ -10,46 +13,46 @@
   <div class="col-sm-9">
     <div class="row">
       <div class="offer-date col-sm-7 mrg-btm" ng-show="model.data.created === model.data.last_updated">
-        created: {{ model.data.created | momentDate }}
+        <translate>created</translate>: {{ model.data.created | momentDate }}
       </div>
       <div class="offer-date col-sm-7 mrg-btm" ng-show="model.data.created !== model.data.last_updated">
-        last update: {{ model.data.last_updated | momentDate }}
+        <translate>last update</translate>: {{ model.data.last_updated | momentDate }}
       </div>
       <div class="col-sm-5 mrg-btm alg-right lbl">
         <div class="pad-rgt-15">
           <div class="status-{{model.status}}">
-            <span>status: </span>
+            <span><translate>status</translate>: </span>
 
             <span class="accept-message">
               <span class="iconParent"><i class="fa blue-link fa-clock-o"></i></span>
-              <span class="blue-link" ng-if="hide.candidate">waiting for you to accept</span>
-              <span class="blue-link" ng-if="!hide.candidate">waiting for candidate to accept</span>
+              <span class="blue-link" ng-if="hide.candidate" translate>waiting for you to accept</span>
+              <span class="blue-link" ng-if="!hide.candidate" translate>waiting for candidate to accept</span>
             </span>
             <span class="accepted-message">
               <span class="iconParent"><i class="fa blue-link fa-check-square-o"></i></span>
-              <span class="blue-link">Offer is accepted</span>
+              <span class="blue-link" translate>Offer is accepted</span>
             </span>
             <span class="interviewing-message">
               <span class="iconParent"><i class="fa blue-link fa-comments"></i></span>
-              <span class="blue-link">Interviewed for this offer</span>
+              <span class="blue-link" translate>Interviewed for this offer</span>
             </span>
             <span class="negotiation-message">
               <span class="iconParent"><i class="fa blue-link fa-exchange"></i></span>
-              <span class="blue-link">Negotiating contract details</span>
+              <span class="blue-link" translate>Negotiating contract details</span>
             </span>
             <span class="signed-message">
               <span class="iconParent"><i class="fa green fa-pencil"></i></span>
-              <span class="green">Contract was signed</span>
+              <span class="green" translate>Contract was signed</span>
             </span>
             <span class="withdrawn-message">
               <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
               <span class="red"></span>
-              <span class="blue-link">Offer was withdrawn</span>
+              <span class="blue-link" translate>Offer was withdrawn</span>
 
             </span>
             <span class="reject-message">
               <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
-              <span class="red">Offer was rejected</span>
+              <span class="red" translate>Offer was rejected</span>
             </span>
           </div>
         </div>
@@ -62,16 +65,17 @@
           <span class="iconParent">
             <i class="fa fa-euro gray-light"></i>
           </span>
-          <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year
+          <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span>
+          / <translate>year</translate>
         </div>
       </div>
       <div class="col-sm-4 mrg-btm-big">
         <div class="pad-rgt-15">
-          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })" ng-show="canBeViewed">Offer details</a>
+          <a class="link-orange fl-rg" ui-sref="offer({ id: model.id })" ng-show="canBeViewed" translate>Offer Details</a>
 
           <div class="row" ng-show="model.status === 'REJECTED' || model.status === 'WITHDRAWN'">
             <div class="col-sm-6 col-sm-offset-6 alg-left">
-              <div class="smbd">reason:</div>
+              <div class="smbd"><translate>reason</translate>:</div>
               <div>{{ model.data.rejected_reason || model.data.withdrawal_reason }}</div>
             </div>
           </div>
@@ -84,13 +88,14 @@
           <div ng-if="!hide.employer" class="col-sm-4 infos">
             <div>
               <span class="iconParent"><i class="fa fa-euro gray-light"></i></span>
-              <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span> / year
+              <span class="smbd">{{ model.data.annual_salary | dottedInteger }}</span>
+              / <translate>year</translate>
             </div>
             <div class="mrg-btm">
               <span class="iconParent"><i class="fa fa-map-marker gray-light"></i></span>
               {{ model.data.location.city }}, {{ model.data.location.country_iso }}
             </div>
-            <a class="link-blue smbd caps font-18" ui-sref="employer({ id: model.data.employer.id })">Company profile</a>
+            <a class="link-blue smbd caps font-18" ui-sref="employer({ id: model.data.employer.id })" translate>Company Profile</a>
           </div>
           <div ng-if="!hide.candidate" class="col-sm-4 infos-candidate">
             <div class="name"><a ui-sref="candidate({ id: model.data.candidate.id })">
@@ -109,7 +114,7 @@
 
                 <div class="row" ng-if="!hide.employer">
                   <div class="col-sm-12">
-                    <div class="req-list-title mrg-btm-small">Requirements</div>
+                    <div class="req-list-title mrg-btm-small" translate>Requirements</div>
                   </div>
                   <div class="col-sm-3 mrg-btm-small" ng-repeat="skill in model.data.technologies">
                     <span>{{ skill }}</span>
@@ -118,7 +123,7 @@
 
                 <div class="row" ng-if="!hide.candidate">
                   <div class="col-sm-12">
-                    <div class="req-list-title mrg-btm-small">Skills</div>
+                    <div class="req-list-title mrg-btm-small" translate>Skills</div>
                   </div>
                   <div class="col-sm-3 mrg-btm-small" ng-repeat="skill in skills">
                     <span>{{ skill.skill }}</span>
