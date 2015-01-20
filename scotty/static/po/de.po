@@ -54,23 +54,20 @@ msgstr ""
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:15
 msgid ""
-"<hc-candidate-link ng-model=\"entry.candidate\">\n"
-"      has turned down the offer\n"
-"    </hc-candidate-link>"
+"<hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>\n"
+"      has turned down the offer"
 msgstr ""
 
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:18
 msgid ""
-"<hc-candidate-link ng-model=\"entry.candidate\">\n"
-"      rejected your offer.\n"
-"    </hc-candidate-link>"
+"<hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>\n"
+"      rejected your offer."
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:18
 msgid ""
-"<hc-employer-link ng-model=\"entry.employer\">\n"
-"      had turned down the offer\n"
-"    </hc-employer-link>"
+"<hc-employer-link ng-model=\"entry.employer\"></hc-employer-link>\n"
+"      had turned down the offer"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:845
@@ -138,9 +135,8 @@ msgstr ""
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:26
 msgid ""
 "Amazing!\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"      started their job with you!\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>\n"
+"      started their job with you!"
 msgstr ""
 
 #: components/employer-profile/employer-profile.html:90
@@ -158,11 +154,11 @@ msgstr ""
 msgid "Annual revenue"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:150
+#: components/directive-profile-form/directive-profile-form.html:148
 msgid "Anonymous"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:62
+#: components/directive-profile-form/directive-profile-form.html:61
 msgid "Anonymous will hide your photo."
 msgstr ""
 
@@ -207,22 +203,19 @@ msgid ""
 "      <hc-offer-link ng-model=\"entry.offer\">an interview offer</hc-offer-"
 "link>\n"
 "      from\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:22
 msgid ""
 "Awesome, you received an offer from\n"
-"      <hc-employer-link ng-model=\"entry.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:22
 msgid ""
 "Awesome, you sent an offer to\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:78
@@ -271,26 +264,23 @@ msgstr ""
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"      had accepted an interview with you.\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>\n"
+"      had accepted an interview with you."
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:26
 msgid ""
 "Brilliant! You have accepted an interview with\n"
-"      <hc-employer-link ng-model=\"entry.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:28
 msgid ""
 "Brilliant! You have accepted an interview with\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-link>"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:152
+#: components/directive-profile-form/directive-profile-form.html:150
 msgid ""
 "By selecting \"Anonymous\" employers will see your name, picture and contact "
 "details only after you accepted their job offer."
@@ -300,11 +290,11 @@ msgstr ""
 msgid "By selecting \"I agree terms of service\", you agree with our"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:112
+#: components/directive-profile-form/directive-profile-form.html:110
 msgid "CV"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:124
+#: components/directive-profile-form/directive-profile-form.html:122
 msgid "CV uploaded."
 msgstr ""
 
@@ -666,8 +656,7 @@ msgid ""
 "Good luck! you have set a start date of\n"
 "      {{ entry.offer.job_start_date }}\n"
 "      with\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/directive-education-form/directive-education-form.html:94
@@ -681,15 +670,13 @@ msgstr ""
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:31
 msgid ""
 "Great! you have started interviewing with\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>"
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:30
 msgid ""
 "Great! you have started interviewing with\n"
-"      <hc-employer-link ng-model=\"entry.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:749
@@ -835,22 +822,19 @@ msgstr ""
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:35
 msgid ""
 "Nearly there! You have started negotiating the details with\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>"
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:34
 msgid ""
 "Nearly there! You have started negotiating the details with\n"
-"      <hc-employer-link ng-model=\"entry.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:32
 msgid ""
 "Nearly there! You have started negotiating the details with\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/directive-offer/directive-offer.html:41
@@ -1026,7 +1010,7 @@ msgstr ""
 msgid "Period"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:141
+#: components/directive-profile-form/directive-profile-form.html:139
 msgid "Permitted to work in EU"
 msgstr ""
 
@@ -1279,8 +1263,7 @@ msgstr ""
 msgid "Please select a entry from the menu."
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:128
-#: components/directive-profile-form/directive-profile-form.html:64
+#: components/directive-profile-form/directive-profile-form.html:126
 #: components/employer-signup-basic/employer-signup-basic.html:30
 msgid "Please select a photo."
 msgstr ""
@@ -1481,7 +1464,7 @@ msgid "Search for target position / role"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:61
-#: components/directive-profile-form/directive-profile-form.html:115
+#: components/directive-profile-form/directive-profile-form.html:113
 #: components/directive-profile-form/directive-profile-form.html:47
 #: components/employer-profile/employer-profile.html:32
 #: components/employer-signup-basic/employer-signup-basic.html:13
@@ -1667,8 +1650,8 @@ msgid ""
 "The contact details will be visible after the candidate accepted your offer."
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:129
-#: components/directive-profile-form/directive-profile-form.html:65
+#: components/directive-profile-form/directive-profile-form.html:127
+#: components/directive-profile-form/directive-profile-form.html:63
 #: components/employer-signup-basic/employer-signup-basic.html:31
 msgid "The file should be an image."
 msgstr ""
@@ -1711,12 +1694,12 @@ msgstr ""
 msgid "Upload CV"
 msgstr ""
 
-#: components/directive-profile-form/directive-profile-form.html:123
+#: components/directive-profile-form/directive-profile-form.html:121
 msgid "Upload CV if you have one."
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:72
-#: components/directive-profile-form/directive-profile-form.html:57
+#: components/directive-profile-form/directive-profile-form.html:56
 #: components/employer-profile/employer-profile.html:43
 #: components/employer-signup-basic/employer-signup-basic.html:23
 msgid "Upload a photo at least 235 px wide."
@@ -1872,25 +1855,23 @@ msgstr ""
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:36
 msgid ""
 "Winning! You have signed a contract with\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"      and will receive you golden handshake soon.\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-"
+"link>\n"
+"      and will receive you golden handshake soon."
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:39
 msgid ""
 "Winning! you have signed a contract with\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"      and will receive your golden handshake soon\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>\n"
+"      and will receive your golden handshake soon"
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:38
 msgid ""
 "Winning! you have signed a contract with\n"
-"      <hc-employer-link ng-model=\"entry.employer\">\n"
-"      and will receive your golden handshake soon\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.employer\"></hc-employer-link>\n"
+"      and will receive your golden handshake soon"
 msgstr ""
 
 #: components/employer-offer/employer-offer.html:209
@@ -1940,9 +1921,9 @@ msgstr ""
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:47
 msgid ""
 "You have requested an interview with\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"      They have been notified and should get in touch.\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-"
+"link>\n"
+"      They have been notified and should get in touch."
 msgstr ""
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:22
@@ -1950,8 +1931,7 @@ msgid ""
 "You have turned down\n"
 "      <hc-offer-link ng-model=\"entry.offer\">the offer</hc-offer-link>\n"
 "      from\n"
-"      <hc-employer-link ng-model=\"entry.offer.employer\">\n"
-"    </hc-employer-link>"
+"      <hc-employer-link ng-model=\"entry.offer.employer\"></hc-employer-link>"
 msgstr ""
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:19
@@ -1965,8 +1945,7 @@ msgstr ""
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:14
 msgid ""
 "You interviewed\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">.\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>."
 msgstr ""
 
 #: components/employer-signup-terms/employer-signup-terms.html:38
@@ -1988,23 +1967,20 @@ msgstr ""
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:22
 msgid ""
 "You sent an offer to\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">.\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>."
 msgstr ""
 
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:35
 msgid ""
 "You signed a contract with\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"      They will start soon!\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>\n"
+"      They will start soon!"
 msgstr ""
 
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:31
 msgid ""
 "You started negotiating contract details with\n"
-"      <hc-candidate-link ng-model=\"entry.candidate\">\n"
-"    </hc-candidate-link>"
+"      <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-link>"
 msgstr ""
 
 #: components/employer-candidate-profile/employer-candidate-profile.html:140
