@@ -49,7 +49,7 @@ class CORS(object):
     "WSGI middleware allowing CORS requests to succeed"
     origin = '*'
     methods = 'GET, POST, PUT, DELETE, OPTIONS'
-    headers = 'accept, origin, content-type, x-requested-with, x-requested-by'
+    headers = 'Accept, Origin, Content-Type, X-Requested-With, X-Requested-By'
 
     def __init__(self, application, cfg=None, **kw):
         self.app = application
