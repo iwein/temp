@@ -7,7 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 import requests
 from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, \
     logged_in_with, RootSocialResource
-from scotty.connect.profile_translate import translate
+from scotty.connect.profile_translate import translate, rename, extract_date, extract_address
 from scotty.tools import ensure_list
 
 
@@ -175,6 +175,38 @@ def view_my_education(context, request):
         return education
 
 
+def extract_location(value):
+    if not value:
+        return {}
+    result = {}
+    iso = value.get('country', {}).get('code', '').upper()
+    if iso:
+        result['contact_country_iso'] = iso
+    city = value.get('name', '').split(',')
+    if len(city) > 1:
+        city = city[0]
+    result['contact_city'] = city
+    return result
+
+
+def extract_im(translates):
+    def extract(values):
+        if not values:
+            return {}
+        result = {}
+        for im in values.get('values', []):
+            if im.get('imAccountType') in translates:
+                result[translates[im['imAccountType']]] = im['imAccountName']
+        return result
+
+    return extract
+
+
+PROFILE_TRANSLATION = {'firstName': rename('first_name'), 'lastName': rename('last_name'), 'pictureUrl': rename('picture_url'),
+                       'emailAddress': rename('email'), 'mainAddress': extract_address, 'dateOfBirth': extract_date,
+                       'imAccounts': extract_im({'skype': 'contact_skype'}), 'location': extract_location}
+
+
 @logged_in_with('linkedin')
 def view_my_profile(context, request):
     profile = request.session['linkedin']
@@ -184,4 +216,4 @@ def view_my_profile(context, request):
     exp = results.json()
     if results.status_code != 200:
         raise HTTPForbidden("Some Error from Linkedin, %s:%s" % (results.status_code, results.text))
-    return translate(exp)
+    return translate(exp, PROFILE_TRANSLATION)

@@ -17,20 +17,6 @@ def extract_address(value):
     return result
 
 
-def extract_location(value):
-    if not value:
-        return {}
-    result = {}
-    iso = value.get('country', {}).get('code', '').upper()
-    if iso:
-        result['contact_country_iso'] = iso
-    city = value.get('name', '').split(',')
-    if len(city) > 1:
-        city = city[0]
-    result['contact_city'] = city
-    return result
-
-
 def extract_date(value, name='dob'):
     if not value or not value.get('year'):
         return {}
@@ -40,29 +26,10 @@ def extract_date(value, name='dob'):
 def rename(to_name):
     def ren(value):
         return {to_name: value}
-
     return ren
 
 
-def extract_im(translates):
-    def extract(values):
-        if not values:
-            return {}
-        result = {}
-        for im in values.get('values', []):
-            if im.get('imAccountType') in translates:
-                result[translates[im['imAccountType']]] = im['imAccountName']
-        return result
-
-    return extract
-
-
-PROFILE_TRANSLATION = {'firstName': rename('first_name'), 'lastName': rename('last_name'), 'pictureUrl': rename('picture_url'),
-                       'emailAddress': rename('email'), 'mainAddress': extract_address, 'dateOfBirth': extract_date,
-                       'imAccounts': extract_im({'skype': 'contact_skype'}), 'location': extract_location}
-
-
-def translate(profile, mapping=PROFILE_TRANSLATION):
+def translate(profile, mapping):
     translated = {}
     for k, v in profile.items():
         if mapping.get(k):

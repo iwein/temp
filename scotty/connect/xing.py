@@ -1,4 +1,3 @@
-import json
 import logging
 from operator import itemgetter
 import urllib
@@ -6,12 +5,10 @@ from urlparse import parse_qsl
 
 from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 from pyramid.security import NO_PERMISSION_REQUIRED
-import requests
-from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, \
-    logged_in_with, RootSocialResource
-from scotty.connect.profile_translate import translate
+from scotty.connect.common import SocialLoginSuccessful, SocialNetworkException, assemble_profile_procs, logged_in_with, \
+    RootSocialResource
+from scotty.connect.profile_translate import translate, rename, extract_date
 from scotty.oauth import Client, Consumer, Token
-from scotty.tools import ensure_list
 
 
 log = logging.getLogger(__name__)
@@ -180,33 +177,47 @@ def view_my_positions(context, request):
 @logged_in_with('xing')
 def view_my_education(context, request):
     profile = request.session['xing']
-    access_token = profile['accessToken']
-    results = requests.get(context.educationEndpoint, params={'oauth2_access_token': access_token},
-                           headers={'x-li-format': 'json'})
-    exp = results.json()
-    if results.status_code != 200:
-        raise HTTPForbidden("Some Error from Xing, %s:%s" % (results.status_code, results.text))
-    elif exp.get('_total', 0) <= 0:
-        return []
-    else:
-        education = []
-        for p in exp.get('values', []):
-            education.append({
-                'institution': p.get('schoolName'),
-                'degree': p.get('degree'),
-                'course': p.get('fieldOfStudy'),
-                'start': p.get('startDate', {}).get('year'),
-                'end': p.get('endDate', {}).get('year')})
-        return education
+    token = profile['accessToken']
+    secret = profile['secret']
+    user = get_user(context, token, secret)
+    edus = user['educational_background']
+    education = []
+
+    def resolveYear(d):
+        return d.split('-')[0] if d else None
+
+    for p in edus.get('schools', []):
+        education.append({
+            'institution': p.get('name'),
+            'degree': p.get('degree'),
+            'course': p.get('subject'),
+            'start': resolveYear(p.get('begin_date')),
+            'end': resolveYear(p.get('end_date'))})
+    return education
+
+
+def extract_address(value):
+    if not value:
+        return {}
+    result = {}
+    result['contact_line1'] = value.get('street')
+    result['contact_city'] = value.get('city')
+    result['contact_zipcode'] = value.get('zip_code')
+    result['contact_country_iso'] = value.get('country')
+    result['contact_phone'] = value.get('mobile_phone', value.get('phone'))
+    return result
+
+
+PROFILE_TRANSLATION = {'first_name': rename('first_name'), 'last_name': rename('last_name'), 'birth_date': extract_date,
+                       'emailAddress': rename('email'), 'private_address': extract_address,
+                       'instant_messaging_accounts': lambda x: {'skype': x.get('skype')},
+                       'photo_urls': lambda x: {'picture_url': x.get('size_256x256')}}
 
 
 @logged_in_with('xing')
 def view_my_profile(context, request):
     profile = request.session['xing']
-    access_token = profile['accessToken']
-    results = requests.get(context.profileEndpoint, params={'oauth2_access_token': access_token},
-                           headers={'x-li-format': 'json'})
-    exp = results.json()
-    if results.status_code != 200:
-        raise HTTPForbidden("Some Error from Xing, %s:%s" % (results.status_code, results.text))
-    return translate(exp)
+    token = profile['accessToken']
+    secret = profile['secret']
+    user = get_user(context, token, secret)
+    return translate(user, PROFILE_TRANSLATION)
