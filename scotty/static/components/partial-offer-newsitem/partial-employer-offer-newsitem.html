@@ -16,7 +16,7 @@
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      had turned down the offer
+      has turned down the offer
     </div>
     <div class="note" ng-if="entry.name === 'WITHDRAWN'" translate>
       You have turned down the offer
@@ -32,7 +32,7 @@
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      had accepted an interview with you
+      had accepted an interview with you.
     </div>
     <div class="note" ng-if="entry.name === 'INTERVIEWING'" translate>
       Great! you have started interviewing with
@@ -41,7 +41,7 @@
       </a>
     </div>
     <div class="note" ng-if="entry.name === 'NEGOCIATING'" translate>
-      Nearly there, you have started negotiating the details with
+      Nearly there! You have started negotiating the details with
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
