@@ -23,8 +23,11 @@ module.exports = function(grunt) {
     less: grunt.file.readJSON('config/grunt-less.json'),
     clean: grunt.file.readJSON('config/grunt-clean.json'),
     githooks: grunt.file.readJSON('config/grunt-githooks.json'),
+
+    // i18n
     nggettext_extract: grunt.file.readJSON('config/grunt-nggettext_extract.json'),
     nggettext_compile: grunt.file.readJSON('config/grunt-nggettext_compile.json'),
+    msgmerge: grunt.file.readJSON('config/grunt-msgmerge.json'),
 
     // build
     metalsmith: grunt.file.readJSON('config/grunt-metalsmith.json'),
@@ -41,6 +44,7 @@ module.exports = function(grunt) {
     protractor_webdriver: grunt.file.readJSON('config/grunt-protractor_webdriver.json'),
   });
 
+  grunt.task.loadTasks('./tasks');
   require('load-grunt-tasks')(grunt);
   grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
   if (configModule)
@@ -120,7 +124,10 @@ module.exports = function(grunt) {
     'test:e2e',
   ]);
 
-  grunt.registerTask('i18n:extract', [ 'nggettext_extract:pot' ]);
+  grunt.registerTask('i18n:extract', [
+    'nggettext_extract:pot',
+    'msgmerge:all',
+  ]);
   grunt.registerTask('i18n:compile', [ 'nggettext_compile:all' ]);
 
   grunt.registerTask('lint', [ 'jshint:pre-commit' ]);
