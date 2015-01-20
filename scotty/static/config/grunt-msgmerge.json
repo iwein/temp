@@ -1,0 +1,9 @@
+{
+  "options": {
+    "template": "po/template.pot"
+  },
+  "all": {
+    "expand": true,
+    "src": ["po/*.po"]
+  }
+}
