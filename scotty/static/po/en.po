@@ -44,6 +44,37 @@ msgid ""
 "            upfront, or 2% of the annual salary per month for 12 months."
 msgstr ""
 
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:8
+msgid ""
+"<a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>\n"
+"      has requested an interview with you."
+msgstr ""
+
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:15
+msgid ""
+"<a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>\n"
+"      has turned down the offer"
+msgstr ""
+
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:20
+msgid ""
+"<a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>\n"
+"      rejected your offer."
+msgstr ""
+
+#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:18
+msgid ""
+"<a ui-sref=\"employer({ id: entry.employer.id })\">{{ entry.employer."
+"company_name }}</a>\n"
+"      had turned down the offer"
+msgstr ""
+
 #: components/candidate-profile/candidate-profile.html:845
 #: components/candidate-profile/candidate-profile.html:920
 #: components/employer-profile/employer-profile.html:208
@@ -89,7 +120,7 @@ msgstr ""
 
 #: components/employer-signup-terms/employer-signup-terms.html:18
 msgid ""
-"After your company profile was approved, youll be able to browse\n"
+"After your company profile was approved, you‘ll be able to browse\n"
 "            the 4Scotty pool of IT-Professionals and make them interview "
 "offers."
 msgstr ""
@@ -106,8 +137,13 @@ msgid ""
 "have accepted their offer. You can set your profile offline at anytime."
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:33
-msgid "Amazing!"
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:32
+msgid ""
+"Amazing!\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.\n"
+"      </a>\n"
+"      started their job with you!"
 msgstr ""
 
 #: components/employer-profile/employer-profile.html:90
@@ -168,16 +204,29 @@ msgstr ""
 msgid "Availability"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:17
-msgid "Awesome! You received"
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:16
+msgid ""
+"Awesome! You received\n"
+"      <a ui-sref=\"offer({ id: entry.offer.id })\" translate=\"\">an "
+"interview offer</a>\n"
+"      from\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"offer.employer.company_name }}</a>"
 msgstr ""
 
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:23
-msgid "Awesome, you received an offer from"
+#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:22
+msgid ""
+"Awesome, you received an offer from\n"
+"      <a ui-sref=\"employer({ id: entry.employer.id })\">{{ entry.employer."
+"company_name }}</a>"
 msgstr ""
 
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:25
-msgid "Awesome, you sent an offer to"
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:24
+msgid ""
+"Awesome, you sent an offer to\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:78
@@ -223,13 +272,27 @@ msgstr ""
 msgid "Birthday"
 msgstr ""
 
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:31
-msgid "Brilliant"
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:30
+msgid ""
+"Brilliant\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>\n"
+"      had accepted an interview with you."
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:29
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:27
-msgid "Brilliant! You have accepted an interview with"
+#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:26
+msgid ""
+"Brilliant! You have accepted an interview with\n"
+"      <a ui-sref=\"employer({ id: entry.employer.id })\">{{ entry.employer."
+"company_name }}</a>"
+msgstr ""
+
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:28
+msgid ""
+"Brilliant! You have accepted an interview with\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"offer.employer.company_name }}</a>"
 msgstr ""
 
 #: components/directive-profile-form/directive-profile-form.html:152
@@ -603,8 +666,13 @@ msgstr ""
 msgid "Go back to general search"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:42
-msgid "Good luck! you have set a start date of"
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:41
+msgid ""
+"Good luck! you have set a start date of\n"
+"      {{ entry.offer.job_start_date }}\n"
+"      with\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"offer.employer.company_name }}</a>"
 msgstr ""
 
 #: components/directive-education-form/directive-education-form.html:94
@@ -615,9 +683,19 @@ msgstr ""
 msgid "Graduation must be in the past."
 msgstr ""
 
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:31
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:38
-msgid "Great! you have started interviewing with"
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:37
+msgid ""
+"Great! you have started interviewing with\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>"
+msgstr ""
+
+#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:30
+msgid ""
+"Great! you have started interviewing with\n"
+"      <a ui-sref=\"employer({ id: entry.employer.id })\">{{ entry.employer."
+"company_name }}</a>"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:749
@@ -649,10 +727,13 @@ msgstr ""
 msgid "Hide my name and picture from employers until i accepted their offer."
 msgstr ""
 
+#: components/employer-profile/employer-profile.html:551
+msgid "Hiring Process"
+msgstr ""
+
 #: components/candidate-employer-profile/candidate-employer-profile.html:155
 #: components/candidate-offer/candidate-offer.html:273
 #: components/employer-offer/employer-offer.html:253
-#: components/employer-profile/employer-profile.html:551
 #: components/employer-profile/employer-profile.html:599
 msgid "Hiring process"
 msgstr ""
@@ -757,10 +838,26 @@ msgstr ""
 msgid "Native"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:33
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:35
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:44
-msgid "Nearly there! You have started negotiating the details with"
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:43
+msgid ""
+"Nearly there! You have started negotiating the details with\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>"
+msgstr ""
+
+#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:34
+msgid ""
+"Nearly there! You have started negotiating the details with\n"
+"      <a ui-sref=\"employer({ id: entry.employer.id })\">{{ entry.employer."
+"company_name }}</a>"
+msgstr ""
+
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:32
+msgid ""
+"Nearly there! You have started negotiating the details with\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"offer.employer.company_name }}</a>"
 msgstr ""
 
 #: components/directive-offer/directive-offer.html:41
@@ -975,16 +1072,11 @@ msgid "Please choose a password."
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:108
+#: components/directive-experience-form/directive-experience-form.html:183
 #: components/directive-target-position-form/directive-target-position-form.html:29
 msgid ""
 "Please choose from the list or write down at least one other technology or "
 "skill you've been working with for a relevant period of time."
-msgstr ""
-
-#: components/directive-experience-form/directive-experience-form.html:183
-msgid ""
-"Please choose from the list or write down at least one other technology or "
-"skill youve been working with for a relevant period of time."
 msgstr ""
 
 #: components/candidate-offer/candidate-offer.html:206
@@ -1034,11 +1126,15 @@ msgid "Please insert a valid email."
 msgstr ""
 
 #: components/directive-office-form/directive-office-form.html:89
-msgid "Please insert the city you worked on."
+msgid "Please insert the city you worked in."
 msgstr ""
 
 #: components/directive-experience-form/directive-experience-form.html:21
 msgid "Please insert the company name."
+msgstr ""
+
+#: components/directive-office-form/directive-office-form.html:211
+msgid "Please insert the email of the contact person of your company."
 msgstr ""
 
 #: components/employer-signup-start/employer-signup-start.html:87
@@ -1061,6 +1157,7 @@ msgstr ""
 msgid "Please insert the month when you started this position."
 msgstr ""
 
+#: components/directive-office-form/directive-office-form.html:152
 #: components/employer-signup-basic/employer-signup-basic.html:47
 msgid "Please insert the name of the contact person of your company."
 msgstr ""
@@ -1075,6 +1172,10 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:61
 msgid "Please insert the number or employees in your company."
+msgstr ""
+
+#: components/directive-office-form/directive-office-form.html:190
+msgid "Please insert the phone of the contact person of your company."
 msgstr ""
 
 #: components/directive-skills-form/directive-skills-form.html:50
@@ -1150,21 +1251,16 @@ msgstr ""
 msgid "Please insert your phone."
 msgstr ""
 
-#: components/directive-office-form/directive-office-form.html:211
-msgid "Please insert your the email of the contact person of your company."
-msgstr ""
-
 #: components/directive-office-form/directive-office-form.html:133
-#: components/directive-office-form/directive-office-form.html:152
 msgid "Please insert your the name of the contact person of your company."
-msgstr ""
-
-#: components/directive-office-form/directive-office-form.html:190
-msgid "Please insert your the phone of the contact person of your company."
 msgstr ""
 
 #: components/directive-office-form/directive-office-form.html:55
 msgid "Please insert your zip code."
+msgstr ""
+
+#: components/employer-signup-benefits/employer-signup-benefits.html:25
+msgid "Please provide a description of your recruitment process."
 msgstr ""
 
 #: components/candidate-offer/candidate-offer.html:173
@@ -1196,6 +1292,10 @@ msgstr ""
 msgid "Please select a photo."
 msgstr ""
 
+#: components/directive-target-position-form/directive-target-position-form.html:100
+msgid "Please select a salary below &euro;99,000,000."
+msgstr ""
+
 #: components/directive-office-form/directive-office-form.html:114
 #: components/employer-signup-start/employer-signup-start.html:70
 msgid "Please select a salutation"
@@ -1225,14 +1325,6 @@ msgstr ""
 msgid ""
 "Please upload your company logo and web addresses here, so candidates can "
 "easily identify your corporate branding."
-msgstr ""
-
-#: components/employer-signup-benefits/employer-signup-benefits.html:25
-msgid "Please, provide a description of your recruitment process."
-msgstr ""
-
-#: components/directive-target-position-form/directive-target-position-form.html:100
-msgid "Please, select a salary below 99,000,000."
 msgstr ""
 
 #: components/directive-office-form/directive-office-form.html:163
@@ -1534,12 +1626,9 @@ msgid "Technology"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:151
+#: components/employer-profile/employer-profile.html:543
 #: components/employer-profile/employer-profile.html:594
 msgid "Technology Philosophy"
-msgstr ""
-
-#: components/employer-profile/employer-profile.html:543
-msgid "Technology philosophy"
 msgstr ""
 
 #: components/employer-profile/employer-profile.html:475
@@ -1579,28 +1668,16 @@ msgstr ""
 msgid "The Best candidates"
 msgstr ""
 
+#: components/employer-candidate-profile/employer-candidate-profile.html:57
 #: components/employer-offer/employer-offer.html:76
 msgid ""
 "The contact details will be visible after the candidate accepted your offer."
-msgstr ""
-
-#: components/employer-candidate-profile/employer-candidate-profile.html:57
-msgid ""
-"The contact details will be visible after the candidate accepts your offer."
 msgstr ""
 
 #: components/directive-profile-form/directive-profile-form.html:129
 #: components/directive-profile-form/directive-profile-form.html:65
 #: components/employer-signup-basic/employer-signup-basic.html:31
 msgid "The file should be an image."
-msgstr ""
-
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:50
-msgid "They have been notified and should get in touch."
-msgstr ""
-
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:50
-msgid "They will start soon!"
 msgstr ""
 
 #: components/employer-signup-start/employer-signup-start.html:28
@@ -1612,15 +1689,18 @@ msgid "This seems to be too high"
 msgstr ""
 
 #: components/employer-dashboard/employer-dashboard.html:140
-msgid "Top candidates fitting to your companys Profile!"
+msgid "Top candidates fitting to your company's Profile!"
 msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:103
 msgid "Top companies using your target tech!"
 msgstr ""
 
-#: components/candidate-employer-profile/candidate-employer-profile.html:159
 #: components/employer-profile/employer-profile.html:560
+msgid "Training Policy"
+msgstr ""
+
+#: components/candidate-employer-profile/candidate-employer-profile.html:159
 #: components/employer-profile/employer-profile.html:604
 #: components/employer-signup-benefits/employer-signup-benefits.html:31
 msgid "Training policy"
@@ -1700,7 +1780,7 @@ msgstr ""
 #: components/employer-signup-terms/employer-signup-terms.html:69
 msgid ""
 "We are not a conventional job portal, which is the real reason that IT pros "
-"love 4Scotty. Thats our secret to providing access to the most competent "
+"love 4Scotty. That’s our secret to providing access to the most competent "
 "experts that the market has to offer."
 msgstr ""
 
@@ -1733,7 +1813,7 @@ msgstr ""
 #: components/candidate-signup-user/candidate-signup-user.html:173
 msgid ""
 "We will accompany you throughout the entire process. And if you find a new "
-"job, well even share our commission with you."
+"job, we’ll even share our commission with you."
 msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:104
@@ -1788,21 +1868,37 @@ msgstr ""
 #: components/employer-signup-suggest/employer-signup-suggest.html:22
 #: components/employer-signup-terms/employer-signup-terms.html:73
 msgid ""
-"Whether you choose the one-time payment or monthly pricing model  at 4Scotty "
-"you only pay once you have actually hired a candidate."
+"Whether you choose the one-time payment or monthly pricing model – at "
+"4Scotty you only pay once you have actually hired a candidate."
 msgstr ""
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:21
 msgid "Which languages do you speak and how well?"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:37
-msgid "Winning! You have signed a contract with"
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:36
+msgid ""
+"Winning! You have signed a contract with\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"offer.employer.company_name }}</a>\n"
+"      and will receive you golden handshake soon."
 msgstr ""
 
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:39
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:50
-msgid "Winning! you have signed a contract with"
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:49
+msgid ""
+"Winning! you have signed a contract with\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}\n"
+"      </a>\n"
+"      and will receive your golden handshake soon"
+msgstr ""
+
+#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:38
+msgid ""
+"Winning! you have signed a contract with\n"
+"      <a ui-sref=\"employer({ id: entry.employer.id })\">{{ entry.employer."
+"company_name }}</a>\n"
+"      and will receive your golden handshake soon"
 msgstr ""
 
 #: components/employer-offer/employer-offer.html:209
@@ -1821,8 +1917,11 @@ msgid ""
 "            or circumvent us in any way."
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:53
-msgid "You agreed to the"
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:52
+msgid ""
+"You agreed to the\n"
+"      <a href=\"../terms-of-service.html\" translate=\"\">terms and "
+"conditions</a>!"
 msgstr ""
 
 #: components/directive-experience-form/directive-experience-form.html:18
@@ -1847,15 +1946,25 @@ msgid ""
 "You have not received your email confirmation? You checked your spam folder?"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:48
-msgid "You have requested an interview with"
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:47
+msgid ""
+"You have requested an interview with\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"employer.company_name }}</a>!\n"
+"      They have been notified and should get in touch."
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:23
-msgid "You have turned down"
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:22
+msgid ""
+"You have turned down\n"
+"      <a ui-sref=\"offer({ id: entry.offer.id })\" translate=\"\">the offer</"
+"a>\n"
+"      from\n"
+"      <a ui-sref=\"employer({ id: entry.offer.employer.id })\">{{ entry."
+"offer.employer.company_name }}</a>"
 msgstr ""
 
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:22
+#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:21
 msgid "You have turned down the offer"
 msgstr ""
 
@@ -1863,8 +1972,12 @@ msgstr ""
 msgid "You have turned down this offer"
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:15
-msgid "You interviewed"
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:14
+msgid ""
+"You interviewed\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.\n"
+"      </a>"
 msgstr ""
 
 #: components/employer-signup-terms/employer-signup-terms.html:38
@@ -1883,16 +1996,29 @@ msgstr ""
 msgid "You professionally master the language in both written and spoken word."
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:27
-msgid "You sent an offer to"
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:26
+msgid ""
+"You sent an offer to\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.\n"
+"      </a>"
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:46
-msgid "You signed a contract with"
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:45
+msgid ""
+"You signed a contract with\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.\n"
+"      </a>\n"
+"      They will start soon!"
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:40
-msgid "You started negotiating contract details with"
+#: components/partial-employer-newsitem/partial-employer-newsitem.html:39
+msgid ""
+"You started negotiating contract details with\n"
+"      <a ui-sref=\"candidate({ id: entry.candidate.id })\">\n"
+"        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.\n"
+"      </a>"
 msgstr ""
 
 #: components/employer-candidate-profile/employer-candidate-profile.html:140
@@ -1925,8 +2051,8 @@ msgstr ""
 #: components/candidate-signup-target/candidate-signup-target.html:33
 #: components/candidate-signup-user/candidate-signup-user.html:169
 msgid ""
-"Youll always find all essential job details about every job offer posted on "
-"4Scotty  including the salary."
+"You’ll always find all essential job details about every job offer posted on "
+"4Scotty – including the salary."
 msgstr ""
 
 #: components/candidate-signup-education/candidate-signup-education.html:47
@@ -1936,7 +2062,7 @@ msgstr ""
 #: components/candidate-signup-skills/candidate-signup-skills.html:42
 #: components/candidate-signup-target/candidate-signup-target.html:31
 #: components/candidate-signup-user/candidate-signup-user.html:167
-msgid "Youll only receive job offers that match your profile."
+msgid "You’ll only receive job offers that match your profile."
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:796
@@ -1946,15 +2072,6 @@ msgstr ""
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:18
 msgid "an interview offer"
-msgstr ""
-
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:39
-msgid "and will receive you golden handshake soon."
-msgstr ""
-
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:41
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:54
-msgid "and will receive your golden handshake soon"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:800
@@ -2003,34 +2120,13 @@ msgstr ""
 msgid "founded in"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:19
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:25
-msgid "from"
-msgstr ""
-
 #: components/candidate-activate/candidate-activate.html:7
 msgid "go to your profile."
-msgstr ""
-
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:35
-msgid "had accepted an interview with you."
-msgstr ""
-
-#: components/partial-offer-newsitem/partial-candidate-offer-newsitem.html:20
-msgid "had turned down the offer"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:451
 #: components/employer-candidate-profile/employer-candidate-profile.html:86
 msgid "has a work visa"
-msgstr ""
-
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:12
-msgid "has requested an interview with you."
-msgstr ""
-
-#: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:19
-msgid "has turned down the offer"
 msgstr ""
 
 #: components/employer-signup/employer-signup.html:11
@@ -2083,10 +2179,6 @@ msgstr ""
 msgid "reason"
 msgstr ""
 
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:24
-msgid "rejected your offer."
-msgstr ""
-
 #: components/candidate-profile/candidate-profile.html:743
 msgid "reviewing offer"
 msgstr ""
@@ -2109,10 +2201,6 @@ msgstr ""
 
 #: components/candidate-signup-skills/candidate-signup-skills.html:28
 msgid "several years of practical experience"
-msgstr ""
-
-#: components/partial-employer-newsitem/partial-employer-newsitem.html:37
-msgid "started their job with you!"
 msgstr ""
 
 #: components/candidate-offer/candidate-offer.html:5
@@ -2141,10 +2229,6 @@ msgstr ""
 #: components/candidate-offer/candidate-offer.html:8
 #: components/directive-offer/directive-offer.html:28
 msgid "waiting for you to accept"
-msgstr ""
-
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:44
-msgid "with"
 msgstr ""
 
 #: components/candidate-signup-skills/candidate-signup-skills.html:24
