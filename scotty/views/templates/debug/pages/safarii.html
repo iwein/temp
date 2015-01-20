@@ -3,11 +3,10 @@
 <%def name="content()">
   <script>
     var xhr = new XMLHttpRequest();
-    xhr.open('PUT', 'http://sheltered-meadow-1359.herokuapp.com/api/v1/candidates/me');
+    xhr.open('PUT', 'http://local.scotty.com:8880/api/v1/candidates/me');
     xhr.withCredentials = true;
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send('{}');
   </script>
 </%def>
