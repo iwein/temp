@@ -86,7 +86,7 @@
             hc-typeahead-loader>
 
           <div class="form-error" ng-show="errorInvalidCity || (formBasic.city.$dirty && formBasic.city.$invalid)">
-            <span ng-show="formBasic.city.$error.required" translate>Please insert the city you worked on.</span>
+            <span ng-show="formBasic.city.$error.required" translate>Please insert the city you worked in.</span>
             <span ng-show="errorInvalidCity" translate>Please choose a city from the menu.</span>
           </div>
         </div>
@@ -150,7 +150,7 @@
           ng-model="model.contact_last_name">
         <div class="form-error" ng-show="formOffice.contact_last_name.$dirty && formOffice.contact_last_name.$invalid">
           <span ng-show="formOffice.contact_last_name.$error.required" translate>
-            Please insert your the name of the contact person of your company.
+            Please insert the name of the contact person of your company.
           </span>
         </div>
       </div>
@@ -188,7 +188,7 @@
           formOffice.contact_phone.$dirty &&
           formOffice.contact_phone.$invalid">
           <span ng-show="formOffice.contact_phone.$error.required" translate>
-            Please insert your the phone of the contact person of your company.
+            Please insert the phone of the contact person of your company.
           </span>
           <span ng-show="formProfile.contact_phone.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
         </div>
@@ -209,7 +209,7 @@
 
         <div class="form-error" ng-show="formOffice.contact_email.$dirty && formOffice.contact_email.$invalid">
           <span ng-show="formOffice.contact_email.$error.required" translate>
-            Please insert your the email of the contact person of your company.
+            Please insert the email of the contact person of your company.
           </span>
         </div>
       </div>

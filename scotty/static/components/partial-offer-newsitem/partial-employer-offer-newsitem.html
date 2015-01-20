@@ -16,42 +16,42 @@
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      had turned down the offer
+      <translate>has turned down the offer</translate>
     </div>
     <div class="note" ng-if="entry.name === 'WITHDRAWN'">
-      You have turned down the offer
+      <translate>You have turned down the offer</translate>
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_MADE'">
-      Awesome, you sent an offer to
+      <translate>Awesome, you sent an offer to</translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
     </div>
     <div class="note" ng-if="entry.name === 'ACCEPTED'">
-      Brilliant
+      <translate>Brilliant</translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      had accepted an interview with you
+      <translate>had accepted an interview with you.</translate>
     </div>
     <div class="note" ng-if="entry.name === 'INTERVIEWING'">
-      Great! you have started interviewing with
+      <translate>Great! you have started interviewing with</translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
     </div>
     <div class="note" ng-if="entry.name === 'NEGOCIATING'">
-      Nearly there, you have started negotiating the details with
+      <translate>Nearly there! You have started negotiating the details with</translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
     </div>
     <div class="note" ng-if="entry.name === 'CONTRACT_SIGNED'">
-      Winning! you have signed a contract with
+      <translate>Winning! you have signed a contract with</translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      and will receive your golden handshake soon
+      <translate>and will receive your golden handshake soon</translate>
     </div>
   </div>
 </div>
