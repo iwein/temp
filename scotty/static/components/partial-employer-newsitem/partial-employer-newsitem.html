@@ -5,52 +5,52 @@
   <div class="col-sm-10">
     <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
     <div class="note" ng-if="entry.name === 'SIGN_UP'">You signed up.</div>
-    <div class="note" ng-if="entry.name === 'BOOKMARKED'">
+    <div class="note" ng-if="entry.name === 'BOOKMARKED'" translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      <translate>has requested an interview with you.</translate>
+      has requested an interview with you.
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'">
-      <translate>You interviewed</translate>
+    <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'" translate>
+      You interviewed
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
       </a>
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_REJECTED'">
+    <div class="note" ng-if="entry.name === 'OFFER_REJECTED'" translate>
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
       </a>
-      <translate>rejected your offer.</translate>
+      rejected your offer.
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_SENT'">
-      <translate>You sent an offer to</translate>
+    <div class="note" ng-if="entry.name === 'OFFER_SENT'" translate>
+      You sent an offer to
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
       </a>
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_START_DATE'">
-      <translate>Amazing!</translate>
+    <div class="note" ng-if="entry.name === 'OFFER_START_DATE'" translate>
+      Amazing!
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
       </a>
-      <translate>started their job with you!</translate>
+      started their job with you!
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'">
-      <translate>You started negotiating contract details with</translate>
+    <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'" translate>
+      You started negotiating contract details with
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
       </a>
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_SIGNED'">
-      <translate>You signed a contract with</translate>
+    <div class="note" ng-if="entry.name === 'OFFER_SIGNED'" translate>
+      You signed a contract with
       <a ui-sref="candidate({ id: entry.candidate.id })">
         {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
       </a>
-      <translate>They will start soon!</translate>
+      They will start soon!
     </div>
-    <div class="note" ng-if="entry.name === 'PROFILE_PENDING'">
-      <translate>You agreed to the</translate>
+    <div class="note" ng-if="entry.name === 'PROFILE_PENDING'" translate>
+      You agreed to the
       <a href="../terms-of-service.html" translate>terms and conditions</a>!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_LIVE'" translate>

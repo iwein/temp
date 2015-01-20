@@ -15,30 +15,30 @@
     <div class="note" ng-if="entry.name === 'REJECTED'" translate>
       You have turned down this offer
     </div>
-    <div class="note" ng-if="entry.name === 'WITHDRAWN'">
+    <div class="note" ng-if="entry.name === 'WITHDRAWN'" translate>
       <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
-      <translate>had turned down the offer</translate>
+      had turned down the offer
     </div>
-    <div class="note" ng-if="entry.name === 'OFFER_MADE'">
-      <translate>Awesome, you received an offer from</translate>
-      <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
-    </div>
-    <div class="note" ng-if="entry.name === 'ACCEPTED'">
-      <translate>Brilliant! You have accepted an interview with</translate>
+    <div class="note" ng-if="entry.name === 'OFFER_MADE'" translate>
+      Awesome, you received an offer from
       <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
     </div>
-    <div class="note" ng-if="entry.name === 'INTERVIEWING'">
-      <translate>Great! you have started interviewing with</translate>
+    <div class="note" ng-if="entry.name === 'ACCEPTED'" translate>
+      Brilliant! You have accepted an interview with
       <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
     </div>
-    <div class="note" ng-if="entry.name === 'NEGOCIATING'">
-      <translate>Nearly there, you have started negotiating the details with</translate>
+    <div class="note" ng-if="entry.name === 'INTERVIEWING'" translate>
+      Great! you have started interviewing with
       <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
     </div>
-    <div class="note" ng-if="entry.name === 'CONTRACT_SIGNED'">
-      <translate>Winning! you have signed a contract with</translate>
+    <div class="note" ng-if="entry.name === 'NEGOCIATING'" translate>
+      Nearly there, you have started negotiating the details with
       <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
-      <translate>and will receive your golden handshake soon</translate>
+    </div>
+    <div class="note" ng-if="entry.name === 'CONTRACT_SIGNED'" translate>
+      Winning! you have signed a contract with
+      <a ui-sref="employer({ id: entry.employer.id })">{{ entry.employer.company_name }}</a>
+      and will receive your golden handshake soon
     </div>
   </div>
 </div>
