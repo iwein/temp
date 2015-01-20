@@ -164,8 +164,8 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
-        workflow = {'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'image'],
-                    'image': candidate.picture_url is not None,
+        workflow = {'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'profile'],
+                    'profile': candidate.dob is not None,
                     'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
                     'target_position': candidate.target_position is not None,
                     'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
