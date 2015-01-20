@@ -49,7 +49,7 @@ class CORS(object):
     "WSGI middleware allowing CORS requests to succeed"
     origin = '*'
     methods = 'GET, POST, PUT, DELETE, OPTIONS'
-    headers = 'accept, origin, content-type, x-requested-with, x-requested-by'
+    headers = 'Accept, Origin, Content-Language, Content-Type, User-Agent, Referer, X-Requested-With, X-Requested-By'
 
     def __init__(self, application, cfg=None, **kw):
         self.app = application
@@ -74,7 +74,7 @@ class CORS(object):
         headers.append(('Access-Control-Allow-Origin', origin))
         headers.append(('Access-Control-Allow-Methods', self.methods))
         headers.append(('Access-Control-Allow-Headers', self.headers))
-        headers.append(("Access-Control-Max-Age", "30758400"))
+        headers.append(("Access-Control-Max-Age", "3000"))
         headers.append(('Access-Control-Allow-Credentials', 'true'))
         return headers
 

@@ -7,6 +7,7 @@
     xhr.withCredentials = true;
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send('{}');
   </script>
 </%def>
