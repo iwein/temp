@@ -59,7 +59,8 @@ class CORS(object):
             headers = []
             self.attach_headers(environ, headers)
             status = '204 OK'
-            return start_response(status, headers)
+            start_response(status, headers)
+            return ''
 
         def attach_cors_headers(status, headers, exc_info=None):
             self.attach_headers(environ, headers)
