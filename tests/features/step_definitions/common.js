@@ -6,6 +6,7 @@ stepDefinitions(function(scenario) {
   scenario.World = window.World;
 
   scenario.Before(function() {
+    this.vars.year = new Date().getFullYear();
     this.vars.unique_skill = 'test-skill-' + this.guid();
   });
 

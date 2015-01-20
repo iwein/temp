@@ -25,8 +25,10 @@ function World() {
     if (expected) {
       if (expected.$not)
         return !equal(object, expected.$not);
-      else if (expected.$exist)
+      else if (expected.$exists === true)
         return object !== undefined;
+      else if (expected.$exists === false)
+        return object === undefined;
     }
 
     if (isArray(expected)) {
