@@ -17,36 +17,36 @@
       Awesome! You received
       <hc-offer-link ng-model="entry.offer">an interview offer</hc-offer-link>
       from
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_REJECTED'" translate>
       You have turned down
       <hc-offer-link ng-model="entry.offer">the offer</hc-offer-link>
       from
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'" translate>
       Brilliant! You have accepted an interview with
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'" translate>
       Nearly there! You have started negotiating the details with
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_SIGNED'" translate>
       Winning! You have signed a contract with
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
       and will receive you golden handshake soon.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_START_DATE'" translate>
       Good luck! you have set a start date of
       {{ entry.offer.job_start_date }}
       with
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
     </div>
     <div class="note" ng-if="entry.name === 'BOOKMARKED_EMPLOYER'" translate>
       You have requested an interview with
-      <hc-employer-link ng-model="entry.offer.employer" />
+      <hc-employer-link ng-model="entry.offer.employer"></hc-employer-link>
       They have been notified and should get in touch.
     </div>
   </div>

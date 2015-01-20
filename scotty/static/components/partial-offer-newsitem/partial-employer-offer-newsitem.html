@@ -13,7 +13,7 @@
   <div class="col-sm-10">
     <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
     <div class="note" ng-if="entry.name === 'REJECTED'" translate>
-      <hc-candidate-link ng-model="entry.candidate" />
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
       has turned down the offer
     </div>
     <div class="note" ng-if="entry.name === 'WITHDRAWN'" translate>
@@ -21,24 +21,24 @@
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_MADE'" translate>
       Awesome, you sent an offer to
-      <hc-candidate-link ng-model="entry.candidate" />
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
     </div>
     <div class="note" ng-if="entry.name === 'ACCEPTED'" translate>
       Brilliant
-      <hc-candidate-link ng-model="entry.candidate" />
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
       had accepted an interview with you.
     </div>
     <div class="note" ng-if="entry.name === 'INTERVIEWING'" translate>
       Great! you have started interviewing with
-      <hc-candidate-link ng-model="entry.candidate" />
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
     </div>
     <div class="note" ng-if="entry.name === 'NEGOCIATING'" translate>
       Nearly there! You have started negotiating the details with
-      <hc-candidate-link ng-model="entry.candidate" />
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
     </div>
     <div class="note" ng-if="entry.name === 'CONTRACT_SIGNED'" translate>
       Winning! you have signed a contract with
-      <hc-candidate-link ng-model="entry.candidate" />
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
       and will receive your golden handshake soon
     </div>
   </div>
