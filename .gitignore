@@ -71,3 +71,4 @@ scotty/static/apps/de/
 scotty/static/apps/sitemap.xml
 tests/test-vars.js
 tests/__config__.js
+*.po~

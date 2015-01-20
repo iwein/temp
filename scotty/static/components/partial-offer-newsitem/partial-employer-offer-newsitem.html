@@ -13,9 +13,7 @@
   <div class="col-sm-10">
     <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
     <div class="note" ng-if="entry.name === 'REJECTED'" translate>
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
       has turned down the offer
     </div>
     <div class="note" ng-if="entry.name === 'WITHDRAWN'" translate>
@@ -23,34 +21,24 @@
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_MADE'" translate>
       Awesome, you sent an offer to
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
     </div>
     <div class="note" ng-if="entry.name === 'ACCEPTED'" translate>
       Brilliant
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
       had accepted an interview with you.
     </div>
     <div class="note" ng-if="entry.name === 'INTERVIEWING'" translate>
       Great! you have started interviewing with
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
     </div>
     <div class="note" ng-if="entry.name === 'NEGOCIATING'" translate>
       Nearly there! You have started negotiating the details with
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
     </div>
     <div class="note" ng-if="entry.name === 'CONTRACT_SIGNED'" translate>
       Winning! you have signed a contract with
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
       and will receive your golden handshake soon
     </div>
   </div>

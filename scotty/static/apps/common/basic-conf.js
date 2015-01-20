@@ -10,6 +10,9 @@ define(function(require) {
   require('tools/accordion-directive/accordion-directive');
   require('tools/extend-directives/input-integer-directive');
   require('tools/label-typeahead-directive/label-typeahead-directive');
+  require('components/element-offer-link/element-offer-link');
+  require('components/element-employer-link/element-employer-link');
+  require('components/element-candidate-link/element-candidate-link');
   require('./translations');
   var conf = require('conf');
 

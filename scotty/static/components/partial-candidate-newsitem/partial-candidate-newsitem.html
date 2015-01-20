@@ -15,38 +15,38 @@
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_RECEIVED'" translate>
       Awesome! You received
-      <a ui-sref="offer({ id: entry.offer.id })" translate>an interview offer</a>
+      <hc-offer-link ng-model="entry.offer">an interview offer</hc-offer-link>
       from
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+      <hc-employer-link ng-model="entry.offer.employer" />
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_REJECTED'" translate>
       You have turned down
-      <a ui-sref="offer({ id: entry.offer.id })" translate>the offer</a>
+      <hc-offer-link ng-model="entry.offer">the offer</hc-offer-link>
       from
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+      <hc-employer-link ng-model="entry.offer.employer" />
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'" translate>
       Brilliant! You have accepted an interview with
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+      <hc-employer-link ng-model="entry.offer.employer" />
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'" translate>
       Nearly there! You have started negotiating the details with
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+      <hc-employer-link ng-model="entry.offer.employer" />
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_SIGNED'" translate>
       Winning! You have signed a contract with
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+      <hc-employer-link ng-model="entry.offer.employer" />
       and will receive you golden handshake soon.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_START_DATE'" translate>
       Good luck! you have set a start date of
       {{ entry.offer.job_start_date }}
       with
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.offer.employer.company_name }}</a>
+      <hc-employer-link ng-model="entry.offer.employer" />
     </div>
     <div class="note" ng-if="entry.name === 'BOOKMARKED_EMPLOYER'" translate>
       You have requested an interview with
-      <a ui-sref="employer({ id: entry.offer.employer.id })">{{ entry.employer.company_name }}</a>!
+      <hc-employer-link ng-model="entry.offer.employer" />
       They have been notified and should get in touch.
     </div>
   </div>

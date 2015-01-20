@@ -13,45 +13,33 @@
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'" translate>
       You interviewed
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_REJECTED'" translate>
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
       rejected your offer.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_SENT'" translate>
       You sent an offer to
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_START_DATE'" translate>
       Amazing!
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
       started their job with you!
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'" translate>
       You started negotiating contract details with
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_SIGNED'" translate>
       You signed a contract with
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}.
-      </a>
+      <hc-candidate-link ng-model="entry.candidate" />
       They will start soon!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_PENDING'" translate>
       You agreed to the
-      <a href="../terms-of-service.html" translate>terms and conditions</a>!
+      <a href="../terms-of-service.html">terms and conditions</a>!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_LIVE'" translate>
       Congrats! Your account was approved! Welcome to Scotty!
