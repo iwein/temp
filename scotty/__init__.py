@@ -76,7 +76,6 @@ class CORS(object):
         headers.append(('Access-Control-Allow-Headers', self.headers))
         headers.append(("Access-Control-Max-Age", "30758400"))
         headers.append(('Access-Control-Allow-Credentials', 'true'))
-        headers.append(('P3P', "CP='CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR'"))
         return headers
 
 
