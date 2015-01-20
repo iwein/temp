@@ -17,7 +17,7 @@ define(function(require) {
     'education': [ 'signup.education' ],
     'skills': [ 'signup.skills' ],
     'languages': [ 'signup.languages' ],
-    'image': [ 'signup.profile' ],
+    'profile': [ 'signup.profile' ],
     'end': [ 'profile' ]
   };
   var order = [

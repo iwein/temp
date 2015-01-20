@@ -48,7 +48,6 @@
           <input type="file"
                  name="photo"
                  accept="image/*"
-                 ng-required="!model.picture_url"
                  ng-disabled="hcDisabled"
                  ng-model="files"
                  hc-file-select="selectFile($files)"
@@ -60,9 +59,8 @@
         <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
       </div>
       <p class="help-block col-sm-offset-3 col-sm-9" translate>Anonymous will hide your photo.</p>
-      <div class="form-error" ng-show="errorFileRequired || errorFileImage">
-        <span ng-show="errorFileRequired" translate>Please select a photo.</span>
-        <span ng-show="errorFileImage" translate>The file should be an image.</span>
+      <div class="form-error" ng-show="errorFileImage">
+        <span translate>The file should be an image.</span>
       </div>
     </div>
 
