@@ -1,13 +1,15 @@
 define(function(require) {
   'use strict';
   require('tools/api');
-  var throttlePromise = require('./tools/throttle-promise');
-  var LinkedInConnector = require('apps/candidate/linked-in-connector');
+  var _ = require('underscore');
+  var throttlePromise = require('tools/throttle-promise');
+  var ConnectorsManager = require('apps/candidate/connectors-manager');
   var Candidate = require('apps/common/candidate');
   var Employer = require('apps/common/employer');
 
 
-  function CandidateSession(api) {
+  function CandidateSession(api, Q) {
+    this._Q = Q;
     this._api = api;
     this._setUser = this._setUser.bind(this);
   }
@@ -150,16 +152,14 @@ define(function(require) {
       }.bind(this));
     },
 
-    getLinkedIn: function() {
-      var value = new LinkedInConnector(this._api);
-      this.getLinkedIn = function() { return value };
-      return value;
-    },
+    getConnectors: _.memoize(function() {
+      return new ConnectorsManager(this._api, this._Q);
+    }),
   };
 
   var module = require('app-module');
-  module.factory('Session', function(API) {
-    var session = new CandidateSession(API);
+  module.factory('Session', function(API, $q) {
+    var session = new CandidateSession(API, $q);
     session.checkSession();
     return session;
   });

@@ -17,30 +17,34 @@ define(function(require) {
     $scope.model = {};
     $scope.ready = false;
     var list = [];
-    var linkedin = Session.getLinkedIn();
     Loader.page(true);
 
-    Session.getUser().then(function(user) {
-      return user.getExperience();
-    }).then(function(_list) {
-      list = _list;
-      if (list.length > 0) {
-        list.forEach(function(entry) { entry.import = true; });
-        return false;
-      }
-      return linkedin.checkConnection();
-    }).then(function(load) {
-      if (load)
-        return importLinkedin();
-    }).then(function() {
-      updateImports(list);
-      if (!list.length)
-        $scope.list.setAdding(true);
-    }).finally(function() {
+
+    getStoredExperience().finally(function() {
       $scope.list.refresh();
       Loader.page(false);
       $scope.ready = true;
     });
+
+
+    function getStoredExperience() {
+      return Session.getUser().then(function(user) {
+        return user.getExperience();
+      }).then(function(stored) {
+        if (!stored || !stored.length)
+          return Session.getConnectors().getExperience();
+
+        stored.forEach(fn.set('import', true));
+        return stored;
+      }).then(function(result) {
+        if (result)
+          list = result;
+
+        updateImports(list);
+        if (!list.length)
+          $scope.list.setAdding(true);
+      });
+    }
 
     function listExperience() {
       return $q.when(list);
@@ -62,20 +66,6 @@ define(function(require) {
 
     function updateImports(list) {
       $scope.someImport = list.some(fn.get('import'));
-    }
-
-    function importLinkedin() {
-      Loader.add('signup-experience-import');
-
-      return linkedin.getExperience().then(function(experience) {
-        list = experience.map(function(entry) {
-          entry.imported = true;
-          return entry;
-        });
-        return $scope.list.refresh();
-      }).finally(function() {
-        Loader.remove('signup-experience-import');
-      });
     }
 
     function submit() {

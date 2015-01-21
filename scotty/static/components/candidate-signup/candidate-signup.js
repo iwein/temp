@@ -36,7 +36,9 @@ define(function(require) {
     var signup = this;
     this.target = { company_types: [] };
     this.cities = [];
-    $scope.linkedin = Session.getLinkedIn();
+
+    // This will fire connectors checking
+    Session.getConnectors().getConnected();
 
     // Create and invoke controller
     require('tools/signup-controller')('candidate', order, validStates, validateStep)
