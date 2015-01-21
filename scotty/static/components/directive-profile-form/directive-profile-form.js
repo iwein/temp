@@ -89,13 +89,22 @@ define(function(require) {
         }
 
         function submit() {
-          if (!$scope.model.location)
+          if (!$scope.model.location) {
+            $scope.locationFocus = true;
             $scope.errorNoLocation = true;
+          }
 
           if ($scope.errorNoLocation) {
             $scope.formProfile.location.$dirty = true;
             return;
           }
+
+          if ($scope.formProfile.birth.$invalid){
+            $scope.dobFocus = true;
+            return;
+          }
+
+
 
           if ($scope.errorFileImage)
             return;

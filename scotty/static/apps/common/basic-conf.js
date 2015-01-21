@@ -3,6 +3,7 @@ define(function(require) {
   require('tools/loader-service');
   require('tools/notifier-service');
   require('tools/moment-directive');
+  require('tools/focusme-directive');
   require('tools/greater-than-directive');
   require('tools/xing-connect/xing-connect');
   require('tools/stars-directive/stars-directive');
