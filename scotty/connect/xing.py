@@ -94,10 +94,10 @@ def profile_func(resp, context, request):
 
 
 def getBestProfilePicture(pictures):
-    preference = ["maxi_thumb", "large", "thumb", "medium_thumb", "mini_thumb"]
+    preference = ["size_256x256", "size_1024x1024", "large", "size_original", "size_original"]
     for name in preference:
-        if pictures.get('name'):
-            return pictures.get('name')
+        if pictures.get(name):
+            return pictures.get(name)
     return SETTINGS['default_picture']
 
 
@@ -211,7 +211,7 @@ def extract_address(value):
 PROFILE_TRANSLATION = {'first_name': rename('first_name'), 'last_name': rename('last_name'), 'birth_date': extract_date,
                        'emailAddress': rename('email'), 'private_address': extract_address,
                        'instant_messaging_accounts': lambda x: {'skype': x.get('skype')},
-                       'photo_urls': lambda x: {'picture_url': x.get('size_256x256')}}
+                       'photo_urls': lambda x: {'picture_url': getBestProfilePicture(x)}}
 
 
 @logged_in_with('xing')
