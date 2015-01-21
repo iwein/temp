@@ -17,12 +17,12 @@ Feature: Employer sign up process
         """
 
   Scenario: Search by technologies
-       When I get "/employers/?tags=Python"
+       When I get "/employers/?tags=<%= unique_skill %>"
        Then The response status should be "200"
         And The response should have:
         """
         { "pagination": {}, "data": [{
-          "tech_tags": [ "Python" ]
+          "tech_tags": [ "<%= unique_skill %>" ]
         }] }
         """
 
@@ -37,14 +37,14 @@ Feature: Employer sign up process
         """
 
   Scenario: Search by country (requires skill search)
-       When I get "/employers/?city=Berlin&country_iso=DE&tags=Python"
+       When I get "/employers/?city=Berlin&country_iso=DE&tags=<%= unique_skill %>"
        Then The response status should be "200"
         And The response should have:
         """
         {
           "pagination": {},
           "data": [{
-            "tech_tags": [ "Python" ],
+            "tech_tags": [ "<%= unique_skill %>" ],
             "offices": [{
               "address_city": {
                 "country_iso": "DE",
@@ -56,14 +56,14 @@ Feature: Employer sign up process
         """
 
   Scenario: Search by all possible parameters
-       When I get "/employers/?city=Berlin&country_iso=DE&tags=Python&company=<%= company_name %>"
+       When I get "/employers/?city=Berlin&country_iso=DE&tags=<%= unique_skill %>&company=<%= company_name %>"
        Then The response status should be "200"
         And The response should have:
         """
         {
           "pagination": {},
           "data": [{
-            "tech_tags": [ "Python" ],
+            "tech_tags": [ "<%= unique_skill %>" ],
             "company_name": "<%= company_name %>",
             "offices": [{
               "address_city": {

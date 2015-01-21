@@ -7,7 +7,7 @@ Feature: Employer sign up process
 
   Scenario: Not logged in employer should not be able to search
        When Employer logs out
-        And I get "/candidates/?q=Python"
+        And I get "/candidates/?q=<%= unique_skill %>"
        Then The response status should be "403"
 
   Scenario: Simple name search
@@ -22,12 +22,12 @@ Feature: Employer sign up process
         """
 
   Scenario: Simple skill search
-       When I get "/candidates/?q=Python"
+       When I get "/candidates/?q=<%= unique_skill %>"
        Then The response status should be "200"
         And The response should have:
         """
         { "pagination": {}, "data": [{
-          "skills": [{ "skill": "Python" }]
+          "skills": [{ "skill": "<%= unique_skill %>" }]
         }] }
         """
 
@@ -50,13 +50,13 @@ Feature: Employer sign up process
   Scenario: Advanced search by skill
        When I post to "/candidates/advancedsearch":
         """
-        { "skills": [ "Python" ] }
+        { "skills": [ "<%= unique_skill %>" ] }
         """
        Then The response status should be "200"
         And The response should have:
         """
         { "pagination": {}, "data": [{
-          "skills": [{ "skill": "Python" }]
+          "skills": [{ "skill": "<%= unique_skill %>" }]
         }] }
         """
 
@@ -97,7 +97,7 @@ Feature: Employer sign up process
         """
         {
           "role": "System Administration",
-          "skills": [ "Python" ],
+          "skills": [ "<%= unique_skill %>" ],
           "salary": "50000",
           "locations": [{
             "city": "Berlin",
@@ -113,7 +113,7 @@ Feature: Employer sign up process
           "data": [{
             "target_position": { "role": "System Administration" },
             "preferred_location": { "DE": [] },
-            "skills": [{ "skill": "Python" }]
+            "skills": [{ "skill": "<%= unique_skill %>" }]
           }]
         }
         """
