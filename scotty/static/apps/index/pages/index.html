@@ -215,7 +215,7 @@ lang: de
           }
           $form.addEventListener('submit', function(event) {
             event.preventDefault();
-            var data = {}, i, inputs = $form.querySelectorAll('input,textarea');
+            var data = {lang: 'de'}, i, inputs = $form.querySelectorAll('input,textarea');
             for (i = 0; i < inputs.length; ++i) {var elem = inputs[i];data[elem.name] = elem.value;}
             app.POST(url, data, success);
           });
