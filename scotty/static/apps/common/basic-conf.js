@@ -4,6 +4,7 @@ define(function(require) {
   require('tools/notifier-service');
   require('tools/moment-directive');
   require('tools/greater-than-directive');
+  require('tools/xing-connect/xing-connect');
   require('tools/stars-directive/stars-directive');
   require('tools/linkedin-connect/linkedin-connect');
   require('tools/extend-directives/input-url-directive');

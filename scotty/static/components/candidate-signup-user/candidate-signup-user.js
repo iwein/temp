@@ -1,39 +1,26 @@
 define(function(require) {
   'use strict';
+  require('components/element-connectors-buttons/element-connectors-buttons');
   var _ = require('underscore');
   var module = require('app-module');
 
   module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
-    $scope.importLinkedin = importLinkedin;
     $scope.loading = false;
     $scope.model = {};
     $scope.errorEmailAlreadyRegistered = false;
-    var linkedin = Session.getLinkedIn();
     Loader.page(true);
     var picture;
 
-    linkedin.checkConnection().then(function(isConnected) {
-      if (isConnected)
-        return importLinkedin();
+    Session.getConnectors().getData().then(function(data) {
+      if (!data) return;
+      $scope.imported = true;
+      picture = picture || data.picture;
+      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
     }).finally(function() {
       Loader.page(false);
     });
-
-    function importLinkedin() {
-      Loader.add('signup-user-import');
-      return linkedin.getData().then(function(data) {
-        var name = data.name.split(' ');
-        $scope.model.first_name = name.shift();
-        $scope.model.last_name = name.join(' ');
-        $scope.model.email = data.email;
-        $scope.imported = true;
-        picture = data.picture;
-      }).finally(function() {
-        Loader.remove('signup-user-import');
-      });
-    }
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;

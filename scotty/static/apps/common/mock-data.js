@@ -110,7 +110,7 @@ define(function(require) {
         setLocation('form[name=formSignupBasicOffice]', 'office.address_city');
 
         var field = randomElement([ 'date', 'months' ]);
-        $('form[name=formTarget] input[name=available_' + field).forEach(function(element) {
+        $('form[name=formTarget] input[name=available_' + field + ']').forEach(function(element) {
           set(element, 'ng-model', '');
         });
 

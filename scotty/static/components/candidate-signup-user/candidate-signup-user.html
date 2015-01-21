@@ -4,11 +4,7 @@
     <div class="col-sm-12">
       <h3 class="signup-title" translate>Signup for free</h3>
 
-      <div class="form-group" ng-show="!imported && !linkedin.isConnected">
-        <div class="col-sm-12">
-          <hc-linkedin-connect ng-click="linkedin.connect()"></hc-linkedin-connect>
-        </div>
-      </div>
+      <hc-connectors-buttons ng-show="!imported"></hc-connectors-buttons>
 
       <div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">
         <div class="form-group required">
