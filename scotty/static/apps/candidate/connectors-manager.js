@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var _ = require('underscore');
   var GenericConnector = require('apps/candidate/generic-connector');
 
 
@@ -50,7 +51,26 @@ define(function(require) {
       });
     },
 
-    getData: getValues('getData'),
+    getData: function() {
+      var Promise = this._promise;
+
+      return this.getConnected().then(function(connectors) {
+        return Promise.all(connectors.map(function(connector) {
+          return Promise.all([
+            connector.getData(),
+            connector.getProfile(),
+          ]);
+        })).then(function(result) {
+          if (!result.length)
+            return null;
+
+          return result
+            .map(function(values) { return _.extend({}, values[0], values[1]); })
+            .reduce(_.extend, {});
+        });
+      });
+    },
+
     getEducation: getValues('getEducation'),
     getExperience: getValues('getExperience'),
   };

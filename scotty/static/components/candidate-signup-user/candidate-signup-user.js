@@ -4,23 +4,42 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
     $scope.errorEmailAlreadyRegistered = false;
     Loader.page(true);
-    var picture;
+    var importedData;
 
     Session.getConnectors().getData().then(function(data) {
-      if (!data) return;
-      $scope.imported = true;
-      picture = picture || data.picture;
-      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
+      if (data)
+        setDataFromNetworks(data);
     }).finally(function() {
       Loader.page(false);
     });
+
+
+    function setDataFromNetworks(data) {
+      $scope.imported = true;
+      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
+      importedData = _.pick(data, 'dob', 'picture_url');
+
+      var city = data.contact_city;
+      var country = data.contact_country_iso;
+      if (!city || !country)
+        return;
+
+      return ConfigAPI.isValidCity(city, country).then(function(isValid) {
+        if (isValid) {
+          importedData.location = {
+            country_iso: data.contact_country_iso,
+            city: data.contact_city,
+          };
+        }
+      });
+    }
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;
@@ -36,7 +55,7 @@ define(function(require) {
         position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills || []);
 
         return $q.all([
-          picture ? Session.user.updateData({ picture_url: picture }) : null,
+          importedData ? Session.user.updateData(importedData) : null,
           Session.user.setTargetPosition(position),
           Session.user.setPreferredLocations(locations),
         ]);

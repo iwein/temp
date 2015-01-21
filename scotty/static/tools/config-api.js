@@ -78,6 +78,16 @@ define(function(require) {
     countries: helper('countries'),
     locations: helper('locations'),
 
+    isValidCity: function(city, country_iso) {
+      return this.locations({
+        limit: 1,
+        q: city,
+        country_iso: country_iso,
+      }).then(function(response) {
+        return !!response.length;
+      });
+    },
+
     isValidLanguage: function(lang) {
       var langs = this._lastResults.languages;
       return langs && langs.indexOf(lang) !== -1;
