@@ -2,9 +2,9 @@
 
 <%def name="content()">
 <div class="container">
-    <h3>${self.title()}</h3>
-    <ol class="nav" id="nav"></ol>
-    <div id="results"></div>
+  <h3>${self.title()}</h3>
+  <ol class="nav" id="nav"></ol>
+  <div id="results"></div>
 </div>
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -14,103 +14,107 @@ ${self.scripts()}
 
 <script>
 
-    var guid = (function() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-        }
-        return function() {
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                    s4() + '-' + s4() + s4() + s4();
-        };
-    })();
-
-    var getTestRunner = function(testExecutionList) {
-        var runTests = function (idx, extracted, resp) {
-            var conf = testExecutionList[idx];
-            if (!conf){
-                $("#nav").append('<h3 style="color:green">DONE</h3>');
-                return;
-            }
-
-            if(conf.sectionTitle){
-                $("#nav").append('<hr/><h3>'+ conf.sectionTitle+'</h3>');
-                runTests(idx + 1, extracted, resp);
-
-            } else if(!(conf.url||conf.execute)){
-                $("#nav").append('<h4>'+ conf.title+'</h4>');
-                runTests(idx + 1, extracted, resp);
-            } else {
-                var root = $('#results'),
-                        url = $.isFunction(conf.url) ? conf.url(resp, extracted) : conf.url;
-
-                conf.elId = conf.title?conf.title.replace(/ /g, '_'):Math.ceil(Math.random()*10000000);
-                conf.$link = $('<li><a href="#'+ conf.elId+'"><span>'+ conf.elId +'</span>('+ url +')</a></li>');
-                conf.resultFormat = conf.resultFormat || JSON.stringify;
-                $("#nav").append(conf.$link);
-
-                root.append('<hr/>').append('<h2 id="'+conf.elId+'"> ' + (idx + 1) + ') ' + conf.title + '</h2>');
-
-                if (conf.execute) {
-                    conf.execute(root, extracted);
-                    runTests(idx + 1, extracted, resp);
-                } else {
-                    var cb = function (post_data) {
-                                return function (resp) {
-                                    conf.$link.addClass('loaded');
-                                    if(conf.ignoreResult) {
-                                        root.append('ignored');
-                                    } else {
-                                        if (post_data != null)
-                                            root.append('<div>' + (conf.method || 'POST') + '</b>&nbsp;<code>' + JSON.stringify(post_data) + '</code></div>');
-                                        else root.append((conf.method || 'GET') + ' ');
-                                        root.append('<a href="' + url + '">' + url + '</a>');
-                                        if (conf.appendResult) {
-                                            conf.appendResult(root, resp);
-                                        } else {
-                                            root.append('<pre>' + conf.resultFormat(resp, undefined, 2) + '</pre>');
-                                        }
-                                    }
-                                    if (conf.extract) {
-                                        runTests(idx + 1, $.extend(extracted, conf.extract(resp)), resp);
-                                    } else {
-                                        runTests(idx + 1, extracted, resp);
-                                    }
-                                }
-                            },
-                            error = function (post_data) {
-                                return function(resp, status, msg) {
-                                    if(resp.status<300){
-                                        cb(params)(resp.responseJSON);
-                                    } else if(conf.expectedErrors && !!~conf.expectedErrors.indexOf(resp.status)){
-                                        cb(params)(resp.responseJSON);
-                                    } else {
-                                        conf.$link.addClass('error');
-                                    }
-                                }
-                            };
-                    if (!conf.data) {
-                        $.ajax({
-                            url: url,
-                            method: conf.method || 'GET',
-                            dataType: "json"
-                        }).done(cb()).fail(error());
-                    } else {
-                        var params = $.isFunction(conf.data) ? conf.data(resp, extracted) : conf.data;
-                        $.ajax({
-                            url: url,
-                            data: JSON.stringify(params),
-                            method: conf.method || 'POST',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json"
-                        }).done(cb(params)).fail(error(params));
-                    }
-                }
-            }
-        };
-        return runTests;
+  var guid = (function() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return function() {
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
     };
+  })();
+
+  var getTestRunner = function(testExecutionList) {
+    var runTests = function (idx, extracted, resp) {
+      var conf = testExecutionList[idx];
+      if (!conf){
+        $("#nav").append('<h3 style="color:green">DONE</h3>');
+        return;
+      }
+
+      if(conf.sectionTitle){
+        $("#nav").append('<hr/><h3>'+ conf.sectionTitle+'</h3>');
+        runTests(idx + 1, extracted, resp);
+
+      } else if(!(conf.url||conf.execute)){
+        $("#nav").append('<h4>'+ conf.title+'</h4>');
+        runTests(idx + 1, extracted, resp);
+      } else {
+        var root = $('#results'),
+          url = $.isFunction(conf.url) ? conf.url(resp, extracted) : conf.url;
+
+        conf.elId = conf.title?conf.title.replace(/ /g, '_'):Math.ceil(Math.random()*10000000);
+        conf.$link = $('<li><a href="#'+ conf.elId+'"><span>'+ conf.elId +'</span>('+ url +')</a></li>');
+        conf.resultFormat = conf.resultFormat || JSON.stringify;
+        $("#nav").append(conf.$link);
+
+        root.append('<hr/>').append('<h2 id="'+conf.elId+'"> ' + (idx + 1) + ') ' + conf.title + '</h2>');
+
+        if (conf.execute) {
+          conf.execute(root, extracted);
+          runTests(idx + 1, extracted, resp);
+        } else {
+          var cb = function (post_data) {
+              return function (resp) {
+                conf.$link.addClass('loaded');
+                if(conf.ignoreResult) {
+                  root.append('ignored');
+                } else {
+                  if (post_data != null)
+                    root.append('<div>' + (conf.method || 'POST') + '</b>&nbsp;<code>' + JSON.stringify(post_data) + '</code></div>');
+                  else root.append((conf.method || 'GET') + ' ');
+                  root.append('<a href="' + url + '">' + url + '</a>');
+                  if (conf.appendResult) {
+                    conf.appendResult(root, resp);
+                  } else {
+                    root.append('<pre>' + conf.resultFormat(resp, undefined, 2) + '</pre>');
+                  }
+                }
+                if (conf.extract) {
+                  runTests(idx + 1, $.extend(extracted, conf.extract(resp)), resp);
+                } else {
+                  runTests(idx + 1, extracted, resp);
+                }
+              }
+            },
+            error = function (post_data) {
+              return function(resp, status, msg) {
+                if(resp.status<300){
+                  cb(params)(resp.responseJSON);
+                } else if(conf.expectedErrors && !!~conf.expectedErrors.indexOf(resp.status)){
+                  cb(params)(resp.responseJSON);
+                } else {
+                  conf.$link.addClass('error');
+                }
+              }
+            };
+          if (!conf.data) {
+            $.ajax({
+              url: url,
+              method: conf.method || 'GET',
+              dataType: "json",
+              xhrFields: { withCredentials: true },
+              crossDomain: true
+            }).done(cb()).fail(error());
+          } else {
+            var params = $.isFunction(conf.data) ? conf.data(resp, extracted) : conf.data;
+            $.ajax({
+              url: url,
+              data: JSON.stringify(params),
+              method: conf.method || 'POST',
+              xhrFields: { withCredentials: true },
+              crossDomain: true,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json"
+            }).done(cb(params)).fail(error(params));
+          }
+        }
+      }
+    };
+    return runTests;
+  };
 </script>
 ${self.tests()}
 </%def>

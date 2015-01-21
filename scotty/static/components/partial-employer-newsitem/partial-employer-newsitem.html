@@ -6,40 +6,28 @@
     <div class="date">{{ entry.date | timeAgoIf:'yesterday' }}</div>
     <div class="note" ng-if="entry.name === 'SIGN_UP'">You signed up.</div>
     <div class="note" ng-if="entry.name === 'BOOKMARKED'" translate>
-      <a ui-sref="candidate({ id: entry.candidate.id })">
-        {{ entry.candidate.first_name }} {{ entry.candidate.last_name }}
-      </a>
-      has requested an interview with you.
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link> has requested an interview with you.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_ACCEPTED'" translate>
-      You interviewed
-      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>.
+      You interviewed <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_REJECTED'" translate>
-      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
-      rejected your offer.
+      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link> rejected your offer.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_SENT'" translate>
-      You sent an offer to
-      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>.
+      You sent an offer to <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>.
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_START_DATE'" translate>
-      Amazing!
-      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
-      started their job with you!
+      Amazing! <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link> started their job with you!
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_NEGOTIATION'" translate>
-      You started negotiating contract details with
-      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
+      You started negotiating contract details with <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
     </div>
     <div class="note" ng-if="entry.name === 'OFFER_SIGNED'" translate>
-      You signed a contract with
-      <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link>
-      They will start soon!
+      You signed a contract with <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link> They will start soon!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_PENDING'" translate>
-      You agreed to the
-      <a href="../terms-of-service.html">terms and conditions</a>!
+      You agreed to the <a href="../terms-of-service.html">terms and conditions</a>!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_LIVE'" translate>
       Congrats! Your account was approved! Welcome to Scotty!
