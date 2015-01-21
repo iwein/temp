@@ -42,6 +42,7 @@ def home(request):
 
 @view_config(route_name='refer', permission=NO_PERMISSION_REQUIRED, **POST)
 def recommend(request):
+    lang = request.json.get('lang', 'en')
     sndr_email = request.json.get('sndr_email')
     sndr_name = request.json.get('sndr_name')
     rcvr_email = request.json.get('rcvr_email')
@@ -56,7 +57,7 @@ def recommend(request):
         spam_cutoff = datetime.now() - timedelta(1)
 
         def send_email():
-            request.emailer.send_friend_referral(sndr_email, sndr_name, rcvr_email, rcvr_name, message)
+            request.emailer.send_friend_referral(lang, sndr_email, sndr_name, rcvr_email, rcvr_name, message)
 
         referral = DBSession.query(Referral).filter(Referral.rcvr_email == rcvr_email,
                                                     Referral.sndr_email == sndr_email).first()
