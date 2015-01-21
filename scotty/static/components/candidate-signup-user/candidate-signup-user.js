@@ -4,7 +4,7 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.loading = false;
@@ -26,12 +26,19 @@ define(function(require) {
       _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
       importedData = _.pick(data, 'dob', 'picture_url');
 
-      if (data.contact_country_iso && data.contact_city) {
-        importedData.location = {
-          country_iso: data.contact_country_iso,
-          city: data.contact_city,
-        };
-      }
+      var city = data.contact_city;
+      var country = data.contact_country_iso;
+      if (!city || !country)
+        return;
+
+      return ConfigAPI.isValidCity(city, country).then(function(isValid) {
+        if (isValid) {
+          importedData.location = {
+            country_iso: data.contact_country_iso,
+            city: data.contact_city,
+          };
+        }
+      });
     }
 
     function onEmailChange() {
