@@ -11,16 +11,28 @@ define(function(require) {
     $scope.model = {};
     $scope.errorEmailAlreadyRegistered = false;
     Loader.page(true);
-    var picture;
+    var importedData;
 
     Session.getConnectors().getData().then(function(data) {
-      if (!data) return;
-      $scope.imported = true;
-      picture = picture || data.picture;
-      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
+      if (data)
+        setDataFromNetworks(data);
     }).finally(function() {
       Loader.page(false);
     });
+
+
+    function setDataFromNetworks(data) {
+      $scope.imported = true;
+      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
+      importedData = _.pick(data, 'dob', 'picture_url');
+
+      if (data.contact_country_iso && data.contact_city) {
+        importedData.location = {
+          country_iso: data.contact_country_iso,
+          city: data.contact_city,
+        };
+      }
+    }
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;
@@ -36,7 +48,7 @@ define(function(require) {
         position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills || []);
 
         return $q.all([
-          picture ? Session.user.updateData({ picture_url: picture }) : null,
+          importedData ? Session.user.updateData(importedData) : null,
           Session.user.setTargetPosition(position),
           Session.user.setPreferredLocations(locations),
         ]);

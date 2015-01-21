@@ -9,7 +9,7 @@ define(function(require) {
       'signup.target',
       'signup.user',
     ],
-    'target_positions': [
+    'target_position': [
       'signup.target',
       'signup.user',
     ],

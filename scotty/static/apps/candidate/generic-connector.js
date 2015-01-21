@@ -3,37 +3,6 @@ define(function(require) {
   var _ = require('underscore');
   var throttlePromise = require('tools/throttle-promise');
 
-  // Calculates the space closest to the middle of the name
-  function splitName(name) {
-    var middle = name.length / 2;
-    var spaces = [];
-    var last = name.indexOf(' ');
-
-    while(last !== -1) {
-      spaces.push(last);
-      last = name.indexOf(' ', last + 1);
-    }
-
-    if (!spaces.length) {
-      return {
-        first_name: name,
-        last_name: '',
-      };
-    }
-
-    var splitAt = spaces.reduce(function(current, position) {
-      var better = Math.abs(current - middle);
-      var distance = Math.abs(position - middle);
-      return distance < better ? position : current;
-    }, name.length);
-
-    return {
-      first_name: name.substr(0, splitAt),
-      last_name: name.substr(splitAt + 1),
-    };
-  }
-
-
 
   function GenericConnector(api, key) {
     this._key = key;
@@ -68,32 +37,31 @@ define(function(require) {
       }.bind(this));
     },
 
+    disconnect: function() {
+      return this._api.get('/connect/' + this._key + '/forget');
+    },
+
     getData: function() {
-      return this.connect().then(function() {
-        return this._getData().then(function(data) {
-          var name = splitName(data.name);
-          return _.extend(name, _.pick(data, 'email', 'network', 'picture'));
-        });
-      }.bind(this));
+      return this._getData().then(function(data) {
+        return _.pick(data, 'email', 'network', 'picture');
+      });
     },
 
     getProfileData: function() {
-      return this.connect().then(function() {
-        return this._api.get('/connect/' + this._key + '/profile');
-      }.bind(this));
+      return this._api.get('/connect/' + this._key + '/profile');
     },
 
     getExperience: function() {
-      return this.connect().then(function() {
-        return this._api.get('/connect/' + this._key + '/work_experience');
-      }.bind(this));
+      return this._api.get('/connect/' + this._key + '/work_experience');
     },
 
     getEducation: function() {
-      return this.connect().then(function() {
-        return this._api.get('/connect/' + this._key + '/education');
-      }.bind(this));
+      return this._api.get('/connect/' + this._key + '/education');
     },
+
+    getProfile: function() {
+      return this._api.get('/connect/' + this._key + '/profile');
+    }
   };
 
   return GenericConnector;
