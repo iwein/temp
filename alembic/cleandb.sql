@@ -1,0 +1,22 @@
+delete from candidate_language where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from candidate_skill where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from target_position_skills where target_position_id in (select id from target_position where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com'));
+delete from target_position where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from education where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from work_experience_skill where work_experience_id in (select id from work_experience where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com'));
+delete from work_experience where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from candidate_preferred_location where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from offer_skill where offer_id in (select id from offer where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com'));
+delete from offer_benefit where offer_id in (select id from offer where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com'));
+delete from offer where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from candidate_bookmark_employer where candidate_id in (select id from candidate where email like 'catch+%@hackandcraft.com');
+delete from candidate where email like 'catch+%@hackandcraft.com';
+
+delete from offer_skill where offer_id in (select id from offer where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com'));
+delete from offer_benefit where offer_id in (select id from offer where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com'));
+delete from offer where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com');
+delete from candidate_bookmark_employer where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com');
+delete from employer_office where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com');
+delete from employer_benefit where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com');
+delete from employer_skill where employer_id in (select id from employer where email like 'catch+%@hackandcraft.com');
+delete from employer where email like 'catch+%@hackandcraft.com';
