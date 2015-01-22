@@ -47,8 +47,8 @@
   },
   "index-resources": {
     "files": [{
-      "cwd": "<%= files.apps.folder %>",
-      "src": "<%= files.index.resources %>",
+      "cwd": "apps/index/resources",
+      "src": "**/*",
       "dest": "<%= files.apps.out.folder %>",
       "expand": true
     }, {
@@ -56,25 +56,21 @@
       "dest": "<%= files.apps.out.folder %>",
       "expand": true,
       "flatten": true
+    }, {
+      "src": "<%= files.index.out.pages %>/sitemap.xml",
+      "dest": "<%= files.apps.out.folder %>",
+      "expand": true,
+      "flatten": true
     }]
   },
   "static-pages": {
-    "files": [{
-      "src": [
-        "<%= files.index.sitemap %>",
-        "<%= files.index.out.pages %>/*.html"
-      ],
-      "dest": "<%= files.apps.folder %>",
-      "expand": true,
-      "flatten": true
-    }, {
-      "src": [
-        "<%= files.index.sitemap %>",
-        "<%= files.index.out.pages %>/en/*.html"
-      ],
-      "dest": "<%= files.apps.folder %>/en",
-      "expand": true,
-      "flatten": true
-    }]
+    "cwd": "<%= files.index.out.pages %>",
+    "src": [
+      "sitemap.xml",
+      "*.html",
+      "en/*.html"
+    ],
+    "dest": "<%= files.apps.folder %>",
+    "expand": true
   }
 }
