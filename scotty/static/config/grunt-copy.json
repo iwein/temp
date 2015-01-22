@@ -47,8 +47,12 @@
   },
   "index-resources": {
     "files": [{
-      "cwd": "apps/index/resources",
-      "src": "**/*",
+      "cwd": "apps/index",
+      "src": [
+        "resources/**/*",
+        "!resources/root",
+        "!resources/root/**/*"
+      ],
       "dest": "<%= files.apps.out.folder %>",
       "expand": true
     }, {
@@ -56,6 +60,11 @@
       "dest": "<%= files.apps.out.folder %>",
       "expand": true,
       "flatten": true
+    }, {
+      "cwd": "apps/index/resources/root",
+      "src": "**/*",
+      "dest": "<%= files.apps.out.folder %>",
+      "expand": true
     }, {
       "src": "<%= files.index.out.pages %>/sitemap.xml",
       "dest": "<%= files.apps.out.folder %>",
