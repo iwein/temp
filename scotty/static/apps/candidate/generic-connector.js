@@ -52,11 +52,15 @@ define(function(require) {
     },
 
     getExperience: function() {
-      return this._api.get('/connect/' + this._key + '/work_experience');
+      return this._api.get('/connect/' + this._key + '/work_experience').then(function(response) {
+        return response.filter(function(entry) { return !!entry.start });
+      });
     },
 
     getEducation: function() {
-      return this._api.get('/connect/' + this._key + '/education');
+      return this._api.get('/connect/' + this._key + '/education').then(function(response) {
+        return response.filter(function(entry) { return !!entry.start });
+      });
     },
 
     getProfile: function() {
