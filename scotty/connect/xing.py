@@ -166,7 +166,7 @@ def view_my_positions(context, request):
         p['end_date'] = resolveDate(p.get('end_date'))
 
         experiences.append({
-            'start': p['begin_date'],
+            'start': p.get('begin_date'),
             'end': p.get('end_date'),
             'role': p.get('title'),
             'country_iso': 'DE',

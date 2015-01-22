@@ -115,6 +115,8 @@ def view_my_positions(context, request):
     access_token = profile['accessToken']
     results = requests.get(context.positionsEndpoint, params={'oauth2_access_token': access_token},
                            headers={'x-li-format': 'json'})
+
+
     exp = results.json()
     if results.status_code != 200:
         raise HTTPForbidden("Some Error from Linkedin, %s:%s" % (results.status_code, results.text))
@@ -122,13 +124,19 @@ def view_my_positions(context, request):
         return []
     else:
         experiences = []
+
+        def resolveDate(d):
+            if d and 'year' in d:
+                d.setdefault('month', 1)
+                d.setdefault('day', 1)
+                return d
+            else:
+                return None
+
         for p in exp.get('values', []):
 
-            p['startDate'].setdefault('day', 1)
-            p['startDate'].setdefault('month', 1)
-            if p.get('endDate'):
-                p['endDate'].setdefault('day', 1)
-                p['endDate'].setdefault('month', 1)
+            p['startDate'] = resolveDate(p.get('startDate'))
+            p['endDate'] = resolveDate(p.get('endDate'))
 
             # guess city iof work experience (country is not available
             cid = p.get('company', {}).get('id')
@@ -142,7 +150,7 @@ def view_my_positions(context, request):
                         p['city'] = cities[0]
 
             experiences.append({
-                'start': '%(year)04d-%(month)02d-%(day)02d' % p['startDate'],
+                'start': '%(year)04d-%(month)02d-%(day)02d' % p['startDate'] if p.get('startDate') else None,
                 'end': '%(year)04d-%(month)02d-%(day)02d' % p['endDate'] if p.get('endDate') else None,
                 'role': p.get('title'),
                 'city': p.get('city'),
