@@ -32,9 +32,9 @@
               <div class="data-box">{{ entry.start }} - {{ entry.end || 'current' }}</div>
             </div>
             <div class="col-sm-2 text-center pad-top-5">
-              <i class="fa fa-pencil blue-link"
-              ng-show="hcEditable"
-              ng-click="hcEducationCtrl.setActive($index)"></i>
+              <button ng-show="hcEditable" ng-click="hcEducationCtrl.setActive($index)">
+                <i class="fa fa-pencil blue-link"></i>
+              </button>
             </div>
             <div class="col-sm-2  text-center pad-top-5" >
               <input type="checkbox" ng-model="entry.import" ng-change="importChange()">
