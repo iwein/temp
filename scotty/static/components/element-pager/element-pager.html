@@ -1,0 +1,9 @@
+<ul class="pager-list" ng-show="count > 1">
+  <li ng-repeat="page in buttons">
+    <button type="button"
+      ng-click="loadPage(page)"
+      ng-disabled="current === page">
+      {{ page }}
+    </button>
+  </li>
+</ul>
