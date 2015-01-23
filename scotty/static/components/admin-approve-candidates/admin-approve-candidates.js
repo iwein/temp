@@ -7,12 +7,16 @@ define(function(require) {
     this.filterCandidates = filterCandidates;
     this.approve = approve;
     $scope.status = 'pending';
+    $scope.showItems = 10;
 
-    function filterCandidates(status) {
+    function filterCandidates(params) {
+      params = params || { limit: $scope.showItems };
       $scope.candidates = [];
       Loader.add('admin-approve-candidates-filter');
-      return Session.getCandidatesByStatus(status).then(function(candidates) {
-        $scope.candidates = candidates;
+
+      return Session.getCandidatesByStatus($scope.status, params).then(function(response) {
+        $scope.total = response.pagination.total;
+        $scope.candidates = response.data;
       }).finally(function() {
         Loader.remove('admin-approve-candidates-filter');
       });
@@ -27,7 +31,7 @@ define(function(require) {
       });
     }
 
-    filterCandidates($scope.status).catch(function(err) {
+    filterCandidates().catch(function(err) {
       toaster.error(err.message);
     }).finally(function() {
       Loader.page(false);

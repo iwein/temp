@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
   require('tools/api');
-  var fn = require('tools/fn');
+  var _ = require('underscore');
   var Office = require('apps/common/offer');
   var Employer = require('apps/common/employer');
   var Candidate = require('apps/common/candidate');
@@ -9,6 +9,7 @@ define(function(require) {
   function AdminSession(api, promise, apikey) {
     this._api = api;
     this._promise = promise;
+    this._key = { apikey: apikey };
     this.getParams = '?apikey=' + apikey;
   }
 
@@ -53,15 +54,16 @@ define(function(require) {
         }.bind(this));
     },
 
-    getEmployersByStatus: function(status) {
-      return this._api.get('/admin/employers/' + status + this.getParams).then(fn.get('data'));
+    getEmployersByStatus: function(status, params) {
+      return this._api.get('/admin/employers/' + status, _.extend({}, params, this._key));
     },
 
-    getCandidatesByStatus: function(status) {
-      return this._api.get('/candidates' + this.getParams + '&status=' + status).then(function(response) {
-        return response.data.map(function(data) {
+    getCandidatesByStatus: function(status, params) {
+      return this._api.get('/candidates', _.extend({ status: status }, params, this._key)).then(function(response) {
+        response.data = response.data.map(function(data) {
           return new Candidate(this._api, data.id, data, this.getParams);
         }.bind(this));
+        return response;
       }.bind(this));
     },
 

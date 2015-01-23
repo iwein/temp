@@ -46,7 +46,7 @@ define(function(require) {
               $scope.$parent.results = response.data;
               $scope.results = response.data;
               $scope.loaded = true;
-              return response.pagination;
+              $scope.total = response.pagination.total;
             })
             .catch(toaster.defaultError)
             .finally(function() {

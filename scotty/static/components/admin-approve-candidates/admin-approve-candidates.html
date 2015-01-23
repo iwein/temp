@@ -8,26 +8,28 @@
         class="form-control"
         name="status"
         ng-model="status"
-        ng-change="approveCandidates.filterCandidates(status)">
+        ng-change="approveCandidates.filterCandidates()">
         <option value="pending">Pending</option>
         <option value="active">Active</option>
       </select>
     </div>
 
     <div class="panel panel-default">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="candidate in candidates">
-          <div class="row">
-            <button type="button"
-                    class="pull-right btn bg-green"
-                    ng-if="candidate._data.status === 'pending'"
-                    ng-click="approveCandidates.approve(candidate)">
-              Approve
-            </button>
-            <hc-candidate ng-model="candidate" hc-link-profile></hc-candidate>
-          </div>
-        </li>
-      </ul>
+      <hc-pagination items-per-page="{{ showItems }}" total="total" load="approveCandidates.filterCandidates($params)">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="candidate in candidates">
+            <div class="row">
+              <button type="button"
+                      class="pull-right btn bg-green"
+                      ng-if="candidate._data.status === 'pending'"
+                      ng-click="approveCandidates.approve(candidate)">
+                Approve
+              </button>
+              <hc-candidate ng-model="candidate" hc-link-profile></hc-candidate>
+            </div>
+          </li>
+        </ul>
+      </hc-pagination>
     </div>
   </div>
 </div>

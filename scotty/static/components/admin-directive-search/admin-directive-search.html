@@ -23,7 +23,7 @@
 
   <div ng-show="loaded && !loading && !results.length">No result found</div>
 
-  <hc-pagination items-per-page="{{ showItems }}" load="getResults($params)" autoload ng-show="loaded">
+  <hc-pagination items-per-page="{{ showItems }}" total="total" load="getResults($params)" autoload ng-show="loaded">
     <ng-transclude></ng-transclude>
   </hc-pagination>
 </div>

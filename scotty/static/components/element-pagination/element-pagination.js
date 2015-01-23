@@ -9,6 +9,7 @@ define(function(require) {
       template: require('text!./element-pagination.html'),
       scope: {
         itemsPerPage: '@',
+        total: '=',
         load: '&',
       },
       link: function(scope, elem, attr) {
@@ -19,14 +20,16 @@ define(function(require) {
         if ('autoload' in attr)
           loadPage(0);
 
+        scope.$watch('total', function(total) {
+          scope.pages = Math.ceil(total / items);
+        });
+
         function loadPage(index) {
           return scope.load({
             $params: {
               limit: items,
               offset: index * items,
             }
-          }).then(function(pagination) {
-            scope.pages = Math.ceil(pagination.total / items);
           });
         }
       }
