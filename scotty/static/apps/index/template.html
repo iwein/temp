@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="web application">
+  <meta name="description" content="{{ description }}">
   <meta name="author" content="4Scotty">
   <title>Scotty - {{ title }}</title>
   <link rel="icon" type="image/png" href="/favicon.ico">
@@ -38,19 +38,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html" title="Scotty"></a>
+          <a class="navbar-brand" href="./" title="Scotty"></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.html">For it professionals</a></li>
-            <li><a href="index-employer.html">For companies</a></li>
-            <li><a href="about-us.html">About us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="login.html" class="login-home">Login</a></li>
+            <li><a href="./">For it professionals</a></li>
+            <li><a href="./index-employer.html">For companies</a></li>
+            <li><a href="./about-us.html">About us</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./login.html" class="login-home">Login</a></li>
             <li>
-              <a href="..">
+              <a href="../">
                 DE <i class="fa fa-angle-down hidden"></i>
               </a>
             </li>
@@ -71,13 +71,6 @@
 <!-- build:js ../bootstrap.min.js -->
 <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- endbuild -->
-<script>
-  var elements = document.querySelectorAll('.footer .foot-item a[data-adjust]');
-  var links = [].slice.call(elements);
-  links.forEach(function(link) {
-    link.setAttribute('href', link.getAttribute('href').replace('../', ''));
-  });
-</script>
 {{> footscripts}}
 </body>
 </html>

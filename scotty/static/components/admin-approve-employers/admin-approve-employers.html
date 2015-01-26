@@ -1,6 +1,6 @@
 <div class="component-admin-approve-employers row">
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Approve employers</h3>
+    <h1>Approve employers</h1>
 
     <div class="form-group">
       <label>Status</label>
@@ -8,7 +8,7 @@
         class="form-control"
         name="status"
         ng-model="status"
-        ng-change="approveEmployers.filterEmployers(status)">
+        ng-change="approveEmployers.filterEmployers()">
         <option value="INVITED">Invite sent</option>
         <option value="SIGNEDUP">Signed up</option>
         <option value="APPLIED">Applied</option>
@@ -17,17 +17,19 @@
     </div>
 
     <div class="panel panel-default">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="employer in employers">
-          {{ employer.contact_name }} at {{ employer.company_name }}
-          <button type="button"
-            class="pull-right"
-            ng-if="employer.status === 'APPLIED'"
-            ng-click="approveEmployers.approve(employer)">
-            Approve
-          </button>
-        </li>
-      </ul>
+      <hc-pagination items-per-page="{{ showItems }}" total="total" load="approveEmployers.filterEmployers($params)">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="employer in employers">
+            {{ employer.contact_name }} at {{ employer.company_name }}
+            <button type="button"
+              class="pull-right"
+              ng-if="employer.status === 'APPLIED'"
+              ng-click="approveEmployers.approve(employer)">
+              Approve
+            </button>
+          </li>
+        </ul>
+      </hc-pagination>
     </div>
   </div>
 </div>

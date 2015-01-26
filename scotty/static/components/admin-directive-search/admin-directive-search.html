@@ -23,11 +23,7 @@
 
   <div ng-show="loaded && !loading && !results.length">No result found</div>
 
-  <div ng-show="loaded" ng-transclude></div>
-
-  <ul class="pager-list" ng-show="pages.length > 1">
-    <li ng-repeat="page in pages">
-      <button type="button" ng-click="loadPage(page)" ng-disabled="currentPage === page - 1">{{ page }}</button>
-    </li>
-  </ul>
+  <hc-pagination items-per-page="{{ showItems }}" total="total" load="getResults($params)" autoload ng-show="loaded">
+    <ng-transclude></ng-transclude>
+  </hc-pagination>
 </div>
