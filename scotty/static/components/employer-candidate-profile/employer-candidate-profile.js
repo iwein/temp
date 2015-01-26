@@ -1,7 +1,5 @@
 define(function(require) {
   'use strict';
-  require('components/directive-experience/directive-experience');
-  require('components/directive-education/directive-education');
   require('components/partial-candidate-pic/partial-candidate-pic');
   var fn = require('tools/fn');
   var module = require('app-module');
@@ -32,17 +30,13 @@ define(function(require) {
     Permission.requireSignup().then(function() {
 
       $q.all([
-        ThisCandidate.getTargetPosition(),
-        ThisCandidate.getExperience(),
-        ThisCandidate.getEducation(),
         ThisCandidate.getOffers(),
-        ThisCandidate.getHighestDegree(),
+        ThisCandidate.getTargetPosition().then(fn.setTo('targetPosition', $scope)),
+        ThisCandidate.getExperience().then(fn.setTo('workExperience', $scope)),
+        ThisCandidate.getEducation().then(fn.setTo('education', $scope)),
+        ThisCandidate.getHighestDegree().then(fn.setTo('highestDegree', $scope)),
       ]).then(function(data) {
-        var offers = data[3];
-        $scope.targetPosition = data[0];
-        $scope.workExperience = data[1];
-        $scope.education = data[2];
-        $scope.highestDegree = data[4];
+        var offers = data[0];
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
         $scope.status = (ThisCandidate._data.status === 'sleeping')?'sleeping':

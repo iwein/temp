@@ -7,6 +7,12 @@ define(function() {
     };
   }
 
+  function equal(value) {
+    return function(entry) {
+      return entry === value;
+    };
+  }
+
   function setTo(key, object, value) {
     object[key] = value;
     return value;
@@ -48,6 +54,7 @@ define(function() {
 
   return {
     not: not,
+    equal: equal,
     setTo: curry(setTo),
     set: curry(set),
     get: curry(get),

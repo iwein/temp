@@ -1,71 +1,80 @@
 define(function(require) {
   'use strict';
   require('session');
+  var _ = require('underscore');
+  var fn = require('tools/fn');
   var nameAttr = require('tools/name-attr');
+  var getModel = require('tools/get-model');
   var months = require('tools/months');
   var module = require('app-module');
 
-  module.directive('hcEducationForm', function($parse) {
-    function getModel(ngModel, scope) {
-      var model = $parse(ngModel);
-      var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
-      return JSON.parse(JSON.stringify(value));
-    }
-
+  module.directive('hcEducationForm', function() {
     return {
       restrict: 'EA',
+      transclude: true,
+      template: require('text!./directive-education-form.html'),
       scope: {
         onSubmit: '&',
-        hcShowEmpty: '=',
         hcRequired: '=',
         hcDisabled: '=',
       },
-      transclude: true,
-      template: require('text!./directive-education-form.html'),
-      controllerAs: 'educationCtrl',
-      controller: function($scope, $attrs, $q, ConfigAPI, Session) {
-        $scope.searchInstitutions = ConfigAPI.institutions;
-        $scope.searchCourses = ConfigAPI.courses;
-        ConfigAPI.degrees().then(function(degrees) {
-          $scope.degrees = degrees;
-          setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
+      controller: function($scope, $parse, $attrs, $q, ConfigAPI, Session) {
+        _.extend($scope, {
+          searchInstitutions: ConfigAPI.institutions,
+          searchCourses: ConfigAPI.courses,
+          submit: submit,
+          months: months,
+          currentYear: new Date().getFullYear(),
+          loading: false,
+        });
+        _.extend(this, {
+          isPristine: isPristine,
+          setModel: setModel,
+          reset: reset,
+          save: save,
         });
 
-        $scope.submit = submit;
-        $scope.months = months;
-        $scope.currentYear = (new Date()).getFullYear();
-        $scope.loading = false;
-        this.isPristine = isPristine;
-        this.setModel = setModel;
-        this.reset = reset;
-        this.save = save;
-        var ctrl = this;
 
-        nameAttr(this, 'hcEducationForm', $scope, $attrs);
+        var ctrl = this;
+        return onLoad();
+
+
+        function submit() {
+          if ($scope.form.$valid)
+            $scope.onSubmit({ $model: $scope.model, $form: ctrl });
+        }
+
+        function isPristine() {
+          return $scope.form.$pristine;
+        }
+
+        function onLoad() {
+          var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
+          nameAttr(ctrl, 'hcEducationForm', $scope, $attrs);
+
+          return ConfigAPI.degrees()
+            .then(fn.setTo('degrees', $scope))
+            .then(function() { setModel(model) });
+        }
 
         function save() {
           return Session.getUser().then(function(user) {
-            return $q.when($scope.editing ? user.deleteEducation($scope.model) : null).then(function() {
+            var preStep = $scope.editing ? user.deleteEducation($scope.model) : null;
+
+            return $q.when(preStep).then(function() {
               return user.addEducation($scope.model);
             });
           });
         }
 
-        function submit() {
-          $scope.onSubmit({ $model: $scope.model, $form: ctrl });
-        }
-
         function reset() {
+          if ($scope.form)
+            $scope.form.$setPristine();
+
           $scope.editing = false;
-          if ($scope.formEducation)
-            $scope.formEducation.$setPristine();
           $scope.model = {};
           $scope.current = false;
           $scope.not_completed_degree = false;
-        }
-
-        function isPristine() {
-          return $scope.formEducation.$pristine;
         }
 
         function setModel(model) {

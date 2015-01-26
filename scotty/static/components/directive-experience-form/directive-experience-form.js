@@ -2,60 +2,102 @@ define(function(require) {
   'use strict';
   require('session');
   var _ = require('underscore');
-  var nameAttr = require('tools/name-attr');
-  var months = require('tools/months');
   var fn = require('tools/fn');
+  var nameAttr = require('tools/name-attr');
+  var getModel = require('tools/get-model');
+  var months = require('tools/months');
   var module = require('app-module');
 
-  module.directive('hcExperienceForm', function($parse) {
-    function getModel(ngModel, scope) {
-      var model = $parse(ngModel);
-      var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
-      return JSON.parse(JSON.stringify(value));
-    }
+  module.directive('hcExperienceForm', function(ConfigAPI) {
+    var countries = ConfigAPI.countries({ limit: 500 });
+    var featuredSkills = ConfigAPI.featuredSkills();
 
     return {
       restrict: 'EA',
+      transclude: true,
+      template: require('text!./directive-experience-form.html'),
       scope: {
         onSubmit: '&',
         hcShowEmpty: '=',
         hcRequired: '=',
         hcDisabled: '=',
       },
-      transclude: true,
-      template: require('text!./directive-experience-form.html'),
-      controllerAs: 'experienceCtrl',
-      controller: function($scope, $attrs, $q, ConfigAPI, Session) {
-        $scope.onFeaturedSkillChange = onFeaturedSkillChange;
-        $scope.onCurrentChange = onCurrentChange;
-        $scope.searchCompanies = ConfigAPI.companies;
-        $scope.searchSkills = searchSkills;
-        $scope.searchRoles = ConfigAPI.roles;
-        $scope.months = months;
-        $scope.currentYear = (new Date()).getFullYear();
-        $scope.loading = false;
-        $scope.submit = submit;
-        this.showDuplicatedError = showDuplicatedError;
-        this.isPristine = isPristine;
-        this.setModel = setModel;
-        this.reset = reset;
-        this.save = save;
-        var ctrl = this;
-
-
-        ConfigAPI.countries({ limit: 500 }).then(fn.setTo('countries', $scope));
-        nameAttr(this, 'hcExperienceForm', $scope, $attrs);
-
-        ConfigAPI.featuredSkills().then(function(data) {
-          $scope.featuredSkills = data.map(function(type) {
-            return { value: type };
-          });
-        }).then(function() {
-          setModel($attrs.ngModel ? getModel($attrs.ngModel, $scope) : {});
-          bindDate('start');
-          bindDate('end');
-          $scope.ready = true;
+      controller: function($scope, $parse, $attrs, $q, Session) {
+        _.extend($scope, {
+          searchCompanies: ConfigAPI.companies,
+          searchRoles: ConfigAPI.roles,
+          onFeaturedSkillChange: onFeaturedSkillChange,
+          onCurrentChange: onCurrentChange,
+          searchSkills: searchSkills,
+          submit: submit,
+          months: months,
+          currentYear: new Date().getFullYear(),
+          loading: false,
         });
+        _.extend(this, {
+          showDuplicatedError: showDuplicatedError,
+          isPristine: isPristine,
+          setModel: setModel,
+          reset: reset,
+          save: save,
+        });
+
+
+        var ctrl = this;
+        return onLoad();
+
+
+        function afterModelChange() {
+          $scope.model.country_iso = $scope.model.country_iso || 'DE';
+        }
+
+        function onFeaturedSkillChange() {
+          $scope.skillSelected = $scope.featuredSkills.some(fn.get('selected'));
+        }
+
+        function showDuplicatedError(value) {
+          $scope.duplicatedError = value;
+        }
+
+        function isPristine() {
+          return $scope.form.$pristine;
+        }
+
+        function submit() {
+          if ($scope.form.$valid) {
+            var model = normalizeModel($scope.model);
+            $scope.onSubmit({ $model: model, $form: ctrl });
+          }
+        }
+
+        function onCurrentChange() {
+          $scope.model = _.omit($scope.model, 'end');
+          $scope.endMonth = '';
+          $scope.endYear = '';
+        }
+
+        function onLoad() {
+          var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
+          nameAttr(ctrl, 'hcExperienceForm', $scope, $attrs);
+
+          return loadContent().then(function() {
+            setModel(model);
+            bindDate('start');
+            bindDate('end');
+            $scope.ready = true;
+          });
+        }
+
+        function loadContent() {
+          return $q.all([
+            countries.then(fn.setTo('countries', $scope)),
+            featuredSkills.then(function(data) {
+              $scope.featuredSkills = data.map(function(type) {
+                return { value: type };
+              });
+            }),
+          ]);
+        }
 
         function searchSkills(term) {
           var skills = $scope.featuredSkills
@@ -69,41 +111,34 @@ define(function(require) {
           });
         }
 
-        function onFeaturedSkillChange() {
-          $scope.skillSelected = $scope.featuredSkills.some(function(entry) {
-            return entry.selected;
-          });
-
-          $scope.model.featuredSkills = $scope.featuredSkills
+        function normalizeModel() {
+          var model = _.omit($scope.model, 'featuredSkills');
+          var featured = $scope.featuredSkills
             .filter(fn.get('selected'))
             .map(fn.get('value'));
-        }
 
-        function showDuplicatedError(value) {
-          $scope.duplicatedError = value;
+          model.skills = [].concat(model.skills || [], featured || []);
+          return model;
         }
 
         function save() {
           return Session.getUser().then(function(user) {
-            var model = _.omit($scope.model, 'featuredSkills');
-            model.skills = [].concat(model.skills || [], $scope.model.featuredSkills || []);
+            var model = normalizeModel();
+            var preStep = $scope.editing ? user.deleteExperience(model) : null;
 
-            return $q.when($scope.editing ? user.deleteExperience(model) : null).then(function() {
+            return $q.when(preStep).then(function() {
               return user.addExperience(model);
             });
           });
         }
 
-        function afterModelChange() {
-          $scope.model.country_iso = $scope.model.country_iso || 'DE';
-        }
-
         function reset() {
-          $scope.editing = false;
-          $scope.skills.setDirty(false);
+          if ($scope.form)
+            $scope.form.$setPristine();
+
           $scope.featuredSkills.forEach(fn.set('selected', false));
-          if ($scope.formExperience)
-            $scope.formExperience.$setPristine();
+          $scope.skills.setDirty(false);
+          $scope.editing = false;
           $scope.model = {};
           $scope.duplicatedError = false;
           $scope.current = false;
@@ -139,35 +174,12 @@ define(function(require) {
             if (model.end) {
               var end = new Date(model.end);
               $scope.endMonth = months[end.getMonth()];
-              $scope.endYear = start.getFullYear();
-            } else {
-              $scope.current = true;
+              $scope.endYear = end.getFullYear();
             }
-          } else {
-            $scope.current = false;
           }
 
+          $scope.current = model.start && !model.end;
           afterModelChange();
-        }
-
-        function isPristine() {
-          return $scope.formExperience.$pristine;
-        }
-
-        function submit() {
-          var featured = $scope.featuredSkills
-            .filter(fn.get('selected'))
-            .map(fn.get('value'));
-
-          var model = JSON.parse(JSON.stringify($scope.model));
-          model.skills = (model.skills || []).concat(featured);
-          $scope.onSubmit({ $model: model, $form: ctrl });
-        }
-
-        function onCurrentChange() {
-          $scope.model = _.omit($scope.model, 'end');
-          $scope.endMonth = '';
-          $scope.endYear = '';
         }
 
         function bindDate(key) {

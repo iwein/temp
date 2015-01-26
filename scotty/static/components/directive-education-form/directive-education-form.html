@@ -1,8 +1,6 @@
-<form name="formEducation" class="edit-form form-wrap form-signup no-padd-horz" ng-submit="submit()">
+<form name="form" class="edit-form form-wrap form-signup no-padd-horz" ng-submit="submit()">
   <div class="row">
-
     <div class="col-sm-12">
-
       <div class="row mrg-btm">
         <label class="col-sm-3 no-padd-right no-padd-top" translate>University or Institution</label>
         <div class="col-sm-9">
@@ -93,7 +91,7 @@
                 <span ng-show="formEducation.end.$error.required" translate>Please insert the year you leave this position.</span>
                 <span ng-show="formEducation.end.$error.min" translate>Graduation must be after 1900.</span>
                 <span ng-show="formEducation.end.$error.max" translate>Graduation must be in the past.</span>
-                <span ng-show="formEducation.end.$error.greaterThan && !current" translate>End year should be after start year.</span>
+                <span ng-show="formEducation.end.$error.greaterThan" translate>End year should be after start year.</span>
               </div>
             </div>
           </div>

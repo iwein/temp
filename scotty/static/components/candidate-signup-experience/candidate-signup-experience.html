@@ -3,20 +3,107 @@
     <div class="col-sm-12">
       <h2 class="signup-title" translate>Work Experience</h2>
 
-      <hc-experience
-        name="list"
-        hc-source="listExperience()"
-        on-edit="update($entry, $index)"
-        on-add="add($entry)"
-        on-import-change="updateImports($list)"
-        hc-editable="true"
-        hc-remove-last="true">
-      </hc-experience>
+      <ul>
+        <li class="bg-gray-lighter pad-30" ng-show="list.length">
+          <div class="row">
+            <div class="caps blue-link smbd lt col-sm-4" translate>Company</div>
+            <div class="col-sm-4 caps blue-link smbd lt" translate>Duration</div>
+            <div class="col-sm-2 text-center">
+              <span class="lt smbd gray-darker caps" translate>Edit</span>
+            </div>
+            <div class="col-sm-2 text-center">
+              <span class="lt smbd gray-darker caps" translate>Add</span>
+            </div>
+
+            <div class="col-sm-12" ng-repeat="entry in list">
+              <div class="row mrg-top" ng-hide="isEditing($index)">
+                <div class="col-sm-4 no-padd-right">
+                  <div class="data-box">{{ entry.company }}</div>
+                </div>
+                <div class="no-padd-right col-sm-4">
+                  <div class="data-box">
+                    {{ entry.start | showMonthYear }} -
+                    {{ entry.end || 'current' | showMonthYear }}
+                  </div>
+                </div>
+                <div class="col-sm-2 text-center pad-top-5">
+                  <button ng-click="setEditing($index, true)">
+                    <i class="fa fa-pencil blue-link"></i>
+                  </button>
+                </div>
+                <div class="col-sm-2 text-center pad-top-5">
+                  <input type="checkbox" ng-model="entry.import" ng-change="onImportChange()">
+                </div>
+              </div>
+
+              <hc-experience-form
+                ng-if="isEditing($index)"
+                ng-model="entry"
+                hc-required="true"
+                hc-disabled="loading"
+                on-submit="save($model, $form, $index)">
+
+                <div class="buttons-wrap">
+                  <button type="submit"
+                          class="bg-green btn-small fl-rg mrg-lft"
+                          ng-disabled="loading"
+                          translate>
+                    Done
+                  </button>
+                  <button type="button"
+                          class="bg-gray-light btn-small fl-rg"
+                          ng-disabled="loading"
+                          ng-click="setEditing($index, false)"
+                          translate>
+                    Cancel
+                  </button>
+                </div>
+              </hc-experience-form>
+            </div>
+
+            <div class="col-sm-12" ng-show="!isEditing()">
+              <button type="button"
+                      class="add-btn no-fl"
+                      ng-disabled="loading"
+                      ng-click="setAdding(true)">
+                <i class="fa fa-plus"></i>
+                <translate>Add</translate>
+              </button>
+              <div class="clearfix"></div>
+            </div>
+        </li>
+
+        <li class="bg-gray-lighter brd-top pad-30 no-padd-top no-padd-btm" ng-if="isAdding()">
+          <hc-experience-form
+            name="form"
+            hc-required="list.length === 0 || !form.isPristine()"
+            hc-disabled="loading"
+            on-submit="add($model, $form, list.length)">
+
+            <div class="buttons-wrap">
+              <button type="submit"
+                      class="bg-green btn-small fl-rg mrg-lft"
+                      ng-disabled="loading"
+                      translate>
+                Save
+              </button>
+              <button type="button"
+                      ng-show="adding && list.length"
+                      class="bg-gray-light btn-small fl-rg"
+                      ng-disabled="loading"
+                      ng-click="setAdding(false)"
+                      translate>
+                Cancel
+              </button>
+            </div>
+          </hc-experience-form>
+        </li>
+      </ul>
 
       <div class="buttons-wrap mrg-top mrg-btm-30">
         <button type="button"
           class="bg-green btn-small fl-rg"
-          ng-disabled="!someImport"
+          ng-disabled="!isSomeImported"
           ng-click="submit()"
           translate>
           Continue
@@ -30,7 +117,7 @@
     <div class="bg-gray-lighter2 mrg-btm row">
       <div class="padd-vert col-sm-12">
         <div class="box-title box-title_left mrg-btm gray-darker" translate>Help</div>
-        <div class="">
+        <div>
           <p translate>
             Enter your previous jobs and where you currently work.
             We will ensure that your current employers will not see your profile.

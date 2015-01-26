@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
-  require('components/directive-experience/directive-experience');
-  require('components/directive-education/directive-education');
+  var fn = require('tools/fn');
   var module = require('app-module');
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Session) {
@@ -24,11 +23,13 @@ define(function(require) {
         $scope.candidate = candidate;
         return $q.all([
           candidate.getData(),
-          candidate.getTargetPosition(),
+          candidate.getTargetPosition().then(fn.setTo('targetPosition', $scope)),
+          candidate.getHighestDegree().then(fn.setTo('highestDegree', $scope)),
+          candidate.getExperience().then(fn.setTo('workExperience', $scope)),
+          candidate.getEducation().then(fn.setTo('education', $scope)),
         ]);
       }).then(function(data) {
         var user = data[0];
-        $scope.targetPosition = data[1];
         $scope.cities = user.preferred_location;
         $scope.languages = user.languages;
         $scope.skills = user.skills;

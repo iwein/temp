@@ -104,8 +104,6 @@ define(function(require) {
             return;
           }
 
-
-
           if ($scope.errorFileImage)
             return;
 

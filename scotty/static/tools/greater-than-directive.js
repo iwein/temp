@@ -10,12 +10,15 @@ define(function(require) {
         var compareTo = $parse(attr.hcGreaterThan);
 
         return function(scope, elem, attr, ctrl) {
-          scope.$watch(attr.ngModel + '+' + attr.hcGreaterThan, function() {
+          scope.$watch(attr.ngModel, operate);
+          scope.$watch(attr.hcGreaterThan, operate);
+
+          function operate() {
             var value = model(scope);
             var target = compareTo(scope);
-            if(typeof value !== 'undefined')
-              ctrl.$setValidity('greaterThan', value >= target);
-          });
+            var isValueNumber = typeof value === 'number';
+            ctrl.$setValidity('greaterThan', !isValueNumber || value >= target);
+          }
         };
       }
     };

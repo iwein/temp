@@ -1,4 +1,4 @@
-<form name="formExperience" class="edit-form form-wrap form-signup no-padd-horz" ng-show="ready" ng-submit="submit()">
+<form name="form" class="edit-form form-wrap form-signup no-padd-horz" ng-submit="submit()">
   <div class="row">
     <div class="col-sm-12">
 
@@ -17,8 +17,8 @@
         <div class="form-error col-sm-9 col-sm-offset-3" ng-show="duplicatedError">
           <span translate>You already have a company with this name starting on the same month.</span>
         </div>
-        <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formExperience.company.$dirty && formExperience.company.$invalid">
-            <span ng-show="formExperience.company.$error.required" translate>
+        <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.company.$dirty && form.company.$invalid">
+            <span ng-show="form.company.$error.required" translate>
               Please insert the company name.
             </span>
         </div>
@@ -82,13 +82,13 @@
                 </div>
               </div>
 
-              <div class="form-error" ng-show="formExperience.startMonth.$dirty && formExperience.startMonth.$invalid">
-                <span ng-show="formExperience.startMonth.$error.required" translate>Please insert the month when you started this position.</span>
+              <div class="form-error" ng-show="form.startMonth.$dirty && form.startMonth.$invalid">
+                <span ng-show="form.startMonth.$error.required" translate>Please insert the month when you started this position.</span>
               </div>
-              <div class="form-error" ng-show="formExperience.startYear.$dirty && formExperience.startYear.$invalid">
-                <span ng-show="formExperience.startYear.$error.required" translate>Please insert the year when you started this position.</span>
-                <span ng-show="formExperience.startYear.$error.min" translate>Start year must be after 1900.</span>
-                <span ng-show="formExperience.startYear.$error.max" translate>Start year must be in the past.</span>
+              <div class="form-error" ng-show="form.startYear.$dirty && form.startYear.$invalid">
+                <span ng-show="form.startYear.$error.required" translate>Please insert the year when you started this position.</span>
+                <span ng-show="form.startYear.$error.min" translate>Start year must be after 1900.</span>
+                <span ng-show="form.startYear.$error.max" translate>Start year must be in the past.</span>
               </div>
 
             </div>
@@ -117,16 +117,18 @@
                          ng-disabled="hcDisabled ||current"
                          ng-required="!current"
                          ng-model="endYear"
-                         ng-change="endDateUpdate()">
+                         ng-change="endDateUpdate()"
+                         hc-greater-than="model.start">
                 </div>
               </div>
-              <div class="form-error" ng-show="formExperience.endMonth.$dirty && formExperience.endMonth.$invalid">
-                <span ng-show="formExperience.endMonth.$error.required" translate>Please insert the month when you left this position.</span>
+              <div class="form-error" ng-show="form.endMonth.$dirty && form.endMonth.$invalid">
+                <span ng-show="form.endMonth.$error.required" translate>Please insert the month when you left this position.</span>
               </div>
-              <div class="form-error" ng-show="formExperience.endYear.$dirty && formExperience.endYear.$invalid">
-                <span ng-show="formExperience.endYear.$error.required" translate>Please insert the year when you left this position.</span>
-                <span ng-show="formExperience.endYear.$error.min" translate>End year must be after 1900.</span>
-                <span ng-show="formExperience.endYear.$error.max" translate>End year must be in the past.</span>
+              <div class="form-error" ng-show="form.endYear.$dirty && form.endYear.$invalid">
+                <span ng-show="form.endYear.$error.required" translate>Please insert the year when you left this position.</span>
+                <span ng-show="formEducation.end.$error.greaterThan" translate>End year should be after start year.</span>
+                <span ng-show="form.endYear.$error.min" translate>End year must be after 1900.</span>
+                <span ng-show="form.endYear.$error.max" translate>End year must be in the past.</span>
               </div>
 
               <div class="row">
