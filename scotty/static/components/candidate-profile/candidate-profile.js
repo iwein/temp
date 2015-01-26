@@ -391,6 +391,8 @@ define(function(require) {
 
 
     function parsePreferredLocations(locations) {
+      if (!locations) return 'Not specified';
+
       return Object.keys(locations).map(function(country) {
         var cities = locations[country];
         var text = cities.length ? cities.join(', ') : 'Anywhere';
