@@ -1,2 +1,5 @@
 User-agent: *
-Allow: /
+Disallow: /terms-employer.html
+Disallow: /en/terms-employer.html
+Disallow: /terms-candidate.html
+Disallow: /en/terms-candidate.html
