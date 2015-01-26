@@ -13,10 +13,8 @@
                  typeahead="institution for institution in searchInstitutions($viewValue)"
                  hc-typeahead-loader>
         </div>
-        <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formEducation.institution.$dirty && formEducation.institution.$invalid">
-          <span ng-show="formEducation.institution.$error.required" translate>
-            Please insert the institution name.
-          </span>
+        <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.institution.$dirty && form.institution.$invalid">
+          <span ng-show="form.institution.$error.required" translate>Please insert the institution name.</span>
         </div>
       </div>
 
@@ -34,6 +32,9 @@
                      hc-typeahead-loader>
             </div>
           </div>
+        </div>
+        <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.institution.$dirty && form.institution.$invalid">
+          <span ng-show="form.institution.$error.required" translate>Please insert the course name.</span>
         </div>
       </div>
     </div>
@@ -82,16 +83,16 @@
               </label>
             </div>
             <div class="col-sm-12">
-              <div class="form-error col-sm-12" ng-show="formEducation.start.$dirty && formEducation.start.$invalid">
-                <span ng-show="formEducation.start.$error.required" translate>Please insert the year you started at this position.</span>
-                <span ng-show="formEducation.start.$error.min" translate>Start year must be after 1900.</span>
-                <span ng-show="formEducation.start.$error.max" translate>Start year must be in the past.</span>
+              <div class="form-error col-sm-12" ng-show="form.start.$dirty && form.start.$invalid">
+                <span ng-show="form.start.$error.required" translate>Please insert the year you started at this position.</span>
+                <span ng-show="form.start.$error.min" translate>Start year must be after 1900.</span>
+                <span ng-show="form.start.$error.max" translate>Start year must be in the past.</span>
               </div>
-              <div class="form-error col-sm-12" ng-show="formEducation.end.$dirty && formEducation.end.$invalid">
-                <span ng-show="formEducation.end.$error.required" translate>Please insert the year you leave this position.</span>
-                <span ng-show="formEducation.end.$error.min" translate>Graduation must be after 1900.</span>
-                <span ng-show="formEducation.end.$error.max" translate>Graduation must be in the past.</span>
-                <span ng-show="formEducation.end.$error.greaterThan" translate>End year should be after start year.</span>
+              <div class="form-error col-sm-12" ng-show="form.end.$dirty && form.end.$invalid">
+                <span ng-show="form.end.$error.required" translate>Please insert the year you leave this position.</span>
+                <span ng-show="form.end.$error.min" translate>Graduation must be after 1900.</span>
+                <span ng-show="form.end.$error.max" translate>Graduation must be in the past.</span>
+                <span ng-show="form.end.$error.greaterThan" translate>End year should be after start year.</span>
               </div>
             </div>
           </div>
@@ -100,7 +101,7 @@
       <div class="row mrg-btm">
         <label class="col-sm-3" translate>Degree</label>
         <div class="col-sm-9">
-          <div class="">
+          <div>
             <select class="form-control"
                     name="degree"
                     ng-disabled="hcDisabled || not_completed_degree"
@@ -120,8 +121,8 @@
               <translate>Did not complete degree.</translate>
             </label>
           </div>
-          <div class="form-error" ng-show="formEducation.degree.$dirty && formEducation.degree.$invalid">
-            <span ng-show="formEducation.degree.$error.required" translate>
+          <div class="form-error" ng-show="form.degree.$dirty && form.degree.$invalid">
+            <span ng-show="form.degree.$error.required" translate>
               Please select a degree or check "Did not complete degree".
             </span>
           </div>
