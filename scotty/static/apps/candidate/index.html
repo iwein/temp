@@ -34,7 +34,7 @@
   <div id="content">
     <div class="message-container">
       <div class="alert alert-warning alert-verification" ng-show="session.user && session.isActivated && !session.isApproved">
-        <div class="title">Your profile has not been reviewed & approved yet.</div>
+        <div class="title" translate>Your profile has not been reviewed & approved yet.</div>
       </div>
       <hc-candidate-email-confirm-msg model="session" ng-if="session.user && !session.isActivated"></hc-candidate-email-confirm-msg>
       <hc-notifications></hc-notifications>
