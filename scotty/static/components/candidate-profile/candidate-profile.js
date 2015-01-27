@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('components/directive-target-position-form/directive-target-position-form');
   require('components/directive-experience-form/directive-experience-form');
   require('components/directive-education-form/directive-education-form');
   require('components/directive-languages-form/directive-languages-form');

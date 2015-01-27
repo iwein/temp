@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
-  require('components/directive-target-position-form/directive-target-position-form');
   var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
