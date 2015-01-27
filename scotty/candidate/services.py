@@ -2,6 +2,7 @@ from datetime import datetime
 import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
+from scotty.services import hash_pwd
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import joinedload_all
 
@@ -43,7 +44,7 @@ def edit_candidate(candidate, params, editables=EDITABLES):
 
 def candidate_from_login(params):
     email = params['email']
-    pwd = hashlib.sha256(params['pwd']).hexdigest()
+    pwd = hash_pwd(params['pwd'])
     candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd) \
         .join(CandidateStatus).filter(CandidateStatus.name.notin_([CandidateStatus.DELETED,
                                                                    CandidateStatus.SUSPENDED])).first()
