@@ -7,8 +7,9 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  // jshint maxparams:8
-  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxparams:9
+  module.controller('OfferCtrl', function($scope, $sce, $state, gettext, toaster,
+                                          Loader, ConfigAPI, Permission, Session) {
     $scope.flags = {};
     $scope.toggleForm = toggleForm;
     $scope.accept = accept;
@@ -34,12 +35,11 @@ define(function(require) {
       Session.getUser()
         .then(function(candidate) {
           $scope.has_been_hired = candidate._data.candidate_has_been_hired;
-          if($scope.has_been_hired){
-            if(offer.status === 'CONTRACT_SIGNED'){
-              toaster.success('You have already accepted this offer!', {untilStateChange: true});
-            } else {
-              toaster.success('You have already accepted another offer!', {untilStateChange: true});
-            }
+          if ($scope.has_been_hired) {
+            toaster.success(offer.status === 'CONTRACT_SIGNED' ?
+              gettext('You have already accepted this offer!') :
+              gettext('You have already accepted another offer!'),
+              { untilStateChange: true });
           }
         });
 
@@ -65,7 +65,9 @@ define(function(require) {
 
 
     function onStatusChange() {
-      toaster.success('Offer ' + $scope.offer.statusText);
+      toaster.success(gettext('Offer {{ status }}', {
+        status: $scope.offer.statusText,
+      }));
     }
 
     function toggleForm(id) {
@@ -95,9 +97,9 @@ define(function(require) {
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() {
           toaster.success(
-              '<h2>Congratulation to your new position!</h2>'+
-              'Your profile will be on sleep!',
-          {untilStateChange: true, 'html': true});
+            gettext('<h2>Congratulation to your new position!</h2>\nYour profile will be on sleep!'),
+            { untilStateChange: true, html: true }
+          );
           Loader.remove('offer-sign');
         });
     }

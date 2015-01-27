@@ -10,10 +10,11 @@ define(function(require) {
   function ActivationRequiredError() { Error.apply(this, arguments) }
   ActivationRequiredError.prototype = Object.create(Error.prototype);
 
-  function Permission(session, window, location, alert) {
+  function Permission(session, window, location, translate, alert) {
     this._session = session;
     this._window = window;
     this._location = location;
+    this._tr = translate;
     this._alert = alert;
   }
 
@@ -21,9 +22,12 @@ define(function(require) {
     constructor: Permission,
 
     requireLogged: function() {
+      // this renaming is necessary to translated string extraction
+      var gettext = this._tr;
+
       return this._session.checkSession().then(function(hasSession) {
         if (hasSession) return true;
-        this._alert.warning('You need to be logged in to see this page');
+        this._alert.warning(gettext('You need to be logged in to see this page'));
         window.location = '../login.html';
         throw new LoginRequiredError('Login required');
       }.bind(this), function(error) {
@@ -33,6 +37,9 @@ define(function(require) {
     },
 
     requireSignup: function() {
+      // this renaming is necessary to translated string extraction
+      var gettext = this._tr;
+
       return this.requireLogged().then(function() {
         return this._session.isSignupComplete().catch(function(error) {
           this._alert.defaultError();
@@ -40,16 +47,19 @@ define(function(require) {
         });
       }.bind(this)).then(function(isComplete) {
         if (isComplete) return true;
-        this._alert.warning('You need complete signup process to see this page.');
+        this._alert.warning(gettext('You need complete signup process to see this page.'));
         this._location.go('signup');
         throw new SignupRequiredError('Signup required');
       }.bind(this));
     },
 
     requireApproved: function() {
+      // this renaming is necessary to translated string extraction
+      var gettext = this._tr;
+
       return this.requireLogged().then(function() {
         if (this._session.isApproved) return true;
-        this._alert.warning('You need be approved to see this page.');
+        this._alert.warning(gettext('You need be approved to see this page.'));
         this._location.go('signup');
         throw new ActivationRequiredError('Login required');
       }.bind(this));
@@ -61,8 +71,8 @@ define(function(require) {
   Permission.ActivationRequiredError = ActivationRequiredError;
 
   var module = require('app-module');
-  module.factory('Permission', function($window, $state, toaster, Session) {
-    return new Permission(Session, $window, $state, toaster);
+  module.factory('Permission', function($window, $state, gettext, toaster, Session) {
+    return new Permission(Session, $window, $state, gettext, toaster);
   });
 
   return Permission;

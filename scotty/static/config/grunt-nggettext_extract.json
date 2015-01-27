@@ -1,7 +1,14 @@
 {
   "pot": {
     "files": {
-      "po/template.pot": [ "<%= files.components.html %>" ]
+      "po/template.pot": [
+        "<%= files.apps.js %>",
+        "<%= files.apps.html %>",
+        "<%= files.tools.js %>",
+        "<%= files.tools.html %>",
+        "<%= files.components.js %>",
+        "<%= files.components.html %>"
+      ]
     }
   }
 }

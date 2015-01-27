@@ -11,8 +11,8 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  // jshint maxstatements:40, maxparams:9
-  module.controller('ProfileCtrl', function($scope, $q, $state, toaster,
+  // jshint maxstatements:40, maxparams:10
+  module.controller('ProfileCtrl', function($scope, $q, $state, gettext, toaster,
                                             Amazon, Loader, ConfigAPI, Permission, Session) {
 
     this.edit = function() { $scope.isEditing = true };
@@ -57,7 +57,7 @@ define(function(require) {
         return Session.getUser().then(function(user) {
           return Amazon.upload(files[0], 'cv', Session.id())
             .then(user.setCVUrl.bind(user))
-            .then(toaster.success.bind(toaster, 'CV Uploaded'));
+            .then(toaster.success.bind(toaster, gettext('CV Uploaded')));
         }.bind(this));
       },
     });
@@ -298,16 +298,16 @@ define(function(require) {
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
 
 
-        if(user.candidate_has_been_hired)
-          $scope.status = 'hired';
-        else if(user.status === 'sleeping')
-          $scope.status = 'sleeping';
+        if (user.candidate_has_been_hired)
+          $scope.status = gettext('hired');
+        else if (user.status === 'sleeping')
+          $scope.status = gettext('sleeping');
         else
           $scope.status = $scope.offers.reduce(function(summary, value) {
             if (finalStatus.indexOf(value.status) !== -1) return;
-            if (value.status === 'CONTRACT_SIGNED') return 'hired';
-            return summary || 'reviewing';
-          }, null) || 'searching';
+            if (value.status === 'CONTRACT_SIGNED') return gettext('hired');
+            return summary || gettext('reviewing');
+          }, null) || gettext('searching');
       });
     }
 
@@ -390,11 +390,11 @@ define(function(require) {
 
 
     function parsePreferredLocations(locations) {
-      if (!locations) return 'Not specified';
+      if (!locations) return gettext('Not specified');
 
       return Object.keys(locations).map(function(country) {
         var cities = locations[country];
-        var text = cities.length ? cities.join(', ') : 'Anywhere';
+        var text = cities.length ? cities.join(', ') : gettext('Anywhere');
         return text + ' ' + country;
       }).join(' - ');
     }

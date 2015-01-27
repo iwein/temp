@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupTargetCtrl', function($scope, $q, toaster, Loader, ConfigAPI) {
+  module.controller('CandidateSignupTargetCtrl', function($scope, $q, gettext, toaster, Loader, ConfigAPI) {
     _.extend($scope, {
       locationToText: ConfigAPI.locationToText,
       searchCities: ConfigAPI.locations,
@@ -36,9 +36,9 @@ define(function(require) {
           setModel(stored ? JSON.parse(stored) : {});
       }).finally(function() {
         toaster.show('alert banner-message',
-            '<h2>Sign up as IT professional and get hired!</h2>'+
-            'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!',
-          {html: true, untilStateChange: true});
+          gettext('<h2>Sign up as IT professional and get hired!</h2>' +
+            'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!'),
+          { html: true, untilStateChange: true });
 
         Loader.page(false);
         $scope.ready = true;

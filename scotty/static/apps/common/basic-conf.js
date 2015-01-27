@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('moment-de');
   require('tools/loader-service');
   require('tools/notifier-service');
   require('tools/moment-directive');
@@ -31,16 +32,20 @@ define(function(require) {
     });
 
     module.run(function($templateCache, gettextCatalog) {
+      var lang = 'de';
       $templateCache.put('footer.html', require('text!../common/footer.html'));
-      gettextCatalog.setCurrentLanguage('de');
+      gettextCatalog.setCurrentLanguage(lang);
       gettextCatalog.debug = true;
+      moment.locale(lang)
     });
 
-    module.factory('toaster', function(Notifier) {
+    module.factory('toaster', function(Notifier, gettext) {
       Notifier.defaultError = function(error) {
         if (error) console.error(error);
-        Notifier.error('Sorry, unknown error occurred, if this error persists please contact <a target="_blank" href="mailto:'+conf.support_email+'">'+conf.support_email+'</a>',
-        {html: true});
+        var message = gettext('Sorry, unknown error occurred, if this error persists please contact') +
+          ' <a target="_blank" href="mailto:' + conf.support_email + '">' + conf.support_email + '</a>';
+
+        Notifier.error(message, { html: true });
       };
 
       return Notifier;

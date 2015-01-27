@@ -1,5 +1,6 @@
 define(function() {
   'use strict';
+  // TODO: Investigate how to translate these strings
   return [
     'January',
     'February',

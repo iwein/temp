@@ -4,8 +4,9 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Permission, Session,
-                                                     ThisCandidate) {
+  //jshint maxparams:9
+  module.controller('CandidateProfileCtrl', function($scope, $q, $state, gettext, toaster,
+                                                    Loader, Permission, Session, ThisCandidate) {
     $scope.toggle = toggle;
     $scope.id = $state.params.id;
     $scope.ready = false;
@@ -39,13 +40,13 @@ define(function(require) {
         var offers = data[0];
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        $scope.status = (ThisCandidate._data.status === 'sleeping')?'sleeping':
+        $scope.status = (ThisCandidate._data.status === 'sleeping') ? gettext('sleeping') :
           (
             offers.reduce(function(summary, value) {
               if (finalStatus.indexOf(value.status) !== -1) return;
-              if (value.status === 'CONTRACT_SIGNED') return 'hired';
-              return summary || 'reviewing';
-            }, null) || 'searching'
+              if (value.status === 'CONTRACT_SIGNED') return gettext('hired');
+              return summary || gettext('reviewing');
+            }, null) || gettext('searching')
           );
         // TIMELINE
 

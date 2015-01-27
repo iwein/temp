@@ -6,8 +6,9 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:7
-  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Loader, Permission, Session) {
+  // jshint maxparams:8
+  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, gettext,
+                                                    toaster, Loader, Permission, Session) {
     Loader.page(true);
     $scope.ready = false;
 
@@ -65,15 +66,15 @@ define(function(require) {
             return Session.getEmployer($scope.id);
           }).then(function(employer) {
             $scope.bookmarked_by_candidate = employer.isBookmarked;
-            toaster.success(employer.isBookmarked ? 'Interview requested' : 'Interview request removed');
+            toaster.success(employer.isBookmarked ?
+              gettext('Interview requested') :
+              gettext('Interview request removed'));
           }).catch(function() {
             toaster.defaultError();
           }).finally(function() {
             Loader.remove('candidate-employer-profile-toggle');
           });
-
         });
-
       }
 
       function toggle(key) {

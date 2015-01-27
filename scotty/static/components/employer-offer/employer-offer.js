@@ -8,8 +8,9 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  // jshint maxparams:8
-  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxparams:9
+  module.controller('OfferCtrl', function($scope, $sce, $state, gettext, toaster,
+                                          Loader, ConfigAPI, Permission, Session) {
     $scope.toggleForm = toggleForm;
     $scope.withdraw = withdraw;
     $scope.sign = sign;
@@ -61,7 +62,9 @@ define(function(require) {
     });
 
     function onStatusChange() {
-      toaster.success('Offer ' + $scope.offer.statusText);
+      toaster.success(gettext('Offer {{ status }}', {
+        status: $scope.offer.statusText,
+      }));
     }
 
     function toggleForm(id) {

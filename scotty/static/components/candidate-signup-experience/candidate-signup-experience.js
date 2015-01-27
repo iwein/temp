@@ -7,7 +7,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, toaster, Loader, Session) {
+  module.controller('CandidateSignupExperienceCtrl', function($scope, $q, gettext, toaster, Loader, Session) {
     _.extend($scope, {
       onImportChage: updateImports,
       setEditing: setEditing,
@@ -77,7 +77,7 @@ define(function(require) {
         });
 
       if (!data.length) {
-        toaster.error('Please select at least one row to add.');
+        toaster.error(gettext('Please select at least one row to add.'));
         return;
       }
 

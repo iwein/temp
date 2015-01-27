@@ -4,7 +4,8 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, gettext, toaster,
+                                                        Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.loading = false;
@@ -69,7 +70,7 @@ define(function(require) {
         }
 
         if (request.status === 400 && request.data.db_message === 'Unknown InviteCode') {
-          toaster.error('Unknown invite code');
+          toaster.error(gettext('Unknown invite code'));
           return;
         }
 

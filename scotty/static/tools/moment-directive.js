@@ -54,7 +54,7 @@ define(function(require) {
     };
   });
 
-  module.filter('toMonthsYears', function() {
+  module.filter('toMonthsYears', function(gettext) {
     return function(value) {
       var total = value / 1000 / 60 / 60 / 24 / 365;
       var years = Math.floor(total);
@@ -62,10 +62,10 @@ define(function(require) {
       var result = '';
 
       if (years)
-        result += years + (years === 1 ? ' year ' : ' years ');
+        result += years + (years === 1 ? gettext(' year ') : gettext(' years '));
 
       if (months)
-        result += months + (months === 1 ? ' month' : ' months');
+        result += months + (months === 1 ? gettext(' month') : gettext(' months'));
 
       return result;
     };
@@ -79,7 +79,7 @@ define(function(require) {
     };
   });
 
-  module.filter('yearMonth', function() {
+  module.filter('yearMonth', function(gettext) {
     return function(value, size) {
       if (size && size < 5) return '';
       var months = Math.ceil(value / 1000 / 60 / 60 / 24 / 30);
@@ -87,9 +87,9 @@ define(function(require) {
       var result = '';
       months %= 12;
 
-      if (years) result += years + (size && size < 15 ? 'y ' : ' years ');
-      if (months) result += months + (size && size < 15 ? 'm' : ' months');
-      return result || 'less than one month';
+      if (years) result += years + (size && size < 15 ? 'y ' : gettext(' years '));
+      if (months) result += months + (size && size < 15 ? 'm' : gettext(' months'));
+      return result || gettext('less than one month');
     };
   });
 

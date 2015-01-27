@@ -8,6 +8,7 @@ requirejs.config({
     // vendors
     'text': 'bower_components/text/text',
     'moment': 'bower_components/moment/moment',
+    'moment-de': 'bower_components/moment/locale/de',
     'underscore': 'bower_components/underscore/underscore',
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',

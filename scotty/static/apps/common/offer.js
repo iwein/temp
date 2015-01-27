@@ -1,5 +1,7 @@
 define(function() {
   'use strict';
+
+  // TODO: Investigate how to translate these strings
   var stateText = {
     'ACTIVE': 'Active',
     'REJECTED': 'Rejected',

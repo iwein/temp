@@ -5,8 +5,8 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:7
-  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Session) {
+  // jshint maxparams:8
+  module.controller('SignupStartCtrl', function($scope, $q, $state, gettext, toaster, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.onCompanyChange = onCompanyChange;
     this.submit = submit;
@@ -20,28 +20,28 @@ define(function(require) {
     Session.firstLogin = true;
 
     toaster.show('alert banner-message',
-        '<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>'+
-        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!',
-      {html: true, untilStateChange: true});
+      gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
+        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!'),
+      { html: true, untilStateChange: true });
 
 
 
     $scope.companyTypeMeta = {
       startup:{
-        label: 'Startup Company',
-        help: 'started within the last 5 years'
+        label: gettext('Startup Company'),
+        help: gettext('started within the last 5 years')
       },
       midsized:{
-        label: 'Mid Sized Company',
-        help: 'established and less than 1.000 employees'
+        label: gettext('Mid Sized Company'),
+        help: gettext('established and less than 1.000 employees')
       },
       large:{
-        label: 'Large Corporation',
-        help: 'grown player with multi-national operations'
+        label: gettext('Large Corporation'),
+        help: gettext('grown player with multi-national operations')
       },
       top500:{
-        label: 'Fortune 500 Company',
-        help: 'among the leading 500 companies'
+        label: gettext('Fortune 500 Company'),
+        help: gettext('among the leading 500 companies')
       }
     };
 
@@ -63,7 +63,7 @@ define(function(require) {
         email: data.email,
       };
     }, function() {
-      toaster.error('Invalid invitation token.');
+      toaster.error(gettext('Invalid invitation token.'));
     }).finally(function() {
       $scope.loading = false;
       Loader.page(false);

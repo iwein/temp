@@ -2,6 +2,7 @@
 
   "tools": {
     "js": "tools/**/*.js",
+    "html": "tools/**/*.html",
     "test": "tools/**/*.unit.js"
   },
 
@@ -103,6 +104,7 @@
   },
 
   "apps": {
+    "html": "apps/**/*.html",
     "folder": "apps/",
     "out": {
       "folder": "dist/"
