@@ -218,7 +218,7 @@ class AdminController(RootController):
                 query = query.order_by(Candidate.first_name, Candidate.last_name)
             return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                                  joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                                 joinedload('preferred_locations'))
+                                 joinedload_all('target_position.preferred_locations'))
 
         if tags:
             pager = get_candidates_by_techtags_pager(tags, None)

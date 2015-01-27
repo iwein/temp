@@ -6,17 +6,18 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
-from sqlalchemy import or_, and_, func, text
+from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
+    candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, create_target_position, candidate_fulltext_search, \
+    add_candidate_education, set_candidate_education, add_candidate_work_experience, set_candidate_work_experiences, \
+    get_candidate_newsfeed, TP_EDITABLES
+from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill, V_CANDIDATE_FT_INDEX, V_CANDIDATE_CURRENT_EMPLOYERS
-from scotty.candidate.services import candidate_from_signup, candidate_from_login, add_candidate_education, \
-    add_candidate_work_experience, set_target_position, set_languages_on_candidate, set_skills_on_candidate, \
-    set_preferredlocations_on_candidate, edit_candidate, get_candidate_newsfeed, \
-    set_candidate_work_experiences, set_candidate_education, candidate_fulltext_search
+    CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure
+from scotty.models.tools import update
 from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
 from scotty.employer.services import get_employers_pager
@@ -109,17 +110,42 @@ class CandidateController(RootController):
         return candidate_id == session_candidate_id or self.candidate and candidate_id == 'me'
 
     @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
-    def signup(self):
-        candidate = candidate_from_signup(self.request.json)
-        DBSession.add(candidate)
-        try:
+    def create_targetposition(self):
+        params = self.request.json
+        if all(k in params for k in ("target_position", "preferred_locations")):
+            tp = create_target_position(params['target_position'])
+            pl = set_preferred_locations(tp.candidate_id, params['preferred_locations'])
+            # temp candidate, just for serialisation
+            return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
+        else:
+            raise HTTPBadRequest('either targetposition or preferred locations is missing')
+
+    @view_config(route_name='candidate', permission=NO_PERMISSION_REQUIRED, **POST)
+    def signup_email(self):
+        params = self.request.json
+        candidate_id = self.request.matchdict["candidate_id"]
+        if all(k in params for k in ("email", "pwd", "first_name", "last_name")):
+            tp = DBSession.query(TargetPosition).get(candidate_id)
+            candidate = DBSession.query(Candidate).get(candidate_id)
+            if not tp:
+                raise HTTPBadRequest('Unknown ID, no target position saved for ID')
+            if candidate:
+                raise HTTPBadRequest('Candidate already signed up')
+            candidate = candidate_from_signup(candidate_id, self.request.json)
+            try:
+                DBSession.flush()
+            except IntegrityError, e:
+                raise HTTPConflict("User already signed up!")
+
+            DBSession.add(candidate)
             DBSession.flush()
-        except IntegrityError, e:
-            raise HTTPConflict("User already signed up!")
-        self.request.session['candidate_id'] = candidate.id
-        self.request.emailer.send_candidate_welcome(candidate)
-        candidate.activation_sent = datetime.now()
-        return candidate
+
+            self.request.session['candidate_id'] = candidate.id
+            self.request.emailer.send_candidate_welcome(candidate)
+            candidate.activation_sent = datetime.now()
+            return candidate
+        else:
+            raise HTTPBadRequest('either targetposition & preferred locations or candidate is missing')
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):
@@ -151,8 +177,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate', **PUT)
     def edit(self):
-        candidate = edit_candidate(self.candidate, self.request.json)
-        return candidate
+        return update(self.candidate, self.request.json, CANDIDATE_EDITABLES)
 
     @view_config(route_name='candidate', permission=ADMIN_PERM, **DELETE)
     def delete(self):
@@ -164,11 +189,12 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
-        workflow = {'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'profile'],
-                    'profile': candidate.dob is not None,
-                    'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
-                    'target_position': candidate.target_position is not None,
-                    'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
+        workflow = {
+            'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'profile'],
+            'profile': candidate.dob is not None,
+            'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
+            'target_position': candidate.target_position is not None,
+            'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
 
     @view_config(route_name='candidate_profile_completion', **GET)
@@ -177,7 +203,6 @@ class CandidateController(RootController):
         workflow = {'active': candidate.activated is not None, 'ordering': ['summary', 'availability'],
                     'summary': bool(candidate.summary), 'availability': bool(candidate.availability)}
         return workflow
-
 
     @view_config(route_name='candidate_picture', **POST)
     def save_picture(self):
@@ -195,7 +220,8 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        return set_preferredlocations_on_candidate(self.candidate, self.request.json)
+        set_preferred_locations(self.candidate.id, self.request.json)
+        return self.candidate
 
     @view_config(route_name='candidate_preferred_locations', **GET)
     def list_preferred_cities(self):
@@ -228,11 +254,11 @@ class CandidateViewController(CandidateController):
         if self.request.employer_id:
             query = query.outerjoin(V_CANDIDATE_CURRENT_EMPLOYERS,
                                     and_(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == Candidate.id,
-                                    V_CANDIDATE_CURRENT_EMPLOYERS.c.employer_id == self.request.employer_id)) \
+                                         V_CANDIDATE_CURRENT_EMPLOYERS.c.employer_id == self.request.employer_id)) \
                 .filter(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == None)
 
         if locations:
-            query = query.join(PreferredLocation)
+            query = query.join(PreferredLocation, Candidate.id == PreferredLocation.target_position_candidate_id)
 
             country_filter = set([c['country_iso'] for c in locations])
             city_filter = [and_(City.name == loc['city'], City.country_iso == loc['country_iso']) for loc in locations]
@@ -360,8 +386,8 @@ class CandidateTargetPositionController(CandidateController):
         return self.candidate.target_position
 
     @view_config(route_name='target_position', **POST)
-    def set(self):
-        return set_target_position(self.candidate, self.request.json)
+    def edit(self):
+        return update(self.candidate.target_position, self.request.json, TP_EDITABLES)
 
 
 class CandidateBookmarkController(CandidateController):

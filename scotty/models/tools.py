@@ -37,7 +37,16 @@ def get_request_role(request, owner_id):
     return display
 
 
-ID = lambda x, req: x
+ID = lambda x: x
+
+
+def update(obj, params, lookup):
+    for field, transform in lookup.items():
+        if field in params:
+            setattr(obj, field, transform(params[field]))
+    return obj
+
+
 
 
 def json_encoder(val, request, levels=None, obfuscator=None):
@@ -77,4 +86,5 @@ def csv_inserter(basepath):
                            [{field: value.strip() for field, value in zip(fields, name.split('\t'))} for name in names])
 
     return bulk_insert_names
+
 

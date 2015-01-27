@@ -1,4 +1,4 @@
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from sqlalchemy import func
 
 PUT = dict(request_method="PUT", content_type='application/json', renderer="json")

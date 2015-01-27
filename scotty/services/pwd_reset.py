@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
+
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPServerError
-from scotty import DBSession
+from scotty.models.meta import DBSession
 
 
 def requestpassword(cls, email, resend, emailer):

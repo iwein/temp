@@ -6,7 +6,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
 from pyramid.response import Response
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.models import Referral
 from scotty.views.common import POST
 from sqlalchemy.exc import DBAPIError
@@ -114,6 +114,8 @@ def includeme(config):
     config.include("scotty.connect.xing", route_prefix='/api/v1/connect')
     config.include("scotty.cms.views", route_prefix='/api/v1/cms')
 
-    config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
-    config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
-    config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)
+    settings = config.get_settings()
+    if settings.get('pyramid.reload_templates') != 'true':
+        config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
+        config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
+        config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)
