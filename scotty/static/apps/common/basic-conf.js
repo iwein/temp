@@ -31,7 +31,7 @@ define(function(require) {
 
     module.run(function($templateCache, gettextCatalog) {
       $templateCache.put('footer.html', require('text!../common/footer.html'));
-      gettextCatalog.setCurrentLanguage('en');
+      gettextCatalog.setCurrentLanguage('de');
       gettextCatalog.debug = true;
     });
 
