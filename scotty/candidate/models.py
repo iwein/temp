@@ -4,6 +4,7 @@ from uuid import uuid4
 from datetime import datetime, timedelta
 
 from scotty.auth.provider import ADMIN_USER, EMPLOYER
+from scotty.services import hash_pwd
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
     UniqueConstraint, DateTime, func
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -289,7 +290,7 @@ class Candidate(Base, JsonSerialisable):
 
     @password.setter
     def password(self, value):
-        self.pwd = hashlib.sha256(value).hexdigest()
+        self.pwd = hash_pwd(value)
 
     @property
     def is_active(self):

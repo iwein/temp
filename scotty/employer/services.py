@@ -1,5 +1,6 @@
 from datetime import datetime
 import hashlib
+from scotty.services import hash_pwd
 from sqlalchemy import text
 
 from pyramid.httpexceptions import HTTPBadRequest
@@ -24,7 +25,7 @@ EMPLOYER_SIGNUP = {'company_name': ID, 'contact_salutation': lambda name: get_by
 
 
 def employer_from_signup(params, lookup=EMPLOYER_SIGNUP):
-    pwd = hashlib.sha256(params.pop('pwd')).hexdigest()
+    pwd = hash_pwd(params.pop('pwd'))
     employer = Employer(pwd=pwd)
     for field, transform in lookup.items():
         setattr(employer, field, transform(params[field]))
@@ -33,7 +34,7 @@ def employer_from_signup(params, lookup=EMPLOYER_SIGNUP):
 
 def employer_from_login(params):
     email = params['email']
-    pwd = hashlib.sha256(params['pwd']).hexdigest()
+    pwd = hash_pwd(params['pwd'])
     employer = DBSession.query(Employer).filter(Employer.email == email, Employer.pwd == pwd).first()
     return employer
 
