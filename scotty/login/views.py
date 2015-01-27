@@ -7,6 +7,7 @@ from scotty import DBSession
 from scotty.candidate.models import Candidate
 from scotty.employer.models import Employer
 from scotty.login.models import UnifiedLogin
+from scotty.services import hash_pwd
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET
@@ -44,7 +45,7 @@ def get_login(email=None, pwd=None, token=None, raise_404=True):
 def login(context, request):
     params = request.json
     email = params['email']
-    pwd = hashlib.sha256(params['pwd']).hexdigest()
+    pwd = hash_pwd(params['pwd'])
     login_obj, cls = get_login(email=email, pwd=pwd)
     user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
     if user and user.can_login:
@@ -59,7 +60,7 @@ def login_post(context, request):
     redirect = request.GET.get('redirect')
     params = request.POST
     email = params['email']
-    pwd = hashlib.sha256(params['pwd']).hexdigest()
+    pwd = hash_pwd(params['pwd'])
     login_obj, cls = get_login(email=email, pwd=pwd, raise_404=not redirect)
 
     if login_obj is None:

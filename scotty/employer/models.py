@@ -5,6 +5,7 @@ from uuid import uuid4
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.auth.provider import CANDIDATE
 from scotty.candidate.models import CandidateEmployerBlacklist, CandidateBookmarkEmployer
+from scotty.services import hash_pwd
 from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
 from scotty.offer.models import EmployerOffer, Offer
@@ -135,7 +136,8 @@ class Employer(Base, JsonSerialisable):
 
     @password.setter
     def password(self, value):
-        self.pwd = hashlib.sha256(value).hexdigest()
+        self.pwd = hash_pwd(value)
+
 
     @property
     def contact_name(self):
