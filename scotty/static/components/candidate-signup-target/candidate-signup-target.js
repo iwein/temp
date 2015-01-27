@@ -117,7 +117,7 @@ define(function(require) {
       if ($scope.flags.locationOther)
         $scope.preferred_locations.forEach(add);
 
-      $scope.errorLocationRequired = !someLocation;
+      $scope.errorLocationRequired = !someLocation && !anywhereInGermany;
 
       function add(entry) {
         someLocation = true;

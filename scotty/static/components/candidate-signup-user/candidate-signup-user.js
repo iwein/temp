@@ -4,6 +4,15 @@ define(function(require) {
   var _ = require('underscore');
   var module = require('app-module');
 
+  module.directive('hcTosLink', function() {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<a class="link" style="text-decoration: underline;" ' +
+        'href="../en/terms-candidate.html" target="_blank" ng-transclude></a>',
+    };
+  });
+
   module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, gettext, toaster,
                                                         Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;

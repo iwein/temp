@@ -36,10 +36,6 @@ msgstr[1] "{{$count}} Unternehmen gefunden"
 msgid "4Scotty"
 msgstr ""
 
-#: components/candidate-signup-user/candidate-signup-user.html:111
-msgid "4Scotty terms of services."
-msgstr "4Scotty Nutzungsbedingungen"
-
 #: components/employer-signup-terms/employer-signup-terms.html:24
 msgid ""
 "4Scotty will only charge you a success fee if you successfully hire\n"
@@ -423,7 +419,7 @@ msgstr ""
 #: components/candidate-signup-profile/candidate-signup-profile.html:34
 #: components/candidate-signup-skills/candidate-signup-skills.html:46
 #: components/candidate-signup-target/candidate-signup-target.html:217
-#: components/candidate-signup-user/candidate-signup-user.html:167
+#: components/candidate-signup-user/candidate-signup-user.html:163
 msgid ""
 "Companies only receive your contact details once you have explicitly "
 "accepted their offers. Your profile cannot be seen by your current employer."
@@ -540,7 +536,7 @@ msgstr "Kontakt"
 #: components/candidate-signup-profile/candidate-signup-profile.html:10
 #: components/candidate-signup-skills/candidate-signup-skills.html:10
 #: components/candidate-signup-target/candidate-signup-target.html:186
-#: components/candidate-signup-user/candidate-signup-user.html:121
+#: components/candidate-signup-user/candidate-signup-user.html:117
 #: components/employer-signup-basic/employer-signup-basic.html:77
 #: components/employer-signup-benefits/employer-signup-benefits.html:44
 #: components/employer-signup-facts/employer-signup-facts.html:64
@@ -621,7 +617,7 @@ msgstr ""
 " welche eine geringfügig geringere Bezahlung haben aber dafür andere riesige "
 "Vorteile."
 
-#: components/candidate-signup-user/candidate-signup-user.html:148
+#: components/candidate-signup-user/candidate-signup-user.html:144
 msgid "Don't have an invite code?"
 msgstr "Hast du keinen Einladungs-Code?"
 
@@ -799,7 +795,7 @@ msgstr "Freie Anmeldung"
 #: components/candidate-signup-profile/candidate-signup-profile.html:31
 #: components/candidate-signup-skills/candidate-signup-skills.html:43
 #: components/candidate-signup-target/candidate-signup-target.html:214
-#: components/candidate-signup-user/candidate-signup-user.html:164
+#: components/candidate-signup-user/candidate-signup-user.html:160
 msgid "Full disclosure"
 msgstr "Volle Transparenz"
 
@@ -851,7 +847,7 @@ msgstr "EINGESTELLT"
 #: components/candidate-signup-profile/candidate-signup-profile.html:19
 #: components/candidate-signup-skills/candidate-signup-skills.html:19
 #: components/candidate-signup-target/candidate-signup-target.html:200
-#: components/candidate-signup-user/candidate-signup-user.html:134
+#: components/candidate-signup-user/candidate-signup-user.html:130
 #: components/employer-signup-basic/employer-signup-basic.html:90
 #: components/employer-signup-benefits/employer-signup-benefits.html:55
 #: components/employer-signup-facts/employer-signup-facts.html:74
@@ -896,10 +892,12 @@ msgid "I am still studying there"
 msgstr "Ich studiere hier noch"
 
 #: components/candidate-signup-user/candidate-signup-user.html:110
-msgid "I have read and agree to the"
-msgstr "Ich habe die gelesen und stimme ihnen zu"
+msgid ""
+"I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-"
+"link>"
+msgstr ""
 
-#: components/candidate-signup-user/candidate-signup-user.html:150
+#: components/candidate-signup-user/candidate-signup-user.html:146
 msgid ""
 "If you received an invite code, plese enter it here.<br>Leave the field "
 "blank if you didn't have one and we will contact you afterwards to validate "
@@ -1089,7 +1087,7 @@ msgstr "Bis jetzt keine Zusatzleistungen vereinbart."
 #: components/candidate-signup-profile/candidate-signup-profile.html:29
 #: components/candidate-signup-skills/candidate-signup-skills.html:41
 #: components/candidate-signup-target/candidate-signup-target.html:212
-#: components/candidate-signup-user/candidate-signup-user.html:162
+#: components/candidate-signup-user/candidate-signup-user.html:158
 msgid "No Spam"
 msgstr "Kein Spam"
 
@@ -1200,7 +1198,7 @@ msgstr "Andere"
 #: components/candidate-signup-profile/candidate-signup-profile.html:27
 #: components/candidate-signup-skills/candidate-signup-skills.html:39
 #: components/candidate-signup-target/candidate-signup-target.html:210
-#: components/candidate-signup-user/candidate-signup-user.html:160
+#: components/candidate-signup-user/candidate-signup-user.html:156
 #: components/employer-signup-start/employer-signup-start.html:175
 msgid "Our Promises"
 msgstr "Unser Versprechen"
@@ -1571,7 +1569,7 @@ msgstr "Bitte wählen Sie das Jahr aus in dem Ihr Unternehmen gegründet wurde."
 msgid "Please select your role."
 msgstr "Bitte geben Sie Ihre Rolle an."
 
-#: components/candidate-signup-user/candidate-signup-user.html:136
+#: components/candidate-signup-user/candidate-signup-user.html:132
 msgid ""
 "Please set up your free profile.<br>\n"
 "            We guarantee your data privacy.<br>\n"
@@ -1602,7 +1600,7 @@ msgstr "Position Titel"
 #: components/candidate-signup-profile/candidate-signup-profile.html:33
 #: components/candidate-signup-skills/candidate-signup-skills.html:45
 #: components/candidate-signup-target/candidate-signup-target.html:216
-#: components/candidate-signup-user/candidate-signup-user.html:166
+#: components/candidate-signup-user/candidate-signup-user.html:162
 msgid "Privacy standards"
 msgstr "Privatssphären Standards"
 
@@ -1622,7 +1620,7 @@ msgstr "Profilbild"
 #: components/candidate-signup-profile/candidate-signup-profile.html:35
 #: components/candidate-signup-skills/candidate-signup-skills.html:47
 #: components/candidate-signup-target/candidate-signup-target.html:218
-#: components/candidate-signup-user/candidate-signup-user.html:168
+#: components/candidate-signup-user/candidate-signup-user.html:164
 msgid "Quality support"
 msgstr "Sehr gute Unterstützung"
 
@@ -2022,7 +2020,7 @@ msgstr "Weiterbildungsmöglichkeiten"
 msgid "University or Institution"
 msgstr "Universität oder Institution"
 
-#: components/candidate-signup-user/candidate-signup-user.js:73
+#: components/candidate-signup-user/candidate-signup-user.js:82
 #, fuzzy
 msgid "Unknown invite code"
 msgstr "Einladungscode"
@@ -2142,7 +2140,7 @@ msgstr ""
 #: components/candidate-signup-profile/candidate-signup-profile.html:36
 #: components/candidate-signup-skills/candidate-signup-skills.html:48
 #: components/candidate-signup-target/candidate-signup-target.html:219
-#: components/candidate-signup-user/candidate-signup-user.html:169
+#: components/candidate-signup-user/candidate-signup-user.html:165
 msgid ""
 "We will accompany you throughout the entire process. And if you find a new "
 "job, we’ll even share our commission with you."
@@ -2440,7 +2438,7 @@ msgstr ""
 #: components/candidate-signup-profile/candidate-signup-profile.html:32
 #: components/candidate-signup-skills/candidate-signup-skills.html:44
 #: components/candidate-signup-target/candidate-signup-target.html:215
-#: components/candidate-signup-user/candidate-signup-user.html:165
+#: components/candidate-signup-user/candidate-signup-user.html:161
 msgid ""
 "You’ll always find all essential job details about every job offer posted on "
 "4Scotty – including the salary."
@@ -2454,7 +2452,7 @@ msgstr ""
 #: components/candidate-signup-profile/candidate-signup-profile.html:30
 #: components/candidate-signup-skills/candidate-signup-skills.html:42
 #: components/candidate-signup-target/candidate-signup-target.html:213
-#: components/candidate-signup-user/candidate-signup-user.html:163
+#: components/candidate-signup-user/candidate-signup-user.html:159
 msgid "You’ll only receive job offers that match your profile."
 msgstr "Du wirst nur Jobangebote kriegen, die auf dein Profil passen."
 
@@ -2695,3 +2693,9 @@ msgstr "du hast dieses Angebot zurückgezogen"
 #: apps/common/footer.html:57
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr ""
+
+#~ msgid "4Scotty terms of services."
+#~ msgstr "4Scotty Nutzungsbedingungen"
+
+#~ msgid "I have read and agree to the"
+#~ msgstr "Ich habe die gelesen und stimme ihnen zu"
