@@ -22,7 +22,7 @@ stepDefinitions(function(scenario) {
       contact_last_name: '7a288f18-0227-c9ad-6626-76a1b67caa0f',
       contact_salutation: 'Ms',
       email: this.vars.employer_email,
-      pwd: 'welcomepwd',
+      pwd: 'Überfall',
     })).then(function(response) {
       this.vars.employer_id = response.id;
       console.log('Created employer:', this.vars.employer_id);
@@ -66,7 +66,7 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^Employer logs in$/, function() {
-    return this.storeRequest(AJAX.post('/login', 'pwd=welcomepwd&email=' +
+    return this.storeRequest(AJAX.post('/login', 'pwd=Überfall&email=' +
       encodeURIComponent(this.vars.employer_email)));
   });
 
@@ -80,7 +80,7 @@ stepDefinitions(function(scenario) {
     return this.storeRequest(AJAX.post('/employers/', {
       'invite_code': this.inviteCode,
       'email': this.vars.employer_email,
-      'pwd': 'welcomepwd',
+      'pwd': 'Überfall',
       'first_name': 'Bob',
       'last_name': 'Bayley',
     }));

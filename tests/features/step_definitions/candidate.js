@@ -17,7 +17,7 @@ stepDefinitions(function(scenario) {
 
     return this.storeRequest(AJAX.post('/candidates/', {
       'email': this.vars.candidate_email,
-      'pwd': 'welcomepwd',
+      'pwd': 'Überfall',
       'first_name': this.vars.candidate_name,
       'last_name': 'Bayley',
     })).then(function(response) {
@@ -72,7 +72,7 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^Candidate logs in$/, function() {
-    return this.storeRequest(AJAX.post('/login', 'pwd=welcomepwd&email=' +
+    return this.storeRequest(AJAX.post('/login', 'pwd=Überfall&email=' +
       encodeURIComponent(this.vars.candidate_email)));
   });
 
@@ -86,7 +86,7 @@ stepDefinitions(function(scenario) {
     return this.storeRequest(AJAX.post('/candidates/', {
       'invite_code': this.vars.invite_code,
       'email': this.vars.candidate_email,
-      'pwd': 'welcomepwd',
+      'pwd': 'Überfall',
       'first_name': 'Bob',
       'last_name': 'Bayley',
     }));
