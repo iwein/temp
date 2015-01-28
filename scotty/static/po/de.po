@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Martin Peschke <martin@hackandcraft.com>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:659
@@ -34,7 +34,7 @@ msgstr[1] "{{$count}} Unternehmen gefunden"
 #: apps/admin/navbar.html:11 apps/candidate/navbar.html:11
 #: apps/employer/navbar.html:11
 msgid "4Scotty"
-msgstr ""
+msgstr "4Scotty"
 
 #: components/employer-signup-terms/employer-signup-terms.html:24
 msgid ""
@@ -55,12 +55,17 @@ msgid ""
 "<h2>Congratulation to your new position!</h2>\n"
 "Your profile will be on sleep!"
 msgstr ""
+"<h2>Glückwunsch zu deiner neuen Position</h2>\n"
+"Dein Profil wird in den Ruhezustand versetzt!"
 
 #: components/candidate-signup-target/candidate-signup-target.js:39
 msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
 "click <a href=\"../employer/#/signup\"><b>here</b></a>!"
 msgstr ""
+"<h2>Melde dich als IT-Profi an und werde eingestellt</h2>Wenn du ein "
+"Unternehmen repräsentierst, klicke <a href=\"../employer/#/signup\"><b>here</"
+"b></a>!"
 
 #: components/employer-signup-start/employer-signup-start.js:23
 msgid ""
@@ -68,6 +73,9 @@ msgid ""
 "are looking to be get hired, click <a href=\"../candidate/#/signup"
 "\"><b>here</b></a>!"
 msgstr ""
+"<h2>Melde dein Unternehmen an und fange an nach den besten IT-Talenten zu "
+"suchen!</h2>Wenn du eingestellt werden willst, dann klicke <a href=\"../"
+"candidate/#/signup\"><b>here</b></a>!"
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:15
 msgid ""
@@ -109,7 +117,7 @@ msgstr "HINZUFÜGEN"
 
 #: apps/common/footer.html:21
 msgid "About us"
-msgstr ""
+msgstr "Über uns"
 
 #: components/candidate-offer/candidate-offer.html:120
 msgid "Accept"
@@ -213,7 +221,7 @@ msgstr "Die Anonymeinstellung wird dein Foto verbergen."
 
 #: components/candidate-profile/candidate-profile.js:397
 msgid "Anywhere"
-msgstr ""
+msgstr "Überall"
 
 #: components/candidate-signup-target/candidate-signup-target.html:133
 msgid "Anywhere in Germany"
@@ -368,7 +376,6 @@ msgid "CV"
 msgstr "CV"
 
 #: components/candidate-profile/candidate-profile.js:60
-#, fuzzy
 msgid "CV Uploaded"
 msgstr "CV hochgeladen"
 
@@ -405,13 +412,12 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: apps/admin/navbar.html:19
-#, fuzzy
 msgid "Candidates"
-msgstr "Die Besten Kandidaten"
+msgstr "Kandidaten"
 
 #: tools/label-typeahead-directive/label-typeahead-directive.html:19
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: components/candidate-signup-education/candidate-signup-education.html:134
 #: components/candidate-signup-experience/candidate-signup-experience.html:139
@@ -481,15 +487,15 @@ msgstr "Glückwunsch! Dein Account wurde bestätigt. Willkommen zu 4Scotty!"
 
 #: apps/common/footer.html:37
 msgid "Connect"
-msgstr ""
+msgstr "Verbinden"
 
 #: tools/linkedin-connect/linkedin-connect.html:2
 msgid "Connect with linked in"
-msgstr ""
+msgstr "Mit linkedin verbinden"
 
 #: tools/xing-connect/xing-connect.html:2
 msgid "Connect with xing"
-msgstr ""
+msgstr "Mit Xing verbinden"
 
 #: components/candidate-profile/candidate-profile.html:365
 #: components/employer-candidate-profile/employer-candidate-profile.html:45
@@ -498,9 +504,8 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: apps/common/footer.html:22
-#, fuzzy
 msgid "Contact & Support"
-msgstr "Kontakt Telephone"
+msgstr "Kontakt und Service"
 
 #: components/directive-office-form/directive-office-form.html:98
 msgid "Contact Information"
@@ -526,9 +531,8 @@ msgid "Contact position"
 msgstr "Kontakt Position"
 
 #: apps/common/footer.html:6
-#, fuzzy
 msgid "Contact us"
-msgstr "Kontakt"
+msgstr "Kontaktiere uns"
 
 #: components/candidate-signup-education/candidate-signup-education.html:101
 #: components/candidate-signup-experience/candidate-signup-experience.html:104
@@ -585,11 +589,11 @@ msgstr "Aktuelle Position"
 
 #: apps/admin/navbar.html:17
 msgid "Dashboard"
-msgstr ""
+msgstr "Menü"
 
 #: apps/common/footer.html:29
 msgid "Data Protection"
-msgstr ""
+msgstr "Datenschutz"
 
 #: components/candidate-signup-target/candidate-signup-target.html:106
 #: components/employer-signup-mission/employer-signup-mission.html:45
@@ -605,7 +609,6 @@ msgid "Did not complete degree."
 msgstr "Studium nicht abgeschlossen."
 
 #: components/candidate-signup-target/candidate-signup-target.html:82
-#, fuzzy
 msgid ""
 "Do not set your salary too high, as it will block employers to send you "
 "interesting offers,\n"
@@ -613,7 +616,7 @@ msgid ""
 "benefits."
 msgstr ""
 "Setze deine Bezahlung nicht zu hoch an, denn es wird Unternehmen davon "
-"abhalten die interessante Angebote zu machen,\n"
+"abhalten dir interessante Angebote zu machen,\n"
 " welche eine geringfügig geringere Bezahlung haben aber dafür andere riesige "
 "Vorteile."
 
@@ -678,9 +681,8 @@ msgid "Employer Advocate"
 msgstr "Kandidaten Vertreter"
 
 #: apps/admin/navbar.html:18
-#, fuzzy
 msgid "Employers"
-msgstr "1 Angestellter"
+msgstr "Unternehmen"
 
 #: components/directive-experience-form/directive-experience-form.html:128
 msgid "End year must be after 1900."
@@ -759,13 +761,12 @@ msgid "Fluent"
 msgstr "Fließend"
 
 #: apps/common/footer.html:20
-#, fuzzy
 msgid "For Companies"
-msgstr "Firmen suchen"
+msgstr "Für Unternehmen"
 
 #: apps/common/footer.html:19
 msgid "For IT professionals"
-msgstr ""
+msgstr "Für IT-Profis"
 
 #: components/candidate-signup-user/candidate-signup-user.html:67
 #: components/employer-signup-start/employer-signup-start.html:133
@@ -774,7 +775,7 @@ msgstr "Passwort vergessen?"
 
 #: components/employer-signup-start/employer-signup-start.js:43
 msgid "Fortune 500 Company"
-msgstr ""
+msgstr "Fortune 500 Unternehmen"
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:60
 msgid "Founded in"
@@ -881,7 +882,7 @@ msgstr "Rekrutierungsprozess"
 
 #: apps/candidate/navbar.html:34 apps/employer/navbar.html:33
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: components/employer-signup-terms/employer-signup-terms.html:34
 msgid "I agree to the terms of services"
@@ -896,6 +897,8 @@ msgid ""
 "I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-"
 "link>"
 msgstr ""
+"Ich habe die <hc-tos-link>4Scotty terms of services.</hc-tos-link> gelesen "
+"und stimme ihnen zu"
 
 #: components/candidate-signup-user/candidate-signup-user.html:146
 msgid ""
@@ -909,7 +912,7 @@ msgstr ""
 
 #: apps/common/footer.html:31
 msgid "Imprint"
-msgstr ""
+msgstr "Impressum"
 
 #: components/employer-signup-terms/employer-signup-terms.html:16
 msgid "In summary"
@@ -920,12 +923,10 @@ msgid "Institution"
 msgstr "Institution"
 
 #: components/candidate-employer-profile/candidate-employer-profile.js:71
-#, fuzzy
 msgid "Interview request removed"
-msgstr "Interview angefragt"
+msgstr "Interviewanfrage gelöscht"
 
 #: components/candidate-employer-profile/candidate-employer-profile.js:70
-#, fuzzy
 msgid "Interview requested"
 msgstr "Interview angefragt"
 
@@ -936,7 +937,7 @@ msgstr "Für dieses Angebot interviewt."
 #: components/candidate-activate/candidate-activate.js:15
 #: components/employer-signup-start/employer-signup-start.js:66
 msgid "Invalid invitation token."
-msgstr ""
+msgstr "Ungültiger Einldaungscode"
 
 #: components/candidate-signup-user/candidate-signup-user.html:91
 msgid "Invite code"
@@ -949,7 +950,7 @@ msgstr "Jobbeschreibung"
 
 #: apps/common/footer.html:28
 msgid "Jobs @ 4Scotty"
-msgstr ""
+msgstr "Jobs @ 4Scotty"
 
 #: components/candidate-profile/candidate-profile.html:513
 #: components/candidate-signup-languages/candidate-signup-languages.html:4
@@ -961,9 +962,8 @@ msgid "Languages"
 msgstr "Sprachen"
 
 #: components/employer-signup-start/employer-signup-start.js:39
-#, fuzzy
 msgid "Large Corporation"
-msgstr "Ziel Position"
+msgstr "Großes Unternehmen"
 
 #: components/candidate-signup-user/candidate-signup-user.html:29
 msgid "Last Name"
@@ -996,13 +996,12 @@ msgstr "Orte"
 
 #: apps/candidate/navbar.html:28 apps/common/footer.html:23
 #: apps/employer/navbar.html:27
-#, fuzzy
 msgid "Log in"
 msgstr "Anmelden"
 
 #: apps/candidate/navbar.html:23 apps/employer/navbar.html:22
 msgid "Log out"
-msgstr ""
+msgstr "Abmelden"
 
 #: components/employer-signup-basic/employer-signup-basic.html:10
 msgid "Logo"
@@ -1015,7 +1014,7 @@ msgstr "Mache ein Angebot"
 
 #: components/employer-signup-start/employer-signup-start.js:35
 msgid "Mid Sized Company"
-msgstr ""
+msgstr "Mittleres Unternehmen"
 
 #: components/employer-profile/employer-profile.html:414
 msgid "Mission"
@@ -1028,7 +1027,7 @@ msgstr "Monat"
 
 #: apps/common/footer.html:27
 msgid "More"
-msgstr ""
+msgstr "Mehr"
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:23
 msgid "Native"
@@ -1069,7 +1068,7 @@ msgstr "Neue Angebotsanfragen"
 
 #: apps/common/footer.html:48
 msgid "Newsletter"
-msgstr ""
+msgstr "Newsletter"
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:13
 msgid "Nicely done, you are now live and can start receiving great offers"
@@ -1093,7 +1092,7 @@ msgstr "Kein Spam"
 
 #: components/employer-signup-offices/employer-signup-offices.js:44
 msgid "No entry selected to add"
-msgstr ""
+msgstr "Kein Eintrag zum Hinzufügen ausgewählt"
 
 #: components/employer-profile/employer-profile.html:596
 #: components/employer-profile/employer-profile.html:601
@@ -1102,7 +1101,6 @@ msgid "Not defined yet"
 msgstr "Noch nicht festgelegt"
 
 #: components/candidate-profile/candidate-profile.js:393
-#, fuzzy
 msgid "Not specified"
 msgstr "Noch nicht festgelegt"
 
@@ -1134,7 +1132,7 @@ msgstr "Angebot wurde zurückgezogen"
 #: components/candidate-offer/candidate-offer.js:68
 #: components/employer-offer/employer-offer.js:65
 msgid "Offer {{ status }}"
-msgstr ""
+msgstr "Angebot {{ status }}"
 
 #: apps/candidate/navbar.html:39 apps/employer/navbar.html:38
 #: components/candidate-dashboard/candidate-dashboard.html:130
@@ -1293,7 +1291,7 @@ msgstr "Bitte wähle eine Stadt aus der Liste aus."
 
 #: components/directive-languages-form/directive-languages-form.html:43
 msgid "Please choose a language from the menu."
-msgstr "Bitte wähle eine Sprache aus der Liste."
+msgstr "Bitte gebe die Kenntnisse an die du erwartest anzuwenden."
 
 #: components/candidate-signup-user/candidate-signup-user.html:85
 #: components/employer-signup-start/employer-signup-start.html:151
@@ -1365,9 +1363,8 @@ msgid "Please insert the company name."
 msgstr "Bitte gib den Namen des Unternehmens an."
 
 #: components/directive-education-form/directive-education-form.html:37
-#, fuzzy
 msgid "Please insert the course name."
-msgstr "Bitte gib den Namen des Unternehmens an."
+msgstr "Bitte gib den Namen des Kurses an."
 
 #: components/directive-office-form/directive-office-form.html:211
 msgid "Please insert the email of the contact person of your company."
@@ -1422,9 +1419,8 @@ msgid "Please insert the skill level."
 msgstr "Bitte gib deinen Kenntnisstand an."
 
 #: components/candidate-signup-target/candidate-signup-target.html:71
-#, fuzzy
 msgid "Please insert the skills you expect to use."
-msgstr "Bitte gib deinen Kenntnisstand an."
+msgstr "Bitte gib die Kenntnisse an die du erwartest zu nutzen"
 
 #: components/directive-experience-form/directive-experience-form.html:126
 msgid "Please insert the year when you left this position."
@@ -1533,9 +1529,8 @@ msgid "Please select a entry from the menu."
 msgstr "Bitte Eintrag aus dem Menü auswählen."
 
 #: components/candidate-signup-target/candidate-signup-target.html:178
-#, fuzzy
 msgid "Please select a location."
-msgstr "Bitte Anrede auswählen"
+msgstr "Bitte einen Ort angeben."
 
 #: components/directive-profile-form/directive-profile-form.html:128
 #: components/employer-signup-basic/employer-signup-basic.html:30
@@ -1557,9 +1552,8 @@ msgstr "Bitte wählen mindestens einen Unternehmenstyp aus."
 
 #: components/candidate-signup-education/candidate-signup-education.js:73
 #: components/candidate-signup-experience/candidate-signup-experience.js:80
-#, fuzzy
 msgid "Please select at least one row to add."
-msgstr "Bitte wählen mindestens einen Unternehmenstyp aus."
+msgstr "Bitte wähle mindestens eine Zeile zum Hinzufügen aus"
 
 #: components/employer-signup-mission/employer-signup-mission.html:21
 msgid "Please select the year your company was founded."
@@ -1605,9 +1599,8 @@ msgid "Privacy standards"
 msgstr "Privatssphären Standards"
 
 #: apps/candidate/navbar.html:42 apps/employer/navbar.html:41
-#, fuzzy
 msgid "Profile"
-msgstr "Unternehmensprofil"
+msgstr "Profil"
 
 #: components/candidate-profile/candidate-profile.html:58
 #: components/employer-profile/employer-profile.html:29
@@ -1690,7 +1683,7 @@ msgstr "Kenntnisse"
 #: components/candidate-profile/candidate-profile.html:746
 #: components/employer-candidate-profile/employer-candidate-profile.html:16
 msgid "SLEEPING"
-msgstr "SCHLAFEND"
+msgstr "RUHEZUSTAND"
 
 #: components/employer-dashboard/employer-dashboard.html:64
 msgid "Salary"
@@ -1782,9 +1775,8 @@ msgid "Select..."
 msgstr "Auswählen..."
 
 #: apps/candidate/navbar.html:31 apps/employer/navbar.html:30
-#, fuzzy
 msgid "Sign up"
-msgstr "Freie Anmeldung"
+msgstr "Anmeldung"
 
 #: components/candidate-signup-user/candidate-signup-user.html:5
 msgid "Signup for free"
@@ -1830,13 +1822,12 @@ msgid "Start year must be in the past."
 msgstr "Beginn muss in der Vergangenheit sein."
 
 #: components/employer-signup-start/employer-signup-start.js:31
-#, fuzzy
 msgid "Startup Company"
-msgstr "Unternehmen"
+msgstr "Startup"
 
 #: apps/admin/navbar.html:20
 msgid "Static pages"
-msgstr ""
+msgstr "Statische Seiten"
 
 #: components/candidate-profile/candidate-profile.html:736
 #: components/employer-candidate-profile/employer-candidate-profile.html:6
@@ -1872,9 +1863,8 @@ msgid "Target position"
 msgstr "Ziel Position"
 
 #: apps/common/footer.html:30
-#, fuzzy
 msgid "Team"
-msgstr "Team Größe"
+msgstr "Team"
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:132
 #: components/employer-profile/employer-profile.html:521
@@ -1943,9 +1933,8 @@ msgid "Terms and services"
 msgstr "Geschäftsdienstleistungen"
 
 #: apps/common/footer.html:32
-#, fuzzy
 msgid "Terms of Service for Companies"
-msgstr "Nutzungsbedingungen"
+msgstr "Nutzungsbedingungen für Unternehmen"
 
 #: components/employer-signup/employer-signup.html:108
 #: components/employer-signup/employer-signup.html:113
@@ -1983,7 +1972,7 @@ msgstr "Diese Datei sollte ein Bild sein."
 
 #: apps/common/footer.html:18
 msgid "This Site"
-msgstr ""
+msgstr "Diese Seite"
 
 #: components/employer-signup-start/employer-signup-start.html:28
 msgid "This company name is already registered."
@@ -1996,7 +1985,7 @@ msgstr "Das erscheint zu hoch "
 #: apps/admin/navbar.html:6 apps/candidate/navbar.html:6
 #: apps/employer/navbar.html:6
 msgid "Toggle navigation"
-msgstr ""
+msgstr "Navigation Umschalten"
 
 #: components/employer-dashboard/employer-dashboard.html:140
 msgid "Top candidates fitting to your company's Profile!"
@@ -2021,9 +2010,8 @@ msgid "University or Institution"
 msgstr "Universität oder Institution"
 
 #: components/candidate-signup-user/candidate-signup-user.js:82
-#, fuzzy
 msgid "Unknown invite code"
-msgstr "Einladungscode"
+msgstr "Unbekannter Einladungscode"
 
 #: components/candidate-profile/candidate-profile.html:700
 msgid "Update your CV"
@@ -2104,15 +2092,14 @@ msgstr ""
 "kompetentesten Experten des Marktes haben."
 
 #: components/candidate-signup-target/candidate-signup-target.html:118
-#, fuzzy
 msgid ""
 "We currently focus our efforts on the 3 listed locations.\n"
 "                Feel free to name any other city in Germany so we know where "
 "to focus in the future."
 msgstr ""
 "Zur Zeit fokussieren wir unsere Anstrengungen auf diese drei Orte.\n"
-"          Zögern Sie nicht andere Städte in Deutschland zu nennen, so dass "
-"wir für die Zukunft bescheid wissen."
+"          Zöger nicht andere Städte in Deutschland zu nennen, so dass wir "
+"für die Zukunft bescheid wissen."
 
 #: components/candidate-profile/candidate-profile.html:131
 msgid ""
@@ -2302,18 +2289,16 @@ msgid "You did it"
 msgstr "Du hast es geschafft."
 
 #: components/candidate-offer/candidate-offer.js:41
-#, fuzzy
 msgid "You have already accepted another offer!"
-msgstr "Du hast das Angebot abgelehnt"
+msgstr "Du hast schon ein anderes Angebot angenommen!"
 
 #: components/candidate-offer/candidate-offer.js:40
-#, fuzzy
 msgid "You have already accepted this offer!"
-msgstr "Du hast dieses Angebot abgelehnt"
+msgstr "Du hast dieses Angebot schon angenommen!"
 
 #: components/candidate-offer-list/candidate-offer-list.js:17
 msgid "You have been hired, offer management is currently disabled."
-msgstr ""
+msgstr "Du wurdest eingestellt, das Angebots-Management ist zur Zeit gesperrt."
 
 #: components/partial-candidate-email-confirm-msg/partial-candidate-email-confirm-msg.html:4
 msgid ""
@@ -2399,7 +2384,6 @@ msgstr ""
 "candidate\"></hc-candidate-link> angefangen."
 
 #: components/employer-candidate-profile/employer-candidate-profile.html:140
-#, fuzzy
 msgid "You were blocked"
 msgstr "Du wurdest blockiert"
 
@@ -2419,10 +2403,12 @@ msgstr "Deine Muttersprache."
 msgid ""
 "Your password has been updated. You can now login with your new password"
 msgstr ""
+"Dein Passwort wurde geupdated. Du kannst dich nun mit deinem neuen Passwort "
+"anmelden."
 
 #: apps/candidate/index.html:37 apps/employer/index.html:35
 msgid "Your profile has not been reviewed & approved yet."
-msgstr ""
+msgstr "Dein Profil wurde noch nicht geprüft & bestätigt."
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
 msgid ""
@@ -2463,7 +2449,7 @@ msgstr "erweitert"
 
 #: components/employer-signup-start/employer-signup-start.js:44
 msgid "among the leading 500 companies"
-msgstr ""
+msgstr "unter den 500 führenden Unternehmen."
 
 #: components/candidate-profile/candidate-profile.html:800
 #: components/employer-candidate-profile/employer-candidate-profile.html:158
@@ -2504,7 +2490,7 @@ msgstr "Unternehmen hat sein Angebot zurückgezogen"
 
 #: components/employer-signup-start/employer-signup-start.js:36
 msgid "established and less than 1.000 employees"
-msgstr ""
+msgstr "etabliert und weniger als 1000 Angestellte"
 
 #: components/candidate-profile/candidate-profile.html:792
 #: components/employer-candidate-profile/employer-candidate-profile.html:150
@@ -2521,7 +2507,7 @@ msgstr "gehe zu deinem Profil"
 
 #: components/employer-signup-start/employer-signup-start.js:40
 msgid "grown player with multi-national operations"
-msgstr ""
+msgstr "Wichtiges Unternehmen mit multi-nationalen Operationen"
 
 #: components/candidate-profile/candidate-profile.html:451
 #: components/employer-candidate-profile/employer-candidate-profile.html:86
@@ -2532,7 +2518,7 @@ msgstr "hat ein Arbeitsvisum"
 #: components/candidate-profile/candidate-profile.js:308
 #: components/employer-candidate-profile/employer-candidate-profile.js:47
 msgid "hired"
-msgstr ""
+msgstr "eingestellt"
 
 #: components/employer-signup/employer-signup.html:11
 msgid "if you've got questions regarding the sign up."
@@ -2561,21 +2547,19 @@ msgstr "weniger"
 
 #: tools/moment-directive.js:92
 msgid "less than one month"
-msgstr ""
+msgstr "weniger als ein Monat"
 
 #: components/candidate-activate/candidate-activate.html:6
 msgid "log in."
 msgstr "Anmelden"
 
 #: tools/moment-directive.js:68
-#, fuzzy
 msgid "month"
 msgstr "Monat"
 
 #: tools/moment-directive.js:68 tools/moment-directive.js:91
-#, fuzzy
 msgid "months"
-msgstr "Monat"
+msgstr "Monate"
 
 #: components/employer-profile/employer-profile.html:339
 msgid "more"
@@ -2600,9 +2584,8 @@ msgstr "Grund"
 
 #: components/candidate-profile/candidate-profile.js:309
 #: components/employer-candidate-profile/employer-candidate-profile.js:48
-#, fuzzy
 msgid "reviewing"
-msgstr "überprüfe Angebot"
+msgstr "überprüfe"
 
 #: components/candidate-profile/candidate-profile.html:743
 msgid "reviewing offer"
@@ -2633,11 +2616,11 @@ msgstr "mehrere Jahre praktischer Erfahrung"
 #: components/candidate-profile/candidate-profile.js:304
 #: components/employer-candidate-profile/employer-candidate-profile.js:43
 msgid "sleeping"
-msgstr ""
+msgstr "Ruhezustand"
 
 #: components/employer-signup-start/employer-signup-start.js:32
 msgid "started within the last 5 years"
-msgstr ""
+msgstr "in den letzten 5 Jahren begonnen"
 
 #: components/candidate-offer/candidate-offer.html:5
 #: components/directive-offer/directive-offer.html:24
@@ -2674,9 +2657,8 @@ msgid "year"
 msgstr "Jahr"
 
 #: tools/moment-directive.js:65 tools/moment-directive.js:90
-#, fuzzy
 msgid "years"
-msgstr "Jahr"
+msgstr "Jahre"
 
 #: components/candidate-offer/candidate-offer.html:12
 msgid "you accepted this offer"
@@ -2692,7 +2674,7 @@ msgstr "du hast dieses Angebot zurückgezogen"
 
 #: apps/common/footer.html:57
 msgid "©2015 4Scotty. All Rights Reserved."
-msgstr ""
+msgstr "©2015 4Scotty.Alle Rechte gesichert."
 
 #~ msgid "4Scotty terms of services."
 #~ msgstr "4Scotty Nutzungsbedingungen"

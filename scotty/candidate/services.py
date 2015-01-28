@@ -1,45 +1,41 @@
 from datetime import datetime
-import hashlib
 
 from pyramid.httpexceptions import HTTPBadRequest
+from scotty.models.tools import ID
 from scotty.services import hash_pwd
-from sqlalchemy import and_, or_
 from sqlalchemy.orm import joinedload_all
-
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, TargetPosition, PreferredLocation, InviteCode
+    WorkExperience, Education, TargetPosition, PreferredLocation, InviteCode, get_locations_from_structure
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
-    Course, City
+    Course
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
-from scotty.offer.models import FullOffer, NewsfeedOffer
+from scotty.offer.models import NewsfeedOffer
 from scotty.services.pagingservice import Pager
 
 
-def candidate_from_signup(params):
+def candidate_from_signup(candidate_id, params):
     status = get_by_name_or_raise(CandidateStatus, CandidateStatus.PENDING)
     invite_code = get_by_name_or_raise(InviteCode, params.get('invite_code'))
-    candidate = FullCandidate(email=params['email'], first_name=params['first_name'], last_name=params['last_name'],
+    candidate = FullCandidate(id=candidate_id, email=params['email'], first_name=params['first_name'],
+                              last_name=params['last_name'],
                               status=status, invite_code=invite_code)
     candidate.password = params['pwd']
     return candidate
 
 
-ID = lambda x: x
+CANDIDATE_EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
+                       'anonymous': ID,
+                       'admin_comment': ID, 'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID,
+                       'contact_zipcode': ID,
+                       'location': get_location_by_name_or_raise, 'contact_phone': ID, 'availability': ID,
+                       'summary': ID,
+                       'github_url': ID, 'stackoverflow_url': ID, 'blog_url': ID, 'contact_skype': ID,
+                       'eu_work_visa': ID, 'cv_upload_url': ID}
 
-EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
-             'anonymous': ID,
-             'admin_comment': ID, 'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID, 'contact_zipcode': ID,
-             'location': get_location_by_name_or_raise, 'contact_phone': ID, 'availability': ID, 'summary': ID,
-             'github_url': ID, 'stackoverflow_url': ID, 'blog_url': ID, 'contact_skype': ID, 'eu_work_visa': ID, 'cv_upload_url': ID}
-
-
-def edit_candidate(candidate, params, editables=EDITABLES):
-    for field, transform in editables.items():
-        if field in params:
-            setattr(candidate, field, transform(params[field]))
-    return candidate
+TP_EDITABLES = {'minimum_salary': ID, 'role': lambda v: get_by_name_or_create(Role, v),
+                'skills': lambda v: get_or_create_named_collection(Skill, v)}
 
 
 def candidate_from_login(params):
@@ -135,17 +131,34 @@ def set_candidate_work_experiences(candidate, params):
     return candidate.work_experience
 
 
-def set_target_position(candidate, params):
+def create_target_position(params):
     if params:
         minimum_salary = params['minimum_salary']
         role = get_by_name_or_create(Role, params["role"])
         skills = get_or_create_named_collection(Skill, params["skills"])
         tp = TargetPosition(minimum_salary=minimum_salary, role=role, skills=skills)
+        DBSession.add(tp)
+        DBSession.flush()
     else:
         tp = None
-    candidate.target_position = tp
-    DBSession.flush()
-    return candidate.target_position
+    return tp
+
+
+def set_preferred_locations(candidate_id, params):
+    if isinstance(params, dict):
+        try:
+            DBSession.query(PreferredLocation).filter(PreferredLocation.target_position_candidate_id == candidate_id) \
+                .delete()
+            locations = get_locations_from_structure(params)
+            for loc in locations:
+                loc.target_position_candidate_id = candidate_id
+            DBSession.add_all(locations)
+            DBSession.flush()
+            return locations
+        except (IndexError, KeyError), e:
+            raise HTTPBadRequest("Unknown Locations Submitted: %s" % e)
+    else:
+        raise HTTPBadRequest("Must submit dictionary of countries with city lists as root level.")
 
 
 def set_languages_on_candidate(candidate, params):
@@ -162,53 +175,6 @@ def set_languages_on_candidate(candidate, params):
     DBSession.add_all(languages)
     DBSession.flush()
     return candidate
-
-
-def get_locations_from_structure(locations):
-    if not locations:
-        return []
-
-    def identify(arg):
-        c, l = arg
-        return len(c) == 2 and (not l or (len(l) > 0 and not isinstance(l, basestring) and (isinstance(l, list))))
-
-    srclist = filter(identify, locations.items())
-
-    filters = []
-    for country_iso, city_list in srclist:
-        if city_list:
-            filters.append(and_(City.country_iso == country_iso, City.name.in_(city_list)))
-
-    lookup = {}
-    if filters:
-        cities = DBSession.query(City).filter(or_(*filters)).all()
-        for city in cities:
-            lookup.setdefault(city.country_iso, {})[city.name] = city
-
-    locations = []
-    for country_iso, city_list in srclist:
-        if city_list:
-            l = lookup[country_iso]
-            for city_name in city_list:
-                locations.append(PreferredLocation(city_id=l[city_name].id))
-        else:
-            locations.append(PreferredLocation(country_iso=country_iso))
-
-    return locations
-
-
-def set_preferredlocations_on_candidate(candidate, params):
-    if isinstance(params, dict):
-        try:
-            DBSession.query(PreferredLocation).filter(PreferredLocation.candidate_id == candidate.id).delete()
-            locations = get_locations_from_structure(params)
-            candidate.preferred_locations = locations
-            DBSession.flush()
-            return candidate
-        except (IndexError, KeyError), e:
-            raise HTTPBadRequest("Unknown Locations Submitted: %s" % e)
-    else:
-        raise HTTPBadRequest("Must submit dictionary of countries with city lists as root level.")
 
 
 def set_skills_on_candidate(candidate, params):
@@ -245,7 +211,8 @@ def get_candidates_by_techtags_pager(tags, city_id, status_id=1):
 def candidate_fulltext_search(terms, employer_id, offset, limit):
     query = "select candidate_id as id, status, count(*) over() as total " \
             "from cn_candidate_search(:query, :employer_id) limit :limit"
-    params ={'offset': offset, 'limit': limit, 'query': terms.replace(' ', '&'), 'employer_id': str(employer_id) if employer_id else None}
+    params = {'offset': offset, 'limit': limit, 'query': terms.replace(' ', '&'),
+              'employer_id': str(employer_id) if employer_id else None}
     return Pager(query, params)
 
 
@@ -282,7 +249,7 @@ def get_candidate_newsfeed(c):
                        'employer': bookmark.employer})
 
     # this is same as offer rejection timewise
-    #for blacklisted in candidate.blacklist:
+    # for blacklisted in candidate.blacklist:
     #    events.append({'name': 'BLACKLISTED_EMPLOYER', 'recency': recency(blacklisted.created),
     #                   'date': blacklisted.created, 'employer': blacklisted.employer})
 

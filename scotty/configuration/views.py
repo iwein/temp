@@ -2,7 +2,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from sqlalchemy import func
 
 from pyramid.view import view_config
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
     Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason, \
     TravelWillingness, WithdrawalReason, Role

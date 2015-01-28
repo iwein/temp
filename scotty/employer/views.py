@@ -1,20 +1,20 @@
 from datetime import datetime
+
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.auth.provider import ADMIN_PERM
-from sqlalchemy import or_, func
-
+from sqlalchemy import func
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
-from scotty import DBSession
-from scotty.configuration.models import CompanyType, WithdrawalReason
+from scotty.models.meta import DBSession
+from scotty.configuration.models import WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
     set_employer_offices, \
     get_employer_newsfeed, edit_employer_office
-from scotty.models.common import get_location_by_name_or_raise, get_or_raise_named_collection, get_by_name_or_raise
+from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
 from scotty.services.pagingservice import ObjectBuilder

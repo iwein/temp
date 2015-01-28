@@ -1,5 +1,5 @@
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.cms.models import CmsContent
 
 __author__ = 'Harry'

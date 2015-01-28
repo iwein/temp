@@ -1,17 +1,16 @@
-import hashlib
 from operator import attrgetter
 from uuid import uuid4
-from datetime import datetime, timedelta
+from datetime import datetime
 
-from scotty.auth.provider import ADMIN_USER, EMPLOYER
+from scotty.auth.provider import EMPLOYER
 from scotty.services import hash_pwd
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
-    UniqueConstraint, DateTime, func
+    UniqueConstraint, DateTime, func, and_, or_
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.orm import relationship, class_mapper
+from sqlalchemy.orm import relationship, foreign
 from scotty.models.common import get_by_name_or_raise
-from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN, allow_display, DISPLAY_ALWAYS, \
+from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN, DISPLAY_ALWAYS, \
     DISPLAY_PRIVATE, get_request_role, DISPLAY_ADMIN
 from scotty.offer.models import CandidateOffer, Offer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
@@ -30,6 +29,7 @@ V_CANDIDATE_FT_INDEX = table('v_candidate_search',
 V_CANDIDATE_CURRENT_EMPLOYERS = table('v_candidate_current_employers',
                                       column('candidate_id', GUID),
                                       column('employer_id', GUID))
+
 
 class InviteCode(Base):
     __tablename__ = 'invite_code'
@@ -134,24 +134,9 @@ class WorkExperience(Base):
 
 
 target_position_skills = Table('target_position_skills', Base.metadata,
-                               Column('target_position_id', Integer, ForeignKey('target_position.id'), primary_key
-                               =True),
+                               Column("target_position_candidate_id", GUID, ForeignKey('target_position.candidate_id'),
+                                      primary_key=True),
                                Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
-
-
-class TargetPosition(Base):
-    __tablename__ = 'target_position'
-
-    id = Column(Integer, primary_key=True)
-    candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
-    created = Column(DateTime, nullable=False, default=datetime.now)
-    minimum_salary = Column(Integer, nullable=False)
-    role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
-    role = relationship(Role)
-    skills = relationship(Skill, secondary=target_position_skills)
-
-    def __json__(self, request):
-        return {"skills": self.skills, "role": self.role, "minimum_salary": self.minimum_salary}
 
 
 class CandidateLanguage(Base):
@@ -196,12 +181,14 @@ class CandidateEmployerBlacklist(Base):
 class PreferredLocation(Base):
     __tablename__ = 'candidate_preferred_location'
     __table_args__ = (
-        UniqueConstraint('candidate_id', 'country_iso', name='candidate_preferred_location_country_unique'),
-        UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
+        UniqueConstraint('target_position_candidate_id', 'country_iso',
+                         name='candidate_preferred_location_country_unique'),
+        UniqueConstraint('target_position_candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
         CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL',
                         name='candidate_preferred_location_has_some_fk'), )
     id = Column(Integer, primary_key=True)
-    candidate_id = Column(GUID, ForeignKey('candidate.id'))
+
+    target_position_candidate_id = Column(GUID, ForeignKey('target_position.candidate_id'))
     country_iso = Column(String(2), ForeignKey(Country.iso), nullable=True)
     city_id = Column(Integer, ForeignKey('city.id'), nullable=True)
     city = relationship(City, lazy="joined")
@@ -210,10 +197,64 @@ class PreferredLocation(Base):
         return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
 
 
+
+def get_locations_from_structure(locations):
+    if not locations:
+        return []
+
+    def identify(arg):
+        c, l = arg
+        return len(c) == 2 and (not l or (len(l) > 0 and not isinstance(l, basestring) and (isinstance(l, list))))
+
+    srclist = filter(identify, locations.items())
+
+    filters = []
+    for country_iso, city_list in srclist:
+        if city_list:
+            filters.append(and_(City.country_iso == country_iso, City.name.in_(city_list)))
+
+    lookup = {}
+    if filters:
+        cities = DBSession.query(City).filter(or_(*filters)).all()
+        for city in cities:
+            lookup.setdefault(city.country_iso, {})[city.name] = city
+
+    locations = []
+    for country_iso, city_list in srclist:
+        if city_list:
+            l = lookup[country_iso]
+            for city_name in city_list:
+                locations.append(PreferredLocation(city_id=l[city_name].id))
+        else:
+            locations.append(PreferredLocation(country_iso=country_iso))
+
+    return locations
+
+
+def locations_to_structure(locations, resolve_countries=False):
+    if not locations:
+        return None
+
+    results = {}
+    country_lookup = {}
+    if resolve_countries:
+        isos = [pl.country_iso or pl.city.country_iso for pl in locations]
+        countries = DBSession.query(Country).filter(Country.iso.in_(isos)).all()
+        country_lookup = {country.iso: country.name for country in countries}
+
+    for pl in locations:
+        if pl.country_iso:
+            results.setdefault(country_lookup.get(pl.country_iso, pl.country_iso), [])
+        elif pl.city_id:
+            ciso = pl.city.country_iso
+            results.setdefault(country_lookup.get(ciso, ciso), []).append(pl.city.name)
+    return results
+
+
 class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
 
-    id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
+    id = Column(GUID, ForeignKey("target_position.candidate_id"), primary_key=True, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
     anonymous = Column(Boolean, default=False, nullable=False, info=PUBLIC)
     pwdforgot_token = Column(GUID, unique=True, info=PRIVATE)
@@ -262,15 +303,14 @@ class Candidate(Base, JsonSerialisable):
     skills = relationship(CandidateSkill, backref="candidate", cascade="all, delete, delete-orphan")
     education = relationship(Education, backref="candidate", cascade="all, delete, delete-orphan",
                              order_by=Education.start.desc())
-    languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan", order_by=CandidateLanguage.proficiency_id)
+    languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan",
+                             order_by=CandidateLanguage.proficiency_id)
 
-    preferred_locations = relationship(PreferredLocation)
+    preferred_locations = relationship(PreferredLocation,
+                                       primaryjoin=foreign(PreferredLocation.target_position_candidate_id) == id)
 
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan",
                                    order_by=WorkExperience.start.desc())
-    target_position = relationship(TargetPosition, backref="candidate", cascade="all, delete, delete-orphan",
-                                   uselist=False, order_by=TargetPosition.created.desc())
-
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 
     bookmarked_employers = association_proxy('bookmarks', 'employer')
@@ -337,22 +377,7 @@ class Candidate(Base, JsonSerialisable):
             return 'No summary yet'
 
     def get_preferred_locations(self, resolve_countries=False):
-        if not self.preferred_locations:
-            return None
-        results = {}
-        country_lookup = {}
-        if resolve_countries:
-            isos = [pl.country_iso or pl.city.country_iso for pl in self.preferred_locations]
-            countries = DBSession.query(Country).filter(Country.iso.in_(isos)).all()
-            country_lookup = {country.iso: country.name for country in countries}
-
-        for pl in self.preferred_locations:
-            if pl.country_iso:
-                results.setdefault(country_lookup.get(pl.country_iso, pl.country_iso), [])
-            elif pl.city_id:
-                ciso = pl.city.country_iso
-                results.setdefault(country_lookup.get(ciso, ciso), []).append(pl.city.name)
-        return results
+        return locations_to_structure(self.preferred_locations, resolve_countries=resolve_countries)
 
     def obfuscate_result(self, result):
         result['first_name'] = ''
@@ -362,7 +387,6 @@ class Candidate(Base, JsonSerialisable):
 
     def __json__(self, request):
         result = self.to_json(request)
-
 
         result['summary'] = self.summary or self.generated_summary
         result['salutation'] = self.salutation
@@ -383,7 +407,8 @@ class Candidate(Base, JsonSerialisable):
 
         if EMPLOYER in request.effective_principals:
             cebl = CandidateEmployerBlacklist
-            blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == self.id, cebl.employer_id == request.employer_id).count()
+            blacklist_count = DBSession.query(cebl).filter(cebl.candidate_id == self.id,
+                                                           cebl.employer_id == request.employer_id).count()
             result['employer_blacklisted'] = blacklist_count > 0
 
             if not blacklist_count:
@@ -432,7 +457,23 @@ class WXPCandidate(Candidate):
         result['work_experience'] = self.work_experience
         return result
 
+
 FullCandidate = WXPCandidate
 
 
+class TargetPosition(Base):
+    __tablename__ = 'target_position'
+
+    candidate_id = Column(GUID, default=uuid4, primary_key=True)
+    created = Column(DateTime, nullable=False, default=datetime.now)
+    minimum_salary = Column(Integer, nullable=False)
+    role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
+    role = relationship(Role)
+    skills = relationship(Skill, secondary=target_position_skills)
+
+    candidate = relationship(Candidate, backref="target_position", cascade="all, delete, delete-orphan")
+    preferred_locations = relationship(PreferredLocation)
+
+    def __json__(self, request):
+        return {"skills": self.skills, "role": self.role, "minimum_salary": self.minimum_salary}
 

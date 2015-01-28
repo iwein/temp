@@ -1,10 +1,10 @@
 from datetime import datetime
 
 from pyramid.httpexceptions import HTTPBadRequest
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.configuration.models import RejectionReason
 from scotty.employer.models import Employer
-from scotty.models.common import get_by_name_or_create, get_by_name_or_raise
+from scotty.models.common import get_by_name_or_raise
 from scotty.offer.models import Offer
 
 

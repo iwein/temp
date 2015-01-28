@@ -1,9 +1,7 @@
-import hashlib
-
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
-from scotty import DBSession
+from scotty.models.meta import DBSession
 from scotty.candidate.models import Candidate
 from scotty.employer.models import Employer
 from scotty.login.models import UnifiedLogin
@@ -11,7 +9,6 @@ from scotty.services import hash_pwd
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
 from scotty.views import RootController
 from scotty.views.common import POST, GET
-from simplejson import JSONDecodeError
 
 
 __author__ = 'martin'
@@ -79,7 +76,6 @@ def login_post(context, request):
             return {'preferred': login_obj.table_name, 'id': user.id}
         else:
             raise HTTPFound(location=(request.referer or '/') + '#unknown')
-
 
 
 class PasswordController(RootController):
