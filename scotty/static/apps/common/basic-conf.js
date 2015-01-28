@@ -27,6 +27,18 @@ define(function(require) {
 
   return function basicConf(module) {
 
+    // Hack modified gettext functionality to also translate tokens
+    var translate;
+    module.constant('gettext', function(string, context) {
+      return translate(string, context);
+    });
+    module.run(function(gettextCatalog) {
+      translate = function(string, context) {
+        return gettextCatalog.getString(string, context);
+      };
+    });
+
+
     module.config(function($httpProvider) {
       $httpProvider.defaults.withCredentials = true;
     });
