@@ -4,7 +4,7 @@ from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Len
     Integer, deferred
 from scotty import DBSession
 from scotty.candidate.models import get_locations_from_structure, InviteCode
-from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course
+from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course, SkillLevel
 from scotty.models.common import get_or_create_named_collection
 
 
@@ -147,6 +147,10 @@ class WorkExperienceRequest(MappingSchema):
     city = SchemaNode(String(), validator=Length(max=500), missing=None)
     skills = SchemaNode(DBListValues(Skill), missing=[])
 
+    def validator(self, schema, value):
+        if value.get('end') and value['end'] < value['start']:
+            node = filter(lambda x: x.name =='end', schema.children)[0]
+            raise Invalid(node, 'END MUST BE AFTER START')
 
 class ListWorkExperienceRequest(SequenceSchema):
     exp = WorkExperienceRequest()
@@ -159,6 +163,18 @@ class EducationRequest(MappingSchema):
     institution = SchemaNode(DBChoiceValue(Institution, create_unknown=True))
     degree = SchemaNode(DBChoiceValue(Degree, create_unknown=True), missing=None)
 
+    def validator(self, schema, value):
+        if value.get('end') and value['end'] < value['start']:
+            node = filter(lambda x: x.name =='end', schema.children)[0]
+            raise Invalid(node, 'END MUST BE AFTER START')
 
 class ListEducationRequest(SequenceSchema):
     edu = EducationRequest()
+
+
+class LevelledSkillRequest(MappingSchema):
+    level = SchemaNode(DBChoiceValue(SkillLevel), missing=None)
+    skill = SchemaNode(DBChoiceValue(SkillLevel), missing=None)
+
+class SkillsRequest(SequenceSchema):
+    skills = SchemaNode(DBListValues(Skill, min_length=3))

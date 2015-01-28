@@ -173,13 +173,14 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
           expectedErrors: [400]
         },
 
-        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-3-education-3-wrong',
+        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-4-education-3-wrong',
           method: 'PUT',
           data: [
             {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
               degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming", end:2010},
             {degree: '', institution: ''},
-            {"institution": "Universität Konstanz"}
+            {"institution": "Universität Konstanz"},
+            {"institution": "Universität Konstanz", start: 2000, end: 1990}
           ],
           expectedErrors: [400]
         },

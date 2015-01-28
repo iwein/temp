@@ -6,9 +6,8 @@ from scotty.services import hash_pwd
 from sqlalchemy.orm import joinedload_all
 from scotty.models.meta import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, TargetPosition, PreferredLocation, InviteCode, get_locations_from_structure
-from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Company, Role, Degree, Institution, \
-    Course
+    WorkExperience, Education, PreferredLocation
+from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
 from scotty.offer.models import NewsfeedOffer
