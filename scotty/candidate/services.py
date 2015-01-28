@@ -91,43 +91,16 @@ def set_candidate_education(candidate, params):
     return candidate.education
 
 
-def add_candidate_work_experience(candidate, params):
-    start = params['start']
-    end = params.get('end')
-    if end and end < start:
-        raise HTTPBadRequest('end must not be smaller than start')
-    summary = params.get('summary')
-
-    role = get_by_name_or_create(Role, params.get("role"))
-
-    company = get_by_name_or_create(Company, params['company'])
-    skills = get_or_create_named_collection(Skill, params.get('skills'))
-
-    wexp = WorkExperience(candidate_id=candidate.id, start=start, end=end, summary=summary,
-                          country_iso=params.get('country_iso'), city=params.get('city'), company=company, role=role,
-                          skills=skills)
-    DBSession.add(wexp)
-    DBSession.flush()
-    return wexp
-
-
-def set_candidate_work_experiences(candidate, params):
-    candidate.work_experience = []
+def set_candidate_work_experiences(candidate_id, params):
+    experiences = []
     for wxp_params in params:
-        start = wxp_params['start']
-        end = wxp_params.get('end')
-        if end and end < start:
-            raise HTTPBadRequest('end must not be smaller than start')
-        summary = wxp_params.get('summary')
-        role = get_by_name_or_create(Role, wxp_params.get("role"))
-        company = get_by_name_or_create(Company, wxp_params['company'])
-        skills = get_or_create_named_collection(Skill, wxp_params.get('skills'))
-        wexp = WorkExperience(company=company, start=start, end=end, summary=summary,
-                              country_iso=wxp_params.get('country_iso'),
-                              city=wxp_params.get('city'), role=role, skills=skills)
-        candidate.work_experience.append(wexp)
+        wexp = WorkExperience(candidate_id=candidate_id,
+                              **{k: wxp_params.get(k) for k in ['start', 'end', 'summary', 'country_iso', 'city',
+                                                                'company', 'role', 'skills']})
+        experiences.append(wexp)
+    DBSession.add_all(experiences)
     DBSession.flush()
-    return candidate.work_experience
+    return experiences
 
 
 def set_preferred_locations(candidate_id, locations):

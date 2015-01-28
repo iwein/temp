@@ -72,8 +72,9 @@ define(function(require) {
           return;
         }
 
-        if (request.status === 400 && request.data.db_message === 'Unknown InviteCode') {
-          toaster.error(gettext('Unknown invite code'));
+        if (request.status === 400 && request.data.errors) {
+          if(request.data.errors.invite_code === 'INVALID CHOICE')
+            toaster.error(gettext('Unknown invite code'));
           return;
         }
 

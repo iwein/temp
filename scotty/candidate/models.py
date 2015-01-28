@@ -114,7 +114,7 @@ class WorkExperience(Base):
     candidate_id = Column(GUID, ForeignKey("candidate.id"), nullable=False)
     created = Column(DateTime, nullable=False, default=datetime.now)
 
-    start = Column(Date, nullable=False)
+    start = Column(Date)
     end = Column(Date)
     summary = Column(Text)
 
@@ -122,6 +122,7 @@ class WorkExperience(Base):
     company = relationship(Company)
 
     country_iso = Column(String(2), ForeignKey(Country.iso))
+    country = relationship(Country)
     city = Column(String(512))
 
     role_id = Column(Integer, ForeignKey("role.id"))

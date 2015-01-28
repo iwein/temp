@@ -1,16 +1,28 @@
 from collections import Counter
-from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email
+from datetime import date
+from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email, null, Date, SequenceSchema
 from scotty import DBSession
 from scotty.candidate.models import get_locations_from_structure, InviteCode
-from scotty.configuration.models import Role, Skill
+from scotty.configuration.models import Role, Skill, Company, Country
 from scotty.models.common import get_or_create_named_collection
-from sqlalchemy import null
+
+
+def db_choice_validator(cls, keyfield=None):
+    name_field = getattr(cls, keyfield or cls.__name_field__)
+
+    def validator(node, value):
+        obj = DBSession.query(cls).filter(name_field == value).first()
+        if not obj:
+            raise Invalid(node, 'INVALID CHOICE')
+
+    return validator
 
 
 class DBChoiceValue(object):
-    def __init__(self, sqla_cls):
+    def __init__(self, sqla_cls, create_unknown=False, keyfield=None):
+        self.create_unknown = create_unknown
         self.sqla_cls = sqla_cls
-        self.name_field = sqla_cls.__name_field__
+        self.name_field = keyfield or sqla_cls.__name_field__
         super(DBChoiceValue, self).__init__()
 
     def serialize(self, node, appstruct):
@@ -21,14 +33,18 @@ class DBChoiceValue(object):
         return getattr(appstruct, self.name_field)
 
     def deserialize(self, node, cstruct):
-        if cstruct is null and not node.required:
+        if (cstruct is null or cstruct == '') and not node.required:
             return null
         if not isinstance(cstruct, basestring):
             raise Invalid(node, 'TYPE ERROR', value='string')
         namefield = getattr(self.sqla_cls, self.name_field)
         obj = DBSession.query(self.sqla_cls).filter(namefield == cstruct).first()
         if not obj:
-            raise Invalid(node, 'INVALID CHOICE')
+            if self.create_unknown:
+                obj = self.sqla_cls(**{self.sqla_cls.__name_field__: cstruct})
+                DBSession.add(obj)
+            else:
+                raise Invalid(node, 'INVALID CHOICE')
         return obj
 
     def cstruct_children(self, node, cstruct):
@@ -36,10 +52,10 @@ class DBChoiceValue(object):
 
 
 class DBListValues(object):
-    def __init__(self, sqla_cls, must_exist=False, require_unique=True, min_length=None):
+    def __init__(self, sqla_cls, create_unknown=False, require_unique=True, min_length=None):
         self.min_length = min_length
         self.require_unique = require_unique
-        self.must_exist = must_exist
+        self.create_unknown = create_unknown
         self.sqla_cls = sqla_cls
         self.name_field = sqla_cls.__name_field__
         super(DBListValues, self).__init__()
@@ -65,24 +81,17 @@ class DBListValues(object):
         name_set = set(cstruct)
         if self.require_unique and len(name_set) < len(cstruct):
             raise Invalid("DUPLICATE ITEMS", value=[x for x, y in Counter(cstruct).items() if y > 1])
-        elif self.must_exist:
+        elif self.create_unknown:
+            return get_or_create_named_collection(self.sqla_cls, cstruct, self.name_field)
+        else:
             objs = DBSession.query(self.sqla_cls).filter(getattr(self.sqla_cls, self.name_field).in_(name_set)).all()
             if len(objs) < len(name_set):
                 missings = set(name_set).difference(getattr(t, self.name_field) for t in objs)
                 raise Invalid("UNKNOWN VALUES", value=missings)
-            return {o.name: o for o in objs}
-
-        else:
-            return get_or_create_named_collection(self.sqla_cls, cstruct, self.name_field)
+            return objs
 
     def cstruct_children(self, node, cstruct):
         return []
-
-
-class TargetPosition(MappingSchema):
-    role = SchemaNode(DBChoiceValue(Role))
-    minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=99000000))
-    skills = SchemaNode(DBListValues(Skill, min_length=1))
 
 
 class PreferredLocationType(object):
@@ -103,7 +112,10 @@ class PreferredLocationType(object):
         return []
 
 
-
+class TargetPosition(MappingSchema):
+    role = SchemaNode(DBChoiceValue(Role))
+    minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=99000000))
+    skills = SchemaNode(DBListValues(Skill, min_length=1))
 
 
 class PreSignupRequest(MappingSchema):
@@ -113,7 +125,22 @@ class PreSignupRequest(MappingSchema):
 
 class SignupRequest(MappingSchema):
     email = SchemaNode(String(), validator=Email())
-    pwd = SchemaNode(String(), validator=Length(8))
-    first_name = SchemaNode(String(), validator=Length(2))
-    last_name = SchemaNode(String(), validator=Length(2))
-    invite_code = SchemaNode(DBChoiceValue(InviteCode), missing = None)
+    pwd = SchemaNode(String(), validator=Length(min=8))
+    first_name = SchemaNode(String(), validator=Length(min=2))
+    last_name = SchemaNode(String(), validator=Length(min=2))
+    invite_code = SchemaNode(DBChoiceValue(InviteCode), missing=None)
+
+
+class WorkExperienceRequest(MappingSchema):
+    company = SchemaNode(DBChoiceValue(Company, create_unknown=True))
+    start = SchemaNode(Date(), validator=Range(date(1900, 1, 1)), missing=None)
+    end = SchemaNode(Date(), validator=Range(date(1900, 1, 1)), missing=None)
+    summary = SchemaNode(String(), validator=Length(min=2), missing=None)
+    role = SchemaNode(DBChoiceValue(Role, create_unknown=True), missing=None)
+    country_iso = SchemaNode(String(), missing=None, validator=db_choice_validator(Country, keyfield='iso'))
+    city = SchemaNode(String(), validator=Length(max=500), missing=None)
+    skills = SchemaNode(DBListValues(Skill), missing=[])
+
+
+class ListWorkExperienceRequest(SequenceSchema):
+    exp = WorkExperienceRequest()
