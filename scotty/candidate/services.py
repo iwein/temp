@@ -131,34 +131,13 @@ def set_candidate_work_experiences(candidate, params):
     return candidate.work_experience
 
 
-def create_target_position(params):
-    if params:
-        minimum_salary = params['minimum_salary']
-        role = get_by_name_or_create(Role, params["role"])
-        skills = get_or_create_named_collection(Skill, params["skills"])
-        tp = TargetPosition(minimum_salary=minimum_salary, role=role, skills=skills)
-        DBSession.add(tp)
-        DBSession.flush()
-    else:
-        tp = None
-    return tp
-
-
-def set_preferred_locations(candidate_id, params):
-    if isinstance(params, dict):
-        try:
-            DBSession.query(PreferredLocation).filter(PreferredLocation.target_position_candidate_id == candidate_id) \
-                .delete()
-            locations = get_locations_from_structure(params)
-            for loc in locations:
-                loc.target_position_candidate_id = candidate_id
-            DBSession.add_all(locations)
-            DBSession.flush()
-            return locations
-        except (IndexError, KeyError), e:
-            raise HTTPBadRequest("Unknown Locations Submitted: %s" % e)
-    else:
-        raise HTTPBadRequest("Must submit dictionary of countries with city lists as root level.")
+def set_preferred_locations(candidate_id, locations):
+    DBSession.query(PreferredLocation).filter(PreferredLocation.target_position_candidate_id == candidate_id).delete()
+    for loc in locations:
+        loc.target_position_candidate_id = candidate_id
+    DBSession.add_all(locations)
+    DBSession.flush()
+    return locations
 
 
 def set_languages_on_candidate(candidate, params):

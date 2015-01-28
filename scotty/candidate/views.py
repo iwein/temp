@@ -6,8 +6,9 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
+from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
-    candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, create_target_position, candidate_fulltext_search, \
+    candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     add_candidate_education, set_candidate_education, add_candidate_work_experience, set_candidate_work_experiences, \
     get_candidate_newsfeed, TP_EDITABLES
 from sqlalchemy import or_, and_, func
@@ -111,14 +112,17 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
     def create_targetposition(self):
-        params = self.request.json
-        if all(k in params for k in ("target_position", "preferred_locations")):
-            tp = create_target_position(params['target_position'])
-            pl = set_preferred_locations(tp.candidate_id, params['preferred_locations'])
-            # temp candidate, just for serialisation
-            return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
-        else:
-            raise HTTPBadRequest('either targetposition or preferred locations is missing')
+        params = PreSignupRequest().deserialize(self.request.json)
+
+        target = params['target_position']
+        tp = TargetPosition(minimum_salary=target['minimum_salary'], role=target['role'], skills=target['skills'])
+        DBSession.add(tp)
+        DBSession.flush()
+
+        pl = set_preferred_locations(tp.candidate_id, params['preferred_locations'])
+
+        # temp candidate, just for serialisation
+        return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
 
     @view_config(route_name='candidate', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup_email(self):
@@ -220,7 +224,8 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        set_preferred_locations(self.candidate.id, self.request.json)
+        locations = PreferredLocationType().deserialize(None, self.request.json)
+        set_preferred_locations(self.candidate.id, locations)
         return self.candidate
 
     @view_config(route_name='candidate_preferred_locations', **GET)

@@ -1,5 +1,6 @@
 import json
 from datetime import timedelta, datetime
+import colander
 
 from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
@@ -26,6 +27,12 @@ def http_error(exc, request):
     if isinstance(exc, HTTPRedirection):
         return exc
     return Response(json.dumps({'db_message': exc.detail}), status_code=exc.code,
+                    headers=[('Content-Type', 'application/json')])
+
+
+def schema_error(exc, request):
+    body = {"message": getattr(exc, 'message') or 'BAD REQUEST', 'errors': exc.asdict()}
+    return Response(json.dumps(body), status_code=getattr(exc, 'code', 400),
                     headers=[('Content-Type', 'application/json')])
 
 
@@ -103,7 +110,6 @@ def includeme(config):
 
     config.include("scotty.views.debug", route_prefix='/debug')
     config.add_notfound_view(notfound, append_slash=True)
-    # config.add_forbidden_view(http_error)
 
     config.include("scotty.login.views", route_prefix='/api/v1')
     config.include("scotty.configuration.views", route_prefix='/api/v1/config')
@@ -115,7 +121,8 @@ def includeme(config):
     config.include("scotty.cms.views", route_prefix='/api/v1/cms')
 
     settings = config.get_settings()
-    if settings.get('pyramid.reload_templates') != 'true':
+    if not settings.get('pyramid.reload_templates'):
         config.add_view(context=DBAPIError, view=db_error, permission=NO_PERMISSION_REQUIRED)
         config.add_view(context=Exception, view=all_error, permission=NO_PERMISSION_REQUIRED)
         config.add_view(context=HTTPError, view=http_error, permission=NO_PERMISSION_REQUIRED)
+    config.add_view(context=colander.Invalid, view=schema_error, permission=NO_PERMISSION_REQUIRED)

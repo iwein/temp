@@ -15,9 +15,18 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
   tests =
     [
       {title: "InviteCodes"},
+
+      {url:'/api/v1/candidates/', title: 'candidate-signup-empty', data: {}, expectedErrors:[400]},
+
+      {url:'/api/v1/candidates/', title: 'candidate-signup-empty-location', data: {preferred_locations: {}},
+        expectedErrors:[400]},
+
+      {url:'/api/v1/candidates/', title: 'candidate-signup-error-location', data: {
+        preferred_locations: {NEWfoundLand: ["fangtASIA"]}}, expectedErrors:[400]},
+
+
       {url:'/api/v1/candidates/', title: 'candidate-signup-with-invite',
-        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd",
-          'invite_code':inviteCode}, expectedErrors:[400]},
+        data: {target_position: {}, preferred_locations: {}}, expectedErrors:[400]},
 
       {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-create-invite-code',
         data: {code: inviteCode, description: "Baylays invite code TEST"}},

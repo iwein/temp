@@ -197,7 +197,6 @@ class PreferredLocation(Base):
         return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
 
 
-
 def get_locations_from_structure(locations):
     if not locations:
         return []
