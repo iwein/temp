@@ -1,7 +1,7 @@
 from collections import Counter
-from colander import Invalid, SchemaNode, MappingSchema, Int, Range
+from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email
 from scotty import DBSession
-from scotty.candidate.models import get_locations_from_structure
+from scotty.candidate.models import get_locations_from_structure, InviteCode
 from scotty.configuration.models import Role, Skill
 from scotty.models.common import get_or_create_named_collection
 from sqlalchemy import null
@@ -21,7 +21,7 @@ class DBChoiceValue(object):
         return getattr(appstruct, self.name_field)
 
     def deserialize(self, node, cstruct):
-        if cstruct is null:
+        if cstruct is null and not node.required:
             return null
         if not isinstance(cstruct, basestring):
             raise Invalid(node, 'TYPE ERROR', value='string')
@@ -86,7 +86,6 @@ class TargetPosition(MappingSchema):
 
 
 class PreferredLocationType(object):
-
     def serialize(self, node, appstruct):
         if appstruct is null:
             return null
@@ -104,6 +103,17 @@ class PreferredLocationType(object):
         return []
 
 
+
+
+
 class PreSignupRequest(MappingSchema):
     target_position = TargetPosition()
     preferred_locations = SchemaNode(PreferredLocationType())
+
+
+class SignupRequest(MappingSchema):
+    email = SchemaNode(String(), validator=Email())
+    pwd = SchemaNode(String(), validator=Length(8))
+    first_name = SchemaNode(String(), validator=Length(2))
+    last_name = SchemaNode(String(), validator=Length(2))
+    invite_code = SchemaNode(DBChoiceValue(InviteCode), missing = None)

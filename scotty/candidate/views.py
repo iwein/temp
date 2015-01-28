@@ -6,7 +6,7 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
-from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType
+from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType, SignupRequest
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     add_candidate_education, set_candidate_education, add_candidate_work_experience, set_candidate_work_experiences, \
@@ -126,30 +126,27 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup_email(self):
-        params = self.request.json
+        params = SignupRequest().deserialize(self.request.json)
         candidate_id = self.request.matchdict["candidate_id"]
-        if all(k in params for k in ("email", "pwd", "first_name", "last_name")):
-            tp = DBSession.query(TargetPosition).get(candidate_id)
-            candidate = DBSession.query(Candidate).get(candidate_id)
-            if not tp:
-                raise HTTPBadRequest('Unknown ID, no target position saved for ID')
-            if candidate:
-                raise HTTPBadRequest('Candidate already signed up')
-            candidate = candidate_from_signup(candidate_id, self.request.json)
-            try:
-                DBSession.flush()
-            except IntegrityError, e:
-                raise HTTPConflict("User already signed up!")
 
+        tp = DBSession.query(TargetPosition).get(candidate_id)
+        candidate = DBSession.query(Candidate).get(candidate_id)
+        if not tp:
+            raise HTTPBadRequest('Unknown ID, no target position saved for ID')
+        if candidate:
+            raise HTTPBadRequest('Candidate already signed up')
+        candidate = candidate_from_signup(candidate_id, params)
+
+        try:
             DBSession.add(candidate)
             DBSession.flush()
+        except IntegrityError, e:
+            raise HTTPConflict("User already signed up!")
 
-            self.request.session['candidate_id'] = candidate.id
-            self.request.emailer.send_candidate_welcome(candidate)
-            candidate.activation_sent = datetime.now()
-            return candidate
-        else:
-            raise HTTPBadRequest('either targetposition & preferred locations or candidate is missing')
+        self.request.session['candidate_id'] = candidate.id
+        self.request.emailer.send_candidate_welcome(candidate)
+        candidate.activation_sent = datetime.now()
+        return candidate
 
     @view_config(route_name='candidate_activate', permission=NO_PERMISSION_REQUIRED, **GET)
     def activate(self):
