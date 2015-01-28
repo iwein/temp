@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Martin Peschke <martin@hackandcraft.com>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:659
@@ -1101,7 +1101,6 @@ msgid "Not defined yet"
 msgstr "Noch nicht festgelegt"
 
 #: components/candidate-profile/candidate-profile.js:393
-#, fuzzy
 msgid "Not specified"
 msgstr "Noch nicht festgelegt"
 
@@ -2555,7 +2554,6 @@ msgid "log in."
 msgstr "Anmelden"
 
 #: tools/moment-directive.js:68
-#, fuzzy
 msgid "month"
 msgstr "Monat"
 
