@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  var _ = require('underscore');
   var module = require('app-module');
 
 
@@ -33,7 +32,6 @@ define(function(require) {
 
 
   module.controller('CandidateSignupCtrl', function($scope, $state, Session) {
-    var signup = this;
     this.target = { company_types: [] };
     this.cities = [];
 
@@ -53,21 +51,7 @@ define(function(require) {
     }
 
     function targetPositionStored() {
-      if (targetPositionCompleted())
-        return true;
-
-      var item = localStorage.getItem('scotty:target_position');
-      if (!item)
-        return false;
-
-      var model = JSON.parse(item);
-      signup.target = _.omit(model, 'preferred_locations');
-      signup.preferred_locations = model.preferred_locations;
-      return targetPositionCompleted();
-    }
-
-    function targetPositionCompleted() {
-      return !!signup.target.minimum_salary;
+      return localStorage.getItem('scotty:user_id') !== null;
     }
   });
 

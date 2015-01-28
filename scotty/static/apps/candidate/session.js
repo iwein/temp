@@ -107,7 +107,13 @@ define(function(require) {
     },
 
     signup: function(data) {
-      return this._api.post('/candidates/', data).then(this._setUser);
+      return this._api.post('/candidates/', data).then(function(response) {
+        return response.id;
+      });
+    },
+
+    createUser: function(id, data) {
+      return this._api.post('/candidates/' + id, data).then(this._setUser);
     },
 
     getSignupStage: function() {

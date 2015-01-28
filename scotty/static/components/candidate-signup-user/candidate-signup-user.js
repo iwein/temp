@@ -56,21 +56,15 @@ define(function(require) {
     }
 
     function submit() {
+      var id = localStorage.getItem('scotty:user_id');
       $scope.loading = true;
       Loader.add('signup-user-saving');
 
-      return Session.signup($scope.model).then(function() {
-        var position = _.omit($scope.signup.target, 'preferred_locations', 'featuredSkills');
-        var locations = $scope.signup.preferred_locations;
-        position.skills = [].concat(position.skills || [], $scope.signup.target.featuredSkills || []);
-
-        return $q.all([
-          importedData ? Session.user.updateData(importedData) : null,
-          Session.user.setTargetPosition(position),
-          Session.user.setPreferredLocations(locations),
-        ]);
+      return Session.createUser(id, $scope.model).then(function(user) {
+        localStorage.removeItem('scotty:user_id');
+        if (importedData)
+          return user.updateData(importedData);
       }).then(function() {
-        localStorage.removeItem('scotty:target_position');
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409) {

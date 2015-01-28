@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupTargetCtrl', function($scope, $q, gettext, toaster, Loader, ConfigAPI) {
+  module.controller('CandidateSignupTargetCtrl', function($scope, $q, gettext, toaster, Loader, ConfigAPI, Session) {
     _.extend($scope, {
       locationToText: ConfigAPI.locationToText,
       searchCities: ConfigAPI.locations,
@@ -30,11 +30,7 @@ define(function(require) {
         ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope)),
         ConfigAPI.featuredSkills().then(toCheckboxModel.bind(null, 'featuredSkills')),
         ConfigAPI.featuredLocations().then(toCheckboxModel.bind(null, 'featuredLocations')),
-      ]).then(function() {
-        var stored = localStorage.getItem('scotty:target_position');
-        if (stored)
-          setModel(stored ? JSON.parse(stored) : {});
-      }).finally(function() {
+      ]).finally(function() {
         toaster.show('alert banner-message',
           gettext('<h2>Sign up as IT professional and get hired!</h2>' +
             'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!'),
@@ -69,32 +65,24 @@ define(function(require) {
       });
     }
 
-    function setModel(model) {
-      model = $scope.model = JSON.parse(JSON.stringify(model));
-      setPreferredLocations(model.preferred_locations || {});
-
-      // Skills parsing
-      var skills = model.skills || [];
-      $scope.featuredSkills.forEach(function(item) {
-        item.selected = skills.indexOf(item.value) !== -1;
-      });
-      $scope.skillSelected = $scope.featuredSkills.some(fn.get('selected'));
-    }
-
     function submit() {
       updateLocations($scope.anywhereInGermany);
       if (!$scope.form.$valid || $scope.errorLocationRequired)
         return;
 
-      var model = $scope.model;
-      localStorage.setItem('scotty:target_position', JSON.stringify(model));
-      $scope.signup.target = _.omit(model, 'preferred_locations');
-      $scope.signup.preferred_locations = model.preferred_locations;
-
       $scope.loading = true;
       Loader.add('signup-target-saving');
 
-      $scope.signup.nextStep().finally(function() {
+      var model = {
+        preferred_locations: $scope.model.preferred_locations,
+        target_position: _.omit($scope.model, 'preferred_locations', 'featuredSkills'),
+      };
+      model.target_position.skills = (model.target_position.skills || []).concat($scope.model.featuredSkills || []);
+
+      Session.signup(model).then(function(id) {
+        localStorage.setItem('scotty:user_id', id);
+        return $scope.signup.nextStep();
+      }).finally(function() {
         $scope.loading = false;
         Loader.remove('signup-target-saving');
       });
@@ -126,44 +114,6 @@ define(function(require) {
         else
           locations[entry.country_iso].push(entry.city);
       }
-    }
-
-    function setPreferredLocations(locations) {
-      // Anywhere in germany parsing
-      var germany = locations.DE;
-      $scope.anywhereInGermany = germany && germany.length === 0;
-      $scope.preferred_locations = [];
-      if ($scope.anywhereInGermany) {
-        $scope.featuredLocations.forEach(fn.set('selected', false));
-        $scope.locationOther = false;
-        return;
-      }
-
-      // Featured locations
-      $scope.featuredLocations.forEach(function(entry) {
-        var country = entry.value.country_iso;
-        var city = entry.value.city;
-        var index = (locations[country] || []).indexOf(city);
-        entry.selected = index !== -1;
-        if (entry.selected)
-          locations[country].splice(index, 1);
-      });
-
-      // Other locations
-      var countries = Object.keys(locations);
-      var citiesCount = countries.reduce(function(total, entry) {
-        return total + locations[entry].length;
-      }, 0);
-      $scope.locationOther = citiesCount !== 0;
-
-      countries.forEach(function(country) {
-        locations[country].forEach(function(city) {
-          $scope.preferred_locations.push({
-            country_iso: country,
-            city: city,
-          });
-        });
-      });
     }
   });
 
