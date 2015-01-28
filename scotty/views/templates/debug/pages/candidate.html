@@ -162,11 +162,34 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/me/education/'+extr.educationId}, title: 'delete-education', method:"DELETE"},
         {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-3'},
 
-        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-education',
+        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-3-education-1-wrong',
           method: 'PUT',
           data: [
             {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
               degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming"},
+            {"institution": "RWTH Aachen", "start":1994},
+            {"institution": "Universität Konstanz"}
+          ],
+          expectedErrors: [400]
+        },
+
+        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-3-education-3-wrong',
+          method: 'PUT',
+          data: [
+            {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+              degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming", end:2010},
+            {degree: '', institution: ''},
+            {"institution": "Universität Konstanz"}
+          ],
+          expectedErrors: [400]
+        },
+
+
+        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-3-education',
+          method: 'PUT',
+          data: [
+            {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+              degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
             {"institution": "RWTH Aachen", "start":1994},
             {"institution": "Universität Konstanz",
               degree: 'MD', "start":1997, course:"Oncology"},

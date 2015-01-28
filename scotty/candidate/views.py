@@ -7,10 +7,10 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
 from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType, SignupRequest, WorkExperienceRequest, \
-    ListWorkExperienceRequest
+    ListWorkExperienceRequest, EducationRequest, ListEducationRequest
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
-    add_candidate_education, set_candidate_education, set_candidate_work_experiences, get_candidate_newsfeed, \
+    set_candidate_education, set_candidate_work_experiences, get_candidate_newsfeed, \
     TP_EDITABLES
 from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
@@ -340,7 +340,22 @@ class CandidateEducationController(CandidateController):
 
     @view_config(route_name='candidate_educations', **POST)
     def create(self):
-        return add_candidate_education(self.candidate, self.request.json)
+        params = EducationRequest().bind().deserialize(self.request.json)
+        education = Education(candidate_id=self.candidate.id,
+                              institution=params['institution'],
+                              degree=params['degree'],
+                              start=params['start'],
+                              end=params['end'],
+                              course=params['course'])
+        DBSession.add(education)
+        DBSession.flush()
+        return education
+
+    @view_config(route_name='candidate_educations', **PUT)
+    def set(self):
+        params = ListEducationRequest().bind().deserialize(self.request.json)
+        DBSession.query(Education).filter(Education.candidate_id == self.candidate.id).delete()
+        return set_candidate_education(self.candidate.id, params)
 
     @view_config(route_name='candidate_education', **DELETE)
     def delete(self):
@@ -350,10 +365,6 @@ class CandidateEducationController(CandidateController):
             raise HTTPNotFound("Unknown Education ID.")
         DBSession.delete(education)
         return {"status": "success"}
-
-    @view_config(route_name='candidate_educations', **PUT)
-    def set(self):
-        return set_candidate_education(self.candidate, self.request.json)
 
 
 class CandidateWorkExperienceController(CandidateController):
@@ -373,6 +384,12 @@ class CandidateWorkExperienceController(CandidateController):
         DBSession.flush()
         return wexp
 
+    @view_config(route_name='candidate_work_experiences', **PUT)
+    def set(self):
+        params = ListWorkExperienceRequest().deserialize(self.request.json)
+        self.candidate.experiences = []
+        return set_candidate_work_experiences(self.candidate.id, params)
+
     @view_config(route_name='candidate_work_experience', **DELETE)
     def delete(self):
         id = self.request.matchdict["id"]
@@ -381,12 +398,6 @@ class CandidateWorkExperienceController(CandidateController):
             raise HTTPNotFound("Unknown WorkExperience ID.")
         DBSession.delete(we)
         return {"status": "success"}
-
-    @view_config(route_name='candidate_work_experiences', **PUT)
-    def set(self):
-        params = ListWorkExperienceRequest().deserialize(self.request.json)
-        self.candidate.experiences = []
-        return set_candidate_work_experiences(self.candidate.id, params)
 
 
 class CandidateTargetPositionController(CandidateController):
