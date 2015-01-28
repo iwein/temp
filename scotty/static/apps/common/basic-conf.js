@@ -26,6 +26,17 @@ define(function(require) {
     window.ga('create', conf.ga_id, 'auto');
 
   return function basicConf(module) {
+    // Hack modified gettext functionality to also translate tokens
+    var translate;
+
+    module.constant('gettext', function(string, context) {
+      return translate(string, context);
+    });
+    module.run(function(gettextCatalog) {
+      translate = function(string, context) {
+        return gettextCatalog.getString(string, context);
+      };
+    });
 
     // Hack modified gettext functionality to also translate tokens
     var translate;
