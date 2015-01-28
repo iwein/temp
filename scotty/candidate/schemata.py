@@ -33,7 +33,7 @@ class DBChoiceValue(object):
         return getattr(appstruct, self.name_field)
 
     def deserialize(self, node, cstruct):
-        if (cstruct is null or cstruct == '') and not node.required:
+        if cstruct is null or cstruct == '':
             return null
         if not isinstance(cstruct, basestring):
             raise Invalid(node, 'TYPE ERROR', value='string')
@@ -133,7 +133,7 @@ class SignupRequest(MappingSchema):
 
 class WorkExperienceRequest(MappingSchema):
     company = SchemaNode(DBChoiceValue(Company, create_unknown=True))
-    start = SchemaNode(Date(), validator=Range(date(1900, 1, 1)), missing=None)
+    start = SchemaNode(Date(), validator=Range(date(1900, 1, 1)))
     end = SchemaNode(Date(), validator=Range(date(1900, 1, 1)), missing=None)
     summary = SchemaNode(String(), validator=Length(min=2), missing=None)
     role = SchemaNode(DBChoiceValue(Role, create_unknown=True), missing=None)
