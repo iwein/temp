@@ -17,6 +17,7 @@ define(function(require) {
 
             fields.forEach(function(field) {
               field.$dirty = true;
+              if (!field.$name) return;
               var dom = element.querySelector('[name=' + field.$name + ']');
               if (dom) dom.focus();
             });
