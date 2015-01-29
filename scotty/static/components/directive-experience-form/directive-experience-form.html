@@ -116,7 +116,7 @@
                          ng-required="!current"
                          ng-model="endYear"
                          ng-change="endDateUpdate()"
-                         hc-greater-than="model.start">
+                         hc-greater-than="startYear">
                 </div>
               </div>
               <div class="form-error" ng-show="form.endMonth.$dirty && form.endMonth.$invalid">
@@ -124,7 +124,7 @@
               </div>
               <div class="form-error" ng-show="form.endYear.$dirty && form.endYear.$invalid">
                 <span ng-show="form.endYear.$error.required" translate>Please insert the year when you left this position.</span>
-                <span ng-show="formEducation.end.$error.greaterThan" translate>End year should be after start year.</span>
+                <span ng-show="form.endYear.$error.greaterThan" translate>End year should be after start year.</span>
                 <span ng-show="form.endYear.$error.min" translate>End year must be after 1900.</span>
                 <span ng-show="form.endYear.$error.max" translate>End year must be in the past.</span>
               </div>
