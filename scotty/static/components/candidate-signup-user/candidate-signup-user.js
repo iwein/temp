@@ -76,6 +76,8 @@ define(function(require) {
         if (request.status === 400 && request.data.errors) {
           if(request.data.errors.invite_code === 'INVALID CHOICE')
             toaster.error(gettext('Unknown invite code'));
+          else if(request.data.errors.email)
+              $scope.formSignupUser.email.$setValidity('email', false);
           return;
         }
 
