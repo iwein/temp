@@ -3,7 +3,7 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
   return [
     {url: '/api/v1/candidates/', title: 'signup-target_position',
       data: {
-        'target_position': {"role":"Java Developer", "skills": ["Python", "PHP"], minimum_salary: 40000},
+        'target_position': {"role":"Quality Assurance", "skills": ["Python", "PHP"], minimum_salary: 40000},
         'preferred_locations': {DE: ['Berlin']}
       }, extract:   function(r, extr){return {candidateId: r.id}}},
     {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId}, title: 'candidate-email-signup', ignoreResult: ignoreResult,
@@ -20,7 +20,7 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
 var CANDIDATE_COMPLETE_PROFILE = function(email, ignoreResult) {
   return [
     {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'create-target_position',
-      data: {"company_types": ["startup", "top500"], "role":"Java Developer", 'skills': ["Python", "PHP"], relocate: false,
+      data: {"company_types": ["startup", "top500"], "role":"Quality Assurance", 'skills': ["Python", "PHP"], relocate: false,
         travel_willingness:'<10%', minimum_salary: 100000}, ignoreResult:ignoreResult,
       extract:   function(r, extr){return {target_positionId: r.id}}},
 
