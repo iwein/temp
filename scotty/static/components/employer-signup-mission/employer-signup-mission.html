@@ -67,13 +67,12 @@
 
         <div class="form-group required">
           <label class="merg-btm-small mrg-top" translate>Company Mission</label>
-          <text-angular ng-model="model.mission_text">
           <!--
             on-file="onFile($files)"
             on-file-pattern="image"
             on-file-prevent-default>
           -->
-          </text-angular>
+          <text-angular ng-model="model.mission_text"></text-angular>
 
           <div class="form-error" ng-show="missionDirty && errorMissionEmpty">
             <span translate>Please insert a description of the mission of your company.</span>
