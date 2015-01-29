@@ -86,14 +86,14 @@ class DBListValues(object):
                           value=[s for s in cstruct if not isinstance(s, basestring)])
         name_set = set(cstruct)
         if self.require_unique and len(name_set) < len(cstruct):
-            raise Invalid("DUPLICATE ITEMS", value=[x for x, y in Counter(cstruct).items() if y > 1])
+            raise Invalid(node, "DUPLICATE ITEMS", value=[x for x, y in Counter(cstruct).items() if y > 1])
         elif self.create_unknown:
             return get_or_create_named_collection(self.sqla_cls, cstruct, self.name_field)
         else:
             objs = DBSession.query(self.sqla_cls).filter(getattr(self.sqla_cls, self.name_field).in_(name_set)).all()
             if len(objs) < len(name_set):
                 missings = set(name_set).difference(getattr(t, self.name_field) for t in objs)
-                raise Invalid("UNKNOWN VALUES", value=missings)
+                raise Invalid(node, "UNKNOWN VALUES", value=missings)
             return objs
 
     def cstruct_children(self, node, cstruct):
@@ -101,6 +101,10 @@ class DBListValues(object):
 
 
 class PreferredLocationType(object):
+    def __init__(self, min_length=None):
+        super(PreferredLocationType, self).__init__()
+        self.min_length = min_length
+
     def serialize(self, node, appstruct):
         if appstruct is null:
             return null
@@ -111,6 +115,9 @@ class PreferredLocationType(object):
             return null
         if not isinstance(cstruct, dict):
             raise Invalid(node, 'NOT A MAPPING', value='mapping')
+        if self.min_length and len(cstruct) < self.min_length:
+            raise Invalid(node, 'NOT ENOUGH ITEMS', value=self.min_length)
+
         locations = get_locations_from_structure(cstruct)
         return locations
 
@@ -126,7 +133,7 @@ class TargetPosition(MappingSchema):
 
 class PreSignupRequest(MappingSchema):
     target_position = TargetPosition()
-    preferred_locations = SchemaNode(PreferredLocationType())
+    preferred_locations = SchemaNode(PreferredLocationType(min_length=1))
 
 
 class SignupRequest(MappingSchema):
@@ -149,8 +156,8 @@ class WorkExperienceRequest(MappingSchema):
 
     def validator(self, schema, value):
         if value.get('end') and value['end'] < value['start']:
-            node = filter(lambda x: x.name =='end', schema.children)[0]
-            raise Invalid(node, 'END MUST BE AFTER START')
+            raise Invalid(schema['end'], 'END MUST BE AFTER START')
+
 
 class ListWorkExperienceRequest(SequenceSchema):
     exp = WorkExperienceRequest()
@@ -165,8 +172,8 @@ class EducationRequest(MappingSchema):
 
     def validator(self, schema, value):
         if value.get('end') and value['end'] < value['start']:
-            node = filter(lambda x: x.name =='end', schema.children)[0]
-            raise Invalid(node, 'END MUST BE AFTER START')
+            raise Invalid(schema['end'], 'END MUST BE AFTER START')
+
 
 class ListEducationRequest(SequenceSchema):
     edu = EducationRequest()
@@ -175,6 +182,7 @@ class ListEducationRequest(SequenceSchema):
 class LevelledSkillRequest(MappingSchema):
     level = SchemaNode(DBChoiceValue(SkillLevel), missing=None)
     skill = SchemaNode(DBChoiceValue(SkillLevel), missing=None)
+
 
 class SkillsRequest(SequenceSchema):
     skills = SchemaNode(DBListValues(Skill, min_length=3))

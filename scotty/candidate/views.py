@@ -222,7 +222,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        locations = PreferredLocationType().deserialize(None, self.request.json)
+        locations = PreferredLocationType(min_length=1).deserialize(None, self.request.json)
         set_preferred_locations(self.candidate.id, locations)
         return self.candidate
 
