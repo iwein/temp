@@ -1,7 +1,7 @@
 from collections import Counter
 from datetime import date, datetime
 from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email, null, Date, SequenceSchema, \
-    Integer, deferred
+    Integer, deferred, Boolean
 from scotty import DBSession
 from scotty.candidate.models import get_locations_from_structure, InviteCode
 from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course, SkillLevel
@@ -22,6 +22,11 @@ def db_choice_validator(cls, keyfield=None):
 @deferred
 def current_year_range(node, kw):
     return Range(min=1900, max=datetime.today().year)
+
+
+def must_be_true(node, value):
+    if not value:
+        raise Invalid(node, 'MUST BE TRUE')
 
 
 class DBChoiceValue(object):
@@ -146,6 +151,7 @@ class SignupRequest(MappingSchema):
     first_name = SchemaNode(String(), validator=Length(min=2))
     last_name = SchemaNode(String(), validator=Length(min=2))
     invite_code = SchemaNode(DBChoiceValue(InviteCode), missing=None)
+    agreedTos = SchemaNode(Boolean(), validator=must_be_true)
 
 
 class WorkExperienceRequest(MappingSchema):

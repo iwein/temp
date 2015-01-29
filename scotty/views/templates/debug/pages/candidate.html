@@ -276,9 +276,6 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
           data: {'availability': 'Ill be available'}, method:'PUT'},
         {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
 
-
-
-
         {'sectionTitle': 'Cleanup'},
         {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
         {url: '/api/v1/login', data: {"email": email, pwd:"helloworld"}, title: 'unified-login'},
