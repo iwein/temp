@@ -6,12 +6,12 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPConflict, HT
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
-from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType, SignupRequest, WorkExperienceRequest, \
-    ListWorkExperienceRequest, EducationRequest, ListEducationRequest
+from scotty.candidate.schemata import PreSignupRequest, SignupRequest, WorkExperienceRequest, \
+    ListWorkExperienceRequest, EducationRequest, ListEducationRequest, PreferredLocationRequest
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
-    set_candidate_education, set_candidate_work_experiences, get_candidate_newsfeed, \
-    TP_EDITABLES
+    set_candidate_education, get_candidate_newsfeed, \
+    TP_EDITABLES, set_candidate_work_experience
 from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
@@ -222,8 +222,8 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        locations = PreferredLocationType().deserialize(None, self.request.json)
-        set_preferred_locations(self.candidate.id, locations)
+        params = PreferredLocationRequest().deserialize({'locations': self.request.json})
+        set_preferred_locations(self.candidate.id, params['locations'])
         return self.candidate
 
     @view_config(route_name='candidate_preferred_locations', **GET)
@@ -354,7 +354,6 @@ class CandidateEducationController(CandidateController):
     @view_config(route_name='candidate_educations', **PUT)
     def set(self):
         params = ListEducationRequest().bind().deserialize(self.request.json)
-        DBSession.query(Education).filter(Education.candidate_id == self.candidate.id).delete()
         return set_candidate_education(self.candidate.id, params)
 
     @view_config(route_name='candidate_education', **DELETE)
@@ -387,8 +386,7 @@ class CandidateWorkExperienceController(CandidateController):
     @view_config(route_name='candidate_work_experiences', **PUT)
     def set(self):
         params = ListWorkExperienceRequest().deserialize(self.request.json)
-        self.candidate.experiences = []
-        return set_candidate_work_experiences(self.candidate.id, params)
+        return set_candidate_work_experience(self.candidate.id, params)
 
     @view_config(route_name='candidate_work_experience', **DELETE)
     def delete(self):

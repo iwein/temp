@@ -42,7 +42,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
       {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition', expectedErrors: [403]},
       {title: 'Signup - Second Email & Password'},
       {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId}, title: 'candidate-email-signup-with-invite',
-        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode}},
+        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode, agreedTos: true}},
       {url: function(r, extr){return '/api/v1/candidates/me?apikey=${apikey}'}, title: 'candidate-with-invite-delete', method:"DELETE"},
       {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-show-invite-codes'},
 
@@ -109,6 +109,45 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/me/work_experience/'+extr.work_experienceId}, title: 'delete-work_experience', method:"DELETE"},
         {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'list-work_experience-3'},
 
+
+
+        {title: 'Work Experience Duplicates'},
+
+        {url: function (r, extr) {
+          return '/api/v1/candidates/me/work_experience'
+        }, title: 'SET-4-work-experiences-twice-same',
+          method: 'PUT',
+          data: [
+            {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
+              "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+              "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
+            {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
+              "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+              "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
+
+          ],
+          extract: function (r, extr) {
+            return {work_experienceId: r.id}
+          }},
+
+        {url: function (r, extr) {
+          return '/api/v1/candidates/me/work_experience'
+        }, title: 'SET-4-work-experiences',
+          method: 'PUT',
+          data: [
+            {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
+              "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+              "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
+          ],
+          extract: function (r, extr) {
+            return {work_experienceId: r.id}
+          }},
+
+        {url: function (r, extr) {
+          return '/api/v1/candidates/me/work_experience'
+        }, title: 'list-work_experience-4'},
+
+
         {url: function(r, extr){return '/api/v1/candidates/me/work_experience'}, title: 'SET-4-work-experiences-1-wrong',
           method: 'PUT',
           data: [ {"company": "Intel Corp.", "role":"Project Architect",
@@ -173,17 +212,17 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
           expectedErrors: [400]
         },
 
-        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-3-education-3-wrong',
+        {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-4-education-3-wrong',
           method: 'PUT',
           data: [
             {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
               degree: 'NEWDEGREE-'+guid(), "start":1992, course:"Programming", end:2010},
             {degree: '', institution: ''},
-            {"institution": "Universität Konstanz"}
+            {"institution": "Universität Konstanz"},
+            {"institution": "Universität Konstanz", start: 2000, end: 1990}
           ],
           expectedErrors: [400]
         },
-
 
         {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'SET-3-education',
           method: 'PUT',
@@ -197,6 +236,31 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         },
 
         {url: function(r, extr){return '/api/v1/candidates/me/education'}, title: 'list-education-4'},
+
+
+
+        {title: 'Education Duplicates'},
+
+        {url: '/api/v1/candidates/me/education', title: 'SET-3-education-twice-same',
+          method: 'PUT',
+          data: [
+            {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+              degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
+            {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+              degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},%
+          ]
+        },
+
+        {url: '/api/v1/candidates/me/education', title: 'SET-3-education',
+          method: 'PUT',
+          data: [
+            {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+              degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
+          ]
+        },
+        {url: '/api/v1/candidates/me/education', title: 'LIST-3-education'},
+
+
 
         {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-Education'},
 
@@ -236,7 +300,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_locations'},
 
         {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-          title: 'set-preferred_locations-empty', method:'PUT', data: {}
+          title: 'set-preferred_locations-empty', method:'PUT', data: {}, expectedErrors: [400]
         },
         {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
           title: 'set-preferred_locations-1', method:'PUT',
@@ -274,9 +338,6 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'profile-complete-summary',
           data: {'availability': 'Ill be available'}, method:'PUT'},
         {url: function(r, extr){return '/api/v1/candidates/me/profile_completion'}, title: 'profile-completion-workflow'},
-
-
-
 
         {'sectionTitle': 'Cleanup'},
         {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},

@@ -1,0 +1,33 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">Candidate</%def>
+<%def name="scripts()">
+<script src="/debug/static/candidate_signup.js"></script>
+</%def>
+
+<%def name="tests()">
+<script>
+  var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+    email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+    inviteCode = 'INVITE-CODE-' + guid(),
+
+    tests = CANDIDATE_SIGNUP(email).concat([
+
+
+
+    ]);
+
+  //
+  //  [
+  //    {"start": "1952-10-01", "city": "e56ebf61-00cc-544f-d42a-bd3d3894fba8", "end": null, "country_iso": "BB",
+  //      "skills": ["Java", ".Net", "PHP", "Python", "Ruby", "C/C++", "Javascript", "HTML/CSS", "Android", "iOS", "Linux", "Salesforce", "SAP"],
+  //      "company": "366651b0-4897-915b-6b12-15b908f35064", "id": 754, "summary": "12435d93-6c30-b65e-2e27-b0ee26f63261",
+  //      "role": "21c045bc-6811-707d-a057-ce54cc342f1b", "import": true}
+  //  ]
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>

@@ -7,7 +7,7 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
         'preferred_locations': {DE: ['Berlin']}
       }, extract:   function(r, extr){return {candidateId: r.id}}},
     {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId}, title: 'candidate-email-signup', ignoreResult: ignoreResult,
-      data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd"},
+      data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd", agreedTos: true},
       extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
     {url:function(r, extr){ return '/api/v1/candidates/activate/'+extr.actToken;}, ignoreResult:ignoreResult, title: 'candidate-activation'},
     {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login', ignoreResult:ignoreResult,
