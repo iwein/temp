@@ -32,7 +32,7 @@ def upgrade():
     op.execute("ALTER TABLE target_position_skills drop column target_position_id;")
     op.execute("ALTER TABLE target_position_skills ADD PRIMARY KEY (target_position_candidate_id, skill_id)")
     op.execute("ALTER TABLE target_position_skills ADD CONSTRAINT target_position_skills_target_position_id_fkey "
-               "FOREIGN KEY (target_position_candidate_id) REFERENCES target_position (candidate_id);")
+               "FOREIGN KEY (target_position_candidate_id) REFERENCES target_position (candidate_id) ON DELETE CASCADE;")
 
     op.execute('ALTER TABLE target_position drop column id;')
 

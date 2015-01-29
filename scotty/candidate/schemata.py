@@ -125,6 +125,10 @@ class PreferredLocationType(object):
         return []
 
 
+class PreferredLocationRequest(MappingSchema):
+    locations = SchemaNode(PreferredLocationType(min_length=1))
+
+
 class TargetPosition(MappingSchema):
     role = SchemaNode(DBChoiceValue(Role))
     minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=99000000))

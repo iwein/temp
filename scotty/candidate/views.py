@@ -7,7 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
 from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType, SignupRequest, WorkExperienceRequest, \
-    ListWorkExperienceRequest, EducationRequest, ListEducationRequest
+    ListWorkExperienceRequest, EducationRequest, ListEducationRequest, PreferredLocationRequest
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     set_candidate_education, get_candidate_newsfeed, \
@@ -222,8 +222,8 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **PUT)
     def set_preferred_cities(self):
-        locations = PreferredLocationType(min_length=1).deserialize(None, self.request.json)
-        set_preferred_locations(self.candidate.id, locations)
+        params = PreferredLocationRequest().deserialize({'locations': self.request.json})
+        set_preferred_locations(self.candidate.id, params['locations'])
         return self.candidate
 
     @view_config(route_name='candidate_preferred_locations', **GET)
