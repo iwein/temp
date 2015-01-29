@@ -183,7 +183,7 @@
         <div class="row bg-white">
             <div class="job-bar">
               <div class="job-bar-item" ng-repeat="entry in timeline"
-                style="width: {{ entry.percent }}%"
+                ng-style="{ width: entry.percent+'%' }"
                 title="{{ entry.role }} - {{ entry.duration | yearMonth }}">
                 <div class="job-bar-item_up" ng-class="{
                   'bg-gray-light': $even,

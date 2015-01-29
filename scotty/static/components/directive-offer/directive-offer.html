@@ -6,7 +6,7 @@
         {{ model.data.reference }}
       </div>
 
-      <div class="offer-pic emp-pic" ng-if="!hide.employer" style="background-image: url({{ model.data.employer.logo_url }})"></div>
+      <div class="offer-pic emp-pic" ng-if="!hide.employer" ng-style="{'background-image': 'url(' +model.data.employer.logo_url+')'}"></div>
       <hc-candidate-pic classes="offer-pic" ng-if="!hide.candidate" picture-url="model.data.candidate.picture_url"></hc-candidate-pic>
     </div>
   </div>

@@ -17,7 +17,7 @@
         <li class="dropdown" ng-show="session.user" ui-sref-active="active">
           <a ui-sref="profile">
             <!-- TODO display the user name and the user avatar please -->
-            <div class="user-avatar" style="background-image: url({{ session.user._data.picture_url }})"></div>
+            <div class="user-avatar" ng-style="{'background-image': 'url('+session.user._data.picture_url+')'}"></div>
             {{ session.user._data.first_name }} <i class="fa fa-angle-down"></i>
           </a>
           <div class="logout" ng-show="session.user"><a ng-click="logout()" translate>Log out</a></div>

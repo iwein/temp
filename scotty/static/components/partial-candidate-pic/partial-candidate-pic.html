@@ -1,2 +1,2 @@
 <div class="{{ classes || 'user-pic' }}" ng-hide="pictureUrl"></div>
-<div class="{{ classes || 'user-pic' }}" ng-show="pictureUrl" style="background-image: url({{ pictureUrl }})"></div>
+<div class="{{ classes || 'user-pic' }}" ng-show="pictureUrl" ng-style="{'background-image' : 'url('+pictureUrl+')'}"></div>

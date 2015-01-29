@@ -13,7 +13,7 @@
   <div class="col-sm-12 no-padd-left">
     <div class="row">
       <div class="col-sm-4">
-        <div class="img-wrap emp-pic mrg-btm-small" style="background-image: url({{ employer.logo_url }})"></div>
+        <div class="img-wrap emp-pic mrg-btm-small" ng-style="{'background-image': 'url(' + employer.logo_url +')'}"></div>
         <a class="link-profile link-search-hide" ng-if="hcLinkProfile" ui-sref="employer({ id: employer.id })" translate>
           Company Profile
         </a>

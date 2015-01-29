@@ -72,7 +72,7 @@
                   <div class="uploadText" translate>Upload a photo at least 235 px wide.</div>
                   <div class="clearfix"></div>
                 </div>
-                <div class="col-sm-6 user-pic-preview mrg-btm-small" style="background-image: url({{ selectedPicture[0]  || user.picture_url }})"></div>
+                <div class="col-sm-6 user-pic-preview mrg-btm-small" ng-style="{'background-image': 'url('+(selectedPicture[0]||user.picture_url)+')'}"></div>
                 <div class="buttons-wrap mrg-btm-small">
                   <button type="button"
                           class="fl-lf bg-gray-lighter2 btn-small"
