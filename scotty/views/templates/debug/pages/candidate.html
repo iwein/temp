@@ -237,7 +237,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/me'}, title: 'get-candidate-preferred_locations'},
 
         {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
-          title: 'set-preferred_locations-empty', method:'PUT', data: {}
+          title: 'set-preferred_locations-empty', method:'PUT', data: {}, expectedErrors: [400]
         },
         {url: function(r, extr){return '/api/v1/candidates/me/preferred_locations'},
           title: 'set-preferred_locations-1', method:'PUT',
