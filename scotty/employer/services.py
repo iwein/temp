@@ -19,16 +19,11 @@ from sqlalchemy.orm import joinedload
 
 ID = lambda x: x
 
-EMPLOYER_SIGNUP = {'company_name': ID, 'contact_salutation': lambda name: get_by_name_or_raise(Salutation, name),
-                   'company_type': lambda name: get_by_name_or_raise(CompanyType, name),
-                   'contact_first_name': ID, 'contact_last_name': ID, 'email': ID}
 
-
-def employer_from_signup(params, lookup=EMPLOYER_SIGNUP):
+def employer_from_signup(params):
     pwd = hash_pwd(params.pop('pwd'))
-    employer = Employer(pwd=pwd)
-    for field, transform in lookup.items():
-        setattr(employer, field, transform(params[field]))
+    employer = Employer(pwd=pwd, **{k: params[k] for k in ['contact_first_name', 'contact_last_name', 'email',
+                                                           'company_name', 'contact_salutation', 'company_type']})
     return employer
 
 

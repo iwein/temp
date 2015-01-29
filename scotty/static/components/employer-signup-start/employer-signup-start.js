@@ -78,8 +78,7 @@ define(function(require) {
     }
 
     function submit() {
-      if ($scope.formSignupStart.password.$invalid)
-        return;
+      if (!$scope.formSignupStart.$valid) return;
 
       $scope.loading = true;
       Loader.add('signup-start-saving');

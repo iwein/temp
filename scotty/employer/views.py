@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.auth.provider import ADMIN_PERM
+from scotty.employer.schemata import SignupRequest
 from sqlalchemy import func
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
@@ -92,7 +93,8 @@ class EmployerController(RootController):
     @view_config(route_name='employers', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup(self):
         try:
-            employer = employer_from_signup(self.request.json)
+            params = SignupRequest().deserialize(self.request.json)
+            employer = employer_from_signup(params)
             DBSession.add(employer)
             DBSession.flush()
         except IntegrityError, e:

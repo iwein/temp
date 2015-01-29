@@ -37,6 +37,7 @@ define(function(require) {
     }
 
     function submit() {
+      if(!$scope.formSignupBasic.$valid)return;
       if (!$scope.files || !$scope.files.length) {
         $scope.errorFileRequired = true;
         return;

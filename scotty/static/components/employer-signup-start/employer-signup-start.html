@@ -1,7 +1,7 @@
 <div class="row">
   <form name="formSignupStart"
     class="component-employer-signup-start form-horizontal col-sm-8 bg-white mrg-btm"
-    ng-submit="signupStart.submit()">
+    ng-submit="signupStart.submit()" hc-validations-on-submit>
 
     <div class="col-sm-12">
       <h2 class="signup-title" translate>Welcome</h2>
@@ -13,7 +13,7 @@
             <input type="text"
                    class="form-control"
                    name="companyName"
-                   required
+                   ng-required="true"
                    ng-disabled="loading || invited"
                    ng-model="model.company_name"
                    typeahead="company for company in searchCompanies($viewValue)"
@@ -39,16 +39,17 @@
               <input type="radio"
                      name="companyType"
                      value="{{ type }}"
-                     required
+                     ng-required="true"
                      ng-disabled="loading"
                      ng-model="model.company_type">
               {{ companyTypeMeta[type].label }}
             </label>
           </div>
 
-          <div class="form-error col-sm-9 col-sm-offset-3"ng-show="errorNoCompanyType">
-            <span translate>Please select at least one company type.</span>
+          <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupStart.companyType.$dirty && formSignupStart.companyType.$invalid">
+            <span ng-show="formSignupStart.companyType.$error.required" translate>Please select at least one company type.</span>
           </div>
+
         </div>
 
         <div class="form-group required">
@@ -58,7 +59,7 @@
             <select
               class="form-control"
               name="salutation"
-              required
+              ng-required="true"
               ng-disabled="loading || invited"
               ng-model="model.contact_salutation"
               ng-options="salutation for salutation in salutations">
@@ -78,7 +79,7 @@
             <input type="text"
                    class="form-control"
                    name="contact_first_name"
-                   required
+                   ng-required="true"
                    ng-disabled="loading || invited"
                    ng-model="model.contact_first_name">
           </div>
@@ -97,7 +98,7 @@
             <input type="text"
                    class="form-control"
                    name="contact_last_name"
-                   required
+                   ng-required="true"
                    ng-disabled="loading || invited"
                    ng-model="model.contact_last_name">
           </div>
@@ -115,7 +116,7 @@
             <input type="email"
                    class="form-control"
                    name="email"
-                   required
+                   ng-required="true"
                    ng-disabled="loading || invited"
                    ng-model="model.email"
                    ng-change="signupStart.onEmailChange()">
@@ -141,7 +142,7 @@
             <input type="password"
                    class="form-control"
                    name="password"
-                   required
+                   ng-required="true"
                    ng-minlength="8"
                    ng-disabled="loading"
                    ng-model="model.pwd">

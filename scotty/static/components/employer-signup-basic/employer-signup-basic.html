@@ -4,7 +4,7 @@
       <h2 class="signup-title" translate>Basic information</h2>
 
 
-      <form name="formSignupBasic" class="form-horizontal form-wrap" ng-submit="signupBasic.submit()">
+      <form name="formSignupBasic" class="form-horizontal form-wrap" ng-submit="signupBasic.submit()" hc-validations-on-submit>
         <div class="form-wrap mrg-btm bg-gray-lighter pad-30 form-signup">
           <div class="form-group required">
             <label class="col-sm-3" translate>Logo</label>
@@ -14,7 +14,7 @@
                 <input type="file"
                        name="photo"
                        accept="image/*"
-                       required
+                       ng-required="true"
                        ng-disabled="loading"
                        ng-model="files"
                        hc-file-select="signupBasic.selectFile($files)"
@@ -38,14 +38,14 @@
               <input type="url"
                      class="form-control"
                      name="website"
-                     required
+                     ng-required="true"
                      ng-disabled="loading"
                      ng-model="model.website">
             </div>
 
             <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
               <span ng-show="formSignupBasic.website.$error.required" translate>
-                Please insert the name of the contact person of your company.
+                Please insert your company's website URL.
               </span>
             </div>
           </div>
