@@ -75,6 +75,9 @@ define(function(require) {
             $scope.onAdd(data) :
             $scope.onEdit(_.extend(data, { $index: $scope.active }))
           ).then(function() {
+            if ($scope.formContainer.form)
+              $scope.formContainer.form.reset();
+
             return list();
           }).then(function() {
             return setActive(-1);

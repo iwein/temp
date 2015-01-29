@@ -4,7 +4,7 @@ define(function(require) {
   var nameAttr = require('tools/name-attr');
   var module = require('app-module');
 
-  module.directive('hcOfficeForm', function($parse) {
+  module.directive('hcOfficeForm', function($parse, $timeout) {
     function getModel(ngModel, scope) {
       var model = $parse(ngModel);
       var value = model(scope) || model(scope.$parent) || model(scope.$parent.$parent);
@@ -55,8 +55,19 @@ define(function(require) {
 
         function reset() {
           $scope.editing = false;
-          if ($scope.formOffice)
+          if ($scope.formOffice) {
             $scope.formOffice.$setPristine();
+            $timeout(function() {
+              $scope.errorInvalidCity = false;
+              var error = $scope.formOffice.$error;
+              Object.keys(error).forEach(function(key) {
+                error[key].forEach(function(field) {
+                  field.$dirty = false;
+                });
+              });
+            });
+          }
+
           $scope.model = {};
           afterModelChange();
         }
@@ -78,7 +89,8 @@ define(function(require) {
         }
 
         function submit() {
-          if(!$scope.formOffice.$valid)return;
+          if (!$scope.formOffice.$valid || $scope.errorInvalidCity) return;
+
           Object.keys($scope.model).forEach(function(key) {
             if (!$scope.model[key])
               delete $scope.model[key];
