@@ -78,6 +78,7 @@ define(function(require) {
         }
 
         function submit() {
+          if(!$scope.formOffice.$valid)return;
           Object.keys($scope.model).forEach(function(key) {
             if (!$scope.model[key])
               delete $scope.model[key];
