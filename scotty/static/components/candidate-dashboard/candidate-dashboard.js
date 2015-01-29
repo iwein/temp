@@ -72,17 +72,15 @@ define(function(require) {
 
       $scope.loading = true;
       return Session.searchEmployers(params)
-        .then(function(employers) {
-          return $q.all(employers.map(fn.invoke('getData', [])));
-        })
-        .then(function(results) {
-          var pagesCount = results.length / resultsPerPage;
+        .then(function(response) {
+          var employers = response.data;
+          var pagesCount = employers.length / resultsPerPage;
           var pages = [];
 
           for (var i = 0; i < pagesCount; i++)
             pages.push(i + 1);
 
-          $scope.searchResults = results;
+          $scope.searchResults = employers;
           $scope.pages = pages;
           loadPage(0);
         })
