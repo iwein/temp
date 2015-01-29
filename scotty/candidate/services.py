@@ -70,15 +70,12 @@ def set_candidate_education(candidate_id, params):
     return educations
 
 
-def set_candidate_work_experiences(candidate_id, params):
+def create_work_experiences(params):
     experiences = []
     for wxp_params in params:
-        wexp = WorkExperience(candidate_id=candidate_id,
-                              **{k: wxp_params.get(k) for k in ['start', 'end', 'summary', 'country_iso', 'city',
+        wexp = WorkExperience(**{k: wxp_params.get(k) for k in ['start', 'end', 'summary', 'country_iso', 'city',
                                                                 'company', 'role', 'skills']})
         experiences.append(wexp)
-    DBSession.add_all(experiences)
-    DBSession.flush()
     return experiences
 
 

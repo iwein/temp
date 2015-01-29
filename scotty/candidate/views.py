@@ -10,15 +10,15 @@ from scotty.candidate.schemata import PreSignupRequest, PreferredLocationType, S
     ListWorkExperienceRequest, EducationRequest, ListEducationRequest
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
-    set_candidate_education, set_candidate_work_experiences, get_candidate_newsfeed, \
-    TP_EDITABLES
+    set_candidate_education, get_candidate_newsfeed, \
+    TP_EDITABLES, create_work_experiences
 from sqlalchemy import or_, and_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 from scotty.models.meta import DBSession
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
-    CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure
+    CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure, work_experience_skill
 from scotty.models.tools import update
 from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
@@ -387,8 +387,9 @@ class CandidateWorkExperienceController(CandidateController):
     @view_config(route_name='candidate_work_experiences', **PUT)
     def set(self):
         params = ListWorkExperienceRequest().deserialize(self.request.json)
-        self.candidate.experiences = []
-        return set_candidate_work_experiences(self.candidate.id, params)
+        DBSession.query(WorkExperience).filter(WorkExperience.candidate_id == self.candidate.id).delete()
+        self.candidate.work_experience = create_work_experiences(params)
+        return self.candidate.work_experience
 
     @view_config(route_name='candidate_work_experience', **DELETE)
     def delete(self):

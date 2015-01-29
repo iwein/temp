@@ -152,7 +152,7 @@ class WorkExperienceRequest(MappingSchema):
     role = SchemaNode(DBChoiceValue(Role, create_unknown=True), missing=None)
     country_iso = SchemaNode(String(), missing=None, validator=db_choice_validator(Country, keyfield='iso'))
     city = SchemaNode(String(), validator=Length(max=500), missing=None)
-    skills = SchemaNode(DBListValues(Skill), missing=[])
+    skills = SchemaNode(DBListValues(Skill, create_unknown=True), missing=[])
 
     def validator(self, schema, value):
         if value.get('end') and value['end'] < value['start']:

@@ -1,0 +1,85 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">Candidate</%def>
+<%def name="scripts()">
+<script src="/debug/static/candidate_signup.js"></script>
+</%def>
+
+<%def name="tests()">
+<script>
+  var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+    email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+    inviteCode = 'INVITE-CODE-' + guid(),
+
+    tests = CANDIDATE_SIGNUP(email).concat([
+
+      {title: 'Education'},
+
+
+      {url: '/api/v1/candidates/me/education', title: 'SET-3-education',
+        method: 'PUT',
+        data: [
+          {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+            degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
+        ]
+      },
+
+      {url: '/api/v1/candidates/me/education', title: 'SET-3-education',
+        method: 'PUT',
+        data: [
+          {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
+            degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
+        ]
+      },
+      {url: '/api/v1/candidates/me/education', title: 'LIST-3-education'},
+
+
+      {title: 'Work Experience'},
+
+      {url: function (r, extr) {
+        return '/api/v1/candidates/me/work_experience'
+      }, title: 'SET-4-work-experiences',
+        method: 'PUT',
+        data: [
+          {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
+            "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+            "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
+        ],
+        extract: function (r, extr) {
+          return {work_experienceId: r.id}
+        }},
+
+      {url: function (r, extr) {
+        return '/api/v1/candidates/me/work_experience'
+      }, title: 'SET-4-work-experiences',
+        method: 'PUT',
+        data: [
+          {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
+            "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
+            "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
+        ],
+        extract: function (r, extr) {
+          return {work_experienceId: r.id}
+        }},
+
+      {url: function (r, extr) {
+        return '/api/v1/candidates/me/work_experience'
+      }, title: 'list-work_experience-4'},
+
+
+    ]);
+
+  //
+  //  [
+  //    {"start": "1952-10-01", "city": "e56ebf61-00cc-544f-d42a-bd3d3894fba8", "end": null, "country_iso": "BB",
+  //      "skills": ["Java", ".Net", "PHP", "Python", "Ruby", "C/C++", "Javascript", "HTML/CSS", "Android", "iOS", "Linux", "Salesforce", "SAP"],
+  //      "company": "366651b0-4897-915b-6b12-15b908f35064", "id": 754, "summary": "12435d93-6c30-b65e-2e27-b0ee26f63261",
+  //      "role": "21c045bc-6811-707d-a057-ce54cc342f1b", "import": true}
+  //  ]
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>
