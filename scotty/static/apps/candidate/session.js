@@ -24,7 +24,7 @@ define(function(require) {
       this.isApproved = response.is_approved;
       var fullName = response.first_name + ' ' + response.last_name;
       document.title = '4Scotty – ' + fullName;
-      if(window.UserVoice !== null){
+      if (window.UserVoice && response.email) {
         window.UserVoice.push(['identify', {
           email: response.email,
           name: fullName,

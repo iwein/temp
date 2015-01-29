@@ -45,9 +45,6 @@ define(function(require) {
     function validateStep(name) {
       if (name === 'signup.user' && !targetPositionStored())
         return 'signup.target';
-
-      if (name === 'signup.target')
-        targetPositionStored();
     }
 
     function targetPositionStored() {
