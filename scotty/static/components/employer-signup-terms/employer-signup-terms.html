@@ -1,6 +1,6 @@
 <form name="formSignupTerms"
       class="component-employer-signup-terms row"
-      ng-submit="signupTerms.submit()">
+      ng-submit="signupTerms.submit()" hc-validations-on-submit>
 
   <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
@@ -28,16 +28,15 @@
         </ul>
         <label class="font-nor">
           <input type="checkbox"
-                 required
+                 name="agreedTos"
+                 ng-required="true"
                  ng-disabled="loading"
                  ng-model="model.agreedTos">
           <span class="mrg-lft-small" translate>I agree to the terms of services</span>
         </label>
 
-        <div class="form-error" ng-show="formSignupTerms.recruitment.$dirty && formSignupTerms.recruitment.$invalid">
-          <span ng-show="formSignupTerms.recruitment.$error.required" translate>
-            You must accept our terms and services to proceed.
-          </span>
+        <div class="form-error" ng-show="formSignupTerms.agreedTos.$dirty && formSignupTerms.agreedTos.$invalid">
+          <span ng-show="formSignupTerms.agreedTos.$error.required" translate>You must accept our terms and services to proceed.</span>
         </div>
       </div>
 

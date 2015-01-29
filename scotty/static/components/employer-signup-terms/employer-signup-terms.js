@@ -9,6 +9,7 @@ define(function(require) {
     $scope.model = {};
 
     function submit() {
+      if(!$scope.formSignupTerms.$valid)return;
       $scope.loading = true;
       Loader.add('signup-terms-saving');
 
