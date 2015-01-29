@@ -108,14 +108,21 @@ def set_preferred_locations(candidate_id, locations):
 def set_languages_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of languages as root level.")
-    language_lookup = get_or_raise_named_collection(Language, [p['language'] for p in params])
+    language_lookup = get_or_raise_named_collection(Language, [p['language'] for p in params],
+                                                    require_uniqueness=False)
+
     proficiency_lookup = get_or_raise_named_collection(Proficiency, [p['proficiency'] for p in params],
                                                        require_uniqueness=False)
     DBSession.query(CandidateLanguage).filter(CandidateLanguage.candidate_id == candidate.id).delete()
     languages = []
+    duplicates = set()
+
     for p in params:
-        languages.append(CandidateLanguage(candidate_id=candidate.id, language_id=language_lookup[p['language']].id,
-                                           proficiency_id=proficiency_lookup[p['proficiency']].id))
+        lang_id = language_lookup[p['language']].id
+        if lang_id not in duplicates:
+            duplicates.add(lang_id)
+            languages.append(CandidateLanguage(candidate_id=candidate.id, language_id=lang_id,
+                                               proficiency_id=proficiency_lookup[p['proficiency']].id))
     DBSession.add_all(languages)
     DBSession.flush()
     return candidate
@@ -130,12 +137,15 @@ def set_skills_on_candidate(candidate, params):
 
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
     skills = []
+    duplicates = set()
 
     def get_level(p):
         return level_lookup.get(p['level']) if p.get('level') else None
 
     for p in params:
-        skills.append(CandidateSkill(candidate_id=candidate.id, skill=skill_lookup[p['skill']], level=get_level(p)))
+        if p['skill'] not in duplicates:
+            duplicates.add(p['skill'])
+            skills.append(CandidateSkill(candidate_id=candidate.id, skill=skill_lookup[p['skill']], level=get_level(p)))
     DBSession.add_all(skills)
     DBSession.flush()
     return candidate
