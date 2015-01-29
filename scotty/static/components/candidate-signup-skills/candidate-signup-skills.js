@@ -27,6 +27,8 @@ define(function(require) {
     });
 
     function submit() {
+      if(!$scope.form.$valid)return;
+
       $scope.loading = true;
       Loader.add('signup-skills-saving');
 
