@@ -64,10 +64,9 @@ define(function(require) {
         }
 
         function submit() {
-          if ($scope.form.$valid) {
-            var model = normalizeModel($scope.model);
-            $scope.onSubmit({ $model: model, $form: ctrl });
-          }
+          if (!$scope.form.$valid)return;
+          var model = normalizeModel($scope.model);
+          $scope.onSubmit({ $model: model, $form: ctrl });
         }
 
         function onCurrentChange() {

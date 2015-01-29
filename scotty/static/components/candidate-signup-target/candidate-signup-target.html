@@ -10,7 +10,7 @@
           <div class="col-sm-9">
             <select class="form-control"
                     name="role"
-                    required
+                    ng-required="true"
                     ng-disabled="loading"
                     ng-model="model.role"
                     ng-options="role for role in featuredRoles">
@@ -92,7 +92,7 @@
               <input type="dotted-integer"
                      class="form-control"
                      name="salary"
-                     required
+                     ng-required="true"
                      ng-max="99000000"
                      ng-disabled="loading"
                      ng-model="model.minimum_salary">
