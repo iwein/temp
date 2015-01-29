@@ -1,4 +1,4 @@
-<form name="form" class="edit-form form-wrap form-signup no-padd-horz" ng-submit="submit()">
+<form name="form" class="edit-form form-wrap form-signup no-padd-horz" ng-submit="submit()" hc-validations-on-submit>
   <div class="row">
     <div class="col-sm-12">
 
@@ -82,12 +82,12 @@
             </div>
             <div class="col-sm-12">
               <div class="form-error col-sm-12" ng-show="form.start.$dirty && form.start.$invalid">
-                <span ng-show="form.start.$error.required" translate>Please insert the year you started at this position.</span>
+                <span ng-show="form.start.$error.required" translate>Please insert the year you started studying here.</span>
                 <span ng-show="form.start.$error.min" translate>Start year must be after 1900.</span>
                 <span ng-show="form.start.$error.max" translate>Start year must be in the past.</span>
               </div>
               <div class="form-error col-sm-12" ng-show="form.end.$dirty && form.end.$invalid">
-                <span ng-show="form.end.$error.required" translate>Please insert the year you leave this position.</span>
+                <span ng-show="form.end.$error.required" translate>Please insert the year you graduated.</span>
                 <span ng-show="form.end.$error.min" translate>Graduation must be after 1900.</span>
                 <span ng-show="form.end.$error.max" translate>Graduation must be in the past.</span>
                 <span ng-show="form.end.$error.greaterThan" translate>End year should be after start year.</span>
