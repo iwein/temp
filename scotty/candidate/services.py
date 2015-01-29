@@ -56,26 +56,43 @@ def add_candidate_skill(candidate, params):
 
 
 def set_candidate_education(candidate_id, params):
+    DBSession.query(Education).filter(Education.candidate_id == candidate_id).delete()
     educations = []
+    duplicates = set()
     for edu in params:
-        education = Education(candidate_id=candidate_id,
-                              institution=edu['institution'],
-                              degree=edu['degree'],
-                              start=edu['start'],
-                              end=edu['end'],
-                              course=edu['course'])
-        educations.append(education)
+        unique = (edu['institution'].id, edu['start'])
+        if unique not in duplicates:
+            duplicates.add(unique)
+            education = Education(candidate_id=candidate_id,
+                                  institution=edu['institution'],
+                                  degree=edu['degree'],
+                                  start=edu['start'],
+                                  end=edu['end'],
+                                  course=edu['course'])
+            educations.append(education)
     DBSession.add_all(educations)
     DBSession.flush()
     return educations
 
 
-def create_work_experiences(params):
+def get_vals(map, keys):
+    return {k: map.get(k) for k in keys}
+
+
+def set_candidate_work_experience(candidate_id, params):
+    DBSession.query(WorkExperience).filter(WorkExperience.candidate_id == candidate_id).delete()
     experiences = []
+    duplicates = set()
     for wxp_params in params:
-        wexp = WorkExperience(**{k: wxp_params.get(k) for k in ['start', 'end', 'summary', 'country_iso', 'city',
-                                                                'company', 'role', 'skills']})
-        experiences.append(wexp)
+        unique = (wxp_params['company'].id, wxp_params['start'])
+        if unique not in duplicates:
+            duplicates.add(unique)
+            wexp = WorkExperience(candidate_id=candidate_id,
+                                  **get_vals(wxp_params, ['start', 'end', 'summary', 'country_iso', 'city', 'company',
+                                                          'role', 'skills']))
+            experiences.append(wexp)
+    DBSession.add_all(experiences)
+    DBSession.flush()
     return experiences
 
 
@@ -177,7 +194,7 @@ def get_candidate_newsfeed(c):
 
     # this is same as offer rejection timewise
     # for blacklisted in candidate.blacklist:
-    #    events.append({'name': 'BLACKLISTED_EMPLOYER', 'recency': recency(blacklisted.created),
+    # events.append({'name': 'BLACKLISTED_EMPLOYER', 'recency': recency(blacklisted.created),
     #                   'date': blacklisted.created, 'employer': blacklisted.employer})
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
