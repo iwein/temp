@@ -16,6 +16,7 @@ define(function(require) {
       scope: {
         onSubmit: '&',
         hcRequired: '=',
+        hcShowEmpty: '=',
         hcDisabled: '=',
       },
       controller: function($scope, $parse, $attrs, $q, ConfigAPI, Session) {

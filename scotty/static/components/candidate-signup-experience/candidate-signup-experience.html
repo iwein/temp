@@ -76,7 +76,7 @@
         <li class="bg-gray-lighter brd-top pad-30 no-padd-top no-padd-btm" ng-if="isAdding()">
           <hc-experience-form
             name="form"
-            hc-required="list.length === 0 || !form.isPristine()"
+            hc-required="true"
             hc-disabled="loading"
             on-submit="add($model, $form, list.length)">
 

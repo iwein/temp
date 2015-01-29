@@ -97,7 +97,7 @@
                   <select class="form-control"
                           name="endMonth"
                           ng-disabled="hcDisabled || current"
-                          ng-required="!current"
+                          ng-required="hcRequired && !current"
                           ng-model="endMonth"
                           ng-options="month for month in months"
                           ng-change="endDateUpdate()">
@@ -113,7 +113,7 @@
                          ng-min="1900"
                          ng-max="currentYear"
                          ng-disabled="hcDisabled ||current"
-                         ng-required="!current"
+                         ng-required="hcRequired && !current"
                          ng-model="endYear"
                          ng-change="endDateUpdate()"
                          hc-greater-than="startYear">
