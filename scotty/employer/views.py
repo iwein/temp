@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.auth.provider import ADMIN_PERM
-from scotty.employer.schemata import SignupRequest
+from scotty.employer.schemata import SignupRequest, AgreeTosRequest
 from sqlalchemy import func
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
@@ -154,12 +154,15 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer_apply', **PUT)
     def employer_apply(self):
-        if not self.request.json['agreedTos']:
-            raise HTTPBadRequest("agreedTos must be true")
+        # raises an error if not set
+        AgreeTosRequest().deserialize(self.request.json)
+
         employer = self.employer
         employer.agreedTos = datetime.now()
-        self.request.emailer.send_admin_pending_approval(employer.email, employer.contact_name, employer.company_name,
-                                                   employer.id)
+        self.request.emailer.send_admin_pending_approval(employer.email,
+                                                         employer.contact_name,
+                                                         employer.company_name,
+                                                         employer.id)
         return self.employer
 
     @view_config(route_name='employer', permission=ADMIN_PERM, **DELETE)

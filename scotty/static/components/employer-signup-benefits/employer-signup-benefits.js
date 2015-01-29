@@ -40,9 +40,8 @@ define(function(require) {
     });
 
     function submit() {
-      if (!$scope.model.recruitment_process) return;
-
       $scope.dirty = true;
+      if (!$scope.model.recruitment_process) return;
       $scope.loading = true;
 
       $scope.model.benefits = $scope.benefits

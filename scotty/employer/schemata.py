@@ -1,6 +1,6 @@
-from colander import MappingSchema, String, Email, SchemaNode
+from colander import MappingSchema, String, Email, SchemaNode, Boolean
 from scotty.configuration.models import Salutation, CompanyType
-from scotty.services.schema_tools import DBChoiceValue
+from scotty.services.schema_tools import DBChoiceValue, must_be_true
 
 
 class SignupRequest(MappingSchema):
@@ -11,3 +11,7 @@ class SignupRequest(MappingSchema):
     contact_salutation = SchemaNode(DBChoiceValue(Salutation))
     contact_first_name = SchemaNode(String())
     contact_last_name = SchemaNode(String())
+
+
+class AgreeTosRequest(MappingSchema):
+    agreedTos = SchemaNode(Boolean(), validator=must_be_true)
