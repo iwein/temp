@@ -42,7 +42,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
       {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition', expectedErrors: [403]},
       {title: 'Signup - Second Email & Password'},
       {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId}, title: 'candidate-email-signup-with-invite',
-        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode}},
+        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode, agreedTos: true}},
       {url: function(r, extr){return '/api/v1/candidates/me?apikey=${apikey}'}, title: 'candidate-with-invite-delete', method:"DELETE"},
       {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-show-invite-codes'},
 
