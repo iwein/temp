@@ -56,39 +56,19 @@ def add_candidate_skill(candidate, params):
     return cskill
 
 
-def add_candidate_education(candidate, params):
-    degree = get_by_name_or_create(Degree, params.get('degree'))
-    institution = get_by_name_or_create(Institution, params['institution'])
-    course = get_by_name_or_create(Course, params['course'])
-
-    start = params['start']
-    end = params.get('end')
-    if end and end < start:
-        raise HTTPBadRequest('end must not be smaller than start')
-
-    education = Education(candidate_id=candidate.id, institution=institution, degree=degree, start=start, end=end,
-                          course=course)
-    DBSession.add(education)
-    DBSession.flush()
-    return education
-
-
-def set_candidate_education(candidate, params):
-    candidate.education = []
+def set_candidate_education(candidate_id, params):
+    educations = []
     for edu in params:
-        start = edu['start']
-        institution = get_by_name_or_create(Institution, edu['institution'])
-
-        degree = get_by_name_or_create(Degree, edu.get('degree'))
-        course = get_by_name_or_create(Course, edu.get('course'))
-        end = edu.get('end')
-        if end and end < start:
-            raise HTTPBadRequest('end must not be smaller than start')
-        education = Education(institution=institution, degree=degree, start=start, end=end, course=course)
-        candidate.education.append(education)
-
+        education = Education(candidate_id=candidate_id,
+                              institution=edu['institution'],
+                              degree=edu['degree'],
+                              start=edu['start'],
+                              end=edu['end'],
+                              course=edu['course'])
+        educations.append(education)
+    DBSession.add_all(educations)
     DBSession.flush()
-    return candidate.education
+    return educations
 
 
 def set_candidate_work_experiences(candidate_id, params):

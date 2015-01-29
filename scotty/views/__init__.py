@@ -31,7 +31,20 @@ def http_error(exc, request):
 
 
 def schema_error(exc, request):
-    body = {"message": getattr(exc, 'message') or 'BAD REQUEST', 'errors': exc.asdict()}
+
+    def as_dict(paths):
+        errors = {}
+        for path in paths:
+            keyparts = []
+            msgs = []
+            for exc in path:
+                exc.msg and msgs.extend(exc.messages())
+                keyname = exc._keyname()
+                keyname and keyparts.append(keyname)
+            errors['.'.join(keyparts)] = '; '.join(colander.interpolate(msgs))
+        return errors
+
+    body = {"message": getattr(exc, 'message') or 'BAD REQUEST', 'errors': as_dict(exc.paths())}
     return Response(json.dumps(body), status_code=getattr(exc, 'code', 400),
                     headers=[('Content-Type', 'application/json')])
 

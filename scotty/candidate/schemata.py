@@ -1,9 +1,10 @@
 from collections import Counter
-from datetime import date
-from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email, null, Date, SequenceSchema
+from datetime import date, datetime
+from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email, null, Date, SequenceSchema, \
+    Integer, deferred
 from scotty import DBSession
 from scotty.candidate.models import get_locations_from_structure, InviteCode
-from scotty.configuration.models import Role, Skill, Company, Country
+from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course
 from scotty.models.common import get_or_create_named_collection
 
 
@@ -16,6 +17,11 @@ def db_choice_validator(cls, keyfield=None):
             raise Invalid(node, 'INVALID CHOICE')
 
     return validator
+
+
+@deferred
+def current_year_range(node, kw):
+    return Range(min=1900, max=datetime.today().year)
 
 
 class DBChoiceValue(object):
@@ -33,7 +39,7 @@ class DBChoiceValue(object):
         return getattr(appstruct, self.name_field)
 
     def deserialize(self, node, cstruct):
-        if (cstruct is null or cstruct == '') and not node.required:
+        if cstruct is null or cstruct == '' or cstruct is None:
             return null
         if not isinstance(cstruct, basestring):
             raise Invalid(node, 'TYPE ERROR', value='string')
@@ -133,7 +139,7 @@ class SignupRequest(MappingSchema):
 
 class WorkExperienceRequest(MappingSchema):
     company = SchemaNode(DBChoiceValue(Company, create_unknown=True))
-    start = SchemaNode(Date(), validator=Range(date(1900, 1, 1)), missing=None)
+    start = SchemaNode(Date(), validator=Range(date(1900, 1, 1)))
     end = SchemaNode(Date(), validator=Range(date(1900, 1, 1)), missing=None)
     summary = SchemaNode(String(), validator=Length(min=2), missing=None)
     role = SchemaNode(DBChoiceValue(Role, create_unknown=True), missing=None)
@@ -144,3 +150,15 @@ class WorkExperienceRequest(MappingSchema):
 
 class ListWorkExperienceRequest(SequenceSchema):
     exp = WorkExperienceRequest()
+
+
+class EducationRequest(MappingSchema):
+    start = SchemaNode(Integer(), validator=current_year_range)
+    end = SchemaNode(Integer(), validator=current_year_range, missing=None)
+    course = SchemaNode(DBChoiceValue(Course, create_unknown=True), missing=None)
+    institution = SchemaNode(DBChoiceValue(Institution, create_unknown=True))
+    degree = SchemaNode(DBChoiceValue(Degree, create_unknown=True), missing=None)
+
+
+class ListEducationRequest(SequenceSchema):
+    edu = EducationRequest()
