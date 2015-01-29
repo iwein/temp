@@ -1,9 +1,9 @@
 define(function(require) {
   'use strict';
+  require('tools/file-upload/amazon');
   require('components/directive-experience-form/directive-experience-form');
   require('components/directive-education-form/directive-education-form');
   require('components/directive-languages-form/directive-languages-form');
-  require('components/directive-profile-form/directive-profile-form');
   require('components/directive-skills-form/directive-skills-form');
   require('components/partial-candidate-pic/partial-candidate-pic');
 

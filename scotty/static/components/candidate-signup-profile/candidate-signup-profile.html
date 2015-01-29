@@ -2,14 +2,171 @@
   <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
       <h2 class="signup-title" translate>Final step</h2>
-      <hc-profile-form
-        name="form"
-        hc-disabled="loading"
-        on-submit="signupProfile.submit()">
-        <div class="buttons-wrap mrg-top mrg-btm-30">
-          <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading" translate>Continue</button>
+
+      <form name="form" class="edit-form form-wrap" ng-submit="submit()">
+        <div class="form-signup no-padd-horz bg-gray-lighter mrg-btm">
+          <div class="required col-sm-12 mrg-btm">
+            <label class="col-sm-3 no-padd-top no-padd-right" translate>Current place of residence</label>
+            <div class="col-sm-9">
+              <input type="text"
+                     name="location"
+                     class="form-control"
+                     placeholder="Location"
+                     ng-disabled="hcDisabled"
+                     ng-model="locationText"
+                     ng-blur="setLocation(locationText)"
+                     typeahead-on-select="setLocation(locationText)"
+                     typeahead="location for location in searchLocations($viewValue)"
+                     hc-focus-me="locationFocus"
+                     hc-typeahead-loader>
+            </div>
+            <div class="form-error col-sm-9 col-sm-offset-3mrg-btm" ng-show="form.location.$dirty && form.location.$invalid">
+              <span ng-show="form.location.$error.required" translate>Please insert your city.</span>
+            </div>
+            <div class="form-error col-sm-9 col-sm-offset-3 mrg-btm" ng-show="form.location.$dirty && errorNoLocation">
+              <span translate>Please select a entry from the menu.</span>
+            </div>
+          </div>
+
+          <div class="col-sm-12 mrg-btm required">
+            <label class="col-sm-3" translate>Birth date</label>
+            <div class="col-sm-9">
+              <input type="date"
+                     class="form-control"
+                     placeholder="YYYY-MM-DD"
+                     name="birth"
+                     required
+                     ng-max="minBirthDay"
+                     ng-disabled="hcDisabled"
+                     ng-model="model.dob"
+                     hc-focus-me="dobFocus">
+              <div class="form-error" ng-show="form.birth.$dirty && form.birth.$invalid">
+                <span ng-show="form.birth.$error.required" translate>Please insert your birth date.</span>
+                <span ng-show="form.birth.$error.max" translate>You need to be at least 16 years of age.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 mrg-btm">
+            <label class="col-sm-3" translate>Photo</label>
+            <div class="col-sm-9">
+              <div class="uploadFile">
+                <span translate>Select</span>
+                <input type="file"
+                       name="photo"
+                       accept="image/*"
+                       ng-disabled="hcDisabled"
+                       ng-model="files"
+                       hc-file-select="selectFile($files)"
+                       hc-data-url="selectedFiles">
+              </div>
+              <div class="uploadText" translate>Upload a photo at least 235 px wide.</div>
+            </div>
+            <div class="col-sm-offset-3 col-sm-9">
+              <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
+            </div>
+            <p class="help-block col-sm-offset-3 col-sm-9" translate>Anonymous will hide your photo.</p>
+            <div class="form-error" ng-show="errorFileImage">
+              <span translate>The file should be an image.</span>
+            </div>
+          </div>
+
+          <div class="col-sm-12 mrg-btm">
+            <label class="col-sm-3 alg-right">
+              <i class="fa fa-github font-22"></i>
+            </label>
+            <div class="col-sm-9">
+              <input type="url"
+                     class="form-control"
+                     name="github"
+                     ng-disabled="hcDisabled"
+                     ng-model="model.github_url"
+                     placeholder="Github URL (Starting with  http://...)">
+            </div>
+          </div>
+
+          <div class="col-sm-12 mrg-btm">
+            <label class="col-sm-3 alg-right">
+              <i class="fa fa-stack-overflow font-22"></i>
+            </label>
+            <div class="col-sm-9">
+              <input type="url"
+                     class="form-control"
+                     name="stackoverflow"
+                     ng-disabled="hcDisabled"
+                     ng-model="model.stackoverflow_url"
+                     placeholder="Stackoverflow URL (Starting with  http://...)">
+            </div>
+          </div>
+
+          <div class="col-sm-12 mrg-btm">
+            <label class="col-sm-3 alg-right">
+              <i class="fa fa-globe font-22"></i>
+            </label>
+            <div class="col-sm-9">
+              <input type="url"
+                     class="form-control"
+                     name="github"
+                     ng-disabled="hcDisabled"
+                     ng-model="model.blog_url"
+                     placeholder="Blog URL (Starting with  http://...)">
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <label class="col-sm-3" translate>CV</label>
+            <div class="col-sm-9">
+              <div class="uploadFile">
+                <span translate>Select</span>
+                <input type="file"
+                       name="photo"
+                       accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                       ng-disabled="hcDisabled"
+                       hc-file-select
+                       ng-model="cv_file">
+              </div>
+              <div ng-show="!cv_file.length" class="uploadText" translate>Upload CV if you have one.</div>
+              <div ng-show="cv_file.length" class="uploadText" translate>CV uploaded.</div>
+            </div>
+
+            <div class="form-error" ng-show="false && (errorFileRequired || errorFileImage)">
+              <span ng-show="errorFileRequired" translate>Please select a photo.</span>
+              <span ng-show="errorFileImage" translate>The file should be an image.</span>
+            </div>
+          </div>
+
+          <div class="col-sm-12 check-wrap mrg-top">
+            <div class="col-sm-offset-3 col-sm-9">
+              <div class="">
+                <label>
+                  <input type="checkbox"
+                         name="eu_work_visa"
+                         ng-disabled="hcDisabled"
+                         ng-model="model.eu_work_visa">
+                  <translate>Permitted to work in EU</translate>
+                </label>
+              </div>
+              <div class="">
+                <label>
+                  <input type="checkbox"
+                         name="anonymous"
+                         ng-disabled="hcDisabled"
+                         ng-model="model.anonymous">
+                  <translate>Anonymous</translate>
+                </label>
+                <p class="mrg-top-small" translate>By selecting "Anonymous" employers will see your name, picture and contact details only after you accepted their job offer.</p>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
         </div>
-      </hc-profile-form>
+        <div>
+          <div class="buttons-wrap mrg-top mrg-btm-30">
+            <button type="submit" class="bg-green btn-small fl-rg" ng-disabled="loading" translate>Continue</button>
+          </div>
+        </div>
+      </form>
+
     </div>
   </div>
 
