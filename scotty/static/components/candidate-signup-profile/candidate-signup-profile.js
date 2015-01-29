@@ -1,6 +1,9 @@
 define(function(require) {
   'use strict';
   require('tools/config-api');
+  require('tools/file-upload/amazon');
+  require('tools/file-upload/data-url-directive');
+  require('tools/file-upload/file-select-directive');
   var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
