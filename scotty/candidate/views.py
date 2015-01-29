@@ -129,13 +129,13 @@ class CandidateController(RootController):
     def signup_email(self):
         params = SignupRequest().deserialize(self.request.json)
         candidate_id = self.request.matchdict["candidate_id"]
-
         tp = DBSession.query(TargetPosition).get(candidate_id)
         candidate = DBSession.query(Candidate).get(candidate_id)
         if not tp:
             raise HTTPBadRequest('Unknown ID, no target position saved for ID')
         if candidate:
             raise HTTPBadRequest('Candidate already signed up')
+        candidate_id = tp.candidate_id
         candidate = candidate_from_signup(candidate_id, params)
 
         try:
