@@ -56,6 +56,7 @@ define(function(require) {
     }
 
     function submit() {
+      if (!$scope.formSignupUser.$valid)return;
       var id = localStorage.getItem('scotty:user_id');
       $scope.loading = true;
       Loader.add('signup-user-saving');

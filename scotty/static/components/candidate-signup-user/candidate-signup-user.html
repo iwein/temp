@@ -13,7 +13,7 @@
             <input type="text"
                    class="form-control"
                    name="firstName"
-                   required
+                   ng-required="true"
                    ng-disabled="loading"
                    ng-model="model.first_name">
           </div>
@@ -31,7 +31,7 @@
             <input type="text"
                    class="form-control"
                    name="lastName"
-                   required
+                   ng-required="true"
                    ng-disabled="loading"
                    ng-model="model.last_name">
           </div>
@@ -49,7 +49,7 @@
             <input type="email"
                    class="form-control"
                    name="email"
-                   required
+                   ng-required="true"
                    ng-disabled="loading"
                    ng-model="model.email"
                    ng-change="signupUser.onEmailChange()">
@@ -75,7 +75,7 @@
             <input type="password"
                    class="form-control"
                    name="password"
-                   required
+                   ng-required="true"
                    ng-minlength="8"
                    ng-disabled="loading"
                    ng-model="model.pwd">
@@ -103,12 +103,16 @@
           <div class="col-sm-9">
             <label class="checkbox mrg-lft">
               <input type="checkbox"
-                     required
+                     name="agreedTos"
+                     ng-required="true"
                      ng-disabled="loading"
                      ng-model="model.agreedTos"
                 >
               <translate>I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-link></translate>
             </label>
+            <div class="form-error" ng-show="formSignupUser.agreedTos.$dirty && formSignupUser.agreedTos.$invalid">
+              <span ng-show="formSignupUser.agreedTos.$error.required" translate>You need to agree to the terms to signup</span>
+            </div>
           </div>
         </div>
       </div>
