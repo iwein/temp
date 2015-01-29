@@ -14,64 +14,6 @@
 
     tests = CANDIDATE_SIGNUP(email).concat([
 
-      {title: 'Education'},
-
-
-      {url: '/api/v1/candidates/me/education', title: 'SET-3-education-twice-same',
-        method: 'PUT',
-        data: [
-          {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
-            degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
-          {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
-            degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
-        ]
-      },
-
-      {url: '/api/v1/candidates/me/education', title: 'SET-3-education',
-        method: 'PUT',
-        data: [
-          {"institution": "Eidgenössische Technische Hochschule Zürich, Switzerland",
-            degree: 'NEWDEGREE-'+guid(), "start":1992, end:2010, course:"Programming"},
-        ]
-      },
-      {url: '/api/v1/candidates/me/education', title: 'LIST-3-education'},
-
-
-      {title: 'Work Experience'},
-
-      {url: function (r, extr) {
-        return '/api/v1/candidates/me/work_experience'
-      }, title: 'SET-4-work-experiences-twice-same',
-        method: 'PUT',
-        data: [
-          {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
-            "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
-            "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
-          {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
-            "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
-            "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
-
-        ],
-        extract: function (r, extr) {
-          return {work_experienceId: r.id}
-        }},
-
-      {url: function (r, extr) {
-        return '/api/v1/candidates/me/work_experience'
-      }, title: 'SET-4-work-experiences',
-        method: 'PUT',
-        data: [
-          {"company": "Intel Corp.", "role": "Project Architect", skills: ['PHP', "Phillips", "Volta"],
-            "city": "ÜberSigourney Fanatastic Not Existing Town", country_iso: 'DE',
-            "start": "2000-02-29", summary: "Design of Intelligent Protoplasma"},
-        ],
-        extract: function (r, extr) {
-          return {work_experienceId: r.id}
-        }},
-
-      {url: function (r, extr) {
-        return '/api/v1/candidates/me/work_experience'
-      }, title: 'list-work_experience-4'},
 
 
     ]);
