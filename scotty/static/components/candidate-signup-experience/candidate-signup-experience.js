@@ -9,7 +9,7 @@ define(function(require) {
 
   module.controller('CandidateSignupExperienceCtrl', function($scope, $q, gettext, toaster, Loader, Session) {
     _.extend($scope, {
-      onImportChage: updateImports,
+      onImportChange: updateImports,
       setEditing: setEditing,
       isEditing: isEditing,
       setAdding: setAdding,
