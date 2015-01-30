@@ -1,7 +1,8 @@
 <%inherit file="../layout.html"/>
 
 <%def name="content()">
-  <script>
+
+<script>
     var xhr = new XMLHttpRequest();
     xhr.open('PUT', 'http://sheltered-meadow-1359.herokuapp.com/api/v1/candidates/me');
     xhr.withCredentials = true;
@@ -9,4 +10,6 @@
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send('{}');
   </script>
+
+
 </%def>
