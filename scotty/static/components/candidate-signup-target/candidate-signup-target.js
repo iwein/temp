@@ -75,13 +75,18 @@ define(function(require) {
 
       var model = {
         preferred_locations: $scope.model.preferred_locations,
-        target_position: _.omit($scope.model, 'preferred_locations', 'featuredSkills'),
+        target_position: _.omit($scope.model, 'preferred_locations', 'featuredSkills')
       };
       model.target_position.skills = (model.target_position.skills || []).concat($scope.model.featuredSkills || []);
 
       Session.signup(model).then(function(id) {
         localStorage.setItem('scotty:user_id', id);
         return $scope.signup.nextStep();
+      }).catch(function(request) {
+        if (request.status === 400 && request.data.errors) {
+          if(request.data.errors['target_position.minimum_salary'])
+              $scope.form.salary.$setValidity('max', false);
+        } else throw request;
       }).finally(function() {
         $scope.loading = false;
         Loader.remove('signup-target-saving');
