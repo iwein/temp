@@ -7,6 +7,7 @@
   <meta name="description" content="web application">
   <meta name="author" content="4Scotty">
   <title>Scotty - Employer</title>
+  <link rel="icon" type="image/png" href="/favicon.ico">
   <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/ad86cd99-af73-48f3-b26d-bec8dd63fa59.css"/>
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -34,11 +35,11 @@
         var hf = document.createElement("input");hf[s]("type", "hidden");hf[s]("name", key);hf[s]("value", params[key]);f.appendChild(hf);
       }}document.body.appendChild(f);f.submit();}
      window.__safari_mark__ = function(resp){
-       if(!resp.marked)post(apiurl+'/v1/marksafari', {'url': window.location.href});
+       if(!resp.marked)post(apiurl+'v1/marksafari', {'url': window.location.href});
      };
     (function(){
       var scr=document.createElement('script');scr.type='text/javascript';scr.async=true;
-      scr.src=apiurl+'/v1/ismarked?cb=cb=__safari_mark__';
+      scr.src=apiurl+'v1/ismarked?cb=cb=__safari_mark__';
       var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(scr,s)})();
   })('@@APIURL', navigator.userAgent.toLowerCase());
 </script>
