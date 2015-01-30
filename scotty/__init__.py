@@ -5,7 +5,7 @@ import logging
 import os
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
-from pyramid.renderers import JSON
+from pyramid.renderers import JSON, JSONP
 from pyramid_beaker import session_factory_from_settings
 import pyramid_mako
 from scotty.tools import resolve_env_value
@@ -49,7 +49,7 @@ class CORS(object):
     "WSGI middleware allowing CORS requests to succeed"
     origin = '*'
     methods = 'GET, POST, PUT, DELETE, OPTIONS'
-    headers = 'Accept, Origin, Content-Type, X-Requested-With, X-Requested-By, User-Agent, Referer'
+    headers = 'Accept, Origin, Content-Type, X-Requested-With, X-Requested-By, Authorization'
 
     def __init__(self, application, cfg=None, **kw):
         self.app = application
@@ -70,12 +70,13 @@ class CORS(object):
 
     def attach_headers(self, environ, headers):
         origin = environ.get('HTTP_ORIGIN', self.origin)
+        headers.append(('Cache-Control', 'no-cache'))
         headers.append(('Access-Control-Allow-Origin', origin))
         headers.append(('Access-Control-Allow-Methods', self.methods))
         headers.append(('Access-Control-Allow-Headers', self.headers))
-        headers.append(("Access-Control-Max-Age", "1728000"))
         headers.append(('Access-Control-Allow-Credentials', 'true'))
-        headers.append(('P3P', 'CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo CNT COM INT NAV ONL PHY PRE PUR UNI"'))
+        headers.append(('Access-Control-Max-Age', '600'))
+        # headers.append(('P3P', 'CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo CNT COM INT NAV ONL PHY PRE PUR UNI"'))
         return headers
 
 

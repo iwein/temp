@@ -3,8 +3,8 @@
 module.exports = function(grunt) {
   'use strict';
   var configFile = grunt.option('config-file');
+  //var configContents = require(configFile);
   var configModule = configFile && configFile.replace(/\.js$/, '');
-
   /*
   var metalsmith = grunt.file.readJSON('config/grunt-metalsmith.json');
   metalsmith["static-pages"].options.plugins["metalsmith-templates"].helpers = {
@@ -35,6 +35,7 @@ module.exports = function(grunt) {
     uglify: grunt.file.readJSON('config/grunt-uglify.json'),
     ngAnnotate: grunt.file.readJSON('config/grunt-ngannotate.json'),
     copy: grunt.file.readJSON('config/grunt-copy.json'),
+    replace: grunt.file.readJSON('config/grunt-replace.json'),
     usemin: grunt.file.readJSON('config/grunt-usemin.json'),
 
     // tests
@@ -78,6 +79,7 @@ module.exports = function(grunt) {
       'build-' + app + '-css',
       'copy:' + app + '-resources',
       'copy:' + app,
+      'replace:' + app,
       'usemin:' + app,
       'clean:tmp',
     ]);
