@@ -52,7 +52,6 @@ define(function(require) {
 
     module.config(function($httpProvider) {
       $httpProvider.defaults.withCredentials = true;
-      $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
     });
 
     module.run(function($templateCache, gettextCatalog) {
