@@ -151,7 +151,7 @@ define(function(require) {
           if (b.degree && !a.degree) return 1;
           return b.end - a.end;
         })[0];
-        return entry.degree || entry.end || '';
+        return entry&&(entry.degree || entry.end) || '';
       });
     },
 
