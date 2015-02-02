@@ -37,13 +37,11 @@ define(function(require) {
     }
 
     function submit() {
-      if(!$scope.formSignupBasic.$valid)return;
       if (!$scope.files || !$scope.files.length) {
         $scope.errorFileRequired = true;
         return;
       }
-      if ($scope.errorFileImage)
-        return;
+      if($scope.errorFileImage || !$scope.formSignupBasic.$valid)return;
 
       Object.keys($scope.model).forEach(function(key) {
         if (!$scope.model[key])

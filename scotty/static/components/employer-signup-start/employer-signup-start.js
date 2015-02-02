@@ -12,12 +12,14 @@ define(function(require) {
     this.submit = submit;
     $scope.invited = false;
     $scope.loading = true;
+    $scope.invalidEmail = false;
     $scope.model = {};
     $scope.errorEmailAlreadyRegistered = false;
     $scope.errorCompanyAlreadyRegistered = false;
     var token = $state.params.token;
     Loader.page(true);
     Session.firstLogin = true;
+
 
     toaster.show('alert banner-message',
       gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
@@ -92,8 +94,13 @@ define(function(require) {
           if(request.status === 409) {
             $scope.errorCompanyAlreadyRegistered = request.data.db_message === 'company_name';
             $scope.errorEmailAlreadyRegistered = request.data.db_message === 'email';
-          } else
-            toaster.defaultError();
+          } else {
+            if(request.data.errors.email){
+              $scope.formSignupStart.email.$setValidity('email', false);
+            } else
+              toaster.defaultError();
+          }
+
         }).finally(function() {
           $scope.loading = false;
           Loader.remove('signup-start-saving');

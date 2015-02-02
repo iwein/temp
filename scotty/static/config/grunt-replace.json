@@ -1,0 +1,24 @@
+{
+  "index": {},
+  "admin": {
+    "options": { "patterns": [ { "match": "APIURL", "replacement": "<%= env.api_url %>" } ] },
+    "files": [ {"expand": false, "flatten": false,
+      "src": "<%= files.admin.out.html %>",
+      "dest": "<%= files.admin.out.html %>"}
+    ]
+  },
+  "candidate": {
+    "options": { "patterns": [ { "match": "APIURL", "replacement": "<%= env.api_url %>" } ] },
+    "files": [ {"expand": false, "flatten": false,
+      "src": "<%= files.candidate.out.html %>",
+      "dest": "<%= files.candidate.out.html %>"}
+    ]
+  },
+  "employer": {
+    "options": { "patterns": [ { "match": "APIURL", "replacement": "<%= env.api_url %>" } ] },
+    "files": [ {"expand": false, "flatten": false,
+      "src": "<%= files.employer.out.html %>",
+      "dest": "<%= files.employer.out.html %>"}
+    ]
+  }
+}

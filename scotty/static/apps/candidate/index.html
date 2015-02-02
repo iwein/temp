@@ -25,6 +25,26 @@
   <!-- endbuild -->
 </head>
 <body data-grid-framework="b3" data-grid-color="red" data-grid-opacity="0.1" data-grid-zindex="10" data-grid-gutterwidth="30px" data-grid-nbcols="12">
+
+<script>
+  (function(apiurl, ua) {
+    if(!~ua.indexOf('safari/')||!!~ua.indexOf('chrome'))return;
+    function post(path, params, method){method = method || "post";
+      var f = document.createElement("form"), s = 'setAttribute';f[s]("method", method);f[s]("action", path);
+      for (var key in params) {if (params.hasOwnProperty(key)) {
+        var hf = document.createElement("input");hf[s]("type", "hidden");hf[s]("name", key);hf[s]("value", params[key]);f.appendChild(hf);
+      }}document.body.appendChild(f);f.submit();}
+     window.__safari_mark__ = function(resp){
+       if(!resp.marked)post(apiurl+'v1/marksafari', {'url': window.location.href});
+     };
+    (function(){
+      var scr=document.createElement('script');scr.type='text/javascript';scr.async=true;
+      scr.src=apiurl+'v1/ismarked?cb=cb=__safari_mark__';
+      var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(scr,s)})();
+  })('@@APIURL', navigator.userAgent.toLowerCase());
+</script>
+
+
 <div class="spinner-container" ng-show="showSpinner">
   <div class="spinner"></div>
 </div>
@@ -59,10 +79,10 @@
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 </script>
 <script>
-UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/mY9FIUM6vaPD2036Ij440g.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
-UserVoice.push(['set', {accent_color: '#448dd6', trigger_color: 'white', trigger_background_color: '#6aba2e'}]);
-UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
-UserVoice.push(['autoprompt', {}]);
+  UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/mY9FIUM6vaPD2036Ij440g.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+  UserVoice.push(['set', {accent_color: '#448dd6', trigger_color: 'white', trigger_background_color: '#6aba2e'}]);
+  UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
+  UserVoice.push(['autoprompt', {}]);
 </script>
 </body>
 </html>
