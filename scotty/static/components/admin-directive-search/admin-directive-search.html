@@ -1,21 +1,26 @@
 <div class="admin-directive-search">
   <form>
-    <div class="form-group required">
-      <input type="text"
-        class="form-control"
-        placeholder="Name or email address"
-        ng-model="term"
-        ng-change="search()">
-    </div>
-
-    <div class="form-group required">
-      <hc-label-typeahead
-        ng-if="hcShowSkills"
-        placeholder="Skills"
-        ng-model="tags"
-        hc-source="searchSkills($viewValue)"
-        on-change="search()">
-      </hc-label-typeahead>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group required">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Name or email address"
+                 ng-model="term"
+                 ng-change="search()">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group required">
+          <hc-label-typeahead
+            ng-if="hcShowSkills"
+            placeholder="Skills"
+            ng-model="tags"
+            hc-source="searchSkills($viewValue)"
+            on-change="search()">
+          </hc-label-typeahead>
+        </div>
+      </div>
     </div>
   </form>
 
