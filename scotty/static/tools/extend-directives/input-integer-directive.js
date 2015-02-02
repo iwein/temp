@@ -4,6 +4,7 @@ define(function(require) {
   var DOTTED_INTEGER = /^\d{1,3}(,\d{3})*$/;
   var NON_DIGIT = /\D/g;
   var LAST_THREE_DIGITS = /^(\d+)(\d\d\d)/;
+  var angular = require('angular');
   var module = require('app-module');
 
   function clean(value) {
@@ -35,6 +36,33 @@ define(function(require) {
       compile: function(elem, attr) {
         if (attr.type !== 'dotted-integer') return;
 
+        return function(scope, elem, attr, ctrl) {
+          var maxVal;
+          var element = elem[0];
+          element.addEventListener('keyup', onKeyUp, true);
+          element.addEventListener('change', onChange);
+          ctrl.$formatters.push(format);
+          ctrl.$parsers.push(clean);
+
+          if (attr.max || attr.ngMax) {
+            ctrl.$validators.max = function(value) {
+              return ctrl.$isEmpty(value) || angular.isUndefined(maxVal) || value <= maxVal;
+            };
+
+            attr.$observe('max', updateValidator);
+            attr.$observe('ngMax', updateValidator);
+          }
+
+          function updateValidator(val) {
+            if (angular.isDefined(val) && !angular.isNumber(val))
+              val = parseFloat(val, 10);
+
+            maxVal = angular.isNumber(val) && !isNaN(val) ? val : undefined;
+            ctrl.$validate();
+          }
+        };
+
+
         function updateElement(element) {
           var value = format(element.value);
           if (value !== element.value);
@@ -52,14 +80,6 @@ define(function(require) {
           if (!ignore)
             updateElement(event.target);
         }
-
-        return function(scope, elem, attr, ctrl) {
-          var element = elem[0];
-          element.addEventListener('keyup', onKeyUp, true);
-          element.addEventListener('change', onChange);
-          ctrl.$formatters.push(format);
-          ctrl.$parsers.push(clean);
-        };
       }
     };
   });
