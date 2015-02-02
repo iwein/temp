@@ -6,6 +6,7 @@ define(function(require) {
   require('tools/file-upload/file-select-directive');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var months = require('tools/months');
   var module = require('app-module');
 
   module.controller('CandidateSignupProfileCtrl', function($scope, $q, $state, Amazon, Loader, ConfigAPI, Session) {
@@ -13,7 +14,8 @@ define(function(require) {
       searchLocations: ConfigAPI.locationsText,
       setLocation: setLocation,
       selectFile: selectFile,
-      minBirthDay: sixteenYearsAgo(),
+      updateDob: updateDob,
+      months: months,
       submit: submit,
       model: { eu_work_visa: true },
       errorNoLocation: false,
@@ -29,7 +31,34 @@ define(function(require) {
     function sixteenYearsAgo() {
       var date = new Date();
       date.setFullYear(date.getFullYear() - 16);
-      return date.toISOString().split('T')[0];
+      return date;
+    }
+
+    function pan(value) {
+      return value < 10 ? '0' + value : value;
+    }
+
+    function updateDob() {
+      var year = $scope.dobYear;
+      var month = $scope.dobMonth;
+      var day = $scope.dobDay;
+      var monthIndex = months.indexOf(month);
+      $scope.errorTooYoung = false;
+      $scope.errorInvalidDate = false;
+
+      if (!year || !month || !day)
+        return;
+
+      var date = new Date(year, monthIndex, day, 12);
+      var dateAsString = date.toISOString().split('T')[0];
+      var introduced = year + '-' + pan(monthIndex + 1) + '-' + pan(day);
+      var max = sixteenYearsAgo();
+
+      $scope.errorTooYoung = date > max;
+      $scope.errorInvalidDate = dateAsString !== introduced;
+
+      if (!$scope.errorTooYoung && !$scope.errorInvalidDate)
+        $scope.model.dob = dateAsString;
     }
 
     function onLoad() {
@@ -68,7 +97,7 @@ define(function(require) {
         return;
       }
 
-      if ($scope.errorFileImage)
+      if ($scope.errorFileImage || $scope.errorTooYoung || $scope.errorInvalidDate)
         return;
 
       $scope.loading = true;

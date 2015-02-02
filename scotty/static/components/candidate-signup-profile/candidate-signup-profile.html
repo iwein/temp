@@ -29,20 +29,61 @@
           </div>
 
           <div class="col-sm-12 mrg-btm required">
-            <label class="col-sm-3" translate>Birth date</label>
+            <label class="col-sm-3 no-padd-top" translate>Birth date</label>
             <div class="col-sm-9">
-              <input type="date"
-                     class="form-control"
-                     placeholder="YYYY-MM-DD"
-                     name="birth"
-                     required
-                     ng-max="minBirthDay"
-                     ng-disabled="hcDisabled"
-                     ng-model="model.dob"
-                     hc-focus-me="dobFocus">
-              <div class="form-error" ng-show="form.birth.$dirty && form.birth.$invalid">
-                <span ng-show="form.birth.$error.required" translate>Please insert your birth date.</span>
-                <span ng-show="form.birth.$error.max" translate>You need to be at least 16 years of age.</span>
+              <div class="row">
+                <div class="col-sm-4">
+                  <input type="number"
+                    class="form-control"
+                    name="dobYear"
+                    placeholder="Year"
+                    ng-min="1900"
+                    required
+                    ng-disabled="hcDisabled"
+                    ng-model="dobYear"
+                    ng-change="updateDob()">
+                </div>
+                <div class="col-sm-4 no-padd-left">
+                  <select class="form-control"
+                    name="dobMonth"
+                    required
+                    ng-disabled="hcDisabled"
+                    ng-model="dobMonth"
+                    ng-options="month for month in months"
+                    ng-change="updateDob()">
+                    <option value="" translate>Month</option>
+                  </select>
+                </div>
+                <div class="col-sm-4 no-padd-left">
+                  <input type="number"
+                    class="form-control"
+                    name="dobDay"
+                    placeholder="Day"
+                    ng-min="1"
+                    ng-max="31"
+                    required
+                    ng-disabled="hcDisabled"
+                    ng-model="dobDay"
+                    ng-change="updateDob()">
+                </div>
+              </div>
+
+              <div class="form-error" ng-show="form.dobYear.$dirty && form.dobYear.$invalid">
+                <span ng-show="form.dobYear.$error.required" translate>Please introduce your year of birth.</span>
+                <span ng-show="form.dobYear.$error.min" translate>Start year must be after 1900.</span>
+                <span ng-show="form.dobYear.$error.max" translate>Start year must be in the past.</span>
+              </div>
+              <div class="form-error" ng-show="form.dobMonth.$dirty && form.dobMonth.$invalid">
+                <span ng-show="form.dobMonth.$error.required" translate>Please introduce your month of birth.</span>
+              </div>
+              <div class="form-error" ng-show="form.dobDay.$dirty && form.dobDay.$invalid">
+                <span ng-show="form.dobDay.$error.required" translate>Please introduce your day of birth.</span>
+                <span ng-show="form.dobDay.$error.min" translate>Birth day must be bigger than 1.</span>
+                <span ng-show="form.dobDay.$error.max" translate>Birth day can't be bigger than 31.</span>
+              </div>
+              <div class="form-error" ng-show="form.dobYear.$dirty && form.dobMonth.$dirty && form.dobDay.$dirty">
+                <span ng-show="errorTooYoung && !errorInvalidDate">You must be at least 16 years old to register.</span>
+                <span ng-show="errorInvalidDate">The date is not a valid date</span>
               </div>
             </div>
           </div>
