@@ -12,12 +12,12 @@ define(function(require) {
       scope: {
         onSearch: '&',
         hcShowSkills: '=',
-        hcStatuses: '='
+        hcStatuses: '=',
+        hcStatus: '@'
       },
       controller: function($scope, $attrs, toaster, ConfigAPI) {
         $scope.searchSkills = ConfigAPI.skills;
         $scope.search = _.debounce(getResults, 200);
-        $scope.status='active';
         $scope.getResults = getResults;
         $scope.output = [];
         $scope.tags = [];
@@ -39,8 +39,8 @@ define(function(require) {
           if ($scope.tags.length)
             params.tags = $scope.tags;
 
-          if ($scope.status)
-            params.status = $scope.status;
+          if ($scope.hcStatus)
+            params.status = $scope.hcStatus;
 
           return $scope.onSearch({ $params: params })
             .then(function(response) {

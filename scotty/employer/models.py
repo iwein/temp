@@ -167,7 +167,7 @@ class Employer(Base, JsonSerialisable):
             SIGNEDUP: (Employer.pwd != None, Employer.agreedTos == None, Employer.approved == None, Employer.deleted == None),
             APPLIED: (Employer.agreedTos != None, Employer.approved == None, Employer.deleted == None),
             APPROVED: (Employer.approved != None, Employer.pwd != None, Employer.deleted == None),
-            DELETED: Employer.deleted != None,
+            DELETED: (Employer.deleted != None, ),
         }
         if status not in EMPLOYER_STATUS:
             raise HTTPBadRequest("InvalidStatus Requested: %s is not one of %s" % (status, EMPLOYER_STATUS.keys()))

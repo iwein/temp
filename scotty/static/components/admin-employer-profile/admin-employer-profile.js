@@ -7,6 +7,7 @@ define(function(require) {
   module.controller('EmployerProfileCtrl', function($scope, $sce, $state, toaster, Loader, Session) {
     $scope.saveAdminComment = saveAdminComment;
     $scope.remove = remove;
+    $scope.approve = approve;
     $scope.ready = false;
     $scope.id = $state.params.id;
     Loader.page(true);
@@ -23,6 +24,15 @@ define(function(require) {
     }).finally(function() {
       Loader.page(false);
     });
+
+    function approve(employer) {
+      Loader.add('admin-approve-employers-approve');
+      return Session.approveEmployer(employer).then(function() {
+        employer.status = 'APPROVED';
+      }).finally(function() {
+        Loader.remove('admin-approve-employers-approve');
+      });
+    }
 
     function saveAdminComment(comment) {
       Loader.add('admin-employer-profile-comment');

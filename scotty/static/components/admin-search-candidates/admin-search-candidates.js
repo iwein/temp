@@ -10,6 +10,7 @@ define(function(require) {
 
     $scope.status = 'active';
     $scope.statuses = [$scope.status];
+
     Session.getCandidateStatuses().then(function(resp){
       $scope.statuses = resp.data;
     });
