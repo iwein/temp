@@ -92,11 +92,6 @@ define(function(require) {
         return;
       }
 
-      if ($scope.form.birth.$invalid) {
-        $scope.dobFocus = true;
-        return;
-      }
-
       if ($scope.errorFileImage || $scope.errorTooYoung || $scope.errorInvalidDate)
         return;
 
