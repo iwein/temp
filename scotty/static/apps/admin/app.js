@@ -16,7 +16,6 @@ define(function(require) {
       .state('invite-code', require('components/admin-invite-code/admin-invite-code'))
       .state('invite-employer', require('components/admin-invite-employer/admin-invite-employer'))
       .state('invited-candidates', require('components/admin-invited-candidates/admin-invited-candidates'))
-      .state('approve-candidates', require('components/admin-approve-candidates/admin-approve-candidates'))
       .state('approve-employers', require('components/admin-approve-employers/admin-approve-employers'))
       .state('search-employers', require('components/admin-search-employers/admin-search-employers'))
       .state('search-candidates', require('components/admin-search-candidates/admin-search-candidates'))

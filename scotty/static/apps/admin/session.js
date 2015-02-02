@@ -102,6 +102,11 @@ define(function(require) {
       }.bind(this));
     },
 
+
+    getCandidateStatuses: function() {
+      return this._api.get('/config/candidate_statuses');
+    },
+
     getCandidate: function(id) {
       return this._api.get('/candidates/' + id + this.getParams).then(function(data) {
         return new Candidate(this._api, data.id, data, this.getParams);

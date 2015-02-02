@@ -20,9 +20,14 @@
           </div>
         </div>
       </div>
+
+      <button type="button" class="pull-right btn bg-green"
+                      ng-if="candidate._data.status === 'pending'"
+                      ng-click="approve(candidate)">Approve</button>
       <a class="btn btn-success" ng-href="{{ session.getLoginAsCandidateLink(user) }}">Login as this candidate</a>
       <button class="btn btn-danger" ng-click="remove(candidate)">Delete candidate</button>
       <a class="pull-right btn btn-link" ng-click="wakeCandidate(user)" ng-if="user.status == 'sleeping'" style="cursor: pointer">Wake Candidate</a>
+
     </div>
 
     <div class="page-header">

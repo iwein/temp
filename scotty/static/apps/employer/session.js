@@ -120,6 +120,7 @@ define(function(require) {
       }.bind(this));
     },
 
+
     searchCandidatesAdvanced: function(query) {
       return this._api.post('/candidates/advancedsearch', query).then(function(response) {
         return response.data.map(function(data) {

@@ -1,4 +1,5 @@
 from pyramid.security import NO_PERMISSION_REQUIRED
+from scotty.candidate.models import CandidateStatus
 from sqlalchemy import func
 
 from pyramid.view import view_config
@@ -37,11 +38,17 @@ def includeme(config):
     config.add_route('configuration_list_locations', 'locations')
     config.add_route('configuration_list_featured_locations', 'locations/featured')
 
+    config.add_route('configuration_candidate_statuses', 'candidate_statuses')
+
 
 class ConfigurationController(RootController):
     @view_config(route_name='configuration_list_seniority', permission=NO_PERMISSION_REQUIRED)
     def seniority(self):
         return listing_request(self.request, Seniority, order_field=Seniority.id)
+
+    @view_config(route_name='configuration_candidate_statuses', permission=NO_PERMISSION_REQUIRED)
+    def candidate_status(self):
+        return listing_request(self.request, CandidateStatus, order_field=CandidateStatus.id)
 
     @view_config(route_name='configuration_list_salutations', permission=NO_PERMISSION_REQUIRED)
     def salutation(self):

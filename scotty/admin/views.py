@@ -58,6 +58,7 @@ class SearchResultCandidate(Candidate):
     def __json__(self, request):
         result = super(SearchResultCandidate, self).__json__(request)
         result['email'] = self.email
+        result['created'] = self.created
         return result
 
 
@@ -203,6 +204,7 @@ class AdminController(RootController):
     @view_config(route_name="admin_search_candidates", permission=ADMIN_PERM, **GET)
     def admin_search_candidates(self):
         params = self.request.params
+        status = params.get('status')
         q = params.get('q')
         tags = filter(None, params.get('tags', '').split(','))
 
@@ -224,7 +226,11 @@ class AdminController(RootController):
             pager = get_candidates_by_techtags_pager(tags, None)
             result = ObjectBuilder(SearchResultCandidate, joins=adjust_query).serialize(pager)
         else:
-            basequery = adjust_query(DBSession.query(SearchResultCandidate), q)
+            basequery = DBSession.query(SearchResultCandidate)
+            if status:
+                status = get_by_name_or_raise(CandidateStatus, status)
+                basequery = basequery.filter(Candidate.status == status)
+            basequery = adjust_query(basequery, q)
             result = run_paginated_query(self.request, basequery)
         return result
 
