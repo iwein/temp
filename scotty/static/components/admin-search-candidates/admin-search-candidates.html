@@ -14,11 +14,16 @@
       <hc-admin-search on-search="executeSearch($params)" hc-show-skills="true" hc-statuses="statuses" hc-status="{{ status }}">
         <li class="list-group-item" ng-repeat="candidate in results">
           <div class="row">
+            <div class="col-sm-12" style="margin-bottom: 5px;">
+                  <b>ID: {{ candidate._data.id }}</b>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-sm-1 text-center">
               <img src="{{ candidate._data.picture_url }}" style="max-height:50px;max-width:50px;" />
             </div>
             <div class="col-sm-2">
-              <b>{{ candidate._data.first_name }} {{ candidate._data.last_name }}</b>
+              {{ candidate._data.first_name }} {{ candidate._data.last_name }}
               <small ng-if="candidate._data.anonymous">(anonymous)</small>
             </div>
             <div class="col-sm-4">

@@ -11,20 +11,49 @@ stepDefinitions(function(scenario) {
       .catch(function() { });
   });
 
-  scenario.When(/^I post a new candidate$/, function() {
-    this.vars.candidate_name = 'test-candidate-' + this.guid();
-    this.vars.candidate_email = this.generateEmail();
+  function postCandidate(modifier) {
+    var vars = this.vars;
+    vars.candidate_name = 'test-candidate-' + this.guid();
+    vars.candidate_email = this.generateEmail();
 
     return this.storeRequest(AJAX.post('/candidates/', {
-      'email': this.vars.candidate_email,
-      'pwd': 'Überfall',
-      'first_name': this.vars.candidate_name,
-      'last_name': 'Bayley',
+      target_position: {
+        'role': 'System Administration',
+        'skills': ['Python', 'PHP'],
+        'minimum_salary': 40000
+      },
+      preferred_locations: {
+        'DE': ['Berlin','Leipzig','Hamburg'],
+        'BR': ['Uberlândia']
+      }
+    }).then(function(response) {
+      var id = response.responseJSON.id;
+      var data = {
+        'email': vars.candidate_email,
+        'pwd': 'Überfall',
+        'first_name': vars.candidate_name,
+        'last_name': 'Bayley',
+        'agreedTos': true,
+      };
+
+      if (modifier)
+        data = modifier(vars, data);
+
+      return AJAX.post('/candidates/' + id, data);
     })).then(function(response) {
-      this.vars.candidate_id = response.id;
-      console.log('Created candidate:', this.vars.candidate_id);
+      vars.candidate_id = response.id;
+      console.log('Created candidate:', vars.candidate_id);
       return response;
-    }.bind(this));
+    });
+  }
+
+  scenario.When(/^I post a new candidate$/, postCandidate);
+
+  scenario.Given(/^I post a new candidate with invitation code$/, function() {
+    return postCandidate.call(this, function(vars, data) {
+      data.invite_code = vars.invite_code;
+      return data;
+    });
   });
 
   scenario.Given(/^I create a complete candidate$/, function() {
@@ -78,18 +107,6 @@ stepDefinitions(function(scenario) {
 
   scenario.Given(/^Candidate logs out$/, function() {
     return this.storeRequest(AJAX.get('/candidates/logout'));
-  });
-
-  scenario.Given(/^I post a new candidate with invitation code$/, function() {
-    this.vars.candidate_email = this.generateEmail();
-
-    return this.storeRequest(AJAX.post('/candidates/', {
-      'invite_code': this.vars.invite_code,
-      'email': this.vars.candidate_email,
-      'pwd': 'Überfall',
-      'first_name': 'Bob',
-      'last_name': 'Bayley',
-    }));
   });
 
   scenario.When(/^Candidate request a password reset$/, function() {

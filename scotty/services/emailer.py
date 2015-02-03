@@ -288,7 +288,7 @@ class MandrillEmailer(object):
 
     @register_template('admin-contact-request')
     def send_contact_request(self, email, name, message):
-        return self.send, {'to': [{'email': email, 'name': 'Admin'} for email in self.admin_emails],
+        return self.send, {'to': [{'email': admin_email, 'name': 'Admin'} for admin_email in self.admin_emails],
                            'global_merge_vars': [
                                {'content': name, 'name': 'name'},
                                {'content': email, 'name': 'email'},

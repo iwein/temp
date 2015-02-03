@@ -35,12 +35,13 @@
                 <div class="col-sm-4">
                   <input type="number"
                     class="form-control"
-                    name="dobYear"
-                    placeholder="Year"
-                    ng-min="1900"
+                    name="dobDay"
+                    placeholder="Day"
+                    ng-min="1"
+                    ng-max="31"
                     required
                     ng-disabled="hcDisabled"
-                    ng-model="dobYear"
+                    ng-model="dobDay"
                     ng-change="updateDob()">
                 </div>
                 <div class="col-sm-4 no-padd-left">
@@ -57,13 +58,12 @@
                 <div class="col-sm-4 no-padd-left">
                   <input type="number"
                     class="form-control"
-                    name="dobDay"
-                    placeholder="Day"
-                    ng-min="1"
-                    ng-max="31"
+                    name="dobYear"
+                    placeholder="Year"
+                    ng-min="1900"
                     required
                     ng-disabled="hcDisabled"
-                    ng-model="dobDay"
+                    ng-model="dobYear"
                     ng-change="updateDob()">
                 </div>
               </div>

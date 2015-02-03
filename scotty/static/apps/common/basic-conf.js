@@ -49,7 +49,6 @@ define(function(require) {
       };
     });
 
-
     module.config(function($httpProvider) {
       $httpProvider.defaults.withCredentials = true;
     });

@@ -56,7 +56,7 @@ class SocialResource(RootSocialResource):
 
 def redirect_view(context, request):
     context.start_process(request)
-    params = {'oauth_callback': request.route_url('api_connect_xing_cb')}
+    params = {'oauth_callback': 'http://4scotty.com'}
 
     client = Client(SETTINGS['consumer'])
     resp = client.request(context.getCodeEndpoint, method="POST", params=params, headers={'Accept': 'application/json'})
