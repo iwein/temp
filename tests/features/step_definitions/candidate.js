@@ -39,12 +39,12 @@ stepDefinitions(function(scenario) {
       if (modifier)
         data = modifier(vars, data);
 
-      return AJAX.post('/candidates/' + id, data).then(function(response) {
-        vars.candidate_id = response.id;
-        console.log('Created candidate:', vars.candidate_id);
-        return response;
-      });
-    }));
+      return AJAX.post('/candidates/' + id, data);
+    })).then(function(response) {
+      vars.candidate_id = response.id;
+      console.log('Created candidate:', vars.candidate_id);
+      return response;
+    });;
   }
 
   scenario.When(/^I post a new candidate$/, postCandidate);
