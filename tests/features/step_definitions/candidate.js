@@ -44,7 +44,7 @@ stepDefinitions(function(scenario) {
       vars.candidate_id = response.id;
       console.log('Created candidate:', vars.candidate_id);
       return response;
-    });;
+    });
   }
 
   scenario.When(/^I post a new candidate$/, postCandidate);
@@ -55,24 +55,6 @@ stepDefinitions(function(scenario) {
       return data;
     });
   });
-
-  /*
-  scenario.When(/^I post a new candidate$/, function() {
-    this.vars.candidate_name = 'test-candidate-' + this.guid();
-    this.vars.candidate_email = this.generateEmail();
-
-    return this.storeRequest(AJAX.post('/candidates/', {
-      'email': this.vars.candidate_email,
-      'pwd': 'Überfall',
-      'first_name': this.vars.candidate_name,
-      'last_name': 'Bayley',
-    })).then(function(response) {
-      this.vars.candidate_id = response.id;
-      console.log('Created candidate:', this.vars.candidate_id);
-      return response;
-    }.bind(this));
-  });
-*/
 
   scenario.Given(/^I create a complete candidate$/, function() {
     return scenario.step(/^I post a new candidate$/).then(function() {
