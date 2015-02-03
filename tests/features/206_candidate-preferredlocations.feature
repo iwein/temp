@@ -4,13 +4,15 @@ Feature: Candidate sign up with preferred cities
   Background:
      Given I post a new candidate
 
-  Scenario: Candidate should have no preferred cities
-      When I invoke "/candidates/me" endpoint
-      Then The response status should be "200"
-       And The response should have:
-        """
-        { "preferred_location": null }
-        """
+# Disabled because now it's not possible to create a employer without preferred cities
+#
+# Scenario: Candidate should have no preferred cities
+#     When I invoke "/candidates/me" endpoint
+#     Then The response status should be "200"
+#      And The response should have:
+#       """
+#       { "preferred_location": null }
+#       """
 
   Scenario: Candidate set preferred cities
       When I put to "/candidates/me/preferred_locations":
