@@ -92,7 +92,6 @@ define(function(require) {
       }.bind(this));
     },
 
-
     searchCandidates: function(query) {
       return this._api.get('/admin/search/candidates' + this.getParams, query).then(function(response) {
         response.data = response.data.map(function(data) {
@@ -100,6 +99,10 @@ define(function(require) {
         }.bind(this));
         return response;
       }.bind(this));
+    },
+
+    getCandidateStatuses: function() {
+      return this._api.get('/config/candidate_statuses');
     },
 
     getCandidate: function(id) {
@@ -124,9 +127,8 @@ define(function(require) {
           throw new Error('DUPLICATED_ENTRY');
         throw request;
       });
-    },
+    }
   };
-
 
   var module = require('app-module');
   module.factory('Session', function(API, $q, $location) {

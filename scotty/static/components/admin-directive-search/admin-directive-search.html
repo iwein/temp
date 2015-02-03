@@ -1,7 +1,7 @@
 <div class="admin-directive-search">
   <form>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         <div class="form-group required">
           <input type="text"
                  class="form-control"
@@ -10,7 +10,7 @@
                  ng-change="search()">
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         <div class="form-group required">
           <hc-label-typeahead
             ng-if="hcShowSkills"
@@ -21,6 +21,11 @@
           </hc-label-typeahead>
         </div>
       </div>
+      <div class="col-sm-2">
+        <select class="form-control" ng-model="hcStatus"
+                ng-options="item for item in hcStatuses" ng-change="search()"></select>
+      </div>
+
     </div>
   </form>
 

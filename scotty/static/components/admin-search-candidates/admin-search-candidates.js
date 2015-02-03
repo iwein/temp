@@ -8,6 +8,13 @@ define(function(require) {
   module.controller('SearchCandiatesCtrl', function($scope, Session) {
     $scope.executeSearch = executeSearch;
 
+    $scope.status = 'active';
+    $scope.statuses = [$scope.status];
+
+    Session.getCandidateStatuses().then(function(resp){
+      $scope.statuses = resp.data;
+    });
+
     function executeSearch(params) {
       return Session.searchCandidates(params);
     }
@@ -18,6 +25,6 @@ define(function(require) {
     url: '/search-candidates/',
     template: require('text!./admin-search-candidates.html'),
     controller: 'SearchCandiatesCtrl',
-    controllerAs: 'searchCandidates',
+    controllerAs: 'searchCandidates'
   };
 });

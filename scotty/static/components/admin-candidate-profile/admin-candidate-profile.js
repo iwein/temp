@@ -6,6 +6,7 @@ define(function(require) {
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Session) {
     $scope.saveAdminComment = saveAdminComment;
     $scope.remove = remove;
+    $scope.approve = approve;
     $scope.id = $state.params.id;
     $scope.ready = false;
     Loader.page(true);
@@ -16,7 +17,6 @@ define(function(require) {
       });
     };
     refresh();
-
 
     function refresh(){
       Session.getCandidate($scope.id).then(function(candidate) {
@@ -39,6 +39,15 @@ define(function(require) {
         toaster.defaultError();
       }).finally(function() {
         Loader.page(false);
+      });
+    }
+
+    function approve(candidate) {
+      Loader.add('admin-approve-candidates-approve');
+      return Session.approveCandidate(candidate).then(function() {
+        refresh();
+      }).finally(function() {
+        Loader.remove('admin-approve-candidates-approve');
       });
     }
 

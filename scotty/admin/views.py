@@ -58,6 +58,7 @@ class SearchResultCandidate(Candidate):
     def __json__(self, request):
         result = super(SearchResultCandidate, self).__json__(request)
         result['email'] = self.email
+        result['created'] = self.created
         return result
 
 
@@ -68,6 +69,7 @@ class SearchResultEmployer(Employer):
         result['company_type'] = self.company_type
         result['status'] = self.status
         result['email'] = self.email
+        result['created'] = self.created
         return result
 
 
@@ -203,6 +205,7 @@ class AdminController(RootController):
     @view_config(route_name="admin_search_candidates", permission=ADMIN_PERM, **GET)
     def admin_search_candidates(self):
         params = self.request.params
+        status = params.get('status')
         q = params.get('q')
         tags = filter(None, params.get('tags', '').split(','))
 
@@ -224,21 +227,30 @@ class AdminController(RootController):
             pager = get_candidates_by_techtags_pager(tags, None)
             result = ObjectBuilder(SearchResultCandidate, joins=adjust_query).serialize(pager)
         else:
-            basequery = adjust_query(DBSession.query(SearchResultCandidate), q)
+            basequery = DBSession.query(SearchResultCandidate)
+            if status:
+                status = get_by_name_or_raise(CandidateStatus, status)
+                basequery = basequery.filter(Candidate.status == status)
+            basequery = adjust_query(basequery, q)
             result = run_paginated_query(self.request, basequery)
         return result
 
     @view_config(route_name="admin_search_employer", permission=ADMIN_PERM, **GET)
     def admin_search_employer(self):
-        base_query = DBSession.query(SearchResultEmployer)
+        basequery = DBSession.query(SearchResultEmployer)
+
+        status = self.request.params.get('status')
+
         if 'q' in self.request.params:
             q = self.request.params['q'].lower()
-            base_query = DBSession.query(SearchResultEmployer).filter(
+            basequery = DBSession.query(SearchResultEmployer).filter(
                 or_(func.lower(Employer.company_name).startswith(q), func.lower(Employer.contact_first_name).startswith(q),
                     func.lower(Employer.contact_last_name).startswith(q), func.lower(Employer.email).startswith(q)))
         else:
-            base_query = base_query.order_by(Employer.company_name)
-        return run_paginated_query(self.request, base_query)
+            basequery = basequery.order_by(Employer.company_name)
+        if status:
+            basequery = basequery.filter(*Employer.by_status(status))
+        return run_paginated_query(self.request, basequery)
 
 
 

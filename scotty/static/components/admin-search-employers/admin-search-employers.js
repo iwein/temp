@@ -8,11 +8,13 @@ define(function(require) {
   module.controller('SearchEmployersCtrl', function($scope, Session) {
     $scope.executeSearch = executeSearch;
 
+    $scope.status = 'APPROVED';
+    $scope.statuses = ['INVITED', 'SIGNEDUP', 'APPLIED', 'APPROVED', 'DELETED'];
+
     function executeSearch(params) {
       return Session.searchEmployers(params);
     }
   });
-
 
   return {
     url: '/search-employers/',

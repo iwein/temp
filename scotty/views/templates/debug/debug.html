@@ -92,7 +92,7 @@ ${self.scripts()}
             };
           if (!conf.data) {
             $.ajax({
-              url: 'http://10.0.0.5:8880'+url,
+              url: url,
               method: conf.method || 'GET',
               dataType: "json",
               xhrFields: { withCredentials: true },
@@ -102,7 +102,7 @@ ${self.scripts()}
           } else {
             var params = $.isFunction(conf.data) ? conf.data(resp, extracted) : conf.data;
             $.ajax({
-              url: 'http://10.0.0.5:8880'+url,
+              url: url,
               data: JSON.stringify(params),
               method: conf.method || 'POST',
               xhrFields: { withCredentials: true },

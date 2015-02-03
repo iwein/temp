@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-
+      <button type="button" class="pull-right btn bg-green" ng-if="employer._data.status === 'APPLIED'" ng-click="approve(employer._data)">Approve</button>
       <a class="btn btn-success" ng-href="{{ session.getLoginAsEmployerLink(employer) }}">Login as this employer</a>
       <button class="btn btn-danger" ng-click="remove(employer)">Delete employer</button>
     </div>

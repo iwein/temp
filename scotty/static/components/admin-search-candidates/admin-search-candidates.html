@@ -1,16 +1,26 @@
 <div class="component-admin-search-candidates row">
   <div class="col-sm-12">
-    <a class="btn btn-default" ui-sref="invite-code">Invite codes</a>
-    <a class="btn btn-default" ui-sref="approve-candidates">Approve candidate</a>
-
+    <div class="pull-right">
+      <dl class="inline">
+        <dt>Pending</dt>
+        <dd>Waiting for approval, filter by this and approve </dd>
+        <dt>Active</dt>
+        <dd>Approved and fully signed up in platform</dd>
+      </dl>
+    </div>
+    <a class="btn btn-default" ui-sref="invite-code">Manage Invite Codes</a>
     <h1>Search candidates</h1>
-
     <ul class="list-group">
-      <hc-admin-search on-search="executeSearch($params)" hc-show-skills="true">
+      <hc-admin-search on-search="executeSearch($params)" hc-show-skills="true" hc-statuses="statuses" hc-status="{{ status }}">
         <li class="list-group-item" ng-repeat="candidate in results">
           <div class="row">
+            <div class="col-sm-12" style="margin-bottom: 5px;">
+                  <b>ID: {{ candidate._data.id }}</b>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-sm-1 text-center">
-              <img src="{{ candidate._data.picture_url }}" height="50px"/>
+              <img src="{{ candidate._data.picture_url }}" style="max-height:50px;max-width:50px;" />
             </div>
             <div class="col-sm-2">
               {{ candidate._data.first_name }} {{ candidate._data.last_name }}
@@ -18,18 +28,21 @@
             </div>
             <div class="col-sm-4">
               {{ candidate._data.email }}
+              <small ng-if="!candidate._data.activated">(unconfirmed)</small>
+            </div>
+            <div class="col-sm-2">
+              Signup: <b>{{ candidate._data.created | date }}</b>
+              <div ng-if="candidate._data.location">
+                Residence: {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <small ng-repeat="skill in candidate._data.skills">{{ skill.skill }}<span ng-if="!$last">,</span>
+              </small>
             </div>
             <div class="col-sm-1">
-              {{ candidate._data.status }}
-            </div>
-            <div class="col-sm-2">
-            <span ng-if="candidate._data.location">
-              {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
-            </span>
-            </div>
-
-            <div class="col-sm-2">
-              <a class="btn btn-link" ui-sref="candidate({ id: candidate._data.id })">Details &raquo;</a>
+              <b>{{ candidate._data.status }}</b>
+              <a ui-sref="candidate({ id: candidate._data.id })">Details &raquo;</a>
             </div>
           </div>
         </li>

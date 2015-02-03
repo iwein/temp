@@ -1,16 +1,55 @@
 <div class="component-admin-search-employers row">
-  <div class="col-sm-6 col-sm-offset-3">
-    <a ui-sref="invite-employer">Invite employer</a><br>
-    <a ui-sref="approve-employers">Approve employers</a>
-
+  <div class="col-sm-12">
+    <div class="pull-right">
+      <dl class="inline">
+        <dt>INVITED</dt>
+        <dd>Sent an invite, but not signed up yet</dd>
+        <dt>SIGNED UP</dt>
+        <dd>Started signup process, not finished yet</dd>
+        <dt>APPLIED</dt>
+        <dd>Waiting for approval (agreed to terms)</dd>
+        <dt>APPROVED</dt>
+        <dd>Fully online in platform</dd>
+      </dl>
+    </div>
+    <a ui-sref="invite-employer">Invite employer</a>
     <h1>Search employers</h1>
+    <ul class="list-group clearfix">
+      <hc-admin-search on-search="executeSearch($params)" hc-statuses="statuses" hc-status="{{ status }}">
+        <li class="list-group-item" ng-repeat="employer in results">
+          <div class="row">
+            <div class="col-sm-12" style="margin-bottom: 5px;">
+              <b>ID: {{ employer.id }}</b>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-1 text-center">
+              <img style="max-height:50px;max-width:50px;" src="{{ employer.logo_url }}"/>
+            </div>
+            <div class="col-sm-2">
+              {{ employer.company_name }}
+            </div>
+            <div class="col-sm-4">
+              {{ employer.email }}<br/>
+              <small>{{ employer.contact_first_name }} {{ employer.contact_last_name }}</small>
+            </div>
+            <div class="col-sm-2">
+              Signup: <b>{{ employer.created | date }}</b>
+              <div ng-if="employer.location">
+                Residence: {{ employer.location.city }}, {{ employer.location.country_iso }}
+              </div>
+            </div>
+            <div class="col-sm-1">
+              {{ employer.company_type }}
+            </div>
+            <div class="col-sm-2">
+              <b>{{ employer.status }}</b>
+              <a ui-sref="employer({ id: employer.id })">Details &raquo;</a>
+            </div>
+          </div>
+        </li>
 
-    <hc-admin-search on-search="executeSearch($params)">
-      <hc-employer
-        ng-repeat="employer in results"
-        ng-model="employer"
-        hc-link-profile>
-      </hc-employer>
-    </hc-admin-search>
+      </hc-admin-search>
+    </ul>
   </div>
 </div>
