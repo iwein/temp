@@ -18,11 +18,16 @@
       <hc-admin-search on-search="executeSearch($params)" hc-statuses="statuses" hc-status="{{ status }}">
         <li class="list-group-item" ng-repeat="employer in results">
           <div class="row">
+            <div class="col-sm-12" style="margin-bottom: 5px;">
+              <b>ID: {{ employer.id }}</b>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-sm-1 text-center">
               <img style="max-height:50px;max-width:50px;" src="{{ employer.logo_url }}"/>
             </div>
             <div class="col-sm-2">
-              <b>{{ employer.company_name }}</b>
+              {{ employer.company_name }}
             </div>
             <div class="col-sm-4">
               {{ employer.email }}<br/>
