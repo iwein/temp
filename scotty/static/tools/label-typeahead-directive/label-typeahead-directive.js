@@ -70,6 +70,7 @@ define(function(require) {
           if ($scope.ngModel.indexOf(input) !== -1)
             return;
 
+          setTypeaheadLoader(false);
           $scope.ngModel.push(input);
           $scope.onAdd({ $value: input });
           $scope.onChange({ $value: $scope.ngModel });
@@ -96,6 +97,15 @@ define(function(require) {
 
           $scope.add(input);
           event.preventDefault();
+        }
+
+        function setTypeaheadLoader(value) {
+          var keys = Object.keys($scope).filter(function(key) {
+            return /^_autoloader\d+$/.test(key);
+          });
+
+          if (keys.length)
+            $scope[keys[0]] = value;
         }
       }
     };
