@@ -22,8 +22,10 @@ define(function(require) {
   require('./translations');
   var conf = require('conf');
 
-  if (window.ga)
+  if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
+    window.ga('require', 'displayfeatures');
+  }
 
   return function basicConf(module) {
     // Hack modified gettext functionality to also translate tokens
