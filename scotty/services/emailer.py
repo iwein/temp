@@ -114,7 +114,7 @@ class MandrillEmailer(object):
     @register_i18n_template('candidate-invite', de='kandidaten-empfehlung')
     def send_friend_referral(self, sndr_email, sndr_name, rcvr_email, rcvr_name, message):
         return self.send_email_to_candidate({
-            'from_email':sndr_email, 'from_name': sndr_name,
+            'from_email': sndr_email, 'from_name': sndr_name,
             'to': [{'email': rcvr_email, 'name': rcvr_name}] +
                   [{'email': email, 'name': 'Admin', 'type': 'bcc'}
                    for email in self.admin_emails],
@@ -288,11 +288,13 @@ class MandrillEmailer(object):
 
     @register_template('admin-contact-request')
     def send_contact_request(self, email, name, message):
-        return self.send, {'to': [{'email': admin_email, 'name': 'Admin'} for admin_email in self.admin_emails],
-                           'global_merge_vars': [
-                               {'content': name, 'name': 'name'},
-                               {'content': email, 'name': 'email'},
-                               {'content': message, 'name': 'message'}]}
+        return self.send, {
+            'from_email': email, 'from_name': name,
+            'to': [{'email': admin_email, 'name': 'Admin'} for admin_email in self.admin_emails],
+            'global_merge_vars': [
+                {'content': name, 'name': 'name'},
+                {'content': email, 'name': 'email'},
+                {'content': message, 'name': 'message'}]}
 
 
 def emailer_factory(settings):
