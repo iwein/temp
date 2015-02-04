@@ -133,7 +133,7 @@ class MandrillEmailer(object):
 
     @register_template('candidate-confirm-email')
     def send_candidate_welcome(self, candidate):
-        url = 'http://%s/candidate#/activate/%s' % (self.frontend, candidate.activation_token)
+        url = 'http://%s/candidate/#/activate/%s' % (self.frontend, candidate.activation_token)
         return self.send_email_to_candidate({'to': [{'email': candidate.email, 'name': candidate.first_name}],
                                              'global_merge_vars': [
                                                  {'content': candidate.first_name, 'name': 'first_name'},
@@ -147,7 +147,7 @@ class MandrillEmailer(object):
 
     @register_template('candidate-pwd-reset')
     def send_candidate_pwdforgot(self, email, first_name, reset_token):
-        url = 'http://%s/candidate#/reset-password/%s' % (self.frontend, reset_token)
+        url = 'http://%s/candidate/#/reset-password/%s' % (self.frontend, reset_token)
         return self.send_email_to_candidate({'to': [{'email': email, 'name': first_name}],
                                              'global_merge_vars': [
                                                  {'content': first_name, 'name': 'first_name'},
@@ -203,7 +203,7 @@ class MandrillEmailer(object):
 
     @register_template('employer-pwd-reset')
     def send_employer_pwdforgot(self, email, contact_name, company_name, reset_token):
-        url = 'http://%s/employer#/reset-password/%s' % (self.frontend, reset_token)
+        url = 'http://%s/employer/#/reset-password/%s' % (self.frontend, reset_token)
         return self.send_email_to_employer({'to': [{'email': email, 'name': contact_name}],
                                             'global_merge_vars': [
                                                 {'content': contact_name, 'name': 'contact_name'},
