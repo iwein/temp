@@ -40,7 +40,7 @@ class PreferredLocationRequest(MappingSchema):
 class TargetPosition(MappingSchema):
     role = SchemaNode(DBChoiceValue(Role))
     minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=99000000))
-    skills = SchemaNode(DBListValues(Skill, min_length=1))
+    skills = SchemaNode(DBListValues(Skill, create_unknown=True, min_length=1))
 
 
 class PreSignupRequest(MappingSchema):
