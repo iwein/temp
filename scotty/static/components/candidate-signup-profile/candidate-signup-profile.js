@@ -9,7 +9,11 @@ define(function(require) {
   var months = require('tools/months');
   var module = require('app-module');
 
-  module.controller('CandidateSignupProfileCtrl', function($scope, $q, $state, Amazon, Loader, ConfigAPI, Session) {
+  module.controller('CandidateSignupProfileCtrl', function(
+    $scope, $q, $state, gettext, Amazon, Loader, ConfigAPI, Session) {
+
+    months = months.map(gettext);
+
     _.extend($scope, {
       searchLocations: ConfigAPI.locationsText,
       setLocation: setLocation,

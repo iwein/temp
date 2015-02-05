@@ -53,10 +53,16 @@ define(function(require) {
       $scope.offer = data[0];
       $scope.timeline = data[1];
 
+      var getNextStatusText = $scope.offer.getNextStatusText;
+      $scope.offer.getNextStatusText = function() {
+        gettext(getNextStatusText.apply(this, arguments));
+      };
+
       $scope.offer.setDataParser(function(data) {
         data.message = $sce.trustAsHtml(data.message);
         data.interview_details = $sce.trustAsHtml(data.interview_details);
         data.job_description = $sce.trustAsHtml(data.job_description);
+        data.statusText = gettext(data.statusText);
       });
 
     }.bind(this)).finally(function() {
@@ -66,7 +72,7 @@ define(function(require) {
 
     function onStatusChange() {
       toaster.success(gettext('Offer {{ status }}', {
-        status: $scope.offer.statusText,
+        status: gettext($scope.offer.statusText),
       }));
     }
 

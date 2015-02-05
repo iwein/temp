@@ -22,7 +22,9 @@ define(function(require) {
         hcRequired: '=',
         hcDisabled: '=',
       },
-      controller: function($scope, $parse, $attrs, $q, Session) {
+      controller: function($scope, $parse, $attrs, $q, gettext, Session) {
+        months = months.map(gettext);
+
         _.extend($scope, {
           searchCompanies: ConfigAPI.companies,
           searchRoles: ConfigAPI.roles,
