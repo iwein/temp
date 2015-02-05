@@ -146,10 +146,16 @@ define(function(require) {
           delete $scope.model[key];
       });
 
-      if ('dob' in $scope.model)
-        $scope.model.dob = new Date($scope.model.dob);
       if (!('eu_work_visa' in $scope.model))
         $scope.model.eu_work_visa = true;
+
+      if ('dob' in $scope.model) {
+        var date = new Date($scope.model.dob);
+        $scope.model.dob = date;
+        $scope.dobDay = date.getDate();
+        $scope.dobMonth = months[date.getMonth()];
+        $scope.dobYear = date.getFullYear();
+      }
     }
 
     function selectFile(files) {
