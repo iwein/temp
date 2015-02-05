@@ -36,12 +36,17 @@ define(function(require) {
         });
       }).then(function(data) {
         var offer = data[0];
+        var getNextStatusText = offer.getNextStatusText;
+        offer.getNextStatusText = function() {
+          gettext(getNextStatusText.apply(this, arguments));
+        };
 
         offer.setDataParser(function(data) {
           data.interview_details = $sce.trustAsHtml(data.interview_details);
           data.job_description = $sce.trustAsHtml(data.job_description);
           data.message = $sce.trustAsHtml(data.message);
           data.accepted = statuses.indexOf(data.status) !== -1;
+          data.statusText = gettext(data.statusText);
         });
 
         return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {

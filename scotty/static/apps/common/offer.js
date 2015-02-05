@@ -1,16 +1,19 @@
 define(function() {
   'use strict';
+  function gettext(value) {
+    // HACK: this function add this tokens to i18n file
+    return value;
+  }
 
-  // TODO: Investigate how to translate these strings
   var stateText = {
-    'ACTIVE': 'Active',
-    'REJECTED': 'Rejected',
-    'ACCEPTED': 'Accept',
-    'INTERVIEW': 'Interviewed',
-    'CONTRACT_NEGOTIATION': 'Contract Negotiating',
-    'CONTRACT_SIGNED': 'Contract Signed',
-    'WITHDRAWN': 'Withdrawn',
-    'EXPIRED': 'Expired'
+    'ACTIVE': gettext('Active'),
+    'REJECTED': gettext('Rejected'),
+    'ACCEPTED': gettext('Accept'),
+    'INTERVIEW': gettext('Interviewed'),
+    'CONTRACT_NEGOTIATION': gettext('Contract Negotiating'),
+    'CONTRACT_SIGNED': gettext('Contract Signed'),
+    'WITHDRAWN': gettext('Withdrawn'),
+    'EXPIRED': gettext('Expired')
   };
 
   var validStatus = {
