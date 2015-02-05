@@ -1,6 +1,5 @@
 define(function(require) {
   'use strict';
-  require('tools/typeahead-loader-directive');
   require('components/directive-employer/directive-employer');
   require('components/partial-candidate-newsitem/partial-candidate-newsitem');
 
