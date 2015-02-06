@@ -331,6 +331,10 @@ msgstr "Zusatzleistungen"
 msgid "Benefits &amp; Process"
 msgstr "Zusatzleistungen &amp; Prozess"
 
+#: tmp/db-tokens/rejectionreasons.js:6
+msgid "Benefits insufficient"
+msgstr ""
+
 #: components/candidate-signup-profile/candidate-signup-profile.html:32
 msgid "Birth date"
 msgstr "Geburtsdatum"
@@ -388,6 +392,10 @@ msgstr ""
 "Wenn du \"Ich stimme den Nutzungsbedingungen zu\" auswählst, dann stimmst du "
 "unseren"
 
+#: tmp/db-tokens/roles_featured.js:3
+msgid "CTO/CIO (IT Management)"
+msgstr ""
+
 #: components/candidate-signup-profile/candidate-signup-profile.html:158
 msgid "CV"
 msgstr "Lebenslauf"
@@ -432,9 +440,18 @@ msgstr "Abbrechen"
 msgid "Candidates"
 msgstr "Kandidaten"
 
+#: tmp/db-tokens/benefits.js:1
+msgid "Child Care Services"
+msgstr ""
+
 #: tools/label-typeahead-directive/label-typeahead-directive.html:19
 msgid "Close"
 msgstr "Schließen"
+
+#: tmp/db-tokens/benefits.js:2
+#, fuzzy
+msgid "Coffee"
+msgstr "Angebot unterbreitet"
 
 #: components/candidate-signup-education/candidate-signup-education.html:134
 #: components/candidate-signup-experience/candidate-signup-experience.html:139
@@ -455,6 +472,11 @@ msgstr ""
 #: components/candidate-signup-experience/candidate-signup-experience.html:9
 msgid "Company"
 msgstr "Unternehmen"
+
+#: tmp/db-tokens/benefits.js:3
+#, fuzzy
+msgid "Company Cars"
+msgstr "Fakten zum Unternehmen"
 
 #: components/employer-signup-mission/employer-signup-mission.html:6
 #: components/employer-signup/employer-signup.html:64
@@ -484,6 +506,16 @@ msgstr "Unternehmenstyp"
 #: components/employer-signup-start/employer-signup-start.html:167
 msgid "Company Types"
 msgstr "Unternehmenstypen"
+
+#: tmp/db-tokens/benefits.js:4
+#, fuzzy
+msgid "Company pension scheme"
+msgstr "Mission des Unternehmens"
+
+#: tmp/db-tokens/rejectionreasons.js:4
+#, fuzzy
+msgid "Company profile not convincing"
+msgstr "Unternehmensprofil"
 
 #: components/employer-profile/employer-profile.html:108
 #: components/employer-signup-mission/employer-signup-mission.html:50
@@ -576,6 +608,11 @@ msgstr "Vertrag unterzeichnet"
 msgid "Contract was signed"
 msgstr "Vertrag wurde unterzeichnet"
 
+#: tmp/db-tokens/benefits.js:5
+#, fuzzy
+msgid "Contributions to capital formation"
+msgstr "Kontaktinformationen"
+
 #: components/employer-signup-basic/employer-signup-basic.html:106
 #: components/employer-signup-benefits/employer-signup-benefits.html:75
 #: components/employer-signup-facts/employer-signup-facts.html:89
@@ -611,6 +648,10 @@ msgstr "Übersicht"
 #: apps/common/footer.html:29
 msgid "Data Protection"
 msgstr "Datenschutz"
+
+#: tmp/db-tokens/roles_featured.js:7
+msgid "Data Scientist"
+msgstr ""
 
 #: tools/months.js:20
 msgid "December"
@@ -810,6 +851,14 @@ msgstr "Gründungsjahr"
 msgid "Founding year"
 msgstr "Gründungsjahr"
 
+#: tmp/db-tokens/benefits.js:6
+msgid "Free Beverages"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:7
+msgid "Free Fruits"
+msgstr ""
+
 #: components/candidate-signup/candidate-signup.html:18
 msgid "Free Sign up"
 msgstr "Kostenlose Anmeldung"
@@ -908,6 +957,10 @@ msgstr "Rekrutierungsprozess"
 msgid "Home"
 msgstr "Übersicht"
 
+#: tmp/db-tokens/benefits.js:8
+msgid "Home office acceptance"
+msgstr ""
+
 #: components/employer-signup-terms/employer-signup-terms.html:35
 msgid "I agree to the terms of services"
 msgstr "Ich stimme den Nutzungsbedingungen zu."
@@ -942,9 +995,21 @@ msgstr "Impressum"
 msgid "In summary"
 msgstr "Zusammengefasst"
 
+#: tmp/db-tokens/withdrawalreasons.js:1
+msgid "Inappropriate"
+msgstr ""
+
 #: components/candidate-signup-education/candidate-signup-education.html:9
 msgid "Institution"
 msgstr "Institution"
+
+#: tmp/db-tokens/withdrawalreasons.js:3
+msgid "Insufficient Experience"
+msgstr ""
+
+#: tmp/db-tokens/withdrawalreasons.js:2
+msgid "Insufficient Language Skills"
+msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.js:71
 msgid "Interview request removed"
@@ -1011,6 +1076,10 @@ msgstr "Nachname"
 msgid "Last name"
 msgstr "Nachname"
 
+#: tmp/db-tokens/benefits.js:9
+msgid "Life and disability insurance"
+msgstr ""
+
 #: components/employer-signup-basic/employer-signup-basic.html:67
 msgid "LinkedIn URL"
 msgstr "LinkedIn URL"
@@ -1024,6 +1093,11 @@ msgstr "Weitere Kenntnisse"
 #: components/employer-dashboard/employer-dashboard.html:51
 msgid "Location"
 msgstr "Ort"
+
+#: tmp/db-tokens/rejectionreasons.js:3
+#, fuzzy
+msgid "Location does not fit"
+msgstr "Orte"
 
 #: components/candidate-profile/candidate-profile.html:126
 #: components/candidate-signup-target/candidate-signup-target.html:113
@@ -1053,6 +1127,10 @@ msgstr "Angebot machen"
 msgid "March"
 msgstr "Suchen"
 
+#: tmp/db-tokens/benefits.js:10
+msgid "Massages"
+msgstr ""
+
 #: tools/months.js:13
 msgid "May"
 msgstr ""
@@ -1074,6 +1152,19 @@ msgstr "Monat"
 #: apps/common/footer.html:27
 msgid "More"
 msgstr "Mehr"
+
+#: tmp/db-tokens/salutations.js:1
+#, fuzzy
+msgid "Mr"
+msgstr "Mehr"
+
+#: tmp/db-tokens/salutations.js:2
+msgid "Mrs"
+msgstr ""
+
+#: tmp/db-tokens/salutations.js:3
+msgid "Ms"
+msgstr ""
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:23
 msgid "Native"
@@ -1125,6 +1216,10 @@ msgstr ""
 #: components/employer-profile/employer-profile.html:389
 msgid "No Benefits defined yet."
 msgstr "Bitte noch die Zusatzleistungen eintragen! "
+
+#: tmp/db-tokens/withdrawalreasons.js:4
+msgid "No Culture Fit"
+msgstr ""
 
 #: components/candidate-signup-education/candidate-signup-education.html:129
 #: components/candidate-signup-experience/candidate-signup-experience.html:134
@@ -1235,6 +1330,7 @@ msgstr "Rein erfolgsbassiert"
 
 #: components/candidate-signup-target/candidate-signup-target.html:158
 #: components/candidate-signup-target/candidate-signup-target.html:58
+#: tmp/db-tokens/rejectionreasons.js:7 tmp/db-tokens/withdrawalreasons.js:5
 msgid "Other"
 msgstr "Andere"
 
@@ -1676,6 +1772,10 @@ msgstr "Position / Titel"
 msgid "Privacy standards"
 msgstr "Datenschutz"
 
+#: tmp/db-tokens/roles_featured.js:2
+msgid "Product or Project Management"
+msgstr ""
+
 #: apps/candidate/navbar.html:42 apps/employer/navbar.html:41
 msgid "Profile"
 msgstr "Profil"
@@ -1684,6 +1784,15 @@ msgstr "Profil"
 #: components/employer-profile/employer-profile.html:29
 msgid "Profile picture"
 msgstr "Profilbild"
+
+#: tmp/db-tokens/benefits.js:11
+msgid "Public Transport Tickets"
+msgstr ""
+
+#: tmp/db-tokens/roles_featured.js:4
+#, fuzzy
+msgid "Quality Assurance"
+msgstr "Sichergestellte Qualität"
 
 #: components/candidate-signup-education/candidate-signup-education.html:135
 #: components/candidate-signup-experience/candidate-signup-experience.html:140
@@ -1713,6 +1822,10 @@ msgstr "Rekrutierungsprozess"
 #: components/candidate-offer/candidate-offer.html:218
 msgid "Reject"
 msgstr "Ablehnen"
+
+#: tmp/db-tokens/benefits.js:12
+msgid "Relocation expenses"
+msgstr ""
 
 #: components/directive-office/directive-office.html:33
 msgid "Remove"
@@ -1753,6 +1866,10 @@ msgstr "Rolle / Wunschjob"
 msgid "Role description"
 msgstr "Beschreibung der Rolle"
 
+#: tmp/db-tokens/rejectionreasons.js:1
+msgid "Role not fitting to my interests"
+msgstr ""
+
 #: components/candidate-profile/candidate-profile.html:789
 #: components/employer-candidate-profile/employer-candidate-profile.html:147
 msgid "SKILLS"
@@ -1766,6 +1883,10 @@ msgstr "INAKTIV"
 #: components/employer-dashboard/employer-dashboard.html:64
 msgid "Salary"
 msgstr "Gehalt"
+
+#: tmp/db-tokens/rejectionreasons.js:5
+msgid "Salary offer not high enough"
+msgstr ""
 
 #: components/directive-office-form/directive-office-form.html:106
 #: components/employer-signup-start/employer-signup-start.html:56
@@ -1875,9 +1996,22 @@ msgstr "Kostenlos anmelden"
 msgid "Skills"
 msgstr "Kenntnisse"
 
+#: tmp/db-tokens/roles_featured.js:1
+msgid "Software Development"
+msgstr ""
+
 #: components/employer-dashboard/employer-dashboard.html:142
 msgid "Sorry, there are no candidates matching your criteria"
 msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
+
+#: tmp/db-tokens/benefits.js:13
+#, fuzzy
+msgid "Sport and health services"
+msgstr "AGB"
+
+#: tmp/db-tokens/benefits.js:14
+msgid "Staff restaurant or food subsidies"
+msgstr ""
 
 #: components/employer-signup/employer-signup.html:24
 msgid "Start"
@@ -1918,6 +2052,10 @@ msgstr "Statische Seiten"
 msgid "Status"
 msgstr "Status"
 
+#: tmp/db-tokens/benefits.js:15
+msgid "Stock option program"
+msgstr ""
+
 #: apps/common/footer.html:51
 #: components/candidate-offer/candidate-offer.html:162
 #: components/candidate-offer/candidate-offer.html:209
@@ -1933,6 +2071,10 @@ msgstr "Abschicken"
 #: components/candidate-profile/candidate-profile.html:658
 msgid "Summary"
 msgstr "Zusammenfassung"
+
+#: tmp/db-tokens/roles_featured.js:6
+msgid "System Administration"
+msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:130
 #: components/employer-profile/employer-profile.html:519
@@ -1970,10 +2112,18 @@ msgstr "Philosophie der IT"
 msgid "Tech team size"
 msgstr "Größe des Technikteams"
 
+#: tmp/db-tokens/roles_featured.js:8
+msgid "Technical Consultant or Sales Support"
+msgstr ""
+
 #: components/candidate-signup-target/candidate-signup-target.html:28
 #: components/directive-experience-form/directive-experience-form.html:178
 msgid "Technologies &amp; Skills"
 msgstr "Technologien &amp; Kenntnisse"
+
+#: tmp/db-tokens/rejectionreasons.js:2
+msgid "Technologies not attractive"
+msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:905
 msgid "Technologies/Skills"
@@ -2088,6 +2238,10 @@ msgstr "Weiterbildungsmöglichkeiten"
 #: components/employer-signup-benefits/employer-signup-benefits.html:31
 msgid "Training policy"
 msgstr "Weiterbildungsmöglichkeiten"
+
+#: tmp/db-tokens/roles_featured.js:5
+msgid "UX/UI design"
+msgstr ""
 
 #: components/directive-education-form/directive-education-form.html:6
 msgid "University or Institution"
@@ -2532,6 +2686,7 @@ msgstr "Du wirst nur Jobangebote erhalten, die auf dein Profil passen."
 
 #: components/candidate-profile/candidate-profile.html:796
 #: components/employer-candidate-profile/employer-candidate-profile.html:154
+#: tmp/db-tokens/proficiencies.js:3 tmp/db-tokens/skill_levels.js:2
 msgid "advanced"
 msgstr "fortgeschritten"
 
@@ -2541,6 +2696,7 @@ msgstr "unter den 500 führenden Unternehmen."
 
 #: components/candidate-profile/candidate-profile.html:800
 #: components/employer-candidate-profile/employer-candidate-profile.html:158
+#: tmp/db-tokens/proficiencies.js:4 tmp/db-tokens/skill_levels.js:1
 msgid "basic"
 msgstr "Grundkenntnisse"
 
@@ -2582,8 +2738,14 @@ msgstr "etabliert und weniger als 1000 Angestellte"
 
 #: components/candidate-profile/candidate-profile.html:792
 #: components/employer-candidate-profile/employer-candidate-profile.html:150
+#: tmp/db-tokens/seniority.js:1 tmp/db-tokens/skill_levels.js:3
 msgid "expert"
 msgstr "Expert"
+
+#: tmp/db-tokens/proficiencies.js:2
+#, fuzzy
+msgid "fluent"
+msgstr "Fließend"
 
 #: components/employer-profile/employer-profile.html:148
 msgid "founded in"
@@ -2625,6 +2787,14 @@ msgstr "tiefes Wissen und eine umfassende Multi-Projekt Erfahrung"
 msgid "interview requested"
 msgstr "Interview angefragt"
 
+#: tmp/db-tokens/seniority.js:3
+msgid "junior"
+msgstr ""
+
+#: tmp/db-tokens/company_types.js:3
+msgid "large"
+msgstr ""
+
 #: components/directive-offer/directive-offer.html:19
 msgid "last update"
 msgstr "letzte Aktualisierung"
@@ -2641,6 +2811,10 @@ msgstr "weniger als ein Monat"
 msgid "log in."
 msgstr "Anmelden"
 
+#: tmp/db-tokens/company_types.js:2
+msgid "midsized"
+msgstr ""
+
 #: tools/moment-directive.js:68
 msgid "month"
 msgstr "Monat"
@@ -2652,6 +2826,11 @@ msgstr "Monate"
 #: components/employer-profile/employer-profile.html:339
 msgid "more"
 msgstr "mehr"
+
+#: tmp/db-tokens/proficiencies.js:1
+#, fuzzy
+msgid "native"
+msgstr "Muttersprachlich"
 
 #: components/candidate-offer/candidate-offer.html:20
 #: components/employer-offer/employer-offer.html:21
@@ -2697,6 +2876,10 @@ msgstr "speichern"
 msgid "searching"
 msgstr "sucht"
 
+#: tmp/db-tokens/seniority.js:2
+msgid "senior"
+msgstr ""
+
 #: components/candidate-signup-skills/candidate-signup-skills.html:28
 msgid "several years of practical experience"
 msgstr "mehrere Jahre praktische Erfahrung"
@@ -2710,6 +2893,11 @@ msgstr "inaktiv"
 msgid "started within the last 5 years"
 msgstr "in den letzten 5 Jahren begonnen"
 
+#: tmp/db-tokens/company_types.js:1
+#, fuzzy
+msgid "startup"
+msgstr "Start"
+
 #: components/candidate-offer/candidate-offer.html:5
 #: components/directive-offer/directive-offer.html:24
 #: components/employer-offer/employer-offer.html:5
@@ -2719,6 +2907,10 @@ msgstr "Status"
 #: components/employer-signup-terms/employer-signup-terms.html:12
 msgid "terms of service"
 msgstr "Nutzungsbedingungen"
+
+#: tmp/db-tokens/company_types.js:4
+msgid "top500"
+msgstr ""
 
 #: components/directive-offer/directive-offer.html:29
 #: components/employer-offer/employer-offer.html:9

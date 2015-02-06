@@ -25,6 +25,7 @@ module.exports = function(grunt) {
     githooks: grunt.file.readJSON('config/grunt-githooks.json'),
 
     // i18n
+    execute: grunt.file.readJSON('config/grunt-execute.json'),
     nggettext_extract: grunt.file.readJSON('config/grunt-nggettext_extract.json'),
     nggettext_compile: grunt.file.readJSON('config/grunt-nggettext_compile.json'),
     msgmerge: grunt.file.readJSON('config/grunt-msgmerge.json'),
@@ -127,8 +128,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('i18n:extract', [
+    'execute:db-tokens',
     'nggettext_extract:pot',
     'msgmerge:all',
+    'clean:tmp',
   ]);
   grunt.registerTask('i18n:compile', [ 'nggettext_compile:all' ]);
 
