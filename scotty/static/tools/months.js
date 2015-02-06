@@ -1,18 +1,22 @@
 define(function() {
   'use strict';
-  // TODO: Investigate how to translate these strings
+  function gettext(value) {
+    // HACK: this function add this tokens to i18n file
+    return value;
+  }
+
   return [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    gettext('January'),
+    gettext('February'),
+    gettext('March'),
+    gettext('April'),
+    gettext('May'),
+    gettext('June'),
+    gettext('July'),
+    gettext('August'),
+    gettext('September'),
+    gettext('October'),
+    gettext('November'),
+    gettext('December'),
   ];
 });

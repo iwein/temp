@@ -20,7 +20,7 @@ define(function(require) {
     _setUser: function(response) {
       this._unsetUser();
       this.user = new Candidate(this._api, 'me', response);
-      this.isActivated = response.is_activated;
+      this.isActivated = this.isActivated || response.is_activated;
       this.isApproved = response.is_approved;
       var fullName = response.first_name + ' ' + response.last_name;
       document.title = '4Scotty – ' + fullName;
@@ -103,7 +103,6 @@ define(function(require) {
       return this._api.get('/candidates/activate/' + token).then(function(){
         this.isActivated = true;
       }.bind(this));
-
     },
 
     signup: function(data) {

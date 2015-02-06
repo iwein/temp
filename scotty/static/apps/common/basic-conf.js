@@ -6,6 +6,7 @@ define(function(require) {
   require('tools/moment-directive');
   require('tools/focusme-directive');
   require('tools/greater-than-directive');
+  require('tools/typeahead-loader-directive');
   require('tools/validate-on-submit-directive');
   require('tools/xing-connect/xing-connect');
   require('tools/stars-directive/stars-directive');

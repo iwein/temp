@@ -19,7 +19,9 @@ define(function(require) {
         hcShowEmpty: '=',
         hcDisabled: '=',
       },
-      controller: function($scope, $parse, $attrs, $q, ConfigAPI, Session) {
+      controller: function($scope, $parse, $attrs, $q, gettext, ConfigAPI, Session) {
+        months = months.map(gettext);
+
         _.extend($scope, {
           searchInstitutions: ConfigAPI.institutions,
           searchCourses: ConfigAPI.courses,
