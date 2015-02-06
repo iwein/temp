@@ -382,8 +382,7 @@
   font-size: 85%;
 }
 .foot-item {
-  float: left;
-  width: 20%;
+  text-align: center;
   a {
     display: inline-block;
     color: @white;
@@ -416,6 +415,11 @@
       background: @green-dark
     }
   }
+  @media(min-width: @grid-float-breakpoint){
+    float: left;
+    width: 20%;
+    text-align: left;
+  }
 }
 
 .foot-item-small {
@@ -423,10 +427,17 @@
   width: 20%
 }
 
-.social-item {
+.social-items {
   margin: 0 auto;
   font-size: 20px;
   text-align: center;
+  .social-item {
+    padding: 0 20px;
+    @media(min-width: @grid-float-breakpoint){
+      display: block;
+      padding: 0;
+    }
+  }
 }
 
 .fav-wrap {
