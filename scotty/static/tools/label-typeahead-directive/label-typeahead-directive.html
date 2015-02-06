@@ -13,10 +13,9 @@
 
 <ul class="skills-list">
   <li ng-repeat="entry in ngModel" class="label label-default" role="label">
-    {{ hcRender({ $entry: entry }) }}
+    <span class="text">{{ hcRender({ $entry: entry }) }}</span>
     <button type="button" class="close" data-dismiss="label" ng-click="remove(entry, $index)">
       <span aria-hidden="true">&times;</span>
-      <span class="sr-only" translate>Close</span>
     </button>
   </li>
 </ul>
