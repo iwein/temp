@@ -1101,7 +1101,7 @@ msgstr ""
 msgid "New offer requests"
 msgstr ""
 
-#: apps/common/footer.html:48
+#: apps/common/footer.html:45
 msgid "Newsletter"
 msgstr ""
 
@@ -1914,7 +1914,7 @@ msgstr ""
 msgid "Stock option program"
 msgstr ""
 
-#: apps/common/footer.html:51
+#: apps/common/footer.html:48
 #: components/candidate-offer/candidate-offer.html:162
 #: components/candidate-offer/candidate-offer.html:209
 #: components/candidate-offer/candidate-offer.html:264
@@ -2725,6 +2725,6 @@ msgstr ""
 msgid "you withdrew this offer"
 msgstr ""
 
-#: apps/common/footer.html:57
+#: apps/common/footer.html:54
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr ""
