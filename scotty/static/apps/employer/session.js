@@ -6,9 +6,15 @@ define(function(require) {
   var Candidate = require('apps/common/candidate');
 
 
-  function EmployerSession(api) {
+  function EmployerSession(api, i18n) {
     this._api = api;
+    this._i18n = i18n;
     this._setUser = this._setUser.bind(this);
+
+    var self = this;
+    this._i18n.onChange(function(lang) {
+      self.setLanguage(lang);
+    });
   }
 
   EmployerSession.prototype = {
@@ -17,6 +23,7 @@ define(function(require) {
     _setUser: function(response) {
       this.approved = response.status === 'APPROVED';
       this._unsetUser();
+      this._i18n.setLanguage(response.locale);
       this.user = new Employer(this._api, 'me', response);
       this.isApproved= response.is_approved;
       this.isActivated = true;
@@ -54,6 +61,11 @@ define(function(require) {
           throw request;
         }.bind(this));
     }),
+
+    setLanguage: function(lang) {
+      if (this.user)
+        this.user.updateData({ locale: lang });
+    },
 
     login: function(email, password) {
       return this._api.post('/employers/login', {
@@ -137,8 +149,8 @@ define(function(require) {
   };
 
   var module = require('app-module');
-  module.factory('Session', function(API) {
-    var session = new EmployerSession(API);
+  module.factory('Session', function(API, i18n) {
+    var session = new EmployerSession(API, i18n);
     session.checkSession();
     return session;
   });

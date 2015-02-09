@@ -20,9 +20,9 @@ define(function(require) {
   require('components/element-offer-link/element-offer-link');
   require('components/element-employer-link/element-employer-link');
   require('components/element-candidate-link/element-candidate-link');
+  require('components/element-language-selector/element-language-selector');
   require('./translations');
   var conf = require('conf');
-  var moment = require('moment');
 
   if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
@@ -39,23 +39,15 @@ define(function(require) {
       translate = $rootScope.translate = function(string, context) {
         return gettextCatalog.getString(string, context);
       };
-      translate = $rootScope.translate = function(token, context) {
-        var result = gettextCatalog.getString(token, context);
-        console.log('TRANSLATED', token, result);
-        return result;
-      };
     });
 
     module.config(function($httpProvider) {
       $httpProvider.defaults.withCredentials = true;
     });
 
-    module.run(function($templateCache, gettextCatalog) {
-      var lang = 'de';
+    module.run(function($templateCache, i18n) {
       $templateCache.put('footer.html', require('text!../common/footer.html'));
-      gettextCatalog.setCurrentLanguage(lang);
-      gettextCatalog.debug = true;
-      moment.locale(lang);
+      i18n.setLanguage('de');
     });
 
     module.factory('toaster', function(Notifier, gettext) {
