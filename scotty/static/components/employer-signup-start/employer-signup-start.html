@@ -62,7 +62,7 @@
               ng-required="true"
               ng-disabled="loading || invited"
               ng-model="model.contact_salutation"
-              ng-options="salutation for salutation in salutations">
+              ng-options="salutation as translate(salutation) for salutation in salutations">
               <option value="" translate>Please select</option>
             </select>
           </div>

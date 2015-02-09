@@ -22,6 +22,7 @@ define(function(require) {
   require('components/element-candidate-link/element-candidate-link');
   require('./translations');
   var conf = require('conf');
+  var moment = require('moment');
 
   if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
@@ -31,24 +32,17 @@ define(function(require) {
   return function basicConf(module) {
     // Hack modified gettext functionality to also translate tokens
     var translate;
-
     module.constant('gettext', function(string, context) {
       return translate(string, context);
     });
-    module.run(function(gettextCatalog) {
-      translate = function(string, context) {
+    module.run(function($rootScope, gettextCatalog) {
+      translate = $rootScope.translate = function(string, context) {
         return gettextCatalog.getString(string, context);
       };
-    });
-
-    // Hack modified gettext functionality to also translate tokens
-    var translate;
-    module.constant('gettext', function(string, context) {
-      return translate(string, context);
-    });
-    module.run(function(gettextCatalog) {
-      translate = function(string, context) {
-        return gettextCatalog.getString(string, context);
+      translate = $rootScope.translate = function(token, context) {
+        var result = gettextCatalog.getString(token, context);
+        console.log('TRANSLATED', token, result);
+        return result;
       };
     });
 
@@ -57,11 +51,11 @@ define(function(require) {
     });
 
     module.run(function($templateCache, gettextCatalog) {
-      var lang = 'en';
+      var lang = 'de';
       $templateCache.put('footer.html', require('text!../common/footer.html'));
       gettextCatalog.setCurrentLanguage(lang);
       gettextCatalog.debug = true;
-      moment.locale(lang)
+      moment.locale(lang);
     });
 
     module.factory('toaster', function(Notifier, gettext) {

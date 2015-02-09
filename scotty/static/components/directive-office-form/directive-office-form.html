@@ -110,7 +110,7 @@
               ng-required="true"
               ng-disabled="hcDisabled"
               ng-model="model.contact_salutation"
-              ng-options="salutation for salutation in salutations">
+              ng-options="salutation as translate(salutation) for salutation in salutations">
         <option value="" translate>Salutation...</option>
       </select>
       <div class="form-error" ng-show="formOffice.salutation.$dirty && formOffice.salutation.$invalid">

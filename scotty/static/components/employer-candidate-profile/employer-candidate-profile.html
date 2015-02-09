@@ -94,7 +94,10 @@
           <div class="col-sm-12 bg-gray-light mrg-btm padd-vert">
             <div class="box-title box-title_left mrg-btm" translate>Languages</div>
             <div ng-repeat="entry in languages">
-              <span class="value gray">{{ entry.language }}: <span class="smbd">{{ entry.proficiency }}</span></span>
+              <span class="value gray">
+                {{ entry.language }}:
+                <span class="smbd">{{ entry.proficiency | translate }}</span>
+              </span>
             </div>
           </div>
         </div>
@@ -111,7 +114,7 @@
                   <div class="emp-off-desc">
                     <h3 class="main-subtitle">
                       <translate>Target position</translate>:
-                      <span>{{ targetPosition.role }}</span>
+                      <span>{{ targetPosition.role | translate }}</span>
                     </h3>
                     <p>{{ user.summary }}</p>
                   </div>

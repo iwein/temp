@@ -30,7 +30,7 @@
                 ng-required="entry.skill"
                 ng-model="entry.level"
                 ng-change="recheck()"
-                ng-options="level for level in levels">
+                ng-options="level as $root.translate(level) for level in levels">
                 <option value="" translate>Select Level...</option>
               </select>
             </div>
