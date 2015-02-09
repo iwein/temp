@@ -38,8 +38,19 @@ define(function(require) {
     return wrapper;
   }
 
+  function translated(key) {
+    var retrieve = cached(key);
+    return function() {
+      var tr = this._tr;
+      return retrieve.call(this).then(function(response) {
+        return response.map(tr);
+      });
+    };
+  }
 
-  function ConfigAPI(api) {
+
+  function ConfigAPI(api, tr) {
+    this._tr = tr;
     this._api = api;
     this._locations = {};
     this._lastResults = {};
@@ -53,18 +64,21 @@ define(function(require) {
 
   ConfigAPI.prototype = {
     constructor: ConfigAPI,
+
+    // translate
+    benefits: translated('benefits'),
+    salutations: translated('salutations'),
+    companyTypes: translated('company_types'),
+    skillLevels: translated('skill_levels'),
+    proficiencies: translated('proficiencies'),
+    rejectReasons: translated('rejectionreasons'),
+    withdrawReasons: translated('withdrawalreasons'),
+    featuredRoles: translated('roles/featured'),
+
     // no search
     degrees: cached('degrees'),
-    companyTypes: cached('company_types'),
-    skillLevels: cached('skill_levels'),
-    proficiencies: cached('proficiencies'),
-    benefits: cached('benefits'),
-    rejectReasons: cached('rejectionreasons'),
-    withdrawReasons: cached('withdrawalreasons'),
     travelWillingness: cached('travelwillingness'),
-    salutations: cached('salutations'),
     featuredLanguages: cached('languages/featured'),
-    featuredRoles: cached('roles/featured'),
     featuredSkills: cached('skills/featured'),
     featuredLocations: cached('locations/featured'),
 
@@ -117,8 +131,8 @@ define(function(require) {
 
 
   var module = require('app-module');
-  module.factory('ConfigAPI', function(API) {
-    return new ConfigAPI(API);
+  module.factory('ConfigAPI', function(API, gettext) {
+    return new ConfigAPI(API, gettext);
   });
 
 

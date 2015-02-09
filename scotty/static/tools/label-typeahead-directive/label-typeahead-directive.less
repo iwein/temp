@@ -1,6 +1,24 @@
 hc-label-typeahead,
 [hc-label-typeahead] {
+  .text {
+    float: right;
+  }
   .close {
-    float: none;
+    float: left;
+    padding: 0;
+    padding-right: 5px;
+    margin-left: -3px;
+    margin-top: -4px;
+    height: 16px;
+
+    span {
+      position: static;
+      display: inline;
+
+      &.sr-only {
+        display: inline-block;
+        width: 0px;
+      }
+    }
   }
 }

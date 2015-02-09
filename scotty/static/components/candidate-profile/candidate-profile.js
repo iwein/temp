@@ -110,6 +110,9 @@ define(function(require) {
         $scope.salary.data.other = false;
 
         var locations = JSON.parse(JSON.stringify(data.locations));
+        if (!locations)
+          return;
+
         if (locations.DE && !locations.DE.length) {
           $scope.salary.data.germany = true;
           return;
