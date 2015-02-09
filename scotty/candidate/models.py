@@ -14,7 +14,7 @@ from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable,
     DISPLAY_PRIVATE, get_request_role, DISPLAY_ADMIN
 from scotty.offer.models import CandidateOffer, Offer
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
-    Role, Language, Proficiency, Course, Salutation
+    Role, Language, Proficiency, Course, Salutation, Locale
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
 from sqlalchemy.sql import table, column
 
@@ -266,6 +266,10 @@ class Candidate(Base, JsonSerialisable):
     email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
     pwd = Column(String(128), nullable=False, info=PRIVATE)
 
+    locale_id = Column(Integer, ForeignKey(Locale.id), nullable=False, server_default='1')
+    locale = relationship(Locale)
+
+
     first_name = Column(String(512), nullable=False, info=PUBLIC)
     last_name = Column(String(512), nullable=False, info=PUBLIC)
     picture_url = Column(String(1024), info=PUBLIC)
@@ -396,6 +400,7 @@ class Candidate(Base, JsonSerialisable):
         result['preferred_location'] = self.get_preferred_locations()
         result['target_position'] = self.target_position
         result['location'] = self.location
+        result['locale'] = self.locale
 
         display = get_request_role(request, self.id)
         if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:

@@ -8,7 +8,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from scotty.candidate.models import Candidate, CandidateEmployerBlacklist, CandidateStatus, CandidateBookmarkEmployer
 
 from scotty.models.meta import DBSession
-from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType
+from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Salutation, OfficeType, CompanyType, Locale
 from scotty.employer.models import Employer, Office
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_create, \
@@ -147,6 +147,7 @@ EMPLOYER_EDITABLES = {'company_name': ID, 'website': ID, 'address_line1': ID, 'a
                       'mission_text': ID, 'culture_text': ID, 'vision_text': ID, 'founding_year': ID, 'revenue_pa': ID,
                       'funding_amount': ID, 'funding_text': ID, 'no_of_employees': ID, 'tech_team_size': ID,
                       'tech_team_philosophy': ID, 'recruitment_process': ID, 'training_policy': ID, 'admin_comment': ID,
+                      'locale': lambda name: get_by_name_or_raise(Locale, name),
                       'contact_salutation': lambda name: get_by_name_or_raise(Salutation, name),
                       'traffic_source': lambda name: get_by_name_or_create(TrafficSource, name),
                       'tech_tags': lambda tags: get_or_create_named_collection(Skill, tags),

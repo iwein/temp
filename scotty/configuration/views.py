@@ -6,13 +6,14 @@ from pyramid.view import view_config
 from scotty.models.meta import DBSession
 from scotty.configuration.models import Salutation, CompanyType, SkillLevel, Proficiency, Language, Skill, JobTitle, \
     Country, City, TrafficSource, Institution, Company, Seniority, Degree, Course, Benefit, RejectionReason, \
-    TravelWillingness, WithdrawalReason, Role
+    TravelWillingness, WithdrawalReason, Role, Locale
 from scotty.views import RootController
 from scotty.views.common import listing_request, run_paginated_query, list_featured
 from sqlalchemy.orm import joinedload
 
 
 def includeme(config):
+    config.add_route('configuration_list_locales', 'locales')
     config.add_route('configuration_list_seniority', 'seniority')
     config.add_route('configuration_list_salutations', 'salutations')
     config.add_route('configuration_list_companytypes', 'company_types')
@@ -42,6 +43,11 @@ def includeme(config):
 
 
 class ConfigurationController(RootController):
+    @view_config(route_name='configuration_list_locales', permission=NO_PERMISSION_REQUIRED)
+    def locale(self):
+        return listing_request(self.request, Locale, order_field=Locale.id)
+
+
     @view_config(route_name='configuration_list_seniority', permission=NO_PERMISSION_REQUIRED)
     def seniority(self):
         return listing_request(self.request, Seniority, order_field=Seniority.id)

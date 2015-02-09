@@ -7,7 +7,7 @@ from scotty.auth.provider import CANDIDATE
 from scotty.candidate.models import CandidateEmployerBlacklist, CandidateBookmarkEmployer
 from scotty.services import hash_pwd
 from sqlalchemy.ext.associationproxy import association_proxy
-from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType
+from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType, Locale
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
@@ -84,6 +84,9 @@ class Employer(Base, JsonSerialisable):
 
     company_type_id = Column(Integer, ForeignKey(CompanyType.id), nullable=False, server_default='1')
     company_type = relationship(CompanyType)
+
+    locale_id = Column(Integer, ForeignKey(Locale.id), nullable=False, server_default='1')
+    locale = relationship(Locale)
 
     email = Column(String(512), nullable=False, info=PRIVATE)
     pwd = Column(String(128))
@@ -184,6 +187,7 @@ class Employer(Base, JsonSerialisable):
         result['benefits'] = self.benefits
         result['tech_tags'] = self.tech_tags
         result['is_approved'] = self.approved is not None
+        result['locale'] = self.locale
 
         display = get_request_role(request, self.id)
         if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
