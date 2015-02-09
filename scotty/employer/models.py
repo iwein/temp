@@ -13,6 +13,7 @@ from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
     DISPLAY_PRIVATE
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
+from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship
 
 
@@ -66,6 +67,19 @@ employer_skills = Table('employer_skill', Base.metadata,
 employer_benefits = Table('employer_benefit', Base.metadata,
                           Column('employer_id', GUID, ForeignKey('employer.id'), primary_key=True),
                           Column('benefit_id', Integer, ForeignKey('benefit.id'), primary_key=True))
+
+
+class EmployerPicture(Base):
+    __tablename__ = 'employer_picture'
+    id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
+    employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
+    created = Column(DateTime, nullable=False, default=datetime.now)
+    description = Column(String(1024))
+    url = Column(String(1024), nullable=False)
+    position = Column(Integer(), nullable=False)
+
+    def __json__(self, request):
+        return {'url': self.url, 'description': self.description, 'created': self.created, 'id': self.id}
 
 
 class Employer(Base, JsonSerialisable):
@@ -130,6 +144,8 @@ class Employer(Base, JsonSerialisable):
 
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
     offers = relationship(EmployerOffer, backref='employer', order_by=EmployerOffer.created.desc())
+    pictures = relationship(EmployerPicture, backref='employer', order_by=EmployerPicture.position,
+                            collection_class=ordering_list('position'))
 
     admin_comment = Column(Text)
 
