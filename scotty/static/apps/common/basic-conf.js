@@ -57,7 +57,7 @@ define(function(require) {
     });
 
     module.run(function($templateCache, gettextCatalog) {
-      var lang = 'en';
+      var lang = 'de';
       $templateCache.put('footer.html', require('text!../common/footer.html'));
       gettextCatalog.setCurrentLanguage(lang);
       gettextCatalog.debug = true;
