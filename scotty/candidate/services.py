@@ -7,7 +7,7 @@ from sqlalchemy.orm import joinedload_all
 from scotty.models.meta import DBSession
 from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
     WorkExperience, Education, PreferredLocation
-from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role
+from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role, Locale
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
 from scotty.offer.models import NewsfeedOffer
@@ -24,7 +24,7 @@ def candidate_from_signup(candidate_id, params):
 
 
 CANDIDATE_EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
-                       'anonymous': ID,
+                       'anonymous': ID, 'locale': lambda name: get_by_name_or_raise(Locale, name),
                        'admin_comment': ID, 'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID,
                        'contact_zipcode': ID,
                        'location': get_location_by_name_or_raise, 'contact_phone': ID, 'availability': ID,

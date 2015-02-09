@@ -3,6 +3,12 @@ from scotty.models.meta import Base, NamedModel
 from sqlalchemy.orm import relationship
 
 
+class Locale(Base, NamedModel):
+    __tablename__ = 'locale'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(2), nullable=False, unique=True)
+
+
 class Seniority(Base, NamedModel):
     __tablename__ = 'seniority'
     id = Column(Integer, primary_key=True)
@@ -25,6 +31,7 @@ class CompanyType(Base, NamedModel):
     __tablename__ = 'company_type'
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
+
 
 class OfficeType(Base, NamedModel):
     __tablename__ = 'office_type'
