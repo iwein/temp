@@ -5,7 +5,7 @@
              ng-disabled="loading"
              ng-model="benefit.selected">
       <span class="iconParent"><i class="fa {{ benefitIcon(benefit.value) }}"></i></span>
-      {{ benefit.value }}
+      {{ benefit.value | translate }}
     </label>
   </li>
 </ul>

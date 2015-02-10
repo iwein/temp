@@ -20,6 +20,7 @@ define(function(require) {
   require('components/element-offer-link/element-offer-link');
   require('components/element-employer-link/element-employer-link');
   require('components/element-candidate-link/element-candidate-link');
+  require('components/element-language-selector/element-language-selector');
   require('./translations');
   var conf = require('conf');
 
@@ -31,23 +32,11 @@ define(function(require) {
   return function basicConf(module) {
     // Hack modified gettext functionality to also translate tokens
     var translate;
-
     module.constant('gettext', function(string, context) {
       return translate(string, context);
     });
-    module.run(function(gettextCatalog) {
-      translate = function(string, context) {
-        return gettextCatalog.getString(string, context);
-      };
-    });
-
-    // Hack modified gettext functionality to also translate tokens
-    var translate;
-    module.constant('gettext', function(string, context) {
-      return translate(string, context);
-    });
-    module.run(function(gettextCatalog) {
-      translate = function(string, context) {
+    module.run(function($rootScope, gettextCatalog) {
+      translate = $rootScope.translate = function(string, context) {
         return gettextCatalog.getString(string, context);
       };
     });
@@ -56,12 +45,9 @@ define(function(require) {
       $httpProvider.defaults.withCredentials = true;
     });
 
-    module.run(function($templateCache, gettextCatalog) {
-      var lang = 'en';
+    module.run(function($templateCache, i18n) {
       $templateCache.put('footer.html', require('text!../common/footer.html'));
-      gettextCatalog.setCurrentLanguage(lang);
-      gettextCatalog.debug = true;
-      moment.locale(lang)
+      i18n.setLanguage('de');
     });
 
     module.factory('toaster', function(Notifier, gettext) {

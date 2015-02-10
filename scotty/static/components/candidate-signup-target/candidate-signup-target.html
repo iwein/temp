@@ -13,7 +13,7 @@
                     ng-required="true"
                     ng-disabled="loading"
                     ng-model="model.role"
-                    ng-options="role for role in featuredRoles">
+                    ng-options="role as translate(role) for role in featuredRoles">
               <option value="" translate>Select...</option>
             </select>
 

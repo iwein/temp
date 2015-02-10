@@ -27,7 +27,7 @@
                       ng-required="entry.language"
                       ng-change="recheck()"
                       ng-model="entry.proficiency"
-                      ng-options="proficiency for proficiency in proficiencies">
+                      ng-options="proficiency as $root.translate(proficiency) for proficiency in proficiencies">
                 <option value="" translate>Select...</option>
               </select>
             </div>

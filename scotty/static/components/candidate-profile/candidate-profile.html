@@ -520,7 +520,10 @@
               </button>
             </div>
             <div ng-repeat="entry in languages.data">
-              <span class="value gray">{{ entry.language }}: <span class="smbd">{{ entry.proficiency }}</span></span>
+              <span class="value gray">
+                {{ entry.language }}:
+                <span class="smbd">{{ entry.proficiency | translate }}</span>
+              </span>
             </div>
           </div>
           <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-lang" ng-if="languages.editing">
@@ -617,7 +620,7 @@
                           <select class="form-control mrg-btm"
                                   ng-disabled="loading"
                                   ng-model="targetPosition.data.role"
-                                  ng-options="role for role in featuredRoles">
+                                  ng-options="role as translate(role) for role in featuredRoles">
                           </select>
                           <div class="buttons-wrap">
                             <button type="submit"
@@ -641,7 +644,7 @@
                     <!-- END target position div -->
                     <h3 class="main-subtitle" ng-hide="targetPosition.editing">
                       <translate>Target position</translate>:
-                      <span>{{ targetPosition.data.role }}</span>
+                      <span>{{ targetPosition.data.role | translate }}</span>
                       <button type="submit"
                               class="btn-edit-sub no-fl"
                               ng-show="isEditing"
