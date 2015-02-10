@@ -74,6 +74,14 @@ define(function(require) {
       return this.checkSession();
     },
 
+    getPictures: function() {
+      return this._api.get(this._url() + '/pictures' + this._sufix);
+    },
+
+    setPictures: function(data) {
+      return this._api.put(this._url() + '/pictures' + this._sufix, data);
+    },
+
     getTimeline: function() {
       return this._api.get(this._url() + '/newsfeed' + this._sufix);
     },

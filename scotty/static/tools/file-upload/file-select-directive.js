@@ -2,6 +2,39 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
+  module.directive('hcFileSelector', function($parse) {
+    return {
+      restrict: 'A',
+      compile: function(elem, attr) {
+        var element = elem[0];
+        var onChange = $parse(attr.hcFileSelector);
+
+        function createInput() {
+          var input = document.createElement('input');
+          input.type = 'file';
+
+          if ('multiple' in attr)
+            input.multiple = true;
+
+          if ('accept' in attr)
+            input.setAttribute('accept', attr.accept);
+
+          return input;
+        }
+
+        return function postLink(scope) {
+          element.addEventListener('click', function() {
+            var input = createInput();
+            input.addEventListener('change', function() {
+              onChange(scope, { $files: input.files });
+            });
+            input.click();
+          });
+        };
+      }
+    };
+  });
+
   module.directive('hcFileSelect', function($parse) {
     return {
       restrict: 'A',

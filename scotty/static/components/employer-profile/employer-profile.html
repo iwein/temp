@@ -608,6 +608,57 @@
     </div>
   </div>
 </div>
+
+<div class="row bg-white mrg-btm">
+  <div class="col-sm-12 pad-top-10 picture-gallery">
+    <form class="edit-form" ng-submit="pictures.save(pictures.data)">
+      <button type="submit"
+              class="btn-edit-sub no-marg-top"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
+              ng-click="pictures.edit()">
+        <i class="fa fa-pencil"></i>
+      </button>
+
+      <div class="picture" ng-repeat="picture in pictures.data">
+        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }">
+          <button type="submit"
+                  class="btn-edit-sub no-marg-top"
+                  ng-disabled="loading"
+                  ng-show="pictures.editing"
+                  ng-click="pictures.remove($index)">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <span class="description" ng-hide="pictures.editing">{{ picture.description }}</span>
+        <input type="text"
+          class="form-control"
+          required
+          ng-show="pictures.editing"
+          ng-model="picture.description">
+      </div>
+      <div class="clearfix"></div>
+
+      <div class="buttons-wrap" ng-show="pictures.editing">
+        <button type="button"
+          class="fl-lf bg-green btn-small mrg-lft-small"
+          ng-disabled="loading"
+          hc-file-selector="pictures.add($files)"
+          accept="image/*"
+          multiple
+          translate>Add</button>
+        <button type="submit"
+          class="fl-rg bg-green btn-small mrg-lft-small"
+          ng-disabled="loading || pictures.uploading" translate>Save</button>
+        <button type="button"
+          class="fl-rg bg-gray-lighter2 btn-small"
+          ng-click="pictures.close()"
+          ng-disabled="loading" translate>Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </div>
 </div>
 </div>

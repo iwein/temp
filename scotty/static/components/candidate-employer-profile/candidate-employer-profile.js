@@ -6,8 +6,8 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:8
-  module.controller('EmployerProfileCtrl', function($scope, $sce, $state, gettext,
+  // jshint maxparams:9
+  module.controller('EmployerProfileCtrl', function($scope, $q, $sce, $state, gettext,
                                                     toaster, Loader, Permission, Session) {
     Loader.page(true);
     $scope.ready = false;
@@ -35,19 +35,22 @@ define(function(require) {
 
       Session.getEmployer($scope.id).then(function(employer) {
         $scope.employer = employer;
-        return employer.getData();
-      }).then(function(data) {
-        $scope.ready = true;
-        $scope.data = data;
-        $scope.data.tech_team_philosophy = $sce.trustAsHtml(data.tech_team_philosophy);
-        $scope.data.recruitment_process = $sce.trustAsHtml(data.recruitment_process);
-        $scope.data.training_policy = $sce.trustAsHtml(data.training_policy);
-        $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
-
-        $scope.bookmarked_by_candidate = data.bookmarked_by_candidate;
-        $scope.blacklisted_by_candidate = data.blacklisted_by_candidate;
-        $scope.accepted_offers_by_candidate = data.accepted_offers_by_candidate;
-
+        return $q.all([
+          employer.getPictures().then(function(response) {
+            $scope.pictures = response;
+          }),
+          employer.getData().then(function(data) {
+            $scope.ready = true;
+            $scope.data = data;
+            $scope.data.tech_team_philosophy = $sce.trustAsHtml(data.tech_team_philosophy);
+            $scope.data.recruitment_process = $sce.trustAsHtml(data.recruitment_process);
+            $scope.data.training_policy = $sce.trustAsHtml(data.training_policy);
+            $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
+            $scope.bookmarked_by_candidate = data.bookmarked_by_candidate;
+            $scope.blacklisted_by_candidate = data.blacklisted_by_candidate;
+            $scope.accepted_offers_by_candidate = data.accepted_offers_by_candidate;
+          }),
+        ]);
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {

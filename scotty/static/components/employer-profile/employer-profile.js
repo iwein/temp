@@ -8,7 +8,8 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('ProfileCtrl', function($scope, $sce, $state, Amazon, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxparams:9
+  module.controller('ProfileCtrl', function($scope, $q, $sce, $state, Amazon, Loader, ConfigAPI, Permission, Session) {
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
     $scope.searchTags = ConfigAPI.skills;
@@ -25,7 +26,7 @@ define(function(require) {
     });
     Permission.requireSignup()
       .then(refresh)
-      .finally(function() { Loader.page(false) });
+      .finally(function() { Loader.page(false); this.edit() }.bind(this));
 
 
     $scope.summary = formSimple({
@@ -102,7 +103,7 @@ define(function(require) {
         return data.offices;
       }
     });
-    $scope.picture = form({
+    $scope.picture = _.extend(form({
       source: function(user) {
         return user.getData().then(function(data) {
           $scope.data = data;
@@ -114,25 +115,68 @@ define(function(require) {
           return user.updateData({ logo_url: url });
         });
       }
+    }), {
+      _clean: function(model) {
+        return model;
+      }
     });
-    $scope.picture._clean = function(model) {
-      return model;
-    };
+    $scope.pictures = _.extend(form({
+      source: function(user) {
+        return user.getPictures().then(function(response) {
+          this.data = response;
+          return response;
+        }.bind(this));
+      },
+      save: function(model, form, user) {
+        var pictures = model.filter(fn.not(fn.get('loading')));
+        return user.setPictures(pictures);
+      }
+    }), {
+      add: function(fileList) {
+        this.uploading = true;
+        var data = this.data;
+        var files = [].slice.call(fileList);
+
+        return $q.all(files.map(function(file) {
+          var id = Date.now() + '-' + Math.round(Math.random() * 1000000);
+          var model = {
+            url: 'http://www.pagevamp.com/templates/snapsite/newadmin/img/loading.gif',
+            description: '',
+            loading: true,
+          };
+          data.push(model);
+
+          return Amazon.upload(file, 'pictures/' + Session.id(), id).then(function(url) {
+            model.url = url;
+            model.loading = false;
+          });
+        })).then(function() {
+          this.uploading = this.data.some(fn.get('loading'));
+        }.bind(this));
+      },
+      remove: function(index) {
+        this.data.splice(index, 1);
+      },
+    });
 
 
     function refresh() {
       return Session.getUser().then(function(user) {
-        return user.getData();
-      }).then(function(data) {
+        return $q.all([
+          $scope.pictures.refresh(),
+          user.getData().then(function(data) {
+            $scope.data = data;
+            $scope.summary.set(data);
+            $scope.tech.set(data);
+            $scope.descriptions.set(data);
+            $scope.company.set(data);
+            $scope.benefits.set(data);
+            $scope.webProfiles.set(data);
+            $scope.offices.set(data);
+          }),
+        ]);
+      }).then(function() {
         $scope.ready = true;
-        $scope.data = data;
-        $scope.summary.set(data);
-        $scope.tech.set(data);
-        $scope.descriptions.set(data);
-        $scope.company.set(data);
-        $scope.benefits.set(data);
-        $scope.webProfiles.set(data);
-        $scope.offices.set(data);
       });
     }
 
@@ -178,6 +222,7 @@ define(function(require) {
         close: function() {
           this.editing = false;
           $scope.formOpen = false;
+          this.refresh();
         }
       };
     }
