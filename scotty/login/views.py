@@ -81,9 +81,9 @@ def login_post(context, request):
 class PasswordController(RootController):
     def send_email(self, obj):
         if isinstance(obj, Candidate):
-            self.request.emailer.send_candidate_pwdforgot(obj.email, obj.first_name, obj.pwdforgot_token)
+            self.request.emailer.send_candidate_pwdforgot(obj.lang, obj.email, obj.first_name, obj.pwdforgot_token)
         else:
-            self.request.emailer.send_employer_pwdforgot(obj.email, obj.contact_name,
+            self.request.emailer.send_employer_pwdforgot(obj.lang, obj.email, obj.contact_name,
                                                          obj.company_name, obj.pwdforgot_token)
 
     @view_config(route_name='requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)

@@ -31,14 +31,20 @@ def set_offer_signed(offer, candidate, employer, params, emailer):
         offer_id=offer.id)
 
     # EMAIL CANDIDATE
-    emailer.send_candidate_hired_email(offer, candidate, employer)
+    emailer.send_candidate_hired_email(candidate.lang, offer, candidate, employer)
 
     # EMAIL REJECTED EMPLOYERS
     rejects = DBSession.query(Employer).join(Offer).filter(Offer.candidate_id == offer.candidate_id,
                                                            Employer.id != offer.employer_id,
                                                            Offer.by_active()).all()
     rejection_reason = "I accepted another, better offer."
-    emailer.send_employers_offer_rejected(offer, candidate, rejects, rejection_reason)
+
+    employers_by_lang = {}
+    # sort employers by languages, and send separate templates
+    for e in rejects:
+        employers_by_lang.setdefault(e.lang, []).append(e)
+    for lang, lang_employers in employers_by_lang:
+        emailer.send_employers_offer_rejected(lang, offer, candidate, lang_employers, rejection_reason)
 
     return offer
 

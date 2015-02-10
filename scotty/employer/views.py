@@ -2,14 +2,14 @@ from datetime import datetime
 
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.auth.provider import ADMIN_PERM
-from scotty.employer.schemata import SignupRequest, AgreeTosRequest
+from scotty.employer.schemata import SignupRequest, AgreeTosRequest, PictureRequest, SetPicturesRequest
 from sqlalchemy import func
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
 from pyramid.view import view_config
 from scotty.models.meta import DBSession
 from scotty.configuration.models import WithdrawalReason
-from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer
+from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer, EmployerPicture
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
@@ -44,6 +44,9 @@ def includeme(config):
     config.add_route('employer_offices', '{employer_id}/offices')
     config.add_route('employer_office', '{employer_id}/offices/{office_id}')
 
+    config.add_route('employer_pictures', '{employer_id}/pictures')
+    config.add_route('employer_picture', '{employer_id}/pictures/{picture_id}')
+
     config.add_route('employer_offers', '{employer_id}/offers')
     config.add_route('employer_offer', '{employer_id}/offers/{offer_id}')
 
@@ -77,10 +80,12 @@ class EmployerInviteController(RootController):
 
 
 class EmployerController(RootController):
+    employer_cls = FullEmployer
+
     @reify
     def employer(self):
         employer_id = self.request.matchdict["employer_id"]
-        cls = FullEmployer
+        cls = self.employer_cls
         if employer_id == 'me':
             employer_id = self.request.session.get('employer_id')
             if not employer_id:
@@ -103,7 +108,7 @@ class EmployerController(RootController):
             else:
                 raise HTTPConflict("email")
         self.request.session['employer_id'] = employer.id
-        self.request.emailer.send_employer_welcome(employer)
+        self.request.emailer.send_employer_welcome(employer.lang, employer)
         return employer
 
     @view_config(route_name='employers', **GET)
@@ -184,6 +189,58 @@ class EmployerController(RootController):
         return {'success': True}
 
 
+class EmployerPictureController(EmployerController):
+    employer_cls = Employer
+
+    @view_config(route_name='employer_pictures', **GET)
+    def list(self):
+        return self.employer.pictures
+
+    @view_config(route_name='employer_pictures', **POST)
+    def create(self):
+        params = PictureRequest().deserialize(self.request.json)
+        pic = EmployerPicture(**params)
+        self.employer.pictures.append(pic)
+        DBSession.flush()
+        return pic
+
+    @view_config(route_name='employer_pictures', **PUT)
+    def set(self):
+        DBSession.query(EmployerPicture).filter(EmployerPicture.employer_id == self.employer.id).delete()
+        params = SetPicturesRequest().deserialize(self.request.json)
+        self.employer.pictures = [EmployerPicture(**p) for p in params]
+        DBSession.flush()
+        return self.employer.pictures
+
+    @reify
+    def picture(self):
+        id = self.request.matchdict["picture_id"]
+        picture = DBSession.query(EmployerPicture).get(id)
+        if not picture:
+            raise HTTPNotFound("Unknown Picture ID.")
+        return picture
+
+    @view_config(route_name='employer_picture', **GET)
+    def get(self):
+        return self.picture
+
+    @view_config(route_name='employer_picture', **PUT)
+    def edit(self):
+        params = self.request.json
+        if params.get('url'):
+            self.picture.url = params['url']
+        if 'description' in params:
+            self.picture.description = params['description']
+        return self.picture
+
+    @view_config(route_name='employer_picture', **DELETE)
+    def delete(self):
+        picture = self.picture
+        DBSession.delete(picture)
+        return {"status": "success"}
+
+
+
 class EmployerOfficeController(EmployerController):
     @view_config(route_name='employer_offices', **GET)
     def list(self):
@@ -256,6 +313,7 @@ class EmployerOfferController(EmployerController):
     def create(self):
         offer = add_employer_offer(self.employer, self.request.json)
         self.request.emailer.send_candidate_received_offer(
+            offer.candidate.lang,
             offer.candidate.email,
             offer.message,
             offer.candidate.first_name,
@@ -311,7 +369,7 @@ class EmployerOfferController(EmployerController):
 
 class EmployerPasswordController(RootController):
     def send_email(self, employer):
-        self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
+        self.request.emailer.send_employer_pwdforgot(employer.lang, employer.email, employer.contact_name,
                                                      employer.company_name, employer.pwdforgot_token)
 
     @view_config(route_name='employer_requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)

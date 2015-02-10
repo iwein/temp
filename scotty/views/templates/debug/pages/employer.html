@@ -33,6 +33,31 @@
       {url: '/api/v1/employers/me', title: 'employer-get-locale-de'},
       {url: '/api/v1/employers/me', method: 'PUT', data: {locale: 'en'}, title: 'employer-set-locale-en'},
 
+      {title: 'Pictures'},
+
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures'},
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures-add-1', data: {url: 'http://placekitten.com/g/200/300', 'description': 'KITTEHS 1'},
+        extract: function(resp, extr){ return {'pic1': resp}}},
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures-add-2', data: {url: 'https://placekitten.com/g/500/500', 'description': 'BIG KITTEH'},
+        extract: function(resp, extr){ return {'pic2': resp}}},
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures-before-update'},
+
+      {url: function(resp, extr){ return '/api/v1/employers/me/pictures/'+extr.pic2.id}, title: 'employer-pictures-edit', method:'PUT',
+        data: {description: 'not so big kitteh'}},
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures'},
+      {url: function(resp, extr){ return '/api/v1/employers/me/pictures/'+extr.pic1.id}, title: 'employer-pictures-delete', method:'DELETE'},
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures'},
+
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures-set', method: 'PUT',
+        data: [
+          {url: 'http://placekitten.com/g/200/300', 'description': 'KITTEHS 1'},
+          {url: 'http://placekitten.com/g/300/300', 'description': 'KITTEHS 2'},
+          {url: 'http://placekitten.com/g/400/300', 'description': 'KITTEHS 3'},
+          {url: 'http://placekitten.com/g/500/300', 'description': 'KITTEHS 4'}
+      ]},
+      {url: '/api/v1/employers/me/pictures', title: 'employer-pictures'},
+
+
       {title: 'Offices'},
 
       {url: function (r, extr) {return '/api/v1/employers/' + extr.employerId + '/offices';}, title: 'employer-add-HQ',

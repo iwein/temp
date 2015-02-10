@@ -269,6 +269,10 @@ class Candidate(Base, JsonSerialisable):
     locale_id = Column(Integer, ForeignKey(Locale.id), nullable=False, server_default='1')
     locale = relationship(Locale)
 
+    @property
+    def lang(self):
+        return self.locale.name
+
 
     first_name = Column(String(512), nullable=False, info=PUBLIC)
     last_name = Column(String(512), nullable=False, info=PUBLIC)

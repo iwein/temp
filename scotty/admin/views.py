@@ -156,7 +156,8 @@ class AdminController(RootController):
         except IntegrityError:
             raise HTTPConflict("company_name of email already registered.")
 
-        self.request.emailer.send_employer_invite(employer.email, employer.contact_name, employer.company_name, employer.invite_token)
+        self.request.emailer.send_employer_invite(employer.lang, employer.email, employer.contact_name,
+                                                  employer.company_name, employer.invite_token)
         return employer
 
     @view_config(route_name='admin_employer_by_status', permission=ADMIN_PERM, **GET)
@@ -177,7 +178,7 @@ class AdminController(RootController):
         if not employer:
             raise HTTPNotFound("Unknown Employer ID")
         employer.approved = datetime.now()
-        self.request.emailer.send_employer_approved(employer)
+        self.request.emailer.send_employer_approved(employer.lang, employer)
         return employer
 
     @view_config(route_name='admin_candidate_approve', permission=ADMIN_PERM, **GET)
@@ -190,7 +191,7 @@ class AdminController(RootController):
         candidate.status = get_by_name_or_raise(CandidateStatus, CandidateStatus.ACTIVE)
 
         if self.request.matched_route.name == 'admin_candidate_approve':
-            self.request.emailer.send_candidate_approved(candidate)
+            self.request.emailer.send_candidate_approved(candidate.lang, candidate)
         return candidate
 
     @view_config(route_name='admin_candidate_sleep', permission=ADMIN_PERM, **GET)

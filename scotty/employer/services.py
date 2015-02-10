@@ -219,9 +219,11 @@ def get_employer_newsfeed(employer):
         events.append({'name': 'BOOKMARKED', 'recency': recency(bm.created), 'date': bm.created,
                        'candidate': bm.candidate})
 
-    offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == employer.id).options(joinedload("candidate")).all()
+    offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == employer.id).options(
+        joinedload("candidate")).all()
     for o in offers:
-        events.append({'name': 'OFFER_SENT', 'recency': recency(o.created), 'date': o.created, 'candidate': o.candidate})
+        events.append(
+            {'name': 'OFFER_SENT', 'recency': recency(o.created), 'date': o.created, 'candidate': o.candidate})
         events.append({'name': 'OFFER_ACCEPTED', 'recency': recency(o.accepted), 'date': o.accepted, 'candidate':
             o.candidate})
         events.append(

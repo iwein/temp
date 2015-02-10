@@ -1,4 +1,5 @@
-from colander import MappingSchema, String, Email, SchemaNode, Boolean
+from colander import MappingSchema, String, Email, SchemaNode, Boolean, url, SequenceSchema
+import colander
 from scotty.configuration.models import Salutation, CompanyType
 from scotty.services.schema_tools import DBChoiceValue, must_be_true
 
@@ -15,3 +16,13 @@ class SignupRequest(MappingSchema):
 
 class AgreeTosRequest(MappingSchema):
     agreedTos = SchemaNode(Boolean(), validator=must_be_true)
+
+
+class PictureRequest(MappingSchema):
+    url = SchemaNode(String(), validator=colander.url)
+    description = SchemaNode(String(), if_missing='')
+
+
+class SetPicturesRequest(SequenceSchema):
+    pics = PictureRequest()
+
