@@ -39,7 +39,9 @@ def register_i18n_template(default, **templates):
     :param kwargs: dictionary with language-iso code as key, template as value
     :return:
     """
-    TEMPLATE_REGISTRY.union(templates.values())
+    TEMPLATE_REGISTRY.add(default)
+    for t in templates.values():
+        TEMPLATE_REGISTRY.add(t)
 
     def register_template_inner(f):
         @wraps(f)
