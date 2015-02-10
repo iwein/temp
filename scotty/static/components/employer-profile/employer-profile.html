@@ -611,21 +611,27 @@
 
 <div class="row bg-white mrg-btm">
   <div class="col-sm-12 pad-top-10 picture-gallery">
-    <form class="edit-form" ng-submit="pictures.save(pictures.data)">
-      <button type="submit"
-              class="btn-edit-sub no-marg-top"
-              ng-disabled="loading || formOpen"
-              ng-show="isEditing"
-              ng-click="pictures.edit()">
-        <i class="fa fa-pencil"></i>
-      </button>
+    <button type="submit"
+            class="btn-edit-sub no-marg-top"
+            ng-disabled="loading || formOpen"
+            ng-show="isEditing"
+            ng-click="pictures.edit()">
+      <i class="fa fa-pencil"></i>
+    </button>
 
+    <ul ng-hide="pictures.editing">
+      <li class="picture" ng-repeat="picture in pictures.data" ng-click="slideshow($index)">
+        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
+        <span class="description">{{ picture.description }}</span>
+      </li>
+    </ul>
+
+    <form class="edit-form" ng-show="pictures.editing" ng-submit="pictures.save(pictures.data)">
       <div class="picture" ng-repeat="picture in pictures.data">
         <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }">
           <button type="submit"
                   class="btn-edit-sub no-marg-top"
                   ng-disabled="loading"
-                  ng-show="pictures.editing"
                   ng-click="pictures.remove($index)">
             <i class="fa fa-times"></i>
           </button>
@@ -634,12 +640,11 @@
         <input type="text"
           class="form-control"
           required
-          ng-show="pictures.editing"
           ng-model="picture.description">
       </div>
       <div class="clearfix"></div>
 
-      <div class="buttons-wrap" ng-show="pictures.editing">
+      <div class="buttons-wrap">
         <button type="button"
           class="fl-lf bg-green btn-small mrg-lft-small"
           ng-disabled="loading"

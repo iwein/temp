@@ -8,11 +8,14 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:9
-  module.controller('ProfileCtrl', function($scope, $q, $sce, $state, Amazon, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxparams:10
+  module.controller('ProfileCtrl', function($scope, $q, $sce, $state,
+    Lightbox, Amazon, Loader, ConfigAPI, Permission, Session) {
+
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
     $scope.searchTags = ConfigAPI.skills;
+    $scope.slideshow = slideshow;
     $scope.toggle = toggle;
     $scope.ready = false;
     Loader.page(true);
@@ -260,6 +263,10 @@ define(function(require) {
           $scope.formOpen = false;
         }
       });
+    }
+
+    function slideshow(index) {
+      Lightbox.openModal($scope.pictures.data, index);
     }
 
     function toggle(key) {

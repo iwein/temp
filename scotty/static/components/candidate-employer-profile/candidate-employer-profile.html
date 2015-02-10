@@ -164,9 +164,9 @@
         </div>
         <div class="row bg-white mrg-btm" ng-show="pictures.length">
           <div class="col-sm-12 pad-top-10 picture-gallery">
-            <div class="picture" ng-repeat="picture in pictures">
+            <div class="picture" ng-repeat="picture in pictures" ng-click="slideshow($index)">
               <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
-              <span class="description" ng-hide="pictures.editing">{{ picture.description }}</span>
+              <span class="description">{{ picture.description }}</span>
             </div>
           </div>
         </div>

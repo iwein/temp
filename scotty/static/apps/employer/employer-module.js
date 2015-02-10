@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('angular-router');
   require('angular-gettext');
+  require('angular-bootstrap-lightbox');
   require('ui.bootstrap');
   require('textangular');
   require('angulartics-ga');
@@ -12,6 +13,7 @@ define(function(require) {
     'ui.router',
     'ui.bootstrap',
     'textAngular',
+    'bootstrapLightbox',
     'angulartics',
     'angulartics.google.analytics',
   ]);

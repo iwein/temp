@@ -15,6 +15,9 @@ requirejs.config({
     'angular-animate': 'bower_components/angular-animate/angular-animate',
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
     'angular-gettext': 'bower_components/angular-gettext/dist/angular-gettext',
+    'angular-touch': 'bower_components/angular-touch/angular-touch',
+    'angular-loading-bar': 'bower_components/angular-loading-bar/build/loading-bar',
+    'angular-bootstrap-lightbox': 'bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
     'angulartics': 'bower_components/angulartics/dist/angulartics.min',
     'angulartics-ga': 'tools/angulartics-ga',
@@ -34,6 +37,12 @@ requirejs.config({
     'angular-animate': [ 'angular' ],
     'angular-sanitize': [ 'angular' ],
     'angular-gettext': [ 'angular' ],
+    'angular-touch': [ 'angular' ],
+    'angular-loading-bar': [ 'ui.bootstrap' ],
+    'angular-bootstrap-lightbox': [
+      'angular-loading-bar',
+      'angular-touch',
+    ],
     'apps/common/translations': [ 'angular-gettext' ],
   }
 

@@ -6,12 +6,12 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:9
+  // jshint maxparams:10
   module.controller('EmployerProfileCtrl', function($scope, $q, $sce, $state, gettext,
-                                                    toaster, Loader, Permission, Session) {
+                                                    toaster, Lightbox, Loader, Permission, Session) {
     Loader.page(true);
+    $scope.slideshow = slideshow;
     $scope.ready = false;
-
 
 
     Permission.requireSignup().then(function() {
@@ -84,6 +84,10 @@ define(function(require) {
         $scope[key] = !$scope[key];
       }
     }.bind(this));
+
+    function slideshow(index) {
+      Lightbox.openModal($scope.pictures, index);
+    }
   });
 
 
