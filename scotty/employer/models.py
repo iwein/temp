@@ -102,6 +102,10 @@ class Employer(Base, JsonSerialisable):
     locale_id = Column(Integer, ForeignKey(Locale.id), nullable=False, server_default='1')
     locale = relationship(Locale)
 
+    @property
+    def lang(self):
+        return self.locale.name
+
     email = Column(String(512), nullable=False, info=PRIVATE)
     pwd = Column(String(128))
     contact_salutation_id = Column(Integer, ForeignKey(Salutation.id))
