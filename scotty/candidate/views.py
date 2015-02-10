@@ -145,7 +145,7 @@ class CandidateController(RootController):
             raise HTTPConflict("User already signed up!")
 
         self.request.session['candidate_id'] = candidate.id
-        self.request.emailer.send_candidate_welcome(candidate)
+        self.request.emailer.send_candidate_welcome(candidate.lang, candidate)
         candidate.activation_sent = datetime.now()
         return candidate
 
@@ -161,7 +161,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_resendactivation', **POST)
     def candidate_resendactivation(self):
-        self.request.emailer.send_candidate_welcome(self.candidate)
+        self.request.emailer.send_candidate_welcome(self.candidate.lang, self.candidate)
         return {'success': True}
 
     @view_config(route_name='candidate_login', permission=NO_PERMISSION_REQUIRED, **POST)
@@ -428,7 +428,8 @@ class CandidateBookmarkController(CandidateController):
         DBSession.add(bm)
         DBSession.flush()
 
-        self.request.emailer.send_employer_offer_requested(employer.email,
+        self.request.emailer.send_employer_offer_requested(employer.lang,
+                                                           employer.email,
                                                            employer.contact_name,
                                                            employer.company_name,
                                                            candidate_name=self.candidate.full_name,
@@ -493,7 +494,8 @@ class CandidateOfferController(CandidateController):
             raise HTTPBadRequest(e.message)
         DBSession.flush()
 
-        self.request.emailer.send_employer_offer_accepted(email=offer.employer.email,
+        self.request.emailer.send_employer_offer_accepted(offer.employer.lang,
+                                                          email=offer.employer.email,
                                                           candidate_name=self.candidate.full_name,
                                                           contact_name=offer.employer.contact_name,
                                                           company_name=offer.employer.company_name,
@@ -524,7 +526,8 @@ class CandidateOfferController(CandidateController):
                 # alreadyblacklisted
                 log.info(e)
 
-        self.request.emailer.send_employer_offer_rejected(email=offer.employer.email,
+        self.request.emailer.send_employer_offer_rejected(offer.employer.lang,
+                                                          email=offer.employer.email,
                                                           candidate_name=self.candidate.full_name,
                                                           contact_name=offer.employer.contact_name,
                                                           company_name=offer.employer.company_name,
@@ -556,7 +559,7 @@ class CandidateOfferController(CandidateController):
 
 class CandidatePasswordController(RootController):
     def send_email(self, candidate):
-        self.request.emailer.send_candidate_pwdforgot(candidate.email, candidate.first_name, candidate.pwdforgot_token)
+        self.request.emailer.send_candidate_pwdforgot(candidate.lang, candidate.email, candidate.first_name, candidate.pwdforgot_token)
 
     @view_config(route_name='candidate_requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def requestpassword(self):

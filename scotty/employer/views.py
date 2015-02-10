@@ -103,7 +103,7 @@ class EmployerController(RootController):
             else:
                 raise HTTPConflict("email")
         self.request.session['employer_id'] = employer.id
-        self.request.emailer.send_employer_welcome(employer)
+        self.request.emailer.send_employer_welcome(employer.lang, employer)
         return employer
 
     @view_config(route_name='employers', **GET)
@@ -256,6 +256,7 @@ class EmployerOfferController(EmployerController):
     def create(self):
         offer = add_employer_offer(self.employer, self.request.json)
         self.request.emailer.send_candidate_received_offer(
+            offer.candidate.lang,
             offer.candidate.email,
             offer.message,
             offer.candidate.first_name,
@@ -311,7 +312,7 @@ class EmployerOfferController(EmployerController):
 
 class EmployerPasswordController(RootController):
     def send_email(self, employer):
-        self.request.emailer.send_employer_pwdforgot(employer.email, employer.contact_name,
+        self.request.emailer.send_employer_pwdforgot(employer.lang, employer.email, employer.contact_name,
                                                      employer.company_name, employer.pwdforgot_token)
 
     @view_config(route_name='employer_requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)
