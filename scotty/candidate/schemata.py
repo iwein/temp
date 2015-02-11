@@ -55,7 +55,7 @@ class SignupRequest(MappingSchema):
     last_name = SchemaNode(String(), validator=Length(min=2))
     invite_code = SchemaNode(DBChoiceValue(InviteCode), missing=None)
     agreedTos = SchemaNode(Boolean(), validator=must_be_true)
-    locale = SchemaNode(DBChoiceValue(Locale, default_key='en'))
+    locale = SchemaNode(DBChoiceValue(Locale, default_key='de'))
 
 
 class WorkExperienceRequest(MappingSchema):
