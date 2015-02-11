@@ -13,7 +13,7 @@ define(function(require) {
     };
   });
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, gettext, toaster,
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, i18n,
                                                         Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
@@ -59,6 +59,7 @@ define(function(require) {
       if (!$scope.formSignupUser.$valid)return;
       var id = localStorage.getItem('scotty:user_id');
       $scope.loading = true;
+      $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
 
       return Session.createUser(id, $scope.model).then(function(user) {
@@ -75,7 +76,7 @@ define(function(require) {
 
         if (request.status === 400 && request.data.errors) {
           if(request.data.errors.invite_code === 'INVALID CHOICE')
-            toaster.error(gettext('Unknown invite code'));
+            toaster.error(i18n.gettext('Unknown invite code'));
           else if(request.data.errors.email)
               $scope.formSignupUser.email.$setValidity('email', false);
           return;

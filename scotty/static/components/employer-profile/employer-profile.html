@@ -622,7 +622,7 @@
       </button>
     </div>
 
-    <p>Please present some photos of your company, your IT offices, as well as kitchen and relaxation areas, your CTO, your tech team and
+    <p translate>Please present some photos of your company, your IT offices, as well as kitchen and relaxation areas, your CTO, your tech team and
       some pictures showing the more casual/fun side of your company culture.
       It helps candidates get an idea how working at your company might feel like.</p>
 
@@ -631,7 +631,7 @@
         <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
         <span class="description">{{ picture.description }}</span>
       </li>
-      <li ng-show="!pictures.data.length">No photos yet</li>
+      <li ng-show="!pictures.data.length" translate>No photos yet</li>
     </ul>
 
     <form class="edit-form" ng-show="pictures.editing" ng-submit="pictures.save(pictures.data)">

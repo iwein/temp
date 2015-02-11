@@ -2,7 +2,7 @@ define(function(require) {
   'use strict';
   var module = require('app-module');
 
-  module.controller('CandidateActivateCtrl', function($scope, $state, gettext, toaster, Loader, Session) {
+  module.controller('CandidateActivateCtrl', function($scope, $state, i18n, toaster, Loader, Session) {
     Loader.page(true);
 
     Session.activate($state.params.token).then(function() {
@@ -12,7 +12,7 @@ define(function(require) {
       $scope.signupComplete = Session.isSignupComplete;
     }, function(request) {
       if (request.status === 404) {
-        toaster.error(gettext('Invalid invitation token.'));
+        toaster.error(i18n.gettext('Invalid invitation token.'));
         $scope.failed = true;
         $state.go('dashboard');
       } else

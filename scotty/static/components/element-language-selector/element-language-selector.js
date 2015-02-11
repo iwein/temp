@@ -8,6 +8,10 @@ define(function(require) {
     var languages = [ 'en' ];
     var current;
 
+    if (DEBUG) {
+      gettextCatalog.debug = true;
+    }
+
     ConfigAPI.locales().then(function(response) {
       languages = response;
     });
@@ -17,6 +21,7 @@ define(function(require) {
       getCurrent: getCurrent,
       setLanguage: setLanguage,
       onChange: onChange,
+      gettext: gettext,
     };
 
     function getCurrent() {
@@ -25,6 +30,10 @@ define(function(require) {
 
     function getLanguages() {
       return languages;
+    }
+
+    function gettext(string, context) {
+      return gettextCatalog.getString(string, context);
     }
 
     function setLanguage(lang) {

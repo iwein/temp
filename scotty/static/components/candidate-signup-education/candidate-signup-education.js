@@ -7,7 +7,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupEducationCtrl', function($scope, $q, gettext, toaster, Loader, Session) {
+  module.controller('CandidateSignupEducationCtrl', function($scope, $q, toaster, i18n, Loader, Session) {
     _.extend($scope, {
       onImportChange: updateImports,
       setEditing: setEditing,
@@ -70,7 +70,7 @@ define(function(require) {
     function submit() {
       var data = $scope.list.filter(fn.get('import'));
       if (!data.length) {
-        toaster.error(gettext('Please select at least one row to add.'));
+        toaster.error(i18n.gettext('Please select at least one row to add.'));
         return;
       }
 

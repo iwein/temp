@@ -4,7 +4,7 @@ define(function(require) {
   var module = require('app-module');
 
   // jshint maxparams:7
-  module.controller('SignupOfficesCtrl', function($scope, $q, gettext, toaster, Loader, ConfigAPI, Session) {
+  module.controller('SignupOfficesCtrl', function($scope, $q, toaster, i18n, Loader, ConfigAPI, Session) {
     $scope.listOffices = listOffices;
     $scope.update = update;
     $scope.add = add;
@@ -41,7 +41,7 @@ define(function(require) {
 
     function submit() {
       if (!list.length) {
-        toaster.error(gettext('No entry selected to add'));
+        toaster.error(i18n.gettext('No entry selected to add'));
         return;
       }
 

@@ -7,8 +7,8 @@ define(function(require) {
 
 
   // jshint maxparams:10
-  module.controller('EmployerProfileCtrl', function($scope, $q, $sce, $state, gettext,
-                                                    toaster, Lightbox, Loader, Permission, Session) {
+  module.controller('EmployerProfileCtrl', function($scope, $q, $sce, $state, i18n, toaster,
+                                                    Lightbox, Loader, Permission, Session) {
     Loader.page(true);
     $scope.slideshow = slideshow;
     $scope.ready = false;
@@ -70,8 +70,8 @@ define(function(require) {
           }).then(function(employer) {
             $scope.bookmarked_by_candidate = employer.isBookmarked;
             toaster.success(employer.isBookmarked ?
-              gettext('Interview requested') :
-              gettext('Interview request removed'));
+              i18n.gettext('Interview requested') :
+              i18n.gettext('Interview request removed'));
           }).catch(function() {
             toaster.defaultError();
           }).finally(function() {
