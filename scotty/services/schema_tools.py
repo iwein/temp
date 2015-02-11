@@ -28,10 +28,11 @@ def must_be_true(node, value):
 
 
 class DBChoiceValue(object):
-    def __init__(self, sqla_cls, create_unknown=False, keyfield=None):
+    def __init__(self, sqla_cls, create_unknown=False, keyfield=None, default_key=None):
         self.create_unknown = create_unknown
         self.sqla_cls = sqla_cls
         self.name_field = keyfield or sqla_cls.__name_field__
+        self.default_key = default_key
         super(DBChoiceValue, self).__init__()
 
     def serialize(self, node, appstruct):
@@ -43,7 +44,10 @@ class DBChoiceValue(object):
 
     def deserialize(self, node, cstruct):
         if cstruct is null or cstruct == '' or cstruct is None:
-            return null
+            if self.default_key:
+                cstruct = self.default_key
+            else:
+                return null
         if not isinstance(cstruct, basestring):
             raise Invalid(node, 'TYPE ERROR', value='string')
         namefield = getattr(self.sqla_cls, self.name_field)

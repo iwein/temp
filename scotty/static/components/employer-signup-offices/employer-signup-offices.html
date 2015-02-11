@@ -3,20 +3,22 @@
     <div class="col-sm-12 mrg-btm">
       <h2 class="signup-title" translate>Offices</h2>
 
-      <hc-offices
-        name="list"
-        hc-source="listOffices()"
-        on-edit="update($entry, $index)"
-        on-add="add($entry)"
-        hc-editable="true"
-        hc-remove-last="true">
-      </hc-offices>
+      <div class="clearfix">
+        <hc-offices
+          name="list"
+          hc-source="listOffices()"
+          on-edit="update($entry, $index)"
+          on-add="add($entry)"
+          hc-editable="true"
+          hc-remove-last="true">
+        </hc-offices>
+      </div>
       <div class="buttons-wrap mrg-top-30 mrg-btm-30">
         <button type="button"
-          class="fl-rg bg-green btn-small"
-          ng-disabled="list.length === 0"
-          ng-click="submit()"
-          translate>
+                class="fl-rg bg-green btn-small"
+                ng-disabled="list.length === 0"
+                ng-click="submit()"
+                translate>
           Continue
         </button>
       </div>

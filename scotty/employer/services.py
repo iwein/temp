@@ -22,8 +22,9 @@ ID = lambda x: x
 
 def employer_from_signup(params):
     pwd = hash_pwd(params.pop('pwd'))
-    employer = Employer(pwd=pwd, **{k: params[k] for k in ['contact_first_name', 'contact_last_name', 'email',
-                                                           'company_name', 'contact_salutation', 'company_type']})
+    employer = Employer(pwd=pwd, **{k: params.get(k) for k in ['contact_first_name', 'contact_last_name', 'email',
+                                                               'company_name', 'contact_salutation', 'company_type',
+                                                               'locale']})
     return employer
 
 
