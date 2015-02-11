@@ -12,7 +12,7 @@ class SignupRequest(MappingSchema):
     contact_salutation = SchemaNode(DBChoiceValue(Salutation))
     contact_first_name = SchemaNode(String())
     contact_last_name = SchemaNode(String())
-    locale = SchemaNode(DBChoiceValue(Locale, default_key='de'))
+    locale = SchemaNode(DBChoiceValue(Locale, default_key='en'))
 
 
 class AgreeTosRequest(MappingSchema):
