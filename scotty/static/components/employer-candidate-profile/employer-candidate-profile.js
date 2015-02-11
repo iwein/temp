@@ -5,8 +5,8 @@ define(function(require) {
   var module = require('app-module');
 
   //jshint maxparams:9
-  module.controller('CandidateProfileCtrl', function($scope, $q, $state, gettext, toaster,
-                                                    Loader, Permission, Session, ThisCandidate) {
+  module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, i18n,
+                                                     Loader, Permission, Session, ThisCandidate) {
     $scope.toggle = toggle;
     $scope.id = $state.params.id;
     $scope.ready = false;
@@ -39,15 +39,19 @@ define(function(require) {
       ]).then(function(data) {
         var offers = data[0];
 
-        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        $scope.status = (ThisCandidate._data.status === 'sleeping') ? gettext('sleeping') :
-          (
-            offers.reduce(function(summary, value) {
-              if (finalStatus.indexOf(value.status) !== -1) return;
-              if (value.status === 'CONTRACT_SIGNED') return gettext('hired');
-              return summary || gettext('reviewing');
-            }, null) || gettext('searching')
-          );
+        function translate() {
+          var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+          $scope.status = (ThisCandidate._data.status === 'sleeping') ? i18n.gettext('sleeping') :
+            (
+              offers.reduce(function(summary, value) {
+                if (finalStatus.indexOf(value.status) !== -1) return;
+                if (value.status === 'CONTRACT_SIGNED') return i18n.gettext('hired');
+                return summary || i18n.gettext('reviewing');
+              }, null) || i18n.gettext('searching')
+            );
+        }
+        i18n.onChange(translate);
+        translate();
         // TIMELINE
 
         var total = 0;

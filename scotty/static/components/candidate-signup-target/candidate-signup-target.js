@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('CandidateSignupTargetCtrl', function($scope, $q, gettext, toaster, Loader, ConfigAPI, Session) {
+  module.controller('CandidateSignupTargetCtrl', function($scope, $q, toaster, i18n, Loader, ConfigAPI, Session) {
     _.extend($scope, {
       locationToText: ConfigAPI.locationToText,
       searchCities: ConfigAPI.locations,
@@ -32,7 +32,7 @@ define(function(require) {
         ConfigAPI.featuredLocations().then(toCheckboxModel.bind(null, 'featuredLocations')),
       ]).finally(function() {
         toaster.show('alert banner-message',
-          gettext('<h2>Sign up as IT professional and get hired!</h2>' +
+          i18n.gettext('<h2>Sign up as IT professional and get hired!</h2>' +
             'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!'),
           { html: true, untilStateChange: true });
 

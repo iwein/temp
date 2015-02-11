@@ -8,7 +8,7 @@ define(function(require) {
   var module = require('app-module');
 
   // jshint maxparams:9
-  module.controller('OfferCtrl', function($scope, $sce, $state, gettext, toaster,
+  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, i18n,
                                           Loader, ConfigAPI, Permission, Session) {
     $scope.flags = {};
     $scope.toggleForm = toggleForm;
@@ -37,8 +37,8 @@ define(function(require) {
           $scope.has_been_hired = candidate._data.candidate_has_been_hired;
           if ($scope.has_been_hired) {
             toaster.success(offer.status === 'CONTRACT_SIGNED' ?
-              gettext('You have already accepted this offer!') :
-              gettext('You have already accepted another offer!'),
+              i18n.gettext('You have already accepted this offer!') :
+              i18n.gettext('You have already accepted another offer!'),
               { untilStateChange: true });
           }
         });
@@ -55,14 +55,14 @@ define(function(require) {
 
       var getNextStatusText = $scope.offer.getNextStatusText;
       $scope.offer.getNextStatusText = function() {
-        gettext(getNextStatusText.apply(this, arguments));
+        i18n.gettext(getNextStatusText.apply(this, arguments));
       };
 
       $scope.offer.setDataParser(function(data) {
         data.message = $sce.trustAsHtml(data.message);
         data.interview_details = $sce.trustAsHtml(data.interview_details);
         data.job_description = $sce.trustAsHtml(data.job_description);
-        data.statusText = gettext(data.statusText);
+        data.statusText = i18n.gettext(data.statusText);
       });
 
     }.bind(this)).finally(function() {
@@ -71,8 +71,8 @@ define(function(require) {
 
 
     function onStatusChange() {
-      toaster.success(gettext('Offer {{ status }}', {
-        status: gettext($scope.offer.statusText),
+      toaster.success(i18n.gettext('Offer {{ status }}', {
+        status: i18n.gettext($scope.offer.statusText),
       }));
     }
 
@@ -103,7 +103,7 @@ define(function(require) {
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() {
           toaster.success(
-            gettext('<h2>Congratulation to your new position!</h2>\nYour profile will be on sleep!'),
+            i18n.gettext('<h2>Congratulation to your new position!</h2>\nYour profile will be on sleep!'),
             { untilStateChange: true, html: true }
           );
           Loader.remove('offer-sign');

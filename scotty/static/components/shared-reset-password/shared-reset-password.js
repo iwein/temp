@@ -3,7 +3,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.controller('ResetPasswordCtrl', function($scope, $state, gettext, toaster, Session) {
+  module.controller('ResetPasswordCtrl', function($scope, $state, toaster, i18n, Session) {
     this.check = check;
     this.submit = submit;
     $scope.ready = false;
@@ -36,7 +36,7 @@ define(function(require) {
       $scope.loading = true;
       Session.resetPassword(token, password)
         .then(function() {
-          toaster.success(gettext('Your password has been updated. You can now login with your new password'));
+          toaster.success(i18n.gettext('Your password has been updated. You can now login with your new password'));
           window.location = '../login.html';
         })
         .catch(toaster.defaultError)

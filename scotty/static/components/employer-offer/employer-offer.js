@@ -9,7 +9,7 @@ define(function(require) {
   var module = require('app-module');
 
   // jshint maxparams:9
-  module.controller('OfferCtrl', function($scope, $sce, $state, gettext, toaster,
+  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, i18n,
                                           Loader, ConfigAPI, Permission, Session) {
     $scope.toggleForm = toggleForm;
     $scope.withdraw = withdraw;
@@ -38,7 +38,7 @@ define(function(require) {
         var offer = data[0];
         var getNextStatusText = offer.getNextStatusText;
         offer.getNextStatusText = function() {
-          gettext(getNextStatusText.apply(this, arguments));
+          i18n.gettext(getNextStatusText.apply(this, arguments));
         };
 
         offer.setDataParser(function(data) {
@@ -46,7 +46,7 @@ define(function(require) {
           data.job_description = $sce.trustAsHtml(data.job_description);
           data.message = $sce.trustAsHtml(data.message);
           data.accepted = statuses.indexOf(data.status) !== -1;
-          data.statusText = gettext(data.statusText);
+          data.statusText = i18n.gettext(data.statusText);
         });
 
         return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
@@ -67,7 +67,7 @@ define(function(require) {
     });
 
     function onStatusChange() {
-      toaster.success(gettext('Offer {{ status }}', {
+      toaster.success(i18n.gettext('Offer {{ status }}', {
         status: $scope.offer.statusText,
       }));
     }

@@ -19,14 +19,11 @@ define(function(require) {
         hcShowEmpty: '=',
         hcDisabled: '=',
       },
-      controller: function($scope, $parse, $attrs, $q, gettext, ConfigAPI, Session) {
-        months = months.map(gettext);
-
+      controller: function($scope, $parse, $attrs, $q, i18n, ConfigAPI, Session) {
         _.extend($scope, {
           searchInstitutions: ConfigAPI.institutions,
           searchCourses: ConfigAPI.courses,
           submit: submit,
-          months: months,
           currentYear: new Date().getFullYear(),
           loading: false,
         });
@@ -42,6 +39,10 @@ define(function(require) {
         return onLoad();
 
 
+        function translate() {
+          $scope.months = months.map(i18n.gettext);
+        }
+
         function submit() {
           if ($scope.form.$valid)
             $scope.onSubmit({ $model: $scope.model, $form: ctrl });
@@ -54,6 +55,8 @@ define(function(require) {
         function onLoad() {
           var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
           nameAttr(ctrl, 'hcEducationForm', $scope, $attrs);
+          i18n.onChange(translate);
+          translate();
 
           return ConfigAPI.degrees()
             .then(fn.setTo('degrees', $scope))

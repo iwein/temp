@@ -6,7 +6,7 @@ define(function(require) {
 
 
   // jshint maxparams:8
-  module.controller('SignupStartCtrl', function($scope, $q, $state, gettext, toaster, Loader, ConfigAPI, Session) {
+  module.controller('SignupStartCtrl', function($scope, $q, $state, toaster, i18n, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.onCompanyChange = onCompanyChange;
     this.submit = submit;
@@ -22,30 +22,33 @@ define(function(require) {
 
 
     toaster.show('alert banner-message',
-      gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
+      i18n.gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
         'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!'),
       { html: true, untilStateChange: true });
 
 
-
-    $scope.companyTypeMeta = {
-      startup:{
-        label: gettext('Startup Company'),
-        help: gettext('started within the last 5 years')
-      },
-      midsized:{
-        label: gettext('Mid Sized Company'),
-        help: gettext('established and less than 1.000 employees')
-      },
-      large:{
-        label: gettext('Large Corporation'),
-        help: gettext('grown player with multi-national operations')
-      },
-      top500:{
-        label: gettext('Fortune 500 Company'),
-        help: gettext('among the leading 500 companies')
-      }
-    };
+    function translate() {
+      $scope.companyTypeMeta = {
+        startup:{
+          label: i18n.gettext('Startup Company'),
+          help: i18n.gettext('started within the last 5 years')
+        },
+        midsized:{
+          label: i18n.gettext('Mid Sized Company'),
+          help: i18n.gettext('established and less than 1.000 employees')
+        },
+        large:{
+          label: i18n.gettext('Large Corporation'),
+          help: i18n.gettext('grown player with multi-national operations')
+        },
+        top500:{
+          label: i18n.gettext('Fortune 500 Company'),
+          help: i18n.gettext('among the leading 500 companies')
+        }
+      };
+    }
+    i18n.onChange(translate);
+    translate();
 
     $scope.searchCompanies = ConfigAPI.companies;
     ConfigAPI.companyTypes().then(fn.setTo('companyTypes', $scope));
@@ -65,7 +68,7 @@ define(function(require) {
         email: data.email,
       };
     }, function() {
-      toaster.error(gettext('Invalid invitation token.'));
+      toaster.error(i18n.gettext('Invalid invitation token.'));
     }).finally(function() {
       $scope.loading = false;
       Loader.page(false);
@@ -82,6 +85,7 @@ define(function(require) {
     function submit() {
       if (!$scope.formSignupStart.$valid) return;
 
+      $scope.model.locale = i18n.getCurrent();
       $scope.loading = true;
       Loader.add('signup-start-saving');
 

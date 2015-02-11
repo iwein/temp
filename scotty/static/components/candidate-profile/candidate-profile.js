@@ -12,7 +12,7 @@ define(function(require) {
   var module = require('app-module');
 
   // jshint maxstatements:40, maxparams:10
-  module.controller('ProfileCtrl', function($scope, $q, $state, gettext, toaster,
+  module.controller('ProfileCtrl', function($scope, $q, $state, toaster, i18n,
                                             Amazon, Loader, ConfigAPI, Permission, Session) {
 
     this.edit = function() { $scope.isEditing = true };
@@ -57,7 +57,7 @@ define(function(require) {
         return Session.getUser().then(function(user) {
           return Amazon.upload(files[0], 'cv', Session.id())
             .then(user.setCVUrl.bind(user))
-            .then(toaster.success.bind(toaster, gettext('CV Uploaded')));
+            .then(toaster.success.bind(toaster, i18n.gettext('CV Uploaded')));
         }.bind(this));
       },
     });
@@ -300,17 +300,21 @@ define(function(require) {
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
 
+        function translate() {
+          if (user.candidate_has_been_hired)
+            $scope.status = i18n.gettext('hired');
+          else if (user.status === 'sleeping')
+            $scope.status = i18n.gettext('sleeping');
+          else
+            $scope.status = $scope.offers.reduce(function(summary, value) {
+              if (finalStatus.indexOf(value.status) !== -1) return;
+              if (value.status === 'CONTRACT_SIGNED') return i18n.gettext('hired');
+              return summary || i18n.gettext('reviewing');
+            }, null) || i18n.gettext('searching');
+        }
 
-        if (user.candidate_has_been_hired)
-          $scope.status = gettext('hired');
-        else if (user.status === 'sleeping')
-          $scope.status = gettext('sleeping');
-        else
-          $scope.status = $scope.offers.reduce(function(summary, value) {
-            if (finalStatus.indexOf(value.status) !== -1) return;
-            if (value.status === 'CONTRACT_SIGNED') return gettext('hired');
-            return summary || gettext('reviewing');
-          }, null) || gettext('searching');
+        translate();
+        i18n.onChange(translate);
       });
     }
 
@@ -393,11 +397,11 @@ define(function(require) {
 
 
     function parsePreferredLocations(locations) {
-      if (!locations) return gettext('Not specified');
+      if (!locations) return i18n.gettext('Not specified');
 
       return Object.keys(locations).map(function(country) {
         var cities = locations[country];
-        var text = cities.length ? cities.join(', ') : gettext('Anywhere');
+        var text = cities.length ? cities.join(', ') : i18n.gettext('Anywhere');
         return text + ' ' + country;
       }).join(' - ');
     }

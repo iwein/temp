@@ -4,7 +4,7 @@ define(function(require) {
   var module = require('app-module');
 
   // jshint maxparams:9
-  module.controller('OfferListCtrl', function($scope, $sce, $state, gettext, toaster,
+  module.controller('OfferListCtrl', function($scope, $sce, $state, toaster, i18n,
                                               Loader, ConfigAPI, Permission, Session) {
     Loader.page(true);
 
@@ -14,7 +14,7 @@ define(function(require) {
         $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
         if($scope.candidate_has_been_hired){
           toaster.success(
-            gettext('You have been hired, offer management is currently disabled.'),
+            i18n.gettext('You have been hired, offer management is currently disabled.'),
             { untilStateChange: true }
           );
         }

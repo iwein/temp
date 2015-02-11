@@ -22,9 +22,7 @@ define(function(require) {
         hcRequired: '=',
         hcDisabled: '=',
       },
-      controller: function($scope, $parse, $attrs, $q, gettext, Session) {
-        months = months.map(gettext);
-
+      controller: function($scope, $parse, $attrs, $q, i18n, Session) {
         _.extend($scope, {
           searchCompanies: ConfigAPI.companies,
           searchRoles: ConfigAPI.roles,
@@ -32,7 +30,6 @@ define(function(require) {
           onCurrentChange: onCurrentChange,
           searchSkills: searchSkills,
           submit: submit,
-          months: months,
           currentYear: new Date().getFullYear(),
           loading: false,
         });
@@ -48,6 +45,10 @@ define(function(require) {
         var ctrl = this;
         return onLoad();
 
+
+        function translate() {
+          $scope.months = months.map(i18n.gettext);
+        }
 
         function afterModelChange() {
           $scope.model.country_iso = $scope.model.country_iso || 'DE';
@@ -80,6 +81,8 @@ define(function(require) {
         function onLoad() {
           var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
           nameAttr(ctrl, 'hcExperienceForm', $scope, $attrs);
+          i18n.onChange(translate);
+          translate();
 
           return loadContent().then(function() {
             setModel(model);

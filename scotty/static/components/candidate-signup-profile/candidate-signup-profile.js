@@ -9,24 +9,19 @@ define(function(require) {
   var months = require('tools/months');
   var module = require('app-module');
 
-  module.controller('CandidateSignupProfileCtrl', function(
-    $scope, $q, $state, gettext, Amazon, Loader, ConfigAPI, Session) {
-
-    months = months.map(gettext);
-
+  module.controller('CandidateSignupProfileCtrl', function($scope, $q, $state, i18n,
+                                                           Amazon, Loader, ConfigAPI, Session) {
     _.extend($scope, {
       searchLocations: ConfigAPI.locationsText,
       setLocation: setLocation,
       selectFile: selectFile,
       updateDob: updateDob,
-      months: months,
       submit: submit,
       model: { eu_work_visa: true },
       errorNoLocation: false,
       loading: false,
       ready: false,
     });
-
 
     Loader.page(true);
     return onLoad();
@@ -40,6 +35,10 @@ define(function(require) {
 
     function pan(value) {
       return value < 10 ? '0' + value : value;
+    }
+
+    function translate() {
+      $scope.months = months.map(i18n.gettext);
     }
 
     function updateDob() {
@@ -66,6 +65,9 @@ define(function(require) {
     }
 
     function onLoad() {
+      translate();
+      i18n.onChange(translate);
+
       return Session.getUser()
         .then(fn.invoke('getData', []))
         .then(function(data) {
