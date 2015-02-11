@@ -17,7 +17,7 @@ from scotty.services.pagingservice import Pager
 def candidate_from_signup(candidate_id, params):
     status = get_by_name_or_raise(CandidateStatus, CandidateStatus.PENDING)
     candidate = FullCandidate(id=candidate_id, email=params['email'], first_name=params['first_name'],
-                              last_name=params['last_name'],
+                              last_name=params['last_name'], locale= params.get('locale'),
                               status=status, invite_code=params.get('invite_code'))
     candidate.password = params['pwd']
     return candidate
