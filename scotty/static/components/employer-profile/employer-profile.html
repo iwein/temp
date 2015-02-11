@@ -611,19 +611,25 @@
 
 <div class="row bg-white mrg-btm">
   <div class="col-sm-12 pad-top-10 picture-gallery">
-    <button type="submit"
-            class="btn-edit-sub no-marg-top"
-            ng-disabled="loading || formOpen"
-            ng-show="isEditing"
-            ng-click="pictures.edit()">
-      <i class="fa fa-pencil"></i>
-    </button>
+    <div class="box-title box-title_left mrg-btm gray-darker">
+      <translate>Pictures</translate>
+      <button type="submit"
+              class="btn-edit-sub no-marg-top"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
+              ng-click="pictures.edit()">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+
+    <p>Add pictures describing your company and present your company to candidates</p>
 
     <ul ng-hide="pictures.editing">
       <li class="picture" ng-repeat="picture in pictures.data" ng-click="slideshow($index)">
         <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
         <span class="description">{{ picture.description }}</span>
       </li>
+      <li ng-show="!pictures.data.length">No photos yet</li>
     </ul>
 
     <form class="edit-form" ng-show="pictures.editing" ng-submit="pictures.save(pictures.data)">
@@ -639,6 +645,7 @@
         <span class="description" ng-hide="pictures.editing">{{ picture.description }}</span>
         <input type="text"
           class="form-control"
+          placeholder="{{ 'Photo description' | translate }}"
           required
           ng-model="picture.description">
       </div>

@@ -29,7 +29,7 @@ define(function(require) {
     });
     Permission.requireSignup()
       .then(refresh)
-      .finally(function() { Loader.page(false); this.edit() }.bind(this));
+      .finally(function() { Loader.page(false) });
 
 
     $scope.summary = formSimple({
