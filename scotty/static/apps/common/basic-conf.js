@@ -47,7 +47,7 @@ define(function(require) {
 
     module.run(function($templateCache, i18n) {
       $templateCache.put('footer.html', require('text!../common/footer.html'));
-      i18n.setLanguage('de');
+      i18n.setLanguage('en');
     });
 
     module.factory('toaster', function(Notifier, gettext) {
