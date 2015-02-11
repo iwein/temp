@@ -30,23 +30,15 @@ define(function(require) {
   }
 
   return function basicConf(module) {
-    // Hack modified gettext functionality to also translate tokens
-    var translate;
-    module.constant('gettext', function(string, context) {
-      return translate(string, context);
-    });
-    module.run(function($rootScope, gettextCatalog) {
-      translate = $rootScope.translate = function(string, context) {
-        return gettextCatalog.getString(string, context);
-      };
-    });
-
-    module.config(function($httpProvider) {
+    module.config(function($httpProvider, LightboxProvider) {
       $httpProvider.defaults.withCredentials = true;
+      LightboxProvider.templateUrl = 'lightbox-custom.html';
     });
 
-    module.run(function($templateCache, i18n) {
+    module.run(function($templateCache, $rootScope, i18n) {
+      $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
       $templateCache.put('footer.html', require('text!../common/footer.html'));
+      $rootScope.translate = i18n.gettext;
       i18n.setLanguage('en');
     });
 
