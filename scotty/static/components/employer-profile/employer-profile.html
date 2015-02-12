@@ -76,6 +76,22 @@
              ng-disabled="loading"
              ng-model="company.data.website">
     </div>
+    <h5 class="edit-title" translate>CTO Blog</h5>
+    <div>
+      <input type="url"
+             class="form-control mrg-btm"
+             name="cto_blog"
+             ng-disabled="loading"
+             ng-model="company.data.cto_blog">
+    </div>
+    <h5 class="edit-title" translate>CTO Twitter</h5>
+    <div>
+      <input type="url"
+             class="form-control mrg-btm"
+             name="cto_twitter"
+             ng-disabled="loading"
+             ng-model="company.data.cto_twitter">
+    </div>
     <h5 class="edit-title" translate>Founding year</h5>
     <div>
       <input type="number"
@@ -156,9 +172,21 @@
   <p ng-show="data.funding_amount">
     <translate>VC Founding amount</translate>: {{ data.funding_amount | dottedInteger }}.00 €
   </p>
-  <a ng-show="data.website" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
-    {{ data.website }}
-  </a>
+  <p>
+    <a ng-show="data.website" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
+      {{ data.website }}
+    </a>
+  </p>
+  <p>
+    <a ng-show="data.cto_blog" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.cto_blog }}">
+      CTO's Blog
+    </a>
+  </p>
+  <p>
+    <a ng-show="data.cto_twitter" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.cto_twitter }}">
+      CTO's Twitter
+    </a>
+  </p>
 </div>
 <!--  EDIT OFFICES   box (remove hidden class to display)-->
 <div class="edit-contacts mrg-btm" ng-show="webProfiles.editing">
@@ -565,6 +593,38 @@
           ng-model="descriptions.data.training_policy">
         </text-angular>
 
+        <h5 class="edit-title" translate>Tech team office</h5>
+        <text-angular
+          name="tech_team_office"
+          placeholder="Tech team office"
+          ng-disabled="loading"
+          ng-model="descriptions.data.tech_team_office">
+        </text-angular>
+
+        <h5 class="edit-title" translate>Working Environment</h5>
+        <text-angular
+          name="workin_env"
+          placeholder="Working environment"
+          ng-disabled="loading"
+          ng-model="descriptions.data.workin_env">
+        </text-angular>
+
+        <h5 class="edit-title" translate>Development methodology</h5>
+        <text-angular
+          name="dev_methodology"
+          placeholder="Training policy"
+          ng-disabled="loading"
+          ng-model="descriptions.data.dev_methodology">
+        </text-angular>
+
+        <h5 class="edit-title" translate>Company video</h5>
+        <text-angular
+          name="video_script"
+          placeholder="Company video"
+          ng-disabled="loading"
+          ng-model="descriptions.data.video_script">
+        </text-angular>
+
         <div class="buttons-wrap">
           <button type="submit"
             class="fl-rg bg-green btn-small mrg-lft-small"
@@ -604,6 +664,26 @@
         <h3 class="accordion-subtitle" translate>Training policy</h3>
         <p class="pad-btm-15" ng-show="data.training_policy" ng-bind-html="data.training_policy"></p>
         <p class="pad-btm-15" ng-show="!data.training_policy" translate>Not defined yet</p>
+      </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Tech team office</h3>
+        <p class="pad-btm-15" ng-show="data.tech_team_office" ng-bind-html="data.tech_team_office"></p>
+        <p class="pad-btm-15" ng-show="!data.tech_team_office" translate>Not defined yet</p>
+      </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Working Environment</h3>
+        <p class="pad-btm-15" ng-show="data.workin_env" ng-bind-html="data.workin_env"></p>
+        <p class="pad-btm-15" ng-show="!data.workin_env" translate>Not defined yet</p>
+      </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Development methodology</h3>
+        <p class="pad-btm-15" ng-show="data.dev_methodology" ng-bind-html="data.dev_methodology"></p>
+        <p class="pad-btm-15" ng-show="!data.dev_methodology" translate>Not defined yet</p>
+      </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Company video</h3>
+        <p class="pad-btm-15" ng-show="data.video_script" ng-bind-html="data.video_script"></p>
+        <p class="pad-btm-15" ng-show="!data.video_script" translate>Not defined yet</p>
       </div>
     </div>
   </div>

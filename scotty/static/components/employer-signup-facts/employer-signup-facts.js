@@ -18,7 +18,6 @@ define(function(require) {
       $scope.model = _.pick(data, [
         'tech_team_size',
         'tech_tags',
-        'tech_team_philosophy',
       ]);
     }).finally(function() {
       $scope.loading = false;

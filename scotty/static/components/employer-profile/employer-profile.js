@@ -8,8 +8,8 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:10
-  module.controller('ProfileCtrl', function($scope, $q, $sce, $state,
+  // jshint maxparams:9
+  module.controller('ProfileCtrl', function($scope, $q, $state,
     Lightbox, Amazon, Loader, ConfigAPI, Permission, Session) {
 
     this.edit = function() { $scope.isEditing = true };
@@ -54,7 +54,7 @@ define(function(require) {
       set: function(data) {
         $scope.data = data;
         return _.pick(data, 'tech_team_philosophy', 'recruitment_process',
-          'training_policy');
+          'training_policy', 'tech_team_office', 'workin_env', 'dev_methodology');
       },
       save: function(model, form, user) {
         return user.updateData(model);
@@ -65,7 +65,7 @@ define(function(require) {
         $scope.data = data;
         $scope.missionDirty = false;
         return _.pick(data, 'website', 'funding_year', 'revenue_pa',
-          'funding_amount', 'no_of_employees');
+          'funding_amount', 'no_of_employees', 'cto_blog', 'cto_twitter');
       },
       save: function(model, form, user) {
         return user.updateData(model);

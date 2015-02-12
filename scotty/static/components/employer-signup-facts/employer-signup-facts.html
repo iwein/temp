@@ -40,24 +40,6 @@
             </hc-label-typeahead>
           </div>
         </div>
-
-        <div class="row">
-          <label class="col-sm-12" translate>Tech philosophy</label>
-          <div class="col-sm-12">
-            <text-angular
-              name="tech_team_philosophy"
-              placeholder="Why is your tech team special? Tell us more about the methodologies and tools you are using."
-              ng-disabled="loading"
-              ng-model="model.tech_team_philosophy">
-            </text-angular>
-          </div>
-
-          <div class="form-error" ng-show="formSignupFacts.tech_team_size.$dirty && formSignupFacts.tech_team_size.$invalid">
-            <span ng-show="formSignupFacts.tech_team_size.$error.required" translate>
-              Please describe the philosophy of your company's tech team.
-            </span>
-          </div>
-        </div>
       </div>
 
       <div class="buttons-wrap mrg-top mrg-btm-30">
