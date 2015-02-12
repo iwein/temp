@@ -134,6 +134,13 @@ class Employer(Base, JsonSerialisable):
     tech_team_size = Column(Integer, info=PUBLIC)
     tech_team_philosophy = Column(Text, info=PUBLIC)
 
+    cto_blog = Column(Text, info=PUBLIC)
+    cto_twitter = Column(Text, info=PUBLIC)
+    tech_team_office = Column(Text, info=PUBLIC)
+    working_env = Column(Text, info=PUBLIC)
+    dev_methodology = Column(Text, info=PUBLIC)
+    video_script = Column(Text, info=PUBLIC)
+
     tech_tags = relationship(Skill, secondary=employer_skills, info=PUBLIC)
     other_benefits = Column(Text, info=PUBLIC)
     benefits = relationship(Benefit, secondary=employer_benefits, info=PUBLIC)
