@@ -603,27 +603,28 @@
 
         <h5 class="edit-title" translate>Working Environment</h5>
         <text-angular
-          name="workin_env"
+          name="working_env"
           placeholder="Working environment"
           ng-disabled="loading"
-          ng-model="descriptions.data.workin_env">
+          ng-model="descriptions.data.working_env">
         </text-angular>
 
         <h5 class="edit-title" translate>Development methodology</h5>
         <text-angular
           name="dev_methodology"
-          placeholder="Training policy"
+          placeholder="Development methodology"
           ng-disabled="loading"
           ng-model="descriptions.data.dev_methodology">
         </text-angular>
 
         <h5 class="edit-title" translate>Company video</h5>
-        <text-angular
+        <textarea
+          class="form-control"
           name="video_script"
           placeholder="Company video"
           ng-disabled="loading"
           ng-model="descriptions.data.video_script">
-        </text-angular>
+        </textarea>
 
         <div class="buttons-wrap">
           <button type="submit"
@@ -672,8 +673,8 @@
       </div>
       <div>
         <h3 class="accordion-subtitle" translate>Working Environment</h3>
-        <p class="pad-btm-15" ng-show="data.workin_env" ng-bind-html="data.workin_env"></p>
-        <p class="pad-btm-15" ng-show="!data.workin_env" translate>Not defined yet</p>
+        <p class="pad-btm-15" ng-show="data.working_env" ng-bind-html="data.working_env"></p>
+        <p class="pad-btm-15" ng-show="!data.working_env" translate>Not defined yet</p>
       </div>
       <div>
         <h3 class="accordion-subtitle" translate>Development methodology</h3>

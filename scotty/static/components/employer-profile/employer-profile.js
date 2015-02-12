@@ -54,7 +54,8 @@ define(function(require) {
       set: function(data) {
         $scope.data = data;
         return _.pick(data, 'tech_team_philosophy', 'recruitment_process',
-          'training_policy', 'tech_team_office', 'workin_env', 'dev_methodology');
+          'training_policy', 'tech_team_office', 'working_env',
+          'dev_methodology', 'video_script');
       },
       save: function(model, form, user) {
         return user.updateData(model);
