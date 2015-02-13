@@ -8,6 +8,30 @@
       <div class="form-wrap edit-form mrg-btm bg-gray-lighter pad-30 form-signup">
 
         <div class="row mrg-btm">
+          <label class="col-sm-3" translate>CTO Blog</label>
+
+          <div class="col-sm-9">
+            <input type="url"
+                   class="form-control mrg-btm"
+                   name="cto_blog"
+                   ng-disabled="loading"
+                   ng-model="company.data.cto_blog">
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3" translate>CTO Twitter</label>
+
+          <div class="col-sm-9">
+            <input type="url"
+                   class="form-control mrg-btm"
+                   name="cto_twitter"
+                   ng-disabled="loading"
+                   ng-model="company.data.cto_twitter">
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
           <label class="col-sm-3" translate>Tech team size</label>
           <div class="col-sm-9">
             <input type="number"
@@ -38,6 +62,63 @@
               hc-error-message="Please enter at least one technology"
               hc-allow-new>
             </hc-label-typeahead>
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3 no-padd-top" translate>Tech team office</label>
+
+          <div class="col-sm-9">
+            <text-angular
+              name="tech_team_office"
+              placeholder="Tech team office"
+              ng-disabled="loading"
+              ng-model="model.tech_team_office">
+            </text-angular>
+          </div>
+
+          <div class="form-error" ng-show="formSignupFacts.tech_team_office.$dirty && formSignupFacts.tech_team_office.$invalid">
+            <span ng-show="formSignupFacts.tech_team_office.$error.required" translate>
+              Please insert a description of the office where the tech team works at.
+            </span>
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3 no-padd-top" translate>Working Environment</label>
+
+          <div class="col-sm-9">
+            <text-angular
+              name="working_env"
+              placeholder="Working environment"
+              ng-disabled="loading"
+              ng-model="model.working_env">
+            </text-angular>
+          </div>
+
+          <div class="form-error" ng-show="formSignupFacts.working_env.$dirty && formSignupFacts.working_env.$invalid">
+            <span ng-show="formSignupFacts.working_env.$error.required" translate>
+              Please describe the working devices/ambience, operating system and tools.
+            </span>
+          </div>
+        </div>
+
+        <div class="row mrg-btm">
+          <label class="col-sm-3 no-padd-top" translate>Development methodology</label>
+
+          <div class="col-sm-9">
+            <text-angular
+              name="dev_methodology"
+              placeholder="Development methodology"
+              ng-disabled="loading"
+              ng-model="model.dev_methodology">
+            </text-angular>
+          </div>
+
+          <div class="form-error" ng-show="formSignupFacts.dev_methodology.$dirty && formSignupFacts.dev_methodology.$invalid">
+            <span ng-show="formSignupFacts.dev_methodology.$error.required" translate>
+              Please describe the development methodology your tech team uses.
+            </span>
           </div>
         </div>
       </div>
