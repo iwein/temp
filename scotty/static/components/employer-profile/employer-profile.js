@@ -69,6 +69,8 @@ define(function(require) {
           'funding_amount', 'no_of_employees', 'cto_blog', 'cto_twitter');
       },
       save: function(model, form, user) {
+        if ($scope.formCompany.$invalid)
+          throw new Error('Invalid form');
         return user.updateData(model);
       }
     });

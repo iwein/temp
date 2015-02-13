@@ -65,7 +65,7 @@
 </div>
 <!--  EDIT Contacts box (remove hidden class to display)-->
 <div class="edit-salary mrg-btm" ng-show="company.editing">
-  <form class="edit-form" ng-submit="company.save(company.data)">
+  <form name="formCompany" class="edit-form" ng-submit="company.save(company.data)">
     <button class="add-panel-close" ng-click="company.close()"><i class="fa fa-close"></i></button>
     <h5 class="edit-title" translate>Website</h5>
     <div>
@@ -76,7 +76,7 @@
              ng-disabled="loading"
              ng-model="company.data.website">
     </div>
-    <h5 class="edit-title" translate>CTO Blog</h5>
+    <h5 class="edit-title" translate>CTO Blog URL</h5>
     <div>
       <input type="url"
              class="form-control mrg-btm"
@@ -84,7 +84,15 @@
              ng-disabled="loading"
              ng-model="company.data.cto_blog">
     </div>
-    <h5 class="edit-title" translate>CTO Twitter</h5>
+    <div class="form-error" ng-show="formCompany.cto_blog.$dirty && formCompany.cto_blog.$invalid">
+      <span ng-show="formCompany.cto_blog.$error.required" translate>
+        Please insert your company's website URL.
+      </span>
+      <span ng-show="formCompany.cto_blog.$error.url" translate>
+        Please insert a valid website URL (as copied form a browser window).
+      </span>
+    </div>
+    <h5 class="edit-title" translate>CTO Twitter URL</h5>
     <div>
       <input type="url"
              class="form-control mrg-btm"
@@ -92,14 +100,20 @@
              ng-disabled="loading"
              ng-model="company.data.cto_twitter">
     </div>
+    <div class="form-error" ng-show="formCompany.cto_twitter.$dirty && formCompany.cto_twitter.$invalid">
+      <span ng-show="formCompany.cto_twitter.$error.required" translate>
+        Please insert your company's website URL.
+      </span>
+      <span ng-show="formCompany.cto_twitter.$error.url" translate>
+        Please insert a valid website URL (as copied form a browser window).
+      </span>
+    </div>
     <h5 class="edit-title" translate>Founding year</h5>
     <div>
       <input type="number"
              class="form-control mrg-btm"
-             placeholder="Founding year"
              name="founding_year"
-             placeholder="VC Founding amount"
-             name="funding_amount"
+             name="founding_year"
              ng-disabled="loading"
              ng-model="company.data.funding_year">
     </div>
@@ -107,7 +121,6 @@
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
-             placeholder="Annual revenue"
              name="revenue_pa"
              ng-disabled="loading"
              ng-model="company.data.revenue_pa">
@@ -116,16 +129,20 @@
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
-             placeholder="VC Founding amount"
              name="funding_amount"
+             max="100000000"
              ng-disabled="loading"
              ng-model="company.data.funding_amount">
+    </div>
+    <div class="form-error" ng-show="formCompany.funding_amount.$dirty && formCompany.funding_amount.$invalid">
+      <span ng-show="formCompany.funding_amount.$error.max" translate>
+        Founding amount can't be bigger than 100,000,000
+      </span>
     </div>
     <h5 class="edit-title" translate>Company size</h5>
     <div>
       <input type="number"
              class="form-control mrg-btm"
-             placeholder="Company size"
              name="no_of_employees"
              ng-disabled="loading"
              ng-model="company.data.no_of_employees">
@@ -494,7 +511,6 @@
             <h5 class="edit-title" translate>Tech team size</h5>
             <input type="number"
                    class="form-control"
-                   placeholder="Tech team size"
                    name="tech_team_size"
                    ng-disabled="loading"
                    ng-model="tech.data.tech_team_size">
@@ -503,7 +519,6 @@
             <h5 class="edit-title" translate>Technology tags</h5>
             <hc-label-typeahead
               name="techTags"
-              placeholder="Technology tags"
               ng-disabled="loading"
               ng-model="tech.data.tech_tags"
               hc-source="searchTags($viewValue)"
@@ -571,7 +586,6 @@
         <h5 class="edit-title" translate>Technology Philosophy</h5>
         <text-angular
           name="tech_team_philosophy"
-          placeholder="Technology Philosophy"
           ng-disabled="loading"
           ng-model="descriptions.data.tech_team_philosophy">
         </text-angular>
@@ -580,7 +594,6 @@
         <text-angular
           name="recruitment_process"
           required
-          placeholder="Recruitment process"
           ng-disabled="loading"
           ng-model="descriptions.data.recruitment_process">
         </text-angular>
@@ -588,7 +601,6 @@
         <h5 class="edit-title" translate>Training Policy</h5>
         <text-angular
           name="training"
-          placeholder="Training policy"
           ng-disabled="loading"
           ng-model="descriptions.data.training_policy">
         </text-angular>
@@ -596,7 +608,6 @@
         <h5 class="edit-title" translate>Tech team office</h5>
         <text-angular
           name="tech_team_office"
-          placeholder="Tech team office"
           ng-disabled="loading"
           ng-model="descriptions.data.tech_team_office">
         </text-angular>
@@ -604,7 +615,6 @@
         <h5 class="edit-title" translate>Working Environment</h5>
         <text-angular
           name="working_env"
-          placeholder="Working environment"
           ng-disabled="loading"
           ng-model="descriptions.data.working_env">
         </text-angular>
@@ -612,7 +622,6 @@
         <h5 class="edit-title" translate>Development methodology</h5>
         <text-angular
           name="dev_methodology"
-          placeholder="Development methodology"
           ng-disabled="loading"
           ng-model="descriptions.data.dev_methodology">
         </text-angular>
@@ -621,7 +630,7 @@
         <textarea
           class="form-control"
           name="video_script"
-          placeholder="Embed code"
+          placeholder="{{ Embed code | translate }}"
           ng-disabled="loading"
           ng-model="descriptions.data.video_script">
         </textarea>

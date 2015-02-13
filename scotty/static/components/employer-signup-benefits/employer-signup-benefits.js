@@ -26,6 +26,7 @@ define(function(require) {
       $scope.model = _.pick(data, [
         'recruitment_process',
         'training_policy',
+        'other_benefits',
       ]);
 
       $scope.benefits = benefits.map(function(value) {
