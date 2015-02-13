@@ -41,6 +41,15 @@ define(function(require) {
         return user.updateData(model);
       }
     });
+    $scope.video = formSimple({
+      set: function(data) {
+        setData(data);
+        return { video_script: data.video_script };
+      },
+      save: function(model, form, user) {
+        return user.updateData(model);
+      }
+    });
     $scope.tech = formSimple({
       set: function(data) {
         setData(data);
@@ -179,6 +188,7 @@ define(function(require) {
           user.getData().then(function(data) {
             setData(data);
             $scope.summary.set(data);
+            $scope.video.set(data);
             $scope.tech.set(data);
             $scope.descriptions.set(data);
             $scope.company.set(data);

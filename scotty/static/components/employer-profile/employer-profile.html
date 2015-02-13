@@ -254,7 +254,7 @@
           </button>
         </div>
 
-        <div class="wrap-office" ng-class="{ open: offices.editing === -2 }">
+        <div class="wrap-office" ng-class="{ open: offices.editing === -2 }">
           <div class="wrap-office-content">
             <hc-office-form
               hc-scope="offices"
@@ -579,7 +579,7 @@
 <!-- Edit panel -->
 <div class="edit-textarea add-panel" ng-show="descriptions.editing">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
         <button class="add-panel-close" ng-click="descriptions.close()"><i class="fa fa-close"></i></button>
 
@@ -625,15 +625,6 @@
           ng-disabled="loading"
           ng-model="descriptions.data.dev_methodology">
         </text-angular>
-
-        <h5 class="edit-title" translate>Company video</h5>
-        <textarea
-          class="form-control"
-          name="video_script"
-          placeholder="{{ Embed code | translate }}"
-          ng-disabled="loading"
-          ng-model="descriptions.data.video_script">
-        </textarea>
 
         <div class="buttons-wrap">
           <button type="submit"
@@ -690,12 +681,45 @@
         <p class="pad-btm-15" ng-show="data.dev_methodology" ng-bind-html="data.dev_methodology"></p>
         <p class="pad-btm-15" ng-show="!data.dev_methodology" translate>Not defined yet</p>
       </div>
-      <div>
-        <h3 class="accordion-subtitle" translate>Company video</h3>
-        <p class="pad-btm-15" ng-show="data.video_script" ng-bind-html="data.video_script"></p>
-        <p class="pad-btm-15" ng-show="!data.video_script" translate>Upload a video so candidates can know you better</p>
-      </div>
     </div>
+  </div>
+</div>
+
+<div class="row bg-white mrg-btm">
+  <div class="col-sm-12 pad-top-10 picture-gallery">
+    <div class="box-title box-title_left mrg-btm gray-darker">
+      <translate>Video</translate>
+      <button type="submit"
+              class="btn-edit-sub no-marg-top"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
+              ng-click="video.edit()">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+
+    <p translate>Upload a video so candidates can know you better</p>
+    <div ng-hide="video.editing" ng-bind-html="data.video_script"></div>
+
+    <form class="edit-form" ng-show="video.editing" ng-submit="video.save(video.data)">
+      <h5 class="edit-title" translate>Paste video embed code here</h5>
+      <textarea
+        class="form-control"
+        name="video_script"
+        ng-disabled="loading"
+        ng-model="video.data.video_script">
+      </textarea>
+
+      <div class="buttons-wrap">
+        <button type="submit"
+          class="fl-rg bg-green btn-small mrg-lft-small"
+          ng-disabled="loading" translate>Save</button>
+        <button type="button"
+          class="fl-rg bg-gray-lighter2 btn-small"
+          ng-click="video.close()"
+          ng-disabled="loading" translate>Cancel</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -718,7 +742,7 @@
 
     <ul ng-hide="pictures.editing">
       <li class="picture" ng-repeat="picture in pictures.data" ng-click="slideshow($index)">
-        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
+        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
         <span class="description">{{ picture.description }}</span>
       </li>
       <li ng-show="!pictures.data.length" translate>No photos yet</li>
@@ -726,7 +750,7 @@
 
     <form class="edit-form" ng-show="pictures.editing" ng-submit="pictures.save(pictures.data)">
       <div class="picture" ng-repeat="picture in pictures.data">
-        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }">
+        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }">
           <button type="submit"
                   class="btn-edit-sub no-marg-top"
                   ng-disabled="loading"
