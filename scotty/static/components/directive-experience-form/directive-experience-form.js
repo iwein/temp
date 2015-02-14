@@ -5,7 +5,6 @@ define(function(require) {
   var fn = require('tools/fn');
   var nameAttr = require('tools/name-attr');
   var getModel = require('tools/get-model');
-  var months = require('tools/months');
   var module = require('app-module');
 
   module.directive('hcExperienceForm', function(ConfigAPI) {
@@ -46,10 +45,6 @@ define(function(require) {
         return onLoad();
 
 
-        function translate() {
-          $scope.months = months.map(i18n.gettext);
-        }
-
         function afterModelChange() {
           $scope.model.country_iso = $scope.model.country_iso || 'DE';
         }
@@ -81,8 +76,6 @@ define(function(require) {
         function onLoad() {
           var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
           nameAttr(ctrl, 'hcExperienceForm', $scope, $attrs);
-          i18n.onChange(translate);
-          translate();
 
           return loadContent().then(function() {
             setModel(model);
@@ -172,12 +165,12 @@ define(function(require) {
 
           if (model.start) {
             var start = new Date(model.start);
-            $scope.startMonth = months[start.getMonth()];
+            $scope.startMonth = $scope.months[start.getMonth()];
             $scope.startYear = start.getFullYear();
 
             if (model.end) {
               var end = new Date(model.end);
-              $scope.endMonth = months[end.getMonth()];
+              $scope.endMonth = $scope.months[end.getMonth()];
               $scope.endYear = end.getFullYear();
             }
           }
@@ -194,14 +187,14 @@ define(function(require) {
           if (storedValue) {
             var date = new Date(storedValue);
             $scope[year] = date.getFullYear();
-            $scope[month] = months[date.getMonth()];
+            $scope[month] = $scope.months[date.getMonth()];
           }
 
           $scope[key + 'DateUpdate'] = function() {
             var value = null;
 
             if ($scope[month] && $scope[year]) {
-              var date = new Date($scope[year], months.indexOf($scope[month]));
+              var date = new Date($scope[year], $scope.months.indexOf($scope[month]));
               value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
             }
 
