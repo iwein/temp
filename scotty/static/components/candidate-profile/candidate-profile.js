@@ -291,7 +291,7 @@ define(function(require) {
         $scope.skills.data = user.skills;
         refreshSkills(user.skills);
 
-        $scope.privacy.data = _.pick(user, 'anonymous');
+        $scope.privacy.data = _.pick(user, 'anonymous', 'sleeping');
         $scope.languages.data = user.languages;
         $scope.picture.data = user.picture_url;
         $scope.summary.data = user.summary;
