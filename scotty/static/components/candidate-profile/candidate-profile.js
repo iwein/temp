@@ -11,7 +11,7 @@ define(function(require) {
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  // jshint maxstatements:40, maxparams:10
+  // jshint maxstatements:50, maxparams:10
   module.controller('ProfileCtrl', function($scope, $q, $state, toaster, i18n,
                                             Amazon, Loader, ConfigAPI, Permission, Session) {
 
@@ -61,11 +61,22 @@ define(function(require) {
         }.bind(this));
       },
     });
+    $scope.privacy = form({
+      source: function(user) {
+        return user.getData().then(function(data) {
+          $scope.user = data;
+          return _.pick(data, 'anonymous', 'sleeping');
+        });
+      },
+      save: function(model, form, user) {
+        return user.updateData(model);
+      }
+    });
     $scope.name = form({
       source: function(user) {
         return user.getData().then(function(data) {
           $scope.user = data;
-          return _.pick(data, 'first_name', 'last_name', 'anonymous');
+          return _.pick(data, 'first_name', 'last_name');
         });
       },
       save: function(model, form, user) {
@@ -280,6 +291,7 @@ define(function(require) {
         $scope.skills.data = user.skills;
         refreshSkills(user.skills);
 
+        $scope.privacy.data = _.pick(user, 'anonymous');
         $scope.languages.data = user.languages;
         $scope.picture.data = user.picture_url;
         $scope.summary.data = user.summary;
