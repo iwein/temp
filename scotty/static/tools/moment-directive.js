@@ -54,19 +54,16 @@ define(function(require) {
     };
   });
 
-  module.filter('toMonthsYears', function(gettext) {
+  module.filter('toMonthsYears', function(i18n) {
     return function(value) {
       var total = value / 1000 / 60 / 60 / 24 / 365;
       var years = Math.floor(total);
       var months = Math.round((total % 1) * 12);
       var result = '';
 
-      if (years)
-        result += years + (years === 1 ? gettext(' year ') : gettext(' years '));
-
-      if (months)
-        result += months + (months === 1 ? gettext(' month') : gettext(' months'));
-
+      if (years) result += years + ' ' + (years === 1 ? i18n.gettext('year') : i18n.gettext('years'));
+      if (years && months) result += ' ';
+      if (months) result += months + ' ' + (months === 1 ? i18n.gettext('month') : i18n.gettext('months'));
       return result;
     };
   });
@@ -79,17 +76,21 @@ define(function(require) {
     };
   });
 
-  module.filter('yearMonth', function(gettext) {
+  module.filter('yearMonth', function(i18n) {
     return function(value, size) {
       if (size && size < 5) return '';
       var months = Math.ceil(value / 1000 / 60 / 60 / 24 / 30);
       var years = Math.floor(months / 12);
+      var isSmall = size && size < 15;
+      var yearsStr = i18n.gettext('years');
+      var monthsStr = i18n.gettext('months');
       var result = '';
       months %= 12;
 
-      if (years) result += years + (size && size < 15 ? 'y ' : gettext(' years '));
-      if (months) result += months + (size && size < 15 ? 'm' : gettext(' months'));
-      return result || gettext('less than one month');
+      if (years) result += years + (isSmall ? yearsStr[0] : ' ' + yearsStr);
+      if (years && months) result += ' ';
+      if (months) result += months + (isSmall ? monthsStr[0] : ' ' + monthsStr);
+      return result || i18n.gettext('less than one month');
     };
   });
 

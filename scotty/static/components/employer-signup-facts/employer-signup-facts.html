@@ -77,7 +77,7 @@
               ng-disabled="loading"
               ng-model="model.tech_tags"
               hc-source="signupFacts.searchTags($viewValue)"
-              hc-error-message="Please enter at least one technology"
+              hc-error-message="{{ 'Please enter at least one technology' | translate }}"
               hc-allow-new>
             </hc-label-typeahead>
           </div>

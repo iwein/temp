@@ -170,7 +170,13 @@
             </a>
           </div>
           <div class="mrg-btm-small">
-            {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
+            <hc-scope values="{
+              role: candidate.position.role,
+              city: candidate._data.location.city,
+              country_iso: candidate._data.location.country_iso,
+            }" translate>
+              {{ role }} from {{ city }}, {{ country_iso }}
+            </hc-scope>
           </div>
         </div>
       </div>

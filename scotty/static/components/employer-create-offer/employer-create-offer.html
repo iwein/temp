@@ -44,7 +44,7 @@
 
               <div class="form-group required col-sm-6">
                 <div class="col-sm-12 no-padd-right">
-                  <label>Offered annual salary</label>
+                  <label translate>Offered annual salary</label>
                 </div>
                 <div class="col-sm-12 no-padd-right">
                   <div class="input-group">
@@ -60,25 +60,25 @@
                   </div>
 
                   <div class="form-error" ng-show="formCreateOffer.salary.$dirty && formCreateOffer.salary.$invalid">
-                <span ng-show="formCreateOffer.salary.$error.required">
-                  Please insert your offer's salary.
-                </span>
-                <span ng-show="formCreateOffer.salary.$error.number">
-                  Please insert a number.
-                </span>
-                <span ng-show="formCreateOffer.salary.$error.pattern">
-                  Decimals are not allowed.
-                </span>
+                    <span ng-show="formCreateOffer.salary.$error.required" translate>
+                      Please insert your offer's salary.
+                    </span>
+                    <span ng-show="formCreateOffer.salary.$error.number" translate>
+                      Please insert a number.
+                    </span>
+                    <span ng-show="formCreateOffer.salary.$error.pattern" translate>
+                      Decimals are not allowed.
+                    </span>
                   </div>
                   <div class="form-error" ng-show="formCreateOffer.salary.$dirty && errorSalaryTooLow">
-                    <span>Salary too low</span>
+                    <span translate>Salary too low</span>
                   </div>
                 </div>
               </div>
 
               <div class="form-group required col-sm-6">
                 <div class="col-sm-12 no-padd-left">
-                  <label>Location</label>
+                  <label translate>Location</label>
                 </div>
                 <div class="col-sm-12 no-padd-left">
                   <input type="text"
@@ -93,15 +93,15 @@
                          typeahead="location for location in createOffer.searchLocations($viewValue)"
                          hc-typeahead-loader>
                   <div class="form-error" ng-show="formCreateOffer.location.$dirty && formCreateOffer.location.$invalid">
-                <span ng-show="formCreateOffer.location.$error.required">
+                <span ng-show="formCreateOffer.location.$error.required" translate>
                   Please insert the city of the offer.
                 </span>
                   </div>
                   <div class="form-error" ng-show="errorInvalidCity">
-                    <span>Please enter the city name and wait for the system to validate.</span>
+                    <span translate>Please enter the city name and wait for the system to validate.</span>
                   </div>
                   <div class="form-error" ng-show="errorLocationUnsuitable">
-                    <span>Location unsuitable.</span>
+                    <span translate>Location unsuitable.</span>
                   </div>
                 </div>
               </div>
@@ -110,7 +110,7 @@
 
           <div class="form-group required col-sm-6">
             <div class="col-sm-12 no-padd-right">
-              <label>Role</label>
+              <label translate>Role</label>
             </div>
             <div class="col-sm-12 no-padd-right">
               <input type="text"
@@ -123,7 +123,7 @@
                      hc-typeahead-loader>
 
               <div class="form-error" ng-show="formCreateOffer.role.$dirty && formCreateOffer.role.$invalid">
-                <span ng-show="formCreateOffer.role.$error.required">Please insert the role for this offer.</span>
+                <span ng-show="formCreateOffer.role.$error.required" translate>Please insert the role for this offer.</span>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@
 
           <div class="form-group required col-sm-6">
             <div class="col-sm-12 no-padd-left">
-              <label>Technologies &amp; Skills</label>
+              <label translate>Technologies &amp; Skills</label>
             </div>
             <div class="col-sm-12 no-padd-left">
               <hc-label-typeahead
@@ -139,7 +139,7 @@
                 ng-disabled="loading"
                 ng-model="model.technologies"
                 hc-source="createOffer.searchSkills($viewValue)"
-                hc-error-message="Please choose at least one skill"
+                hc-error-message="{{ 'Please choose at least one skill' | translate }}"
                 hc-allow-new>
               </hc-label-typeahead>
             </div>
@@ -147,58 +147,53 @@
 
           <div class="form-group required col-sm-12">
             <div class="col-sm-12">
-              <label>Job description</label>
+              <label translate>Job description</label>
               <text-angular
                 name="jobDescription"
                 required
                 ng-model="model.job_description">
               </text-angular>
               <div class="form-error" ng-show="dirty && !model.job_description">
-                <span>Please provide a description of this position.</span>
+                <span translate>Please provide a description of this position.</span>
               </div>
             </div>
           </div>
 
           <div class="form-group required col-sm-12">
             <div class="col-sm-12">
-              <label>Hiring process</label>
+              <label translate>Hiring process</label>
               <text-angular
                 name="hiringProcess"
                 required
                 ng-model="model.interview_details">
               </text-angular>
               <div class="form-error" ng-show="dirty && !model.interview_details">
-                <span>Please provide a little description of the hiring process.</span>
+                <span translate>Please provide a little description of the hiring process.</span>
               </div>
             </div>
           </div>
 
           <div class="col-sm-12 mrg-btm-30">
             <div class="col-sm-12">
-              <label>Benefits</label>
+              <label translate>Benefits</label>
               <hc-benefits-edit row-class="row" col-class="col-md-6 col-sm-12 form-benefits mrg-btm-small"
-                                benefits="benefits" other-benefits="model.other_benefits"></hc-benefits-edit>
+                benefits="benefits" other-benefits="model.other_benefits"></hc-benefits-edit>
             </div>
           </div>
           <div class="clearfix"></div>
         </div>
         <div class="col-sm-12">
           <div class="buttons-wrap col-sm-12 mrg-btm mrg-top-30">
-            <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="loading">Submit offer</button>
+            <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="loading" translate>Submit offer</button>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sm-3 bg-gray-lighter2">
       <div class="padd-vert">
-        <div class="box-title box-title_left mrg-btm gray-darker">
-          Help</div>
-        <div class="">
-          <p>
-            Extend an offer to the candidate, they cannot refuse. It's not always only about the money,
-            additional benefits can also tilt the decision process in your favour.
-          </p>
-
+        <div class="box-title box-title_left mrg-btm gray-darker" translate>Help</div>
+        <div>
+          <p translate>Extend an offer to the candidate, they cannot refuse. It's not always only about the money, additional benefits can also tilt the decision process in your favour.</p>
         </div>
       </div>
     </div>

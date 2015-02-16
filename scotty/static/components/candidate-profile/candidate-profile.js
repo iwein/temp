@@ -311,22 +311,22 @@ define(function(require) {
         $scope.ready = true;
 
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+        if (user.candidate_has_been_hired)
+          $scope.status = 'hired';
+        else if (user.status === 'sleeping')
+          $scope.status = 'sleeping';
+        else
+          $scope.status = $scope.offers.reduce(function(summary, value) {
+            if (finalStatus.indexOf(value.status) !== -1) return;
+            if (value.status === 'CONTRACT_SIGNED') return 'hired';
+            return summary || 'reviewing';
+          }, null) || 'searching';
 
         function translate() {
-          if (user.candidate_has_been_hired)
-            $scope.status = i18n.gettext('hired');
-          else if (user.status === 'sleeping')
-            $scope.status = i18n.gettext('sleeping');
-          else
-            $scope.status = $scope.offers.reduce(function(summary, value) {
-              if (finalStatus.indexOf(value.status) !== -1) return;
-              if (value.status === 'CONTRACT_SIGNED') return i18n.gettext('hired');
-              return summary || i18n.gettext('reviewing');
-            }, null) || i18n.gettext('searching');
+          $scope.lang = i18n.getCurrent();
         }
-
-        translate();
         i18n.onChange(translate);
+        translate();
       });
     }
 

@@ -82,8 +82,8 @@
                 <span ng-show="form.dobDay.$error.max" translate>Birth day can't be bigger than 31.</span>
               </div>
               <div class="form-error" ng-show="form.dobYear.$dirty && form.dobMonth.$dirty && form.dobDay.$dirty">
-                <span ng-show="errorTooYoung && !errorInvalidDate">You must be at least 16 years old to register.</span>
-                <span ng-show="errorInvalidDate">The date is not a valid date</span>
+                <span ng-show="errorTooYoung && !errorInvalidDate" translate>You must be at least 16 years old to register.</span>
+                <span ng-show="errorInvalidDate" translate>The date is not a valid date</span>
               </div>
             </div>
           </div>

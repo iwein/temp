@@ -207,7 +207,7 @@
               ng-disabled="loading"
               ng-model="model.skills"
               hc-source="searchSkills($viewValue)"
-              hc-error-message="Please choose at least one skill"
+              hc-error-message="{{ 'Please choose at least one skill' | translate }}"
               hc-allow-new>
             </hc-label-typeahead>
           </div>

@@ -187,11 +187,11 @@
             <div class="job-bar">
               <div class="job-bar-item" ng-repeat="entry in timeline"
                 ng-style="{ width: entry.percent+'%' }"
-                title="{{ entry.role }} - {{ entry.duration | yearMonth }}">
+                title="{{ entry.role }} - {{ entry.duration | yearMonth:false:lang }}">
                 <div class="job-bar-item_up" ng-class="{
                   'bg-gray-light': $even,
                   'bg-blue-light': $odd,
-                }">{{ entry.duration | yearMonth:entry.percent }}</div>
+                }">{{ entry.duration | yearMonth:entry.percent:lang }}</div>
                 <div class="job-bar-item_down">{{ entry.percent > 5 && entry.role || '' }}</div>
               </div>
             </div>
@@ -201,7 +201,7 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
                 <translate>WORK EXPERIENCE</translate>
-                <span>{{ totalWorkExperience | toMonthsYears }}</span>
+                <span>{{ totalWorkExperience | toMonthsYears:lang }}</span>
               </h2>
               <div class="accordion-wrap">
                 <hc-accordion ng-repeat="entry in workExperience" hc-hide-control="!entry.summary && !entry.skills.length">
@@ -209,7 +209,8 @@
                   <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
                   <span class="accordion-date">
                     {{ entry.start | showMonthYear }} –
-                    {{ entry.end || 'today' | showMonthYear }}
+                    <span ng-show="entry.end">{{ entry.end | showMonthYear }}</span>
+                    <span ng-hide="entry.end">{{ 'today' | translate }}</span>
                     ({{ entry | momentDiff | toMonthsYears }})
                   </span>
                   <div class="accordion-text">{{ entry.summary }}</div>
@@ -236,7 +237,9 @@
                   </h3>
                   <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
                   <span class="accordion-date">
-                    {{ entry.start}} – {{ entry.end || 'today' }}
+                    {{ entry.start}} –
+                    <span ng-show="entry.end">{{ entry.end }}</span>
+                    <span ng-hide="entry.end">{{ 'today' | translate }}</span>
                     ({{ entry | momentDiff | toMonthsYears }})
                   </span>
                 </div>

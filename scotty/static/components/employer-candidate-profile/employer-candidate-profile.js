@@ -40,19 +40,20 @@ define(function(require) {
         var offers = data[0];
 
         function translate() {
-          var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-          $scope.status = (ThisCandidate._data.status === 'sleeping') ? i18n.gettext('sleeping') :
-            (
-              offers.reduce(function(summary, value) {
-                if (finalStatus.indexOf(value.status) !== -1) return;
-                if (value.status === 'CONTRACT_SIGNED') return i18n.gettext('hired');
-                return summary || i18n.gettext('reviewing');
-              }, null) || i18n.gettext('searching')
-            );
+          $scope.lang = i18n.getCurrent();
         }
         i18n.onChange(translate);
         translate();
         // TIMELINE
+
+        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+        $scope.status = ThisCandidate._data.status === 'sleeping' ?
+          'sleeping' :
+          (offers.reduce(function(summary, value) {
+            if (finalStatus.indexOf(value.status) !== -1) return;
+            if (value.status === 'CONTRACT_SIGNED') return 'hired';
+            return summary || 'reviewing';
+          }, null) || 'searching');
 
         var total = 0;
         var timeline = $scope.workExperience.map(function(entry) {

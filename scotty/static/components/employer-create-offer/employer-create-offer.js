@@ -8,8 +8,9 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:8
-  module.controller('CreateOfferCtrl', function($scope, $q, $state, toaster, Loader, ConfigAPI, Permission, Session) {
+  // jshint maxparams:9
+  module.controller('CreateOfferCtrl', function($scope, $q, $state, toaster, i18n,
+                                                Loader, ConfigAPI, Permission, Session) {
     this.searchLocations = ConfigAPI.locationsText;
     this.searchSkills = ConfigAPI.skills;
     this.searchRoles = ConfigAPI.roles;
@@ -92,7 +93,7 @@ define(function(require) {
       Session.getUser()
         .then(function(user) { return user.makeOffer($scope.model) })
         .then(function(newOffer) {
-          toaster.success('Offer sent to ' + $scope.candidateName);
+          toaster.success(i18n.gettext('Offer sent to {{ name }}', { name: $scope.candidateName }));
 
           $state.go('offer', {'id': newOffer.id});
 
