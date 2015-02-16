@@ -59,7 +59,7 @@
       <div class="col-sm-12">
         <label class="edit-title" translate>List other skills</label>
         <hc-label-typeahead
-          placeholder="Type a skill and press enter after each one..."
+          placeholder="{{ 'Type a skill and press enter after each one...' | translate }}"
           ng-disabled="hcDisabled"
           ng-model="skills"
           hc-source="searchSkills($viewValue)"

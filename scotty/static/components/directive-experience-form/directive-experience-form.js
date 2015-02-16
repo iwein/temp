@@ -5,6 +5,7 @@ define(function(require) {
   var fn = require('tools/fn');
   var nameAttr = require('tools/name-attr');
   var getModel = require('tools/get-model');
+  var months = require('tools/months');
   var module = require('app-module');
 
   module.directive('hcExperienceForm', function(ConfigAPI) {
@@ -45,6 +46,10 @@ define(function(require) {
         return onLoad();
 
 
+        function translate() {
+          $scope.months = months.map(i18n.gettext);
+        }
+
         function afterModelChange() {
           $scope.model.country_iso = $scope.model.country_iso || 'DE';
         }
@@ -76,6 +81,8 @@ define(function(require) {
         function onLoad() {
           var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
           nameAttr(ctrl, 'hcExperienceForm', $scope, $attrs);
+          i18n.onChange(translate);
+          translate();
 
           return loadContent().then(function() {
             setModel(model);

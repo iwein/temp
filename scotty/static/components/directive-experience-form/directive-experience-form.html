@@ -37,7 +37,7 @@
             <div class="col-sm-6">
               <input type="text"
                      name="city"
-                     placeholder="City"
+                     placeholder="{{ 'City' | translate }}"
                      class="form-control"
                      ng-disabled="hcDisabled"
                      ng-model="model.city">
@@ -70,7 +70,7 @@
                   <input type="number"
                          class="form-control"
                          name="startYear"
-                         placeholder="Year"
+                         placeholder="{{ 'Year' | translate }}"
                          ng-min="1900"
                          ng-max="currentYear"
                          ng-required="hcRequired"
@@ -109,7 +109,7 @@
                   <input type="number"
                          class="form-control"
                          name="endYear"
-                         placeholder="Year"
+                         placeholder="{{ 'Year' | translate }}"
                          ng-min="1900"
                          ng-max="currentYear"
                          ng-disabled="hcDisabled ||current"
@@ -163,7 +163,7 @@
         <label class="col-sm-3" translate>Role description</label>
         <div class="col-sm-9">
           <textarea class="form-control"
-                    placeholder="Please list the projects you worked on"
+                    placeholder="{{ 'Please list the projects you worked on' | translate }}"
                     name="summary"
                     ng-disabled="hcDisabled"
                     ng-model="model.summary">
@@ -203,7 +203,7 @@
             <label translate>Other skills</label>
             <hc-label-typeahead
               name="skills"
-              placeholder="Technologies &amp; skills"
+              placeholder="{{ 'Technologies & skills' | translate }}"
               ng-disabled="loading"
               ng-model="model.skills"
               hc-source="searchSkills($viewValue)"

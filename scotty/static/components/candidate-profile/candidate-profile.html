@@ -174,7 +174,7 @@
               <div class="pad-label edit-form">
                 <hc-label-typeahead
                   name="cities"
-                  placeholder="Type a city..."
+                  placeholder="{{ 'Type a city...' | translate }}"
                   ng-show="salary.data.other"
                   ng-disabled="loading"
                   ng-model="preferred_locations"
@@ -233,17 +233,17 @@
               <div class="">
                 <input type="text"
                        class="form-control mrg-btm"
-                       placeholder="Address Line 1"
+                       placeholder="{{ 'Address Line 1' | translate }}"
                        ng-disabled="hcDisabled"
                        ng-model="contact.data.contact_line1">
                 <input type="text"
                        class="form-control mrg-btm"
-                       placeholder="Address Line 2"
+                       placeholder="{{ 'Address Line 2' | translate }}"
                        ng-disabled="hcDisabled"
                        ng-model="contact.data.contact_line2">
                 <input type="text"
                        class="form-control mrg-btm"
-                       placeholder="Zip code"
+                       placeholder="{{ 'Zip code' | translate }}"
                        maxlength="20"
                        ng-disabled="hcDisabled"
                        ng-model="contact.data.contact_zipcode">
@@ -256,7 +256,7 @@
                   <option value="" translate>Country...</option>
                 </select>
                 <input type="text"
-                       placeholder="City"
+                       placeholder="{{ 'City' | translate }}"
                        name="city"
                        class="form-control mrg-btm"
                        required
@@ -394,7 +394,7 @@
             <form class="edit-form">
               <input type="date"
                      class="form-control mrg-btm"
-                     placeholder="YYYY-MM-DD"
+                     placeholder="{{ 'YYYY-MM-DD' | translate }}"
                      name="birth"
                      required
                      ng-disabled="hcDisabled"

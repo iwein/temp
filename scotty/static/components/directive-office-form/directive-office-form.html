@@ -10,7 +10,7 @@
     <label class="mrg-btm" translate>Address</label>
     <input type="text"
            class="form-control"
-           placeholder="Address Line 1"
+           placeholder="{{ 'Address Line 1' | translate }}"
            name="address_line1"
            ng-required="true"
            ng-disabled="hcDisabled"
@@ -24,7 +24,7 @@
   <div class="mrg-btm">
     <input type="text"
            class="form-control"
-           placeholder="Address Line 2"
+           placeholder="{{ 'Address Line 2' | translate }}"
            name="address_line2"
            ng-disabled="hcDisabled"
            ng-model="model.address_line2">
@@ -37,7 +37,7 @@
   <div class="mrg-btm">
     <input type="text"
            class="form-control"
-           placeholder="Address Line 3"
+           placeholder="{{ 'Address Line 3' | translate }}"
            name="address_line3"
            ng-disabled="hcDisabled"
            ng-model="model.address_line3">
@@ -46,7 +46,7 @@
   <div class="mrg-btm required">
     <input type="text"
            class="form-control"
-           placeholder="Zip code"
+           placeholder="{{ 'Zip code' | translate }}"
            name="zipcode"
            maxlength="20"
            ng-required="true"
@@ -76,7 +76,7 @@
       <div class="col-sm-6">
 
         <input type="text"
-               placeholder="City"
+               placeholder="{{ 'City' | translate }}"
                name="city"
                class="form-control"
                ng-required="true"

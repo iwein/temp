@@ -177,7 +177,7 @@
                 <div class="col-sm-9">
                   <input type="date"
                     class="form-control"
-                    placeholder="YYYY-MM-DD"
+                    placeholder="{{ 'YYYY-MM-DD' | translate }}"
                     required
                     ng-disabled="hcDisabled"
                     ng-model="signing.start_date">
@@ -192,7 +192,7 @@
                 <div class="col-sm-9">
                   <input type="dotted-integer"
                     class="form-control"
-                    placeholder="Start salary"
+                    placeholder="{{ 'Start salary' | translate }}"
                     required
                     ng-disabled="hcDisabled"
                     ng-model="signing.start_salary">
@@ -243,7 +243,7 @@
                   <div class="pad-label">
                     <textarea
                       class="txtarea"
-                      placeholder="Please describe your reason"
+                      placeholder="{{ 'Please describe your reason' | translate }}"
                       required
                       ng-disabled="hcDisabled"
                       ng-model="rejection.reject_reason">

@@ -43,7 +43,7 @@
                     <div class="col-sm-9 no-padd-left">
                       <input type="text"
                         class="form-control"
-                        placeholder="City or Municipality"
+                        placeholder="{{ 'City or Municipality' | translate }}"
                         ng-disabled="!terms.length"
                         ng-model="locationText"
                         ng-blur="setLocation(locationText)"

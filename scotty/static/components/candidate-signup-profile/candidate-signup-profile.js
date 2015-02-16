@@ -45,7 +45,7 @@ define(function(require) {
       var year = $scope.dobYear;
       var month = $scope.dobMonth;
       var day = $scope.dobDay;
-      var monthIndex = months.indexOf(month);
+      var monthIndex = $scope.months.indexOf(month);
       $scope.errorTooYoung = false;
       $scope.errorInvalidDate = false;
 

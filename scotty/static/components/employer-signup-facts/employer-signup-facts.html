@@ -54,7 +54,7 @@
           <div class="col-sm-9">
             <input type="number"
                    class="form-control"
-                   placeholder="Number of staff in IT"
+                   placeholder="{{ 'Number of staff in IT' | translate }}"
                    name="tech_team_size"
                    ng-disabled="loading"
                    ng-model="model.tech_team_size">
@@ -73,7 +73,7 @@
           <div class="col-sm-9">
             <hc-label-typeahead
               name="techTags"
-              placeholder="Enter your key technologies, press enter after each one"
+              placeholder="{{ 'Enter your key technologies, press enter after each one' | translate }}"
               ng-disabled="loading"
               ng-model="model.tech_tags"
               hc-source="signupFacts.searchTags($viewValue)"
@@ -99,7 +99,7 @@
           <div class="col-sm-9">
             <text-angular
               name="tech_team_office"
-              placeholder="Tech team office"
+              placeholder="{{ 'Tech team office' | translate }}"
               ng-disabled="loading"
               ng-model="model.tech_team_office">
             </text-angular>
@@ -128,7 +128,7 @@
           <div class="col-sm-9">
             <text-angular
               name="working_env"
-              placeholder="Working environment"
+              placeholder="{{ 'Working environment' | translate }}"
               ng-disabled="loading"
               ng-model="model.working_env">
             </text-angular>
@@ -157,7 +157,7 @@
           <div class="col-sm-9">
             <text-angular
               name="dev_methodology"
-              placeholder="Development methodology"
+              placeholder="{{ 'Development methodology' | translate }}"
               ng-disabled="loading"
               ng-model="model.dev_methodology">
             </text-angular>

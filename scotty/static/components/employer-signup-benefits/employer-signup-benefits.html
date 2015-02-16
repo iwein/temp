@@ -25,7 +25,7 @@
             <text-angular
               name="recruitment_process"
               required
-              placeholder="Describe how you interview and onboard candidates."
+              placeholder="{{ 'Describe how you interview and onboard candidates.' | translate }}"
               ng-disabled="loading"
               ng-model="model.recruitment_process">
             </text-angular>
@@ -41,7 +41,7 @@
           <div class="col-sm-12">
             <text-angular
               name="training"
-              placeholder="Please describe the training opportunities available to your tech team."
+              placeholder="{{ 'Please describe the training opportunities available to your tech team.' | translate }}"
               ng-disabled="loading"
               ng-model="model.training_policy">
             </text-angular>

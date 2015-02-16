@@ -25,7 +25,7 @@
             <div class="col-sm-12">
               <textarea
                 class="form-control"
-                placeholder="Please introduce yourself to the candidate and tell them why you are a good fit. Make your message personal as this will get a better response."
+                placeholder="{{ 'Please introduce yourself to the candidate and tell them why you are a good fit. Make your message personal as this will get a better response.' | translate }}"
                 name="message"
                 required
                 ng-disabled="loading"
@@ -85,7 +85,7 @@
                          name="location"
                          class="form-control"
                          required
-                         placeholder="Where is the role based."
+                         placeholder="{{ 'Where is the role based.' | translate }}"
                          ng-disabled="loading"
                          ng-model="locationText"
                          ng-blur="createOffer.setLocation(locationText)"
@@ -135,7 +135,7 @@
             </div>
             <div class="col-sm-12 no-padd-left">
               <hc-label-typeahead
-                placeholder="Technical skills required. Press enter after each one."
+                placeholder="{{ 'Technical skills required. Press enter after each one.' | translate }}"
                 ng-disabled="loading"
                 ng-model="model.technologies"
                 hc-source="createOffer.searchSkills($viewValue)"

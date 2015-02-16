@@ -11,7 +11,7 @@
               <input type="text"
                      name="location"
                      class="form-control"
-                     placeholder="Location"
+                     placeholder="{{ 'Location' | translate }}"
                      ng-disabled="hcDisabled"
                      ng-model="locationText"
                      ng-blur="setLocation(locationText)"
@@ -36,7 +36,7 @@
                   <input type="number"
                     class="form-control"
                     name="dobDay"
-                    placeholder="Day"
+                    placeholder="{{ 'Day' | translate }}"
                     ng-min="1"
                     ng-max="31"
                     required
@@ -59,7 +59,7 @@
                   <input type="number"
                     class="form-control"
                     name="dobYear"
-                    placeholder="Year"
+                    placeholder="{{ 'Year' | translate }}"
                     ng-min="1900"
                     required
                     ng-disabled="hcDisabled"
@@ -122,7 +122,7 @@
                      name="github"
                      ng-disabled="hcDisabled"
                      ng-model="model.github_url"
-                     placeholder="Github URL (Starting with  http://...)">
+                     placeholder="{{ 'Github URL (Starting with  http://...)' | translate }}">
             </div>
           </div>
 
@@ -136,7 +136,7 @@
                      name="stackoverflow"
                      ng-disabled="hcDisabled"
                      ng-model="model.stackoverflow_url"
-                     placeholder="Stackoverflow URL (Starting with  http://...)">
+                     placeholder="{{ 'Stackoverflow URL (Starting with  http://...)' | translate }}">
             </div>
           </div>
 
@@ -150,7 +150,7 @@
                      name="github"
                      ng-disabled="hcDisabled"
                      ng-model="model.blog_url"
-                     placeholder="Blog URL (Starting with  http://...)">
+                     placeholder="{{ 'Blog URL (Starting with  http://...)' | translate }}">
             </div>
           </div>
 

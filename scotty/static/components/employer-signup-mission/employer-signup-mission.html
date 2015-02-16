@@ -11,7 +11,7 @@
           <div class="col-sm-9">
             <input type="number"
               class="form-control"
-              placeholder="When was the company established?"
+              placeholder="{{ 'When was the company established?' | translate }}"
               name="founding_year"
               name="founding_year"
               ng-disabled="loading"
@@ -51,7 +51,7 @@
           <div class="col-sm-9">
             <input type="number"
               class="form-control"
-              placeholder="Number of employees"
+              placeholder="{{ 'Number of employees' | translate }}"
               name="no_of_employees"
               ng-disabled="loading"
               ng-model="model.no_of_employees">

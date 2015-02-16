@@ -58,7 +58,7 @@
             <label translate>Other</label>
             <hc-label-typeahead
               name="skill"
-              placeholder="Type a skill and press enter on each one..."
+              placeholder="{{ 'Type a skill and press enter on each one...' | translate }}"
               ng-disabled="loading"
               ng-model="model.skills"
               hc-required="!skillSelected"
@@ -161,7 +161,7 @@
 
                 <hc-label-typeahead
                   name="cities"
-                  placeholder="Type a city..."
+                  placeholder="{{ 'Type a city...' | translate }}"
                   ng-show="flags.locationOther"
                   ng-disabled="loading"
                   ng-model="preferred_locations"
