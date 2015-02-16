@@ -612,12 +612,14 @@
                             <translate>Hide my name and picture from employers until i accepted their offer.</translate>
                           </label>
                         </div>
+                        <!-- FEATURE PROFILE SLEEP DISABLED
                         <div class="checkbox">
                           <label>
                             <input type="checkbox" ng-model="privacy.data.sleeping">
                             <translate>Put my profile to sleep so it will not be shown on search and can't receive any offers</translate>
                           </label>
                         </div>
+                        -->
                         <div class="buttons-wrap">
                           <button type="submit"
                                   class="fl-rg bg-green btn-small mrg-lft-small"
@@ -636,11 +638,13 @@
                       </form>
                       <div class="clearfix"></div>
                     </div>
-                    <h3 class="privacy">
+                    <h3 class="privacy" ng-hide="privacy.editing">
                       <span ng-show="user.anonymous" translate>Your profile is private</span>
                       <span ng-hide="user.anonymous" translate>Your profile is public</span>
+                      <!-- FEATURE PROFILE SLEEP DISABLED
                       <span ng-show="user.sleeping" translate>and in sleep mode</span>
                       <span ng-hide="user.sleeping" translate>and active</span>
+                      -->
                       <button type="submit"
                               class="btn-edit-sub no-fl"
                               ng-show="isEditing"

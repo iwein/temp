@@ -62,9 +62,8 @@ define(function(require) {
     $scope.descriptions = formSimple({
       set: function(data) {
         setData(data);
-        return _.pick(data, 'tech_team_philosophy', 'recruitment_process',
-          'training_policy', 'tech_team_office', 'working_env',
-          'dev_methodology', 'video_script');
+        return _.pick(data, 'recruitment_process', 'training_policy',
+          'tech_team_office', 'working_env', 'dev_methodology', 'video_script');
       },
       save: function(model, form, user) {
         return user.updateData(model);

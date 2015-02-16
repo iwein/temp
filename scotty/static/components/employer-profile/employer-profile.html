@@ -583,14 +583,17 @@
       <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
         <button class="add-panel-close" ng-click="descriptions.close()"><i class="fa fa-close"></i></button>
 
-        <h5 class="edit-title" translate>Technology Philosophy</h5>
-        <text-angular
-          name="tech_team_philosophy"
-          ng-disabled="loading"
-          ng-model="descriptions.data.tech_team_philosophy">
-        </text-angular>
-
-        <h5 class="edit-title" translate>Hiring Process</h5>
+        <h5 class="edit-title">
+          <span class="question-title" translate>Hiring Process</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please describe what happens after a candidate has accepted your job offer. How do you the structure the interview and on-boarding process?</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
         <text-angular
           name="recruitment_process"
           required
@@ -605,21 +608,51 @@
           ng-model="descriptions.data.training_policy">
         </text-angular>
 
-        <h5 class="edit-title" translate>Tech team office</h5>
+        <h5 class="edit-title">
+          <span class="question-title" translate>Tech team office</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please describe the working environment in the office of the tech team. E.g. open-plan office or dedicated offices per tech team, meeting rooms, noise level, table tennis, kitchen, etc.</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
         <text-angular
           name="tech_team_office"
           ng-disabled="loading"
           ng-model="descriptions.data.tech_team_office">
         </text-angular>
 
-        <h5 class="edit-title" translate>Working Environment</h5>
+        <h5 class="edit-title">
+          <span class="question-title" translate>Working Environment</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please inform how well your tech force gets equipped with computers and monitors. Do you allow a free choice of operating systems and toolsets? Do you provide ergonomic desks and chairs?</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
         <text-angular
           name="working_env"
           ng-disabled="loading"
           ng-model="descriptions.data.working_env">
         </text-angular>
 
-        <h5 class="edit-title" translate>Development methodology</h5>
+        <h5 class="edit-title">
+          <span class="question-title" translate>Development methodology</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please describe your software engineering framework, e.g. if you practice Agile methods such as Scrum or Kanban or rather structured approaches.</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
         <text-angular
           name="dev_methodology"
           ng-disabled="loading"
@@ -651,11 +684,6 @@
     </button>
 
     <div class="accordion-wrap">
-      <div>
-        <h3 class="accordion-subtitle" translate>Technology Philosophy</h3>
-        <p class="pad-btm-15" ng-show="data.tech_team_philosophy" ng-bind-html="data.tech_team_philosophy"></p>
-        <p class="pad-btm-15" ng-show="!data.tech_team_philosophy" translate>Not defined yet</p>
-      </div>
       <div>
         <h3 class="accordion-subtitle" translate>Hiring process</h3>
         <p class="pad-btm-15" ng-show="data.recruitment_process" ng-bind-html="data.recruitment_process"></p>
