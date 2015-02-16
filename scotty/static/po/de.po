@@ -161,6 +161,23 @@ msgstr ""
 msgid "Address"
 msgstr "Adresse"
 
+#: components/candidate-profile/candidate-profile.html:236
+#: components/directive-office-form/directive-office-form.html:13
+#, fuzzy
+msgid "Address Line 1"
+msgstr "Adresse"
+
+#: components/candidate-profile/candidate-profile.html:241
+#: components/directive-office-form/directive-office-form.html:27
+#, fuzzy
+msgid "Address Line 2"
+msgstr "Adresse"
+
+#: components/directive-office-form/directive-office-form.html:40
+#, fuzzy
+msgid "Address Line 3"
+msgstr "Adresse"
+
 #: components/candidate-signup-languages/candidate-signup-languages.html:31
 #: components/candidate-signup-skills/candidate-signup-skills.html:27
 msgid "Advanced"
@@ -355,6 +372,10 @@ msgstr "Datum bitte größer, gleich 1."
 msgid "Birthday"
 msgstr "Geburtstag"
 
+#: components/candidate-signup-profile/candidate-signup-profile.html:153
+msgid "Blog URL (Starting with  http://...)"
+msgstr ""
+
 #: tmp/db-tokens/benefits.js:1
 msgid "Breakfasts"
 msgstr ""
@@ -463,6 +484,16 @@ msgstr "Kandidaten"
 #: tmp/db-tokens/benefits.js:2
 msgid "Child Care Services"
 msgstr "Kinderbetreuung"
+
+#: components/candidate-profile/candidate-profile.html:259
+#: components/directive-experience-form/directive-experience-form.html:40
+#: components/directive-office-form/directive-office-form.html:79
+msgid "City"
+msgstr ""
+
+#: components/candidate-dashboard/candidate-dashboard.html:46
+msgid "City or Municipality"
+msgstr ""
 
 #: tmp/db-tokens/benefits.js:3
 msgid "Coffee"
@@ -669,6 +700,11 @@ msgstr "Datenschutz"
 msgid "Data Scientist"
 msgstr "Data Scientist"
 
+#: components/candidate-signup-profile/candidate-signup-profile.html:39
+#, fuzzy
+msgid "Day"
+msgstr "Mai"
+
 #: tools/months.js:20
 msgid "December"
 msgstr "Dezember"
@@ -682,10 +718,15 @@ msgstr "Dezimalstellen leider nicht erlaubt."
 msgid "Degree"
 msgstr "Abschluss"
 
+#: components/employer-signup-benefits/employer-signup-benefits.html:28
+msgid "Describe how you interview and onboard candidates."
+msgstr ""
+
 #: components/candidate-employer-profile/candidate-employer-profile.html:181
 #: components/employer-profile/employer-profile.html:646
 #: components/employer-profile/employer-profile.html:708
 #: components/employer-signup-facts/employer-signup-facts.html:146
+#: components/employer-signup-facts/employer-signup-facts.html:160
 msgid "Development methodology"
 msgstr ""
 
@@ -799,6 +840,10 @@ msgstr ""
 "Geben Sie hier die Vision & Mission Ihres Unternehmens als wichtige "
 "Information für Kandidaten an."
 
+#: components/employer-signup-facts/employer-signup-facts.html:76
+msgid "Enter your key technologies, press enter after each one"
+msgstr ""
+
 #: components/candidate-signup-experience/candidate-signup-experience.html:121
 msgid ""
 "Enter your previous jobs and where you currently work.\n"
@@ -905,6 +950,10 @@ msgstr "Kostenlose Anmeldung"
 #: components/candidate-signup-user/candidate-signup-user.html:164
 msgid "Full disclosure"
 msgstr "Volle Transparenz"
+
+#: components/candidate-signup-profile/candidate-signup-profile.html:125
+msgid "Github URL (Starting with  http://...)"
+msgstr ""
 
 #: components/employer-dashboard/employer-dashboard.html:83
 msgid "Go back to general search"
@@ -1086,6 +1135,11 @@ msgstr "Juli"
 msgid "June"
 msgstr "Juni"
 
+#: components/directive-languages-form/directive-languages-form.html:12
+#, fuzzy
+msgid "Language"
+msgstr "Sprachen"
+
 #: components/candidate-profile/candidate-profile.html:513
 #: components/candidate-signup-languages/candidate-signup-languages.html:4
 #: components/candidate-signup/candidate-signup.html:69
@@ -1122,6 +1176,7 @@ msgid "List other skills"
 msgstr "Weitere Kenntnisse"
 
 #: components/candidate-dashboard/candidate-dashboard.html:42
+#: components/candidate-signup-profile/candidate-signup-profile.html:14
 #: components/directive-experience-form/directive-experience-form.html:26
 #: components/employer-dashboard/employer-dashboard.html:51
 msgid "Location"
@@ -1289,6 +1344,15 @@ msgstr "Noch nicht festgelegt"
 msgid "November"
 msgstr "November"
 
+#: components/employer-signup-mission/employer-signup-mission.html:54
+#, fuzzy
+msgid "Number of employees"
+msgstr "1 Mitarbeiter"
+
+#: components/employer-signup-facts/employer-signup-facts.html:57
+msgid "Number of staff in IT"
+msgstr ""
+
 #: tools/months.js:18
 msgid "October"
 msgstr "Oktober"
@@ -1372,6 +1436,11 @@ msgstr "Rein erfolgsbassiert"
 #: tmp/db-tokens/rejectionreasons.js:7 tmp/db-tokens/withdrawalreasons.js:5
 msgid "Other"
 msgstr "Andere"
+
+#: components/partial-benefits/partial-benefits-edit.html:15
+#, fuzzy
+msgid "Other benefits"
+msgstr "Zusatzleistungen"
 
 #: components/directive-experience-form/directive-experience-form.html:203
 msgid "Other skills"
@@ -1545,6 +1614,11 @@ msgstr ""
 msgid "Please describe the development methodology your tech team uses."
 msgstr "Bitte beschreiben Sie die Philosophie Ihres Entwicklungsteams."
 
+#: components/employer-signup-benefits/employer-signup-benefits.html:44
+#, fuzzy
+msgid "Please describe the training opportunities available to your tech team."
+msgstr "Bitte beschreiben Sie die Philosophie Ihres Entwicklungsteams."
+
 #: components/employer-signup-facts/employer-signup-facts.html:138
 msgid ""
 "Please describe the working devices/ambience, operating system and tools."
@@ -1564,6 +1638,12 @@ msgid ""
 "Please describe what happens after a candidate has accepted your job offer. "
 "How do you the structure the interview and on-boarding process?"
 msgstr ""
+
+#: components/candidate-offer/candidate-offer.html:246
+#: components/employer-offer/employer-offer.html:237
+#, fuzzy
+msgid "Please describe your reason"
+msgstr "Bitte geben Sie Ihre Rolle an."
 
 #: components/employer-profile/employer-profile.html:651
 #: components/employer-signup-facts/employer-signup-facts.html:151
@@ -1772,6 +1852,17 @@ msgstr "Bitte trage dein Geburtsmonat ein. "
 #: components/candidate-signup-profile/candidate-signup-profile.html:72
 msgid "Please introduce your year of birth."
 msgstr "Bitte trage dein Geburtsjahr ein."
+
+#: components/employer-create-offer/employer-create-offer.html:28
+msgid ""
+"Please introduce yourself to the candidate and tell them why you are a good "
+"fit. Make your message personal as this will get a better response."
+msgstr ""
+
+#: components/directive-experience-form/directive-experience-form.html:166
+#, fuzzy
+msgid "Please list the projects you worked on"
+msgstr "Bitte gib die Stadt deiner Arbeitsstelle an."
 
 #: components/employer-profile/employer-profile.html:768
 msgid ""
@@ -2056,6 +2147,10 @@ msgstr "Gespeichert"
 msgid "Search"
 msgstr "Suchen"
 
+#: components/employer-dashboard/employer-dashboard.html:94
+msgid "Search by NAME or SKILL"
+msgstr ""
+
 #: components/employer-dashboard/employer-dashboard.html:26
 msgid "Search for candidates"
 msgstr "Kandidaten suchen"
@@ -2113,6 +2208,7 @@ msgstr "Kostenlos anmelden"
 #: components/directive-candidate/directive-candidate.html:46
 #: components/directive-offer/directive-offer.html:126
 #: components/employer-dashboard/employer-dashboard.html:41
+#: components/employer-dashboard/employer-dashboard.html:44
 #: components/employer-offer/employer-offer.html:135
 msgid "Skills"
 msgstr "Technologie"
@@ -2129,6 +2225,10 @@ msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
 msgid "Sport and health services"
 msgstr "Sportangebote"
 
+#: components/candidate-signup-profile/candidate-signup-profile.html:139
+msgid "Stackoverflow URL (Starting with  http://...)"
+msgstr ""
+
 #: tmp/db-tokens/benefits.js:17
 msgid "Staff restaurant or food subsidies"
 msgstr "Kantine oder Essenszuschüsse"
@@ -2143,7 +2243,9 @@ msgid "Start date"
 msgstr "Anfangsdatum"
 
 #: components/candidate-offer/candidate-offer.html:191
+#: components/candidate-offer/candidate-offer.html:195
 #: components/employer-offer/employer-offer.html:181
+#: components/employer-offer/employer-offer.html:185
 msgid "Start salary"
 msgstr "Anfangsgehalt"
 
@@ -2226,6 +2328,7 @@ msgstr "Technische Fakten"
 #: components/candidate-employer-profile/candidate-employer-profile.html:171
 #: components/employer-profile/employer-profile.html:612
 #: components/employer-profile/employer-profile.html:698
+#: components/employer-signup-facts/employer-signup-facts.html:102
 #: components/employer-signup-facts/employer-signup-facts.html:88
 #, fuzzy
 msgid "Tech team office"
@@ -2239,6 +2342,15 @@ msgstr "Größe des Technikteams"
 #: tmp/db-tokens/roles_featured.js:8
 msgid "Technical Consultant or Sales Support"
 msgstr "IT Consultant oder IT Vertrieb"
+
+#: components/employer-create-offer/employer-create-offer.html:138
+msgid "Technical skills required. Press enter after each one."
+msgstr ""
+
+#: components/directive-experience-form/directive-experience-form.html:206
+#, fuzzy
+msgid "Technologies & skills"
+msgstr "Technologien"
 
 #: components/candidate-signup-target/candidate-signup-target.html:28
 #: components/directive-experience-form/directive-experience-form.html:178
@@ -2356,6 +2468,20 @@ msgstr "Weiterbildung"
 #: components/employer-signup-benefits/employer-signup-benefits.html:40
 msgid "Training policy"
 msgstr "Weiterbildung"
+
+#: components/candidate-profile/candidate-profile.html:177
+#: components/candidate-signup-target/candidate-signup-target.html:164
+#: components/employer-dashboard/employer-dashboard.html:55
+msgid "Type a city..."
+msgstr ""
+
+#: components/directive-skills-form/directive-skills-form.html:62
+msgid "Type a skill and press enter after each one..."
+msgstr ""
+
+#: components/candidate-signup-target/candidate-signup-target.html:61
+msgid "Type a skill and press enter on each one..."
+msgstr ""
 
 #: tmp/db-tokens/roles_featured.js:5
 msgid "UX/UI design"
@@ -2557,6 +2683,14 @@ msgstr ""
 "nicht zu erwähnen, nur den Namen der Universität, Hochschule oder "
 "Ausbildungsinstitution und die Fachrichtung."
 
+#: components/employer-signup-mission/employer-signup-mission.html:14
+msgid "When was the company established?"
+msgstr ""
+
+#: components/employer-create-offer/employer-create-offer.html:88
+msgid "Where is the role based."
+msgstr ""
+
 #: components/employer-signup-basic/employer-signup-basic.html:109
 #: components/employer-signup-benefits/employer-signup-benefits.html:87
 #: components/employer-signup-facts/employer-signup-facts.html:203
@@ -2621,6 +2755,24 @@ msgstr "Berufserfahrung"
 #: components/employer-profile/employer-profile.html:703
 #: components/employer-signup-facts/employer-signup-facts.html:117
 msgid "Working Environment"
+msgstr ""
+
+#: components/employer-signup-facts/employer-signup-facts.html:131
+msgid "Working environment"
+msgstr ""
+
+#: components/candidate-offer/candidate-offer.html:180
+#: components/candidate-profile/candidate-profile.html:397
+#: components/employer-offer/employer-offer.html:170
+msgid "YYYY-MM-DD"
+msgstr ""
+
+#: components/candidate-signup-profile/candidate-signup-profile.html:62
+#: components/directive-education-form/directive-education-form.html:52
+#: components/directive-education-form/directive-education-form.html:67
+#: components/directive-experience-form/directive-experience-form.html:112
+#: components/directive-experience-form/directive-experience-form.html:73
+msgid "Year"
 msgstr ""
 
 #: components/employer-signup-terms/employer-signup-terms.html:21
@@ -2818,6 +2970,12 @@ msgstr ""
 #: components/candidate-signup-user/candidate-signup-user.html:163
 msgid "You’ll only receive job offers that match your profile."
 msgstr "Du wirst nur Jobangebote erhalten, die auf dein Profil passen."
+
+#: components/candidate-profile/candidate-profile.html:246
+#: components/directive-office-form/directive-office-form.html:49
+#, fuzzy
+msgid "Zip code"
+msgstr "Einladungs-Code"
 
 #: components/candidate-profile/candidate-profile.html:843
 #: components/employer-candidate-profile/employer-candidate-profile.html:157
