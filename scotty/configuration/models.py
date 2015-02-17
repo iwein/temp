@@ -43,8 +43,8 @@ class OfficeType(Base, NamedModel):
 class SkillLevel(Base, NamedModel):
     __tablename__ = 'skill_level'
 
-    ROLES = {'en': {'basic': 'Beginner in {}', 'advanced': "Proficient in {}", "expert": 'Expert in {}'},
-             'de': {'basic': '{} Hobbyist', 'advanced': u"{} Könner", "expert": 'Experte für {}'}}
+    ROLES = {'en': {'basic': u'Beginner in {}', 'advanced': u'Proficient in {}', u'expert': 'Expert in {}'},
+             'de': {'basic': u'{} Hobbyist', 'advanced': u'{} Könner', 'expert': u'Experte für {}'}}
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
