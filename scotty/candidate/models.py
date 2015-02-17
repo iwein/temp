@@ -1,3 +1,4 @@
+# coding=utf-8
 from operator import attrgetter
 from uuid import uuid4
 from datetime import datetime
@@ -356,10 +357,29 @@ class Candidate(Base, JsonSerialisable):
             skills = filter(lambda s: s.level_id == highest_level, skills)
         return skills
 
+    SUMMARY_GENERATOR = {
+        'en': {
+            'SUMMARY': u'{skills} looking for {role} position in {location}.',
+            'EMPTY': u'No summary yet',
+            'UNKNOWN_LEVEL': u'Candidate with skillsin {}',
+            'CONJUNCTIVE': u'{} and {}'
+
+        },
+        'de': {
+            'SUMMARY': u'{skills} sucht eine Stelle als {role} in {location}.',
+            'EMPTY': u'Noch keine Selbstbeschreibung.',
+            'UNKNOWN_LEVEL': u'Kandidat mit Fähigkeiten in {}',
+            'CONJUNCTIVE': u'{} und {}'
+        }
+    }
+
     @property
     def generated_summary(self):
+        generator = self.SUMMARY_GENERATOR[self.lang]
+
         skills = self.highest_level_skills
         locs = self.get_preferred_locations(resolve_countries=False)
+
         if skills and self.target_position and locs:
             locations = []
             for country, cities in locs.items():
@@ -369,20 +389,20 @@ class Candidate(Base, JsonSerialisable):
                     locations.append(country)
             location_str = u' or '.join(locations)
 
-            skill = skills[0]
-            if skill.level:
-                level_name = skill.level.name_as_subject
-            else:
-                level_name = "Candidate with skills"
-
             if len(skills) > 1:
-                skills[-2:] = [u"%s and %s" % (skills[-2], skills[-1])]
+                skills[-2:] = [generator['CONJUNCTIVE'].format(skills[-2], skills[-1])]
             skill_str = u', '.join(unicode(s) for s in skills)
 
-            return u'%s in %s looking for %s position in %s.' % (
-                level_name, skill_str, self.target_position.role, location_str)
+            skill = skills[0]
+            if skill.level:
+                skills_string = skill.level.name_as_subject(self.lang).format(skill_str)
+            else:
+                skills_string = generator['UNKNOWN_LEVEL'].format(skill_str)
+
+            return generator['SUMMARY'].format(skills=skills_string, role=self.target_position.role,
+                                               location=location_str)
         else:
-            return 'No summary yet'
+            return generator['EMPTY']
 
     def get_preferred_locations(self, resolve_countries=False):
         return locations_to_structure(self.preferred_locations, resolve_countries=resolve_countries)
