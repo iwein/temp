@@ -4,26 +4,30 @@ define(function(require) {
   require('tools/config-api');
   require('components/directive-candidate/directive-candidate');
   require('components/partial-benefits/partial-benefits');
+  var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
 
 
-  // jshint maxparams:9
+  // jshint maxparams:11
   module.controller('CreateOfferCtrl', function($scope, $q, $state, toaster, i18n,
-                                                Loader, ConfigAPI, Permission, Session) {
-    this.searchLocations = ConfigAPI.locationsText;
-    this.searchSkills = ConfigAPI.skills;
-    this.searchRoles = ConfigAPI.roles;
-    this.setLocation = setLocation;
-    this.submit = submit;
-    $scope.onSalaryChange = onSalaryChange;
-    $scope.ready = false;
-    Loader.page(true);
+                                                Loader, ConfigAPI, Session, RequireApproved, candidate) {
+    _.extend($scope, {
+      onSalaryChange: onSalaryChange,
+      searchLocations: ConfigAPI.locationsText,
+      searchSkills: ConfigAPI.skills,
+      searchRoles: ConfigAPI.roles,
+      setLocation: setLocation,
+      submit: submit,
+      model: {},
+      loading: false,
+      ready: false,
+    });
 
-    Permission.requireApproved().then(function() {
-      $scope.loading = false;
-      $scope.model = {};
+    return onLoad();
 
+
+    function onLoad() {
       $scope.$watch('model.job_description', function(value) {
         $scope.model.job_description = value && value.trim();
       });
@@ -34,36 +38,34 @@ define(function(require) {
       return $q.all([
         ConfigAPI.benefits(),
         Session.getUser().then(fn.invoke('getData', [])),
-        Session.getCandidate($state.params.id),
-      ]);
-    }).then(function(result) {
-      var benefits = result[0];
-      var data = result[1];
-      var candidate = result[2];
-
-      $scope.ready = true;
-      $scope.candidate = candidate;
-      $scope.model.technologies = data.tech_tags;
-      $scope.model.interview_details = data.recruitment_process;
-      $scope.benefits = benefits.map(function(value) {
-        return {
-          value: value,
-          selected: data.benefits.indexOf(value) !== -1,
-        };
-      });
-
-      return $q.all([
         candidate.getData(),
         candidate.getTargetPosition(),
-      ]);
-    }).then(function(result) {
-      var data = result[0];
-      $scope.expectedSalary = result[1].minimum_salary;
-      $scope.locations = data.preferred_location;
-      $scope.candidateName = data.first_name + ' ' + data.last_name;
-    }).finally(function() {
-      Loader.page(false);
-    });
+      ]).then(function(result) {
+        var benefits = result[0];
+        var data = result[1];
+        var candidateData = result[2];
+        var targetPosition = result[3];
+
+        $scope.model.interview_details = data.recruitment_process;
+        $scope.model.technologies = data.tech_tags;
+
+        _.extend($scope, {
+          candidateName: candidateData.first_name + ' ' + candidateData.last_name,
+          locations: candidateData.preferred_location,
+          expectedSalary: targetPosition.minimum_salary,
+          candidate: candidate,
+          ready: true,
+          benefits: benefits.map(function(value) {
+            return {
+              selected: data.benefits.indexOf(value) !== -1,
+              value: value,
+            };
+          })
+        });
+      }).finally(function() {
+        Loader.page(false);
+      });
+    }
 
     function setLocation(location) {
       var city = ConfigAPI.getLocationFromText(location);
@@ -94,9 +96,7 @@ define(function(require) {
         .then(function(user) { return user.makeOffer($scope.model) })
         .then(function(newOffer) {
           toaster.success(i18n.gettext('Offer sent to {{ name }}', { name: $scope.candidateName }));
-
           $state.go('offer', {'id': newOffer.id});
-
         })
         .catch(function(request) {
           if (request && request.data && request.data.db_message)
@@ -114,6 +114,16 @@ define(function(require) {
     url: '/candidate/:id/offer',
     template: require('text!./employer-create-offer.html'),
     controller: 'CreateOfferCtrl',
-    controllerAs: 'createOffer'
+    controllerAs: 'createOffer',
+    resolve: {
+      /*@ngInject*/
+      RequireApproved: function(Permission) {
+        return Permission.requireApproved();
+      },
+      /*@ngInject*/
+      candidate: function($stateParams, Session) {
+        return Session.getCandidate($stateParams.id);
+      },
+    },
   };
 });

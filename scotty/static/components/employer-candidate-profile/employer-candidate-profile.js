@@ -1,125 +1,146 @@
 define(function(require) {
   'use strict';
   require('components/partial-candidate-pic/partial-candidate-pic');
+  var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  //jshint maxparams:9
+  //jshint maxparams:10
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, i18n,
-                                                     Loader, Permission, Session, ThisCandidate) {
-    $scope.toggle = toggle;
-    $scope.id = $state.params.id;
-    $scope.ready = false;
-    $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
-    Loader.page(true);
+                                                     Loader, Permission, Session, RequireSignup, candidate) {
+    _.extend($scope, {
+      toggle: toggle,
+      starValues: [ null, 'basic', 'advanced', 'expert' ],
+      id: $state.params.id,
+      ready: false,
+    });
 
-    var user = ThisCandidate._data;
-    $scope.canMakeOffer =
-      Session.isApproved &&
-      !user.employer_has_offers &&
-      !user.candidate_has_been_hired &&
-      !user.employer_blacklisted &&
-      !user.employer_has_accepted_offers;
-    $scope.offerSent = user.employer_has_offers;
+    return onLoad();
+
+
+    function onLoad() {
+      Loader.page(true);
+      var data = candidate._data;
+
+      _.extend($scope, {
+        candidate: candidate,
+        offerSent: data.employer_has_offers,
+        canMakeOffer:
+          Session.isApproved &&
+          !data.employer_has_offers &&
+          !data.candidate_has_been_hired &&
+          !data.employer_blacklisted &&
+          !data.employer_has_accepted_offers,
+      });
+
+      i18n.onChange(translate);
+      translate();
+
+      return $q.all([
+        candidate.getOffers(),
+        candidate.getTargetPosition().then(fn.setTo('targetPosition', $scope)),
+        candidate.getExperience().then(fn.setTo('workExperience', $scope)),
+        candidate.getEducation().then(fn.setTo('education', $scope)),
+        candidate.getHighestDegree().then(fn.setTo('highestDegree', $scope)),
+      ]).then(function(result) {
+        var offers = result[0];
+        setOffers(offers);
+        setSkills(data.skills);
+        candidateStatus(offers, data);
+        generateTimeline($scope.workExperience);
+
+        _.extend($scope, {
+          cities: data.preferred_location,
+          languages: data.languages,
+          skills: data.skills,
+          user: data,
+          ready: true,
+        });
+      })
+      .catch(toaster.defaultError)
+      .finally(function() { Loader.page(false) });
+    }
+
+    function translate() {
+      $scope.lang = i18n.getCurrent();
+    }
+
+    function candidateStatus(offers, data) {
+      var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
+      $scope.status = data.status === 'sleeping' ?
+        'sleeping' :
+        (offers.reduce(function(summary, value) {
+          if (finalStatus.indexOf(value.status) !== -1) return;
+          if (value.status === 'CONTRACT_SIGNED') return 'hired';
+          return summary || 'reviewing';
+        }, null) || 'searching');
+    }
+
+    function generateTimeline(experience) {
+      var total = 0;
+      var timeline = experience.map(function(entry) {
+        var start = new Date(entry.start);
+        var end = entry.end ? new Date(entry.end) : new Date();
+        var duration = end - start;
+        total += duration;
+        return {
+          start: start,
+          duration: duration,
+          role: entry.role
+        };
+      });
+      timeline.forEach(function(entry) {
+        entry.percent = 100 / total * entry.duration;
+      });
+      $scope.totalWorkExperience = total;
+      $scope.timeline = timeline.sort(function(a, b) {
+        return a.start - b.start;
+      });
+    }
+
+    function setOffers(offers) {
+      $scope.offers = offers
+        .map(fn.get('data'))
+        .sort(function(a, b) { return b.annual_salary - a.annual_salary })
+        .slice(0, 3);
+
+      var counter = 1;
+      $scope.offers.forEach(function(entry) {
+        var employer = entry.employer;
+        if (employer.company_name.toLowerCase() === 'company')
+          employer.company_name = employer.company_name + ' ' + (counter++);
+      });
+    }
+
+    function setSkills(skills) {
+      var leveledSkills = skills.filter(fn.get('level'));
+      var unleveledSkills = skills.filter(fn.not(fn.get('level')));
+      $scope.leveledSkills = leveledSkills.slice(0, 9);
+      $scope.unleveledSkills = leveledSkills.slice(9)
+        .concat(unleveledSkills)
+        .map(fn.get('skill'))
+        .join(', ');
+    }
 
     function toggle(key) {
       $scope[key] = !$scope[key];
     }
-
-    $scope.candidate = ThisCandidate;
-
-    Permission.requireSignup().then(function() {
-
-      $q.all([
-        ThisCandidate.getOffers(),
-        ThisCandidate.getTargetPosition().then(fn.setTo('targetPosition', $scope)),
-        ThisCandidate.getExperience().then(fn.setTo('workExperience', $scope)),
-        ThisCandidate.getEducation().then(fn.setTo('education', $scope)),
-        ThisCandidate.getHighestDegree().then(fn.setTo('highestDegree', $scope)),
-      ]).then(function(data) {
-        var offers = data[0];
-
-        function translate() {
-          $scope.lang = i18n.getCurrent();
-        }
-        i18n.onChange(translate);
-        translate();
-        // TIMELINE
-
-        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        $scope.status = ThisCandidate._data.status === 'sleeping' ?
-          'sleeping' :
-          (offers.reduce(function(summary, value) {
-            if (finalStatus.indexOf(value.status) !== -1) return;
-            if (value.status === 'CONTRACT_SIGNED') return 'hired';
-            return summary || 'reviewing';
-          }, null) || 'searching');
-
-        var total = 0;
-        var timeline = $scope.workExperience.map(function(entry) {
-          var start = new Date(entry.start);
-          var end = entry.end ? new Date(entry.end) : new Date();
-          var duration = end - start;
-          total += duration;
-          return {
-            start: start,
-            duration: duration,
-            role: entry.role
-          };
-        });
-        timeline.forEach(function(entry) {
-          entry.percent = 100 / total * entry.duration;
-        });
-        $scope.totalWorkExperience = total;
-        $scope.timeline = timeline.sort(function(a, b) {
-          return a.start - b.start;
-        });
-
-        $scope.offers = offers
-          .map(fn.get('data'))
-          .sort(function(a, b) { return b.annual_salary - a.annual_salary })
-          .slice(0, 3);
-
-        var counter = 1;
-        $scope.offers.forEach(function(entry) {
-          var employer = entry.employer;
-          if (employer.company_name.toLowerCase() === 'company')
-            employer.company_name = employer.company_name + ' ' + (counter++);
-        });
-
-        $scope.cities = user.preferred_location;
-        $scope.languages = user.languages;
-        $scope.skills = user.skills;
-        $scope.user = user;
-        $scope.ready = true;
-
-        var leveledSkills = user.skills.filter(fn.get('level'));
-        var unleveledSkills = user.skills.filter(fn.not(fn.get('level')));
-        $scope.leveledSkills = leveledSkills.slice(0, 9);
-        $scope.unleveledSkills = leveledSkills.slice(9)
-          .concat(unleveledSkills)
-          .map(fn.get('skill'))
-          .join(', ');
-      })
-        .catch(toaster.defaultError)
-        .finally(function() { Loader.page(false) });
-    });
-
   });
 
   return {
     url: '/candidate/:id',
-    resolve: {
-      ThisCandidate: [
-        // ngAnnotate doen't catch this function
-        '$stateParams', 'Session',
-        function($stateParams, Session) {
-          return Session.getCandidate($stateParams.id);
-        }
-      ]
-    },
     template: require('text!./employer-candidate-profile.html'),
     controller: 'CandidateProfileCtrl',
-    controllerAs: 'candidateProfile'
+    controllerAs: 'candidateProfile',
+    resolve: {
+      /*@ngInject*/
+      candidate: function($stateParams, Session) {
+        return Session.getCandidate($stateParams.id);
+      },
+      /*@ngInject*/
+      RequireSignup: function(Permission) {
+        return Permission.requireSignup();
+      },
+    },
   };
 });

@@ -2,8 +2,10 @@
   'use strict';
   if (typeof define === 'function')
     define(factory);
-  else
+  else if (typeof module !== 'undefined')
     module.exports = factory();
+  else
+    window.config = factory();
 })(function() {
   'use strict';
   return {

@@ -1291,7 +1291,7 @@ msgstr ""
 msgid "Offer is accepted"
 msgstr ""
 
-#: components/employer-create-offer/employer-create-offer.js:96
+#: components/employer-create-offer/employer-create-offer.js:98
 msgid "Offer sent to {{ name }}"
 msgstr ""
 
@@ -1303,8 +1303,8 @@ msgstr ""
 msgid "Offer was withdrawn"
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:74
-#: components/employer-offer/employer-offer.js:70
+#: components/candidate-offer/candidate-offer.js:72
+#: components/employer-offer/employer-offer.js:72
 msgid "Offer {{ status }}"
 msgstr ""
 
@@ -2690,11 +2690,11 @@ msgstr ""
 msgid "You did it"
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:41
+#: components/candidate-offer/candidate-offer.js:52
 msgid "You have already accepted another offer!"
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:40
+#: components/candidate-offer/candidate-offer.js:51
 msgid "You have already accepted this offer!"
 msgstr ""
 
