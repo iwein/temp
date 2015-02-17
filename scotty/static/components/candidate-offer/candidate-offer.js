@@ -4,71 +4,69 @@ define(function(require) {
   require('components/directive-offer/directive-offer');
   require('components/partial-benefits/partial-benefits');
   require('components/partial-offer-newsitem/partial-offer-newsitem');
+  var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
 
   // jshint maxparams:9
-  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, i18n,
-                                          Loader, ConfigAPI, Permission, Session) {
-    $scope.flags = {};
-    $scope.toggleForm = toggleForm;
-    $scope.accept = accept;
-    $scope.reject = reject;
-    $scope.sign = sign;
-    $scope.ready = false;
-    Loader.page(true);
+  module.controller('OfferCtrl', function($scope, $sce, toaster, i18n,
+                                          Loader, ConfigAPI, Session, RequireSignup, offer) {
+    _.extend($scope, {
+      toggleForm: toggleForm,
+      accept: accept,
+      reject: reject,
+      sign: sign,
+      flags: {},
+      ready: false,
+    });
+    this.onStatusChange = onStatusChange;
     var email;
 
-    Permission.requireSignup().then(function() {
-      $scope.id = $state.params.id;
+    return onLoad();
 
+
+    function onLoad() {
+      Loader.page(true);
       ConfigAPI.rejectReasons().then(fn.setTo('rejectReasons', $scope));
-      Session.getUser()
-        .then(fn.invoke('getData', []))
-        .then(function(data) {
-          email = data.email;
+
+      return Session.getUser().then(function(candidate) {
+        email = candidate._data.email;
+        setHired(candidate._data);
+        return offer.getTimeline();
+      }).then(function(timeline) {
+        configureOffer(offer);
+        _.extend($scope, {
+          timeline: timeline,
+          ready: true,
         });
-
-      return Session.user.getOffer($scope.id);
-    }).then(function(offer) {
-
-      Session.getUser()
-        .then(function(candidate) {
-          $scope.has_been_hired = candidate._data.candidate_has_been_hired;
-          if ($scope.has_been_hired) {
-            toaster.success(offer.status === 'CONTRACT_SIGNED' ?
-              i18n.gettext('You have already accepted this offer!') :
-              i18n.gettext('You have already accepted another offer!'),
-              { untilStateChange: true });
-          }
-        });
-
-
-      return offer.getTimeline().then(function(timeline) {
-        return [ offer, timeline ];
+      }).finally(function() {
+        Loader.page(false);
       });
-    }).then(function(data) {
-      this.onStatusChange = onStatusChange;
-      $scope.ready = true;
-      $scope.offer = data[0];
-      $scope.timeline = data[1];
+    }
 
-      var getNextStatusText = $scope.offer.getNextStatusText;
-      $scope.offer.getNextStatusText = function() {
-        i18n.gettext(getNextStatusText.apply(this, arguments));
+    function setHired(data) {
+      var hired = $scope.has_been_hired = data.candidate_has_been_hired;
+      if (hired) {
+        toaster.success(offer.status === 'CONTRACT_SIGNED' ?
+          i18n.gettext('You have already accepted this offer!') :
+          i18n.gettext('You have already accepted another offer!'),
+          { untilStateChange: true });
+      }
+    }
+
+    function configureOffer(offer) {
+      var getNextStatusText = offer.getNextStatusText;
+      offer.getNextStatusText = function() {
+        return i18n.gettext(getNextStatusText.apply(this, arguments));
       };
-
-      $scope.offer.setDataParser(function(data) {
+      offer.setDataParser(function(data) {
         data.message = $sce.trustAsHtml(data.message);
         data.interview_details = $sce.trustAsHtml(data.interview_details);
         data.job_description = $sce.trustAsHtml(data.job_description);
         data.statusText = i18n.gettext(data.statusText);
       });
-
-    }.bind(this)).finally(function() {
-      Loader.page(false);
-    });
-
+      $scope.offer = offer;
+    }
 
     function onStatusChange() {
       toaster.success(i18n.gettext('Offer {{ status }}', {
@@ -77,29 +75,31 @@ define(function(require) {
     }
 
     function toggleForm(id) {
-      $scope.showForm = $scope.showForm === id ? '' : id;
-      $scope.acceptance = { email: email };
-      $scope.rejection = {};
-      $scope.signing = {};
+      _.extend($scope, {
+        showForm: $scope.showForm === id ? '' : id,
+        acceptance: { email: email },
+        rejection: {},
+        signing: {},
+      });
     }
 
     function accept(offer, form) {
       Loader.add('offer-accept');
-      offer.accept(form)
+      return offer.accept(form)
         .then(toggleForm.bind(null, 'accept'))
         .finally(function() { Loader.remove('offer-accept') });
     }
 
     function reject(offer, form) {
       Loader.add('offer-reject');
-      offer.reject(form)
+      return offer.reject(form)
         .then(toggleForm.bind(null, 'reject'))
         .finally(function() { Loader.remove('offer-reject') });
     }
 
     function sign(offer, form) {
       Loader.add('offer-sign');
-      offer.sign(form)
+      return offer.sign(form)
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() {
           toaster.success(
@@ -117,5 +117,17 @@ define(function(require) {
     template: require('text!./candidate-offer.html'),
     controller: 'OfferCtrl',
     controllerAs: 'offerDetail',
+    resolve: {
+      /*@ngInject*/
+      RequireSignup: function(Permission) {
+        return Permission.requireSignup();
+      },
+      /*@ngInject*/
+      offer: function($stateParams, Session) {
+        return Session.getUser().then(function(user) {
+          return user.getOffer($stateParams.id);
+        });
+      },
+    },
   };
 });
