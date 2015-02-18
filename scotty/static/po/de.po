@@ -114,7 +114,12 @@ msgstr ""
 msgid "ADD"
 msgstr "HINZUFÜGEN"
 
-#: apps/common/footer.html:21
+#: apps/common/footer.html:21 apps/en/about-us.html:266
+#: apps/en/contact.html:298 apps/en/forgot-password.html:174
+#: apps/en/imprint.html:199 apps/en/index-employer.html:390
+#: apps/en/index.html:335 apps/en/login.html:166
+#: apps/en/terms-candidate.html:252 apps/en/terms-employer.html:278
+#: apps/en/terms-of-service.html:167
 msgid "About us"
 msgstr "Über uns"
 
@@ -236,7 +241,7 @@ msgstr "Anonym"
 msgid "Anonymous will hide your photo."
 msgstr "Bei der Einstellung anonym wird dein Foto nicht gezeigt."
 
-#: components/candidate-profile/candidate-profile.js:416
+#: components/candidate-profile/candidate-profile.js:417
 msgid "Anywhere"
 msgstr "Überall"
 
@@ -435,7 +440,7 @@ msgstr "CTO/CIO (IT Management)"
 msgid "CV"
 msgstr "Lebenslauf"
 
-#: components/candidate-profile/candidate-profile.js:60
+#: components/candidate-profile/candidate-profile.js:61
 msgid "CV Uploaded"
 msgstr "Lebenslauf hochgeladen"
 
@@ -473,6 +478,11 @@ msgstr "Lebenslauf hochgeladen."
 #: components/employer-profile/employer-profile.html:810
 msgid "Cancel"
 msgstr "Abbrechen"
+
+#: components/candidate-signup/candidate-signup.html:15
+#, fuzzy
+msgid "Candidate Advocate"
+msgstr "Kandidaten"
 
 #: apps/admin/navbar.html:19
 msgid "Candidates"
@@ -578,7 +588,12 @@ msgstr "Glückwunsch! Du hast dich bei 4Scotty eingetragen. "
 msgid "Congrats! Your account was approved! Welcome to Scotty!"
 msgstr "Glückwunsch! Dein Account wurde freigeschaltet! Willkommen zu 4Scotty!"
 
-#: apps/common/footer.html:37
+#: apps/common/footer.html:37 apps/en/about-us.html:282
+#: apps/en/contact.html:314 apps/en/forgot-password.html:190
+#: apps/en/imprint.html:215 apps/en/index-employer.html:406
+#: apps/en/index.html:351 apps/en/login.html:182
+#: apps/en/terms-candidate.html:268 apps/en/terms-employer.html:294
+#: apps/en/terms-of-service.html:183
 msgid "Connect"
 msgstr "Verbinden"
 
@@ -596,7 +611,12 @@ msgstr "Mit Xing eintragen"
 msgid "Contact"
 msgstr "Kontakt"
 
-#: apps/common/footer.html:22
+#: apps/common/footer.html:22 apps/en/about-us.html:267
+#: apps/en/contact.html:299 apps/en/forgot-password.html:175
+#: apps/en/imprint.html:200 apps/en/index-employer.html:391
+#: apps/en/index.html:336 apps/en/login.html:167
+#: apps/en/terms-candidate.html:253 apps/en/terms-employer.html:279
+#: apps/en/terms-of-service.html:168
 msgid "Contact & Support"
 msgstr "Kontakt & Service"
 
@@ -623,7 +643,12 @@ msgstr "Kontakt Telefon"
 msgid "Contact position"
 msgstr "Kontakt Position"
 
-#: apps/common/footer.html:6
+#: apps/common/footer.html:6 apps/en/about-us.html:251
+#: apps/en/contact.html:283 apps/en/forgot-password.html:159
+#: apps/en/imprint.html:184 apps/en/index-employer.html:375
+#: apps/en/index.html:320 apps/en/login.html:151
+#: apps/en/terms-candidate.html:237 apps/en/terms-employer.html:263
+#: apps/en/terms-of-service.html:152
 msgid "Contact us"
 msgstr "Kontaktiere uns"
 
@@ -688,7 +713,12 @@ msgstr "Aktuelle Position"
 msgid "Dashboard"
 msgstr "Übersicht"
 
-#: apps/common/footer.html:29
+#: apps/common/footer.html:29 apps/en/about-us.html:274
+#: apps/en/contact.html:306 apps/en/forgot-password.html:182
+#: apps/en/imprint.html:207 apps/en/index-employer.html:398
+#: apps/en/index.html:343 apps/en/login.html:174
+#: apps/en/terms-candidate.html:260 apps/en/terms-employer.html:286
+#: apps/en/terms-of-service.html:175
 msgid "Data Protection"
 msgstr "Datenschutz"
 
@@ -781,8 +811,8 @@ msgid "Edit mode"
 msgstr "Bearbeiten"
 
 #: components/candidate-signup-education/candidate-signup-education.html:4
-#: components/candidate-signup/candidate-signup.html:41
-#: components/candidate-signup/candidate-signup.html:46
+#: components/candidate-signup/candidate-signup.html:55
+#: components/candidate-signup/candidate-signup.html:60
 msgid "Education"
 msgstr "Ausbildung"
 
@@ -882,8 +912,8 @@ msgid "February"
 msgstr "Februar"
 
 #: components/candidate-signup-profile/candidate-signup-profile.html:4
-#: components/candidate-signup/candidate-signup.html:83
-#: components/candidate-signup/candidate-signup.html:88
+#: components/candidate-signup/candidate-signup.html:102
+#: components/candidate-signup/candidate-signup.html:97
 msgid "Final step"
 msgstr "Anmeldung abschließen"
 
@@ -906,11 +936,21 @@ msgstr "Vorname"
 msgid "Fluent"
 msgstr "Fließend"
 
-#: apps/common/footer.html:20
+#: apps/common/footer.html:20 apps/en/about-us.html:265
+#: apps/en/contact.html:297 apps/en/forgot-password.html:173
+#: apps/en/imprint.html:198 apps/en/index-employer.html:389
+#: apps/en/index.html:334 apps/en/login.html:165
+#: apps/en/terms-candidate.html:251 apps/en/terms-employer.html:277
+#: apps/en/terms-of-service.html:166
 msgid "For Companies"
 msgstr "Für Unternehmen"
 
-#: apps/common/footer.html:19
+#: apps/common/footer.html:19 apps/en/about-us.html:264
+#: apps/en/contact.html:296 apps/en/forgot-password.html:172
+#: apps/en/imprint.html:197 apps/en/index-employer.html:388
+#: apps/en/index.html:333 apps/en/login.html:164
+#: apps/en/terms-candidate.html:250 apps/en/terms-employer.html:276
+#: apps/en/terms-of-service.html:165
 msgid "For IT professionals"
 msgstr "Für IT-Profis"
 
@@ -944,7 +984,7 @@ msgstr "Freie Getränke"
 msgid "Free Fruits"
 msgstr "Früchte kostenlos"
 
-#: components/candidate-signup/candidate-signup.html:18
+#: components/candidate-signup/candidate-signup.html:32
 msgid "Free Sign up"
 msgstr "Kostenlose Anmeldung"
 
@@ -1078,7 +1118,12 @@ msgstr ""
 "das Feld frei, falls du keinen hast und wir werden dich später kontaktieren, "
 "um dein Profil zu verifizieren."
 
-#: apps/common/footer.html:31
+#: apps/common/footer.html:31 apps/en/about-us.html:276
+#: apps/en/contact.html:308 apps/en/forgot-password.html:184
+#: apps/en/imprint.html:209 apps/en/index-employer.html:400
+#: apps/en/index.html:345 apps/en/login.html:176
+#: apps/en/terms-candidate.html:262 apps/en/terms-employer.html:288
+#: apps/en/terms-of-service.html:177
 msgid "Imprint"
 msgstr "Impressum"
 
@@ -1136,7 +1181,12 @@ msgstr "Stellenprofil"
 msgid "Job description"
 msgstr "Stellenprofil"
 
-#: apps/common/footer.html:28
+#: apps/common/footer.html:28 apps/en/about-us.html:273
+#: apps/en/contact.html:305 apps/en/forgot-password.html:181
+#: apps/en/imprint.html:206 apps/en/index-employer.html:397
+#: apps/en/index.html:342 apps/en/login.html:173
+#: apps/en/terms-candidate.html:259 apps/en/terms-employer.html:285
+#: apps/en/terms-of-service.html:174
 msgid "Jobs @ 4Scotty"
 msgstr "Jobs @ 4Scotty"
 
@@ -1154,8 +1204,8 @@ msgstr "Sprache"
 
 #: components/candidate-profile/candidate-profile.html:516
 #: components/candidate-signup-languages/candidate-signup-languages.html:4
-#: components/candidate-signup/candidate-signup.html:69
-#: components/candidate-signup/candidate-signup.html:74
+#: components/candidate-signup/candidate-signup.html:83
+#: components/candidate-signup/candidate-signup.html:88
 #: components/directive-languages-form/directive-languages-form.html:4
 #: components/employer-candidate-profile/employer-candidate-profile.html:95
 msgid "Languages"
@@ -1209,7 +1259,12 @@ msgid "Locations"
 msgstr "Orte"
 
 #: apps/candidate/navbar.html:31 apps/common/footer.html:23
-#: apps/employer/navbar.html:30
+#: apps/employer/navbar.html:30 apps/en/about-us.html:268
+#: apps/en/contact.html:300 apps/en/forgot-password.html:176
+#: apps/en/imprint.html:201 apps/en/index-employer.html:392
+#: apps/en/index.html:337 apps/en/login.html:168
+#: apps/en/terms-candidate.html:254 apps/en/terms-employer.html:280
+#: apps/en/terms-of-service.html:169
 msgid "Log in"
 msgstr "Login"
 
@@ -1252,7 +1307,12 @@ msgstr "Mission"
 msgid "Month"
 msgstr "Monat"
 
-#: apps/common/footer.html:27
+#: apps/common/footer.html:27 apps/en/about-us.html:272
+#: apps/en/contact.html:304 apps/en/forgot-password.html:180
+#: apps/en/imprint.html:205 apps/en/index-employer.html:396
+#: apps/en/index.html:341 apps/en/login.html:172
+#: apps/en/terms-candidate.html:258 apps/en/terms-employer.html:284
+#: apps/en/terms-of-service.html:173
 msgid "More"
 msgstr "Mehr"
 
@@ -1305,7 +1365,12 @@ msgstr "Vertragsverhandlungen"
 msgid "New offer requests"
 msgstr "Neue Anfragen von Kandidaten"
 
-#: apps/common/footer.html:45
+#: apps/common/footer.html:45 apps/en/about-us.html:290
+#: apps/en/contact.html:322 apps/en/forgot-password.html:198
+#: apps/en/imprint.html:223 apps/en/index-employer.html:414
+#: apps/en/index.html:359 apps/en/login.html:190
+#: apps/en/terms-candidate.html:276 apps/en/terms-employer.html:302
+#: apps/en/terms-of-service.html:191
 msgid "Newsletter"
 msgstr "Newsletter"
 
@@ -1354,7 +1419,7 @@ msgid "Not defined yet"
 msgstr "Bitte noch eingetragen!"
 
 #: components/candidate-profile/candidate-profile.html:509
-#: components/candidate-profile/candidate-profile.js:412
+#: components/candidate-profile/candidate-profile.js:413
 msgid "Not specified"
 msgstr "Noch nicht festgelegt"
 
@@ -1391,7 +1456,7 @@ msgstr "Angebotsnummer"
 msgid "Offer is accepted"
 msgstr "Angebot wurde angenommen"
 
-#: components/employer-create-offer/employer-create-offer.js:96
+#: components/employer-create-offer/employer-create-offer.js:98
 msgid "Offer sent to {{ name }}"
 msgstr "Angebot gesendet an {{ name }}"
 
@@ -1403,8 +1468,8 @@ msgstr "Angebot wurde abgelehnt"
 msgid "Offer was withdrawn"
 msgstr "Angebot wurde zurückgezogen"
 
-#: components/candidate-offer/candidate-offer.js:74
-#: components/employer-offer/employer-offer.js:70
+#: components/candidate-offer/candidate-offer.js:72
+#: components/employer-offer/employer-offer.js:72
 msgid "Offer {{ status }}"
 msgstr "Angebot {{ status }}"
 
@@ -1693,6 +1758,7 @@ msgstr ""
 "Bitte beschreiben Sie Ihre Vorgehensweise in der Software-Entwicklung, z.B. "
 "Nutzung agiler Methoden wie Scrum oder Kanban."
 
+#: components/candidate-signup/candidate-signup.html:7
 #: components/employer-signup/employer-signup.html:7
 msgid "Please don't hesitate to contact me at"
 msgstr "Bitte zögern Sie nicht mich zu kontaktieren"
@@ -2289,8 +2355,8 @@ msgstr "Kostenlos anmelden"
 
 #: components/candidate-dashboard/candidate-dashboard.html:30
 #: components/candidate-signup-skills/candidate-signup-skills.html:4
-#: components/candidate-signup/candidate-signup.html:55
-#: components/candidate-signup/candidate-signup.html:60
+#: components/candidate-signup/candidate-signup.html:69
+#: components/candidate-signup/candidate-signup.html:74
 #: components/directive-candidate/directive-candidate.html:46
 #: components/directive-offer/directive-offer.html:126
 #: components/employer-dashboard/employer-dashboard.html:41
@@ -2364,7 +2430,12 @@ msgstr "Status"
 msgid "Stock option program"
 msgstr "Unternehmensbeteiligung"
 
-#: apps/common/footer.html:48
+#: apps/common/footer.html:48 apps/en/about-us.html:293
+#: apps/en/contact.html:325 apps/en/forgot-password.html:201
+#: apps/en/imprint.html:226 apps/en/index-employer.html:417
+#: apps/en/index.html:362 apps/en/login.html:193
+#: apps/en/terms-candidate.html:279 apps/en/terms-employer.html:305
+#: apps/en/terms-of-service.html:194
 #: components/candidate-offer/candidate-offer.html:162
 #: components/candidate-offer/candidate-offer.html:209
 #: components/candidate-offer/candidate-offer.html:264
@@ -2395,12 +2466,17 @@ msgstr "TECHNIK"
 
 #: components/candidate-profile/candidate-profile.html:665
 #: components/candidate-profile/candidate-profile.html:693
-#: components/candidate-signup/candidate-signup.html:10
+#: components/candidate-signup/candidate-signup.html:24
 #: components/employer-candidate-profile/employer-candidate-profile.html:116
 msgid "Target position"
 msgstr "Wunschjob"
 
-#: apps/common/footer.html:30
+#: apps/common/footer.html:30 apps/en/about-us.html:275
+#: apps/en/contact.html:307 apps/en/forgot-password.html:183
+#: apps/en/imprint.html:208 apps/en/index-employer.html:399
+#: apps/en/index.html:344 apps/en/login.html:175
+#: apps/en/terms-candidate.html:261 apps/en/terms-employer.html:287
+#: apps/en/terms-of-service.html:176
 msgid "Team"
 msgstr "Team"
 
@@ -2485,7 +2561,12 @@ msgstr ""
 msgid "Terms and services"
 msgstr "AGB"
 
-#: apps/common/footer.html:32
+#: apps/common/footer.html:32 apps/en/about-us.html:277
+#: apps/en/contact.html:309 apps/en/forgot-password.html:185
+#: apps/en/imprint.html:210 apps/en/index-employer.html:401
+#: apps/en/index.html:346 apps/en/login.html:177
+#: apps/en/terms-candidate.html:263 apps/en/terms-employer.html:289
+#: apps/en/terms-of-service.html:178
 msgid "Terms of Service for Companies"
 msgstr "AGB für Unternehmen"
 
@@ -2527,7 +2608,12 @@ msgstr "Kein gültiges Datum."
 msgid "The file should be an image."
 msgstr "Diese Datei sollte ein Bild sein."
 
-#: apps/common/footer.html:18
+#: apps/common/footer.html:18 apps/en/about-us.html:263
+#: apps/en/contact.html:295 apps/en/forgot-password.html:171
+#: apps/en/imprint.html:196 apps/en/index-employer.html:387
+#: apps/en/index.html:332 apps/en/login.html:163
+#: apps/en/terms-candidate.html:249 apps/en/terms-employer.html:275
+#: apps/en/terms-of-service.html:164
 msgid "This Site"
 msgstr "Diese Seite"
 
@@ -2838,8 +2924,8 @@ msgid "Withdraw"
 msgstr "Zurückziehen"
 
 #: components/candidate-signup-experience/candidate-signup-experience.html:4
-#: components/candidate-signup/candidate-signup.html:27
-#: components/candidate-signup/candidate-signup.html:32
+#: components/candidate-signup/candidate-signup.html:41
+#: components/candidate-signup/candidate-signup.html:46
 msgid "Work Experience"
 msgstr "Berufserfahrung"
 
@@ -2902,11 +2988,11 @@ msgstr "Du kannst dich in dieser Sprache verbal verständigen."
 msgid "You did it"
 msgstr "Du hast es geschafft."
 
-#: components/candidate-offer/candidate-offer.js:41
+#: components/candidate-offer/candidate-offer.js:52
 msgid "You have already accepted another offer!"
 msgstr "Du hast schon ein anderes Angebot angenommen!"
 
-#: components/candidate-offer/candidate-offer.js:40
+#: components/candidate-offer/candidate-offer.js:51
 msgid "You have already accepted this offer!"
 msgstr "Du hast dieses Angebot schon angenommen!"
 
@@ -3028,7 +3114,7 @@ msgstr ""
 "Dein Passwort wurde erneuert. Du kannst dich nun mit deinem neuen Passwort "
 "anmelden."
 
-#: apps/candidate/index.html:57 apps/employer/index.html:56
+#: apps/candidate/index.html:61 apps/employer/index.html:60
 msgid "Your profile has not been reviewed & approved yet."
 msgstr "Dein Profil wurde noch nicht geprüft & bestätigt."
 
@@ -3156,6 +3242,10 @@ msgstr "Mehr als 1.000 Mitarbeiter und multi-nationaler Wirkungskreis"
 msgid "has a work visa"
 msgstr "hat ein Arbeitsvisum"
 
+#: components/candidate-signup/candidate-signup.html:11
+msgid "if I can assist you or provide guidance for your next step in IT."
+msgstr ""
+
 #: components/employer-signup/employer-signup.html:11
 msgid "if you've got questions regarding the sign up."
 msgstr "Wenn Sie Fragen bezüglich der Anmeldung haben."
@@ -3226,6 +3316,7 @@ msgstr "Vertragsverhandlungen"
 msgid "offer made"
 msgstr "Angebot unterbreitet"
 
+#: components/candidate-signup/candidate-signup.html:9
 #: components/employer-signup/employer-signup.html:9
 msgid "or by phone at"
 msgstr "oder telefonisch unter"
@@ -3335,7 +3426,12 @@ msgstr "du hast dieses Angebot zurückgezogen"
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr "{{ role }}von {{ city }}, {{ country_iso }}"
 
-#: apps/common/footer.html:54
+#: apps/common/footer.html:54 apps/en/about-us.html:299
+#: apps/en/contact.html:331 apps/en/forgot-password.html:207
+#: apps/en/imprint.html:232 apps/en/index-employer.html:423
+#: apps/en/index.html:368 apps/en/login.html:199
+#: apps/en/terms-candidate.html:285 apps/en/terms-employer.html:311
+#: apps/en/terms-of-service.html:200
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
