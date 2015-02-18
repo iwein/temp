@@ -389,13 +389,14 @@ class Candidate(Base, JsonSerialisable):
                     locations.append(country)
             location_str = u' or '.join(locations)
 
+            sample_skill = skills[0]
             if len(skills) > 1:
                 skills[-2:] = [generator['CONJUNCTIVE'].format(skills[-2], skills[-1])]
             skill_str = u', '.join(unicode(s) for s in skills)
 
-            skill = skills[0]
-            if skill.level:
-                skills_string = skill.level.name_as_subject(self.lang).format(skill_str)
+
+            if sample_skill.level:
+                skills_string = sample_skill.level.name_as_subject(self.lang).format(skill_str)
             else:
                 skills_string = generator['UNKNOWN_LEVEL'].format(skill_str)
 
