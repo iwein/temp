@@ -9,6 +9,7 @@ define(function(require) {
 
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
   // jshint maxstatements:50, maxparams:10
@@ -175,7 +176,7 @@ define(function(require) {
         return user.getData().then(function(data) {
           $scope.user = data;
           return {
-            dob: new Date(data.dob),
+            dob: Date.parse(data.dob),
             eu_work_visa: data.eu_work_visa,
           };
         });
@@ -204,7 +205,7 @@ define(function(require) {
       },
       save: function(model, form, user) {
         return Amazon.upload(model[0], 'users', Session.id()).then(function(url) {
-          return user.setPhoto(url + '?nocache=' + Date.now());
+          return user.setPhoto(url + '?nocache=' + Date.timestamp());
         });
       }
     });
@@ -241,8 +242,8 @@ define(function(require) {
         return user.getExperience().then(function(list) {
           var total = 0;
           var timeline = list.map(function(entry) {
-            var start = new Date(entry.start);
-            var end = entry.end ? new Date(entry.end) : new Date();
+            var start = Date.parse(entry.start);
+            var end = entry.end ? Date.parse(entry.end) : Date.now();
             var duration = end - start;
             total += duration;
             return {
@@ -305,7 +306,7 @@ define(function(require) {
           salary: data[1].minimum_salary
         };
         $scope.dob.data = {
-          dob: new Date(user.dob),
+          dob: Date.parse(user.dob),
           eu_work_visa: user.eu_work_visa
         };
         $scope.ready = true;

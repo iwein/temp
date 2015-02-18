@@ -3,16 +3,17 @@ define(function(require) {
   require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var angular = require('angular');
+  var Date = require('tools/date');
   var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
 
   function calcExperience(experience) {
     if (!experience) return 0;
     return experience.reduce(function(sum, entry) {
-      var start = new Date(entry.start);
-      var end = entry.end ? new Date(entry.end) : new Date();
-      var offset = new Date(0);
-      var diff = new Date(end - start);
+      var start = Date.parse(entry.start);
+      var end = entry.end ? Date.parse(entry.end) : Date.now();
+      var offset = Date.epoch();
+      var diff = Date.fromTimestamp(end - start);
       var years = diff.getFullYear() - offset.getFullYear();
       var total = sum + years;
       return total < 0 ? 0 : total;
