@@ -3,6 +3,7 @@ define(function(require) {
   require('session');
   require('tools/config-api');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
   module.controller('InviteCodeCtrl', function($scope, toaster, ConfigAPI, Loader, Session) {
@@ -14,8 +15,8 @@ define(function(require) {
       Session.getInviteCodes()
         .then(function(result) {
           return result.sort(function(a, b) {
-            var aCreated = new Date(a.created);
-            var bCreated = new Date(b.created);
+            var aCreated = Date.parse(a.created);
+            var bCreated = Date.parse(b.created);
             return bCreated - aCreated;
           });
         })

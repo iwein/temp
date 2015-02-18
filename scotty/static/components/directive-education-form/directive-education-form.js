@@ -3,6 +3,7 @@ define(function(require) {
   require('session');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var nameAttr = require('tools/name-attr');
   var getModel = require('tools/get-model');
   var module = require('app-module');
@@ -23,7 +24,7 @@ define(function(require) {
           searchInstitutions: ConfigAPI.institutions,
           searchCourses: ConfigAPI.courses,
           submit: submit,
-          currentYear: new Date().getFullYear(),
+          currentYear: Date.now().getFullYear(),
           loading: false,
         });
         _.extend(this, {

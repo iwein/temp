@@ -3,6 +3,7 @@ define(function(require) {
   require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
   //jshint maxparams:10
@@ -79,8 +80,8 @@ define(function(require) {
     function generateTimeline(experience) {
       var total = 0;
       var timeline = experience.map(function(entry) {
-        var start = new Date(entry.start);
-        var end = entry.end ? new Date(entry.end) : new Date();
+        var start = Date.parse(entry.start);
+        var end = entry.end ? Date.parse(entry.end) : Date.now();
         var duration = end - start;
         total += duration;
         return {

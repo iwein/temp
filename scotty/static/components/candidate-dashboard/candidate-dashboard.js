@@ -2,9 +2,9 @@ define(function(require) {
   'use strict';
   require('components/directive-employer/directive-employer');
   require('components/partial-candidate-newsitem/partial-candidate-newsitem');
-
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
 
@@ -17,7 +17,7 @@ define(function(require) {
     $scope.terms = [];
     $scope.toggle = toggle;
     $scope.ready = false;
-    $scope.today = new Date();
+    $scope.today = Date.now();
     var resultsPerPage = 10;
     Loader.page(true);
 
