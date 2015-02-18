@@ -4,6 +4,7 @@ define(function(require) {
   require('components/directive-offer/directive-offer');
   require('components/partial-employer-newsitem/partial-employer-newsitem');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
 
@@ -18,7 +19,7 @@ define(function(require) {
     $scope.simpleSearch = simpleSearch;
     $scope.onKeyDown = onKeyDown;
     $scope.loadPage = loadPage;
-    $scope.today = new Date();
+    $scope.today = Date.now();
     $scope.terms = {};
     $scope.ready = false;
     var resultsPerPage = 10;

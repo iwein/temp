@@ -5,6 +5,7 @@ define(function(require) {
   require('components/partial-benefits/partial-benefits');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
 
@@ -152,7 +153,7 @@ define(function(require) {
         var files = [].slice.call(fileList);
 
         return $q.all(files.map(function(file) {
-          var id = Date.now() + '-' + Math.round(Math.random() * 1000000);
+          var id = Date.timestamp() + '-' + Math.round(Math.random() * 1000000);
           var model = {
             url: 'http://www.pagevamp.com/templates/snapsite/newadmin/img/loading.gif',
             description: '',
