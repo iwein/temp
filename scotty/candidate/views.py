@@ -22,7 +22,7 @@ from scotty.candidate.models import Candidate, Education, WorkExperience, FullCa
 from scotty.models.tools import update
 from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
-from scotty.employer.services import get_employers_pager
+from scotty.employer.services import get_employers_pager, get_suggested_employers_pager
 from scotty.models.common import get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer, Offer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
@@ -592,8 +592,8 @@ class CandidateDashboardController(CandidateController):
         if not skills:
             return {'data': [], 'pagination': {'total': 0}}
 
-        pager = get_employers_pager(skills, self.candidate.location_id, None)
+        pager = get_suggested_employers_pager(skills, self.candidate.location_id, self.candidate.id)
         if not pager.ids:
-            pager = get_employers_pager(skills, None, None)
+            pager = get_suggested_employers_pager(skills, None, self.candidate.id)
 
         return ObjectBuilder(Employer).serialize(pager)
