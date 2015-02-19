@@ -92,7 +92,8 @@
           <div class="col-sm-12">
             <div class="emp-off-desc">
               <h4 class="main-subtitle ">
-                <class="smbd">{{ offer.data.role }}</> @ <a class="norm" href="#">Hack and Craft</a>
+                <span class="smbd">{{ offer.data.role }}</span> @
+                <a class="norm" ui-sref="employer({ id: offer.data.employer.id })">{{ offer.data.employer.company_name }}</a>
               </h4>
               <p class="typography" ng-bind-html="offer.data.job_description"></p>
 
