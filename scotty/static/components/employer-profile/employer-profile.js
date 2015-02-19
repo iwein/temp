@@ -71,15 +71,21 @@ define(function(require) {
       }
     });
     $scope.company = formSimple({
+      fields: ['website', 'funding_year', 'revenue_pa', 'funding_amount',
+        'no_of_employees', 'cto_blog', 'cto_twitter'],
       set: function(data) {
         setData(data);
         $scope.missionDirty = false;
-        return _.pick(data, 'website', 'funding_year', 'revenue_pa',
-          'funding_amount', 'no_of_employees', 'cto_blog', 'cto_twitter');
+        return _.pick(data, this.fields);
       },
       save: function(model, form, user) {
         if ($scope.formCompany.$invalid)
           throw new Error('Invalid form');
+
+        this.fields.forEach(function(field) {
+          if (!(field in model))
+            model[field] = '';
+        });
         return user.updateData(model);
       }
     });
@@ -205,6 +211,7 @@ define(function(require) {
     function form(options) {
       return {
         editing: false,
+        fields: options.fields,
         refresh: function() {
           return Session.getUser()
             .then(options.source.bind(this))
