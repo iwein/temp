@@ -49,7 +49,7 @@
                      name="start"
                      ng-min="1900"
                      ng-max="currentYear"
-                     placeholder="Year"
+                     placeholder="{{ 'Year' | translate }}"
                      ng-required="hcRequired"
                      ng-disabled="hcDisabled"
                      ng-model="model.start">
@@ -64,7 +64,7 @@
                      name="end"
                      ng-min="1900"
                      ng-max="currentYear"
-                     placeholder="Year"
+                     placeholder="{{ 'Year' | translate }}"
                      ng-disabled="hcDisabled || current"
                      ng-required="hcRequired && !current"
                      ng-model="model.end"

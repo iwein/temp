@@ -260,6 +260,10 @@ class Offer(Base, OfferStatusWorkflow):
     benefits = relationship(Benefit, secondary=offer_benefits, info=PUBLIC)
     technologies = relationship(Skill, secondary=offer_skills, info=PUBLIC)
 
+    @property
+    def unified_rejection_reason(self):
+        return self.rejected_text or self.rejected_reason.name
+
     def __json__(self, request):
         result = json_encoder(self, request)
         result['status'] = self.status

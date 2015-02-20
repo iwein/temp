@@ -9,7 +9,7 @@
               <input type="text"
                      class="form-control"
                      name="language{{ $index }}"
-                     placeholder="Language"
+                     placeholder="{{ 'Language' | translate }}"
                      ng-disabled="hcDisabled"
                      ng-required="$first"
                      ng-model="entry.language"

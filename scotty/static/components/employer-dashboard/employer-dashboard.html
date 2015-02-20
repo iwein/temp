@@ -41,7 +41,7 @@
                   <div class="search-label" translate>Skills</div>
                   <div class="no-padd-left">
                     <hc-label-typeahead
-                      placeholder="Skills"
+                      placeholder="{{ 'Skills' | translate }}"
                       ng-model="terms.skills"
                       hc-source="dashboard.searchSkills($viewValue)">
                     </hc-label-typeahead>
@@ -52,7 +52,7 @@
                   <div class="no-padd-left">
                     <hc-label-typeahead
                       name="cities"
-                      placeholder="Type a city..."
+                      placeholder="{{ 'Type a city...' | translate }}"
                       ng-disabled="loading"
                       ng-model="terms.locations"
                       hc-render="locationToText($entry)"
@@ -91,7 +91,7 @@
                   <div class="no-padd-left">
                     <input type="text"
                            class="form-control"
-                           placeholder="Search by NAME or SKILL"
+                           placeholder="{{ 'Search by NAME or SKILL' | translate }}"
                            name="general"
                            ng-model="simpleSearchTerms"
                            ng-keydown="onKeyDown($event)">
@@ -170,7 +170,13 @@
             </a>
           </div>
           <div class="mrg-btm-small">
-            {{ candidate.position.role }} from {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
+            <hc-scope values="{
+              role: candidate.position.role,
+              city: candidate._data.location.city,
+              country_iso: candidate._data.location.country_iso,
+            }" translate>
+              {{ role }} from {{ city }}, {{ country_iso }}
+            </hc-scope>
           </div>
         </div>
       </div>

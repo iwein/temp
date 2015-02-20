@@ -1,8 +1,8 @@
 <div class="component-candidate-offer" ng-if="ready">
-  <div class="inner">
-    <div class="status-wrap">
-      <div class="status status-{{offer.status}}">
-        <span><translate>status</translate>: </span>
+<div class="inner">
+<div class="status-wrap">
+  <div class="status status-{{offer.status}}">
+    <span><translate>status</translate>: </span>
         <span class="accept-message">
           <span class="iconParent"><i class="fa blue-link fa-clock-o"></i></span>
           <span class="blue-link" translate>waiting for you to accept</span>
@@ -31,252 +31,254 @@
           <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
           <span class="red" translate>you rejected this offer</span>
         </span>
-      </div>
+  </div>
+</div>
+<div class="row">
+
+<div class="col-sm-3">
+  <div class="user-pic emp-pic mrg-btm-big" ng-style="{'background-image': 'url(' +offer.data.employer.logo_url+')'}"></div>
+  <div class="rel row pad-btm-15">
+
+    <div class="timeline">
+      <div class="gray-bar"></div>
+      <div class="timeline-start"></div>
     </div>
-    <div class="row">
 
-      <div class="col-sm-3">
-        <div class="user-pic emp-pic mrg-btm-big" ng-style="{'background-image': 'url(' +offer.data.employer.logo_url+')'}"></div>
-        <div class="rel row pad-btm-15">
-
-          <div class="timeline">
-            <div class="gray-bar"></div>
-            <div class="timeline-start"></div>
-          </div>
-
-          <div class="timeline-head clearfix">
-            <div class="col-sm-2 no-padd-right">
-              <div class="dot"><i class="fa fa-circle"></i></div>
-            </div>
-            <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
-          </div>
-          <hc-candidate-offer-newsitem class="timeline-item clearfix" entry="entry" ng-repeat="entry in timeline"></hc-candidate-offer-newsitem>
-        </div>
+    <div class="timeline-head clearfix">
+      <div class="col-sm-2 no-padd-right">
+        <div class="dot"><i class="fa fa-circle"></i></div>
       </div>
+      <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
+    </div>
+    <hc-candidate-offer-newsitem class="timeline-item clearfix" entry="entry" ng-repeat="entry in timeline"></hc-candidate-offer-newsitem>
+  </div>
+</div>
 
-      <div class="col-sm-6 bg-white">
-        <div class="row bg-blue">
-          <div class="col-sm-12">
-            <h2 class="main-title-blue" translate>Offer</h2>
-          </div>
-        </div>
-        <div class="row bg-white">
-          <div class="col-sm-12">
-            <div class="emp-off-desc">
-              <h4 class="main-subtitle ">
-                <span class="smbd">{{ offer.data.role }}</span> @
-                <a class="norm" ui-sref="employer({ id: offer.data.employer.id })">{{ offer.data.employer.company_name }}</a>
-              </h4>
-              <p class="typography" ng-bind-html="offer.data.message"></p>
-              <h4 class="main-subtitle"><span class="blue-link" translate>Job Description</span></h4>
-              <p class="typography" ng-bind-html="offer.data.job_description"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="row bg-gray-lighter2 employer-offer-info-box">
-          <div class="col-sm-12 padd-vert status-{{offer.status}}">
-            <div class="font-22">
-              <span class="iconParent"><i class="fa fa-euro"></i></span>
-              <span class="smbd custom">
-                {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
-              </span>
-              / <translate>year</translate>
-            </div>
-            <div class="font-22">
-              <span class="iconParent"><i class="fa fa-map-marker"></i></span>
-              {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
-            </div>
-            <div class="box-title box-title_left mrg-btm"></div>
-            <h5 class="alg-left">
-              <span class="iconParent"><i class="fa fa-rocket"></i></span>
-              <span class="custom">&nbsp;<translate>Requirements</translate></span>
-            </h5>
-            <div class="clearfix skills-wrap-right row">
-              <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
-                <span>{{ tech }}</span>
-              </div>
-            </div>
-            <div ng-if="offer.data.benefits.length">
-              <div class="box-title box-title_left mrg-btm"></div>
-              <h5 class="alg-left">
-                <span class="iconParent"><i class="fa"></i></span>
-                <span class="custom">&nbsp;<translate>Benefits</translate></span>
-              </h5>
-              <hc-benefits-display benefits="offer.data.benefits" other-benefits="offer.data.other_benefits"></hc-benefits-display>
-            </div>
-          </div>
-        </div>
-        <div class="row mrg-btm active-form-{{ showForm || 'none' }}" ng-if="!has_been_hired">
-          <div class="buttons-wrap">
-            <button class="col-sm-12 btn bg-green btn-first" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
-              {{ offer.getNextStatusText() }}
-            </button>
-          </div>
-          <!-- ACCEPT -->
-          <div class="buttons-wrap">
-            <button class="col-sm-12 btn bg-green" ng-show="offer.canAccept()" ng-click="toggleForm('accept')" translate>Accept</button>
-          </div>
-          <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'accept'">
-            <form class="form-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
-
-              <div class="row mrg-btm-small">
-                <div class="col-sm-3 no-padd-right">
-                  <label translate>Email address</label>
-                </div>
-                <div class="col-sm-9">
-                  <input type="email"
-                    class="form-control"
-                    name="contactEmail"
-                    required
-                    ng-model="acceptance.email">
-                </div>
-                <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-                  <span ng-show="formProfile.contactEmail.$error.required" translate>Please insert your email.</span>
-                </div>
-              </div>
-
-              <div class="row mrg-btm-small">
-                <div class="col-sm-3  no-padd-right">
-                  <label translate>Phone number</label>
-                </div>
-                <div class="col-sm-9">
-                  <input type="tel"
-                    class="form-control"
-                    name="phoneNumber"
-                    pattern="^\+?[0-9 /()-]+$"
-                    ng-pattern="/^\+?[0-9 /()-]+$/"
-                    ng-disabled="hcDisabled"
-                    ng-model="acceptance.phone">
-                </div>
-
-                <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
-                  <span ng-show="formProfile.phoneNumber.$error.required" translate>Please insert your phone.</span>
-                  <span ng-show="formProfile.phoneNumber.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
-                </div>
-              </div>
-
-              <div class="buttons-wrap">
-                <button type="submit"  class="bg-green fl-rg btn-small" ng-disabled="hcDisabled" translate>Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- end Accept -->
-          <!-- Signed -->
-          <div class="buttons-wrap">
-            <button class="col-sm-12 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
-          </div>
-          <div class="orm-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
-            <form class="form-wrap"  ng-submit="sign(offer, signing)">
-              <p translate>Please provide the following information.</p>
-              <div class="row padd-form">
-
-                <label class="col-sm-3" translate>Start date</label>
-                <div class="col-sm-9">
-                  <input type="date"
-                    class="form-control"
-                    placeholder="YYYY-MM-DD"
-                    required
-                    ng-disabled="hcDisabled"
-                    ng-model="signing.start_date">
-                </div>
-                <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-                  <span ng-show="formProfile.contactEmail.$error.required" translate>Please insert your email.</span>
-                </div>
-              </div>
-
-              <div class="row padd-form">
-                <label class="col-sm-3" translate>Start salary</label>
-                <div class="col-sm-9">
-                  <input type="dotted-integer"
-                    class="form-control"
-                    placeholder="Start salary"
-                    required
-                    ng-disabled="hcDisabled"
-                    ng-model="signing.start_salary">
-                </div>
-                <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
-                  <span ng-show="formProfile.phoneNumber.$error.required" translate>Please insert your phone.</span>
-                  <span ng-show="formProfile.phoneNumber.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
-                </div>
-              </div>
-              <div class="form-error">
-                <span translate>Please choose your start date</span>
-              </div>
-              <div class="buttons-wrap">
-                <button class="bg-green fl-rg btn-small" translate>Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- end Signed -->
-          <!--  Reject -->
-          <div class="buttons-wrap text-center">
-            <button class="link-red" ng-show="offer.canReject()" ng-click="toggleForm('reject')" ng-class="{
-              fw: !offer.canAccept() && !offer.canSign() && !offer.canNextStatus(),
-            }"><span translate>Reject</span></button>
-          </div>
-          <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'reject'">
-            <form class="form-wrap"  ng-submit="reject(offer, rejection)">
-              <div class="row padd-form">
-                <div class="label-wrap col-sm-12">
-                  <p class="mrg-btm" translate>Please insert your contact details for this offer.</p>
-                  <div ng-repeat="reason in rejectReasons">
-                    <label>
-                      <span class="iconParent"><input type="radio"
-                        name="rejectReason"
-                        value="{{ reason }}"
-                        ng-disabled="hcDisabled"
-                        ng-required="!rejection.reason"
-                        ng-model="rejection.reason"
-                        ng-change="rejection.rejected_text = null"></span>
-                      {{ reason | translate }}
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="required row padd-form"
-                ng-if="rejection.reason.toLowerCase() === 'other'">
-                <div class="label-wrap col-sm-12">
-                  <div class="pad-label">
-                    <textarea
-                      class="txtarea"
-                      placeholder="Please describe your reason"
-                      required
-                      ng-disabled="hcDisabled"
-                      ng-model="rejection.reject_reason">
-                    </textarea>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row padd-form">
-                <div class="label-wrap col-sm-12">
-                  <label>
-                    <input type="checkbox" ng-model="rejection.blacklist" translate>
-                    Block employer
-                  </label>
-                </div>
-              </div>
-              <div class="buttons-wrap">
-                <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="hcDisabled" translate>Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- end Reject -->
-
-        </div>
-        <div class="row border-box">
-          <div class="col-sm-12 padd-vert">
-            <div class="box-title box-title_left lt gray-dark" translate>Hiring process</div>
-            <div class="gray pad-top-10 pad-btm-10" ng-bind-html="offer.data.interview_details"></div>
-          </div>
-        </div>
+<div class="col-sm-6 bg-white">
+  <div class="row bg-blue">
+    <div class="col-sm-12">
+      <h2 class="main-title-blue" translate>Offer</h2>
+    </div>
+  </div>
+  <div class="row bg-white">
+    <div class="col-sm-12">
+      <div class="emp-off-desc">
+        <h4 class="main-subtitle ">
+          <span class="smbd">{{ offer.data.role }}</span> @
+          <a class="norm" ui-sref="employer({ id: offer.data.employer.id })">{{ offer.data.employer.company_name }}</a>
+        </h4>
+        <p class="typography" ng-bind-html="offer.data.message"></p>
+        <h4 class="main-subtitle"><span class="blue-link" translate>Job Description</span></h4>
+        <p class="typography" ng-bind-html="offer.data.job_description"></p>
       </div>
     </div>
   </div>
+</div>
+
+<div class="col-sm-3">
+<div class="row bg-gray-lighter2 employer-offer-info-box">
+  <div class="col-sm-12 padd-vert status-{{offer.status}}">
+    <div class="font-22">
+      <span class="iconParent"><i class="fa fa-euro"></i></span>
+              <span class="smbd custom">
+                {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
+              </span>
+      / <translate>year</translate>
+    </div>
+    <div class="font-22">
+      <span class="iconParent"><i class="fa fa-map-marker"></i></span>
+      {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
+    </div>
+    <div class="box-title box-title_left mrg-btm"></div>
+    <h5 class="alg-left">
+      <span class="iconParent"><i class="fa fa-rocket"></i></span>
+      <span class="custom">&nbsp;<translate>Requirements</translate></span>
+    </h5>
+    <div class="clearfix skills-wrap-right row">
+      <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
+        <span>{{ tech }}</span>
+      </div>
+    </div>
+    <div ng-if="offer.data.benefits.length">
+      <div class="box-title box-title_left mrg-btm"></div>
+      <h5 class="alg-left">
+        <span class="iconParent"><i class="fa"></i></span>
+        <span class="custom">&nbsp;<translate>Benefits</translate></span>
+      </h5>
+      <hc-benefits-display benefits="offer.data.benefits" other-benefits="offer.data.other_benefits"></hc-benefits-display>
+    </div>
+  </div>
+</div>
+<div class="row mrg-btm active-form-{{ showForm || 'none' }}" ng-if="!has_been_hired">
+  <div class="buttons-wrap">
+    <button class="col-sm-12 btn bg-green btn-first" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
+      {{ offer.getNextStatusText() }}
+    </button>
+  </div>
+  <!-- ACCEPT -->
+  <div class="buttons-wrap">
+    <button class="col-sm-12 btn bg-green" ng-show="offer.canAccept()" ng-click="toggleForm('accept')" translate>Accept</button>
+  </div>
+  <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'accept'">
+    <form class="form-wrap" name="formAccept" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance, formAccept)">
+
+      <div class="row mrg-btm-small">
+        <div class="col-sm-3 no-padd-right">
+          <label translate>Email address</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="email"
+                 class="form-control"
+                 name="contactEmail"
+                 ng-required="true"
+                 ng-model="acceptance.email">
+          <div class="form-error" ng-show="formAccept.contactEmail.$dirty && formAccept.contactEmail.$invalid">
+            <span ng-show="formAccept.contactEmail.$error.required" translate>Please insert your email.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mrg-btm-small">
+        <div class="col-sm-3  no-padd-right">
+          <label translate>Phone number</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="tel"
+                 class="form-control"
+                 name="phoneNumber"
+                 pattern="^\+?[0-9 /()-]+$"
+                 ng-pattern="/^\+?[0-9 /()-]+$/"
+                 ng-disabled="hcDisabled"
+                 ng-model="acceptance.phone">
+          <div class="form-error" ng-show="formAccept.phoneNumber.$dirty && formAccept.phoneNumber.$invalid">
+            <span ng-show="formAccept.phoneNumber.$error.required" translate>Please insert your phone.</span>
+            <span ng-show="formAccept.phoneNumber.$error.pattern" translate>Valid characters are: Numbers - / ( )</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="buttons-wrap">
+        <button type="submit"  class="bg-green fl-rg btn-small" ng-disabled="hcDisabled" translate>Submit</button>
+      </div>
+    </form>
+  </div>
+  <!-- end Accept -->
+  <!-- Signed -->
+  <div class="buttons-wrap">
+    <button class="col-sm-12 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
+  </div>
+  <div class="orm-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
+    <form class="form-wrap" name="formSigned" ng-submit="sign(offer, signing, formSigned)">
+      <p translate>Please provide the following information.</p>
+      <div class="row padd-form">
+
+        <label class="col-sm-3" translate>Start date</label>
+        <div class="col-sm-9">
+          <input type="date"
+                 class="form-control"
+                 placeholder="{{ 'YYYY-MM-DD' | translate }}"
+                 ng-required="'true"
+                 name="start_date"
+                 ng-disabled="hcDisabled"
+                 ng-model="signing.start_date">
+          <div class="form-error" ng-show="formSigned.start_date.$dirty && formSigned.start_date.$invalid">
+            <span ng-show="formSigned.start_date.$error.required" translate>Please enter your job start date.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row padd-form">
+        <label class="col-sm-3" translate>Start salary</label>
+        <div class="col-sm-9">
+          <input type="dotted-integer"
+                 class="form-control"
+                 placeholder="{{ 'Start salary' | translate }}"
+                 ng-required="true"
+                 ng-max="99000000"
+                 name="start_salary"
+                 ng-disabled="hcDisabled"
+                 ng-model="signing.start_salary">
+          <div class="form-error" ng-show="formSigned.start_salary.$dirty && formSigned.start_salary.$invalid">
+            <span ng-show="formSigned.start_salary.$error.required" translate>Please insert your actual starting salary.</span>
+            <span ng-show="formSigned.start_salary.$error.number" translate>Please insert a number.</span>
+            <span ng-show="formSigned.start_salary.$error.pattern" translate>Decimals are not allowed.</span>
+            <span ng-show="formSigned.start_salary.$error.max" translate>Please select a salary below &euro;99,000,000.</span>
+          </div>
+        </div>
+      </div>
+      <div class="buttons-wrap">
+        <button class="bg-green fl-rg btn-small" translate>Submit</button>
+      </div>
+    </form>
+  </div>
+  <!-- end Signed -->
+  <!--  Reject -->
+  <div class="buttons-wrap text-center">
+    <button class="link-red" ng-show="offer.canReject()" ng-click="toggleForm('reject')" ng-class="{
+              fw: !offer.canAccept() && !offer.canSign() && !offer.canNextStatus(),
+            }"><span translate>Reject</span></button>
+  </div>
+  <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'reject'">
+    <form class="form-wrap"  ng-submit="reject(offer, rejection)">
+      <div class="row padd-form">
+        <div class="label-wrap col-sm-12">
+          <p class="mrg-btm" translate>Please insert your contact details for this offer.</p>
+          <div ng-repeat="reason in rejectReasons">
+            <label>
+                      <span class="iconParent"><input type="radio"
+                                                      name="rejectReason"
+                                                      value="{{ reason }}"
+                                                      ng-disabled="hcDisabled"
+                                                      ng-required="!rejection.reason"
+                                                      ng-model="rejection.reason"
+                                                      ng-change="rejection.rejected_text = null"></span>
+              {{ reason | translate }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="required row padd-form"
+           ng-if="rejection.reason.toLowerCase() === 'other'">
+        <div class="label-wrap col-sm-12">
+          <div class="pad-label">
+            <textarea
+              class="txtarea"
+              placeholder="{{ 'Please describe your reason' | translate }}"
+              required
+              ng-disabled="hcDisabled"
+              ng-model="rejection.reject_reason">
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row padd-form">
+        <div class="label-wrap col-sm-12">
+          <label>
+            <input type="checkbox" ng-model="rejection.blacklist" translate>
+            Block employer
+          </label>
+        </div>
+      </div>
+      <div class="buttons-wrap">
+        <button type="submit" class="bg-green fl-rg btn-small" ng-disabled="hcDisabled" translate>Submit</button>
+      </div>
+    </form>
+  </div>
+  <!-- end Reject -->
+
+</div>
+<div class="row border-box">
+  <div class="col-sm-12 padd-vert">
+    <div class="box-title box-title_left lt gray-dark" translate>Hiring process</div>
+    <div class="gray pad-top-10 pad-btm-10" ng-bind-html="offer.data.interview_details"></div>
+  </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 

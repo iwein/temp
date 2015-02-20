@@ -22,7 +22,7 @@ from scotty.candidate.models import Candidate, Education, WorkExperience, FullCa
 from scotty.models.tools import update
 from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
-from scotty.employer.services import get_employers_pager
+from scotty.employer.services import get_employers_pager, get_suggested_employers_pager
 from scotty.models.common import get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError, NewsfeedOffer, AnonymisedCandidateOffer, Offer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
@@ -102,7 +102,8 @@ class CandidateController(RootController):
                                                             joinedload_all('work_experience.company'),
                                                             joinedload_all('work_experience.skills')).get(candidate_id)
         if not candidate:
-            raise HTTPNotFound("Unknown Candidate ID")
+            self.request.session.invalidate()
+            raise HTTPForbidden("Not logged in.")
         return candidate
 
     @reify
@@ -508,7 +509,7 @@ class CandidateOfferController(CandidateController):
         offer = self.offer
         reason = get_by_name_or_raise(RejectionReason, self.request.json['reason'])
         try:
-            offer.set_rejected(reason, self.request.json.get('rejected_text'))
+            offer.set_rejected(reason, self.request.json.get('reject_reason'))
         except InvalidStatusError, e:
             raise HTTPBadRequest(e.message)
 
@@ -531,7 +532,8 @@ class CandidateOfferController(CandidateController):
                                                           candidate_name=self.candidate.full_name,
                                                           contact_name=offer.employer.contact_name,
                                                           company_name=offer.employer.company_name,
-                                                          offer_id=offer.id, candidate_id=self.candidate.id)
+                                                          offer_id=offer.id, candidate_id=self.candidate.id,
+                                                          reason=offer.unified_rejection_reason)
         return offer.full_status_flow
 
     @view_config(route_name='candidate_offer_status', **POST)
@@ -592,8 +594,8 @@ class CandidateDashboardController(CandidateController):
         if not skills:
             return {'data': [], 'pagination': {'total': 0}}
 
-        pager = get_employers_pager(skills, self.candidate.location_id, None)
+        pager = get_suggested_employers_pager(skills, self.candidate.location_id, self.candidate.id)
         if not pager.ids:
-            pager = get_employers_pager(skills, None, None)
+            pager = get_suggested_employers_pager(skills, None, self.candidate.id)
 
         return ObjectBuilder(Employer).serialize(pager)

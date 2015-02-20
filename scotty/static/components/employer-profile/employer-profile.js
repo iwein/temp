@@ -5,6 +5,7 @@ define(function(require) {
   require('components/partial-benefits/partial-benefits');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var module = require('app-module');
 
 
@@ -34,8 +35,17 @@ define(function(require) {
 
     $scope.summary = formSimple({
       set: function(data) {
-        $scope.data = data;
+        setData(data);
         return { mission_text: data.mission_text };
+      },
+      save: function(model, form, user) {
+        return user.updateData(model);
+      }
+    });
+    $scope.video = formSimple({
+      set: function(data) {
+        setData(data);
+        return { video_script: data.video_script };
       },
       save: function(model, form, user) {
         return user.updateData(model);
@@ -43,7 +53,7 @@ define(function(require) {
     });
     $scope.tech = formSimple({
       set: function(data) {
-        $scope.data = data;
+        setData(data);
         return _.pick(data, 'tech_team_size', 'tech_tags');
       },
       save: function(model, form, user) {
@@ -52,28 +62,36 @@ define(function(require) {
     });
     $scope.descriptions = formSimple({
       set: function(data) {
-        $scope.data = data;
-        return _.pick(data, 'tech_team_philosophy', 'recruitment_process',
-          'training_policy');
+        setData(data);
+        return _.pick(data, 'recruitment_process', 'training_policy',
+          'tech_team_office', 'working_env', 'dev_methodology', 'video_script');
       },
       save: function(model, form, user) {
         return user.updateData(model);
       }
     });
     $scope.company = formSimple({
+      fields: ['website', 'funding_year', 'revenue_pa', 'funding_amount',
+        'no_of_employees', 'cto_blog', 'cto_twitter'],
       set: function(data) {
-        $scope.data = data;
+        setData(data);
         $scope.missionDirty = false;
-        return _.pick(data, 'website', 'funding_year', 'revenue_pa',
-          'funding_amount', 'no_of_employees');
+        return _.pick(data, this.fields);
       },
       save: function(model, form, user) {
+        if ($scope.formCompany.$invalid)
+          throw new Error('Invalid form');
+
+        this.fields.forEach(function(field) {
+          if (!(field in model))
+            model[field] = '';
+        });
         return user.updateData(model);
       }
     });
     $scope.benefits = formSimple({
       set: function(data) {
-        $scope.data = data;
+        setData(data);
         return {
           other_benefits: data.other_benefits,
           benefits: benefits.map(function(value) {
@@ -93,7 +111,7 @@ define(function(require) {
     });
     $scope.webProfiles = formSimple({
       set: function(data) {
-        $scope.data = data;
+        setData(data);
         return _.pick(data, 'fb_url', 'linkedin_url');
       },
       save: function(model, form, user) {
@@ -102,14 +120,14 @@ define(function(require) {
     });
     $scope.offices = listForm({
       set: function(data) {
-        $scope.data = data;
+        setData(data);
         return data.offices;
       }
     });
     $scope.picture = _.extend(form({
       source: function(user) {
         return user.getData().then(function(data) {
-          $scope.data = data;
+          setData(data);
           return { logo_url: data.logo_url };
         });
       },
@@ -141,7 +159,7 @@ define(function(require) {
         var files = [].slice.call(fileList);
 
         return $q.all(files.map(function(file) {
-          var id = Date.now() + '-' + Math.round(Math.random() * 1000000);
+          var id = Date.timestamp() + '-' + Math.round(Math.random() * 1000000);
           var model = {
             url: 'http://www.pagevamp.com/templates/snapsite/newadmin/img/loading.gif',
             description: '',
@@ -163,13 +181,20 @@ define(function(require) {
     });
 
 
+    function setData(data) {
+      $scope.data = data;
+      if (typeof data.video_script === 'string')
+        data.video_script = $sce.trustAsHtml(data.video_script);
+    }
+
     function refresh() {
       return Session.getUser().then(function(user) {
         return $q.all([
           $scope.pictures.refresh(),
           user.getData().then(function(data) {
-            $scope.data = data;
+            setData(data);
             $scope.summary.set(data);
+            $scope.video.set(data);
             $scope.tech.set(data);
             $scope.descriptions.set(data);
             $scope.company.set(data);
@@ -186,6 +211,7 @@ define(function(require) {
     function form(options) {
       return {
         editing: false,
+        fields: options.fields,
         refresh: function() {
           return Session.getUser()
             .then(options.source.bind(this))

@@ -40,12 +40,17 @@ define(function(require) {
             $scope.pictures = response;
           }),
           employer.getData().then(function(data) {
+            data.mission_text = $sce.trustAsHtml(data.mission_text);
+            data.tech_team_philosophy = $sce.trustAsHtml(data.tech_team_philosophy);
+            data.recruitment_process = $sce.trustAsHtml(data.recruitment_process);
+            data.training_policy = $sce.trustAsHtml(data.training_policy);
+            data.tech_team_office = $sce.trustAsHtml(data.tech_team_office);
+            data.working_env = $sce.trustAsHtml(data.working_env);
+            data.dev_methodology = $sce.trustAsHtml(data.dev_methodology);
+            data.video_script = $sce.trustAsHtml(data.video_script);
+
             $scope.ready = true;
             $scope.data = data;
-            $scope.data.tech_team_philosophy = $sce.trustAsHtml(data.tech_team_philosophy);
-            $scope.data.recruitment_process = $sce.trustAsHtml(data.recruitment_process);
-            $scope.data.training_policy = $sce.trustAsHtml(data.training_policy);
-            $scope.data.mission_text = $sce.trustAsHtml(data.mission_text);
             $scope.bookmarked_by_candidate = data.bookmarked_by_candidate;
             $scope.blacklisted_by_candidate = data.blacklisted_by_candidate;
             $scope.accepted_offers_by_candidate = data.accepted_offers_by_candidate;

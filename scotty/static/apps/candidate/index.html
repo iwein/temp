@@ -26,8 +26,12 @@
 </head>
 <body data-grid-framework="b3" data-grid-color="red" data-grid-opacity="0.1" data-grid-zindex="10" data-grid-gutterwidth="30px" data-grid-nbcols="12">
 
+<!-- build:js -->
+<script src="../../config/config.js"></script>
+<!-- endbuild -->
 <script>
-  (function(apiurl, ua) {
+  (function(_apiurl, ua) {
+    var apiurl = window.config ? window.config.api_url : _apiurl;
     if(!~ua.indexOf('safari/')||!!~ua.indexOf('chrome'))return;
     function post(path, params, method){method = method || "post";
       var f = document.createElement("form"), s = 'setAttribute';f[s]("method", method);f[s]("action", path);
@@ -53,7 +57,7 @@
 
   <div id="content">
     <div class="message-container">
-      <div class="alert alert-warning alert-verification" ng-show="session.user && session.isActivated && !session.isApproved">
+      <div class="alert alert-warning alert-verification ng-hide" ng-show="session.user && session.isActivated && !session.isApproved">
         <div class="title" translate>Your profile has not been reviewed & approved yet.</div>
       </div>
       <hc-candidate-email-confirm-msg model="session" ng-if="session.user && !session.isActivated"></hc-candidate-email-confirm-msg>

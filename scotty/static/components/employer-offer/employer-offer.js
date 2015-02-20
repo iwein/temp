@@ -5,18 +5,23 @@ define(function(require) {
   require('components/partial-benefits/partial-benefits');
   require('components/partial-offer-newsitem/partial-offer-newsitem');
   require('components/partial-candidate-pic/partial-candidate-pic');
+  var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
 
-  // jshint maxparams:9
-  module.controller('OfferCtrl', function($scope, $sce, $state, toaster, i18n,
-                                          Loader, ConfigAPI, Permission, Session) {
-    $scope.toggleForm = toggleForm;
-    $scope.withdraw = withdraw;
-    $scope.sign = sign;
-    $scope.ready = false;
-    Loader.page(true);
-    var self = this;
+  // jshint maxparams:10
+  module.controller('OfferCtrl', function($scope, $q, $sce, toaster, i18n,
+                                          Loader, ConfigAPI, Session, RequireSignup, offer) {
+    _.extend($scope, {
+      toggleForm: toggleForm,
+      withdraw: withdraw,
+      sign: sign,
+      ready: false,
+    });
+    _.extend(this, {
+      onStatusChange: onStatusChange,
+    });
+
     var statuses = [
       'ACCEPTED',
       'INTERVIEW',
@@ -24,47 +29,44 @@ define(function(require) {
       'CONTRACT_SIGNED',
     ];
 
-    Permission.requireSignup().then(function() {
-      $scope.id = $state.params.id;
+    return onLoad();
+
+
+    function onLoad() {
+      Loader.page(true);
+      configureOffer(offer);
       ConfigAPI.withdrawReasons().then(fn.setTo('withdrawReasons', $scope));
 
-      return Session.getUser().then(function(user) {
-        return user.getOffer($scope.id);
-      }).then(function(offer) {
-        return offer.getTimeline().then(function(timeline) {
-          return [ offer, timeline ];
-        });
-      }).then(function(data) {
-        var offer = data[0];
-        var getNextStatusText = offer.getNextStatusText;
-        offer.getNextStatusText = function() {
-          i18n.gettext(getNextStatusText.apply(this, arguments));
-        };
+      return $q.all([
+        offer.getTimeline().then(fn.setTo('timeline', $scope)),
+        getCandidateData(),
+      ])
+        .then(function() { $scope.ready = true })
+        .finally(function() { Loader.page(false) });
+    }
 
-        offer.setDataParser(function(data) {
-          data.interview_details = $sce.trustAsHtml(data.interview_details);
-          data.job_description = $sce.trustAsHtml(data.job_description);
-          data.message = $sce.trustAsHtml(data.message);
-          data.accepted = statuses.indexOf(data.status) !== -1;
-          data.statusText = i18n.gettext(data.statusText);
-        });
-
-        return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
-          $scope.candidate = candidate;
-          return candidate.getLastPosition();
-        }).then(function(position) {
-          return [ offer, data[1], position ];
-        });
-      }).then(function(result) {
-        self.onStatusChange = onStatusChange;
-        $scope.ready = true;
-        $scope.offer = result[0];
-        $scope.timeline = result[1];
-        $scope.candidatePosition = result[2];
+    function configureOffer() {
+      var getNextStatusText = offer.getNextStatusText;
+      offer.getNextStatusText = function() {
+        return i18n.gettext(getNextStatusText.apply(this, arguments));
+      };
+      offer.setDataParser(function(data) {
+        data.interview_details = $sce.trustAsHtml(data.interview_details);
+        data.job_description = $sce.trustAsHtml(data.job_description);
+        data.message = $sce.trustAsHtml(data.message);
+        data.accepted = statuses.indexOf(data.status) !== -1;
+        data.statusText = i18n.gettext(data.statusText);
       });
-    }).finally(function() {
-      Loader.page(false);
-    });
+      $scope.offer = offer;
+    }
+
+    function getCandidateData() {
+      return Session.getCandidate(offer.data.candidate.id).then(function(candidate) {
+        $scope.candidate = candidate;
+        return candidate.getLastPosition()
+          .then(fn.setTo('candidatePosition', $scope));
+      });
+    }
 
     function onStatusChange() {
       toaster.success(i18n.gettext('Offer {{ status }}', {
@@ -78,16 +80,17 @@ define(function(require) {
       $scope.signing = {};
     }
 
-    function sign(offer, form) {
+    function sign(offer, model, formSigned) {
+      if (!formSigned.$valid)return;
       Loader.add('offer-sign');
-      offer.sign(form)
+      return offer.sign(model)
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() { Loader.remove('offer-sign') });
     }
 
     function withdraw(offer, form) {
       Loader.add('offer-withdraw');
-      offer.withdraw(form)
+      return offer.withdraw(form)
         .then(toggleForm.bind(null, 'withdraw'))
         .finally(function() { Loader.remove('offer-withdraw') });
     }
@@ -98,6 +101,18 @@ define(function(require) {
     url: '/offer/:id',
     template: require('text!./employer-offer.html'),
     controller: 'OfferCtrl',
-    controllerAs: 'offerDetail'
+    controllerAs: 'offerDetail',
+    resolve: {
+      /*@ngInject*/
+      RequireSignup: function(Permission) {
+        return Permission.requireSignup();
+      },
+      /*@ngInject*/
+      offer: function($stateParams, Session) {
+        return Session.getUser().then(function(user) {
+          return user.getOffer($stateParams.id);
+        });
+      },
+    },
   };
 });

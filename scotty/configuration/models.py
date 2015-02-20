@@ -1,3 +1,4 @@
+# coding=utf-8
 from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Numeric, Boolean
 from scotty.models.meta import Base, NamedModel
 from sqlalchemy.orm import relationship
@@ -41,14 +42,15 @@ class OfficeType(Base, NamedModel):
 
 class SkillLevel(Base, NamedModel):
     __tablename__ = 'skill_level'
-    ROLES = {'basic': 'Beginner', 'advanced': "Proficient", "expert": 'Expert'}
+
+    ROLES = {'en': {'basic': u'Beginner in {}', 'advanced': u'Proficient in {}', u'expert': 'Expert in {}'},
+             'de': {'basic': u'{} Hobbyist', 'advanced': u'{} Könner', 'expert': u'Experte für {}'}}
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
-    @property
-    def name_as_subject(self):
-        return self.ROLES.get(self.name, self.name)
+    def name_as_subject(self, lang):
+        return self.ROLES[lang].get(self.name, self.name)
 
 
 class Proficiency(Base, NamedModel):
@@ -62,6 +64,10 @@ class RejectionReason(Base, NamedModel):
     __tablename__ = 'rejectionreason'
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False, unique=True)
+
+    @property
+    def is_other(self):
+        return self.name == self.OTHER
 
 
 class WithdrawalReason(Base, NamedModel):

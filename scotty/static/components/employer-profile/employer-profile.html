@@ -65,7 +65,7 @@
 </div>
 <!--  EDIT Contacts box (remove hidden class to display)-->
 <div class="edit-salary mrg-btm" ng-show="company.editing">
-  <form class="edit-form" ng-submit="company.save(company.data)">
+  <form name="formCompany" class="edit-form" ng-submit="company.save(company.data)">
     <button class="add-panel-close" ng-click="company.close()"><i class="fa fa-close"></i></button>
     <h5 class="edit-title" translate>Website</h5>
     <div>
@@ -76,14 +76,44 @@
              ng-disabled="loading"
              ng-model="company.data.website">
     </div>
+    <h5 class="edit-title" translate>CTO Blog URL</h5>
+    <div>
+      <input type="url"
+             class="form-control mrg-btm"
+             name="cto_blog"
+             ng-disabled="loading"
+             ng-model="company.data.cto_blog">
+    </div>
+    <div class="form-error" ng-show="formCompany.cto_blog.$dirty && formCompany.cto_blog.$invalid">
+      <span ng-show="formCompany.cto_blog.$error.required" translate>
+        Please insert your company's website URL.
+      </span>
+      <span ng-show="formCompany.cto_blog.$error.url" translate>
+        Please insert a valid website URL (as copied form a browser window).
+      </span>
+    </div>
+    <h5 class="edit-title" translate>CTO Twitter URL</h5>
+    <div>
+      <input type="url"
+             class="form-control mrg-btm"
+             name="cto_twitter"
+             ng-disabled="loading"
+             ng-model="company.data.cto_twitter">
+    </div>
+    <div class="form-error" ng-show="formCompany.cto_twitter.$dirty && formCompany.cto_twitter.$invalid">
+      <span ng-show="formCompany.cto_twitter.$error.required" translate>
+        Please insert your company's website URL.
+      </span>
+      <span ng-show="formCompany.cto_twitter.$error.url" translate>
+        Please insert a valid website URL (as copied form a browser window).
+      </span>
+    </div>
     <h5 class="edit-title" translate>Founding year</h5>
     <div>
       <input type="number"
              class="form-control mrg-btm"
-             placeholder="Founding year"
              name="founding_year"
-             placeholder="VC Founding amount"
-             name="funding_amount"
+             name="founding_year"
              ng-disabled="loading"
              ng-model="company.data.funding_year">
     </div>
@@ -91,7 +121,6 @@
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
-             placeholder="Annual revenue"
              name="revenue_pa"
              ng-disabled="loading"
              ng-model="company.data.revenue_pa">
@@ -100,16 +129,20 @@
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
-             placeholder="VC Founding amount"
              name="funding_amount"
+             max="100000000"
              ng-disabled="loading"
              ng-model="company.data.funding_amount">
+    </div>
+    <div class="form-error" ng-show="formCompany.funding_amount.$dirty && formCompany.funding_amount.$invalid">
+      <span ng-show="formCompany.funding_amount.$error.max" translate>
+        Founding amount can't be bigger than 100,000,000
+      </span>
     </div>
     <h5 class="edit-title" translate>Company size</h5>
     <div>
       <input type="number"
              class="form-control mrg-btm"
-             placeholder="Company size"
              name="no_of_employees"
              ng-disabled="loading"
              ng-model="company.data.no_of_employees">
@@ -156,9 +189,21 @@
   <p ng-show="data.funding_amount">
     <translate>VC Founding amount</translate>: {{ data.funding_amount | dottedInteger }}.00 €
   </p>
-  <a ng-show="data.website" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
-    {{ data.website }}
-  </a>
+  <p>
+    <a ng-show="data.website" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.website }}">
+      {{ data.website }}
+    </a>
+  </p>
+  <p>
+    <a ng-show="data.cto_blog" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.cto_blog }}">
+      CTO's Blog
+    </a>
+  </p>
+  <p>
+    <a ng-show="data.cto_twitter" class="mrg-btm-small no-marg-top link-blue smbd" target="_blank" ng-href="{{ data.cto_twitter }}">
+      CTO's Twitter
+    </a>
+  </p>
 </div>
 <!--  EDIT OFFICES   box (remove hidden class to display)-->
 <div class="edit-contacts mrg-btm" ng-show="webProfiles.editing">
@@ -209,10 +254,10 @@
           </button>
         </div>
 
-        <div class="wrap-office" ng-class="{ open: offices.editing === -2 }">
+        <div class="wrap-office" ng-class="{ open: offices.editing === -2 }">
           <div class="wrap-office-content">
             <hc-office-form
-              hc-scope="offices"
+              hc-container="offices"
               name="form"
               hc-required="model.length === 0 || !offices.form.isPristine()"
               hc-disabled="loading"
@@ -466,7 +511,6 @@
             <h5 class="edit-title" translate>Tech team size</h5>
             <input type="number"
                    class="form-control"
-                   placeholder="Tech team size"
                    name="tech_team_size"
                    ng-disabled="loading"
                    ng-model="tech.data.tech_team_size">
@@ -475,11 +519,10 @@
             <h5 class="edit-title" translate>Technology tags</h5>
             <hc-label-typeahead
               name="techTags"
-              placeholder="Technology tags"
               ng-disabled="loading"
               ng-model="tech.data.tech_tags"
               hc-source="searchTags($viewValue)"
-              hc-error-message="Please choose at least one tag"
+              hc-error-message="{{ 'Please choose at least one tag' | translate }}"
               hc-allow-new>
             </hc-label-typeahead>
           </div>
@@ -536,23 +579,24 @@
 <!-- Edit panel -->
 <div class="edit-textarea add-panel" ng-show="descriptions.editing">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <form class="edit-form" ng-submit="descriptions.save(descriptions.data)">
         <button class="add-panel-close" ng-click="descriptions.close()"><i class="fa fa-close"></i></button>
 
-        <h5 class="edit-title" translate>Technology Philosophy</h5>
-        <text-angular
-          name="tech_team_philosophy"
-          placeholder="Technology Philosophy"
-          ng-disabled="loading"
-          ng-model="descriptions.data.tech_team_philosophy">
-        </text-angular>
-
-        <h5 class="edit-title" translate>Hiring Process</h5>
+        <h5 class="edit-title">
+          <span class="question-title" translate>Hiring Process</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please describe what happens after a candidate has accepted your job offer. How do you the structure the interview and on-boarding process?</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
         <text-angular
           name="recruitment_process"
           required
-          placeholder="Recruitment process"
           ng-disabled="loading"
           ng-model="descriptions.data.recruitment_process">
         </text-angular>
@@ -560,9 +604,59 @@
         <h5 class="edit-title" translate>Training Policy</h5>
         <text-angular
           name="training"
-          placeholder="Training policy"
           ng-disabled="loading"
           ng-model="descriptions.data.training_policy">
+        </text-angular>
+
+        <h5 class="edit-title">
+          <span class="question-title" translate>Tech team office</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please describe the working environment in the office of the tech team. E.g. open-plan office or dedicated offices per tech team, meeting rooms, noise level, table tennis, kitchen, etc.</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
+        <text-angular
+          name="tech_team_office"
+          ng-disabled="loading"
+          ng-model="descriptions.data.tech_team_office">
+        </text-angular>
+
+        <h5 class="edit-title">
+          <span class="question-title" translate>Working Environment</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please inform how well your tech force gets equipped with computers and monitors. Do you allow a free choice of operating systems and toolsets? Do you provide ergonomic desks and chairs?</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
+        <text-angular
+          name="working_env"
+          ng-disabled="loading"
+          ng-model="descriptions.data.working_env">
+        </text-angular>
+
+        <h5 class="edit-title">
+          <span class="question-title" translate>Development methodology</span>
+          <div class="question">
+            <span>?</span>
+            <div class="tooltip-wrap">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-text" translate>Please describe your software engineering framework, e.g. if you practice Agile methods such as Scrum or Kanban or rather structured approaches.</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </h5>
+        <text-angular
+          name="dev_methodology"
+          ng-disabled="loading"
+          ng-model="descriptions.data.dev_methodology">
         </text-angular>
 
         <div class="buttons-wrap">
@@ -591,11 +685,6 @@
 
     <div class="accordion-wrap">
       <div>
-        <h3 class="accordion-subtitle" translate>Technology Philosophy</h3>
-        <p class="pad-btm-15" ng-show="data.tech_team_philosophy" ng-bind-html="data.tech_team_philosophy"></p>
-        <p class="pad-btm-15" ng-show="!data.tech_team_philosophy" translate>Not defined yet</p>
-      </div>
-      <div>
         <h3 class="accordion-subtitle" translate>Hiring process</h3>
         <p class="pad-btm-15" ng-show="data.recruitment_process" ng-bind-html="data.recruitment_process"></p>
         <p class="pad-btm-15" ng-show="!data.recruitment_process" translate>Not defined yet</p>
@@ -605,7 +694,61 @@
         <p class="pad-btm-15" ng-show="data.training_policy" ng-bind-html="data.training_policy"></p>
         <p class="pad-btm-15" ng-show="!data.training_policy" translate>Not defined yet</p>
       </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Tech team office</h3>
+        <p class="pad-btm-15" ng-show="data.tech_team_office" ng-bind-html="data.tech_team_office"></p>
+        <p class="pad-btm-15" ng-show="!data.tech_team_office" translate>Not defined yet</p>
+      </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Working Environment</h3>
+        <p class="pad-btm-15" ng-show="data.working_env" ng-bind-html="data.working_env"></p>
+        <p class="pad-btm-15" ng-show="!data.working_env" translate>Not defined yet</p>
+      </div>
+      <div>
+        <h3 class="accordion-subtitle" translate>Development methodology</h3>
+        <p class="pad-btm-15" ng-show="data.dev_methodology" ng-bind-html="data.dev_methodology"></p>
+        <p class="pad-btm-15" ng-show="!data.dev_methodology" translate>Not defined yet</p>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="row bg-white mrg-btm">
+  <div class="col-sm-12 pad-top-10 picture-gallery">
+    <div class="box-title box-title_left mrg-btm gray-darker">
+      <translate>Video</translate>
+      <button type="submit"
+              class="btn-edit-sub no-marg-top"
+              ng-disabled="loading || formOpen"
+              ng-show="isEditing"
+              ng-click="video.edit()">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+
+    <p translate>Paste a youtube or vimeo video embed-code, describing your company and company culture.
+      This will help candidates understand you better. It also increases the chance they accept your offer.</p>
+    <div ng-hide="video.editing" ng-bind-html="data.video_script"></div>
+
+    <form class="edit-form" ng-show="video.editing" ng-submit="video.save(video.data)">
+      <h5 class="edit-title" translate>Paste video embed code here</h5>
+      <textarea
+        class="form-control"
+        name="video_script"
+        ng-disabled="loading"
+        ng-model="video.data.video_script">
+      </textarea>
+
+      <div class="buttons-wrap">
+        <button type="submit"
+          class="fl-rg bg-green btn-small mrg-lft-small"
+          ng-disabled="loading" translate>Save</button>
+        <button type="button"
+          class="fl-rg bg-gray-lighter2 btn-small"
+          ng-click="video.close()"
+          ng-disabled="loading" translate>Cancel</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -628,7 +771,7 @@
 
     <ul ng-hide="pictures.editing">
       <li class="picture" ng-repeat="picture in pictures.data" ng-click="slideshow($index)">
-        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
+        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }"></div>
         <span class="description">{{ picture.description }}</span>
       </li>
       <li ng-show="!pictures.data.length" translate>No photos yet</li>
@@ -636,7 +779,7 @@
 
     <form class="edit-form" ng-show="pictures.editing" ng-submit="pictures.save(pictures.data)">
       <div class="picture" ng-repeat="picture in pictures.data">
-        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }">
+        <div class="img" ng-style="{ 'background-image': 'url(' + picture.url + ')' }">
           <button type="submit"
                   class="btn-edit-sub no-marg-top"
                   ng-disabled="loading"

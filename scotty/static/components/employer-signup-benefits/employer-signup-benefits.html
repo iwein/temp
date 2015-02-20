@@ -11,12 +11,21 @@
           benefits="benefits" other-benefits="model.other_benefits"></hc-benefits-edit>
 
         <div class="mrg-btm row required">
-          <label class="col-sm-12" translate>Recruitment process</label>
+          <label class="col-sm-12">
+            <span class="question-title" translate>Recruitment process</span>
+            <div class="question">
+              <span>?</span>
+              <div class="tooltip-wrap">
+                <div class="tooltip-arrow"></div>
+                <div class="tooltip-text" translate>Please describe what happens after a candidate has accepted your job offer. How do you the structure the interview and on-boarding process?</div>
+              </div>
+            </div>
+          </label>
           <div class="col-sm-12">
             <text-angular
               name="recruitment_process"
               required
-              placeholder="Describe how you interview and onboard candidates."
+              placeholder="{{ 'Describe how you interview and onboard candidates.' | translate }}"
               ng-disabled="loading"
               ng-model="model.recruitment_process">
             </text-angular>
@@ -32,7 +41,7 @@
           <div class="col-sm-12">
             <text-angular
               name="training"
-              placeholder="Please describe the training opportunities available to your tech team."
+              placeholder="{{ 'Please describe the training opportunities available to your tech team.' | translate }}"
               ng-disabled="loading"
               ng-model="model.training_policy">
             </text-angular>

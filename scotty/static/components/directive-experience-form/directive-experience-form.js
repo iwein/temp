@@ -3,6 +3,7 @@ define(function(require) {
   require('session');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var nameAttr = require('tools/name-attr');
   var getModel = require('tools/get-model');
   var months = require('tools/months');
@@ -30,7 +31,7 @@ define(function(require) {
           onCurrentChange: onCurrentChange,
           searchSkills: searchSkills,
           submit: submit,
-          currentYear: new Date().getFullYear(),
+          currentYear: Date.now().getFullYear(),
           loading: false,
         });
         _.extend(this, {
@@ -171,13 +172,13 @@ define(function(require) {
           }
 
           if (model.start) {
-            var start = new Date(model.start);
-            $scope.startMonth = months[start.getMonth()];
+            var start = Date.parse(model.start);
+            $scope.startMonth = $scope.months[start.getMonth()];
             $scope.startYear = start.getFullYear();
 
             if (model.end) {
-              var end = new Date(model.end);
-              $scope.endMonth = months[end.getMonth()];
+              var end = Date.parse(model.end);
+              $scope.endMonth = $scope.months[end.getMonth()];
               $scope.endYear = end.getFullYear();
             }
           }
@@ -192,16 +193,16 @@ define(function(require) {
           var storedValue = $scope.model[key];
 
           if (storedValue) {
-            var date = new Date(storedValue);
+            var date = Date.parse(storedValue);
             $scope[year] = date.getFullYear();
-            $scope[month] = months[date.getMonth()];
+            $scope[month] = $scope.months[date.getMonth()];
           }
 
           $scope[key + 'DateUpdate'] = function() {
             var value = null;
 
             if ($scope[month] && $scope[year]) {
-              var date = new Date($scope[year], months.indexOf($scope[month]));
+              var date = Date.get($scope[year], $scope.months.indexOf($scope[month]));
               value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
             }
 

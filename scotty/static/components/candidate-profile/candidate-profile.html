@@ -106,7 +106,7 @@
                 <div class="tooltip-wrap">
                   <div class="tooltip-arrow"></div>
                   <div class="tooltip-text" translate>
-                    Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+                    Do not set your salary too high, as it will block employers to send you interesting offers, that have a slightly lower nominal salary but huge other benefits.
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@
               <div class="pad-label edit-form">
                 <hc-label-typeahead
                   name="cities"
-                  placeholder="Type a city..."
+                  placeholder="{{ 'Type a city...' | translate }}"
                   ng-show="salary.data.other"
                   ng-disabled="loading"
                   ng-model="preferred_locations"
@@ -233,17 +233,17 @@
               <div class="">
                 <input type="text"
                        class="form-control mrg-btm"
-                       placeholder="Address Line 1"
+                       placeholder="{{ 'Address Line 1' | translate }}"
                        ng-disabled="hcDisabled"
                        ng-model="contact.data.contact_line1">
                 <input type="text"
                        class="form-control mrg-btm"
-                       placeholder="Address Line 2"
+                       placeholder="{{ 'Address Line 2' | translate }}"
                        ng-disabled="hcDisabled"
                        ng-model="contact.data.contact_line2">
                 <input type="text"
                        class="form-control mrg-btm"
-                       placeholder="Zip code"
+                       placeholder="{{ 'Zip code' | translate }}"
                        maxlength="20"
                        ng-disabled="hcDisabled"
                        ng-model="contact.data.contact_zipcode">
@@ -256,7 +256,7 @@
                   <option value="" translate>Country...</option>
                 </select>
                 <input type="text"
-                       placeholder="City"
+                       placeholder="{{ 'City' | translate }}"
                        name="city"
                        class="form-control mrg-btm"
                        required
@@ -394,7 +394,7 @@
             <form class="edit-form">
               <input type="date"
                      class="form-control mrg-btm"
-                     placeholder="YYYY-MM-DD"
+                     placeholder="{{ 'YYYY-MM-DD' | translate }}"
                      name="birth"
                      required
                      ng-disabled="hcDisabled"
@@ -504,7 +504,10 @@
                 <i class="fa fa-pencil"></i>
               </button>
             </div>
-            <p class="gray">{{ (user.availability || 'Not specified') | translate }}</p>
+            <p class="gray">
+              <span ng-show="user.availability">{{ user.availability }}</span>
+              <span ng-hide="user.availability" translate>Not specified</span>
+            </p>
           </div>
 
           <!-- Languages box -->
@@ -562,7 +565,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="user-desc">
-                  <div class="">
+                  <div>
                     <div class="edit-main-title" ng-show="name.editing">
                       <button class="add-panel-close" ng-click="name.close()"><i class="fa fa-close"></i></button>
                       <form class="edit-form" ng-submit="name.save(name.data)">
@@ -575,12 +578,6 @@
                             <h5 class="edit-title" translate>Last name</h5>
                             <input type="text" class="form-control" ng-model="name.data.last_name">
                           </div>
-                        </div>
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" ng-model="name.data.anonymous">
-                            <translate>Hide my name and picture from employers until i accepted their offer.</translate>
-                          </label>
                         </div>
                         <div class="buttons-wrap">
                           <button type="submit"
@@ -609,6 +606,56 @@
                         <i class="fa fa-pencil"></i>
                       </button>
                     </h2>
+                    <div class="edit-main-title" ng-show="privacy.editing">
+                      <button class="add-panel-close" ng-click="privacy.close()"><i class="fa fa-close"></i></button>
+                      <form class="edit-form" ng-submit="privacy.save(privacy.data)">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" ng-model="privacy.data.anonymous">
+                            <translate>Hide my name and picture from employers until i accepted their offer.</translate>
+                          </label>
+                        </div>
+                        <!-- FEATURE PROFILE SLEEP DISABLED
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" ng-model="privacy.data.sleeping">
+                            <translate>Put my profile to sleep so it will not be shown on search and can't receive any offers</translate>
+                          </label>
+                        </div>
+                        -->
+                        <div class="buttons-wrap">
+                          <button type="submit"
+                                  class="fl-rg bg-green btn-small mrg-lft-small"
+                                  ng-disabled="loading"
+                                  translate>
+                            Save
+                          </button>
+                          <button type="button"
+                                  class="fl-rg bg-gray-lighter2 btn-small"
+                                  ng-click="privacy.close()"
+                                  ng-disabled="loading"
+                                  translate>
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                      <div class="clearfix"></div>
+                    </div>
+                    <h3 class="privacy" ng-hide="privacy.editing">
+                      <span ng-show="user.anonymous" translate>Your profile is private</span>
+                      <span ng-hide="user.anonymous" translate>Your profile is public</span>
+                      <!-- FEATURE PROFILE SLEEP DISABLED
+                      <span ng-show="user.sleeping" translate>and in sleep mode</span>
+                      <span ng-hide="user.sleeping" translate>and active</span>
+                      -->
+                      <button type="submit"
+                              class="btn-edit-sub no-fl"
+                              ng-show="isEditing"
+                              ng-disabled="loading || formOpen"
+                              ng-click="privacy.edit()">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                    </h3>
                   </div>
                   <div class="emp-off-desc">
                     <!-- Edit target position div (remove class hidden to display)-->
@@ -829,11 +876,11 @@
             <div class="job-bar">
               <div class="job-bar-item" ng-repeat="entry in timeline"
                    style="width: {{ entry.percent }}%"
-                   title="{{ entry.role }} - {{ entry.duration | yearMonth }}">
+                   title="{{ entry.role }} - {{ entry.duration | yearMonth:false:lang }}">
                 <div class="job-bar-item_up" ng-class="{
                             'bg-gray-light': $even,
                             'bg-blue-light': $odd,
-                          }">{{ entry.duration | yearMonth:entry.percent }}</div>
+                          }">{{ entry.duration | yearMonth:entry.percent:lang }}</div>
                 <div class="job-bar-item_down">{{ entry.percent > 5 && entry.role || '' }}</div>
               </div>
             </div>
@@ -843,7 +890,7 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
                 <translate>WORK EXPERIENCE</translate>
-                <span>{{ totalWorkExperience | toMonthsYears }}</span>
+                <span class="accordion-title-extra">{{ totalWorkExperience | toMonthsYears:lang }}</span>
                 <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="experience.add()">
                   <i class="fa fa-plus"></i> <translate>ADD</translate>
                 </button>
@@ -853,7 +900,7 @@
                 <div class="add-panel" ng-show="experience.editing === -2">
                   <button class="add-panel-close" ng-click="experience.close()"><i class="fa fa-close"></i></button>
                   <hc-experience-form
-                    hc-scope="experience"
+                    hc-container="experience"
                     name="form"
                     hc-required="model.length === 0 || !experience.form.isPristine()"
                     hc-disabled="loading"
@@ -900,7 +947,8 @@
                     <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
                     <span class="accordion-date">
                       {{ entry.start | showMonthYear }} –
-                      {{ entry.end || 'today' | showMonthYear }}
+                      <span ng-show="entry.end">{{ entry.end | showMonthYear }}</span>
+                      <span ng-hide="entry.end">{{ 'today' | translate }}</span>
                       ({{ entry | momentDiff | toMonthsYears }})
                     </span>
                     <div class="accordion-text">{{ entry.summary }}</div>
@@ -918,7 +966,7 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
                 <translate>EDUCATION</translate>
-                <span>{{ highestDegree }}</span>
+                <span class="accordion-title-extra">{{ highestDegree }}</span>
                 <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="education.add()">
                   <i class="fa fa-plus"></i> <translate>ADD</translate>
                 </button>
@@ -928,7 +976,7 @@
                 <div class="add-panel" ng-show="education.editing === -2">
                   <button class="add-panel-close" ng-click="education.close()"><i class="fa fa-close"></i></button>
                   <hc-education-form
-                    hc-scope="education"
+                    hc-container="education"
                     name="form"
                     hc-required="model.length === 0 || !education.form.isPristine()"
                     hc-disabled="loading"
@@ -965,7 +1013,7 @@
                   <div class="accordion-container">
                     <h3 class="accordion-subtitle">
                       {{ entry.degree }}
-                      <span>{{ entry.course }}</span>
+                      <span class="accordion-subtitle-extra">{{ entry.course }}</span>
                       <button type="button"
                               class="btn-edit-sub no-fl"
                               ng-show="isEditing"
@@ -976,7 +1024,9 @@
                     </h3>
                     <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
                     <span class="accordion-date">
-                      {{ entry.start}} – {{ entry.end || 'today' }}
+                      {{ entry.start}} –
+                      <span ng-show="entry.end">{{ entry.end }}</span>
+                      <span ng-hide="entry.end">{{ 'today' | translate }}</span>
                       ({{ entry | momentDiff | toMonthsYears }})
                     </span>
                   </div>

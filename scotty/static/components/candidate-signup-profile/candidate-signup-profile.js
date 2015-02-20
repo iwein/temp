@@ -6,6 +6,7 @@ define(function(require) {
   require('tools/file-upload/file-select-directive');
   var _ = require('underscore');
   var fn = require('tools/fn');
+  var Date = require('tools/date');
   var months = require('tools/months');
   var module = require('app-module');
 
@@ -28,7 +29,7 @@ define(function(require) {
 
 
     function sixteenYearsAgo() {
-      var date = new Date();
+      var date = Date.now();
       date.setFullYear(date.getFullYear() - 16);
       return date;
     }
@@ -45,14 +46,14 @@ define(function(require) {
       var year = $scope.dobYear;
       var month = $scope.dobMonth;
       var day = $scope.dobDay;
-      var monthIndex = months.indexOf(month);
+      var monthIndex = $scope.months.indexOf(month);
       $scope.errorTooYoung = false;
       $scope.errorInvalidDate = false;
 
       if (!year || !month || !day)
         return;
 
-      var date = new Date(year, monthIndex, day, 12);
+      var date = Date.get(year, monthIndex, day, 12);
       var dateAsString = date.toISOString().split('T')[0];
       var introduced = year + '-' + pan(monthIndex + 1) + '-' + pan(day);
       var max = sixteenYearsAgo();
@@ -152,7 +153,7 @@ define(function(require) {
         $scope.model.eu_work_visa = true;
 
       if ('dob' in $scope.model) {
-        var date = new Date($scope.model.dob);
+        var date = Date.parse($scope.model.dob);
         $scope.model.dob = date;
         $scope.dobDay = date.getDate();
         $scope.dobMonth = months[date.getMonth()];

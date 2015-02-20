@@ -5,8 +5,8 @@ define(function() {
     var name = attr.name || attr[directive];
     if (!name) return;
 
-    if (attr.hcScope) {
-      scope.$parent.$watch(attr.hcScope, function(value) {
+    if (attr.hcContainer) {
+      scope.$parent.$watch(attr.hcContainer, function(value) {
         if (value)
           value[name] = ctrl;
       });

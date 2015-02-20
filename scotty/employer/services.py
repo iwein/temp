@@ -153,7 +153,8 @@ EMPLOYER_EDITABLES = {'company_name': ID, 'website': ID, 'address_line1': ID, 'a
                       'traffic_source': lambda name: get_by_name_or_create(TrafficSource, name),
                       'tech_tags': lambda tags: get_or_create_named_collection(Skill, tags),
                       'benefits': lambda tags: get_or_create_named_collection(Benefit, tags),
-                      'other_benefits': ID}
+                      'other_benefits': ID, 'cto_blog': ID, 'cto_twitter': ID, 'tech_team_office': ID, 'working_env': ID,
+                      'dev_methodology': ID, 'video_script': ID}
 
 
 def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
@@ -164,13 +165,26 @@ def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
 
 def get_employers_pager(tags, city_id, company_name):
     params = {'city_id': city_id, 'company_name': company_name.lower() if company_name else None}
+
     tags = {'tag_%d' % i: unicode(tag) for i, tag in enumerate(tags)}
     params.update(tags)
+
     query = """select employer_id as id, matched_tags, count(*) over() as total
                 from employer_search(array[:%s], :city_id, :company_name)
                 order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
     return Pager(query, params)
 
+
+def get_suggested_employers_pager(tags, city_id, candidate_id):
+    params = {'city_id': city_id, 'candidate_id': str(candidate_id)}
+
+    tags = {'tag_%d' % i: unicode(tag) for i, tag in enumerate(tags)}
+    params.update(tags)
+
+    query = """select employer_id as id, matched_tags, count(*) over() as total
+                from suggested_employers(array[:%s], :city_id, :candidate_id)
+                order by array_length(matched_tags,1) desc""" % ',:'.join(tags.keys())
+    return Pager(query, params)
 
 def get_employer_suggested_candidate_ids(employer_id, limit=5):
     results = DBSession.execute(text("""

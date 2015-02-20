@@ -16,9 +16,13 @@ define(function(require) {
       return user && user.getData();
     }).then(function(data) {
       $scope.model = _.pick(data, [
+        'cto_blog',
+        'cto_twitter',
         'tech_team_size',
         'tech_tags',
-        'tech_team_philosophy',
+        'tech_team_office',
+        'working_env',
+        'dev_methodology',
       ]);
     }).finally(function() {
       $scope.loading = false;

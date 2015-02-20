@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('moment-de');
   require('tools/loader-service');
+  require('tools/scope-directive');
   require('tools/notifier-service');
   require('tools/moment-directive');
   require('tools/focusme-directive');
