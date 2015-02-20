@@ -106,7 +106,7 @@
                 <div class="tooltip-wrap">
                   <div class="tooltip-arrow"></div>
                   <div class="tooltip-text" translate>
-                    Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+                    Do not set your salary too high, as it will block employers to send you interesting offers, that have a slightly lower nominal salary but huge other benefits.
                   </div>
                 </div>
               </div>
@@ -890,7 +890,7 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
                 <translate>WORK EXPERIENCE</translate>
-                <span>{{ totalWorkExperience | toMonthsYears:lang }}</span>
+                <span class="accordion-title-extra">{{ totalWorkExperience | toMonthsYears:lang }}</span>
                 <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="experience.add()">
                   <i class="fa fa-plus"></i> <translate>ADD</translate>
                 </button>
@@ -966,7 +966,7 @@
             <div class="col-sm-12">
               <h2 class="big-title accordion-main-title">
                 <translate>EDUCATION</translate>
-                <span>{{ highestDegree }}</span>
+                <span class="accordion-title-extra">{{ highestDegree }}</span>
                 <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="education.add()">
                   <i class="fa fa-plus"></i> <translate>ADD</translate>
                 </button>
@@ -1013,7 +1013,7 @@
                   <div class="accordion-container">
                     <h3 class="accordion-subtitle">
                       {{ entry.degree }}
-                      <span>{{ entry.course }}</span>
+                      <span class="accordion-subtitle-extra">{{ entry.course }}</span>
                       <button type="button"
                               class="btn-edit-sub no-fl"
                               ng-show="isEditing"
