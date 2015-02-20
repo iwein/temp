@@ -40,7 +40,7 @@ define(function(require) {
       $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
       $templateCache.put('footer.html', require('text!../common/footer.html'));
       $rootScope.translate = i18n.gettext;
-      i18n.setLanguage('de');
+      i18n.setLanguage('en');
     });
 
     module.factory('toaster', function(Notifier, gettext) {

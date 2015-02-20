@@ -4,7 +4,7 @@ from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Len
     Integer, Boolean, null
 from scotty.candidate.models import InviteCode, get_locations_from_structure
 from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course, SkillLevel, Locale
-from scotty.models.meta import BIGINT_RANGE
+from scotty.models.meta import BIGINT_RANGE, DEFAULT_LANG
 from scotty.services.schema_tools import DBChoiceValue, DBListValues, must_be_true, \
     db_choice_validator, current_year_range
 
@@ -56,7 +56,7 @@ class SignupRequest(MappingSchema):
     last_name = SchemaNode(String(), validator=Length(min=2))
     invite_code = SchemaNode(DBChoiceValue(InviteCode), missing=None)
     agreedTos = SchemaNode(Boolean(), validator=must_be_true)
-    locale = SchemaNode(DBChoiceValue(Locale, default_key='de'))
+    locale = SchemaNode(DBChoiceValue(Locale, default_key=DEFAULT_LANG))
 
 
 class WorkExperienceRequest(MappingSchema):
