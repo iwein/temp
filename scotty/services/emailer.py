@@ -233,16 +233,19 @@ class MandrillEmailer(object):
                             contact_name,
                             company_name,
                             offer_id,
-                            candidate_id):
+                            candidate_id, **kwargs):
         offer_url = 'http://%s/employer/#/offer/%s' % (self.frontend, offer_id)
         candidate_url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
-        return self.send, {'to': [{'email': email, 'name': candidate_name}],
-                           'global_merge_vars': [
-                               {'content': candidate_name, 'name': 'candidate_name'},
-                               {'content': contact_name, 'name': 'contact_name'},
-                               {'content': company_name, 'name': 'company_name'},
-                               {'content': offer_url, 'name': 'offer_url'},
-                               {'content': candidate_url, 'name': 'candidate_url'}]}
+
+        gvars = [
+            {'content': candidate_name, 'name': 'candidate_name'},
+            {'content': contact_name, 'name': 'contact_name'},
+            {'content': company_name, 'name': 'company_name'},
+            {'content': offer_url, 'name': 'offer_url'},
+            {'content': candidate_url, 'name': 'candidate_url'}]
+        gvars.extend([{'content': v, 'name': k} for k,v in kwargs.items()])
+
+        return self.send, {'to': [{'email': email, 'name': candidate_name}], 'global_merge_vars': gvars}
 
     @register_i18n_template('employer-offer-accepted', de='employer-offer-accepted-de')
     def send_employer_offer_accepted(self, email, candidate_name, contact_name,
@@ -252,9 +255,9 @@ class MandrillEmailer(object):
 
     @register_i18n_template('employer-offer-rejected', de='employer-offer-rejected-de')
     def send_employer_offer_rejected(self, email, candidate_name, contact_name,
-                                     company_name, offer_id, candidate_id):
+                                     company_name, offer_id, candidate_id, reason):
         return self.send_employer_offer(email, candidate_name, contact_name, company_name, offer_id,
-                                        candidate_id)
+                                        candidate_id, rejection_reason=reason)
 
     @register_i18n_template('employer-candidate-accepted-other-offer', de='employer-candidate-accepted-other-offer-de')
     def send_employers_offer_rejected(self, offer, candidate, employers, rejection_reason):
