@@ -1,6 +1,6 @@
 <form name="formSignupMission"
-  class="component-employer-signup-mission row"
-  ng-submit="signupMission.submit()">
+      class="component-employer-signup-mission row"
+      ng-submit="signupMission.submit()">
   <div class="col-sm-8 bg-white">
     <div class="col-sm-12">
       <h2 class="signup-title" translate>Company Facts</h2>
@@ -10,12 +10,11 @@
           <label class="col-sm-3 no-padd-right" translate>Founding year</label>
           <div class="col-sm-9">
             <input type="number"
-              class="form-control"
-              placeholder="{{ 'When was the company established?' | translate }}"
-              name="founding_year"
-              name="founding_year"
-              ng-disabled="loading"
-              ng-model="model.funding_year">
+                   class="form-control"
+                   placeholder="{{ 'When was the company established?' | translate }}"
+                   name="founding_year"
+                   ng-disabled="loading"
+                   ng-model="model.funding_year">
 
             <div class="form-error" ng-show="formSignupMission.funding_year.$dirty && formSignupMission.funding_year.$invalid">
               <span ng-show="formSignupMission.funding_year.$error.required" translate>
@@ -31,19 +30,19 @@
             <div class="input-group">
               <span class="input-group-addon">€</span>
               <input type="dotted-integer"
-                class="form-control"
-                name="revenue_pa"
-                ng-max="9223372036854775808"
-                ng-disabled="loading"
-                ng-model="model.revenue_pa">
+                     class="form-control"
+                     name="revenue_pa"
+                     ng-max="9223372036854775808"
+                     ng-disabled="loading"
+                     ng-model="model.revenue_pa">
               <span class="input-group-addon">.00</span>
             </div>
-          </div>
-
-          <div class="form-error" ng-show="formTarget.revenue_pa.$dirty && formTarget.revenue_pa.$invalid">
-            <span ng-show="formTarget.revenue_pa.$error.required" translate>Please insert your expected annual revenue.</span>
-            <span ng-show="formTarget.revenue_pa.$error.number" translate>Please insert a number.</span>
-            <span ng-show="formTarget.revenue_pa.$error.pattern" translate>Decimals are not allowed.</span>
+            <div class="form-error" ng-show="formSignupMission.revenue_pa.$dirty && formSignupMission.revenue_pa.$invalid">
+              <span ng-show="formSignupMission.revenue_pa.$error.required" translate>Please insert your expected annual revenue.</span>
+              <span ng-show="formSignupMission.revenue_pa.$error.number" translate>Please insert a number.</span>
+              <span ng-show="formSignupMission.revenue_pa.$error.pattern" translate>Decimals are not allowed.</span>
+              <span ng-show="formSignupMission.revenue_pa.$error.max" translate>Does your revenue really exceed &euro;9223372036854775808 per year?</span>
+            </div>
           </div>
         </div>
 
@@ -51,18 +50,19 @@
           <label class="col-sm-3" translate>Company size</label>
           <div class="col-sm-9">
             <input type="number"
-              class="form-control"
-              placeholder="{{ 'Number of employees' | translate }}"
-              name="no_of_employees"
-              ng-disabled="loading"
-              ng-max="990000000"
-              ng-model="model.no_of_employees">
+                   class="form-control"
+                   placeholder="{{ 'Number of employees' | translate }}"
+                   name="no_of_employees"
+                   ng-disabled="loading"
+                   ng-max="990000000"
+                   ng-model="model.no_of_employees">
 
             <div class="form-error"
-              ng-show="formSignupMission.no_of_employees.$dirty && formSignupMission.no_of_employees.$invalid">
+                 ng-show="formSignupMission.no_of_employees.$dirty && formSignupMission.no_of_employees.$invalid">
               <span ng-show="formSignupMission.no_of_employees.$error.required" translate>
                 Please insert the number or employees in your company.
               </span>
+              <span ng-show="formSignupMission.no_of_employees.$error.max" translate>Does your number of employees really exceed 990000000?</span>
             </div>
           </div>
         </div>
