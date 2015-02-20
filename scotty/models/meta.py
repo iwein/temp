@@ -11,6 +11,8 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
+BIGINT_RANGE = 9223372036854775808
+
 class NamedModel(object):
     name = None
     __name_field__ = 'name'

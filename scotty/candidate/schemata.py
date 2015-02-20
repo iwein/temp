@@ -4,6 +4,7 @@ from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Len
     Integer, Boolean, null
 from scotty.candidate.models import InviteCode, get_locations_from_structure
 from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course, SkillLevel, Locale
+from scotty.models.meta import BIGINT_RANGE
 from scotty.services.schema_tools import DBChoiceValue, DBListValues, must_be_true, \
     db_choice_validator, current_year_range
 
@@ -39,7 +40,7 @@ class PreferredLocationRequest(MappingSchema):
 
 class TargetPosition(MappingSchema):
     role = SchemaNode(DBChoiceValue(Role))
-    minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=99000000))
+    minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=BIGINT_RANGE))
     skills = SchemaNode(DBListValues(Skill, create_unknown=True, min_length=1))
 
 
