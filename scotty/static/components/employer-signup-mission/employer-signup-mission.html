@@ -33,6 +33,7 @@
               <input type="dotted-integer"
                 class="form-control"
                 name="revenue_pa"
+                ng-max="9223372036854775808"
                 ng-disabled="loading"
                 ng-model="model.revenue_pa">
               <span class="input-group-addon">.00</span>
@@ -54,6 +55,7 @@
               placeholder="{{ 'Number of employees' | translate }}"
               name="no_of_employees"
               ng-disabled="loading"
+              ng-max="990000000"
               ng-model="model.no_of_employees">
 
             <div class="form-error"
