@@ -1,8 +1,9 @@
 import codecs
 from alembic import op
 import os
+from pyramid.httpexceptions import HTTPBadRequest
 from sqlalchemy.orm import class_mapper
-from sqlalchemy.sql import table, column
+from sqlalchemy.sql import table, column, asc, desc
 import sqlalchemy as sa
 from scotty.auth.provider import ADMIN_USER
 
@@ -88,3 +89,16 @@ def csv_inserter(basepath):
     return bulk_insert_names
 
 
+def add_sorting(query, order, sortables):
+    sort_order_func = asc
+    if order[0] == '-':
+        order = order[1:]
+        sort_order_func = desc
+    if order not in sortables:
+        raise HTTPBadRequest("Order must be one of: %s, it can be prefixed with "
+                             "the minus sign (-) for desc ordering" % sortables.keys())
+    else:
+        ordering = sortables[order]
+        if callable(ordering):
+            return ordering(query, sort_order_func)
+        return query.order_by(sort_order_func(ordering))
