@@ -517,6 +517,10 @@ def sort_by_salary(query, order_func):
     return query.join(TargetPosition).order_by(order_func(TargetPosition.minimum_salary))
 
 
+def sort_by_target_position_role(query, order_func):
+    return query.join(TargetPosition).join(Role).order_by(order_func(Role.name))
+
+
 CANDIDATE_SORTABLES =  {'id': Candidate.id,
                         'created': Candidate.created,
                         'name': [Candidate.first_name, Candidate.last_name],
@@ -524,4 +528,5 @@ CANDIDATE_SORTABLES =  {'id': Candidate.id,
                         'last_name': Candidate.last_name,
                         'email': Candidate.email,
                         'minimum_salary': sort_by_salary,
+                        'target_position_role': sort_by_target_position_role,
                         'preferred_location': sort_by_preferred_location}
