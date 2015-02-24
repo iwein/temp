@@ -15,6 +15,7 @@
     'amazon_acl': 'public-read',
     'api_url': 'http://scotty-prod-eu.herokuapp.com/api/',
     'support_email': 'service@4scotty.com',
-    'ga_id': 'UA-22621022-14'
+    'ga_id': 'UA-22621022-14',
+    'raygun_apikey': 'tqrimMzbMSZOd6ndSOmJNw==',
   };
 });

@@ -10,6 +10,7 @@ requirejs.config({
     'underscore': 'bower_components/underscore/underscore',
     'moment': 'bower_components/moment/moment',
     'moment-de': 'bower_components/moment/locale/de',
+    'raygun': 'bower_components/raygun4js/dist/raygun.vanilla',
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-sanitize': 'bower_components/textAngular/dist/textAngular-sanitize.min',
@@ -27,6 +28,7 @@ requirejs.config({
   },
 
   shim: {
+    'raygun': { exports: 'Raygun' },
     'angular': { exports: 'angular' },
     'ui.bootstrap': [ 'angular' ],
     'angular-router': [ 'angular' ],

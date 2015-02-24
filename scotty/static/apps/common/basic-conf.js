@@ -24,6 +24,11 @@ define(function(require) {
   require('components/element-language-selector/element-language-selector');
   require('./translations');
   var conf = require('conf');
+  var Raygun = require('raygun');
+
+  Raygun.init(config.raygun_apikey, {
+    excludedHostnames: ['localhost'],
+  }).attach();
 
   if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
@@ -31,9 +36,17 @@ define(function(require) {
   }
 
   return function basicConf(module) {
-    module.config(function($httpProvider, LightboxProvider) {
+    module.config(function($provide, $httpProvider, LightboxProvider) {
       $httpProvider.defaults.withCredentials = true;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
+
+      $provide.decorator('$exceptionHandler', function($delegate) {
+        return function (exception, cause) {
+          console.log('LOGGING:', exception.message);
+          Raygun.send(exception);
+          $delegate(exception, cause);
+        };
+      });
     });
 
     module.run(function($templateCache, $rootScope, i18n) {

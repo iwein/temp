@@ -4,6 +4,7 @@ define(function(require) {
   var throttlePromise = require('./tools/throttle-promise');
   var Employer = require('apps/common/employer');
   var Candidate = require('apps/common/candidate');
+  var Raygun = require('raygun');
 
 
   function EmployerSession(api, i18n) {
@@ -25,9 +26,12 @@ define(function(require) {
       this._unsetUser();
       this._i18n.setLanguage(response.locale);
       this.user = new Employer(this._api, 'me', response);
-      this.isApproved= response.is_approved;
+      this.isApproved = response.is_approved;
       this.isActivated = true;
+
       document.title = '4Scotty – ' + response.company_name;
+      Raygun.setUser(response.id, false, response.email);
+
       if(window.UserVoice !== null && response.email && response.company_name){
         window.UserVoice.push(['identify', {
           email: response.email,

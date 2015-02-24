@@ -15,7 +15,7 @@
     'amazon_acl': 'public-read',
     'api_url': 'http://sheltered-meadow-1359.herokuapp.com/api/',
     'support_email': 'service@4scotty.com',
-    'ga_id': 'UA-XXXXXXXX-X'
-    //'api_url': 'http://127.0.0.1:8880/api/'
+    'ga_id': 'UA-XXXXXXXX-X',
+    'raygun_apikey': 'tqrimMzbMSZOd6ndSOmJNw==',
   };
 });
