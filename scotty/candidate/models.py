@@ -6,7 +6,7 @@ from datetime import datetime
 from scotty.auth.provider import EMPLOYER
 from scotty.services import hash_pwd
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
-    UniqueConstraint, DateTime, func, and_, or_
+    UniqueConstraint, DateTime, func, and_, or_, BigInteger
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship, foreign
@@ -496,7 +496,7 @@ class TargetPosition(Base):
 
     candidate_id = Column(GUID, default=uuid4, primary_key=True)
     created = Column(DateTime, nullable=False, default=datetime.now)
-    minimum_salary = Column(Integer, nullable=False)
+    minimum_salary = Column(BigInteger, nullable=False)
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
     role = relationship(Role)
     skills = relationship(Skill, secondary=target_position_skills)

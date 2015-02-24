@@ -164,7 +164,7 @@
         <div class="col-sm-12">
           <h2 class="big-title accordion-main-title">
             <translate>WORK EXPERIENCE</translate>
-            <span>{{ totalWorkExperience | toMonthsYears }}</span>
+            <span class="accordion-title-extra">{{ totalWorkExperience | toMonthsYears }}</span>
           </h2>
           <div class="accordion-wrap">
             <hc-accordion ng-repeat="entry in workExperience" hc-hide-control="!entry.summary && !entry.skills.length">
@@ -189,13 +189,13 @@
         <div class="col-sm-12">
           <h2 class="big-title accordion-main-title">
             <translate>EDUCATION</translate>
-            <span>{{ highestDegree }}</span>
+            <span class="accordion-title-extra">{{ highestDegree }}</span>
           </h2>
           <div class="accordion-wrap">
             <div class="accordion-container" ng-repeat="entry in education">
               <h3 class="accordion-subtitle">
                 {{ entry.degree }}
-                <span>{{ entry.course }}</span>
+                <span class="accordion-subtitle-extra">{{ entry.course }}</span>
               </h3>
               <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
               <span class="accordion-date">

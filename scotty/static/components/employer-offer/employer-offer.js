@@ -41,8 +41,8 @@ define(function(require) {
         offer.getTimeline().then(fn.setTo('timeline', $scope)),
         getCandidateData(),
       ])
-      .then(function() { $scope.ready = true })
-      .finally(function() { Loader.page(false) });
+        .then(function() { $scope.ready = true })
+        .finally(function() { Loader.page(false) });
     }
 
     function configureOffer() {
@@ -80,9 +80,10 @@ define(function(require) {
       $scope.signing = {};
     }
 
-    function sign(offer, form) {
+    function sign(offer, model, formSigned) {
+      if (!formSigned.$valid)return;
       Loader.add('offer-sign');
-      return offer.sign(form)
+      return offer.sign(model)
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() { Loader.remove('offer-sign') });
     }

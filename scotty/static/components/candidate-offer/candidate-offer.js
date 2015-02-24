@@ -48,8 +48,8 @@ define(function(require) {
       var hired = $scope.has_been_hired = data.candidate_has_been_hired;
       if (hired) {
         toaster.success(offer.status === 'CONTRACT_SIGNED' ?
-          i18n.gettext('You have already accepted this offer!') :
-          i18n.gettext('You have already accepted another offer!'),
+            i18n.gettext('You have already accepted this offer!') :
+            i18n.gettext('You have already accepted another offer!'),
           { untilStateChange: true });
       }
     }
@@ -79,13 +79,14 @@ define(function(require) {
         showForm: $scope.showForm === id ? '' : id,
         acceptance: { email: email },
         rejection: {},
-        signing: {},
+        signing: {}
       });
     }
 
-    function accept(offer, form) {
+    function accept(offer, model, formAccept) {
+      if (!formAccept.$valid)return;
       Loader.add('offer-accept');
-      return offer.accept(form)
+      return offer.accept(model)
         .then(toggleForm.bind(null, 'accept'))
         .finally(function() { Loader.remove('offer-accept') });
     }
@@ -97,9 +98,10 @@ define(function(require) {
         .finally(function() { Loader.remove('offer-reject') });
     }
 
-    function sign(offer, form) {
+    function sign(offer, model, formSigned) {
+      if (!formSigned.$valid)return;
       Loader.add('offer-sign');
-      return offer.sign(form)
+      return offer.sign(model)
         .then(toggleForm.bind(null, 'sign'))
         .finally(function() {
           toaster.success(

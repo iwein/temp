@@ -1,8 +1,8 @@
 <div class="component-employer-offer mrg-btm" ng-show="ready">
-  <div class="inner">
-    <div class="status-wrap">
-      <div class="status status-{{offer.status}}">
-        <span><translate>status</translate>: </span>
+<div class="inner">
+<div class="status-wrap">
+  <div class="status status-{{offer.status}}">
+    <span><translate>status</translate>: </span>
 
         <span class="accept-message">
           <span class="iconParent"><i class="fa blue-link fa-clock-o"></i></span>
@@ -32,239 +32,233 @@
           <span class="iconParent"><i class="fa red fa-times-circle"></i></span>
           <span class="red" translate>candidate has rejected this offer</span>
         </span>
-      </div>
-    </div>
-    <div class="row">
+  </div>
+</div>
+<div class="row">
 
-      <div class="col-sm-3">
-        <hc-candidate-pic picture-url="candidate._data.picture_url"></hc-candidate-pic>
+<div class="col-sm-3">
+  <hc-candidate-pic picture-url="candidate._data.picture_url"></hc-candidate-pic>
 
-        <!--  Contacts box-->
-        <div class="row" ng-if="offer.data.accepted">
-          <div class="col-sm-12 info bg-gray-light mrg-btm">
-              <div class="row ">
-                <div class="contacts">
-                  <div class="fl-lf">
-                    <span class="box-title box-title_left" translate>Contact</span>
-                  </div>
-                  <div class="fl-rg">
-                    <a ng-show="candidate._data.github_url" ng-href="{{ candidate._data.github_url }}">
-                      <i class="fa fa-github"></i>
-                    </a>
-                    <a ng-show="candidate._data.stackoverflow_url" ng-href="{{ candidate._data.stackoverflow_url }}">
-                      <i class="fa fa-stack-overflow"></i>
-                    </a>
-                    <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
-                  </div>
-                </div>
-                <div class="padd-vert col-sm-12">
-                  <div class="smbd orange mrg-btm-small">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
-                    {{ candidate._data.email }}
-                  </div>
-                  <div ng-show="candidate._data.contact_phone">
-                    <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                    {{ candidate._data.contact_phone }}
-                  </div>
-                </div>
-              </div>
+  <!--  Contacts box-->
+  <div class="row" ng-if="offer.data.accepted">
+    <div class="col-sm-12 info bg-gray-light mrg-btm">
+      <div class="row ">
+        <div class="contacts">
+          <div class="fl-lf">
+            <span class="box-title box-title_left" translate>Contact</span>
+          </div>
+          <div class="fl-rg">
+            <a ng-show="candidate._data.github_url" ng-href="{{ candidate._data.github_url }}">
+              <i class="fa fa-github"></i>
+            </a>
+            <a ng-show="candidate._data.stackoverflow_url" ng-href="{{ candidate._data.stackoverflow_url }}">
+              <i class="fa fa-stack-overflow"></i>
+            </a>
+            <a class="hidden" href="#"><i class="fa fa-globe"></i></a>
           </div>
         </div>
-        <!--  Contacts placeholder-->
-        <div class="row" ng-show="!offer.data.accepted">
-          <div class="col-sm-12 info bg-gray-light mrg-btm">
-            <p class="pad-xl" translate>The contact details will be visible after the candidate accepted your offer.</p>
+        <div class="padd-vert col-sm-12">
+          <div class="smbd orange mrg-btm-small">
+            <span class="iconParent"><i class="fa fa-envelope orange"></i></span>
+            {{ candidate._data.email }}
           </div>
-        </div>
-
-
-        <div class="rel row pad-btm-15">
-
-          <div class="timeline">
-            <div class="gray-bar"></div>
-            <div class="timeline-start"></div>
-          </div>
-
-          <div class="timeline-head clearfix">
-            <div class="col-sm-2 no-padd-right">
-              <div class="dot"><i class="fa fa-circle"></i></div>
-            </div>
-            <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
-          </div>
-            <hc-employer-offer-newsitem class="timeline-item clearfix" entry="entry" ng-repeat="entry in timeline"></hc-employer-offer-newsitem>
-        </div>
-      </div>
-
-      <div class="col-sm-6 bg-white">
-        <div class="row bg-blue">
-          <div class="col-sm-12">
-            <h2 class="main-title-blue" translate>Offer</h2>
-          </div>
-        </div>
-        <div class="row bg-white">
-          <div class="col-sm-12">
-            <div class="emp-off-desc">
-              <h3 class="main-profession">{{ offer.data.role }}</h3>
-              <h4 class="main-subtitle"><a class="smbd" ui-sref="candidate({ id: candidate._data.id })">
-                {{ candidate._data.first_name }} {{ candidate._data.last_name }}
-              </a></h4>
-              <h4 class="main-agency" ng-if="candidatePosition">{{ candidatePosition.role }} @ {{ candidatePosition.company }}</h4>
-              <p class="typography" ng-bind-html="offer.data.message"></p>
-              <h4 class="main-subtitle"><span class="blue-link" translate>Job Description</span></h4>
-              <p class="typography" ng-bind-html="offer.data.job_description"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="row bg-gray-lighter2 employer-offer-info-box">
-          <div class="col-sm-12 padd-vert status-{{offer.status}}">
-            <div class="font-22">
-              <span class="iconParent"><i class="fa fa-euro"></i></span>
-              <span class="smbd custom">
-                {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
-              </span>
-              / <translate>year</translate>
-            </div>
-            <div class="font-22">
-              <span class="iconParent"><i class="fa fa-map-marker"></i></span>
-              {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
-            </div>
-            <div class="box-title box-title_left mrg-btm"></div>
-            <h5 ><span class="custom" translate>Skills</span></h5>
-            <div class="clearfix skills-wrap-right row">
-              <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
-                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>{{ tech }}</span>
-              </div>
-            </div>
-            <div ng-if="offer.data.benefits.length">
-              <div class="box-title box-title_left mrg-btm"></div>
-              <h5><span class="custom" translate>Benefits</h5>
-              <hc-benefits-display benefits="offer.data.benefits" other-benefits="offer.data.other_benefits"></hc-benefits-display>
-            </div>
-          </div>
-        </div>
-        <div class="row mrg-btm active-form-{{ showForm || 'none' }}">
-          <!-- Next Status -->
-          <div class="buttons-wrap">
-            <button class="fw btn bg-green" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
-              {{ offer.getNextStatusText() }}
-            </button>
-          </div>
-          <!--  End Status  -->
-
-          <!-- Contract Signed -->
-          <div class="buttons-wrap">
-            <button class="fw btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
-          </div>
-
-          <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
-            <form ngme="formSign" class="form-wrap" ng-submit="sign(offer, signing)">
-              <p translate>Please provide the following information.</p>
-              <div class="row padd-form">
-                <label class="col-sm-3" translate>Start date</label>
-                <div class="col-sm-9">
-                  <input type="date"
-                    name="start_date"
-                    class="form-control"
-                    placeholder="{{ 'YYYY-MM-DD' | translate }}"
-                    required
-                    ng-disabled="hcDisabled"
-                    ng-model="signing.start_date">
-                </div>
-                <div class="form-error" ng-show="formSign.start_date.$dirty && formSign.start_date.$invalid">
-                  <span ng-show="formSign.start_date.$error.required" translate>Please insert the start date.</span>
-                </div>
-              </div>
-
-              <div class="row padd-form">
-                <label class="col-sm-3" translate>Start salary</label>
-                <div class="col-sm-9">
-                  <input type="dotted-integer"
-                    name="start_salary"
-                    class="form-control"
-                    placeholder="{{ 'Start salary' | translate }}"
-                    required
-                    ng-disabled="hcDisabled"
-                    ng-model="signing.start_salary">
-                </div>
-                <div class="form-error" ng-show="formSign.start_salary.$dirty && formSign.start_salary.$invalid">
-                  <span ng-show="formSign.start_salary.$error.required" translate>Please insert the defined salary.</span>
-                </div>
-              </div>
-              <div class="form-error">
-                <span translate>Please choose your start date</span>
-              </div>
-              <div class="buttons-wrap">
-                <button class="bg-green fl-rg btn-small" translate>Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- End Contract Signed -->
-
-          <!-- withdrawn -->
-          <div class="buttons-wrap text-center">
-            <button class="link-red" ng-show="offer.canWithdraw()" ng-click="toggleForm('withdraw')" ng-class="{
-              fw: !offer.canNextStatus() && !offer.canSign(),
-            }"><span translate>Withdraw</span></button>
-          </div>
-
-          <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'withdraw'">
-            <form name="formWithdraw" class="form-wrap" ng-submit="withdraw(offer, withdrawal)">
-              <p translate>Please define the reason for your withdrawal.</p>
-              <div class="row padd-form">
-                <div class="label-wrap col-sm-12 mrg-btm">
-                  <div ng-repeat="reason in withdrawReasons">
-                    <label>
-                      <span class="iconParent">
-                      <input type="radio"
-                        name="withdrawReason"
-                        value="{{ reason }}"
-                        ng-required="!withdrawal.reason"
-                        ng-model="withdrawal.reason"
-                        ng-change="withdrawal.withdrawal_text = null">
-                      </span>
-                      {{ reason | translate }}
-                    </label>
-                  </div>
-                  <div class="form-error" ng-show="formWithdraw.withdrawReason.$dirty && formWithdraw.withdrawReason.$invalid">
-                    <span ng-show="formWithdraw.withdrawReason.$error.required" translate>Please choose a reject reason.</span>
-                  </div>
-                </div>
-              </div>
-
-              <div ng-if="withdrawal.reason.toLowerCase() === 'other'">
-                <div class="pad-label">
-                  <textarea
-                    name="specificReason"
-                    class="txtarea"
-                    placeholder="{{ 'Please describe your reason' | translate }}"
-                    required
-                    ng-model="withdrawal.withdrawal_reason">
-                  </textarea>
-                </div>
-                <div class="form-error" ng-show="formWithdraw.specificReason.$dirty && formWithdraw.specificReason.$invalid">
-                  <span ng-show="formWithdraw.specificReason.$error.required" translate>Please insert a reason.</span>
-                </div>
-              </div>
-              <div class="buttons-wrap">
-                <button type="submit" class="bg-green fl-rg btn-small" translate>Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- end withdrawn -->
-
-        </div>
-        <div class="row border-box">
-          <div class="col-sm-12 padd-vert">
-            <div class="box-title box-title_left lt gray-darker" translate>Hiring process</div>
-            <p class="gray" ng-bind-html="offer.data.interview_details"></p>
+          <div ng-show="candidate._data.contact_phone">
+            <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
+            {{ candidate._data.contact_phone }}
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!--  Contacts placeholder-->
+  <div class="row" ng-show="!offer.data.accepted">
+    <div class="col-sm-12 info bg-gray-light mrg-btm">
+      <p class="pad-xl" translate>The contact details will be visible after the candidate accepted your offer.</p>
+    </div>
+  </div>
+
+
+  <div class="rel row pad-btm-15">
+
+    <div class="timeline">
+      <div class="gray-bar"></div>
+      <div class="timeline-start"></div>
+    </div>
+
+    <div class="timeline-head clearfix">
+      <div class="col-sm-2 no-padd-right">
+        <div class="dot"><i class="fa fa-circle"></i></div>
+      </div>
+      <div class="col-sm-10">{{ offer.data.created | momentDate }}</div>
+    </div>
+    <hc-employer-offer-newsitem class="timeline-item clearfix" entry="entry" ng-repeat="entry in timeline"></hc-employer-offer-newsitem>
+  </div>
+</div>
+
+<div class="col-sm-6 bg-white">
+  <div class="row bg-blue">
+    <div class="col-sm-12">
+      <h2 class="main-title-blue" translate>Offer</h2>
+    </div>
+  </div>
+  <div class="row bg-white">
+    <div class="col-sm-12">
+      <div class="emp-off-desc">
+        <h3 class="main-profession">{{ offer.data.role }}</h3>
+        <h4 class="main-subtitle"><a class="smbd" ui-sref="candidate({ id: candidate._data.id })">
+          {{ candidate._data.first_name }} {{ candidate._data.last_name }}
+        </a></h4>
+        <h4 class="main-agency" ng-if="candidatePosition">{{ candidatePosition.role }} @ {{ candidatePosition.company }}</h4>
+        <p class="typography" ng-bind-html="offer.data.message"></p>
+        <h4 class="main-subtitle"><span class="blue-link" translate>Job Description</span></h4>
+        <p class="typography" ng-bind-html="offer.data.job_description"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-3">
+  <div class="row bg-gray-lighter2 employer-offer-info-box">
+    <div class="col-sm-12 padd-vert status-{{offer.status}}">
+      <div class="font-22">
+        <span class="iconParent"><i class="fa fa-euro"></i></span>
+              <span class="smbd custom">
+                {{ offer.data.job_start_salary || offer.data.annual_salary | dottedInteger }}.00
+              </span>
+        / <translate>year</translate>
+      </div>
+      <div class="font-22">
+        <span class="iconParent"><i class="fa fa-map-marker"></i></span>
+        {{ offer.data.location.city }}, {{ offer.data.location.country_iso }}
+      </div>
+      <div class="box-title box-title_left mrg-btm"></div>
+      <h5 ><span class="custom" translate>Skills</span></h5>
+      <div class="clearfix skills-wrap-right row">
+        <div class="col-sm-6 mrg-btm-small" ng-repeat="tech in offer.data.technologies">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>{{ tech }}</span>
+        </div>
+      </div>
+      <div ng-if="offer.data.benefits.length">
+        <div class="box-title box-title_left mrg-btm"></div>
+        <h5><span class="custom" translate>Benefits</h5>
+        <hc-benefits-display benefits="offer.data.benefits" other-benefits="offer.data.other_benefits"></hc-benefits-display>
+      </div>
+    </div>
+  </div>
+  <div class="row mrg-btm active-form-{{ showForm || 'none' }}">
+    <!-- Next Status -->
+    <div class="buttons-wrap">
+      <button class="fw btn bg-green" ng-show="offer.canNextStatus()" ng-click="offer.nextStatus()">
+        {{ offer.getNextStatusText() }}
+      </button>
+    </div>
+    <!--  End Status  -->
+
+    <!-- Contract Signed -->
+    <div class="buttons-wrap">
+      <button class="fw btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
+    </div>
+    <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
+      <form class="form-wrap" name="formSigned" ng-submit="sign(offer, signing, formSigned)">
+        <p translate>Please provide the following information.</p>
+        <div class="row padd-form">
+
+          <label class="col-sm-3" translate>Start date</label>
+          <div class="col-sm-9">
+            <input type="date"
+                   class="form-control"
+                   placeholder="{{ 'YYYY-MM-DD' | translate }}"
+                   ng-required="'true"
+                   name="start_date"
+                   ng-disabled="hcDisabled"
+                   ng-model="signing.start_date">
+            <div class="form-error" ng-show="formSigned.start_date.$dirty && formSigned.start_date.$invalid">
+              <span ng-show="formSigned.start_date.$error.required" translate>Please enter your job start date.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row padd-form">
+          <label class="col-sm-3" translate>Start salary</label>
+          <div class="col-sm-9">
+            <input type="dotted-integer"
+                   class="form-control"
+                   placeholder="{{ 'Start salary' | translate }}"
+                   ng-required="true"
+                   ng-max="99000000"
+                   name="start_salary"
+                   ng-disabled="hcDisabled"
+                   ng-model="signing.start_salary">
+            <div class="form-error" ng-show="formSigned.start_salary.$dirty && formSigned.start_salary.$invalid">
+              <span ng-show="formSigned.start_salary.$error.required" translate>Please insert your actual starting salary.</span>
+              <span ng-show="formSigned.start_salary.$error.number" translate>Please insert a number.</span>
+              <span ng-show="formSigned.start_salary.$error.pattern" translate>Decimals are not allowed.</span>
+              <span ng-show="formSigned.start_salary.$error.max" translate>Please select a salary below &euro;99,000,000.</span>
+            </div>
+          </div>
+        </div>
+        <div class="buttons-wrap">
+          <button class="bg-green fl-rg btn-small" translate>Submit</button>
+        </div>
+      </form>
+    </div>
+    <!-- End Contract Signed -->
+
+    <!-- withdrawn -->
+    <div class="buttons-wrap text-center">
+      <button class="link-red" ng-show="offer.canWithdraw()" ng-click="toggleForm('withdraw')" ng-class="{
+              fw: !offer.canNextStatus() && !offer.canSign(),
+            }"><span translate>Withdraw</span></button>
+    </div>
+
+    <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'withdraw'">
+      <form class="form-wrap"  ng-submit="withdraw(offer, withdrawal)">
+        <p translate>Please define the reason for your withdrawal.</p>
+        <div class="row padd-form">
+          <div class="label-wrap col-sm-12 mrg-btm">
+            <div ng-repeat="reason in withdrawReasons">
+              <label>
+                <span class="iconParent">
+                <input type="radio"
+                       name="withdrawReason"
+                       value="{{ reason }}"
+                       ng-required="!withdrawal.reason"
+                       ng-model="withdrawal.reason"
+                       ng-change="withdrawal.withdrawal_text = null">
+                </span>
+                {{ reason | translate }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div ng-if="withdrawal.reason.toLowerCase() === 'other'">
+          <div class="pad-label">
+            <textarea
+              class="txtarea"
+              placeholder="{{ 'Please describe your reason' | translate }}"
+              required
+              ng-model="withdrawal.withdrawal_reason">
+            </textarea>
+          </div>
+        </div>
+        <div class="buttons-wrap">
+          <button type="submit" class="bg-green fl-rg btn-small" translate>Submit</button>
+        </div>
+      </form>
+    </div>
+    <!-- end withdrawn -->
+
+  </div>
+  <div class="row border-box">
+    <div class="col-sm-12 padd-vert">
+      <div class="box-title box-title_left lt gray-darker" translate>Hiring process</div>
+      <p class="gray" ng-bind-html="offer.data.interview_details"></p>
+    </div>
+  </div>
+</div>
+</div>
+</div>
 </div>
 
 

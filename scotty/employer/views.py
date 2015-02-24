@@ -92,7 +92,11 @@ class EmployerController(RootController):
                 raise HTTPForbidden("Not logged in.")
         employer = DBSession.query(cls).get(employer_id)
         if not employer:
-            raise HTTPNotFound("Unknown Employer ID")
+            if self.request.matchdict["employer_id"] == 'me':
+                self.request.session.invalidate()
+                raise HTTPForbidden("Not logged in.")
+            else:
+                raise HTTPNotFound("Unknown Employer ID")
         return employer
 
     @view_config(route_name='employers', permission=NO_PERMISSION_REQUIRED, **POST)

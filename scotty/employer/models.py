@@ -12,7 +12,7 @@ from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
     DISPLAY_PRIVATE
-from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime
+from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime, BigInteger
 from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship
 
@@ -126,8 +126,8 @@ class Employer(Base, JsonSerialisable):
     training_policy = Column(Text, info=PUBLIC)
 
     founding_year = Column(Integer, info=PUBLIC)
-    revenue_pa = Column(Integer, info=PUBLIC)
-    funding_amount = Column(Integer, info=PUBLIC)
+    revenue_pa = Column(BigInteger, info=PUBLIC)
+    funding_amount = Column(BigInteger, info=PUBLIC)
     funding_text = Column(Text, info=PUBLIC)
 
     no_of_employees = Column(Integer, info=PUBLIC)

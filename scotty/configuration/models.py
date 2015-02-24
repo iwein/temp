@@ -65,6 +65,10 @@ class RejectionReason(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False, unique=True)
 
+    @property
+    def is_other(self):
+        return self.name == self.OTHER
+
 
 class WithdrawalReason(Base, NamedModel):
     __tablename__ = 'withdrawalreason'

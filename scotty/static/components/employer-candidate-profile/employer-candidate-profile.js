@@ -49,13 +49,14 @@ define(function(require) {
         setSkills(data.skills);
         candidateStatus(offers, data);
         generateTimeline($scope.workExperience);
+        $scope.preferredLocations = parsePreferredLocations(data.preferred_location);
 
         _.extend($scope, {
           cities: data.preferred_location,
           languages: data.languages,
           skills: data.skills,
           user: data,
-          ready: true,
+          ready: true
         });
       })
       .catch(toaster.defaultError)
@@ -97,6 +98,16 @@ define(function(require) {
       $scope.timeline = timeline.sort(function(a, b) {
         return a.start - b.start;
       });
+    }
+
+    function parsePreferredLocations(locations) {
+      if (!locations) return i18n.gettext('Not specified');
+
+      return Object.keys(locations).map(function(country) {
+        var cities = locations[country];
+        var text = cities.length ? cities.join(', ') : i18n.gettext('Anywhere');
+        return text + ' ' + country;
+      }).join(' - ');
     }
 
     function setOffers(offers) {
