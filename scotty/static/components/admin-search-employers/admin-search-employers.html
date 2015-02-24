@@ -33,11 +33,11 @@
               <th sort-field="id">ID</th>
               <th sort-field="created">Signup</th>
               <th>Logo</th>
-              <th sort-field="company_name">Name</th>
+              <th sort-field="name">Name</th>
               <th sort-field="email">Email</th>
-              <th sort-field="contact_first_name">Contact</th>
+              <th>Contact</th>
               <th>Status</th>
-              <!-- <th>Location</th> -->
+              <th sort-field="location">Location</th>
               <th>Company type</th>
               <th></th>
             </tr>
@@ -51,9 +51,9 @@
               <td>{{ employer.email }}</td>
               <td><small>{{ employer.contact_first_name }} {{ employer.contact_last_name }}</small></td>
               <td>{{ employer.status }}</td>
-              <!-- <td><div ng-if="employer.location">
+              <td><div ng-if="employer.location">
                 {{ employer.location.city }}, {{ employer.location.country_iso }}
-              </div></td> -->
+              </div></td>
               <td>{{ employer.company_type }}</td>
               <td><a ui-sref="employer({ id: employer.id })">Details &raquo;</a></td>
             </tr>
