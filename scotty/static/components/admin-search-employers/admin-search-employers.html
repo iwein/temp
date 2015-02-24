@@ -51,8 +51,8 @@
               <td>{{ employer.email }}</td>
               <td><small>{{ employer.contact_first_name }} {{ employer.contact_last_name }}</small></td>
               <td>{{ employer.status }}</td>
-              <td><div ng-if="employer.location">
-                {{ employer.location.city }}, {{ employer.location.country_iso }}
+              <td><div ng-if="employer.offices[0].address_city">
+                {{ employer.offices[0].address_city.city }}, {{ employer.offices[0].address_city.country_iso }}
               </div></td>
               <td>{{ employer.company_type }}</td>
               <td><a ui-sref="employer({ id: employer.id })">Details &raquo;</a></td>
