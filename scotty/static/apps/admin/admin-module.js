@@ -4,6 +4,7 @@ define(function(require) {
   require('angular-gettext');
   require('ui.bootstrap');
   require('angular-bootstrap-lightbox');
+  require('tools/table-utils/table-utils');
   var angular = require('angular');
 
   return angular.module('scotty-admin', [
@@ -11,5 +12,6 @@ define(function(require) {
     'ui.router',
     'ui.bootstrap',
     'bootstrapLightbox',
+    'tableUtils'
   ]);
 });

@@ -16,7 +16,25 @@ define(function(require) {
     });
 
     function executeSearch(params) {
-      return Session.searchCandidates(params);
+      return Session.searchCandidates(params).then(function(response) {
+        response.data.forEach(function(candidate) {
+          candidate.preferred_location = parsePreferredLocations(candidate._data.preferred_location);
+          candidate.skills = candidate._data.skills.map(function(skill) {
+            return skill.skill;
+          }).join(', ');
+        });
+        return response;
+      });
+    }
+
+    function parsePreferredLocations(locations) {
+      if (!locations) return 'Not specified';
+
+      return Object.keys(locations).map(function(country) {
+        var cities = locations[country];
+        var text = cities.length ? cities.join(', ') : 'Anywhere';
+        return text + ' ' + country;
+      }).join(' - ');
     }
   });
 

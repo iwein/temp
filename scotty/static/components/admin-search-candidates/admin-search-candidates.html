@@ -12,40 +12,57 @@
     <h1>Search candidates</h1>
     <ul class="list-group">
       <hc-admin-search on-search="executeSearch($params)" hc-show-skills="true" hc-statuses="statuses" hc-status="{{ status }}">
-        <li class="list-group-item" ng-repeat="candidate in results">
-          <div class="row">
-            <div class="col-sm-12" style="margin-bottom: 5px;">
-                  <b>ID: {{ candidate._data.id }}</b>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1 text-center">
-              <img src="{{ candidate._data.picture_url }}" style="max-height:50px;max-width:50px;" />
-            </div>
-            <div class="col-sm-2">
-              {{ candidate._data.first_name }} {{ candidate._data.last_name }}
-              <small ng-if="candidate._data.anonymous">(anonymous)</small>
-            </div>
-            <div class="col-sm-4">
-              {{ candidate._data.email }}
-              <small ng-if="!candidate._data.activated">(unconfirmed)</small>
-            </div>
-            <div class="col-sm-2">
-              Signup: <b>{{ candidate._data.created | date }}</b>
-              <div ng-if="candidate._data.location">
-                Residence: {{ candidate._data.location.city }}, {{ candidate._data.location.country_iso }}
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <small ng-repeat="skill in candidate._data.skills">{{ skill.skill }}<span ng-if="!$last">,</span>
-              </small>
-            </div>
-            <div class="col-sm-1">
-              <b>{{ candidate._data.status }}</b>
-              <a ui-sref="candidate({ id: candidate._data.id })">Details &raquo;</a>
-            </div>
-          </div>
-        </li>
+        <table class="table" query-builder="results">
+          <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th sort-field="id">ID</th>
+              <th sort-field="created">Signup</th>
+              <th>Avatar</th>
+              <th sort-field="first_name">Name</th>
+              <th sort-field="email">Email</th>
+              <th>Status</th>
+              <th sort-field="target_position.role">Target position</th>
+              <th sort-field="target_position.salary">Target salary</th>
+              <th sort-field="preferred_location">Preferred location</th>
+              <th>Skills</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="candidate in results">
+              <td><small>{{ candidate._data.id }}</small></td>
+              <td>{{ candidate._data.created | date }}</td>
+              <td><img style="max-height:50px;max-width:50px;" src="{{ candidate._data.picture_url }}"/></td>
+              <td>
+                {{ candidate._data.first_name }} {{ candidate._data.last_name }}
+                <small ng-if="candidate._data.anonymous">(anonymous)</small>
+              </td>
+              <td>
+                {{ candidate._data.email }}
+                <small ng-if="!candidate._data.activated">(unconfirmed)</small>
+              </td>
+              <td><b>{{ candidate._data.status }}</b></td>
+              <td>{{ candidate._data.target_position.role }}</td>
+              <td>{{ candidate._data.target_position.minimum_salary }}</td>
+              <td>{{ candidate.preferred_location }}</td>
+              <td>{{ candidate.skills }}</td>
+              <td><a ui-sref="candidate({ id: candidate._data.id })">Details &raquo;</a></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="6" align="center"><load-more></load-more></td></tr>
+          </tfoot>
+        </table>
       </hc-admin-search>
   </div>
 </div>

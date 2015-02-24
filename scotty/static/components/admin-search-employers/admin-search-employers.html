@@ -16,39 +16,52 @@
     <h1>Search employers</h1>
     <ul class="list-group clearfix">
       <hc-admin-search on-search="executeSearch($params)" hc-statuses="statuses" hc-status="{{ status }}">
-        <li class="list-group-item" ng-repeat="employer in results">
-          <div class="row">
-            <div class="col-sm-12" style="margin-bottom: 5px;">
-              <b>ID: {{ employer.id }}</b>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1 text-center">
-              <img style="max-height:50px;max-width:50px;" src="{{ employer.logo_url }}"/>
-            </div>
-            <div class="col-sm-2">
-              {{ employer.company_name }}
-            </div>
-            <div class="col-sm-4">
-              {{ employer.email }}<br/>
-              <small>{{ employer.contact_first_name }} {{ employer.contact_last_name }}</small>
-            </div>
-            <div class="col-sm-2">
-              Signup: <b>{{ employer.created | date }}</b>
-              <div ng-if="employer.location">
-                Residence: {{ employer.location.city }}, {{ employer.location.country_iso }}
-              </div>
-            </div>
-            <div class="col-sm-1">
-              {{ employer.company_type }}
-            </div>
-            <div class="col-sm-2">
-              <b>{{ employer.status }}</b>
-              <a ui-sref="employer({ id: employer.id })">Details &raquo;</a>
-            </div>
-          </div>
-        </li>
-
+        <table class="table" query-builder="results">
+          <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th sort-field="id">ID</th>
+              <th sort-field="created">Signup</th>
+              <th>Logo</th>
+              <th sort-field="company_name">Name</th>
+              <th sort-field="email">Email</th>
+              <th sort-field="contact_first_name">Contact</th>
+              <th>Status</th>
+              <!-- <th>Location</th> -->
+              <th>Company type</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="employer in results">
+              <td><small>{{ employer.id }}</small></td>
+              <td>{{ employer.created | date }}</td>
+              <td><img style="max-height:50px;max-width:50px;" src="{{ employer.logo_url }}"/></td>
+              <td>{{ employer.company_name }}</td>
+              <td>{{ employer.email }}</td>
+              <td><small>{{ employer.contact_first_name }} {{ employer.contact_last_name }}</small></td>
+              <td>{{ employer.status }}</td>
+              <!-- <td><div ng-if="employer.location">
+                {{ employer.location.city }}, {{ employer.location.country_iso }}
+              </div></td> -->
+              <td>{{ employer.company_type }}</td>
+              <td><a ui-sref="employer({ id: employer.id })">Details &raquo;</a></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="6" align="center"><load-more></load-more></td></tr>
+          </tfoot>
+        </table>
       </hc-admin-search>
     </ul>
   </div>
