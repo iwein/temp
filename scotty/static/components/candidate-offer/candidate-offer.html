@@ -120,7 +120,7 @@
             <button class="col-sm-12 btn bg-green" ng-show="offer.canAccept()" ng-click="toggleForm('accept')" translate>Accept</button>
           </div>
           <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'accept'">
-            <form class="form-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
+            <form name="formAccept" class="form-wrap" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance)">
 
               <div class="row mrg-btm-small">
                 <div class="col-sm-3 no-padd-right">
@@ -133,8 +133,8 @@
                     required
                     ng-model="acceptance.email">
                 </div>
-                <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-                  <span ng-show="formProfile.contactEmail.$error.required" translate>Please insert your email.</span>
+                <div class="form-error" ng-show="formAccept.contactEmail.$dirty && formAccept.contactEmail.$invalid">
+                  <span ng-show="formAccept.contactEmail.$error.required" translate>Please insert your email.</span>
                 </div>
               </div>
 
@@ -152,9 +152,9 @@
                     ng-model="acceptance.phone">
                 </div>
 
-                <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
-                  <span ng-show="formProfile.phoneNumber.$error.required" translate>Please insert your phone.</span>
-                  <span ng-show="formProfile.phoneNumber.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
+                <div class="form-error" ng-show="formAccept.phoneNumber.$dirty && formAccept.phoneNumber.$invalid">
+                  <span ng-show="formAccept.phoneNumber.$error.required" translate>Please insert your phone.</span>
+                  <span ng-show="formAccept.phoneNumber.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
                 </div>
               </div>
 
@@ -169,21 +169,22 @@
             <button class="col-sm-12 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
           </div>
           <div class="orm-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
-            <form class="form-wrap"  ng-submit="sign(offer, signing)">
+            <form name="formSign" class="form-wrap" ng-submit="sign(offer, signing)">
               <p translate>Please provide the following information.</p>
               <div class="row padd-form">
 
                 <label class="col-sm-3" translate>Start date</label>
                 <div class="col-sm-9">
                   <input type="date"
+                    name="start_date"
                     class="form-control"
                     placeholder="{{ 'YYYY-MM-DD' | translate }}"
                     required
                     ng-disabled="hcDisabled"
                     ng-model="signing.start_date">
                 </div>
-                <div class="form-error" ng-show="formProfile.contactEmail.$dirty && formProfile.contactEmail.$invalid">
-                  <span ng-show="formProfile.contactEmail.$error.required" translate>Please insert your email.</span>
+                <div class="form-error" ng-show="formSign.start_date.$dirty && formSign.start_date.$invalid">
+                  <span ng-show="formSign.start_date.$error.required" translate>Please insert the start date.</span>
                 </div>
               </div>
 
@@ -191,19 +192,16 @@
                 <label class="col-sm-3" translate>Start salary</label>
                 <div class="col-sm-9">
                   <input type="dotted-integer"
+                    name="start_salary"
                     class="form-control"
                     placeholder="{{ 'Start salary' | translate }}"
                     required
                     ng-disabled="hcDisabled"
                     ng-model="signing.start_salary">
                 </div>
-                <div class="form-error" ng-show="formProfile.phoneNumber.$dirty && formProfile.phoneNumber.$invalid">
-                  <span ng-show="formProfile.phoneNumber.$error.required" translate>Please insert your phone.</span>
-                  <span ng-show="formProfile.phoneNumber.$error.pattern" translate>Valid chacters are: Numbers - / ( )</span>
+                <div class="form-error" ng-show="formSign.start_salary.$dirty && formSign.start_salary.$invalid">
+                  <span ng-show="formSign.start_salary.$error.required" translate>Please insert the defined salary.</span>
                 </div>
-              </div>
-              <div class="form-error">
-                <span translate>Please choose your start date</span>
               </div>
               <div class="buttons-wrap">
                 <button class="bg-green fl-rg btn-small" translate>Submit</button>
@@ -218,7 +216,7 @@
             }"><span translate>Reject</span></button>
           </div>
           <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'reject'">
-            <form class="form-wrap"  ng-submit="reject(offer, rejection)">
+            <form name="formReject" class="form-wrap" ng-submit="reject(offer, rejection)">
               <div class="row padd-form">
                 <div class="label-wrap col-sm-12">
                   <p class="mrg-btm" translate>Please insert your contact details for this offer.</p>
@@ -234,6 +232,9 @@
                       {{ reason | translate }}
                     </label>
                   </div>
+                  <div class="form-error" ng-show="formReject.rejectReason.$dirty && formReject.rejectReason.$invalid">
+                    <span ng-show="formReject.rejectReason.$error.required" translate>Please choose a reject reason.</span>
+                  </div>
                 </div>
               </div>
 
@@ -242,6 +243,7 @@
                 <div class="label-wrap col-sm-12">
                   <div class="pad-label">
                     <textarea
+                      name="specificReason"
                       class="txtarea"
                       placeholder="{{ 'Please describe your reason' | translate }}"
                       required
@@ -249,6 +251,9 @@
                       ng-model="rejection.reject_reason">
                     </textarea>
                   </div>
+                </div>
+                <div class="form-error" ng-show="formReject.specificReason.$dirty && formReject.specificReason.$invalid">
+                  <span ng-show="formReject.specificReason.$error.required" translate>Please insert a reason.</span>
                 </div>
               </div>
 
