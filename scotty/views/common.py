@@ -1,3 +1,4 @@
+from operator import methodcaller
 from scotty.models.meta import DBSession
 from sqlalchemy import func
 
@@ -7,12 +8,12 @@ DELETE = dict(request_method="DELETE", renderer="json")
 GET = dict(request_method="GET", renderer="json")
 
 
-def run_paginated_query(request, basequery, serializer=list, default_limit=500):
+def run_paginated_query(request, basequery, serializer=list,  counter=methodcaller('count'), default_limit=500):
     offset = request.params.get('offset', 0)
     limit = request.params.get('limit', default_limit)
     query = basequery.offset(int(offset)).limit(int(limit))
     results = serializer(query)
-    return {"pagination": {"total": basequery.count(), "offset": offset, "count": len(results)},
+    return {"pagination": {"total": counter(basequery), "offset": offset, "count": len(results)},
             "data": results}
 
 

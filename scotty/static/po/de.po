@@ -480,9 +480,8 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: components/candidate-signup/candidate-signup.html:15
-#, fuzzy
 msgid "Candidate Advocate"
-msgstr "Kandidaten"
+msgstr "Candidate Advocate"
 
 #: apps/admin/navbar.html:19
 msgid "Candidates"
@@ -1761,7 +1760,7 @@ msgstr ""
 #: components/candidate-signup/candidate-signup.html:7
 #: components/employer-signup/employer-signup.html:7
 msgid "Please don't hesitate to contact me at"
-msgstr "Bitte zögern Sie nicht mich zu kontaktieren"
+msgstr "Bitte kontaktiere mich gern, wenn du Fragen hast unter"
 
 #: components/employer-signup-facts/employer-signup-facts.html:80
 msgid "Please enter at least one technology"
@@ -3244,11 +3243,11 @@ msgstr "hat ein Arbeitsvisum"
 
 #: components/candidate-signup/candidate-signup.html:11
 msgid "if I can assist you or provide guidance for your next step in IT."
-msgstr ""
+msgstr "wenn du Fragen bezüglich der Anmeldung und Nutzung hast."
 
 #: components/employer-signup/employer-signup.html:11
 msgid "if you've got questions regarding the sign up."
-msgstr "Wenn Sie Fragen bezüglich der Anmeldung haben."
+msgstr "wenn Sie Fragen bezüglich der Anmeldung haben."
 
 #: components/candidate-offer/candidate-offer.html:16
 #: components/employer-offer/employer-offer.html:17

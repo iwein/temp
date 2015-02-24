@@ -315,9 +315,6 @@ class Candidate(Base, JsonSerialisable):
     languages = relationship(CandidateLanguage, backref="candidate", cascade="all, delete, delete-orphan",
                              order_by=CandidateLanguage.proficiency_id)
 
-    preferred_locations = relationship(PreferredLocation,
-                                       primaryjoin=foreign(PreferredLocation.target_position_candidate_id) == id)
-
     work_experience = relationship(WorkExperience, backref="candidate", cascade="all, delete, delete-orphan",
                                    order_by=WorkExperience.start.desc())
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
@@ -378,7 +375,7 @@ class Candidate(Base, JsonSerialisable):
         generator = self.SUMMARY_GENERATOR[self.lang]
 
         skills = self.highest_level_skills
-        locs = self.get_preferred_locations(resolve_countries=False)
+        locs = self.preferred_locations
 
         if skills and self.target_position and locs:
             locations = []
@@ -405,8 +402,10 @@ class Candidate(Base, JsonSerialisable):
         else:
             return generator['EMPTY']
 
-    def get_preferred_locations(self, resolve_countries=False):
-        return locations_to_structure(self.preferred_locations, resolve_countries=resolve_countries)
+    @property
+    def preferred_locations(self):
+        return locations_to_structure(self.target_position.preferred_locations, resolve_countries=False)
+    preferred_location = preferred_locations
 
     def obfuscate_result(self, result):
         result['first_name'] = ''
@@ -422,7 +421,7 @@ class Candidate(Base, JsonSerialisable):
         result['status'] = self.status
         result['languages'] = self.languages
         result['skills'] = self.skills
-        result['preferred_location'] = self.get_preferred_locations()
+        result['preferred_location'] = self.preferred_location
         result['target_position'] = self.target_position
         result['location'] = self.location
         result['locale'] = self.locale
@@ -507,3 +506,27 @@ class TargetPosition(Base):
     def __json__(self, request):
         return {"skills": self.skills, "role": self.role, "minimum_salary": self.minimum_salary}
 
+
+def sort_by_preferred_location(query, order_func):
+    return query.outerjoin(TargetPosition).outerjoin(PreferredLocation)\
+        .outerjoin(City, City.id == PreferredLocation.city_id)\
+        .order_by(order_func(City.country_iso), order_func(City.name), order_func(PreferredLocation.country_iso))
+
+
+def sort_by_salary(query, order_func):
+    return query.join(TargetPosition).order_by(order_func(TargetPosition.minimum_salary))
+
+
+def sort_by_target_position_role(query, order_func):
+    return query.join(TargetPosition).join(Role).order_by(order_func(Role.name))
+
+
+CANDIDATE_SORTABLES =  {'id': Candidate.id,
+                        'created': Candidate.created,
+                        'name': [Candidate.first_name, Candidate.last_name],
+                        'first_name': Candidate.first_name,
+                        'last_name': Candidate.last_name,
+                        'email': Candidate.email,
+                        'minimum_salary': sort_by_salary,
+                        'target_position_role': sort_by_target_position_role,
+                        'preferred_location': sort_by_preferred_location}
