@@ -2,8 +2,9 @@ import codecs
 from alembic import op
 import os
 from pyramid.httpexceptions import HTTPBadRequest
+from scotty.models.meta import DBSession
 from sqlalchemy.orm import class_mapper
-from sqlalchemy.sql import table, column, asc, desc
+from sqlalchemy.sql import table, column, asc, desc, func, distinct
 import sqlalchemy as sa
 from scotty.auth.provider import ADMIN_USER
 
@@ -48,8 +49,6 @@ def update(obj, params, lookup):
     return obj
 
 
-
-
 def json_encoder(val, request, levels=None, obfuscator=None):
     """Transforms a model into a dictionary which can be dumped to JSON."""
     if levels is None:
@@ -89,6 +88,15 @@ def csv_inserter(basepath):
     return bulk_insert_names
 
 
+def distinct_counter(col):
+    def inner_counter(q):
+        count_query = (q.statement.with_only_columns([func.count(distinct(col))]).order_by(None))
+        result = DBSession.execute(count_query).scalar()
+        return result
+
+    return inner_counter
+
+
 def add_sorting(query, order, sortables):
     sort_order_func = asc
     if order[0] == '-':
@@ -101,4 +109,7 @@ def add_sorting(query, order, sortables):
         ordering = sortables[order]
         if callable(ordering):
             return ordering(query, sort_order_func)
-        return query.order_by(sort_order_func(ordering))
+        elif isinstance(ordering, (list, tuple)):
+            return query.order_by(*[sort_order_func(o) for o in ordering])
+        else:
+            return query.order_by(sort_order_func(ordering))

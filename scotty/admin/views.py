@@ -6,21 +6,19 @@ from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
 from scotty.tools import split_strip
 from sqlalchemy.sql.elements import and_
-from scotty.candidate.services import get_candidates_by_techtags_pager
-from scotty.configuration.models import WithdrawalReason, RejectionReason
+from scotty.configuration.models import WithdrawalReason, RejectionReason, Skill
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
-from scotty.models.tools import json_encoder, add_sorting
-from scotty.candidate.models import Candidate, InviteCode, CandidateStatus
+from scotty.models.tools import json_encoder, add_sorting, distinct_counter
+from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES
 from scotty.employer.models import Employer, EMPLOYER_SORTABLES
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.offer.services import set_offer_signed
-from scotty.services.pagingservice import ObjectBuilder
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
-from sqlalchemy import func, or_, distinct
+from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload_all, joinedload
 
@@ -215,34 +213,29 @@ class AdminController(RootController):
     def admin_search_candidates(self):
         params = self.request.params
         status = params.get('status')
+        sorting = params.get('sorting')
         q = params.get('q')
-        tags = filter(None, params.get('tags', '').split(','))
+        tags = split_strip(params.get('tags'))
 
-        def adjust_query(query, q=None):
-            if q:
-                q = q.lower()
-                query = query.filter(
-                    or_(func.lower(Candidate.first_name).startswith(q),
-                        func.lower(Candidate.last_name).startswith(q),
-                        func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
-                        func.lower(Candidate.email).startswith(q)))
-            else:
-                query = query.order_by(Candidate.first_name, Candidate.last_name)
-            return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
-                                 joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                                 joinedload_all('target_position.preferred_locations'))
-
+        basequery = DBSession.query(SearchResultCandidate) \
+            .options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
+                     joinedload_all('skills.skill'), joinedload_all('skills.level'),
+                     joinedload_all('target_position.preferred_locations'))
+        if status:
+            status = get_by_name_or_raise(CandidateStatus, status)
+            basequery = basequery.filter(Candidate.status == status)
+        if q:
+            q = q.lower()
+            basequery = basequery.filter(
+                or_(func.lower(Candidate.first_name).startswith(q),
+                    func.lower(Candidate.last_name).startswith(q),
+                    func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
+                    func.lower(Candidate.email).startswith(q)))
         if tags:
-            pager = get_candidates_by_techtags_pager(tags, None)
-            result = ObjectBuilder(SearchResultCandidate, joins=adjust_query).serialize(pager)
-        else:
-            basequery = DBSession.query(SearchResultCandidate)
-            if status:
-                status = get_by_name_or_raise(CandidateStatus, status)
-                basequery = basequery.filter(Candidate.status == status)
-            basequery = adjust_query(basequery, q)
-            result = run_paginated_query(self.request, basequery)
-        return result
+            basequery = basequery.outerjoin(CandidateSkill).join(Skill).filter(Skill.name.in_(tags))
+        if sorting:
+            basequery = add_sorting(basequery, sorting, CANDIDATE_SORTABLES)
+        return run_paginated_query(self.request, basequery, counter=distinct_counter(SearchResultCandidate.id))
 
     @view_config(route_name="admin_search_employer", permission=ADMIN_PERM, **GET)
     def admin_search_employer(self):
@@ -260,13 +253,7 @@ class AdminController(RootController):
             basequery = basequery.filter(*Employer.by_status(status))
         if sorting:
             basequery = add_sorting(basequery, sorting, EMPLOYER_SORTABLES)
-
-        def counter(q):
-            count_query = (q.statement.with_only_columns([func.count(distinct(SearchResultEmployer.id))]).order_by(None))
-            result = DBSession.execute(count_query).scalar()
-            return result
-
-        return run_paginated_query(self.request, basequery, counter=counter)
+        return run_paginated_query(self.request, basequery, counter=distinct_counter(SearchResultEmployer.id))
 
 
 class AdminOfferController(RootController):

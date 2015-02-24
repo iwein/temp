@@ -30,14 +30,27 @@
             {url: '/api/v1/admin/search/employers?q=Hack&apikey=${apikey}', title: 'admin-search-employers'},
             {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=created', title: 'admin-sort-employers-created'},
             {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=-created', title: 'admin-sort-employers--created'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=location', title: 'admin-sort-employers-location'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=-location', title: 'admin-sort-employers--location'},
+            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,offices&sorting=location', title: 'admin-sort-employers-location'},
+            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,offices&sorting=-location', title: 'admin-sort-employers--location'},
             {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=name', title: 'admin-sort-employers-companyname'},
             {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=email', title: 'admin-sort-employers-email'},
             {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&sorting=id', title: 'admin-sort-employers-id'},
 
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&sorting=created', title: 'admin-sort-candidates-created'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&sorting=-created', title: 'admin-sort-candidates--created'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,preferred_location&sorting=preferred_location', title: 'admin-sort-candidates-location'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,preferred_location&sorting=-preferred_location', title: 'admin-sort-candidates--location'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&sorting=name', title: 'admin-sort-candidates-name'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&sorting=email', title: 'admin-sort-candidates-email'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&sorting=id', title: 'admin-sort-candidates-id'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,target_position&sorting=minimum_salary', title: 'admin-sort-candidates-minimum_salary'},
+            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,target_position&sorting=-minimum_salary', title: 'admin-sort-candidates--minimum_salary'},
+
+
+
+
             {url: '/api/v1/admin/search/candidates?q=Mapa&apikey=${apikey}', title: 'search-candidates-byname'},
-            {url: '/api/v1/admin/search/candidates?q=Ma&tags=Python&apikey=${apikey}', title: 'search-candidates-byname-tags'},
+            {url: '/api/v1/admin/search/candidates?q=Ma&tags=Python&apikey=${apikey}', title: 'search-candidates-and-byname-tags'},
             {url: '/api/v1/admin/search/candidates?tags=Python,PHP&apikey=${apikey}', title: 'search-candidates-bytags'},
 
             {sectionTitle: 'List Offers'},

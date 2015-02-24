@@ -9,7 +9,8 @@ from scotty.models import get_by_name_or_raise
 from scotty.services import hash_pwd
 from scotty.tools import split_strip
 from sqlalchemy.ext.associationproxy import association_proxy
-from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType, Locale
+from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType, Locale, \
+    Country
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
@@ -277,7 +278,7 @@ class FullEmployer(Employer):
 def sort_by_location(query, order_func):
     hq = get_by_name_or_raise(OfficeType, OfficeType.HQ)
     return query.outerjoin(Office).outerjoin(OfficeType).filter(or_(Office.type == hq, Office.id == None)) \
-        .outerjoin(City).order_by(order_func(City.name))
+        .outerjoin(City).order_by(order_func(City.country_iso), order_func(City.name))
 
 
 EMPLOYER_SORTABLES = {'id': Employer.id,
