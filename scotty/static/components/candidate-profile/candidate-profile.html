@@ -641,21 +641,6 @@
                       </form>
                       <div class="clearfix"></div>
                     </div>
-                    <h3 class="privacy" ng-hide="privacy.editing">
-                      <span ng-show="user.anonymous" translate>Your profile is private</span>
-                      <span ng-hide="user.anonymous" translate>Your profile is public</span>
-                      <!-- FEATURE PROFILE SLEEP DISABLED
-                      <span ng-show="user.sleeping" translate>and in sleep mode</span>
-                      <span ng-hide="user.sleeping" translate>and active</span>
-                      -->
-                      <button type="submit"
-                              class="btn-edit-sub no-fl"
-                              ng-show="isEditing"
-                              ng-disabled="loading || formOpen"
-                              ng-click="privacy.edit()">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </h3>
                   </div>
                   <div class="emp-off-desc">
                     <!-- Edit target position div (remove class hidden to display)-->
@@ -782,7 +767,7 @@
           </div>
 
           <div class="col-sm-4 bg-white user-desc">
-            <div class="fl-rg pad-20  ">
+            <div class="fl-rg pad-20">
               <span><translate>Status</translate>: </span>
               <span ng-show="status === 'searching'">
                 <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
@@ -798,6 +783,22 @@
               <span ng-show="status === 'hired'">
                 <span class="green smbd" translate>HIRED</span>
               </span>
+              <div>
+                <span class="fl-rg">
+                  <translate>Privacy</translate>:
+                  <i ng-show="user.anonymous" class="fa fa-eye"
+                    title="{{ 'Your profile name and picture is immediately public to companies.' | translate }}"></i>
+                  <i ng-hide="user.anonymous" class="fa fa-eye-slash"
+                    title="{{ 'Your profile name and picture can not be seen by employers unless you have accepted their job-offer.' | translate }}"></i>
+                  <button type="submit"
+                          class="btn-edit-sub no-fl"
+                          ng-show="isEditing"
+                          ng-disabled="loading || formOpen"
+                          ng-click="privacy.edit()">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </span>
+              </div>
             </div>
           </div>
           <div class="col-sm-12">
