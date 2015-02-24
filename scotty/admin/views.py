@@ -213,7 +213,7 @@ class AdminController(RootController):
     def admin_search_candidates(self):
         params = self.request.params
         status = params.get('status')
-        sorting = params.get('sorting')
+        order = params.get('order')
         q = params.get('q')
         tags = split_strip(params.get('tags'))
 
@@ -233,15 +233,15 @@ class AdminController(RootController):
                     func.lower(Candidate.email).startswith(q)))
         if tags:
             basequery = basequery.outerjoin(CandidateSkill).join(Skill).filter(Skill.name.in_(tags))
-        if sorting:
-            basequery = add_sorting(basequery, sorting, CANDIDATE_SORTABLES)
+        if order:
+            basequery = add_sorting(basequery, order, CANDIDATE_SORTABLES)
         return run_paginated_query(self.request, basequery, counter=distinct_counter(SearchResultCandidate.id))
 
     @view_config(route_name="admin_search_employer", permission=ADMIN_PERM, **GET)
     def admin_search_employer(self):
         basequery = DBSession.query(SearchResultEmployer)
         status = self.request.params.get('status')
-        sorting = self.request.params.get('sorting', 'name')
+        order = self.request.params.get('order', 'name')
 
         if 'q' in self.request.params:
             q = self.request.params['q'].lower()
@@ -251,8 +251,8 @@ class AdminController(RootController):
                     func.lower(Employer.contact_last_name).startswith(q), func.lower(Employer.email).startswith(q)))
         if status:
             basequery = basequery.filter(*Employer.by_status(status))
-        if sorting:
-            basequery = add_sorting(basequery, sorting, EMPLOYER_SORTABLES)
+        if order:
+            basequery = add_sorting(basequery, order, EMPLOYER_SORTABLES)
         return run_paginated_query(self.request, basequery, counter=distinct_counter(SearchResultEmployer.id))
 
 
