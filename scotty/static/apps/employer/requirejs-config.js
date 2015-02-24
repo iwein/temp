@@ -10,7 +10,6 @@ requirejs.config({
     'moment': 'bower_components/moment/moment',
     'moment-de': 'bower_components/moment/locale/de',
     'underscore': 'bower_components/underscore/underscore',
-    'raygun': 'bower_components/raygun4js/dist/raygun.vanilla',
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-animate': 'bower_components/angular-animate/angular-animate',
@@ -31,7 +30,6 @@ requirejs.config({
   },
 
   shim: {
-    'raygun': { exports: 'Raygun' },
     'angular': { exports: 'angular' },
     'angulartics': [ 'angular' ],
     'angulartics-ga': [ 'angulartics' ],
