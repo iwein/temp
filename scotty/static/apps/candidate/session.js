@@ -6,7 +6,6 @@ define(function(require) {
   var ConnectorsManager = require('apps/candidate/connectors-manager');
   var Candidate = require('apps/common/candidate');
   var Employer = require('apps/common/employer');
-  var Raygun = require('raygun');
 
 
   function CandidateSession(api, i18n, Q) {
@@ -33,7 +32,7 @@ define(function(require) {
 
       var fullName = response.first_name + ' ' + response.last_name;
       document.title = '4Scotty – ' + fullName;
-      Raygun.setUser(response.id, false, response.email);
+      window.Raygun.setUser(response.id, false, response.email);
 
       if (window.UserVoice && response.email) {
         window.UserVoice.push(['identify', {

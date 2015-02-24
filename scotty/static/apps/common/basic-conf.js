@@ -24,11 +24,6 @@ define(function(require) {
   require('components/element-language-selector/element-language-selector');
   require('./translations');
   var conf = require('conf');
-  var Raygun = require('raygun');
-
-  Raygun.init(config.raygun_apikey, {
-    excludedHostnames: ['localhost'],
-  }).attach();
 
   if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
@@ -43,7 +38,7 @@ define(function(require) {
       $provide.decorator('$exceptionHandler', function($delegate) {
         return function (exception, cause) {
           console.log('LOGGING:', exception.message);
-          Raygun.send(exception);
+          window.Raygun.send(exception);
           $delegate(exception, cause);
         };
       });
