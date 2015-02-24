@@ -120,7 +120,7 @@
     <button class="col-sm-12 btn bg-green" ng-show="offer.canAccept()" ng-click="toggleForm('accept')" translate>Accept</button>
   </div>
   <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'accept'">
-    <form class="form-wrap" name="formAccept" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance, formAccept)">
+    <form class="form-wrap" name="formAccept" ng-show="showForm === 'accept'" ng-submit="accept(offer, acceptance, formAccept)" hc-validations-on-submit>
 
       <div class="row mrg-btm-small">
         <div class="col-sm-3 no-padd-right">
@@ -167,7 +167,7 @@
     <button class="col-sm-12 btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
   </div>
   <div class="orm-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
-    <form class="form-wrap" name="formSigned" ng-submit="sign(offer, signing, formSigned)">
+    <form class="form-wrap" name="formSigned" ng-submit="sign(offer, signing, formSigned)" hc-validations-on-submit>
       <p translate>Please provide the following information.</p>
       <div class="row padd-form">
 
@@ -218,7 +218,7 @@
             }"><span translate>Reject</span></button>
   </div>
   <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'reject'">
-    <form class="form-wrap"  ng-submit="reject(offer, rejection)">
+    <form class="form-wrap"  ng-submit="reject(offer, rejection)" hc-validations-on-submit>
       <div class="row padd-form">
         <div class="label-wrap col-sm-12">
           <p class="mrg-btm" translate>Please insert your contact details for this offer.</p>

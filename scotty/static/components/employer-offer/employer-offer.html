@@ -159,7 +159,7 @@
       <button class="fw btn bg-green" ng-show="offer.canSign()" ng-click="toggleForm('sign')" translate>Contract Signed</button>
     </div>
     <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'sign'">
-      <form class="form-wrap" name="formSigned" ng-submit="sign(offer, signing, formSigned)">
+      <form class="form-wrap" name="formSigned" ng-submit="sign(offer, signing, formSigned)" hc-validations-on-submit>
         <p translate>Please provide the following information.</p>
         <div class="row padd-form">
 
@@ -212,7 +212,7 @@
     </div>
 
     <div class="form-container col-sm-12 padd-vert bg-gray-lighter2" ng-show="showForm === 'withdraw'">
-      <form class="form-wrap"  ng-submit="withdraw(offer, withdrawal)">
+      <form class="form-wrap"  ng-submit="withdraw(offer, withdrawal)" hc-validations-on-submit>
         <p translate>Please define the reason for your withdrawal.</p>
         <div class="row padd-form">
           <div class="label-wrap col-sm-12 mrg-btm">
