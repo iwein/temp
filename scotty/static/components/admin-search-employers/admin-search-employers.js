@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('tools/table-utils/sort/sort-field-directive');
   require('components/admin-directive-search/admin-directive-search');
   require('components/directive-employer/directive-employer');
   var module = require('app-module');
