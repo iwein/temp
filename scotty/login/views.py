@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
@@ -46,6 +48,7 @@ def login(context, request):
     login_obj, cls = get_login(email=email, pwd=pwd)
     user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
     if user and user.can_login:
+        user.last_login = datetime.now()
         request.session['%s_id' % login_obj.table_name] = user.id
         return {'preferred': login_obj.table_name, 'id': user.id}
     else:
@@ -65,6 +68,7 @@ def login_post(context, request):
     else:
         user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).first()
         if user and user.can_login:
+            user.last_login = datetime.now()
             request.session['%s_id' % login_obj.table_name] = user.id
 
             if redirect:

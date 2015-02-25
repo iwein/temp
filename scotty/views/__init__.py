@@ -1,15 +1,19 @@
 import json
 from datetime import timedelta, datetime
 import colander
+from pyramid.events import subscriber, BeforeRender
 
 from pyramid.httpexceptions import HTTPNotFound, HTTPRedirection, HTTPFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPError
 from pyramid.response import Response
+from scotty.candidate.models import Candidate
+from scotty.employer.models import Employer
 from scotty.models.meta import DBSession
 from scotty.models import Referral
 from scotty.views.common import POST
+from sqlalchemy import update
 from sqlalchemy.exc import DBAPIError
 
 
@@ -31,7 +35,6 @@ def http_error(exc, request):
 
 
 def schema_error(exc, request):
-
     def as_dict(paths):
         errors = {}
         for path in paths:
@@ -119,8 +122,9 @@ def notfound(exc, request):
 @view_config(route_name='marksafari', permission=NO_PERMISSION_REQUIRED)
 def marksafari(request):
     response = HTTPFound(location=request.POST.get('url') or request.referer)
-    response.set_cookie('safari', value='marked', max_age=31536000) # max_age = year
+    response.set_cookie('safari', value='marked', max_age=31536000)  # max_age = year
     return response
+
 
 @view_config(route_name='ismarked', permission=NO_PERMISSION_REQUIRED)
 def ismarked(request):
@@ -128,6 +132,18 @@ def ismarked(request):
     resp = json.dumps({'marked': request.cookies.get('safari') == 'marked'})
     response = Response('%s(%s);' % (cb, resp), headers={"Content-Type": "application/javascript"})
     return response
+
+
+@subscriber(BeforeRender)
+def add_last_activity_updater(event):
+    """
+    Update last activity, i.e. endpoint called
+    """
+    request = event['request']
+    if request and request.candidate_id:
+        DBSession.query(Candidate).get(request.candidate_id).last_active = datetime.now()
+    if request and request.employer_id:
+        DBSession.query(Employer).get(request.employer_id).last_active = datetime.now()
 
 
 def includeme(config):
