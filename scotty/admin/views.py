@@ -73,6 +73,7 @@ class SearchResultEmployer(Employer):
             result = json_encoder(self, request)
             result['contact_salutation'] = self.contact_salutation
             result['company_type'] = self.company_type
+            result['offices'] = self.offices
             result['status'] = self.status
             result['email'] = self.email
             result['created'] = self.created
