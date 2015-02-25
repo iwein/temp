@@ -749,7 +749,6 @@ msgstr ""
 " Gehalt ist ja nicht alles, auf das Gesamtpaket kommt es an."
 
 #: components/candidate-profile/candidate-profile.html:108
-#, fuzzy
 msgid ""
 "Do not set your salary too high, as it will block employers to send you "
 "interesting offers, that have a slightly lower nominal salary but huge other "
@@ -761,11 +760,13 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:65
 msgid "Does your number of employees really exceed 990000000?"
-msgstr ""
+msgstr "Hat Ihr Unternehmen tatsächlich mehr als 990000000 Mitarbeiter?"
 
 #: components/employer-signup-mission/employer-signup-mission.html:44
 msgid "Does your revenue really exceed &euro;9223372036854775808 per year?"
 msgstr ""
+"Ist der Umsatz Ihres Unternehmens tatsächlich höher als "
+"&euro;9223372036854775808 pro Jahr?"
 
 #: tmp/db-tokens/benefits.js:7
 msgid "Dogs Allowed"
@@ -1732,9 +1733,8 @@ msgstr ""
 
 #: components/candidate-offer/candidate-offer.html:184
 #: components/employer-offer/employer-offer.html:176
-#, fuzzy
 msgid "Please enter your job start date."
-msgstr "Bitte wähle dein mögliches Startdatum"
+msgstr "Bitte wähle dein Startdatum."
 
 #: components/candidate-profile/candidate-profile.html:476
 msgid "Please enter your notice period or when you will be available."
@@ -1871,7 +1871,6 @@ msgstr "Bitte gib das Jahr deines Studienbeginns an."
 
 #: components/candidate-offer/candidate-offer.html:201
 #: components/employer-offer/employer-offer.html:193
-#, fuzzy
 msgid "Please insert your actual starting salary."
 msgstr "Bitte gib deinen Gehaltswunsch p.a. an."
 
@@ -2086,7 +2085,7 @@ msgstr "Position / Titel"
 
 #: components/candidate-profile/candidate-profile.html:788
 msgid "Privacy"
-msgstr ""
+msgstr "Privatssphäre"
 
 #: components/candidate-signup-education/candidate-signup-education.html:133
 #: components/candidate-signup-experience/candidate-signup-experience.html:138
@@ -2656,7 +2655,6 @@ msgid "Valid chacters are: Numbers - / ( )"
 msgstr "Gültige Zeichen sind - / ( )"
 
 #: components/candidate-offer/candidate-offer.html:155
-#, fuzzy
 msgid "Valid characters are: Numbers - / ( )"
 msgstr "Gültige Zeichen sind - / ( )"
 
@@ -2963,7 +2961,6 @@ msgstr ""
 "überprüft?"
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:34
-#, fuzzy
 msgid ""
 "You have requested an interview with <hc-employer-link ng-model=\"entry."
 "employer\"></hc-employer-link>. They have been notified and should get in "
@@ -3070,7 +3067,7 @@ msgstr ""
 "Dein Passwort wurde erneuert. Du kannst dich nun mit deinem neuen Passwort "
 "anmelden."
 
-#: apps/candidate/index.html:61 apps/employer/index.html:60
+#: apps/candidate/index.html:68 apps/employer/index.html:67
 msgid "Your profile has not been reviewed & approved yet."
 msgstr "Dein Profil wurde noch nicht geprüft & bestätigt."
 
@@ -3083,17 +3080,16 @@ msgstr ""
 "Bestätigungs-E-Mail klicken."
 
 #: components/candidate-profile/candidate-profile.html:792
-#, fuzzy
 msgid ""
 "Your profile name and picture can not be seen by employers unless you have "
 "accepted their job-offer."
 msgstr ""
-"Verberge meinen Namen und mein Bild, bis ich ein Angebot eines Unternehmens "
-"angenommen habe."
+"Dein Name und dein Bild können nicht gesehen weden von Unternehmen, bis du "
+"Ihr Angebot angenommen hast."
 
 #: components/candidate-profile/candidate-profile.html:790
 msgid "Your profile name and picture is immediately public to companies."
-msgstr ""
+msgstr "Dein Profilname und dein Bild sind sofort für Unternehmen zu sehen."
 
 #: components/candidate-signup-education/candidate-signup-education.html:132
 #: components/candidate-signup-experience/candidate-signup-experience.html:137

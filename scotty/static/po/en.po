@@ -2831,7 +2831,7 @@ msgid ""
 "Your password has been updated. You can now login with your new password"
 msgstr ""
 
-#: apps/candidate/index.html:61 apps/employer/index.html:60
+#: apps/candidate/index.html:68 apps/employer/index.html:67
 msgid "Your profile has not been reviewed & approved yet."
 msgstr ""
 
