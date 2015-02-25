@@ -257,6 +257,8 @@ class Candidate(Base, JsonSerialisable):
 
     id = Column(GUID, ForeignKey("target_position.candidate_id"), primary_key=True, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
+    last_login = Column(DateTime, info=PRIVATE)
+    last_active = Column(DateTime, info=PRIVATE)
     anonymous = Column(Boolean, default=False, nullable=False, info=PUBLIC)
     pwdforgot_token = Column(GUID, unique=True, info=PRIVATE)
     pwdforgot_sent = Column(DateTime, info=PRIVATE)

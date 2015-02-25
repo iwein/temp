@@ -96,6 +96,8 @@ class Employer(Base, JsonSerialisable):
     invite_token = Column(GUID, info=PRIVATE)
     invite_sent = Column(DateTime, info=PRIVATE)
     created = Column(DateTime, nullable=False, default=datetime.now)
+    last_login = Column(DateTime, info=PRIVATE)
+    last_active = Column(DateTime, info=PRIVATE)
     agreedTos = Column(DateTime)
     approved = Column(DateTime)
     deleted = Column(DateTime)
