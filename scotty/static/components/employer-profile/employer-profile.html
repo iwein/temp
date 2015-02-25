@@ -113,9 +113,8 @@
       <input type="number"
              class="form-control mrg-btm"
              name="founding_year"
-             name="founding_year"
              ng-disabled="loading"
-             ng-model="company.data.funding_year">
+             ng-model="company.data.founding_year">
     </div>
     <h5 class="edit-title" translate>Annual Revenue</h5>
     <div>
@@ -125,7 +124,7 @@
              ng-disabled="loading"
              ng-model="company.data.revenue_pa">
     </div>
-    <h5 class="edit-title" translate>Vic Fund Amounting</h5>
+    <h5 class="edit-title" translate>VC Funding</h5>
     <div>
       <input type="dotted-integer"
              class="form-control mrg-btm"
@@ -177,8 +176,8 @@
           ng-click="company.edit()">
     <i class="fa fa-pencil"></i>
   </button>
-  <p class="smbd" ng-show="data.funding_year">
-    <translate>founded in</translate> {{ data.funding_year }}
+  <p class="smbd" ng-show="data.founding_year">
+    <translate>Founded in</translate> {{ data.founding_year }}
   </p>
   <p class="smbd" ng-show="data.no_of_employees" translate translate-n="data.no_of_employees" translate-plural="{{$count}} employees">
     1 employee

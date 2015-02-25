@@ -14,10 +14,10 @@
                    placeholder="{{ 'When was the company established?' | translate }}"
                    name="founding_year"
                    ng-disabled="loading"
-                   ng-model="model.funding_year">
+                   ng-model="model.founding_year">
 
-            <div class="form-error" ng-show="formSignupMission.funding_year.$dirty && formSignupMission.funding_year.$invalid">
-              <span ng-show="formSignupMission.funding_year.$error.required" translate>
+            <div class="form-error" ng-show="formSignupMission.founding_year.$dirty && formSignupMission.founding_year.$invalid">
+              <span ng-show="formSignupMission.founding_year.$error.required" translate>
                 Please select the year your company was founded.
               </span>
             </div>

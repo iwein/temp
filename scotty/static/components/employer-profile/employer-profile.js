@@ -71,7 +71,7 @@ define(function(require) {
       }
     });
     $scope.company = formSimple({
-      fields: ['website', 'funding_year', 'revenue_pa', 'funding_amount',
+      fields: ['website', 'founding_year', 'revenue_pa', 'funding_amount',
         'no_of_employees', 'cto_blog', 'cto_twitter'],
       set: function(data) {
         setData(data);
@@ -84,7 +84,7 @@ define(function(require) {
 
         this.fields.forEach(function(field) {
           if (!(field in model))
-            model[field] = '';
+            model[field] = null;
         });
         return user.updateData(model);
       }
