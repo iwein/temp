@@ -786,10 +786,10 @@
               <div>
                 <span class="fl-rg">
                   <translate>Privacy</translate>:
-                  <i ng-show="user.anonymous" class="fa fa-eye"
-                    title="{{ 'Your profile name and picture is immediately public to companies.' | translate }}"></i>
-                  <i ng-hide="user.anonymous" class="fa fa-eye-slash"
+                  <i ng-show="user.anonymous" class="fa fa-eye-slash"
                     title="{{ 'Your profile name and picture can not be seen by employers unless you have accepted their job-offer.' | translate }}"></i>
+                  <i ng-hide="user.anonymous" class="fa fa-eye"
+                    title="{{ 'Your profile name and picture is immediately public to companies.' | translate }}"></i>
                   <button type="submit"
                           class="btn-edit-sub no-fl"
                           ng-show="isEditing"
