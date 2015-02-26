@@ -3,12 +3,12 @@
   <div class="signup-container" ng-show="ready">
     <div class="col-sm-3">
       <div class="contact-me row">
-        <p>
-          <translate>Please don't hesitate to contact me at</translate>
-          <a href="mailto:service@4scotty.com">service@4scotty.com</a>
-          <translate>or by phone at</translate>
-          +49(0)30 2639389-15,
-          <translate>if I can assist you or provide guidance for your next step in IT.</translate>
+        <p hc-scope="{ email: 'service@4scotty.com' }" translate>
+          Please don't hesitate to contact me at
+          <a ng-href="mailto:{{ email }}">{{ email }}</a>
+          or by phone at
+          <span class="number">+49 30-2639389-15</span>,
+          if I can assist you or provide guidance for your next step in IT.
         </p>
         <p>
           <span>Dana Kussatz</span><br/>
