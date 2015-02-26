@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:694
@@ -64,7 +64,7 @@ msgid ""
 "click <a href=\"../employer/#/signup\"><b>here</b></a>!"
 msgstr ""
 "<h2>Melde dich als IT-Experte an und finde deinen Wunsch-Job</h2>Unternehmen "
-"registrieren sich bitte <a href=\"../employer/#/signup\"><b>hier </b></a>an!"
+"registrieren sich bitte <a href=\"../employer/#/signup\"><b>hier! </b></a>"
 
 #: components/employer-signup-start/employer-signup-start.js:25
 msgid ""
@@ -112,7 +112,7 @@ msgstr ""
 #: components/candidate-profile/candidate-profile.html:972
 #: components/employer-profile/employer-profile.html:253
 msgid "ADD"
-msgstr "Zeigen"
+msgstr "Weitere"
 
 #: apps/common/footer.html:21
 msgid "About us"
@@ -202,9 +202,9 @@ msgid ""
 "have accepted their offer. You can set your profile offline at anytime."
 msgstr ""
 "Fast geschafft! Gib deinem Profil den letzten Schliff, dann werden "
-"Unternehmen dir Jobangebote unterbreiten. Sie werden deine Kontaktdaten erst "
-"sehen, wenn du deren Angebot angenommen hast. Du kannst dein Profil "
-"jederzeit auf inaktiv setzen."
+"Unternehmen dir Jobangebote unterbreiten. Deine Kontaktdaten werden erst "
+"sichtbar, wenn du ein Angebot angenommen hast. Außerdem kannst du dein "
+"Profil jederzeit auf inaktiv setzen."
 
 #: components/partial-employer-newsitem/partial-employer-newsitem.html:20
 msgid ""
@@ -410,7 +410,7 @@ msgid ""
 "By selecting \"Anonymous\" employers will see your name, picture and contact "
 "details only after you accepted their job offer."
 msgstr ""
-"Wenn du anonym auswählst sehen Unternehmen deinen Namen, Bild und deine "
+"Wenn du anonym auswählst, sehen Unternehmen deinen Namen, Bild und deine "
 "Kontaktdaten erst, wenn du ihr Angebot akzeptiert hast."
 
 #: components/employer-signup-terms/employer-signup-terms.html:11
@@ -877,7 +877,7 @@ msgid ""
 "            You can edit your entries anytime."
 msgstr ""
 "Trage deine vorherigen Jobs sowie deine aktuelle Station ein.\n"
-"           Wir stellen sicher, dass dein heutiger Arbeitgeber dein Profil "
+"           Wir stellen sicher, dass dein aktueller Arbeitgeber dein Profil "
 "nicht sehen kann.\n"
 "           Du kannst deine Angaben jederzeit bearbeiten."
 
@@ -3067,7 +3067,7 @@ msgstr ""
 "Dein Passwort wurde erneuert. Du kannst dich nun mit deinem neuen Passwort "
 "anmelden."
 
-#: apps/candidate/index.html:68 apps/employer/index.html:67
+#: apps/candidate/index.html:61 apps/employer/index.html:60
 msgid "Your profile has not been reviewed & approved yet."
 msgstr "Dein Profil wurde noch nicht geprüft & bestätigt."
 
