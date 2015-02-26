@@ -121,6 +121,7 @@
                 <span>{{ targetPosition.role | translate }}</span>
               </h3>
               <p>{{ user.summary }}</p>
+              <a ng-if="user.employer_has_accepted_offers" ng-href="{{ user.cv_upload_url }}" translate>Download CV</a>
             </div>
           </div>
         </div>
