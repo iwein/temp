@@ -47,6 +47,8 @@
       </div>
       <div class="panel-body">
         <dl class="dl-horizontal">
+          <dt>last time active</dt>
+          <dd>{{ user.last_active | timeAgoIf:'yesterday' }}</dd>
           <dt>email</dt>
           <dd>{{ user.email }}</dd>
           <dt>Availability</dt>

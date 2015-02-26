@@ -24,7 +24,7 @@
   <!-- endbuild -->
   {{> headscripts}}
 </head>
-<body>
+<body onload="_googWcmGet('number', '+49 30-2639389-15')">
 <div class="page-wrap static-page" ID="content">
   <div id="header-container">
     <nav class="navbar navbar-default navbar-home" role="navigation">
@@ -74,7 +74,7 @@
             Germany
           </p>
 
-          <p><span class="iconParent"><i class="fa fa-phone orange"></i></span> +49 30-2639389-15<br/>
+          <p><span class="iconParent"><i class="fa fa-phone orange"></i></span> <span class="number">+49 30-2639389-15</span><br/>
             <span class="iconParent"><i class="fa fa-envelope orange"></i></span> info@4scotty.com</p>
         </div>
 
@@ -124,6 +124,7 @@
 <!-- build:js bootstrap.min.js -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- endbuild -->
+<script type="text/javascript">localStorage.scotty_lang='de'</script>;
 {{> footscripts}}
 </body>
 </html>

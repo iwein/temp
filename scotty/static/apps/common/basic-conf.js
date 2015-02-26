@@ -27,7 +27,11 @@ define(function(require) {
 
   if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
+    window.ga('require', 'linkid');
     window.ga('require', 'displayfeatures');
+    window.ga('require', 'displayfeatures');
+    window.ga('send', 'pageview');
+    window.ga('set', 'anonymizeIp', true);
   }
 
   return function basicConf(module) {
@@ -48,7 +52,10 @@ define(function(require) {
       $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
       $templateCache.put('footer.html', require('text!../common/footer.html'));
       $rootScope.translate = i18n.gettext;
-      i18n.setLanguage('de');
+      i18n.setLanguage(localStorage.scotty_lang || 'de');
+      i18n.onChange(function(lang) {
+        localStorage.scotty_lang = lang;
+      });
     });
 
     module.factory('toaster', function(Notifier, gettext) {

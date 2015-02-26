@@ -42,7 +42,7 @@
             <tr ng-repeat="candidate in results">
               <td><small>{{ candidate._data.id }}</small></td>
               <td>{{ candidate._data.created | date }}</td>
-              <td><img style="max-height:50px;max-width:50px;" src="{{ candidate._data.picture_url }}"/></td>
+              <td><img style="max-height:50px;max-width:50px;" ng-src="{{ candidate._data.picture_url }}"/></td>
               <td>
                 {{ candidate._data.first_name }} {{ candidate._data.last_name }}
                 <small ng-if="candidate._data.anonymous">(anonymous)</small>
