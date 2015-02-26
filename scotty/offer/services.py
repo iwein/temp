@@ -2,9 +2,11 @@ from datetime import datetime
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.models.meta import DBSession
-from scotty.configuration.models import RejectionReason
+from scotty.configuration.models import RejectionReason, Benefit, Role, Skill
 from scotty.employer.models import Employer
-from scotty.models.common import get_by_name_or_raise
+from scotty.models.common import get_by_name_or_raise, get_or_create_named_collection, get_location_by_name_or_raise, \
+    get_by_name_or_create, get_or_raise_named_collection
+from scotty.models.tools import ID
 from scotty.offer.models import Offer
 
 
@@ -73,3 +75,11 @@ def get_offer_newsfeed(offer, **extra):
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
     return sorted(events_with_recency, key=lambda k: k['recency'])
+
+
+OFFER_EDITABLES = {
+    'benefits': lambda tags: get_or_raise_named_collection(Benefit, tags), 'other_benefits': ID,
+    'technologies': lambda tags: get_or_create_named_collection(Skill, tags),
+    'location': get_location_by_name_or_raise, 'annual_salary': ID,
+    'role': lambda r: get_by_name_or_create(Role, r),
+    'interview_details': ID, 'job_description': ID, 'message': ID}

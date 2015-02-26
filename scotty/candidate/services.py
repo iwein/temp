@@ -9,7 +9,7 @@ from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSki
     WorkExperience, Education, PreferredLocation
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role, Locale
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
-    get_or_raise_named_collection, get_or_create_named_lookup, get_location_by_name_or_raise
+    get_or_raise_named_lookup, get_or_create_named_lookup, get_location_by_name_or_raise
 from scotty.offer.models import NewsfeedOffer
 from scotty.services.pagingservice import Pager
 
@@ -108,10 +108,10 @@ def set_preferred_locations(candidate_id, locations):
 def set_languages_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of languages as root level.")
-    language_lookup = get_or_raise_named_collection(Language, [p['language'] for p in params],
+    language_lookup = get_or_raise_named_lookup(Language, [p['language'] for p in params],
                                                     require_uniqueness=False)
 
-    proficiency_lookup = get_or_raise_named_collection(Proficiency, [p['proficiency'] for p in params],
+    proficiency_lookup = get_or_raise_named_lookup(Proficiency, [p['proficiency'] for p in params],
                                                        require_uniqueness=False)
     DBSession.query(CandidateLanguage).filter(CandidateLanguage.candidate_id == candidate.id).delete()
     languages = []
@@ -132,7 +132,7 @@ def set_skills_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of skills as root level.")
     skill_lookup = get_or_create_named_lookup(Skill, [p['skill'] for p in params])
-    level_lookup = get_or_raise_named_collection(SkillLevel, [p['level'] for p in params if p.get('level')],
+    level_lookup = get_or_raise_named_lookup(SkillLevel, [p['level'] for p in params if p.get('level')],
                                                  require_uniqueness=False)
 
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
