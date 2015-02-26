@@ -949,7 +949,7 @@
                     <span class="accordion-date">
                       {{ entry.start | showMonthYear }} –
                       <span ng-show="entry.end">{{ entry.end | showMonthYear }}</span>
-                      <span ng-hide="entry.end">{{ 'today' | translate }}</span>
+                      <span ng-hide="entry.end" translate>today</span>
                       ({{ entry | momentDiff | toMonthsYears }})
                     </span>
                     <div class="accordion-text">{{ entry.summary }}</div>
@@ -1027,7 +1027,7 @@
                     <span class="accordion-date">
                       {{ entry.start}} –
                       <span ng-show="entry.end">{{ entry.end }}</span>
-                      <span ng-hide="entry.end">{{ 'today' | translate }}</span>
+                      <span ng-hide="entry.end" translate>today</span>
                       ({{ entry | momentDiff | toMonthsYears }})
                     </span>
                   </div>

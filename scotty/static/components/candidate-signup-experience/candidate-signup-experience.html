@@ -23,7 +23,8 @@
                 <div class="no-padd-right col-sm-4">
                   <div class="data-box">
                     {{ entry.start | showMonthYear }} -
-                    {{ entry.end || 'current' | showMonthYear }}
+                    <span ng-show="entry.end">{{ entry.end | showMonthYear }}</span>
+                    <span ng-hide="entry.end" translate>current</span>
                   </div>
                 </div>
                 <div class="col-sm-2 text-center pad-top-5">
