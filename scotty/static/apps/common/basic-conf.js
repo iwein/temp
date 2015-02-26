@@ -52,7 +52,7 @@ define(function(require) {
       $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
       $templateCache.put('footer.html', require('text!../common/footer.html'));
       $rootScope.translate = i18n.gettext;
-      i18n.setLanguage('en');
+      i18n.setLanguage(localStorage.scotty_lang || 'de');
       i18n.onChange(function(lang) {
         localStorage.scotty_lang = lang;
       });
