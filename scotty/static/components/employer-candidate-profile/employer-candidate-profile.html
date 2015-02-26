@@ -5,11 +5,11 @@
   <div class="status">
     <span><translate>Status</translate>: </span>
         <span ng-show="status === 'searching'">
-          <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+          <span class="iconParent blue-link"><i class="fa fa-binoculars"></i></span>
           <span translate>searching</span>
         </span>
         <span ng-show="status === 'reviewing'">
-          <span class="iconParent blue-link"><i class="fa fa-eye"></i></span>
+          <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
           <span translate>reviewing offers</span>
         </span>
         <span ng-show="status === 'sleeping'">
@@ -121,6 +121,7 @@
                 <span>{{ targetPosition.role | translate }}</span>
               </h3>
               <p>{{ user.summary }}</p>
+              <a ng-if="user.employer_has_accepted_offers" ng-href="{{ user.cv_upload_url }}" translate>Download CV</a>
             </div>
           </div>
         </div>

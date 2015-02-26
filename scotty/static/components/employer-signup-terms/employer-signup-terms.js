@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('session');
+  var google = require('tools/google');
   var module = require('app-module');
 
   module.controller('SignupTermsCtrl', function($scope, toaster, Loader, Session) {
@@ -14,6 +15,7 @@ define(function(require) {
       Loader.add('signup-terms-saving');
 
       Session.user.apply($scope.model).then(function() {
+        google.executeConversionTracking();
         $scope.signup.nextStep();
       }).catch(function() {
         toaster.defaultError();

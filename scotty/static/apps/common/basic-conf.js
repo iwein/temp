@@ -27,13 +27,25 @@ define(function(require) {
 
   if (window.ga) {
     window.ga('create', conf.ga_id, 'auto');
+    window.ga('require', 'linkid');
     window.ga('require', 'displayfeatures');
+    window.ga('require', 'displayfeatures');
+    window.ga('send', 'pageview');
+    window.ga('set', 'anonymizeIp', true);
   }
 
   return function basicConf(module) {
-    module.config(function($httpProvider, LightboxProvider) {
+    module.config(function($provide, $httpProvider, LightboxProvider) {
       $httpProvider.defaults.withCredentials = true;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
+
+      $provide.decorator('$exceptionHandler', function($delegate) {
+        return function (exception, cause) {
+          console.log('LOGGING:', exception.message);
+          window.Raygun.send(exception);
+          $delegate(exception, cause);
+        };
+      });
     });
 
     module.run(function($templateCache, $rootScope, i18n) {
@@ -41,6 +53,9 @@ define(function(require) {
       $templateCache.put('footer.html', require('text!../common/footer.html'));
       $rootScope.translate = i18n.gettext;
       i18n.setLanguage('en');
+      i18n.onChange(function(lang) {
+        localStorage.scotty_lang = lang;
+      });
     });
 
     module.factory('toaster', function(Notifier, gettext) {

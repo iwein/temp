@@ -3,60 +3,64 @@ define(function(require) {
   require('components/directive-candidate/directive-candidate');
   require('components/directive-offer/directive-offer');
   require('components/partial-employer-newsitem/partial-employer-newsitem');
+  var _ = require('underscore');
   var fn = require('tools/fn');
   var Date = require('tools/date');
   var module = require('app-module');
 
 
   // jshint maxparams:8
-  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, ConfigAPI, Permission, Session) {
-    this.searchSkills = ConfigAPI.skills;
-    this.setLocation = setLocation;
-    $scope.locationToText = ConfigAPI.locationToText;
-    $scope.searchCities = ConfigAPI.locations;
-    $scope.updateLocations = updateLocations;
-    $scope.advancedSearch = advancedSearch;
-    $scope.simpleSearch = simpleSearch;
-    $scope.onKeyDown = onKeyDown;
-    $scope.loadPage = loadPage;
-    $scope.today = Date.now();
-    $scope.terms = {};
-    $scope.ready = false;
-    var resultsPerPage = 10;
-    Loader.page(true);
-
-    ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
-
-    Permission.requireSignup().then(function() {
-      return Session.getUser();
-    }).then(function(user) {
-      return $q.all([
-        user.getTimeline(),
-        user.getOffers(),
-        user.getSuggestedCandidates(),
-        user.getCandidates(),
-      ]);
-    }).then(function(results) {
-      $scope.ready = true;
-      $scope.news = results[0];
-      $scope.offers = results[1];
-      $scope.suggested = results[2];
-      $scope.candidates = results[3];
-
-      $scope.candidates.forEach(function(candidate) {
-        candidate.getLastPosition().then(fn.setTo('position', candidate));
-      });
-
-      $scope.offers.forEach(function(offer) {
-        offer.setDataParser(function(data) {
-          data.interview_details = $sce.trustAsHtml(data.interview_details);
-          data.job_description = $sce.trustAsHtml(data.job_description);
-        });
-      });
-    }).finally(function() {
-      Loader.page(false);
+  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, ConfigAPI, RequireSignup, Session) {
+    _.extend(this, {
+      searchSkills: ConfigAPI.skills,
+      setLocation: setLocation,
     });
+    _.extend($scope, {
+      locationToText: ConfigAPI.locationToText,
+      searchCities: ConfigAPI.locations,
+      updateLocations: updateLocations,
+      isAdvancedSearch: isAdvancedSearch,
+      setAdvancedSearch: setAdvancedSearch,
+      search: executeSearch,
+      onKeyDown: onKeyDown,
+      today: Date.now(),
+      resultsPerPage: 10,
+      terms: {},
+      ready: false,
+    });
+    var advancedSearch = false;
 
+    return onLoad();
+
+
+    function onLoad() {
+      Loader.page(true);
+      ConfigAPI.featuredRoles().then(fn.setTo('featuredRoles', $scope));
+
+      return Session.getUser().then(function(user) {
+        return $q.all([
+          user.getTimeline().then(fn.setTo('news', $scope)),
+          user.getOffers().then(fn.setTo('offers', $scope)),
+          user.getSuggestedCandidates().then(fn.setTo('suggested', $scope)),
+          user.getCandidates().then(fn.setTo('candidates', $scope)),
+        ]);
+      }).then(function() {
+        $scope.ready = true;
+
+        $scope.offers.forEach(function(offer) {
+          offer.setDataParser(function(data) {
+            data.interview_details = $sce.trustAsHtml(data.interview_details);
+            data.job_description = $sce.trustAsHtml(data.job_description);
+          });
+        });
+
+        return $q.all($scope.candidates.map(function(candidate) {
+          return candidate.getLastPosition().then(fn.setTo('position', candidate));
+        }));
+      }).finally(function() {
+        Loader.page(false);
+      });
+    }
 
     function addLocation(locations, entry) {
       if (!locations[entry.country_iso])
@@ -85,51 +89,20 @@ define(function(require) {
       }
     }
 
+
     function setLocation(text) {
       $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
-      search();
+      return executeSearch();
     }
 
-    function loadPage(page) {
-      $scope.searchCandidates = $scope.searchResults
-        .slice(page * resultsPerPage, (page + 1) * resultsPerPage);
-      $scope.page = page;
+    function isAdvancedSearch() {
+      return advancedSearch;
     }
 
-    function advancedSearch() {
-      var count = 0;
-      var params = JSON.parse(JSON.stringify($scope.terms));
-      Object.keys(params).forEach(function(key) {
-        if (!params[key] || (Array.isArray(params[key]) && !params[key].length))
-          delete params[key];
-        else
-          count++;
-      });
-
-      if (!count)
-        return resetSearch();
-
-      $scope.loading = true;
-      return Session.searchCandidatesAdvanced(params)
-        .then(search)
-        .catch(toaster.defaultError)
-        .finally(function() {
-          $scope.loading = false;
-        });
+    function setAdvancedSearch(value) {
+      advancedSearch = value;
     }
 
-    function simpleSearch() {
-      if (!$scope.simpleSearchTerms)
-        return resetSearch();
-
-      $scope.loading = true;
-      return Session.searchCandidates({ q: $scope.simpleSearchTerms })
-        .then(search)
-        .catch(toaster.defaultError)
-        .finally(function() {
-          $scope.loading = false;
-        });
-    }
 
     function resetSearch() {
       $scope.searchCandidates = [];
@@ -137,21 +110,50 @@ define(function(require) {
       $scope.pages = [];
     }
 
-    function search(candidates) {
-      var pagesCount = candidates.length / resultsPerPage;
-      var pages = [];
+    function getSearchParams() {
+      if (isAdvancedSearch())
+        return JSON.parse(JSON.stringify($scope.terms));
 
-      for (var i = 0; i < pagesCount; i++)
-        pages.push(i + 1);
+      var terms = $scope.simpleSearchTerms;
+      return terms ? { q: terms } : {};
+    }
 
-      $scope.searchResults = candidates;
-      $scope.pages = pages;
-      loadPage(0);
+    function executeSearch(pagination) {
+      var params = getSearchParams();
+      if (isEmpty(params))
+        return resetSearch();
+
+      _.extend(params, pagination);
+      $scope.loading = true;
+      Loader.add('candidate-search');
+
+      var method = isAdvancedSearch() ? 'searchCandidatesAdvanced' : 'searchCandidates';
+      return Session[method](params).then(function(response) {
+        $scope.totalResults = response.pagination.total;
+        $scope.searchResults = response.data;
+      }).catch(function(error) {
+        toaster.defaultError(error);
+        throw error;
+      }).finally(function() {
+        Loader.remove('candidate-search');
+        $scope.loading = false;
+      });
+    }
+
+    function isEmpty(value) {
+      var count = 0;
+      Object.keys(value).forEach(function(key) {
+        if (!value[key] || (Array.isArray(value[key]) && !value[key].length))
+          delete value[key];
+        else
+          count++;
+      });
+      return !count;
     }
 
     function onKeyDown(event) {
       if (event.keyCode === 13)
-        simpleSearch();
+        executeSearch();
     }
   });
 
@@ -159,6 +161,12 @@ define(function(require) {
     url: '/dashboard/',
     template: require('text!./employer-dashboard.html'),
     controller: 'DashboardCtrl',
-    controllerAs: 'dashboard'
+    controllerAs: 'dashboard',
+    resolve: {
+      /*@ngInject*/
+      RequireSignup: function(Permission) {
+        return Permission.requireSignup();
+      }
+    }
   };
 });

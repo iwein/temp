@@ -16,5 +16,6 @@
     'api_url': 'http://guarded-inlet-9319.herokuapp.com/api/',
     'support_email': 'service@4scotty.com',
     'ga_id': 'UA-47319201-3',
+    'raygun_apikey': 'tqrimMzbMSZOd6ndSOmJNw==',
   };
 });

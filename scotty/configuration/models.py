@@ -36,6 +36,9 @@ class CompanyType(Base, NamedModel):
 
 class OfficeType(Base, NamedModel):
     __tablename__ = 'office_type'
+    HQ = 'HQ'
+    BRANCH = 'BRANCH'
+
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 

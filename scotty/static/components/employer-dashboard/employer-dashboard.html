@@ -21,10 +21,10 @@
 
       <div class="col-sm-6">
         <div class="row">
-          <div class="col-sm-12 bg-gray-light mrg-btm" ng-class="{ 'no-results': !searchCandidates.length }">
+          <div class="col-sm-12 bg-gray-light mrg-btm" ng-class="{ 'no-results': !searchResults.length }">
             <div class="search-box">
               <h4 class="search-box-title" translate>Search for candidates</h4>
-              <form class="row" ng-show="flags.advancedSearch">
+              <form class="row" ng-show="isAdvancedSearch()">
                 <div class="col-sm-6">
                   <div class="search-label" translate>Role / Target position</div>
                   <div class="no-padd-left">
@@ -76,17 +76,17 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="buttons-wrap mrg-top">
-                    <button type="button" class="fl-rg btn bg-green" ng-click="advancedSearch()" translate>
+                    <button type="button" class="fl-rg btn bg-green" ng-click="search()" translate>
                       Search
                     </button>
-                    <button type="button" class="fl-rg btn-no-bg" ng-click="flags.advancedSearch = false">
+                    <button type="button" class="fl-rg btn-no-bg" ng-click="setAdvancedSearch(false)">
                       <translate>Go back to general search</translate>
                       <i class="fa fa-angle-up"></i>
                     </button>
                   </div>
                 </div>
               </form>
-              <form class="row" ng-show="!flags.advancedSearch">
+              <form class="row" ng-show="!isAdvancedSearch()">
                 <div class="col-sm-12">
                   <div class="no-padd-left">
                     <input type="text"
@@ -99,10 +99,10 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="buttons-wrap mrg-top">
-                    <button type="button" class="fl-rg btn bg-green" ng-click="simpleSearch()" translate>
+                    <button type="button" class="fl-rg btn bg-green" ng-click="search()" translate>
                       Search
                     </button>
-                    <button type="button" class="fl-rg btn-no-bg" ng-click="flags.advancedSearch = true">
+                    <button type="button" class="fl-rg btn-no-bg" ng-click="setAdvancedSearch(true)">
                       <translate>Search for target position / role</translate>
                       <i class="fa fa-angle-down"></i>
                     </button>
@@ -110,25 +110,22 @@
                 </div>
               </form>
             </div>
-            <div class="search-results" ng-show="searchResults">
+            <div class="search-results" ng-show="searchResults.length">
               <div class="search-border"></div>
               <div class="spinner" ng-show="loading"></div>
               <div class="offer-list" ng-show="!loading">
-                <div class="search-response">{{ searchResults.length }} candidates found</div>
-                <hc-candidate
-                  ng-repeat="candidate in searchCandidates"
-                  ng-model="candidate"
-                  hc-link-profile="true">
-                </hc-candidate>
-                <ul class="pager-list" ng-show="pages.length > 1">
-                  <li ng-repeat="entry in pages" ng-class="{ active: page === (entry - 1) }">
-                    <button type="button"
-                            ng-click="loadPage(entry - 1)"
-                            ng-disabled="page === (entry - 1)">
-                      {{ entry }}
-                    </button>
-                  </li>
-                  <ul>
+                <hc-pagination
+                  items-per-page="{{ resultsPerPage }}"
+                  total="totalResults"
+                  load="search($params)">
+
+                  <div class="search-response">{{ totalResults }} candidates found</div>
+                  <hc-candidate
+                    ng-repeat="candidate in searchResults"
+                    ng-model="candidate"
+                    hc-link-profile="true">
+                  </hc-candidate>
+                </hc-pagination>
               </div>
             </div>
             <!--end item-->

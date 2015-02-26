@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" ng-show="session.user" ui-sref-active="active">
           <a ui-sref="profile">
-            <img class="user-avatar-as-picture" src="{{ session.user._data.logo_url }}" ng-show="session.user._data.logo_url"/>
+            <img class="user-avatar-as-picture" ng-src="{{ session.user._data.logo_url }}" ng-show="session.user._data.logo_url"/>
             {{ session.user._data.company_name }} <i class="fa fa-angle-down"></i>
           </a>
           <div class="logout" ng-show="session.user"><a ng-click="logout()" translate>Log out</a></div>
@@ -46,7 +46,6 @@
           <a ui-sref="profile" translate>Profile</a>
         </li>
       </ul>
-
     </div>
   </div>
 </nav>

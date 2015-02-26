@@ -229,7 +229,7 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate_preferred_locations', **GET)
     def list_preferred_cities(self):
-        return self.candidate.get_preferred_locations()
+        return self.candidate.preferred_locations
 
     @view_config(route_name='candidate_skills', **PUT)
     def set_skills(self):
@@ -290,7 +290,7 @@ class CandidateViewController(CandidateController):
         def optimise_query(q):
             return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                              joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                             joinedload('preferred_locations'), joinedload_all('target_position.role'),
+                             joinedload_all('target_position.role'),
                              joinedload_all('target_position.skills'))
 
         return ObjectBuilder(Candidate, joins=optimise_query).serialize(pager)
@@ -314,7 +314,7 @@ class CandidateViewController(CandidateController):
         def optimise_query(q):
             return q.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                              joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                             joinedload('preferred_locations'), joinedload_all('target_position.role'),
+                             joinedload_all('target_position.role'),
                              joinedload_all('target_position.skills'))
 
         return ObjectBuilder(Candidate, joins=optimise_query).serialize(pager)

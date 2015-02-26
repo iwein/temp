@@ -8,6 +8,7 @@ define(function(require) {
   var fn = require('tools/fn');
   var Date = require('tools/date');
   var months = require('tools/months');
+  var google = require('tools/google');
   var module = require('app-module');
 
   module.controller('CandidateSignupProfileCtrl', function($scope, $q, $state, i18n,
@@ -137,6 +138,8 @@ define(function(require) {
 
           return $q.all(promises);
         });
+      }).then(function() {
+        google.executeConversionTracking();
       });
     }
 

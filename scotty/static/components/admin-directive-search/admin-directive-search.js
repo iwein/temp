@@ -23,6 +23,7 @@ define(function(require) {
         $scope.tags = [];
         $scope.showItems = 20;
         var counter = 0;
+        var order;
 
         nameAttr(this, 'hcAdminSearch', $scope, $attrs);
 
@@ -32,6 +33,11 @@ define(function(require) {
 
           if (!params)
             params = { limit: $scope.showItems };
+
+          if (params.order)
+            order = params.order;
+          else if (order)
+            params.order = order;
 
           if ($scope.term)
             params.q = $scope.term;
@@ -48,8 +54,10 @@ define(function(require) {
               if (instance !== counter)
                 return null;
 
-              $scope.$parent.results = response.data;
-              $scope.results = response.data;
+              var data = response.data;
+              data.getList = getResults;
+              $scope.$parent.results = data;
+              $scope.results = data;
               $scope.loaded = true;
               $scope.total = response.pagination.total;
             })

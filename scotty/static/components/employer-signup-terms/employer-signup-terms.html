@@ -8,8 +8,7 @@
 
       <div class=" mrg-btm bg-gray-lighter pad-30 form-signup">
         <p>
-          <translate>By selecting "I agree terms of service", you agree with our</translate>
-          <a href="../en/terms-employer.html" class="smbd" target="_blank" translate>terms of service</a>.
+          <translate>By selecting "I agree terms of service", you agree with our terms of service.</translate>
           <br/><br/>
         </p>
 
@@ -32,7 +31,10 @@
                  ng-required="true"
                  ng-disabled="loading"
                  ng-model="model.agreedTos">
-          <span class="mrg-lft-small" translate>I agree to the terms of services</span>
+          <span class="mrg-lft-small">
+            <translate>I agree to the</translate>
+            <a href="../en/terms-employer.html" class="smbd" target="_blank" translate>terms of services</a>.
+          </span>
         </label>
 
         <div class="form-error" ng-show="formSignupTerms.agreedTos.$dirty && formSignupTerms.agreedTos.$invalid">

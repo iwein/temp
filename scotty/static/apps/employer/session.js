@@ -25,9 +25,12 @@ define(function(require) {
       this._unsetUser();
       this._i18n.setLanguage(response.locale);
       this.user = new Employer(this._api, 'me', response);
-      this.isApproved= response.is_approved;
+      this.isApproved = response.is_approved;
       this.isActivated = true;
+
       document.title = '4Scotty – ' + response.company_name;
+      window.Raygun.setUser(response.id, false, response.email);
+
       if(window.UserVoice !== null && response.email && response.company_name){
         window.UserVoice.push(['identify', {
           email: response.email,
@@ -126,18 +129,21 @@ define(function(require) {
 
     searchCandidates: function(query) {
       return this._api.get('/candidates', query).then(function(response) {
-        return response.data.map(function(data) {
+        response.data = response.data.map(function(data) {
           return new Candidate(this._api, data.id, data);
         }.bind(this));
+        return response;
       }.bind(this));
     },
 
 
     searchCandidatesAdvanced: function(query) {
-      return this._api.post('/candidates/advancedsearch', query).then(function(response) {
-        return response.data.map(function(data) {
+      var offset = query.offset ? '?offset=' + query.offset : '';
+      return this._api.post('/candidates/advancedsearch' + offset, query).then(function(response) {
+        response.data = response.data.map(function(data) {
           return new Candidate(this._api, data.id, data);
         }.bind(this));
+        return response;
       }.bind(this));
     },
 

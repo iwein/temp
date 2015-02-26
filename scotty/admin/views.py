@@ -4,19 +4,18 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest, HTTPFound
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
+from scotty.tools import split_strip
 from sqlalchemy.sql.elements import and_
-from scotty.candidate.services import get_candidates_by_techtags_pager
-from scotty.configuration.models import WithdrawalReason, RejectionReason
+from scotty.configuration.models import WithdrawalReason, RejectionReason, Skill
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
-from scotty.models.tools import json_encoder
-from scotty.candidate.models import Candidate, InviteCode, CandidateStatus
-from scotty.employer.models import Employer
+from scotty.models.tools import json_encoder, add_sorting, distinct_counter
+from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES
+from scotty.employer.models import Employer, EMPLOYER_SORTABLES
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.offer.services import set_offer_signed
-from scotty.services.pagingservice import ObjectBuilder
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET
 from sqlalchemy import func, or_
@@ -42,7 +41,6 @@ def includeme(config):
     config.add_route('admin_invite_code', 'invite_codes/:code')
     config.add_route('admin_invite_code_candidates', 'invite_codes/:code/candidates')
 
-
     config.add_route('admin_offers', 'offers')
     config.add_route('admin_offer', 'offers/{id}')
     config.add_route('admin_offer_accept', 'offers/{id}/accept')
@@ -56,21 +54,30 @@ def includeme(config):
 
 class SearchResultCandidate(Candidate):
     def __json__(self, request):
-        result = super(SearchResultCandidate, self).__json__(request)
-        result['email'] = self.email
-        result['created'] = self.created
-        return result
+        if request.params.get('fields'):
+            fields = request.params.get('fields')
+            return {k: getattr(self, k) for k in split_strip(fields)}
+        else:
+            result = super(SearchResultCandidate, self).__json__(request)
+            result['email'] = self.email
+            result['created'] = self.created
+            return result
 
 
 class SearchResultEmployer(Employer):
     def __json__(self, request):
-        result = json_encoder(self, request)
-        result['contact_salutation'] = self.contact_salutation
-        result['company_type'] = self.company_type
-        result['status'] = self.status
-        result['email'] = self.email
-        result['created'] = self.created
-        return result
+        if request.params.get('fields'):
+            fields = request.params.get('fields')
+            return {k: getattr(self, k) for k in split_strip(fields)}
+        else:
+            result = json_encoder(self, request)
+            result['contact_salutation'] = self.contact_salutation
+            result['company_type'] = self.company_type
+            result['offices'] = self.offices
+            result['status'] = self.status
+            result['email'] = self.email
+            result['created'] = self.created
+            return result
 
 
 class AdminInviteCodeController(RootController):
@@ -79,7 +86,7 @@ class AdminInviteCodeController(RootController):
         candidate_count = func.count(Candidate.id).label("candidate_count")
         last_used = func.max(Candidate.created).label("last_used")
         codes_query = DBSession.query(InviteCode.code, InviteCode.description, InviteCode.created, candidate_count,
-                                      last_used).outerjoin(Candidate, and_(Candidate.invite_code_id == InviteCode.id))\
+                                      last_used).outerjoin(Candidate, and_(Candidate.invite_code_id == InviteCode.id)) \
             .group_by(InviteCode.code, InviteCode.description, InviteCode.created)
 
         def serializer(result):
@@ -207,52 +214,47 @@ class AdminController(RootController):
     def admin_search_candidates(self):
         params = self.request.params
         status = params.get('status')
+        order = params.get('order')
         q = params.get('q')
-        tags = filter(None, params.get('tags', '').split(','))
+        tags = split_strip(params.get('tags'))
 
-        def adjust_query(query, q=None):
-            if q:
-                q = q.lower()
-                query = query.filter(
-                    or_(func.lower(Candidate.first_name).startswith(q),
-                        func.lower(Candidate.last_name).startswith(q),
-                        func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
-                        func.lower(Candidate.email).startswith(q)))
-            else:
-                query = query.order_by(Candidate.first_name, Candidate.last_name)
-            return query.options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
-                                 joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                                 joinedload_all('target_position.preferred_locations'))
-
+        basequery = DBSession.query(SearchResultCandidate) \
+            .options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
+                     joinedload_all('skills.skill'), joinedload_all('skills.level'),
+                     joinedload_all('target_position.preferred_locations'))
+        if status:
+            status = get_by_name_or_raise(CandidateStatus, status)
+            basequery = basequery.filter(Candidate.status == status)
+        if q:
+            q = q.lower()
+            basequery = basequery.filter(
+                or_(func.lower(Candidate.first_name).startswith(q),
+                    func.lower(Candidate.last_name).startswith(q),
+                    func.lower(func.concat(Candidate.first_name, " ", Candidate.last_name)).startswith(q),
+                    func.lower(Candidate.email).startswith(q)))
         if tags:
-            pager = get_candidates_by_techtags_pager(tags, None)
-            result = ObjectBuilder(SearchResultCandidate, joins=adjust_query).serialize(pager)
-        else:
-            basequery = DBSession.query(SearchResultCandidate)
-            if status:
-                status = get_by_name_or_raise(CandidateStatus, status)
-                basequery = basequery.filter(Candidate.status == status)
-            basequery = adjust_query(basequery, q)
-            result = run_paginated_query(self.request, basequery)
-        return result
+            basequery = basequery.outerjoin(CandidateSkill).join(Skill).filter(Skill.name.in_(tags))
+        if order:
+            basequery = add_sorting(basequery, order, CANDIDATE_SORTABLES)
+        return run_paginated_query(self.request, basequery, counter=distinct_counter(SearchResultCandidate.id))
 
     @view_config(route_name="admin_search_employer", permission=ADMIN_PERM, **GET)
     def admin_search_employer(self):
         basequery = DBSession.query(SearchResultEmployer)
-
         status = self.request.params.get('status')
+        order = self.request.params.get('order', 'name')
 
         if 'q' in self.request.params:
             q = self.request.params['q'].lower()
             basequery = DBSession.query(SearchResultEmployer).filter(
-                or_(func.lower(Employer.company_name).startswith(q), func.lower(Employer.contact_first_name).startswith(q),
+                or_(func.lower(Employer.company_name).startswith(q),
+                    func.lower(Employer.contact_first_name).startswith(q),
                     func.lower(Employer.contact_last_name).startswith(q), func.lower(Employer.email).startswith(q)))
-        else:
-            basequery = basequery.order_by(Employer.company_name)
         if status:
             basequery = basequery.filter(*Employer.by_status(status))
-        return run_paginated_query(self.request, basequery)
-
+        if order:
+            basequery = add_sorting(basequery, order, EMPLOYER_SORTABLES)
+        return run_paginated_query(self.request, basequery, counter=distinct_counter(SearchResultEmployer.id))
 
 
 class AdminOfferController(RootController):
