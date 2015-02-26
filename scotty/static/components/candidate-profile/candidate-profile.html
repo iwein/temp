@@ -834,7 +834,7 @@
                         ng-click="skills.edit(skills)">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <div class="skills-head">
                     <div class="big-title skills-title" translate>SKILLS</div>
                     <div class="caption">
@@ -853,10 +853,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                   <div class="skills-wrap row">
                     <div class="col-sm-4" ng-repeat="entry in leveledSkills">
-                      <div class="skills-item"><span>{{ entry.skill }}</span>
+                      <div class="skills-item" title="{{ entry.skill }}">
+                        <span>{{ entry.skill }}</span>
                         <hc-stars ng-model="entry.level" hc-values="starValues"></hc-stars>
                       </div>
                     </div>
