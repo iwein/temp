@@ -8,8 +8,8 @@
       <div class="form-signup bg-gray-lighter mrg-btm form-wrap">
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>Company Name</label>
-          <div class="col-sm-9">
+          <label class="col-lg-3 no-padd-right" translate>Company Name</label>
+          <div class="col-lg-9">
             <input type="text"
                    class="form-control"
                    name="companyName"
@@ -21,7 +21,7 @@
                    ng-change="signupStart.onCompanyChange()">
           </div>
 
-          <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorCompanyAlreadyRegistered || (formSignupStart.companyName.$dirty && formSignupStart.companyName.$invalid)">
+          <div class="form-error col-lg-9 col-lg-offset-3" ng-show="errorCompanyAlreadyRegistered || (formSignupStart.companyName.$dirty && formSignupStart.companyName.$invalid)">
             <span ng-show="formSignupStart.companyName.$error.required" translate>
               Please insert the name of your company.
             </span>
@@ -32,9 +32,9 @@
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>Company Type</label>
+          <label class="col-lg-3 no-padd-right" translate>Company Type</label>
 
-          <div class="col-sm-9 check-wrap">
+          <div class="col-lg-9 check-wrap">
             <label class="form-label" ng-repeat="type in companyTypes" title="{{ companyTypeMeta[type].help }}">
               <input type="radio"
                      name="companyType"
@@ -46,16 +46,16 @@
             </label>
           </div>
 
-          <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupStart.companyType.$dirty && formSignupStart.companyType.$invalid">
+          <div class="form-error col-lg-9 col-lg-offset-3" ng-show="formSignupStart.companyType.$dirty && formSignupStart.companyType.$invalid">
             <span ng-show="formSignupStart.companyType.$error.required" translate>Please select at least one company type.</span>
           </div>
 
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>Salutation</label>
+          <label class="col-lg-3 no-padd-right" translate>Salutation</label>
 
-          <div class="col-sm-9">
+          <div class="col-lg-9">
             <select
               class="form-control"
               name="salutation"
@@ -67,15 +67,15 @@
             </select>
           </div>
 
-          <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="formSignupStart.salutation.$dirty && formSignupStart.salutation.$invalid">
+          <div class="form-error  col-lg-9 col-lg-offset-3" ng-show="formSignupStart.salutation.$dirty && formSignupStart.salutation.$invalid">
             <span ng-show="formSignupStart.salutation.$error.required" translate>Please select a salutation</span>
           </div>
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>First name</label>
+          <label class="col-lg-3 no-padd-right" translate>First name</label>
 
-          <div class="col-sm-9">
+          <div class="col-lg-9">
             <input type="text"
                    class="form-control"
                    name="contact_first_name"
@@ -84,7 +84,7 @@
                    ng-model="model.contact_first_name">
           </div>
 
-          <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="formSignupStart.contact_first_name.$dirty && formSignupStart.contact_first_name.$invalid">
+          <div class="form-error  col-lg-9 col-lg-offset-3" ng-show="formSignupStart.contact_first_name.$dirty && formSignupStart.contact_first_name.$invalid">
             <span ng-show="formSignupStart.contact_first_name.$error.required" translate>
               Please insert the first name of the contact person of your company.
             </span>
@@ -92,9 +92,9 @@
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>Last name</label>
+          <label class="col-lg-3 no-padd-right" translate>Last name</label>
 
-          <div class="col-sm-9">
+          <div class="col-lg-9">
             <input type="text"
                    class="form-control"
                    name="contact_last_name"
@@ -103,7 +103,7 @@
                    ng-model="model.contact_last_name">
           </div>
 
-          <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="formSignupStart.contact_last_name.$dirty && formSignupStart.contact_last_name.$invalid">
+          <div class="form-error  col-lg-9 col-lg-offset-3" ng-show="formSignupStart.contact_last_name.$dirty && formSignupStart.contact_last_name.$invalid">
             <span ng-show="formSignupStart.contact_last_name.$error.required" translate>
               Please insert the last name of the contact person of your company.
             </span>
@@ -111,8 +111,8 @@
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>Email</label>
-          <div class="col-sm-9">
+          <label class="col-lg-3 no-padd-right" translate>Email</label>
+          <div class="col-lg-9">
             <input type="email"
                    class="form-control"
                    name="email"
@@ -122,7 +122,7 @@
                    ng-change="signupStart.onEmailChange()">
           </div>
 
-          <div class="form-error  col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (formSignupStart.email.$dirty && formSignupStart.email.$invalid)">
+          <div class="form-error  col-lg-9 col-lg-offset-3" ng-show="errorEmailAlreadyRegistered || (formSignupStart.email.$dirty && formSignupStart.email.$invalid)">
             <span ng-show="formSignupStart.email.$error.required" translate>
               Please insert your email.
             </span>
@@ -137,8 +137,8 @@
         </div>
 
         <div class="form-group required">
-          <label class="col-sm-3 no-padd-right" translate>Password</label>
-          <div class="col-sm-9">
+          <label class="col-lg-3 no-padd-right" translate>Password</label>
+          <div class="col-lg-9">
             <input type="password"
                    class="form-control"
                    name="password"
@@ -148,7 +148,7 @@
                    ng-model="model.pwd">
           </div>
 
-          <div class="form-error col-sm-9 col-sm-offset-3"ng-show="formSignupStart.password.$dirty && formSignupStart.password.$invalid">
+          <div class="form-error col-lg-9 col-lg-offset-3"ng-show="formSignupStart.password.$dirty && formSignupStart.password.$invalid">
             <span ng-show="formSignupStart.password.$error.required" translate>Please choose a password.</span>
             <span ng-show="formSignupStart.password.$error.minlength" translate>Password must have at least 8 characters.</span>
           </div>

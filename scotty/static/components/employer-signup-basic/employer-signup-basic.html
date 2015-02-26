@@ -7,8 +7,8 @@
       <form name="formSignupBasic" class="form-horizontal form-wrap" ng-submit="signupBasic.submit()" hc-validations-on-submit>
         <div class="form-wrap mrg-btm bg-gray-lighter pad-30 form-signup">
           <div class="form-group required">
-            <label class="col-sm-3" translate>Logo</label>
-            <div class="col-sm-9">
+            <label class="col-lg-3" translate>Logo</label>
+            <div class="col-lg-9">
               <div class="uploadFile">
                 <span translate>Select</span>
                 <input type="file"
@@ -22,7 +22,7 @@
               </div>
               <div class="uploadText" translate>Upload a photo at least 235 px wide.</div>
             </div>
-            <div class="col-sm-offset-3 col-sm-9">
+            <div class="col-lg-offset-3 col-lg-9">
               <img class="avatar" ng-show="selectedFiles[0]" ng-src="{{ selectedFiles[0] }}">
               <div class="form-error" ng-show="errorFileRequired || errorFileImage">
                 <span ng-show="errorFileRequired" translate>Please select a photo.</span>
@@ -32,8 +32,8 @@
           </div>
 
           <div class="form-group required">
-            <label class="col-sm-3" translate>Website</label>
-            <div class="col-sm-9">
+            <label class="col-lg-3" translate>Website</label>
+            <div class="col-lg-9">
               <input type="url"
                      class="form-control"
                      name="website"
@@ -42,7 +42,7 @@
                      ng-model="model.website">
             </div>
 
-            <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
+            <div class="form-error col-lg-9 col-lg-offset-3" ng-show="formSignupBasic.website.$dirty && formSignupBasic.website.$invalid">
               <span ng-show="formSignupBasic.website.$error.required" translate>
                 Please insert your company's website URL.
               </span>
@@ -53,8 +53,8 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-3 no-padd-right" translate>Facebook page</label>
-            <div class="col-sm-9">
+            <label class="col-lg-3 no-padd-right" translate>Facebook page</label>
+            <div class="col-lg-9">
               <input type="url"
                      class="form-control"
                      name="fb_url"
@@ -64,8 +64,8 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-3" translate>LinkedIn URL</label>
-            <div class="col-sm-9">
+            <label class="col-lg-3" translate>LinkedIn URL</label>
+            <div class="col-lg-9">
               <input type="url"
                      class="form-control"
                      name="linkedin_url"
