@@ -81,4 +81,8 @@ def get_or_raise_named_collection(cls, names, field_name='name', require_uniquen
     if len(objs) < len(name_set):
         missings = set(name_set).difference(getattr(t, field_name) for t in objs)
         raise HTTPBadRequest("Unknown %s: %s" % (cls.__name__, missings))
+    return objs
+
+def get_or_raise_named_lookup(cls, names, field_name='name', require_uniqueness=True):
+    objs = get_or_raise_named_collection(cls, names, field_name, require_uniqueness)
     return {o.name: o for o in objs}

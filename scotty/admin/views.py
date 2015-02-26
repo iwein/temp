@@ -4,20 +4,21 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPConflict, HTTPBadRequest, HTTPFound
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
+from scotty.offer.services import set_offer_signed, OFFER_EDITABLES
 from scotty.tools import split_strip
 from sqlalchemy.sql.elements import and_
 from scotty.configuration.models import WithdrawalReason, RejectionReason, Skill
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
-from scotty.models.tools import json_encoder, add_sorting, distinct_counter
-from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES
+from scotty.models.tools import json_encoder, add_sorting, distinct_counter, update
+from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES, \
+    PrimaryBookmarks
 from scotty.employer.models import Employer, EMPLOYER_SORTABLES
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
-from scotty.offer.services import set_offer_signed
 from scotty.views import RootController
-from scotty.views.common import POST, run_paginated_query, GET
+from scotty.views.common import POST, run_paginated_query, GET, PUT
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload_all, joinedload
@@ -49,6 +50,9 @@ def includeme(config):
     config.add_route('admin_offer_signed', 'offers/{id}/signed')
     config.add_route('admin_offer_withdraw', 'offers/{id}/withdraw')
     config.add_route('admin_offer_rollback', 'offers/{id}/rollback')
+
+    config.add_route('admin_offerrequests', 'offerrequests')
+
     config.scan()
 
 
@@ -283,9 +287,20 @@ class AdminOfferController(RootController):
 
         return run_paginated_query(self.request, query, default_limit=50)
 
+
+    @view_config(route_name='admin_offerrequests', permission=ADMIN_PERM, **GET)
+    def admin_offerrequests(self):
+        query = DBSession.query(PrimaryBookmarks).order_by(PrimaryBookmarks.created.desc())
+        return run_paginated_query(self.request, query, default_limit=20)
+
+
     @view_config(route_name='admin_offer', permission=ADMIN_PERM, **GET)
     def admin_offer(self):
         return self.offer
+
+    @view_config(route_name='admin_offer', permission=ADMIN_PERM, **PUT)
+    def edit_admin_offer(self):
+        return update(self.offer, self.request.json, OFFER_EDITABLES)
 
     @view_config(route_name='admin_offer_status', **POST)
     def admin_set_offer_status(self):

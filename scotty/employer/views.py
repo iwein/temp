@@ -3,6 +3,7 @@ from datetime import datetime
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.auth.provider import ADMIN_PERM
 from scotty.employer.schemata import SignupRequest, AgreeTosRequest, PictureRequest, SetPicturesRequest
+from scotty.models.tools import update
 from sqlalchemy import func
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, HTTPConflict
@@ -12,9 +13,8 @@ from scotty.configuration.models import WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer, EmployerPicture
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
-    update_employer, get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
-    set_employer_offices, \
-    get_employer_newsfeed, edit_employer_office
+    get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
+    set_employer_offices, get_employer_newsfeed, EMPLOYER_OFFICE, EMPLOYER_EDITABLES
 from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_raise
 from scotty.offer.models import InvalidStatusError
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
@@ -158,8 +158,7 @@ class EmployerController(RootController):
 
     @view_config(route_name='employer', **PUT)
     def edit(self):
-        update_employer(self.employer, self.request.json)
-        return self.employer
+        return update(self.employer, self.request.json, EMPLOYER_EDITABLES)
 
     @view_config(route_name='employer_apply', **PUT)
     def employer_apply(self):
@@ -272,7 +271,7 @@ class EmployerOfficeController(EmployerController):
 
     @view_config(route_name='employer_office', **PUT)
     def edit(self):
-        return edit_employer_office(self.office, self.request.json)
+        return update(self.office, self.request.json, EMPLOYER_OFFICE)
 
     @view_config(route_name='employer_office', **DELETE)
     def delete(self):

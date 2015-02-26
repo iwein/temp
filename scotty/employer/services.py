@@ -1,5 +1,6 @@
 from datetime import datetime
 import hashlib
+from scotty.models.tools import ID
 from scotty.services import hash_pwd
 from sqlalchemy import text
 
@@ -12,12 +13,9 @@ from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Sal
 from scotty.employer.models import Employer, Office
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_create, \
-    get_or_create_named_collection, get_by_name_or_raise
+    get_or_create_named_collection, get_by_name_or_raise, get_or_raise_named_collection
 from scotty.services.pagingservice import Pager
 from sqlalchemy.orm import joinedload
-
-
-ID = lambda x: x
 
 
 def employer_from_signup(params):
@@ -61,14 +59,6 @@ def add_employer_office(employer, params, lookup=EMPLOYER_OFFICE):
 
     office.employer_id = employer.id
     DBSession.add(office)
-    DBSession.flush()
-    return office
-
-
-def edit_employer_office(office, params, lookup=EMPLOYER_OFFICE):
-    for field, transform in lookup:
-        if field in params:
-            setattr(office, field, transform(params[field]))
     DBSession.flush()
     return office
 
@@ -131,7 +121,7 @@ def add_employer_offer(employer, params):
         raise HTTPBadRequest("Employer Blacklisted.")
 
     role = get_by_name_or_create(Role, params["role"])
-    benefits = get_or_create_named_collection(Benefit, params['benefits'])
+    benefits = get_or_raise_named_collection(Benefit, params['benefits'])
     techs = get_or_create_named_collection(Skill, params['technologies'])
     o = EmployerOffer(employer_id=employer.id, candidate_id=candidate.id, role=role, benefits=benefits,
                       technologies=techs, other_benefits=params.get('other_benefits'),
@@ -155,12 +145,6 @@ EMPLOYER_EDITABLES = {'company_name': ID, 'website': ID, 'address_line1': ID, 'a
                       'benefits': lambda tags: get_or_create_named_collection(Benefit, tags),
                       'other_benefits': ID, 'cto_blog': ID, 'cto_twitter': ID, 'tech_team_office': ID, 'working_env': ID,
                       'dev_methodology': ID, 'video_script': ID}
-
-
-def update_employer(obj, params, lookup=EMPLOYER_EDITABLES):
-    for field, transform in lookup.items():
-        if field in params:
-            setattr(obj, field, transform(params[field]))
 
 
 def get_employers_pager(tags, city_id, company_name):
