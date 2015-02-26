@@ -25,6 +25,8 @@
             {url: function(r, extr){return '/api/v1/employers/'+extr.tmpEId+'?apikey=${apikey}'},
               title: 'admin-employer-comment', data:{admin_comment: 'Admin\'s employer word is also good'}, method: 'PUT'},
 
+            {sectionTitle: 'List Offer Requests'},
+            {url: '/api/v1/admin/offerrequests?apikey=${apikey}', title: 'admin-offer-requests'},
 
             {sectionTitle: 'Search'},
             {url: '/api/v1/admin/search/employers?q=Hack&apikey=${apikey}', title: 'admin-search-employers'},
