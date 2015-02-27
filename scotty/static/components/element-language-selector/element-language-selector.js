@@ -1,3 +1,5 @@
+/*globals console */
+
 define(function(require) {
   'use strict';
   var moment = require('moment');
@@ -5,11 +7,18 @@ define(function(require) {
 
   module.factory('i18n', function(gettextCatalog, ConfigAPI) {
     var listeners = [];
-    var languages = [ 'en' ];
+    var languages = [ 'en', 'de' ];
     var current;
 
     if (DEBUG) {
       gettextCatalog.debug = true;
+      var getString = gettextCatalog.getString;
+      gettextCatalog.getString = function(string, context) {
+        var result = getString.call(gettextCatalog, string, context);
+        if (result.indexOf('[MISSING]') === 0)
+          console.warn('Missing translation:', string, result, context);
+        return result;
+      };
     }
 
     ConfigAPI.locales().then(function(response) {

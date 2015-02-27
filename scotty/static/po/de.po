@@ -617,8 +617,8 @@ msgstr "Kontakt"
 #: apps/en/index.html:336 apps/en/login.html:167
 #: apps/en/terms-candidate.html:253 apps/en/terms-employer.html:279
 #: apps/en/terms-of-service.html:168
-msgid "Contact & Support"
-msgstr "Kontakt & Service"
+msgid "Contact &amp; Support"
+msgstr "Kontakt &amp; Service"
 
 #: components/directive-office-form/directive-office-form.html:101
 msgid "Contact Information"
@@ -689,8 +689,8 @@ msgstr "Vermögenswirksame Leistungen"
 #: components/employer-signup-start/employer-signup-start.html:180
 #: components/employer-signup-suggest/employer-signup-suggest.html:19
 #: components/employer-signup-terms/employer-signup-terms.html:71
-msgid "Convenient & time-saving"
-msgstr "Bequem & zeitsparend"
+msgid "Convenient &amp; time-saving"
+msgstr "Bequem &amp; zeitsparend"
 
 #: components/candidate-profile/candidate-profile.html:256
 #: components/directive-office-form/directive-office-form.html:70
@@ -883,10 +883,10 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:97
 msgid ""
-"Enter your company's vision & mission here and let candidates know what you "
+"Enter your company's vision &amp; mission here and let candidates know what you "
 "stand for."
 msgstr ""
-"Geben Sie hier die Vision & Mission Ihres Unternehmens als wichtige "
+"Geben Sie hier die Vision &amp; Mission Ihres Unternehmens als wichtige "
 "Information für Kandidaten an."
 
 #: components/employer-signup-facts/employer-signup-facts.html:76
@@ -3178,8 +3178,8 @@ msgstr ""
 "anmelden."
 
 #: apps/candidate/index.html:78 apps/employer/index.html:74
-msgid "Your profile has not been reviewed & approved yet."
-msgstr "Dein Profil wurde noch nicht geprüft & bestätigt."
+msgid "Your profile has not been reviewed &amp; approved yet."
+msgstr "Dein Profil wurde noch nicht geprüft &amp; bestätigt."
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
 msgid ""
