@@ -94,6 +94,21 @@ define(function(require) {
         });
       });
     },
+
+    getSuggestedCandidates: function() {
+      var api = this._api;
+      return api.get(this._url() + '/suggested/candidates' + this._sufix).then(function(response) {
+        response.data.forEach(function(data) {
+          data.candidate = new Candidate(api, data.candidate.id, data.candidate)
+        });
+        return response;
+      });
+    },
+
+    notInterested: function(suggestion) {
+      return this._api.delete(this._url() + '/suggested/candidates', { id: suggestion.candidate.id });
+    },
+
     getCandidates: function() {
       var api = this._api;
       return api.get(this._url() + '/interested/candidates' + this._sufix).then(function(response) {
