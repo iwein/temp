@@ -417,7 +417,6 @@ msgstr ""
 "Kontaktdaten erst, wenn du ihr Angebot akzeptiert hast."
 
 #: components/employer-signup-terms/employer-signup-terms.html:11
-#, fuzzy
 msgid ""
 "By selecting \"I agree terms of service\", you agree with our terms of "
 "service."
@@ -1118,9 +1117,8 @@ msgid "Home office acceptance"
 msgstr "Home Office Regelung"
 
 #: components/employer-signup-terms/employer-signup-terms.html:35
-#, fuzzy
 msgid "I agree to the"
-msgstr "Ich habe die gelesen und stimme ihnen zu"
+msgstr "Ich stimme zu:"
 
 #: components/directive-education-form/directive-education-form.html:80
 msgid "I am still studying there"
@@ -1147,7 +1145,7 @@ msgstr ""
 #: components/candidate-signup-education/candidate-signup-education.html:15
 #: components/candidate-signup-experience/candidate-signup-experience.html:15
 msgid "Import"
-msgstr ""
+msgstr "Zeigen"
 
 #: apps/common/footer.html:31 apps/en/about-us.html:276
 #: apps/en/contact.html:308 apps/en/forgot-password.html:184
@@ -1789,6 +1787,11 @@ msgid ""
 "          <span class=\"number\">+49 30-2639389-15</span>,\n"
 "          if I can assist you or provide guidance for your next step in IT."
 msgstr ""
+"Du kannst mich jederzeit kontaktieren unter\n"
+"          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
+"          oder telefonisch unter\n"
+"          <span class=\"number\">+49 30-2639389-15</span>,\n"
+"          bei Fragen zur Anmeldung oder zur Nutzung hast."
 
 #: components/employer-signup/employer-signup.html:6
 msgid ""
@@ -1798,6 +1801,11 @@ msgid ""
 "          <span class=\"number\">+49 30-2639389-15</span>,\n"
 "          if you've got questions regarding the sign up."
 msgstr ""
+"Bitte kontaktieren Sie mich jederzeit unter\n"
+"          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
+"          oder telefonisch unter\n"
+"          <span class=\"number\">+49 30-2639389-15</span>,\n"
+"          wenn Sie Fragen zur Anmeldung haben."
 
 #: components/employer-signup-facts/employer-signup-facts.html:80
 msgid "Please enter at least one technology"
@@ -2749,9 +2757,8 @@ msgid "VC Founding amount"
 msgstr "VC Gründungskapital"
 
 #: components/employer-profile/employer-profile.html:127
-#, fuzzy
 msgid "VC Funding"
-msgstr "VC Gründungskapital"
+msgstr "Kapital von Investoren"
 
 #: components/directive-office-form/directive-office-form.html:196
 msgid "Valid chacters are: Numbers - / ( )"
@@ -3008,7 +3015,7 @@ msgstr "Jahr"
 
 #: components/candidate-profile/candidate-profile.html:409
 msgid "Yes, I've got a work visa for EU"
-msgstr ""
+msgstr "Ja, ich habe eine Arbeitserlaubnis der EU"
 
 #: components/employer-signup-terms/employer-signup-terms.html:20
 msgid ""
@@ -3183,13 +3190,12 @@ msgstr ""
 "Bestätigungs-E-Mail klicken."
 
 #: components/candidate-profile/candidate-profile.html:789
-#, fuzzy
 msgid ""
 "Your profile name and picture cannot be seen by employers unless you have "
 "accepted their job-offer."
 msgstr ""
-"Dein Name und dein Bild können nicht gesehen weden von Unternehmen, bis du "
-"Ihr Angebot angenommen hast."
+"Unternehmen sehen deinen Namen und dein Foto erst, wenn du ihr Angebot "
+"angenommen hast. "
 
 #: components/candidate-profile/candidate-profile.html:791
 msgid "Your profile name and picture is immediately public to companies."
@@ -3271,7 +3277,7 @@ msgstr "erstellt"
 #: components/candidate-signup-education/candidate-signup-education.html:27
 #: components/candidate-signup-experience/candidate-signup-experience.html:27
 msgid "current"
-msgstr ""
+msgstr "heute"
 
 #: components/candidate-offer/candidate-offer.html:28
 msgid "employer has withdrawn this offer"
@@ -3289,7 +3295,7 @@ msgstr "Experte"
 
 #: tmp/db-tokens/proficiencies.js:2
 msgid "fluent"
-msgstr "Fließend"
+msgstr "fließend"
 
 #: components/candidate-activate/candidate-activate.html:7
 msgid "go to your profile."
@@ -3297,12 +3303,12 @@ msgstr "gehe zu deinem Profil"
 
 #: components/employer-signup-start/employer-signup-start.js:42
 msgid "grown player with multi-national operations"
-msgstr "Mehr als 1.000 Mitarbeiter und multi-nationaler Wirkungskreis"
+msgstr "Mehr als 1.000 Mitarbeiter und multinational"
 
 #: components/candidate-profile/candidate-profile.html:450
 #: components/employer-candidate-profile/employer-candidate-profile.html:90
 msgid "has a work visa"
-msgstr "hat ein Arbeitsvisum"
+msgstr "hat eine Arbeitserlaubnis"
 
 #: components/candidate-offer/candidate-offer.html:16
 #: components/employer-offer/employer-offer.html:17
@@ -3359,7 +3365,7 @@ msgstr "mehr"
 
 #: tmp/db-tokens/proficiencies.js:1
 msgid "native"
-msgstr "Muttersprachlich"
+msgstr "muttersprachlich"
 
 #: components/candidate-offer/candidate-offer.html:20
 #: components/employer-offer/employer-offer.html:21
@@ -3392,7 +3398,7 @@ msgstr "speichern"
 #: components/candidate-profile/candidate-profile.html:773
 #: components/employer-candidate-profile/employer-candidate-profile.html:9
 msgid "searching"
-msgstr "sucht"
+msgstr "aktiv suchend"
 
 #: tmp/db-tokens/seniority.js:2
 msgid "senior"
@@ -3417,7 +3423,6 @@ msgid "status"
 msgstr "Status"
 
 #: components/employer-signup-terms/employer-signup-terms.html:36
-#, fuzzy
 msgid "terms of services"
 msgstr "Nutzungsbedingungen"
 
@@ -3444,7 +3449,7 @@ msgstr "darauf warten das du akzeptierst"
 
 #: components/candidate-signup-skills/candidate-signup-skills.html:24
 msgid "worked with that but rather short or not extensively"
-msgstr "Damit gearbeitet aber nicht lange oder ausführlich."
+msgstr "Damit gearbeitet, aber nicht lange oder ausführlich."
 
 #: components/candidate-offer/candidate-offer.html:86
 #: components/directive-candidate/directive-candidate.html:31
