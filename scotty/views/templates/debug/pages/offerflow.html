@@ -60,7 +60,7 @@ tests = tests
       }},
     {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-1'},
 
-    {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
+    {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interested/candidates'},
       title: 'employer-interested-candidates'},
 
     {url: '/api/v1/employers/me/newsfeed', title: 'employer-newsfeed-with-bookmarks'},
@@ -71,7 +71,7 @@ tests = tests
 
     {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-get-2'},
 
-    {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interestedcandidates'},
+    {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interested/candidates'},
       title: 'employer-interested-candidates-empty'},
 
     {url:function(r, extr){return '/api/v1/admin/candidates/'+extr.candidateId+'/approve?apikey=${apikey}';}, title: 'admin-approve-candidates'},

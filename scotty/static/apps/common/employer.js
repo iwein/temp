@@ -86,9 +86,9 @@ define(function(require) {
       return this._api.get(this._url() + '/newsfeed' + this._sufix);
     },
 
-    getSuggestedCandidates: function() {
+    getRelevantCandidates: function() {
       var api = this._api;
-      return api.get(this._url() + '/suggestedcandidates' + this._sufix).then(function(response) {
+      return api.get(this._url() + '/relevant/candidates' + this._sufix).then(function(response) {
         return response.map(function(data) {
           return new Candidate(api, data.id, data);
         });
@@ -96,7 +96,7 @@ define(function(require) {
     },
     getCandidates: function() {
       var api = this._api;
-      return api.get(this._url() + '/interestedcandidates' + this._sufix).then(function(response) {
+      return api.get(this._url() + '/interested/candidates' + this._sufix).then(function(response) {
         return response.map(function(data) {
           return new Candidate(api, data.id, data);
         });

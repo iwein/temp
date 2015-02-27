@@ -10,7 +10,7 @@
   var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
     tests = EMPLOYER_SIGNUP(email).concat([
       {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
-      {url: '/api/v1/employers/me/suggestedcandidates', title: 'employer-suggestedcandidates', method: 'GET'},
+      {url: '/api/v1/employers/me/relevant/candidates', title: 'employer-relevant/candidates', method: 'GET'},
 
       {title: 'Password Forgot'},
       {url: '/api/v1/employers/requestpassword', title: 'employer-pwd-forgot', data: {email: email},
