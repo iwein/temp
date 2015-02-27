@@ -37,9 +37,9 @@ define(function(require) {
       });
     },
 
-    delete: function(url, params) {
+    delete: function(url, data) {
       return this._ajax.delete(this.root() + url, {
-        params: params,
+        data: data
       }).then(function(response) {
         return response.data;
       });

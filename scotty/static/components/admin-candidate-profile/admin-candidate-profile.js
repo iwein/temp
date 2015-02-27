@@ -5,6 +5,10 @@ define(function(require) {
 
   module.controller('CandidateProfileCtrl', function($scope, $q, $state, toaster, Loader, Session) {
     $scope.saveAdminComment = saveAdminComment;
+    $scope.searchCompanies = searchCompanies;
+    $scope.renderSuggestion = renderSuggestion;
+    $scope.recommendTo = recommendTo;
+    $scope.removeRecommendation = removeRecommendation;
     $scope.remove = remove;
     $scope.approve = approve;
     $scope.id = $state.params.id;
@@ -35,6 +39,10 @@ define(function(require) {
         $scope.skills = user.skills;
         $scope.user = user;
         $scope.ready = true;
+
+        return Session.getCandidateSuggestions(user);
+      }).then(function(response) {
+        $scope.suggestions = response.data;
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
@@ -51,7 +59,32 @@ define(function(require) {
       });
     }
 
+    function recommendTo(suggestion) {
+      return Session.recommendCandiate($scope.user, suggestion.employer);
+    }
 
+    function removeRecommendation(suggestion, index) {
+      return Session.removeRecommendation($scope.user, suggestion.employer).then(function() {
+        $scope.suggestions.splice(index, 1);
+      });
+    }
+
+    function searchCompanies(term) {
+      return Session.searchEmployers({
+        fields: 'id,company_name',
+        // status: 'APPROVED',
+        limit: 20,
+        q: term,
+      }).then(function(response) {
+        return response.data.map(function(employer) {
+          return { employer: employer };
+        });
+      });
+    }
+
+    function renderSuggestion(suggestion) {
+      return suggestion.employer.company_name;
+    }
 
     function saveAdminComment(comment) {
       Loader.add('admin-candidate-profile-comment');

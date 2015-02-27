@@ -6,6 +6,7 @@ define(function(require) {
   var Employer = require('apps/common/employer');
   var Candidate = require('apps/common/candidate');
 
+
   function AdminSession(api, promise, apikey) {
     this._api = api;
     this._promise = promise;
@@ -136,7 +137,24 @@ define(function(require) {
           throw new Error('DUPLICATED_ENTRY');
         throw request;
       });
-    }
+    },
+
+
+    _suggestionUrl: function(candidate) {
+      return '/admin/candidates/' + candidate.id + '/suggested_to' + this.getParams;
+    },
+
+    getCandidateSuggestions: function(candidate) {
+      return this._api.get(this._suggestionUrl(candidate));
+    },
+
+    recommendCandiate: function(candidate, employer) {
+      return this._api.post(this._suggestionUrl(candidate), { id: employer.id });
+    },
+
+    removeRecommendation: function(candidate, employer) {
+      return this._api.delete(this._suggestionUrl(candidate), { id: employer.id });
+    },
   };
 
   var module = require('app-module');
