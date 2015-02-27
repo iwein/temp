@@ -354,6 +354,17 @@ class Candidate(Base, JsonSerialisable):
         return self.status.name not in [CandidateStatus.DELETED, CandidateStatus.SUSPENDED]
 
     @property
+    def not_deleted(self):
+        """
+        Unified Login does not know about status, so need to filter those that are soft-deleted
+        :return:
+        """
+        status = get_by_name_or_raise(CandidateStatus, CandidateStatus.DELETED)
+        return [Candidate.status_id != status.id]
+
+
+
+    @property
     def highest_level_skills(self):
         skills = sorted(self.skills, key=attrgetter('level_id'), reverse=True)
         if skills:
@@ -397,7 +408,6 @@ class Candidate(Base, JsonSerialisable):
             if len(skills) > 1:
                 skills[-2:] = [generator['CONJUNCTIVE'].format(skills[-2], skills[-1])]
             skill_str = u', '.join(unicode(s) for s in skills)
-
 
             if sample_skill.level:
                 skills_string = sample_skill.level.name_as_subject(self.lang).format(skill_str)
