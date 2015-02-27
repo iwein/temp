@@ -10,6 +10,7 @@ define(function(require) {
     $stateProvider
       .state('dashboard', require('components/admin-dashboard/admin-dashboard'))
       .state('offer', require('components/admin-offer/admin-offer'))
+      .state('offer-edit', require('components/admin-offer-edit/admin-offer-edit'))
       .state('employer', require('components/admin-employer-profile/admin-employer-profile'))
       .state('candidate', require('components/admin-candidate-profile/admin-candidate-profile'))
       .state('static-pages', require('components/admin-static-pages/admin-static-pages'))

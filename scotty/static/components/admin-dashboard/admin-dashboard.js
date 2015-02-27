@@ -1,10 +1,12 @@
 define(function(require) {
   'use strict';
   require('components/directive-offer/directive-offer');
+  require('components/element-employer-link/element-employer-link');
+  require('components/element-candidate-link/element-candidate-link');
   var module = require('app-module');
 
 
-  module.controller('DashboardCtrl', function($scope, $sce, toaster, Loader, Session) {
+  module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, Session) {
     this.refresh = list;
     $scope.loadMore = loadMore;
     $scope.filter = filter;
@@ -22,6 +24,20 @@ define(function(require) {
       'CONTRACT_SIGNED': 'Contract signed',
       'WITHDRAWN': 'Withdrawn',
       'EXPIRED': 'Expired',
+    };
+
+    var requests = $scope.offerRequests = {
+      itemsPerPage: 10,
+      load: function(params) {
+        params = params || {};
+        if (!('limit' in params))
+          params.limit = requests.itemsPerPage;
+
+        return Session.getOfferRequests(params).then(function(response) {
+          requests.total = response.pagination.total;
+          requests.data = response.data;
+        });
+      }
     };
 
     list().finally(function() {
@@ -56,6 +72,7 @@ define(function(require) {
 
     function list() {
       Loader.add('admin-dashboard-offers');
+
       return Session.getOffers()
         .then(function(allOffers) {
           allOffers.forEach(function(offer) {

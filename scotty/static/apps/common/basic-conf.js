@@ -60,7 +60,11 @@ define(function(require) {
 
     module.factory('toaster', function(Notifier, gettext) {
       Notifier.defaultError = function(error) {
-        if (error) console.error(error);
+        if (error) {
+          window.Raygun.send(error);
+          console.error(error);
+        }
+
         var message = gettext('Sorry, unknown error occurred, if this error persists please contact') +
           ' <a target="_blank" href="mailto:' + conf.support_email + '">' + conf.support_email + '</a>';
 

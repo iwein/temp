@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('textangular');
-  require('tools/config-api');
   require('components/directive-candidate/directive-candidate');
   require('components/partial-benefits/partial-benefits');
   var _ = require('underscore');

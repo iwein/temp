@@ -67,6 +67,10 @@ define(function(require) {
       }.bind(this));
     },
 
+    getOfferRequests: function(params) {
+      return this._api.get('/admin/offerrequests' + this.getParams, params);
+    },
+
     getOffers: function() {
       return this._api.get('/admin/offers' + this.getParams).then(function(response) {
         return response.data.map(function(data) {
@@ -80,6 +84,11 @@ define(function(require) {
       return this._api.get(url + this.getParams).then(function(response) {
         return new Office(this._api, url, response, this.getParams);
       }.bind(this));
+    },
+
+    editOffer: function(id, data) {
+      var url = '/admin/offers/' + id;
+      return this._api.put(url + this.getParams, data);
     },
 
     searchEmployers: function(query) {
