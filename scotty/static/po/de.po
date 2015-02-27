@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:693
@@ -892,8 +892,8 @@ msgstr ""
 #: components/employer-signup-facts/employer-signup-facts.html:76
 msgid "Enter your key technologies, press enter after each one"
 msgstr ""
-"Bitte geben Sie Ihre Kerntechnologien einzeln ein und drücken Sie nach jeder "
-"Eingabe ENTER"
+"Nennen Sie alle Technologien mit denen Ihr Unternehmen arbeitet und "
+"bestätigen Sie jeweils mit Enter"
 
 #: components/candidate-signup-experience/candidate-signup-experience.html:122
 msgid ""
@@ -1093,7 +1093,7 @@ msgstr "Hier finden Sie alle Angebote Ihres Unternehmens an Kandidaten."
 #: components/candidate-profile/candidate-profile.html:614
 msgid "Hide my name and picture from employers until i accepted their offer."
 msgstr ""
-"Verberge meinen Namen und mein Bild, bis ich ein Angebot eines Unternehmens "
+"Verbirg meinen Namen und mein Bild, bis ich ein Angebot eines Unternehmens "
 "angenommen habe."
 
 #: components/employer-profile/employer-profile.html:586
