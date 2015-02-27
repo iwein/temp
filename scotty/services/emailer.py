@@ -227,6 +227,21 @@ class MandrillEmailer(object):
                                {'content': candidate_name, 'name': 'candidate_name'},
                                {'content': url, 'name': 'candidate_url'}]}
 
+    @register_i18n_template('employer-new-candidate-suggested', de='employer-new-candidate-suggested-de')
+    def send_employer_new_suggested_candidate(self, company_email, contact_name, company_name, candidate_name,
+                                      candidate_id):
+        url = 'http://%s/employer/#/candidate/%s' % (self.frontend, candidate_id)
+        return self.send, {'to': [{'email': company_email, 'name': contact_name}],
+                           'global_merge_vars': [
+                               {'content': contact_name, 'name': 'contact_name'},
+                               {'content': company_name, 'name': 'company_name'},
+                               {'content': company_email, 'name': 'company_email'},
+                               {'content': candidate_name, 'name': 'candidate_name'},
+                               {'content': url, 'name': 'candidate_url'}]}
+
+
+
+
     def send_employer_offer(self,
                             email,
                             candidate_name,

@@ -166,7 +166,7 @@ class CandidateBookmarkEmployer(Base):
         self.employer = employer
 
 
-class PrimaryBookmarks(CandidateBookmarkEmployer):
+class SerializableBookmark(CandidateBookmarkEmployer):
     def __json__(self, request):
         return {'candidate': self.candidate, 'employer': self.employer, 'created': self.created}
 

@@ -2,107 +2,111 @@
 
 
 <%def name="title()">Admin</%def>
+<%def name="scripts()">
+<script src="/debug/static/employer_signup.js"></script>
+<script src="/debug/static/candidate_signup.js"></script>
+</%def>
 <%def name="tests()">
 <script>
   var email = '${email.replace('@', "+employer-'+guid()+'@")|n}', icode='INVITE-'+guid(),
-          tests = [
+    tests = [
 
-            {sectionTitle: 'Invite Codes'},
-            {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'list-invite-codes'},
-            {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'create-invite-code', data:{'code': icode}},
-            {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'duplicate-invite-code', data:{'code': icode}, expectedErrors:[409]},
-            {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'list-invite-codes'},
+      {sectionTitle: 'Invite Codes'},
+      {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'list-invite-codes'},
+      {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'create-invite-code', data:{'code': icode}},
+      {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'duplicate-invite-code', data:{'code': icode}, expectedErrors:[409]},
+      {url: '/api/v1/admin/invite_codes?apikey=${apikey}', title: 'list-invite-codes'},
 
-            {sectionTitle: 'Admin Comments'},
+      {sectionTitle: 'Admin Comments'},
 
-            {url: '/api/v1/candidates/?limit=1&apikey=${apikey}', 'title': 'get-candidate', extract: function(r, extr){
-              return {tmpCId: r.data[0].id}}},
-            {url: function(r, extr){return '/api/v1/candidates/'+extr.tmpCId+'?apikey=${apikey}'},
-              title: 'admin-candidate-comment', data:{admin_comment: 'Admin\'s candidate word is good'}, method: 'PUT'},
+      {url: '/api/v1/candidates/?limit=1&apikey=${apikey}', 'title': 'get-candidate', extract: function(r, extr){
+        return {tmpCId: r.data[0].id}}},
+      {url: function(r, extr){return '/api/v1/candidates/'+extr.tmpCId+'?apikey=${apikey}'},
+        title: 'admin-candidate-comment', data:{admin_comment: 'Admin\'s candidate word is good'}, method: 'PUT'},
 
-            {url: '/api/v1/employers/?limit=1&apikey=${apikey}', 'title': 'get-employer', extract: function(r, extr){
-              return {tmpEId: r.data[0].id}}},
-            {url: function(r, extr){return '/api/v1/employers/'+extr.tmpEId+'?apikey=${apikey}'},
-              title: 'admin-employer-comment', data:{admin_comment: 'Admin\'s employer word is also good'}, method: 'PUT'},
+      {url: '/api/v1/employers/?limit=1&apikey=${apikey}', 'title': 'get-employer', extract: function(r, extr){
+        return {tmpEId: r.data[0].id}}},
+      {url: function(r, extr){return '/api/v1/employers/'+extr.tmpEId+'?apikey=${apikey}'},
+        title: 'admin-employer-comment', data:{admin_comment: 'Admin\'s employer word is also good'}, method: 'PUT'},
 
-            {sectionTitle: 'List Offer Requests'},
-            {url: '/api/v1/admin/offerrequests?apikey=${apikey}', title: 'admin-offer-requests'},
+      {sectionTitle: 'List Offer Requests'},
+      {url: '/api/v1/admin/offerrequests?apikey=${apikey}', title: 'admin-offer-requests'},
 
-            {sectionTitle: 'Search'},
-            {url: '/api/v1/admin/search/employers?q=Hack&apikey=${apikey}', title: 'admin-search-employers'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=created', title: 'admin-sort-employers-created'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=-created', title: 'admin-sort-employers--created'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,offices&order=location', title: 'admin-sort-employers-location'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,offices&order=-location', title: 'admin-sort-employers--location'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=name', title: 'admin-sort-employers-companyname'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=email', title: 'admin-sort-employers-email'},
-            {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=id', title: 'admin-sort-employers-id'},
+      {sectionTitle: 'Search'},
+      {url: '/api/v1/admin/search/employers?q=Hack&apikey=${apikey}', title: 'admin-search-employers'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=created', title: 'admin-sort-employers-created'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=-created', title: 'admin-sort-employers--created'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,offices&order=location', title: 'admin-sort-employers-location'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,offices&order=-location', title: 'admin-sort-employers--location'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=name', title: 'admin-sort-employers-companyname'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=email', title: 'admin-sort-employers-email'},
+      {url: '/api/v1/admin/search/employers?apikey=${apikey}&limit=5&fields=id,company_name,email,created&order=id', title: 'admin-sort-employers-id'},
 
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=created', title: 'admin-sort-candidates-created'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=-created', title: 'admin-sort-candidates--created'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,preferred_location&order=preferred_location', title: 'admin-sort-candidates-location'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,preferred_location&order=-preferred_location', title: 'admin-sort-candidates--location'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=name', title: 'admin-sort-candidates-name'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=email', title: 'admin-sort-candidates-email'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=id', title: 'admin-sort-candidates-id'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,target_position&order=minimum_salary', title: 'admin-sort-candidates-minimum_salary'},
-            {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,target_position&order=-minimum_salary', title: 'admin-sort-candidates--minimum_salary'},
-
-
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=created', title: 'admin-sort-candidates-created'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=-created', title: 'admin-sort-candidates--created'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,preferred_location&order=preferred_location', title: 'admin-sort-candidates-location'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,preferred_location&order=-preferred_location', title: 'admin-sort-candidates--location'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=name', title: 'admin-sort-candidates-name'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=email', title: 'admin-sort-candidates-email'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,first_name,last_name,email,created&order=id', title: 'admin-sort-candidates-id'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,target_position&order=minimum_salary', title: 'admin-sort-candidates-minimum_salary'},
+      {url: '/api/v1/admin/search/candidates?apikey=${apikey}&limit=5&fields=id,target_position&order=-minimum_salary', title: 'admin-sort-candidates--minimum_salary'},
 
 
-            {url: '/api/v1/admin/search/candidates?q=Mapa&apikey=${apikey}', title: 'search-candidates-byname'},
-            {url: '/api/v1/admin/search/candidates?q=Ma&tags=Python&apikey=${apikey}', title: 'search-candidates-and-byname-tags'},
-            {url: '/api/v1/admin/search/candidates?tags=Python,PHP&apikey=${apikey}', title: 'search-candidates-bytags'},
-
-            {sectionTitle: 'List Offers'},
-            {url: '/api/v1/admin/offers?status=ACTIVE&apikey=${apikey}', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=ACCEPTED&apikey=${apikey}', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=INTERVIEW&apikey=${apikey}', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_NEGOTIATION&apikey=${apikey}', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=CONTRACT_SIGNED&apikey=${apikey}', title: 'admin-offers'},
-            {url: '/api/v1/admin/offers?status=EXPIRED&apikey=${apikey}', title: 'admin-offers', expectedErrors:[400]},
-            {url: '/api/v1/admin/offers?status=xyz&apikey=${apikey}', title: 'admin-offers', expectedErrors:[400]},
 
 
-            {sectionTitle: 'Invite'},
-            {url: '/api/v1/admin/employers?apikey=${apikey}', title: 'admin-invite-employer',
-              data: {company_name: 'Bob Corp ' + guid(), "email": email,
-                'contact_first_name': 'Uncle',
-                'contact_last_name': 'Bob',
-                'contact_salutation': 'Mr',
-                company_type:'startup'
-              },
-              extract: function (r, extr) {
-                return {invite_token: r.invite_token}
-              }},
+      {url: '/api/v1/admin/search/candidates?q=Mapa&apikey=${apikey}', title: 'search-candidates-byname'},
+      {url: '/api/v1/admin/search/candidates?q=Ma&tags=Python&apikey=${apikey}', title: 'search-candidates-and-byname-tags'},
+      {url: '/api/v1/admin/search/candidates?tags=Python,PHP&apikey=${apikey}', title: 'search-candidates-bytags'},
 
-            {url: '/api/v1/admin/employers/INVITED?apikey=${apikey}', title: 'admin-employers-invited'},
+      {sectionTitle: 'List Offers'},
+      {url: '/api/v1/admin/offers?status=ACTIVE&apikey=${apikey}', title: 'admin-offers'},
+      {url: '/api/v1/admin/offers?status=ACCEPTED&apikey=${apikey}', title: 'admin-offers'},
+      {url: '/api/v1/admin/offers?status=INTERVIEW&apikey=${apikey}', title: 'admin-offers'},
+      {url: '/api/v1/admin/offers?status=CONTRACT_NEGOTIATION&apikey=${apikey}', title: 'admin-offers'},
+      {url: '/api/v1/admin/offers?status=CONTRACT_SIGNED&apikey=${apikey}', title: 'admin-offers'},
+      {url: '/api/v1/admin/offers?status=EXPIRED&apikey=${apikey}', title: 'admin-offers', expectedErrors:[400]},
+      {url: '/api/v1/admin/offers?status=xyz&apikey=${apikey}', title: 'admin-offers', expectedErrors:[400]},
 
-            {url: function(r, extr) { return '/api/v1/employers/invite/'+ extr.invite_token+'?apikey=${apikey}'; },
-              title: 'employer-invite-validate'},
 
-            {url: function(r, extr) { return '/api/v1/employers/invite/'+ extr.invite_token+'?apikey=${apikey}'; },
-              data: {pwd: 'helloworld'},
-              extract: function(r, extr){return {emplId: r.id}},
-              title: 'employer-invite-respond'},
+      {sectionTitle: 'Invite'},
+      {url: '/api/v1/admin/employers?apikey=${apikey}', title: 'admin-invite-employer',
+        data: {company_name: 'Bob Corp ' + guid(), "email": email,
+          'contact_first_name': 'Uncle',
+          'contact_last_name': 'Bob',
+          'contact_salutation': 'Mr',
+          company_type:'startup'
+        },
+        extract: function (r, extr) {
+          return {invite_token: r.invite_token}
+        }},
 
-            {url: '/api/v1/employers/login', data: {email: email, pwd: 'helloworld'}, title: 'employer-login'},
-            {url: '/api/v1/employers/me', title: 'employer-me'},
+      {url: '/api/v1/admin/employers/INVITED?apikey=${apikey}', title: 'admin-employers-invited'},
 
-            {sectionTitle: 'Approval'},
-            {url: '/api/v1/admin/employers/INVITED?apikey=${apikey}', title: 'admin-employers-invited'},
-            {url: '/api/v1/admin/employers/SIGNEDUP?apikey=${apikey}', title: 'admin-employers-signedup'},
-            {url: '/api/v1/admin/employers/APPLIED?apikey=${apikey}', title: 'admin-employers-applied'},
-            {url: '/api/v1/employers/me/apply', title: 'admin-employer-apply', method:'PUT', data:{agreedTos: true}},
-            {url: '/api/v1/admin/employers/APPLIED?apikey=${apikey}', title: 'admin-employers-applied'},
+      {url: function(r, extr) { return '/api/v1/employers/invite/'+ extr.invite_token+'?apikey=${apikey}'; },
+        title: 'employer-invite-validate'},
 
-            {url: '/api/v1/admin/employers/APPROVED?apikey=${apikey}', title: 'admin-employers-approved'},
+      {url: function(r, extr) { return '/api/v1/employers/invite/'+ extr.invite_token+'?apikey=${apikey}'; },
+        data: {pwd: 'helloworld'},
+        extract: function(r, extr){return {emplId: r.id}},
+        title: 'employer-invite-respond'},
 
-            {url: function(r, extr){return '/api/v1/admin/employers/'+extr.emplId+'/approve?apikey=${apikey}';}, title: 'admin-approve-employer'},
-            {url: '/api/v1/admin/employers/APPROVED?apikey=${apikey}', title: 'admin-employers-approved-2'},
-            {url: '/api/v1/admin/employers/invalid?apikey=${apikey}', title: 'admin-employers-invalid', expectedErrors:[400]},
-          ];
+      {url: '/api/v1/employers/login', data: {email: email, pwd: 'helloworld'}, title: 'employer-login'},
+      {url: '/api/v1/employers/me', title: 'employer-me'},
+
+      {sectionTitle: 'Approval'},
+      {url: '/api/v1/admin/employers/INVITED?apikey=${apikey}', title: 'admin-employers-invited'},
+      {url: '/api/v1/admin/employers/SIGNEDUP?apikey=${apikey}', title: 'admin-employers-signedup'},
+      {url: '/api/v1/admin/employers/APPLIED?apikey=${apikey}', title: 'admin-employers-applied'},
+      {url: '/api/v1/employers/me/apply', title: 'admin-employer-apply', method:'PUT', data:{agreedTos: true}},
+      {url: '/api/v1/admin/employers/APPLIED?apikey=${apikey}', title: 'admin-employers-applied'},
+
+      {url: '/api/v1/admin/employers/APPROVED?apikey=${apikey}', title: 'admin-employers-approved'},
+
+      {url: function(r, extr){return '/api/v1/admin/employers/'+extr.emplId+'/approve?apikey=${apikey}';}, title: 'admin-approve-employer'},
+      {url: '/api/v1/admin/employers/APPROVED?apikey=${apikey}', title: 'admin-employers-approved-2'},
+      {url: '/api/v1/admin/employers/invalid?apikey=${apikey}', title: 'admin-employers-invalid', expectedErrors:[400]},
+    ];
 
   $(function () {
     getTestRunner(tests)(0, {});
