@@ -41,7 +41,7 @@ define(function(require) {
         return $q.all([
           user.getTimeline().then(fn.setTo('news', $scope)),
           user.getOffers().then(fn.setTo('offers', $scope)),
-          user.getSuggestedCandidates().then(fn.setTo('suggested', $scope)),
+          user.getRelevantCandidates().then(fn.setTo('suggested', $scope)),
           user.getCandidates().then(fn.setTo('candidates', $scope)),
         ]);
       }).then(function() {

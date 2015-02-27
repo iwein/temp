@@ -10,7 +10,8 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, 
 from pyramid.view import view_config
 from scotty.models.meta import DBSession
 from scotty.configuration.models import WithdrawalReason
-from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer, EmployerPicture
+from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer, EmployerPicture, \
+    SuggestedCandidate
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
@@ -35,8 +36,11 @@ def includeme(config):
 
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
-    config.add_route('employer_interestedcandidates', '{employer_id}/interestedcandidates')
-    config.add_route('employer_suggested_candidates', '{employer_id}/suggestedcandidates')
+    config.add_route('employer_interested_candidates', '{employer_id}/interested/candidates')
+    config.add_route('employer_relevant_candidates', '{employer_id}/relevant/candidates')
+    config.add_route('employer_suggested_candidates', '{employer_id}/suggested/candidates')
+
+
     config.add_route('employer_newsfeed', '{employer_id}/newsfeed')
     config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
     config.add_route('employer_apply', '{employer_id}/apply')
@@ -243,7 +247,6 @@ class EmployerPictureController(EmployerController):
         return {"status": "success"}
 
 
-
 class EmployerOfficeController(EmployerController):
     @view_config(route_name='employer_offices', **GET)
     def list(self):
@@ -395,12 +398,18 @@ class EmployerPasswordController(RootController):
 
 
 class EmployerDashboardController(EmployerController):
-    @view_config(route_name='employer_interestedcandidates', **GET)
-    def employer_interestedcandidates(self):
+    @view_config(route_name='employer_newsfeed', **GET)
+    def get_newsfeed(self):
+        employer = self.employer
+        results = get_employer_newsfeed(employer)
+        return results
+
+    @view_config(route_name='employer_interested_candidates', **GET)
+    def employer_interested_candidates(self):
         return self.employer.interested_candidates
 
-    @view_config(route_name='employer_suggested_candidates', **GET)
-    def employer_suggested_candidates(self):
+    @view_config(route_name='employer_relevant_candidates', **GET)
+    def employer_relevant_candidates(self):
         if self.employer.status not in [APPLIED, APPROVED]:
             raise HTTPForbidden("Employer has not applied yet and is not approved")
 
@@ -410,8 +419,20 @@ class EmployerDashboardController(EmployerController):
             .filter(WXPCandidate.id.in_(candidate_ids)).all()
         return candidates
 
-    @view_config(route_name='employer_newsfeed', **GET)
-    def get_newsfeed(self):
-        employer = self.employer
-        results = get_employer_newsfeed(employer)
-        return results
+    @view_config(route_name='employer_suggested_candidates', **GET)
+    def employer_suggested_candidates(self):
+        if self.employer.status not in [APPLIED, APPROVED]:
+            raise HTTPForbidden("Employer has not applied yet and is not approved")
+        query = DBSession.query(SuggestedCandidate).filter(SuggestedCandidate.employer_id == self.employer.id,
+                                                           SuggestedCandidate.employer_not_interested == None)
+        return run_paginated_query(self.request, query)
+
+    @view_config(route_name='employer_suggested_candidates', **DELETE)
+    def not_interested_employer_suggested_candidates(self):
+        if self.employer.status not in [APPLIED, APPROVED]:
+            raise HTTPForbidden("Employer has not applied yet and is not approved")
+        candidate_id = self.request.json['id']
+        suggestion = DBSession.query(SuggestedCandidate).get((self.employer.id, candidate_id))
+        if suggestion:
+            suggestion.employer_not_interested = datetime.now()
+        return {'success': True}

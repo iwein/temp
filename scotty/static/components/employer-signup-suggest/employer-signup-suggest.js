@@ -14,7 +14,7 @@ define(function(require) {
         $state.go('dashboard');
 
     Session.getUser().then(function(user) {
-      return user && user.getSuggestedCandidates();
+      return user && user.getRelevantCandidates();
     }).then(function(candidates) {
       if (!candidates) return;
 
