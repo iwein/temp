@@ -70,7 +70,7 @@ def get_or_create_named_lookup(cls, names, field_name='name'):
 
 def get_or_raise_named_collection(cls, names, field_name='name', require_uniqueness=True):
     if not names:
-        return {}
+        return []
     name_set = set(names)
     if require_uniqueness:
         if len(name_set) < len(names):
