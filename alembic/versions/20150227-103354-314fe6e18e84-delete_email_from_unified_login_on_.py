@@ -32,7 +32,6 @@ def upgrade():
                'ON employer (lower(company_name) ) WHERE deleted IS NULL')
 
 
-
     op.execute("""
 
         DROP TRIGGER IF EXISTS trg_insert_unified_login ON candidate;
