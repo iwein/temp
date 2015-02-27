@@ -101,7 +101,7 @@ define(function(require) {
         var texts = locations.map(this.locationToText);
 
         texts.forEach(function(text, index) {
-          this._locations[text] = locations[index];
+          this._locations[text.toLowerCase()] = locations[index];
         }, this);
 
         return texts;
@@ -113,7 +113,7 @@ define(function(require) {
     },
 
     getLocationFromText: function(text) {
-      return this._locations[text] || null;
+      return this._locations[text.toLowerCase()] || null;
     }
   };
 
