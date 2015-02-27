@@ -128,6 +128,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('i18n:extract', [
+    'clean:pages',
     'execute:db-tokens',
     'nggettext_extract:pot',
     'msgmerge:all',

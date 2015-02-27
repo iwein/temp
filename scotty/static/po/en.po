@@ -94,12 +94,7 @@ msgstr ""
 msgid "ADD"
 msgstr ""
 
-#: apps/common/footer.html:21 apps/en/about-us.html:266
-#: apps/en/contact.html:298 apps/en/forgot-password.html:174
-#: apps/en/imprint.html:199 apps/en/index-employer.html:390
-#: apps/en/index.html:335 apps/en/login.html:166
-#: apps/en/terms-candidate.html:252 apps/en/terms-employer.html:278
-#: apps/en/terms-of-service.html:167
+#: apps/common/footer.html:21
 msgid "About us"
 msgstr ""
 
@@ -529,12 +524,7 @@ msgstr ""
 msgid "Congrats! Your account was approved! Welcome to Scotty!"
 msgstr ""
 
-#: apps/common/footer.html:37 apps/en/about-us.html:282
-#: apps/en/contact.html:314 apps/en/forgot-password.html:190
-#: apps/en/imprint.html:215 apps/en/index-employer.html:406
-#: apps/en/index.html:351 apps/en/login.html:182
-#: apps/en/terms-candidate.html:268 apps/en/terms-employer.html:294
-#: apps/en/terms-of-service.html:183
+#: apps/common/footer.html:37
 msgid "Connect"
 msgstr ""
 
@@ -552,12 +542,7 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: apps/common/footer.html:22 apps/en/about-us.html:267
-#: apps/en/contact.html:299 apps/en/forgot-password.html:175
-#: apps/en/imprint.html:200 apps/en/index-employer.html:391
-#: apps/en/index.html:336 apps/en/login.html:167
-#: apps/en/terms-candidate.html:253 apps/en/terms-employer.html:279
-#: apps/en/terms-of-service.html:168
+#: apps/common/footer.html:22
 msgid "Contact &amp; Support"
 msgstr ""
 
@@ -584,12 +569,7 @@ msgstr ""
 msgid "Contact position"
 msgstr ""
 
-#: apps/common/footer.html:6 apps/en/about-us.html:251
-#: apps/en/contact.html:283 apps/en/forgot-password.html:159
-#: apps/en/imprint.html:184 apps/en/index-employer.html:375
-#: apps/en/index.html:320 apps/en/login.html:151
-#: apps/en/terms-candidate.html:237 apps/en/terms-employer.html:263
-#: apps/en/terms-of-service.html:152
+#: apps/common/footer.html:6
 msgid "Contact us"
 msgstr ""
 
@@ -654,12 +634,7 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: apps/common/footer.html:29 apps/en/about-us.html:274
-#: apps/en/contact.html:306 apps/en/forgot-password.html:182
-#: apps/en/imprint.html:207 apps/en/index-employer.html:398
-#: apps/en/index.html:343 apps/en/login.html:174
-#: apps/en/terms-candidate.html:260 apps/en/terms-employer.html:286
-#: apps/en/terms-of-service.html:175
+#: apps/common/footer.html:29
 msgid "Data Protection"
 msgstr ""
 
@@ -884,21 +859,11 @@ msgstr ""
 msgid "Fluent"
 msgstr ""
 
-#: apps/common/footer.html:20 apps/en/about-us.html:265
-#: apps/en/contact.html:297 apps/en/forgot-password.html:173
-#: apps/en/imprint.html:198 apps/en/index-employer.html:389
-#: apps/en/index.html:334 apps/en/login.html:165
-#: apps/en/terms-candidate.html:251 apps/en/terms-employer.html:277
-#: apps/en/terms-of-service.html:166
+#: apps/common/footer.html:20
 msgid "For Companies"
 msgstr ""
 
-#: apps/common/footer.html:19 apps/en/about-us.html:264
-#: apps/en/contact.html:296 apps/en/forgot-password.html:172
-#: apps/en/imprint.html:197 apps/en/index-employer.html:388
-#: apps/en/index.html:333 apps/en/login.html:164
-#: apps/en/terms-candidate.html:250 apps/en/terms-employer.html:276
-#: apps/en/terms-of-service.html:165
+#: apps/common/footer.html:19
 msgid "For IT professionals"
 msgstr ""
 
@@ -1058,12 +1023,7 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: apps/common/footer.html:31 apps/en/about-us.html:276
-#: apps/en/contact.html:308 apps/en/forgot-password.html:184
-#: apps/en/imprint.html:209 apps/en/index-employer.html:400
-#: apps/en/index.html:345 apps/en/login.html:176
-#: apps/en/terms-candidate.html:262 apps/en/terms-employer.html:288
-#: apps/en/terms-of-service.html:177
+#: apps/common/footer.html:31
 msgid "Imprint"
 msgstr ""
 
@@ -1122,12 +1082,7 @@ msgstr ""
 msgid "Job description"
 msgstr ""
 
-#: apps/common/footer.html:28 apps/en/about-us.html:273
-#: apps/en/contact.html:305 apps/en/forgot-password.html:181
-#: apps/en/imprint.html:206 apps/en/index-employer.html:397
-#: apps/en/index.html:342 apps/en/login.html:173
-#: apps/en/terms-candidate.html:259 apps/en/terms-employer.html:285
-#: apps/en/terms-of-service.html:174
+#: apps/common/footer.html:28
 msgid "Jobs @ 4Scotty"
 msgstr ""
 
@@ -1202,12 +1157,7 @@ msgid "Locations"
 msgstr ""
 
 #: apps/candidate/navbar.html:31 apps/common/footer.html:23
-#: apps/employer/navbar.html:30 apps/en/about-us.html:268
-#: apps/en/contact.html:300 apps/en/forgot-password.html:176
-#: apps/en/imprint.html:201 apps/en/index-employer.html:392
-#: apps/en/index.html:337 apps/en/login.html:168
-#: apps/en/terms-candidate.html:254 apps/en/terms-employer.html:280
-#: apps/en/terms-of-service.html:169
+#: apps/employer/navbar.html:30
 msgid "Log in"
 msgstr ""
 
@@ -1250,12 +1200,7 @@ msgstr ""
 msgid "Month"
 msgstr ""
 
-#: apps/common/footer.html:27 apps/en/about-us.html:272
-#: apps/en/contact.html:304 apps/en/forgot-password.html:180
-#: apps/en/imprint.html:205 apps/en/index-employer.html:396
-#: apps/en/index.html:341 apps/en/login.html:172
-#: apps/en/terms-candidate.html:258 apps/en/terms-employer.html:284
-#: apps/en/terms-of-service.html:173
+#: apps/common/footer.html:27
 msgid "More"
 msgstr ""
 
@@ -1297,12 +1242,7 @@ msgstr ""
 msgid "New offer requests"
 msgstr ""
 
-#: apps/common/footer.html:45 apps/en/about-us.html:290
-#: apps/en/contact.html:322 apps/en/forgot-password.html:198
-#: apps/en/imprint.html:223 apps/en/index-employer.html:414
-#: apps/en/index.html:359 apps/en/login.html:190
-#: apps/en/terms-candidate.html:276 apps/en/terms-employer.html:302
-#: apps/en/terms-of-service.html:191
+#: apps/common/footer.html:45
 msgid "Newsletter"
 msgstr ""
 
@@ -2342,12 +2282,7 @@ msgstr ""
 msgid "Stock option program"
 msgstr ""
 
-#: apps/common/footer.html:48 apps/en/about-us.html:293
-#: apps/en/contact.html:325 apps/en/forgot-password.html:201
-#: apps/en/imprint.html:226 apps/en/index-employer.html:417
-#: apps/en/index.html:362 apps/en/login.html:193
-#: apps/en/terms-candidate.html:279 apps/en/terms-employer.html:305
-#: apps/en/terms-of-service.html:194
+#: apps/common/footer.html:48
 #: components/admin-offer-edit/admin-offer-edit.html:187
 #: components/candidate-offer/candidate-offer.html:160
 #: components/candidate-offer/candidate-offer.html:209
@@ -2384,12 +2319,7 @@ msgstr ""
 msgid "Target position"
 msgstr ""
 
-#: apps/common/footer.html:30 apps/en/about-us.html:275
-#: apps/en/contact.html:307 apps/en/forgot-password.html:183
-#: apps/en/imprint.html:208 apps/en/index-employer.html:399
-#: apps/en/index.html:344 apps/en/login.html:175
-#: apps/en/terms-candidate.html:261 apps/en/terms-employer.html:287
-#: apps/en/terms-of-service.html:176
+#: apps/common/footer.html:30
 msgid "Team"
 msgstr ""
 
@@ -2471,12 +2401,7 @@ msgstr ""
 msgid "Terms and services"
 msgstr ""
 
-#: apps/common/footer.html:32 apps/en/about-us.html:277
-#: apps/en/contact.html:309 apps/en/forgot-password.html:185
-#: apps/en/imprint.html:210 apps/en/index-employer.html:401
-#: apps/en/index.html:346 apps/en/login.html:177
-#: apps/en/terms-candidate.html:263 apps/en/terms-employer.html:289
-#: apps/en/terms-of-service.html:178
+#: apps/common/footer.html:32
 msgid "Terms of Service for Companies"
 msgstr ""
 
@@ -2516,12 +2441,7 @@ msgstr ""
 msgid "The file should be an image."
 msgstr ""
 
-#: apps/common/footer.html:18 apps/en/about-us.html:263
-#: apps/en/contact.html:295 apps/en/forgot-password.html:171
-#: apps/en/imprint.html:196 apps/en/index-employer.html:387
-#: apps/en/index.html:332 apps/en/login.html:163
-#: apps/en/terms-candidate.html:249 apps/en/terms-employer.html:275
-#: apps/en/terms-of-service.html:164
+#: apps/common/footer.html:18
 msgid "This Site"
 msgstr ""
 
@@ -3257,11 +3177,6 @@ msgstr ""
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr ""
 
-#: apps/common/footer.html:54 apps/en/about-us.html:299
-#: apps/en/contact.html:331 apps/en/forgot-password.html:207
-#: apps/en/imprint.html:232 apps/en/index-employer.html:423
-#: apps/en/index.html:368 apps/en/login.html:199
-#: apps/en/terms-candidate.html:285 apps/en/terms-employer.html:311
-#: apps/en/terms-of-service.html:200
+#: apps/common/footer.html:54
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr ""
