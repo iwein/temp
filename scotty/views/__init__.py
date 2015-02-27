@@ -141,9 +141,11 @@ def add_last_activity_updater(event):
     """
     request = event['request']
     if request and request.candidate_id:
-        DBSession.query(Candidate).get(request.candidate_id).last_active = datetime.now()
+        c = DBSession.query(Candidate).get(request.candidate_id)
+        if c: c.last_active = datetime.now()
     if request and request.employer_id:
-        DBSession.query(Employer).get(request.employer_id).last_active = datetime.now()
+        e = DBSession.query(Employer).get(request.employer_id)
+        if e: e.last_active = datetime.now()
 
 
 def includeme(config):
