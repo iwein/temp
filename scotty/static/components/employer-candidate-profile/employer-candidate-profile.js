@@ -28,7 +28,6 @@ define(function(require) {
         offerSent: data.employer_has_offers,
         canMakeOffer:
           Session.isApproved &&
-          data.is_approved &&
           !data.employer_has_offers &&
           !data.candidate_has_been_hired &&
           !data.employer_blacklisted &&
