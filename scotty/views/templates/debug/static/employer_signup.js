@@ -22,7 +22,7 @@ var EMPLOYER_SIGNUP = function(email){
             data: {
                 logo_url: 'http://logo_url.com',
                 website: "http://website.com",
-                contact_salutation: 'Mrs',
+                contact_salutation: 'Ms',
                 contact_first_name: 'Rob',
                 contact_last_name: 'Stuart',
                 fb_url: 'facebook url of employer',

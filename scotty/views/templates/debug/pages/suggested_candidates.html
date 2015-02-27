@@ -1,0 +1,30 @@
+<%inherit file="../debug.html"/>
+
+
+<%def name="title()">Candidate Suggestions</%def>
+<%def name="scripts()">
+<script src="/debug/static/employer_signup.js"></script>
+<script src="/debug/static/candidate_signup.js"></script>
+</%def>
+<%def name="tests()">
+<script>
+  var cand_email = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
+    emp_email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+
+    tests = CANDIDATE_SIGNUP(cand_email).concat(EMPLOYER_SIGNUP(emp_email)).concat([
+      {sectionTitle: 'GET SUGGESTED'},
+      {url: function(r, extr){ return '/api/v1/admin/candidates/'+extr.candidateId+'/suggested_to?apikey=${apikey}'}, title: 'get-suggestions'},
+      {url: function(r, extr){ return '/api/v1/admin/candidates/'+extr.candidateId+'/suggested_to?apikey=${apikey}'},
+        data: function(r, extr){ return {id: extr.employerId};}, title: 'add-suggestion'},
+      {url: function(r, extr){ return '/api/v1/admin/candidates/'+extr.candidateId+'/suggested_to?apikey=${apikey}'}, title: 'get-suggestions'},
+      {url: function(r, extr){ return '/api/v1/admin/candidates/'+extr.candidateId+'/suggested_to?apikey=${apikey}'},
+        data: function(r, extr){ return {id: extr.employerId};}, title: 'delete-suggestion', method: 'DELETE'},
+      {url: function(r, extr){ return '/api/v1/admin/candidates/'+extr.candidateId+'/suggested_to?apikey=${apikey}'}, title: 'get-suggestions'},
+
+    ]);
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>

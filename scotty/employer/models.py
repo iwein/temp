@@ -74,6 +74,23 @@ employer_benefits = Table('employer_benefit', Base.metadata,
                           Column('benefit_id', Integer, ForeignKey('benefit.id'), primary_key=True))
 
 
+class SuggestedCandidate(Base):
+    __tablename__ = 'suggested_candidates'
+    employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
+    employer = relationship('Employer', backref='candidate_suggestions')
+    candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
+    candidate = relationship('Candidate', backref='suggested_to')
+    created = Column(DateTime(), nullable=False, default=datetime.now())
+    employer_not_interested = Column(DateTime())
+
+
+class CandidateSuggestedTo(SuggestedCandidate):
+    def __json__(self, request):
+        return {'created': self.created, 'employer_not_interested': self.employer_not_interested,
+                'employer': self.employer}
+
+
+
 class EmployerPicture(Base):
     __tablename__ = 'employer_picture'
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
@@ -159,6 +176,7 @@ class Employer(Base, JsonSerialisable):
     traffic_source = relationship(TrafficSource, info=PUBLIC)
 
     interested_candidates = association_proxy('candidate_bookmarks', 'candidate')
+    suggested_candidates = association_proxy('candidate_suggestions', 'candidate')
 
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
     offers = relationship(EmployerOffer, backref='employer', order_by=EmployerOffer.created.desc())

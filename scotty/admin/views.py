@@ -12,13 +12,13 @@ from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
 from scotty.models.tools import json_encoder, add_sorting, distinct_counter, update
 from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES, \
-    PrimaryBookmarks
-from scotty.employer.models import Employer, EMPLOYER_SORTABLES
+    SerializableBookmark
+from scotty.employer.models import Employer, EMPLOYER_SORTABLES, CandidateSuggestedTo, SuggestedCandidate
 from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.views import RootController
-from scotty.views.common import POST, run_paginated_query, GET, PUT
+from scotty.views.common import POST, run_paginated_query, GET, PUT, DELETE
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload_all, joinedload
@@ -37,6 +37,8 @@ def includeme(config):
     config.add_route('admin_candidate_approve', 'candidates/{candidate_id}/approve')
     config.add_route('admin_candidate_sleep', 'candidates/{candidate_id}/sleep')
     config.add_route('admin_candidate_wake', 'candidates/{candidate_id}/wake')
+
+    config.add_route('admin_candidate_suggestions', 'candidates/{candidate_id}/suggested_to')
 
     config.add_route('admin_invite_codes', 'invite_codes')
     config.add_route('admin_invite_code', 'invite_codes/:code')
@@ -290,7 +292,7 @@ class AdminOfferController(RootController):
 
     @view_config(route_name='admin_offerrequests', permission=ADMIN_PERM, **GET)
     def admin_offerrequests(self):
-        query = DBSession.query(PrimaryBookmarks).order_by(PrimaryBookmarks.created.desc())
+        query = DBSession.query(SerializableBookmark).order_by(SerializableBookmark.created.desc())
         return run_paginated_query(self.request, query, default_limit=20)
 
 
@@ -361,3 +363,47 @@ class AdminOfferController(RootController):
             raise HTTPBadRequest(e.message)
         DBSession.flush()
         return self.offer.full_status_flow
+
+
+class AdminCandidateSuggestuinsController(RootController):
+
+    @view_config(route_name='admin_candidate_suggestions', permission=ADMIN_PERM, **GET)
+    def get_admin_candidate_suggestions(self):
+        candidate_id = self.request.matchdict['candidate_id']
+        query = DBSession.query(CandidateSuggestedTo).filter(CandidateSuggestedTo.candidate_id == candidate_id)
+        return run_paginated_query(self.request, query)
+
+    @view_config(route_name='admin_candidate_suggestions', permission=ADMIN_PERM, **POST)
+    def create_admin_candidate_suggestions(self):
+        employer = DBSession.query(Employer).get(self.request.json['id'])
+        if not employer:
+            raise HTTPBadRequest('Unknown Employer')
+
+        candidate = DBSession.query(Candidate).get(self.request.matchdict['candidate_id'])
+        if not candidate:
+            raise HTTPNotFound('Unknown Candidate')
+
+        sc = SuggestedCandidate(candidate_id=candidate.id, employer_id=employer.id)
+        try:
+            DBSession.add(sc)
+            DBSession.flush()
+        except IntegrityError, e:
+            raise HTTPConflict("Employer already suggested to Candidate")
+
+        self.request.emailer.send_employer_new_suggested_candidate(employer.lang,
+                                                                   employer.email,
+                                                                   employer.contact_name,
+                                                                   employer.company_name,
+                                                                   candidate_name=candidate.full_name,
+                                                                   candidate_id=candidate.id)
+        return sc
+
+    @view_config(route_name='admin_candidate_suggestions', permission=ADMIN_PERM, **DELETE)
+    def delete_admin_candidate_suggestions(self):
+        employer_id = self.request.json['id']
+        candidate_id = self.request.matchdict['candidate_id']
+        query = DBSession.query(SuggestedCandidate)\
+            .filter(SuggestedCandidate.candidate_id == candidate_id)\
+            .filter(SuggestedCandidate.employer_id == employer_id).delete()
+        return {'success': True}
+
