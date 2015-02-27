@@ -603,7 +603,6 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: apps/common/footer.html:22
-#, fuzzy
 msgid "Contact &amp; Support"
 msgstr "Kontakt &amp; Service"
 
@@ -2078,8 +2077,8 @@ msgstr "Bitte ein Bild auswählen."
 #: components/candidate-offer/candidate-offer.html:204
 #: components/candidate-signup-target/candidate-signup-target.html:107
 #: components/employer-offer/employer-offer.html:196
-msgid "Please select a salary below &euro;99,000,000."
-msgstr "Bitte wähle ein Wunschgehalt unter &euro;99.000.000."
+msgid "Please select a salary below €99,000,000."
+msgstr "Bitte wähle ein Wunschgehalt unter €99.000.000."
 
 #: components/directive-office-form/directive-office-form.html:117
 #: components/employer-signup-start/employer-signup-start.html:71

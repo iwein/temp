@@ -1914,7 +1914,7 @@ msgstr ""
 #: components/candidate-offer/candidate-offer.html:204
 #: components/candidate-signup-target/candidate-signup-target.html:107
 #: components/employer-offer/employer-offer.html:196
-msgid "Please select a salary below &euro;99,000,000."
+msgid "Please select a salary below €99,000,000."
 msgstr ""
 
 #: components/directive-office-form/directive-office-form.html:117

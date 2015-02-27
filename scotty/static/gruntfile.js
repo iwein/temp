@@ -3,16 +3,7 @@
 module.exports = function(grunt) {
   'use strict';
   var configFile = grunt.option('config-file');
-  //var configContents = require(configFile);
   var configModule = configFile && configFile.replace(/\.js$/, '');
-  /*
-  var metalsmith = grunt.file.readJSON('config/grunt-metalsmith.json');
-  metalsmith["static-pages"].options.plugins["metalsmith-templates"].helpers = {
-    tr: function() {
-      return 'FOOBAR';
-    }
-  };
-  */
 
   grunt.initConfig({
     env: require(configModule || './config/config'),
