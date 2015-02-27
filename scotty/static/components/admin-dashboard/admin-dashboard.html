@@ -1,5 +1,5 @@
 <div class="component-admin-dashboard row">
-  <div class="col-sm-8 col-sm-offset-2">
+  <div class="col-sm-8">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h1 class="panel-title">Offers</h1>
@@ -40,6 +40,29 @@
         </li>
         <li class="list-group-item" ng-show="total > offers.length">
           <button type="button" class="btn btn-default" ng-click="loadMore()">Load more</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-4 job-offer-requests">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="panel-title">Offer requests</h1>
+      </div>
+      <ul class="list-group"
+        hc-pagination
+        items-per-page="{{ offerRequests.itemsPerPage }}"
+        total="offerRequests.total"
+        load="offerRequests.load($params)"
+        autoload>
+
+        <li class="list-group-item" ng-repeat="request in offerRequests.data">
+          <div><date>{{ request.created | date }}</date></div>
+          <div>
+            <hc-candidate-link ng-model="request.candidate"></hc-candidate-link>
+            -&gt;
+            <hc-employer-link ng-model="request.employer"></hc-employer-link>
+          </div>
         </li>
       </ul>
     </div>

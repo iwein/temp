@@ -67,6 +67,10 @@ define(function(require) {
       }.bind(this));
     },
 
+    getOfferRequests: function(params) {
+      return this._api.get('/admin/offerrequests' + this.getParams, params);
+    },
+
     getOffers: function() {
       return this._api.get('/admin/offers' + this.getParams).then(function(response) {
         return response.data.map(function(data) {
