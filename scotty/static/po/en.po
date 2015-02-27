@@ -294,6 +294,7 @@ msgstr ""
 msgid "Basis"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:178
 #: components/candidate-offer/candidate-offer.html:106
 #: components/employer-create-offer/employer-create-offer.html:179
 #: components/employer-offer/employer-offer.html:143
@@ -674,6 +675,7 @@ msgstr ""
 msgid "December"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:69
 #: components/candidate-offer/candidate-offer.html:203
 #: components/candidate-signup-target/candidate-signup-target.html:106
 #: components/employer-create-offer/employer-create-offer.html:70
@@ -765,6 +767,10 @@ msgstr ""
 msgid "Edit mode"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:10
+msgid "Edit offer"
+msgstr ""
+
 #: components/candidate-signup-education/candidate-signup-education.html:4
 #: components/candidate-signup/candidate-signup.html:55
 #: components/candidate-signup/candidate-signup.html:60
@@ -813,8 +819,8 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:97
 msgid ""
-"Enter your company's vision &amp; mission here and let candidates know what you "
-"stand for."
+"Enter your company's vision &amp; mission here and let candidates know what "
+"you stand for."
 msgstr ""
 
 #: components/employer-signup-facts/employer-signup-facts.html:76
@@ -1009,6 +1015,7 @@ msgstr ""
 msgid "Hiring Process"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:164
 #: components/candidate-employer-profile/candidate-employer-profile.html:163
 #: components/candidate-offer/candidate-offer.html:273
 #: components/employer-create-offer/employer-create-offer.html:165
@@ -1110,6 +1117,7 @@ msgstr ""
 msgid "Job Description"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:150
 #: components/employer-create-offer/employer-create-offer.html:151
 msgid "Job description"
 msgstr ""
@@ -1170,6 +1178,7 @@ msgstr ""
 msgid "List other skills"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:81
 #: components/candidate-dashboard/candidate-dashboard.html:42
 #: components/candidate-signup-profile/candidate-signup-profile.html:14
 #: components/directive-experience-form/directive-experience-form.html:26
@@ -1182,6 +1191,7 @@ msgstr ""
 msgid "Location does not fit"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:104
 #: components/employer-create-offer/employer-create-offer.html:105
 msgid "Location unsuitable."
 msgstr ""
@@ -1377,7 +1387,7 @@ msgstr ""
 msgid "Offer is accepted"
 msgstr ""
 
-#: components/employer-create-offer/employer-create-offer.js:98
+#: components/employer-create-offer/employer-create-offer.js:97
 msgid "Offer sent to {{ name }}"
 msgstr ""
 
@@ -1394,6 +1404,7 @@ msgstr ""
 msgid "Offer {{ status }}"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:47
 #: components/employer-create-offer/employer-create-offer.html:48
 msgid "Offered annual salary"
 msgstr ""
@@ -1536,6 +1547,7 @@ msgstr ""
 msgid "Permitted to work in EU"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:23
 #: components/employer-create-offer/employer-create-offer.html:24
 msgid "Personal Message"
 msgstr ""
@@ -1579,6 +1591,7 @@ msgstr ""
 msgid "Please choose a password."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:142
 #: components/candidate-signup-target/candidate-signup-target.html:66
 #: components/directive-experience-form/directive-experience-form.html:210
 #: components/employer-create-offer/employer-create-offer.html:143
@@ -1669,6 +1682,7 @@ msgstr ""
 msgid "Please enter at least one technology"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:101
 #: components/employer-create-offer/employer-create-offer.html:102
 msgid "Please enter the city name and wait for the system to validate."
 msgstr ""
@@ -1698,6 +1712,7 @@ msgstr ""
 msgid "Please insert a description of the office where the tech team works at."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:66
 #: components/candidate-offer/candidate-offer.html:202
 #: components/candidate-signup-target/candidate-signup-target.html:105
 #: components/employer-create-offer/employer-create-offer.html:67
@@ -1706,6 +1721,7 @@ msgstr ""
 msgid "Please insert a number."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:35
 #: components/employer-create-offer/employer-create-offer.html:36
 msgid "Please insert a personal message for the candidate."
 msgstr ""
@@ -1723,6 +1739,7 @@ msgstr ""
 msgid "Please insert a valid website URL (as copied form a browser window)."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:96
 #: components/employer-create-offer/employer-create-offer.html:97
 msgid "Please insert the city of the offer."
 msgstr ""
@@ -1779,6 +1796,7 @@ msgstr ""
 msgid "Please insert the phone of the contact person of your company."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:126
 #: components/employer-create-offer/employer-create-offer.html:127
 msgid "Please insert the role for this offer."
 msgstr ""
@@ -1857,6 +1875,7 @@ msgstr ""
 msgid "Please insert your new password."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:63
 #: components/employer-create-offer/employer-create-offer.html:64
 msgid "Please insert your offer's salary."
 msgstr ""
@@ -1885,6 +1904,7 @@ msgstr ""
 msgid "Please introduce your year of birth."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:28
 #: components/employer-create-offer/employer-create-offer.html:29
 msgid ""
 "Please introduce yourself to the candidate and tell them why you are a good "
@@ -1905,6 +1925,7 @@ msgid ""
 "like."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:157
 #: components/employer-create-offer/employer-create-offer.html:158
 msgid "Please provide a description of this position."
 msgstr ""
@@ -1913,6 +1934,7 @@ msgstr ""
 msgid "Please provide a description of your recruitment process."
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:171
 #: components/employer-create-offer/employer-create-offer.html:172
 msgid "Please provide a little description of the hiring process."
 msgstr ""
@@ -2097,6 +2119,7 @@ msgstr ""
 msgid "Reset password"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:113
 #: components/candidate-signup-target/candidate-signup-target.html:9
 #: components/directive-experience-form/directive-experience-form.html:151
 #: components/employer-create-offer/employer-create-offer.html:114
@@ -2133,6 +2156,7 @@ msgstr ""
 msgid "Salary offer not high enough"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:74
 #: components/employer-create-offer/employer-create-offer.html:75
 msgid "Salary too low"
 msgstr ""
@@ -2324,6 +2348,7 @@ msgstr ""
 #: apps/en/index.html:362 apps/en/login.html:193
 #: apps/en/terms-candidate.html:279 apps/en/terms-employer.html:305
 #: apps/en/terms-of-service.html:194
+#: components/admin-offer-edit/admin-offer-edit.html:187
 #: components/candidate-offer/candidate-offer.html:160
 #: components/candidate-offer/candidate-offer.html:209
 #: components/candidate-offer/candidate-offer.html:264
@@ -2396,6 +2421,7 @@ msgstr ""
 msgid "Technical Consultant or Sales Support"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:138
 #: components/employer-create-offer/employer-create-offer.html:139
 msgid "Technical skills required. Press enter after each one."
 msgstr ""
@@ -2404,6 +2430,7 @@ msgstr ""
 msgid "Technologies & skills"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:134
 #: components/candidate-signup-target/candidate-signup-target.html:28
 #: components/directive-experience-form/directive-experience-form.html:178
 #: components/employer-create-offer/employer-create-offer.html:135
@@ -2714,6 +2741,7 @@ msgstr ""
 msgid "When was the company established?"
 msgstr ""
 
+#: components/admin-offer-edit/admin-offer-edit.html:88
 #: components/employer-create-offer/employer-create-offer.html:89
 msgid "Where is the role based."
 msgstr ""

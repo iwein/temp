@@ -341,6 +341,7 @@ msgstr "Basisinformationen"
 msgid "Basis"
 msgstr "Basis"
 
+#: components/admin-offer-edit/admin-offer-edit.html:178
 #: components/candidate-offer/candidate-offer.html:106
 #: components/employer-create-offer/employer-create-offer.html:179
 #: components/employer-offer/employer-offer.html:143
@@ -617,6 +618,7 @@ msgstr "Kontakt"
 #: apps/en/index.html:336 apps/en/login.html:167
 #: apps/en/terms-candidate.html:253 apps/en/terms-employer.html:279
 #: apps/en/terms-of-service.html:168
+#, fuzzy
 msgid "Contact &amp; Support"
 msgstr "Kontakt &amp; Service"
 
@@ -734,6 +736,7 @@ msgstr "Tag"
 msgid "December"
 msgstr "Dezember"
 
+#: components/admin-offer-edit/admin-offer-edit.html:69
 #: components/candidate-offer/candidate-offer.html:203
 #: components/candidate-signup-target/candidate-signup-target.html:106
 #: components/employer-create-offer/employer-create-offer.html:70
@@ -833,6 +836,11 @@ msgstr "Ändern"
 msgid "Edit mode"
 msgstr "Bearbeiten"
 
+#: components/admin-offer-edit/admin-offer-edit.html:10
+#, fuzzy
+msgid "Edit offer"
+msgstr "Bearbeiten"
+
 #: components/candidate-signup-education/candidate-signup-education.html:4
 #: components/candidate-signup/candidate-signup.html:55
 #: components/candidate-signup/candidate-signup.html:60
@@ -883,8 +891,8 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:97
 msgid ""
-"Enter your company's vision &amp; mission here and let candidates know what you "
-"stand for."
+"Enter your company's vision &amp; mission here and let candidates know what "
+"you stand for."
 msgstr ""
 "Geben Sie hier die Vision &amp; Mission Ihres Unternehmens als wichtige "
 "Information für Kandidaten an."
@@ -1100,6 +1108,7 @@ msgstr ""
 msgid "Hiring Process"
 msgstr "Recruitingprozess"
 
+#: components/admin-offer-edit/admin-offer-edit.html:164
 #: components/candidate-employer-profile/candidate-employer-profile.html:163
 #: components/candidate-offer/candidate-offer.html:273
 #: components/employer-create-offer/employer-create-offer.html:165
@@ -1206,6 +1215,7 @@ msgstr "Januar"
 msgid "Job Description"
 msgstr "Stellenprofil"
 
+#: components/admin-offer-edit/admin-offer-edit.html:150
 #: components/employer-create-offer/employer-create-offer.html:151
 msgid "Job description"
 msgstr "Stellenprofil"
@@ -1266,6 +1276,7 @@ msgstr "LinkedIn"
 msgid "List other skills"
 msgstr "Nenne weitere Kenntnisse"
 
+#: components/admin-offer-edit/admin-offer-edit.html:81
 #: components/candidate-dashboard/candidate-dashboard.html:42
 #: components/candidate-signup-profile/candidate-signup-profile.html:14
 #: components/directive-experience-form/directive-experience-form.html:26
@@ -1278,6 +1289,7 @@ msgstr "Ort"
 msgid "Location does not fit"
 msgstr "Arbeitsort passt nicht"
 
+#: components/admin-offer-edit/admin-offer-edit.html:104
 #: components/employer-create-offer/employer-create-offer.html:105
 msgid "Location unsuitable."
 msgstr "Ort passt nicht."
@@ -1482,7 +1494,7 @@ msgstr "Angebotsnummer"
 msgid "Offer is accepted"
 msgstr "Angebot wurde angenommen"
 
-#: components/employer-create-offer/employer-create-offer.js:98
+#: components/employer-create-offer/employer-create-offer.js:97
 msgid "Offer sent to {{ name }}"
 msgstr "Angebot gesendet an {{ name }}"
 
@@ -1499,6 +1511,7 @@ msgstr "Angebot wurde zurückgezogen"
 msgid "Offer {{ status }}"
 msgstr "Angebot {{ status }}"
 
+#: components/admin-offer-edit/admin-offer-edit.html:47
 #: components/employer-create-offer/employer-create-offer.html:48
 msgid "Offered annual salary"
 msgstr "Angebot Jahresgehalt"
@@ -1655,6 +1668,7 @@ msgstr "Zeitraum"
 msgid "Permitted to work in EU"
 msgstr "Arbeitserlaubnis für die EU"
 
+#: components/admin-offer-edit/admin-offer-edit.html:23
 #: components/employer-create-offer/employer-create-offer.html:24
 msgid "Personal Message"
 msgstr "Persönliche Nachricht"
@@ -1698,6 +1712,7 @@ msgstr "Bitte wähle eine Sprache aus der Liste."
 msgid "Please choose a password."
 msgstr "Bitte wähle ein Passwort."
 
+#: components/admin-offer-edit/admin-offer-edit.html:142
 #: components/candidate-signup-target/candidate-signup-target.html:66
 #: components/directive-experience-form/directive-experience-form.html:210
 #: components/employer-create-offer/employer-create-offer.html:143
@@ -1811,6 +1826,7 @@ msgstr ""
 msgid "Please enter at least one technology"
 msgstr "Bitte mindestens eine Technologie eingeben."
 
+#: components/admin-offer-edit/admin-offer-edit.html:101
 #: components/employer-create-offer/employer-create-offer.html:102
 msgid "Please enter the city name and wait for the system to validate."
 msgstr ""
@@ -1845,6 +1861,7 @@ msgstr "Bitte geben Sie eine Beschreibung Ihrer Unternehmensmission an."
 msgid "Please insert a description of the office where the tech team works at."
 msgstr "Bitte beschreiben Sie das Büro in dem das IT Team arbeitet."
 
+#: components/admin-offer-edit/admin-offer-edit.html:66
 #: components/candidate-offer/candidate-offer.html:202
 #: components/candidate-signup-target/candidate-signup-target.html:105
 #: components/employer-create-offer/employer-create-offer.html:67
@@ -1853,6 +1870,7 @@ msgstr "Bitte beschreiben Sie das Büro in dem das IT Team arbeitet."
 msgid "Please insert a number."
 msgstr "Bitte eine Nummer eingeben."
 
+#: components/admin-offer-edit/admin-offer-edit.html:35
 #: components/employer-create-offer/employer-create-offer.html:36
 msgid "Please insert a personal message for the candidate."
 msgstr "Bitte verfassen Sie eine persönliche Nachricht an den Kandidaten."
@@ -1870,6 +1888,7 @@ msgstr "Bitte geben Sie eine gültige E-Mail Adresse an."
 msgid "Please insert a valid website URL (as copied form a browser window)."
 msgstr "Bitte geben Sie eine gültige Internetadresse an."
 
+#: components/admin-offer-edit/admin-offer-edit.html:96
 #: components/employer-create-offer/employer-create-offer.html:97
 msgid "Please insert the city of the offer."
 msgstr "Bitte fügen Sie den Standort für das Jobangebot ein."
@@ -1931,6 +1950,7 @@ msgid "Please insert the phone of the contact person of your company."
 msgstr ""
 "Bitte geben sie die Telefonnummer des Ansprechpartners Ihres Unternehmens an."
 
+#: components/admin-offer-edit/admin-offer-edit.html:126
 #: components/employer-create-offer/employer-create-offer.html:127
 msgid "Please insert the role for this offer."
 msgstr "Bitte fügen Sie den Jobtitel für dieses Angebot ein."
@@ -2009,6 +2029,7 @@ msgstr "Bitte gib deinen Nachnamen an."
 msgid "Please insert your new password."
 msgstr "Bitte gib dein neues Passwort ein."
 
+#: components/admin-offer-edit/admin-offer-edit.html:63
 #: components/employer-create-offer/employer-create-offer.html:64
 msgid "Please insert your offer's salary."
 msgstr "Bitte machen Sie eine Gehaltsangabe für das Angebot."
@@ -2037,6 +2058,7 @@ msgstr "Bitte trage deinen Geburtsmonat ein."
 msgid "Please introduce your year of birth."
 msgstr "Bitte trage dein Geburtsjahr ein."
 
+#: components/admin-offer-edit/admin-offer-edit.html:28
 #: components/employer-create-offer/employer-create-offer.html:29
 msgid ""
 "Please introduce yourself to the candidate and tell them why you are a good "
@@ -2065,6 +2087,7 @@ msgstr ""
 "Das hilft Kandidaten sich ein Bild zu machen, wie es ist bei Ihnen zu "
 "arbeiten."
 
+#: components/admin-offer-edit/admin-offer-edit.html:157
 #: components/employer-create-offer/employer-create-offer.html:158
 msgid "Please provide a description of this position."
 msgstr "Bitte stellen Sie eine Stellenbeschreibung zur Verfügung."
@@ -2073,6 +2096,7 @@ msgstr "Bitte stellen Sie eine Stellenbeschreibung zur Verfügung."
 msgid "Please provide a description of your recruitment process."
 msgstr "Bitte beschreiben Sie Ihren Recruitingprozess."
 
+#: components/admin-offer-edit/admin-offer-edit.html:171
 #: components/employer-create-offer/employer-create-offer.html:172
 msgid "Please provide a little description of the hiring process."
 msgstr "Bitte beschreiben Sie kurz Ihren Recruitingprozess."
@@ -2267,6 +2291,7 @@ msgstr "Jetzt Bestätigung erneut senden!"
 msgid "Reset password"
 msgstr "Passwort zurücksetzen"
 
+#: components/admin-offer-edit/admin-offer-edit.html:113
 #: components/candidate-signup-target/candidate-signup-target.html:9
 #: components/directive-experience-form/directive-experience-form.html:151
 #: components/employer-create-offer/employer-create-offer.html:114
@@ -2303,6 +2328,7 @@ msgstr "Gehalt"
 msgid "Salary offer not high enough"
 msgstr "Gehaltsangebot zu niedrig"
 
+#: components/admin-offer-edit/admin-offer-edit.html:74
 #: components/employer-create-offer/employer-create-offer.html:75
 msgid "Salary too low"
 msgstr "Gehalt zu niedrig"
@@ -2494,6 +2520,7 @@ msgstr "Unternehmensbeteiligung"
 #: apps/en/index.html:362 apps/en/login.html:193
 #: apps/en/terms-candidate.html:279 apps/en/terms-employer.html:305
 #: apps/en/terms-of-service.html:194
+#: components/admin-offer-edit/admin-offer-edit.html:187
 #: components/candidate-offer/candidate-offer.html:160
 #: components/candidate-offer/candidate-offer.html:209
 #: components/candidate-offer/candidate-offer.html:264
@@ -2566,6 +2593,7 @@ msgstr "Größe des Technikteams"
 msgid "Technical Consultant or Sales Support"
 msgstr "IT Consultant oder IT Vertrieb"
 
+#: components/admin-offer-edit/admin-offer-edit.html:138
 #: components/employer-create-offer/employer-create-offer.html:139
 msgid "Technical skills required. Press enter after each one."
 msgstr "Geforderte IT Kenntnisse. Drücken Sie ENTER nach jedem einzelnen."
@@ -2574,6 +2602,7 @@ msgstr "Geforderte IT Kenntnisse. Drücken Sie ENTER nach jedem einzelnen."
 msgid "Technologies & skills"
 msgstr "Technologien & Kenntnisse"
 
+#: components/admin-offer-edit/admin-offer-edit.html:134
 #: components/candidate-signup-target/candidate-signup-target.html:28
 #: components/directive-experience-form/directive-experience-form.html:178
 #: components/employer-create-offer/employer-create-offer.html:135
@@ -2925,6 +2954,7 @@ msgstr ""
 msgid "When was the company established?"
 msgstr "Wann wurde das Unternehmen gegründet?"
 
+#: components/admin-offer-edit/admin-offer-edit.html:88
 #: components/employer-create-offer/employer-create-offer.html:89
 msgid "Where is the role based."
 msgstr "Wo ist der Job zu besetzen."
