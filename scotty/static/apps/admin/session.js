@@ -82,6 +82,11 @@ define(function(require) {
       }.bind(this));
     },
 
+    editOffer: function(id, data) {
+      var url = '/admin/offers/' + id;
+      return this._api.put(url + this.getParams, data);
+    },
+
     searchEmployers: function(query) {
       return this._api.get('/admin/search/employers' + this.getParams, query);
     },
