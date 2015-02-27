@@ -20,7 +20,8 @@ def upgrade():
     res = connection.execute("select id from candidatestatus where name = 'deleted'")
     deleted_id = list(res)[0][0]
 
-    op.execute("DROP INDEX candidate_email_key;")
+    op.execute("ALTER TABLE candidate DROP CONSTRAINT candidate_email_key;")
+    # op.execute("DROP INDEX candidate_email_key;")
     op.execute("CREATE UNIQUE INDEX candidate_email_key  ON candidate (email) WHERE status_id != %s;" % deleted_id)
 
     op.execute("ALTER TABLE employer DROP CONSTRAINT employer_email_key;")
