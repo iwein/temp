@@ -46,7 +46,7 @@ def login(context, request):
     email = params['email']
     pwd = hash_pwd(params['pwd'])
     login_obj, cls = get_login(email=email, pwd=pwd)
-    user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).filter(cls.not_deleted).first()
+    user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).filter(*cls.not_deleted()).first()
     if user and user.can_login:
         user.last_login = datetime.now()
         request.session['%s_id' % login_obj.table_name] = user.id
@@ -66,7 +66,7 @@ def login_post(context, request):
     if login_obj is None:
         raise HTTPFound(location=(request.referer or '/') + '#unknown')
     else:
-        user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).filter(cls.not_deleted).first()
+        user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).filter(*cls.not_deleted()).first()
         if user and user.can_login:
             user.last_login = datetime.now()
             request.session['%s_id' % login_obj.table_name] = user.id

@@ -353,8 +353,8 @@ class Candidate(Base, JsonSerialisable):
     def can_login(self):
         return self.status.name not in [CandidateStatus.DELETED, CandidateStatus.SUSPENDED]
 
-    @property
-    def not_deleted(self):
+    @classmethod
+    def not_deleted(cls):
         """
         Unified Login does not know about status, so need to filter those that are soft-deleted
         :return:
