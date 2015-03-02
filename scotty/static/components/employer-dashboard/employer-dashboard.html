@@ -132,22 +132,50 @@
           </div>
 
 
-          <div class="col-sm-12 bg-white">
+          <div class="col-sm-12 bg-white" ng-show="suggested.length">
             <h2 class="main-title" translate>WE SUGGEST</h2>
-            <h3 class="main-subtitle pad-all-15" translate>Top candidates fitting to your company's Profile!</h3>
+            <h3 class="main-subtitle pad-all-15" translate>
+              These candidates are recommended by your 4Scotty AccountManager based on your current search priorities
+            </h3>
 
             <div ng-show="!suggested.length" class="pad-btm-15 pad-lft-15" translate>
               Sorry, there are no candidates matching your criteria
             </div>
             <div>
               <div class="offer-list" ng-show="suggested.length">
+                <hc-candidate ng-repeat="suggestion in suggested" ng-model="suggestion.candidate" hc-link-profile>
+                  <a class="not-interested" ng-click="notInterested(suggestion, $index)" translate>
+                    <i class="fa fa-ban"></i>
+                    <translate>I'm not interested</translate>
+                  </a>
+                </hc-candidate>
+              </div>
+              <div ng-hide="suggested.length" class="offer-list col-sm-12 mrg-btm-30">
+                <div class="col-sm-12" translate>
+                  We're sorry. There are no candidates with skills in your tech yet.
+                  We'll notify you as soon as there is a fitting candidate.
+                  Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 bg-white">
+            <h2 class="main-title" translate>Recommended</h2>
+            <h3 class="main-subtitle pad-all-15" translate>Top candidates fitting to your company's Profile!</h3>
+
+            <div ng-show="!relevant.length" class="pad-btm-15 pad-lft-15" translate>
+              Sorry, there are no candidates matching your criteria
+            </div>
+            <div>
+              <div class="offer-list" ng-show="relevant.length">
                 <hc-candidate
-                  ng-repeat="candidate in suggested"
+                  ng-repeat="candidate in relevant"
                   ng-model="candidate"
                   hc-link-profile>
                 </hc-candidate>
               </div>
-              <div ng-hide="suggested.length" class="offer-list col-sm-12 mrg-btm-30">
+              <div ng-hide="relevant.length" class="offer-list col-sm-12 mrg-btm-30">
                 <div class="col-sm-12" translate>
                   We're sorry. There are no candidates with skills in your tech yet.
                   We'll notify you as soon as there is a fitting candidate.

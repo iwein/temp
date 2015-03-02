@@ -83,6 +83,10 @@ class SuggestedCandidate(Base):
     created = Column(DateTime(), nullable=False, default=datetime.now())
     employer_not_interested = Column(DateTime())
 
+    def __json__(self, request):
+        return {'created': self.created, 'employer_not_interested': self.employer_not_interested,
+                'candidate': self.candidate}
+
 
 class CandidateSuggestedTo(SuggestedCandidate):
     def __json__(self, request):

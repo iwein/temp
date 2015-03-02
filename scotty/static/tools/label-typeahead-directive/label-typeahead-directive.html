@@ -11,7 +11,7 @@
   typeahead="entry for entry in getSource($viewValue)"
   hc-typeahead-loader>
 
-<ul class="skills-list">
+<ul class="skills-list" ng-if="!hcHideTags">
   <li ng-repeat="entry in ngModel" class="label label-default" role="label">
     <span class="text">{{ hcRender({ $entry: entry }) }}</span>
     <button type="button" class="close" data-dismiss="label" ng-click="remove(entry, $index)">

@@ -21,6 +21,7 @@ define(function(require) {
       updateLocations: updateLocations,
       isAdvancedSearch: isAdvancedSearch,
       setAdvancedSearch: setAdvancedSearch,
+      notInterested: notInterested,
       search: executeSearch,
       onKeyDown: onKeyDown,
       today: Date.now(),
@@ -41,8 +42,11 @@ define(function(require) {
         return $q.all([
           user.getTimeline().then(fn.setTo('news', $scope)),
           user.getOffers().then(fn.setTo('offers', $scope)),
-          user.getSuggestedCandidates().then(fn.setTo('suggested', $scope)),
+          user.getRelevantCandidates().then(fn.setTo('relevant', $scope)),
           user.getCandidates().then(fn.setTo('candidates', $scope)),
+          user.getSuggestedCandidates().then(function(response) {
+            $scope.suggested = response.data;
+          }),
         ]);
       }).then(function() {
         $scope.ready = true;
@@ -89,7 +93,6 @@ define(function(require) {
       }
     }
 
-
     function setLocation(text) {
       $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
       return executeSearch();
@@ -102,7 +105,6 @@ define(function(require) {
     function setAdvancedSearch(value) {
       advancedSearch = value;
     }
-
 
     function resetSearch() {
       $scope.searchCandidates = [];
@@ -154,6 +156,15 @@ define(function(require) {
     function onKeyDown(event) {
       if (event.keyCode === 13)
         executeSearch();
+    }
+
+    function notInterested(suggestion, index) {
+      return Session.getUser().then(function(user) {
+        return user.notInterested(suggestion);
+      }).then(function() {
+        $scope.suggested.splice(index, 1);
+      })
+      .catch(toaster.defaultError);
     }
   });
 

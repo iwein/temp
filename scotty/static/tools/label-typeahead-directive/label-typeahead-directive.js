@@ -18,6 +18,7 @@ define(function(require) {
         hcErrorMessage: '@',
         ngModel: '=',
         hcRequired: '=',
+        hcHideTags: '=',
         hcSource: '&',
         hcRender: '&',
         onAdd: '&',

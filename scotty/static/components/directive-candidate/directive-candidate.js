@@ -23,6 +23,7 @@ define(function(require) {
   module.directive('hcCandidate', function($q) {
     return {
       restrict: 'EA',
+      transclude: true,
       template: require('text!./directive-candidate.html'),
       scope: {
         model: '=ngModel',
