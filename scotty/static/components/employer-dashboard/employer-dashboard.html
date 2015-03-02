@@ -144,12 +144,10 @@
             <div>
               <div class="offer-list" ng-show="suggested.length">
                 <hc-candidate ng-repeat="suggestion in suggested" ng-model="suggestion.candidate" hc-link-profile>
-                  <div class="not-interested">
-                    <a ng-click="notInterested(suggestion, $index)" translate>
-                      <i class="fa fa-ban"></i>
-                      <translate>I'm not interested</translate>
-                    </a>
-                  </div>
+                  <a class="not-interested" ng-click="notInterested(suggestion, $index)" translate>
+                    <i class="fa fa-ban"></i>
+                    <translate>I'm not interested</translate>
+                  </a>
                 </hc-candidate>
               </div>
               <div ng-hide="suggested.length" class="offer-list col-sm-12 mrg-btm-30">
