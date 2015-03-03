@@ -36,7 +36,7 @@ Feature: Candidate request offer
         """
         And Candidate logs out
         And Employer logs in
-       When I get "/employers/me/interestedcandidates"
+       When I get "/employers/me/interested/candidates"
        Then The response status should be "200"
         And The response should have:
         """
