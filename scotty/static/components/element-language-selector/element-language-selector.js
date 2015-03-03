@@ -15,7 +15,7 @@ define(function(require) {
       var getString = gettextCatalog.getString;
       gettextCatalog.getString = function(string, context) {
         var result = getString.call(gettextCatalog, string, context);
-        if (result.indexOf('[MISSING]') === 0)
+        if (result && result.indexOf('[MISSING]') === 0)
           console.warn('Missing translation:', string, result, context);
         return result;
       };
