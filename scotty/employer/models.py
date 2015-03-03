@@ -94,7 +94,6 @@ class CandidateSuggestedTo(SuggestedCandidate):
                 'employer': self.employer}
 
 
-
 class EmployerPicture(Base):
     __tablename__ = 'employer_picture'
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
@@ -206,8 +205,8 @@ class Employer(Base, JsonSerialisable):
     def can_login(self):
         return self.deleted is None
 
-    @property
-    def not_deleted(self):
+    @classmethod
+    def not_deleted(cls):
         """
         Unified Login does not know about status, so need to filter those that are soft-deleted
         == None is valid, as this is SqlAlchemy IS NULL
