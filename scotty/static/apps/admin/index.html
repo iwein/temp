@@ -13,7 +13,13 @@
   <script>
     Raygun.init('tqrimMzbMSZOd6ndSOmJNw==', {
       excludedHostnames: ['localhost'],
-    }).attach();
+    }).attach().withCustomData(function() {
+      return {
+        portal: 'admin',
+        fullUrl: document.location.toString(),
+        hash: document.location.hash,
+      };
+    });
   </script>
   <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
 

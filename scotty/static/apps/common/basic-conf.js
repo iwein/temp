@@ -34,6 +34,11 @@ define(function(require) {
     window.ga('set', 'anonymizeIp', true);
   }
 
+  function raygun(exception) {
+    window.Raygun.send(exception);
+    console.info('RAYGUN REPORTED:', exception.message, exception);
+  }
+
   return function basicConf(module) {
     module.config(function($provide, $httpProvider, LightboxProvider) {
       $httpProvider.defaults.withCredentials = true;
@@ -41,8 +46,7 @@ define(function(require) {
 
       $provide.decorator('$exceptionHandler', function($delegate) {
         return function (exception, cause) {
-          console.log('LOGGING:', exception.message);
-          window.Raygun.send(exception);
+          raygun(exception);
           $delegate(exception, cause);
         };
       });
@@ -61,7 +65,7 @@ define(function(require) {
     module.factory('toaster', function(Notifier, gettext) {
       Notifier.defaultError = function(error) {
         if (error) {
-          window.Raygun.send(error);
+          raygun(error);
           console.error(error);
         }
 
