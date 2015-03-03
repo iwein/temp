@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:693
@@ -108,12 +108,6 @@ msgid ""
 msgstr ""
 "<hc-employer-link ng-model=\"entry.employer\"></hc-employer-link> hat sein "
 "Angebot zurück gezogen."
-
-#: components/employer-dashboard/employer-dashboard.html:147
-msgid ""
-"<i class=\"fa fa-ban\"></i>\n"
-"                    <translate>I'm not interested</translate>"
-msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:896
 #: components/candidate-profile/candidate-profile.html:972
@@ -243,7 +237,7 @@ msgid "Anonymous will hide your photo."
 msgstr "Bei der Einstellung anonym wird dein Foto nicht gezeigt."
 
 #: components/candidate-profile/candidate-profile.js:417
-#: components/employer-candidate-profile/employer-candidate-profile.js:108
+#: components/employer-candidate-profile/employer-candidate-profile.js:109
 msgid "Anywhere"
 msgstr "Überall"
 
@@ -801,7 +795,7 @@ msgstr "Lebenslauf laden"
 msgid "Duration"
 msgstr "Zeitraum"
 
-#: components/admin-candidate-profile/admin-candidate-profile.html:194
+#: components/admin-candidate-profile/admin-candidate-profile.html:193
 #: components/candidate-profile/candidate-profile.html:969
 #: components/employer-candidate-profile/employer-candidate-profile.html:234
 msgid "EDUCATION"
@@ -1043,10 +1037,6 @@ msgstr ""
 "Großartig! Du hast das Kennenlernen mit <hc-employer-link ng-model=\"entry."
 "employer\"></hc-employer-link> gestartet"
 
-#: components/employer-dashboard/employer-dashboard.html:136
-msgid "HANDPICKED CANDIDATES FOR YOU"
-msgstr ""
-
 #: components/candidate-profile/candidate-profile.html:783
 #: components/employer-candidate-profile/employer-candidate-profile.html:19
 msgid "HIRED"
@@ -1115,10 +1105,6 @@ msgid ""
 msgstr ""
 "Ich habe die <hc-tos-link>4Scotty Nutzungsbedingungen</hc-tos-link> gelesen "
 "und stimme diesen zu."
-
-#: components/employer-dashboard/employer-dashboard.html:149
-msgid "I'm not interested"
-msgstr ""
 
 #: components/candidate-signup-user/candidate-signup-user.html:150
 msgid ""
@@ -1321,10 +1307,6 @@ msgid "Mr"
 msgstr "Herr"
 
 #: tmp/db-tokens/salutations.js:2
-msgid "Mrs"
-msgstr "Frau"
-
-#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
 msgstr "Frau"
 
@@ -1361,7 +1343,7 @@ msgstr ""
 msgid "Negotiating contract details"
 msgstr "Vertragsverhandlungen"
 
-#: components/employer-dashboard/employer-dashboard.html:190
+#: components/employer-dashboard/employer-dashboard.html:162
 msgid "New offer requests"
 msgstr "Neue Anfragen von Kandidaten"
 
@@ -1415,7 +1397,7 @@ msgstr "Noch nicht eingetragen!"
 
 #: components/candidate-profile/candidate-profile.html:508
 #: components/candidate-profile/candidate-profile.js:413
-#: components/employer-candidate-profile/employer-candidate-profile.js:104
+#: components/employer-candidate-profile/employer-candidate-profile.js:105
 msgid "Not specified"
 msgstr "Noch nicht festgelegt"
 
@@ -1763,7 +1745,7 @@ msgstr ""
 "Du kannst mich gern jederzeit bei Fragen kontaktieren:\n"
 "          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
 "          oder telefonisch unter\n"
-"          <span class=\"number\">+49 30-2639389-15.</span>,\n"
+"          <span class=\"number\">+49 30-2639389-15.</span>\n"
 " "
 
 #: components/employer-signup/employer-signup.html:6
@@ -2278,10 +2260,6 @@ msgstr "Kenntnisse"
 msgid "SLEEPING"
 msgstr "INAKTIV"
 
-#: components/employer-dashboard/employer-dashboard.html:164
-msgid "SUGGESTED CANDIDATES"
-msgstr ""
-
 #: components/employer-dashboard/employer-dashboard.html:64
 msgid "Salary"
 msgstr "Gehalt"
@@ -2403,7 +2381,7 @@ msgstr "Kostenlos anmelden"
 #: components/candidate-signup-skills/candidate-signup-skills.html:4
 #: components/candidate-signup/candidate-signup.html:69
 #: components/candidate-signup/candidate-signup.html:74
-#: components/directive-candidate/directive-candidate.html:47
+#: components/directive-candidate/directive-candidate.html:46
 #: components/directive-offer/directive-offer.html:126
 #: components/employer-dashboard/employer-dashboard.html:41
 #: components/employer-dashboard/employer-dashboard.html:44
@@ -2415,8 +2393,7 @@ msgstr "Kenntnisse"
 msgid "Software Development"
 msgstr "Software-Entwicklung"
 
-#: components/employer-dashboard/employer-dashboard.html:141
-#: components/employer-dashboard/employer-dashboard.html:167
+#: components/employer-dashboard/employer-dashboard.html:139
 msgid "Sorry, there are no candidates matching your criteria"
 msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
 
@@ -2570,7 +2547,7 @@ msgstr "Technologien nicht attraktiv"
 msgid "Technologies/Skills"
 msgstr "Technologien"
 
-#: components/admin-candidate-profile/admin-candidate-profile.html:183
+#: components/admin-candidate-profile/admin-candidate-profile.html:182
 #: components/employer-candidate-profile/employer-candidate-profile.html:223
 msgid "Technologies/Skills:"
 msgstr "Technologien"
@@ -2643,12 +2620,6 @@ msgstr "Kein gültiges Datum."
 msgid "The file should be an image."
 msgstr "Diese Datei sollte ein Bild sein."
 
-#: components/employer-dashboard/employer-dashboard.html:137
-msgid ""
-"These candidates are recommended by your 4Scotty AccountManager based on "
-"your current search priorities"
-msgstr ""
-
 #: apps/common/footer.html:18
 msgid "This Site"
 msgstr "Diese Seite"
@@ -2666,7 +2637,7 @@ msgstr "Das erscheint zu hoch."
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
-#: components/employer-dashboard/employer-dashboard.html:165
+#: components/employer-dashboard/employer-dashboard.html:137
 msgid "Top candidates fitting to your company's Profile!"
 msgstr "Top Kandidaten die zu Ihrem Unternehmen passen könnten!"
 
@@ -2762,7 +2733,11 @@ msgstr "Profil anzeigen"
 msgid "WE RECOMMEND"
 msgstr "DAS KÖNNTE ZU DIR PASSEN"
 
-#: components/admin-candidate-profile/admin-candidate-profile.html:169
+#: components/employer-dashboard/employer-dashboard.html:136
+msgid "WE SUGGEST"
+msgstr "WIR EMPFEHLEN"
+
+#: components/admin-candidate-profile/admin-candidate-profile.html:168
 #: components/candidate-profile/candidate-profile.html:893
 #: components/employer-candidate-profile/employer-candidate-profile.html:208
 msgid "WORK EXPERIENCE"
@@ -2844,8 +2819,7 @@ msgstr ""
 "passendes Unternehmen registriert. Du möchtest nicht warten? Dann probiere "
 "doch unsere Suche nach anderen Technologien und Kenntnissen aus."
 
-#: components/employer-dashboard/employer-dashboard.html:154
-#: components/employer-dashboard/employer-dashboard.html:179
+#: components/employer-dashboard/employer-dashboard.html:151
 msgid ""
 "We're sorry. There are no candidates with skills in your tech yet.\n"
 "                  We'll notify you as soon as there is a fitting candidate.\n"
@@ -3428,7 +3402,7 @@ msgid "worked with that but rather short or not extensively"
 msgstr "Erste Erfahrungen und wenig damit gearbeitet."
 
 #: components/candidate-offer/candidate-offer.html:86
-#: components/directive-candidate/directive-candidate.html:32
+#: components/directive-candidate/directive-candidate.html:31
 #: components/directive-offer/directive-offer.html:69
 #: components/directive-offer/directive-offer.html:92
 #: components/employer-candidate-profile/employer-candidate-profile.html:138
@@ -3453,7 +3427,7 @@ msgstr "du hast dieses Angebot abgelehnt"
 msgid "you withdrew this offer"
 msgstr "du hast dieses Angebot zurückgezogen"
 
-#: components/employer-dashboard/employer-dashboard.html:198
+#: components/employer-dashboard/employer-dashboard.html:170
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr "{{ role }}von {{ city }}, {{ country_iso }}"
 
@@ -3461,11 +3435,11 @@ msgstr "{{ role }}von {{ city }}, {{ country_iso }}"
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
-#~ msgid "WE SUGGEST"
-#~ msgstr "WIR EMPFEHLEN"
-
 #~ msgid "I agree to the terms of services"
 #~ msgstr "Ich stimme den Nutzungsbedingungen zu."
+
+#~ msgid "Mrs"
+#~ msgstr "Frau"
 
 #~ msgid "Please don't hesitate to contact me at"
 #~ msgstr "Bitte kontaktiere mich gern unter"
