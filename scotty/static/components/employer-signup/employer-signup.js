@@ -12,7 +12,7 @@ define(function(require) {
     'step4': [ 'signup.facts' ],
     'step5': [ 'signup.benefits' ],
     'step6': [ 'signup.terms' ],
-    'end': [ 'dashboard' ]
+    'end': [ 'signup-complete' ]
   };
   var order = [
     'signup.start',
@@ -22,7 +22,7 @@ define(function(require) {
     'signup.facts',
     'signup.benefits',
     'signup.terms',
-    'signup.suggest',
+    'signup-complete',
   ];
 
 

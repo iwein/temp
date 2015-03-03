@@ -3,15 +3,19 @@ define(function(require) {
   require('session');
   require('../common/permission');
   var angular = require('angular');
+  var _ = require('underscore');
+  var dashboardState = require('components/employer-dashboard/employer-dashboard');
   var module = require('app-module');
   require('../common/basic-conf')(module);
+
 
   module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
     $analyticsProvider.prefix = '/employer';
     $urlRouterProvider.otherwise('/dashboard/');
 
     $stateProvider
-      .state('dashboard', require('components/employer-dashboard/employer-dashboard'))
+      .state('dashboard', dashboardState)
+      .state('signup-complete', _.extend({}, dashboardState, { url: '/signup-complete/' }))
       .state('profile', require('components/employer-profile/employer-profile'))
       .state('reset-password', require('components/shared-reset-password/shared-reset-password'))
 
