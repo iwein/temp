@@ -57,47 +57,52 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^I create a complete candidate$/, function() {
+    var vars = this.vars;
     return scenario.step(/^I post a new candidate$/).then(function() {
-      return Promise.all([
-        AJAX.post('/candidates/me/target_position', {
-          'role': 'System Administration',
-          'skills': ['Python', 'PHP'],
-          'minimum_salary': 40000
-        }),
-        AJAX.put('/candidates/me/preferred_locations', {
-          'DE': ['Berlin','Leipzig','Hamburg'],
-          'BR': ['Uberlândia']
-        }),
-        AJAX.put('/candidates/me/languages', [
-          { 'language': 'German', 'proficiency': 'native' },
-          { 'language': 'English', 'proficiency': 'advanced' },
-          { 'language': 'French', 'proficiency': 'basic' },
-        ]),
-        AJAX.put('/candidates/me/skills', [
-          { 'skill': this.vars.unique_skill, 'level': 'expert' },
-          { 'skill': 'Python', 'level': 'basic' },
-          { 'skill': 'Java', 'level': 'advanced' },
-        ]),
-        AJAX.post('/candidates/me/education', {
-          'institution': 'Eidgenössische Technische Hochschule Zürich, Switzerland',
-          'degree': 'NEWDEGREE-2fbb080a-df19-79b6-d62a-edd989efcee0',
-          'start': 1992,
-          'course': 'Programming'
-        }),
-        AJAX.post('/candidates/me/work_experience', {
-          'company': 'Intel Corp.',
-          'role': 'Project Architect',
-          'city': 'ÜberSigourney Fanatastic Not Existing Town',
-          'country_iso': 'DE',
-          'start': '2004-01-01',
-          'end': '2014-01-01',
-          'summary': 'Design of Intelligent Protoplasma'
-        }),
-        AJAX.post('/candidates/me/picture', {
-          'url': 'http://www.hackandcraft.com/'
-        }),
+      return AJAX.post('/candidates/me/target_position', {
+        'role': 'System Administration',
+        'skills': ['Python', 'PHP'],
+        'minimum_salary': 40000
+      });
+    }).then(function() {
+      return AJAX.put('/candidates/me/preferred_locations', {
+        'DE': ['Berlin','Leipzig','Hamburg'],
+        'BR': ['Uberlândia']
+      });
+    }).then(function() {
+      return AJAX.put('/candidates/me/languages', [
+        { 'language': 'German', 'proficiency': 'native' },
+        { 'language': 'English', 'proficiency': 'advanced' },
+        { 'language': 'French', 'proficiency': 'basic' },
       ]);
-    }.bind(this));
+    }).then(function() {
+      return AJAX.put('/candidates/me/skills', [
+        { 'skill': vars.unique_skill, 'level': 'expert' },
+        { 'skill': 'Python', 'level': 'basic' },
+        { 'skill': 'Java', 'level': 'advanced' },
+      ]);
+    }).then(function() {
+      return AJAX.post('/candidates/me/education', {
+        'institution': 'Eidgenössische Technische Hochschule Zürich, Switzerland',
+        'degree': 'NEWDEGREE-2fbb080a-df19-79b6-d62a-edd989efcee0',
+        'start': 1992,
+        'course': 'Programming'
+      });
+    }).then(function() {
+      return AJAX.post('/candidates/me/work_experience', {
+        'company': 'Intel Corp.',
+        'role': 'Project Architect',
+        'city': 'ÜberSigourney Fanatastic Not Existing Town',
+        'country_iso': 'DE',
+        'start': '2004-01-01',
+        'end': '2014-01-01',
+        'summary': 'Design of Intelligent Protoplasma'
+      });
+    }).then(function() {
+      return AJAX.post('/candidates/me/picture', {
+        'url': 'http://www.hackandcraft.com/'
+      });
+    });
   });
 
   scenario.Given(/^Candidate logs in$/, function() {

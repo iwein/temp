@@ -31,36 +31,36 @@ stepDefinitions(function(scenario) {
   });
 
   scenario.Given(/^I create a complete employer$/, function() {
+    var vars = this.vars;
     return scenario.step(/^I post a new employer$/).then(function() {
-      return Promise.all([
-        AJAX.put('/employers/me', {
-          'website': 'http://localhost/static/apps/employer/#/signup/basic/',
-          'fb_url': 'http://localhost/static/apps/employer/#/signup/basic/',
-          'linkedin_url': 'http://localhost/static/apps/employer/#/signup/basic/',
-          'logo_url': 'https://s3-eu-west-1.amazonaws.com/scotty-dev/logo/21064839-3bce-4a37-9124-6c2644e9af95',
-          'funding_year': 1931,
-          'no_of_employees': 2008,
-          'revenue_pa': 43420,
-          'mission_text': '336b6c2d-8663-7eac-d8a4-b57570bc0dd4',
-          'tech_tags': [this.vars.unique_skill, 'Python'],
-          'tech_team_philosophy': '338b32a1-e460-367d-900a-68fb8c441f09',
-          'tech_team_size': 2003
-        }),
-        AJAX.put('/employers/me/offices', [{
-          'contact_first_name': 'Martha',
-          'contact_last_name': 'Stewart',
-          'contact_salutation': 'Mr',
-          'contact_email': this.vars.employer_email,
-          'address_city': {
-            'country_iso': 'DE',
-            'city': 'Berlin'
-          },
-          'address_line1': 'Schoenhauser Allee 106',
-          'address_zipcode': '08712',
-          'contact_phone': '+49 232314 2435'
-        }]),
-      ]);
-    }.bind(this)).then(function() {
+      return AJAX.put('/employers/me', {
+        'website': 'http://localhost/static/apps/employer/#/signup/basic/',
+        'fb_url': 'http://localhost/static/apps/employer/#/signup/basic/',
+        'linkedin_url': 'http://localhost/static/apps/employer/#/signup/basic/',
+        'logo_url': 'https://s3-eu-west-1.amazonaws.com/scotty-dev/logo/21064839-3bce-4a37-9124-6c2644e9af95',
+        'funding_year': 1931,
+        'no_of_employees': 2008,
+        'revenue_pa': 43420,
+        'mission_text': '336b6c2d-8663-7eac-d8a4-b57570bc0dd4',
+        'tech_tags': [vars.unique_skill, 'Python'],
+        'tech_team_philosophy': '338b32a1-e460-367d-900a-68fb8c441f09',
+        'tech_team_size': 2003
+      });
+    }).then(function() {
+      return AJAX.put('/employers/me/offices', [{
+        'contact_first_name': 'Martha',
+        'contact_last_name': 'Stewart',
+        'contact_salutation': 'Mr',
+        'contact_email': vars.employer_email,
+        'address_city': {
+          'country_iso': 'DE',
+          'city': 'Berlin'
+        },
+        'address_line1': 'Schoenhauser Allee 106',
+        'address_zipcode': '08712',
+        'contact_phone': '+49 232314 2435'
+      }]);
+    }).then(function() {
       return AJAX.put('/employers/me/apply', { 'agreedTos':true });
     });
   });
