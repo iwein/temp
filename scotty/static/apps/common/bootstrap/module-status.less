@@ -1,6 +1,7 @@
 .status-ACTIVE {
   .accepted-message,
   .reject-message,
+  .expired-message,
   .interviewing-message,
   .negotiation-message,
   .withdrawn-message,
@@ -12,6 +13,7 @@
 .status-ACCEPTED {
   .accept-message,
   .reject-message,
+  .expired-message,
   .interviewing-message,
   .negotiation-message,
   .withdrawn-message,
@@ -23,6 +25,7 @@
 .status-REJECTED {
   .accept-message,
   .accepted-message,
+  .expired-message,
   .interviewing-message,
   .negotiation-message,
   .withdrawn-message,
@@ -38,6 +41,7 @@
   .accept-message,
   .accepted-message,
   .reject-message,
+  .expired-message,
   .negotiation-message,
   .withdrawn-message,
   .signed-message {
@@ -49,6 +53,7 @@
   .accept-message,
   .accepted-message,
   .reject-message,
+  .expired-message,
   .interviewing-message,
   .withdrawn-message,
   .signed-message{
@@ -59,6 +64,7 @@
   .accept-message,
   .accepted-message,
   .reject-message,
+  .expired-message,
   .interviewing-message,
   .negotiation-message,
   .signed-message{
@@ -73,6 +79,7 @@
   .accept-message,
   .accepted-message,
   .reject-message,
+  .expired-message,
   .interviewing-message,
   .negotiation-message,
   .withdrawn-message {
@@ -82,6 +89,22 @@
     color: @green !important;
   }
 }
+
+.status-EXPIRED {
+  .accept-message,
+  .accepted-message,
+  .reject-message,
+  .interviewing-message,
+  .negotiation-message,
+  .withdrawn-message,
+  .signed-message {
+    display: none;
+  }
+  .custom {
+    color: @red !important;
+  }
+}
+
 
 .active-form-reject .link-red,
 .active-form-withdraw .link-red {
