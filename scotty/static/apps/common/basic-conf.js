@@ -40,8 +40,9 @@ define(function(require) {
   }
 
   return function basicConf(module) {
-    module.config(function($provide, $httpProvider, LightboxProvider) {
+    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
       $httpProvider.defaults.withCredentials = true;
+      cfpLoadingBarProvider.includeSpinner = false;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
 
       $provide.decorator('$exceptionHandler', function($delegate) {
