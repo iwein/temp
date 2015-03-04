@@ -39,6 +39,7 @@ def includeme(config):
     config.add_route('admin_candidate_wake', 'candidates/{candidate_id}/wake')
 
     config.add_route('admin_candidate_suggestions', 'candidates/{candidate_id}/suggested_to')
+    config.add_route('admin_candidate_send_suggestion', 'candidates/{candidate_id}/send_suggestion')
 
     config.add_route('admin_invite_codes', 'invite_codes')
     config.add_route('admin_invite_code', 'invite_codes/:code')
@@ -389,6 +390,22 @@ class AdminCandidateSuggestuinsController(RootController):
             DBSession.flush()
         except IntegrityError, e:
             raise HTTPConflict("Employer already suggested to Candidate")
+        return sc
+
+    @view_config(route_name='admin_candidate_send_suggestion', permission=ADMIN_PERM, **POST)
+    def admin_candidate_send_suggestion(self):
+        employer = DBSession.query(Employer).get(self.request.json['id'])
+        if not employer:
+            raise HTTPBadRequest('Unknown Employer')
+
+        candidate = DBSession.query(Candidate).get(self.request.matchdict['candidate_id'])
+        if not candidate:
+            raise HTTPNotFound('Unknown Candidate')
+        suggestion = DBSession.query(SuggestedCandidate).filter(SuggestedCandidate.employer_id == employer.id,
+                                                                SuggestedCandidate.candidate_id == candidate.id).first()
+
+        if not suggestion:
+            raise HTTPBadRequest('No Suggestion exists for this Candidate and Employer')
 
         self.request.emailer.send_employer_new_suggested_candidate(employer.lang,
                                                                    employer.email,
@@ -396,14 +413,16 @@ class AdminCandidateSuggestuinsController(RootController):
                                                                    employer.company_name,
                                                                    candidate_name=candidate.full_name,
                                                                    candidate_id=candidate.id)
-        return sc
+        suggestion.last_sent = datetime.now()
+        return {'success': True}
+
 
     @view_config(route_name='admin_candidate_suggestions', permission=ADMIN_PERM, **DELETE)
     def delete_admin_candidate_suggestions(self):
         employer_id = self.request.json['id']
         candidate_id = self.request.matchdict['candidate_id']
-        query = DBSession.query(SuggestedCandidate)\
-            .filter(SuggestedCandidate.candidate_id == candidate_id)\
+        query = DBSession.query(SuggestedCandidate) \
+            .filter(SuggestedCandidate.candidate_id == candidate_id) \
             .filter(SuggestedCandidate.employer_id == employer_id).delete()
         return {'success': True}
 
