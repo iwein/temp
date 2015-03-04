@@ -41,9 +41,7 @@ define(function(require) {
         $scope.user = user;
         $scope.ready = true;
 
-        return Session.getCandidateSuggestions(user);
-      }).then(function(response) {
-        $scope.suggestions = response.data;
+        return loadSuggestions();
       }).catch(function() {
         toaster.defaultError();
       }).finally(function() {
@@ -60,6 +58,12 @@ define(function(require) {
       });
     }
 
+    function loadSuggestions() {
+      return Session.getCandidateSuggestions($scope.user).then(function(response) {
+        $scope.suggestions = response.data;
+      });
+    }
+
     function recommendTo(suggestion) {
       return Session.recommendCandiate($scope.user, suggestion.employer);
     }
@@ -71,9 +75,10 @@ define(function(require) {
     }
 
     function sendEmail(suggestion) {
-      return Session.sendRecommendationEmail($scope.user, suggestion.employer).then(function() {
-        toaster.success('Email sent');
-      }, toaster.defaultError);
+      return Session.sendRecommendationEmail($scope.user, suggestion.employer)
+        .then(loadSuggestions)
+        .then(function() { toaster.success('Email sent') })
+        .catch(toaster.defaultError);
     }
 
     function searchCompanies(term) {

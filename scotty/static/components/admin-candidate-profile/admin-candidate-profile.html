@@ -232,12 +232,12 @@
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="suggestion in suggestions">
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-5">
               <hc-employer-link ng-model="suggestion.employer"></hc-employer-link>
             </div>
-            <div class="col-lg-3">
-              <span ng-show="suggestion.employer.last_sent">{{ suggestion.employer.last_sent | timeAgoIf:'yesterday' }}</span>
-              <span ng-hide="suggestion.employer.last_sent">Never</span>
+            <div class="col-lg-4">
+              <span ng-show="suggestion.last_sent">{{ suggestion.last_sent | timeAgoIf:'yesterday' }}</span>
+              <span ng-hide="suggestion.last_sent">Never</span>
             </div>
             <div class="col-lg-1 clearfix">
               <i class="fl-rg fa fa-thumbs-o-down"
