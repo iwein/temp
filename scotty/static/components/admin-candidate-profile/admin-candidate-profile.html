@@ -231,18 +231,30 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="suggestion in suggestions">
-          <div>
-            <hc-employer-link ng-model="suggestion.employer"></hc-employer-link>
-            <button type="button" class="close" data-dismiss="label" ng-click="removeRecommendation(suggestion, $index)">
-              <i class="fa fa-thumbs-o-down"
+          <div class="row">
+            <div class="col-lg-6">
+              <hc-employer-link ng-model="suggestion.employer"></hc-employer-link>
+            </div>
+            <div class="col-lg-3">
+              <span ng-show="suggestion.email_sent">{{ suggestion.email_sent | timeAgoIf:'yesterday' }}</span>
+              <span ng-hide="suggestion.email_sent">Never</span>
+            </div>
+            <div class="col-lg-1 clearfix">
+              <i class="fl-rg fa fa-thumbs-o-down"
                 ng-show="suggestion.employer_not_interested"
-                title="Employer is not interested since: {{ suggestion.employer_not_interested | timeAgoIf:'yesterday' }}"></i>
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div>
-            <span>{{ suggestion.email_sent | timeAgoIf:'yesterday' }}</span>
-            <button type="button" class="fl-rg btn bg-blue">Send email</button>
+                title="Employer is not interested since: {{ suggestion.employer_not_interested | timeAgoIf:'yesterday' }}">
+              </i>
+            </div>
+            <div class="col-lg-1 clearfix">
+              <button type="button" class="fl-rg">
+                <i class="fa fa-envelope-o" title="Send email"></i>
+              </button>
+            </div>
+            <div class="col-lg-1 clearfix">
+              <button type="button" class="fl-rg" ng-click="removeRecommendation(suggestion, $index)">
+                <i class="fa fa-times" title="Remove suggestion"></i>
+              </button>
+            </div>
           </div>
         </li>
       </ul>
