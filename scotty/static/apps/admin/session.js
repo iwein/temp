@@ -155,6 +155,11 @@ define(function(require) {
     removeRecommendation: function(candidate, employer) {
       return this._api.delete(this._suggestionUrl(candidate), { id: employer.id });
     },
+
+    sendRecommendationEmail: function(candidate, employer) {
+      var url = '/admin/candidates/' + candidate.id + '/send_suggestion' + this.getParams;
+      return this._api.post(url, { id: employer.id });
+    },
   };
 
   var module = require('app-module');

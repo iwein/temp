@@ -236,8 +236,8 @@
               <hc-employer-link ng-model="suggestion.employer"></hc-employer-link>
             </div>
             <div class="col-lg-3">
-              <span ng-show="suggestion.email_sent">{{ suggestion.email_sent | timeAgoIf:'yesterday' }}</span>
-              <span ng-hide="suggestion.email_sent">Never</span>
+              <span ng-show="suggestion.employer.last_sent">{{ suggestion.employer.last_sent | timeAgoIf:'yesterday' }}</span>
+              <span ng-hide="suggestion.employer.last_sent">Never</span>
             </div>
             <div class="col-lg-1 clearfix">
               <i class="fl-rg fa fa-thumbs-o-down"
@@ -246,7 +246,7 @@
               </i>
             </div>
             <div class="col-lg-1 clearfix">
-              <button type="button" class="fl-rg">
+              <button type="button" class="fl-rg" ng-click="sendEmail(suggestion)">
                 <i class="fa fa-envelope-o" title="Send email"></i>
               </button>
             </div>

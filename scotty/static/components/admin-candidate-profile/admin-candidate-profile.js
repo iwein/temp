@@ -9,6 +9,7 @@ define(function(require) {
     $scope.renderSuggestion = renderSuggestion;
     $scope.recommendTo = recommendTo;
     $scope.removeRecommendation = removeRecommendation;
+    $scope.sendEmail = sendEmail;
     $scope.remove = remove;
     $scope.approve = approve;
     $scope.id = $state.params.id;
@@ -67,6 +68,12 @@ define(function(require) {
       return Session.removeRecommendation($scope.user, suggestion.employer).then(function() {
         $scope.suggestions.splice(index, 1);
       });
+    }
+
+    function sendEmail(suggestion) {
+      return Session.sendRecommendationEmail($scope.user, suggestion.employer).then(function() {
+        toaster.success('Email sent');
+      }, toaster.defaultError);
     }
 
     function searchCompanies(term) {
