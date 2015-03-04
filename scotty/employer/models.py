@@ -81,17 +81,18 @@ class SuggestedCandidate(Base):
     candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
     candidate = relationship('Candidate', backref='suggested_to')
     created = Column(DateTime(), nullable=False, default=datetime.now())
+    last_sent = Column(DateTime())
     employer_not_interested = Column(DateTime())
 
     def __json__(self, request):
         return {'created': self.created, 'employer_not_interested': self.employer_not_interested,
-                'candidate': self.candidate}
+                'candidate': self.candidate, 'last_sent': self.last_sent}
 
 
 class CandidateSuggestedTo(SuggestedCandidate):
     def __json__(self, request):
         return {'created': self.created, 'employer_not_interested': self.employer_not_interested,
-                'employer': self.employer}
+                'employer': self.employer, 'last_sent': self.last_sent}
 
 
 class EmployerPicture(Base):
