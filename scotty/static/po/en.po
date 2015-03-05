@@ -51,7 +51,7 @@ msgid ""
 "Your profile will be on sleep!"
 msgstr ""
 
-#: components/candidate-signup-target/candidate-signup-target.js:35
+#: components/candidate-signup-target/candidate-signup-target.js:40
 msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
 "click <a href=\"../employer/#/signup\"><b>here</b></a>!"
@@ -59,7 +59,7 @@ msgstr ""
 "<h2>Sign up as IT professional and get competing job offers!</h2>If you are "
 "an employer, click <a href=\"../employer/#/signup\"><b>here</b></a>!"
 
-#: components/employer-signup-start/employer-signup-start.js:26
+#: components/employer-signup-start/employer-signup-start.js:27
 msgid ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
 "are looking to be get hired, click <a href=\"../candidate/#/signup"
@@ -327,6 +327,10 @@ msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:392
 msgid "Birthday"
+msgstr ""
+
+#: components/candidate-offer/candidate-offer.html:263
+msgid "Block employer"
 msgstr ""
 
 #: components/candidate-signup-profile/candidate-signup-profile.html:153
@@ -878,7 +882,7 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:50
+#: components/employer-signup-start/employer-signup-start.js:51
 msgid "Fortune 500 Company"
 msgstr ""
 
@@ -1074,7 +1078,7 @@ msgid "Interviewed for this offer"
 msgstr ""
 
 #: components/candidate-activate/candidate-activate.js:15
-#: components/employer-signup-start/employer-signup-start.js:76
+#: components/employer-signup-start/employer-signup-start.js:77
 msgid "Invalid invitation token."
 msgstr ""
 
@@ -1121,7 +1125,7 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:46
+#: components/employer-signup-start/employer-signup-start.js:47
 msgid "Large Corporation"
 msgstr ""
 
@@ -1200,7 +1204,7 @@ msgstr ""
 msgid "May"
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:42
+#: components/employer-signup-start/employer-signup-start.js:43
 msgid "Mid Sized Company"
 msgstr ""
 
@@ -2292,7 +2296,7 @@ msgstr ""
 msgid "Start year must be in the past."
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:38
+#: components/employer-signup-start/employer-signup-start.js:39
 msgid "Startup Company"
 msgstr ""
 
@@ -2962,7 +2966,7 @@ msgstr ""
 msgid "advanced"
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:51
+#: components/employer-signup-start/employer-signup-start.js:52
 msgid "among the leading 500 companies"
 msgstr ""
 
@@ -3009,7 +3013,7 @@ msgstr ""
 msgid "employer has withdrawn this offer"
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:43
+#: components/employer-signup-start/employer-signup-start.js:44
 msgid "established and less than 1.000 employees"
 msgstr ""
 
@@ -3027,7 +3031,7 @@ msgstr ""
 msgid "go to your profile."
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:47
+#: components/employer-signup-start/employer-signup-start.js:48
 msgid "grown player with multi-national operations"
 msgstr ""
 
@@ -3139,7 +3143,7 @@ msgstr ""
 msgid "several years of practical experience"
 msgstr ""
 
-#: components/employer-signup-start/employer-signup-start.js:39
+#: components/employer-signup-start/employer-signup-start.js:40
 msgid "started within the last 5 years"
 msgstr ""
 

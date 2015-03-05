@@ -58,7 +58,7 @@ msgstr ""
 "<h2>Glückwunsch zu deiner neuen Position!</h2>\n"
 "Dein Profil wird jetzt auf inaktiv gesetzt."
 
-#: components/candidate-signup-target/candidate-signup-target.js:35
+#: components/candidate-signup-target/candidate-signup-target.js:40
 msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
 "click <a href=\"../employer/#/signup\"><b>here</b></a>!"
@@ -67,7 +67,7 @@ msgstr ""
 "h2>Unternehmen registrieren sich bitte <a href=\"../employer/#/signup"
 "\"><b>hier! </b></a>"
 
-#: components/employer-signup-start/employer-signup-start.js:26
+#: components/employer-signup-start/employer-signup-start.js:27
 msgid ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
 "are looking to be get hired, click <a href=\"../candidate/#/signup"
@@ -371,6 +371,10 @@ msgstr "Datum bitte größer, gleich 1."
 #: components/candidate-profile/candidate-profile.html:392
 msgid "Birthday"
 msgstr "Geburtstag"
+
+#: components/candidate-offer/candidate-offer.html:263
+msgid "Block employer"
+msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
 
 #: components/candidate-signup-profile/candidate-signup-profile.html:153
 msgid "Blog URL (Starting with  http://...)"
@@ -956,7 +960,7 @@ msgstr "Für IT-Profis"
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
-#: components/employer-signup-start/employer-signup-start.js:50
+#: components/employer-signup-start/employer-signup-start.js:51
 msgid "Fortune 500 Company"
 msgstr "Fortune 500 Unternehmen"
 
@@ -1167,7 +1171,7 @@ msgid "Interviewed for this offer"
 msgstr "Für dieses Angebot interviewt."
 
 #: components/candidate-activate/candidate-activate.js:15
-#: components/employer-signup-start/employer-signup-start.js:76
+#: components/employer-signup-start/employer-signup-start.js:77
 msgid "Invalid invitation token."
 msgstr "Ungültiger Einladungs-Code"
 
@@ -1214,7 +1218,7 @@ msgstr "Sprache"
 msgid "Languages"
 msgstr "Sprachen"
 
-#: components/employer-signup-start/employer-signup-start.js:46
+#: components/employer-signup-start/employer-signup-start.js:47
 msgid "Large Corporation"
 msgstr "Großes Unternehmen"
 
@@ -1293,7 +1297,7 @@ msgstr "Massagen"
 msgid "May"
 msgstr "Mai"
 
-#: components/employer-signup-start/employer-signup-start.js:42
+#: components/employer-signup-start/employer-signup-start.js:43
 msgid "Mid Sized Company"
 msgstr "Mittelständisches Unternehmen"
 
@@ -2455,7 +2459,7 @@ msgstr "Startdatum muss nach 1900 sein."
 msgid "Start year must be in the past."
 msgstr "Startdatum muss in der Vergangenheit sein."
 
-#: components/employer-signup-start/employer-signup-start.js:38
+#: components/employer-signup-start/employer-signup-start.js:39
 msgid "Startup Company"
 msgstr "Start-up"
 
@@ -3209,7 +3213,7 @@ msgstr "Postleitzahl"
 msgid "advanced"
 msgstr "Fortgeschritten"
 
-#: components/employer-signup-start/employer-signup-start.js:51
+#: components/employer-signup-start/employer-signup-start.js:52
 msgid "among the leading 500 companies"
 msgstr "Unter den 500 weltweit führenden Unternehmen"
 
@@ -3256,7 +3260,7 @@ msgstr "heute"
 msgid "employer has withdrawn this offer"
 msgstr "Unternehmen hat sein Angebot zurückgezogen"
 
-#: components/employer-signup-start/employer-signup-start.js:43
+#: components/employer-signup-start/employer-signup-start.js:44
 msgid "established and less than 1.000 employees"
 msgstr "Etabliert, aber weniger als 1.000 Mitarbeiter"
 
@@ -3274,7 +3278,7 @@ msgstr "Verhandlungssicher"
 msgid "go to your profile."
 msgstr "gehe zu deinem Profil"
 
-#: components/employer-signup-start/employer-signup-start.js:47
+#: components/employer-signup-start/employer-signup-start.js:48
 msgid "grown player with multi-national operations"
 msgstr "Mehr als 1.000 Mitarbeiter und multinational tätig"
 
@@ -3386,7 +3390,7 @@ msgstr "Senior"
 msgid "several years of practical experience"
 msgstr "Mehrere Jahre praktische Erfahrung."
 
-#: components/employer-signup-start/employer-signup-start.js:39
+#: components/employer-signup-start/employer-signup-start.js:40
 msgid "started within the last 5 years"
 msgstr "In den letzten 5 Jahren begonnen"
 
