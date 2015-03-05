@@ -1040,7 +1040,7 @@ msgstr ""
 
 #: components/employer-dashboard/employer-dashboard.html:136
 msgid "HANDPICKED CANDIDATES FOR YOU"
-msgstr ""
+msgstr "Handverlesene Kandidaten"
 
 #: components/candidate-profile/candidate-profile.html:782
 #: components/employer-candidate-profile/employer-candidate-profile.html:19
@@ -1113,7 +1113,7 @@ msgstr ""
 
 #: components/employer-dashboard/employer-dashboard.html:149
 msgid "I'm not interested"
-msgstr ""
+msgstr "Ich bin nicht interessiert"
 
 #: components/candidate-signup-user/candidate-signup-user.html:150
 msgid ""
@@ -1440,9 +1440,8 @@ msgid "Offer No."
 msgstr "Angebotsnummer"
 
 #: components/directive-offer/directive-offer.html:58
-#, fuzzy
 msgid "Offer has expired"
-msgstr "Angebot wurde angenommen"
+msgstr "Angebot ist nicht mehr gültig"
 
 #: components/directive-offer/directive-offer.html:33
 msgid "Offer is accepted"
@@ -2276,7 +2275,7 @@ msgstr "INAKTIV"
 
 #: components/employer-dashboard/employer-dashboard.html:164
 msgid "SUGGESTED CANDIDATES"
-msgstr ""
+msgstr "Vorgeschlagene Kandidaten"
 
 #: components/employer-dashboard/employer-dashboard.html:64
 msgid "Salary"
@@ -2644,6 +2643,8 @@ msgid ""
 "These candidates are recommended by your 4Scotty AccountManager based on "
 "your current search priorities"
 msgstr ""
+"Diese Kandidaten sind von Ihrem 4Scotty Account Manager für Sie auf "
+"Grundlage Ihres Unternehmensprofils für Sie ausgesucht."
 
 #: apps/common/footer.html:18
 msgid "This Site"
@@ -3346,9 +3347,8 @@ msgstr "Vertragsverhandlungen"
 
 #: components/candidate-offer/candidate-offer.html:36
 #: components/employer-offer/employer-offer.html:37
-#, fuzzy
 msgid "offer has expired"
-msgstr "Angebot wurde angenommen"
+msgstr "Angebot ist nicht mehr gültig"
 
 #: components/employer-candidate-profile/employer-candidate-profile.html:147
 msgid "offer made"
