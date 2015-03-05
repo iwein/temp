@@ -11,13 +11,10 @@ define(function(require) {
 
   // jshint maxparams:8
   module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, ConfigAPI, RequireSignup, Session) {
-    _.extend(this, {
-      searchSkills: ConfigAPI.skills,
-      setLocation: setLocation,
-    });
     _.extend($scope, {
       locationToText: ConfigAPI.locationToText,
       searchCities: ConfigAPI.locations,
+      searchSkills: ConfigAPI.skills,
       updateLocations: updateLocations,
       isAdvancedSearch: isAdvancedSearch,
       setAdvancedSearch: setAdvancedSearch,
@@ -91,11 +88,6 @@ define(function(require) {
         $scope.preferred_locations.forEach(add);
         $scope.errorLocationRequired = !Object.keys(locations).length;
       }
-    }
-
-    function setLocation(text) {
-      $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
-      return executeSearch();
     }
 
     function isAdvancedSearch() {
@@ -172,7 +164,6 @@ define(function(require) {
     url: '/dashboard/',
     template: require('text!./employer-dashboard.html'),
     controller: 'DashboardCtrl',
-    controllerAs: 'dashboard',
     resolve: {
       /*@ngInject*/
       RequireSignup: function(Permission) {
