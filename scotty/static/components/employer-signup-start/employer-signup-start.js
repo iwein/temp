@@ -20,11 +20,16 @@ define(function(require) {
     Loader.page(true);
     Session.firstLogin = true;
 
+    // HACK: we have to do this in order to have a live translation & register the token
+    var message = '<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
+        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!';
+    i18n.gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
+        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!');
 
-    toaster.show('alert banner-message',
-      '<translate><h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
-        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!</translate>',
-      { html: true, untilStateChange: true });
+    toaster.show('alert banner-message', '<translate>' + message + '</translate>', {
+      html: true,
+      untilStateChange: true
+    });
 
 
     function translate() {
