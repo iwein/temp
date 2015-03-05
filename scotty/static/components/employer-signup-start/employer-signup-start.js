@@ -22,8 +22,8 @@ define(function(require) {
 
 
     toaster.show('alert banner-message',
-      i18n.gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
-        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!'),
+      '<translate><h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
+        'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!</translate>',
       { html: true, untilStateChange: true });
 
 

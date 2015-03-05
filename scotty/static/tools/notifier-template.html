@@ -1,4 +1,4 @@
 <div ng-repeat="notification in notifier.notifications" class="{{ notification.classes }}">
-  <div ng-if="notification.html" ng-bind-html="notification.message"></div>
+  <div ng-if="notification.html" compile="notification.message"></div>
   <div ng-if="!notification.html">{{ notification.message }}</div>
 </div>

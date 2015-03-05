@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('./compile-directive');
 
   function Notifier(timeout, sce) {
     this.ids = 0;
