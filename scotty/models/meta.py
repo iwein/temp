@@ -12,7 +12,7 @@ Base = declarative_base()
 
 
 BIGINT_RANGE = 9223372036854775808
-DEFAULT_LANG='de'
+DEFAULT_LANG='en'
 
 class NamedModel(object):
     name = None
