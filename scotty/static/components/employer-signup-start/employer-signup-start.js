@@ -21,6 +21,7 @@ define(function(require) {
     Session.firstLogin = true;
 
     // HACK: we have to do this in order to have a live translation & register the token
+    // It's critical that `message` and `.gettext` argument have EXACTLY the same content.
     var message = '<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +
         'If you are looking to be get hired, click <a href="../candidate/#/signup"><b>here</b></a>!';
     i18n.gettext('<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>' +

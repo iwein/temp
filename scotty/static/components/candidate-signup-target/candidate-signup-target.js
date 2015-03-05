@@ -31,10 +31,20 @@ define(function(require) {
         ConfigAPI.featuredSkills().then(toCheckboxModel.bind(null, 'featuredSkills')),
         ConfigAPI.featuredLocations().then(toCheckboxModel.bind(null, 'featuredLocations')),
       ]).finally(function() {
-        toaster.show('alert banner-message',
-          i18n.gettext('<h2>Sign up as IT professional and get hired!</h2>' +
-            'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!'),
-          { html: true, untilStateChange: true });
+
+
+        // HACK: we have to do this in order to have a live translation & register the token
+        // It's critical that `message` and `.gettext` argument have EXACTLY the same content.
+        var message = '<h2>Sign up as IT professional and get hired!</h2>' +
+            'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!';
+        i18n.gettext('<h2>Sign up as IT professional and get hired!</h2>' +
+            'If you are an employer, click <a href="../employer/#/signup"><b>here</b></a>!');
+
+        toaster.show('alert banner-message', '<translate>' + message + '</translate>', {
+          html: true,
+          untilStateChange: true
+        });
+
 
         Loader.page(false);
         $scope.ready = true;
