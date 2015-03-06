@@ -204,8 +204,8 @@ msgstr ""
 msgid "Anonymous will hide your photo."
 msgstr ""
 
-#: components/candidate-profile/candidate-profile.js:417
-#: components/employer-candidate-profile/employer-candidate-profile.js:108
+#: components/candidate-profile/candidate-profile.js:421
+#: components/employer-candidate-profile/employer-candidate-profile.js:110
 msgid "Anywhere"
 msgstr ""
 
@@ -1223,10 +1223,6 @@ msgid "Mr"
 msgstr ""
 
 #: tmp/db-tokens/salutations.js:2
-msgid "Mrs"
-msgstr ""
-
-#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
 msgstr ""
 
@@ -1311,8 +1307,8 @@ msgid "Not defined yet"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:507
-#: components/candidate-profile/candidate-profile.js:413
-#: components/employer-candidate-profile/employer-candidate-profile.js:104
+#: components/candidate-profile/candidate-profile.js:417
+#: components/employer-candidate-profile/employer-candidate-profile.js:106
 msgid "Not specified"
 msgstr ""
 

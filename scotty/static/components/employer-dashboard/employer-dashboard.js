@@ -101,6 +101,7 @@ define(function(require) {
     }
 
     function resetSearch() {
+      $scope.totalResults = null;
       $scope.searchCandidates = [];
       $scope.searchResults = [];
       $scope.pages = [];

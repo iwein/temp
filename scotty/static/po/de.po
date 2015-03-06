@@ -236,8 +236,8 @@ msgstr "Anonym"
 msgid "Anonymous will hide your photo."
 msgstr "Bei der Einstellung anonym wird dein Foto nicht gezeigt."
 
-#: components/candidate-profile/candidate-profile.js:417
-#: components/employer-candidate-profile/employer-candidate-profile.js:108
+#: components/candidate-profile/candidate-profile.js:421
+#: components/employer-candidate-profile/employer-candidate-profile.js:110
 msgid "Anywhere"
 msgstr "Überall"
 
@@ -1316,10 +1316,6 @@ msgid "Mr"
 msgstr "Herr"
 
 #: tmp/db-tokens/salutations.js:2
-msgid "Mrs"
-msgstr "Frau"
-
-#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
 msgstr "Frau"
 
@@ -1413,8 +1409,8 @@ msgid "Not defined yet"
 msgstr "Noch nicht eingetragen!"
 
 #: components/candidate-profile/candidate-profile.html:507
-#: components/candidate-profile/candidate-profile.js:413
-#: components/employer-candidate-profile/employer-candidate-profile.js:104
+#: components/candidate-profile/candidate-profile.js:417
+#: components/employer-candidate-profile/employer-candidate-profile.js:106
 msgid "Not specified"
 msgstr "Noch nicht festgelegt"
 
@@ -3460,6 +3456,9 @@ msgstr "{{ role }}von {{ city }}, {{ country_iso }}"
 #: apps/common/footer.html:54
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
+
+#~ msgid "Mrs"
+#~ msgstr "Frau"
 
 #~ msgid "Go back to general search"
 #~ msgstr "Zurück zur allgemeinen Suche"

@@ -120,6 +120,10 @@
       </form>
     </div>
 
+    <div class="col-sm-12" ng-show="totalResults === 0" translate>
+      Sorry, there are no candidates matching your criteria
+    </div>
+
     <div class="search-results" ng-show="searchResults.length">
       <div class="spinner" ng-show="loading"></div>
       <div class="offer-list" ng-show="!loading">
