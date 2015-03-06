@@ -41,7 +41,7 @@ define(function(require) {
           user.getOffers().then(fn.setTo('offers', $scope)),
           user.getRelevantCandidates().then(fn.setTo('relevant', $scope)),
           user.getCandidates().then(fn.setTo('candidates', $scope)),
-          user.getSuggestedCandidates().then(function(response) {
+          user.getSuggestedCandidates({ limit: 3 }).then(function(response) {
             $scope.suggested = response.data;
           }),
         ]);

@@ -95,9 +95,9 @@ define(function(require) {
       });
     },
 
-    getSuggestedCandidates: function() {
+    getSuggestedCandidates: function(params) {
       var api = this._api;
-      return api.get(this._url() + '/suggested/candidates' + this._sufix).then(function(response) {
+      return api.get(this._url() + '/suggested/candidates' + this._sufix, params).then(function(response) {
         response.data.forEach(function(data) {
           data.candidate = new Candidate(api, data.candidate.id, data.candidate)
         });
