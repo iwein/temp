@@ -102,13 +102,12 @@ define(function(require) {
       return Session.getUser().then(function(user) {
         return user.getExperience();
       }).then(function(stored) {
-        if (!stored || !stored.length)
-          return Session.getConnectors().getExperience();
-
-        stored.forEach(fn.set('import', true));
-        return stored;
+        if (stored && stored.length)
+          return stored;
+        return Session.getConnectors().getExperience();
       }).then(function(result) {
         $scope.list = result || [];
+        $scope.list.forEach(fn.set('import', true));
         updateImports();
 
         if (!$scope.list.length)
