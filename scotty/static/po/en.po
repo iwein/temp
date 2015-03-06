@@ -926,10 +926,6 @@ msgstr ""
 msgid "Github URL (Starting with  http://...)"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:83
-msgid "Go back to general search"
-msgstr ""
-
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:31
 msgid ""
 "Good luck! you have set a start date of {{ entry.offer.job_start_date }} "
@@ -956,13 +952,13 @@ msgid ""
 "employer\"></hc-employer-link>"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:136
-msgid "HANDPICKED CANDIDATES FOR YOU"
-msgstr ""
-
 #: components/candidate-profile/candidate-profile.html:782
 #: components/employer-candidate-profile/employer-candidate-profile.html:19
 msgid "HIRED"
+msgstr ""
+
+#: components/employer-dashboard/employer-dashboard.html:160
+msgid "Handpicked Candidates for you"
 msgstr ""
 
 #: components/candidate-signup-education/candidate-signup-education.html:120
@@ -1025,7 +1021,7 @@ msgid ""
 "link>"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:149
+#: components/employer-dashboard/employer-dashboard.html:170
 msgid "I'm not interested"
 msgstr ""
 
@@ -1156,7 +1152,7 @@ msgstr ""
 #: components/candidate-signup-profile/candidate-signup-profile.html:14
 #: components/directive-experience-form/directive-experience-form.html:26
 #: components/employer-create-offer/employer-create-offer.html:82
-#: components/employer-dashboard/employer-dashboard.html:51
+#: components/employer-dashboard/employer-dashboard.html:59
 msgid "Location"
 msgstr ""
 
@@ -1227,7 +1223,15 @@ msgid "Mr"
 msgstr ""
 
 #: tmp/db-tokens/salutations.js:2
+msgid "Mrs"
+msgstr ""
+
+#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
+msgstr ""
+
+#: components/employer-dashboard/employer-dashboard.html:28
+msgid "Name / ID"
 msgstr ""
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:23
@@ -1256,7 +1260,7 @@ msgstr ""
 msgid "Negotiating contract details"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:190
+#: components/employer-dashboard/employer-dashboard.html:144
 msgid "New offer requests"
 msgstr ""
 
@@ -2092,7 +2096,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:29
+#: components/employer-dashboard/employer-dashboard.html:38
 msgid "Role / Target position"
 msgstr ""
 
@@ -2114,11 +2118,7 @@ msgstr ""
 msgid "SLEEPING"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:164
-msgid "SUGGESTED CANDIDATES"
-msgstr ""
-
-#: components/employer-dashboard/employer-dashboard.html:64
+#: components/employer-dashboard/employer-dashboard.html:72
 msgid "Salary"
 msgstr ""
 
@@ -2176,16 +2176,16 @@ msgid "Saved"
 msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:70
-#: components/employer-dashboard/employer-dashboard.html:102
-#: components/employer-dashboard/employer-dashboard.html:79
+#: components/employer-dashboard/employer-dashboard.html:111
+#: components/employer-dashboard/employer-dashboard.html:87
 msgid "Search"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:94
+#: components/employer-dashboard/employer-dashboard.html:103
 msgid "Search by NAME or SKILL"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:26
+#: components/employer-dashboard/employer-dashboard.html:23
 msgid "Search for candidates"
 msgstr ""
 
@@ -2193,7 +2193,7 @@ msgstr ""
 msgid "Search for companies"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:106
+#: components/employer-dashboard/employer-dashboard.html:115
 msgid "Search for target position / role"
 msgstr ""
 
@@ -2219,7 +2219,7 @@ msgstr ""
 
 #: components/candidate-signup-target/candidate-signup-target.html:17
 #: components/directive-languages-form/directive-languages-form.html:31
-#: components/employer-dashboard/employer-dashboard.html:36
+#: components/employer-dashboard/employer-dashboard.html:45
 msgid "Select..."
 msgstr ""
 
@@ -2235,25 +2235,24 @@ msgstr ""
 msgid "Signup for free"
 msgstr ""
 
+#: components/employer-dashboard/employer-dashboard.html:91
+msgid "Simple search"
+msgstr ""
+
 #: components/candidate-dashboard/candidate-dashboard.html:30
 #: components/candidate-signup-skills/candidate-signup-skills.html:4
 #: components/candidate-signup/candidate-signup.html:69
 #: components/candidate-signup/candidate-signup.html:74
-#: components/directive-candidate/directive-candidate.html:47
+#: components/directive-candidate/directive-candidate.html:35
+#: components/directive-candidate/directive-candidate.html:72
 #: components/directive-offer/directive-offer.html:129
-#: components/employer-dashboard/employer-dashboard.html:41
-#: components/employer-dashboard/employer-dashboard.html:44
+#: components/employer-dashboard/employer-dashboard.html:50
 #: components/employer-offer/employer-offer.html:139
 msgid "Skills"
 msgstr ""
 
 #: tmp/db-tokens/roles_featured.js:1
 msgid "Software Development"
-msgstr ""
-
-#: components/employer-dashboard/employer-dashboard.html:141
-#: components/employer-dashboard/employer-dashboard.html:167
-msgid "Sorry, there are no candidates matching your criteria"
 msgstr ""
 
 #: tmp/db-tokens/benefits.js:16
@@ -2327,6 +2326,10 @@ msgstr ""
 
 #: components/employer-create-offer/employer-create-offer.html:188
 msgid "Submit offer"
+msgstr ""
+
+#: components/employer-dashboard/employer-dashboard.html:178
+msgid "Suggested Candidates"
 msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:26
@@ -2472,12 +2475,6 @@ msgstr ""
 msgid "The file should be an image."
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:137
-msgid ""
-"These candidates are recommended by your 4Scotty AccountManager based on "
-"your current search priorities"
-msgstr ""
-
 #: apps/common/footer.html:18
 msgid "This Site"
 msgstr ""
@@ -2493,10 +2490,6 @@ msgstr ""
 #: apps/admin/navbar.html:6 apps/candidate/navbar.html:6
 #: apps/employer/navbar.html:6
 msgid "Toggle navigation"
-msgstr ""
-
-#: components/employer-dashboard/employer-dashboard.html:165
-msgid "Top candidates fitting to your company's Profile!"
 msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:103
@@ -2515,7 +2508,7 @@ msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:176
 #: components/candidate-signup-target/candidate-signup-target.html:164
-#: components/employer-dashboard/employer-dashboard.html:55
+#: components/employer-dashboard/employer-dashboard.html:63
 msgid "Type a city..."
 msgstr ""
 
@@ -2583,7 +2576,7 @@ msgstr ""
 msgid "View all"
 msgstr ""
 
-#: components/directive-candidate/directive-candidate.html:11
+#: components/directive-candidate/directive-candidate.html:7
 msgid "View profile"
 msgstr ""
 
@@ -2654,13 +2647,12 @@ msgid ""
 "a try and search our platform for other  technologies/skills or locations."
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:154
 #: components/employer-dashboard/employer-dashboard.html:179
 msgid ""
 "We're sorry. There are no candidates with skills in your tech yet.\n"
-"                  We'll notify you as soon as there is a fitting candidate.\n"
-"                  Don't want to wait? Then give it a try and search our "
-"platform for other technologies/skills or locations."
+"        We'll notify you as soon as there is a fitting candidate.\n"
+"        Don't want to wait? Then give it a try and search our platform for "
+"other technologies/skills or locations."
 msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:117
@@ -2913,7 +2905,7 @@ msgid ""
 "Your password has been updated. You can now login with your new password"
 msgstr ""
 
-#: apps/candidate/index.html:84 apps/employer/index.html:80
+#: apps/candidate/index.html:84 apps/employer/index.html:83
 msgid "Your profile has not been reviewed &amp; approved yet."
 msgstr ""
 
@@ -3187,7 +3179,8 @@ msgid "worked with that but rather short or not extensively"
 msgstr ""
 
 #: components/candidate-offer/candidate-offer.html:90
-#: components/directive-candidate/directive-candidate.html:32
+#: components/directive-candidate/directive-candidate.html:26
+#: components/directive-candidate/directive-candidate.html:61
 #: components/directive-offer/directive-offer.html:72
 #: components/directive-offer/directive-offer.html:95
 #: components/employer-candidate-profile/employer-candidate-profile.html:138
@@ -3212,7 +3205,7 @@ msgstr ""
 msgid "you withdrew this offer"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:198
+#: components/employer-dashboard/employer-dashboard.html:148
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr ""
 
