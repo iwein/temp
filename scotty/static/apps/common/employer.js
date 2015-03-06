@@ -89,9 +89,10 @@ define(function(require) {
     getRelevantCandidates: function() {
       var api = this._api;
       return api.get(this._url() + '/relevant/candidates' + this._sufix).then(function(response) {
-        return response.map(function(data) {
+        response.data = response.data.map(function(data) {
           return new Candidate(api, data.id, data);
         });
+        return response;
       });
     },
 
