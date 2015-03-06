@@ -1,60 +1,83 @@
-<div class="offer-list-item-small row">
-  <div class="col-sm-12 mrg-btm-small no-padd-left no-padd-right">
+<div class="offer-list-item-small">
+  <header>
     <div class="location">
-      <i class="fa  fa-map-marker gray-light"></i>
+      <i class="fa fa-map-marker gray-light"></i>
       {{ model._data.location.city }}, {{ model._data.location.country_iso }}
     </div>
-    <!--button class="bookmark"><i  ng-class="{
-      'bookmark_active': employer.isBookmarked,
-      'bookmark_inactive': !employer.isBookmarked,
-    }"></i></button-->
-    <a class="link-profile link-search-show fl-rg" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })" translate>View profile</a>
-  </div>
-  <div class="col-sm-12 no-padd-left">
-    <div class="row">
-      <div class="col-sm-4">
-        <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
-        <a class="link-profile" ng-if="hcLinkProfile" ui-sref="candidate({ id: model._data.id })">
-          {{ model._data.first_name }} {{ model._data.last_name }}
-        </a>
-        <span ng-if="!hcLinkProfile">
-          {{ model._data.first_name }} {{ model._data.last_name }}
-        </span>
-        <ng-transclude></ng-transclude>
+    <a class="link-profile link-search-show fl-rg" ui-sref="candidate({ id: model._data.id })" translate>View profile</a>
+    <div class="clearfix"></div>
+  </header>
+
+  <div class="body row">
+    <div class="col-sm-4 picture-container">
+      <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
+      <span clas="name-no-link">
+        {{ model._data.first_name }} {{ model._data.last_name }}
+      </span>
+    </div>
+    <div class="col-sm-8">
+      <a class="link-profile link-name" ui-sref="candidate({ id: model._data.id })">
+        {{ model._data.first_name }} {{ model._data.last_name }}
+      </a>
+      <div class="offer-list-item-small-title">{{ currentPosition.role }} @ {{ currentPosition.company }}</div>
+      <div class="offer-list-item-small-price">
+        <i class="fa fa-euro gray-light"></i>
+        <span class="smbd">{{ targetPosition.minimum_salary | dottedInteger }}.00</span>
+        / <translate>year</translate>
       </div>
-      <div class="col-sm-7">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="offer-list-item-small-title">{{ currentPosition.role }} @ {{ currentPosition.company }}</div>
-            <div class="offer-list-item-small-price">
-              <i class="fa fa-euro gray-light"></i>
-              <span class="smbd">{{ targetPosition.minimum_salary | dottedInteger }}.00</span>
-              / <translate>year</translate>
-            </div>
-          </div>
+    </div>
+    <div class="col-sm-7 col-sm-offset-1">
+      <div class="row req-list">
+        <div class="key">
+          <i class="fa fa-rocket ico-req-list"></i>
         </div>
-      </div>
-      <div class="col-sm-7 col-sm-offset-1">
-        <div class="row">
-          <div class="col-sm-12 req-list">
-            <div class="key">
-              <i class="fa fa-rocket ico-req-list"></i>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="req-list-title mrg-btm-small" translate>Skills</div>
-                  </div>
-                  <div class="col-sm-4 mrg-btm-small" ng-repeat="skill in skills">
-                    <span>{{ skill.skill }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="col-sm-12">
+          <div class="req-list-title mrg-btm-small" translate>Skills</div>
+        </div>
+        <div class="col-sm-4 mrg-btm-small" ng-repeat="skill in skills">
+          <span>{{ skill.skill }}</span>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="body-small row">
+    <div>
+      <div class="col-sm-4 picture-container">
+        <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
+      </div>
+      <div class="col-sm-8">
+        <a class="link-profile link-name" ui-sref="candidate({ id: model._data.id })">
+          {{ model._data.first_name }} {{ model._data.last_name }}
+        </a>
+        <div class="offer-list-item-small-title">{{ currentPosition.role }} @ {{ currentPosition.company }}</div>
+      </div>
+    </div>
+    <div class="details">
+      <div class="col-sm-6">
+        <div class="offer-list-item-small-price">
+          <i class="fa fa-euro gray-light"></i>
+          <span class="smbd">{{ targetPosition.minimum_salary | dottedInteger }}.00</span>
+          / <translate>year</translate>
+        </div>
+      </div>
+      <div class="col-sm-6 location">
+        <i class="fa fa-map-marker gray-light"></i>
+        {{ model._data.location.city }}, {{ model._data.location.country_iso }}
+      </div>
+    </div>
+    <div class="col-sm-12 details">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="req-list-title" translate>Skills</div>
+        </div>
+        <div class="col-sm-4" ng-repeat="skill in skills">
+          <span>{{ skill.skill }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-transclude></ng-transclude>
+  <div class="clearfix"></div>
 </div>
