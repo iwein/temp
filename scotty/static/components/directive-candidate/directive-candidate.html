@@ -14,7 +14,6 @@
       <span clas="name-no-link">
         {{ model._data.first_name }} {{ model._data.last_name }}
       </span>
-      <ng-transclude></ng-transclude>
     </div>
     <div class="col-sm-8">
       <a class="link-profile link-name" ui-sref="candidate({ id: model._data.id })">
@@ -78,5 +77,7 @@
       </div>
     </div>
   </div>
+
+  <ng-transclude></ng-transclude>
   <div class="clearfix"></div>
 </div>
