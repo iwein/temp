@@ -6,7 +6,7 @@ from datetime import datetime
 from scotty.auth.provider import EMPLOYER
 from scotty.services import hash_pwd
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
-    UniqueConstraint, DateTime, func, and_, or_, BigInteger
+    UniqueConstraint, DateTime, func, and_, or_, BigInteger, select, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship, foreign
