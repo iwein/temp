@@ -251,6 +251,8 @@ define(function(require) {
               duration: duration,
               role: entry.role
             };
+          }).filter(function(entry) {
+            return entry.duration !== 0;
           });
           timeline.forEach(function(entry) {
             entry.percent = 100 / total * entry.duration;
