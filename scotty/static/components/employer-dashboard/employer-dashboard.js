@@ -26,7 +26,7 @@ define(function(require) {
       terms: {},
       ready: false,
     });
-    var advancedSearch = false;
+    var advancedSearch = true;
 
     return onLoad();
 
@@ -39,9 +39,11 @@ define(function(require) {
         return $q.all([
           user.getTimeline().then(fn.setTo('news', $scope)),
           user.getOffers().then(fn.setTo('offers', $scope)),
-          user.getRelevantCandidates().then(fn.setTo('relevant', $scope)),
+          user.getRelevantCandidates()
+            .then(fn.get('data'))
+            .then(fn.setTo('relevant', $scope)),
           user.getCandidates().then(fn.setTo('candidates', $scope)),
-          user.getSuggestedCandidates().then(function(response) {
+          user.getSuggestedCandidates({ limit: 3 }).then(function(response) {
             $scope.suggested = response.data;
           }),
         ]);

@@ -346,7 +346,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
         {url: '/api/v1/login', data: {"email": email, pwd:"helloworld"}, title: 'unified-login'},
         {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
-        //{url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'?apikey=${apikey}'}, title: 'candidate-delete', method:"DELETE"},
+        {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'?apikey=${apikey}'}, title: 'candidate-delete', method:"DELETE"},
         {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after-delete',
           data: {"email": email, pwd:"helloworld"}, expectedErrors:[404]
         },

@@ -24,6 +24,16 @@
       </h4>
 
       <form class="row" ng-show="isAdvancedSearch()">
+        <div class="col-sm-12">
+          <div class="search-label" translate>Name / ID</div>
+          <div class="no-padd-left">
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   ng-disabled="loading"
+                   ng-model="terms.name">
+          </div>
+        </div>
         <div class="col-sm-6">
           <div class="search-label" translate>Role / Target position</div>
           <div class="no-padd-left">
@@ -40,7 +50,6 @@
           <div class="search-label" translate>Skills</div>
           <div class="no-padd-left">
             <hc-label-typeahead
-              placeholder="{{ 'Skills' | translate }}"
               ng-model="terms.skills"
               hc-source="searchSkills($viewValue)">
             </hc-label-typeahead>
@@ -148,7 +157,7 @@
     </div>
 
     <div class="panel handpicked" ng-show="suggested.length">
-      <div class="panel-heading" translate>Admin Suggested Candidates</div>
+      <div class="panel-heading" translate>Handpicked Candidates for you</div>
       <ul class="list-group">
         <li class="list-group-item" ng-show="suggested.length">
           <hc-candidate
@@ -166,7 +175,7 @@
     </div>
 
     <div class="panel relevant">
-      <div class="panel-heading" translate>Relevant Candidates</div>
+      <div class="panel-heading" translate>Suggested Candidates</div>
       <div class="panel-body" ng-hide="relevant.length" translate>
         We're sorry. There are no candidates with skills in your tech yet.
         We'll notify you as soon as there is a fitting candidate.

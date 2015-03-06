@@ -76,7 +76,10 @@
 
   <div id="content">
     <div class="message-container">
-      <div class="alert alert-warning ng-hide" ng-show="session.user && !session.approved && !session.firstLogin">
+      <div class="alert alert-warning ng-hide"
+        style="display: none"
+        ng-show="session.user && !session.approved && !session.firstLogin"
+        ng-style="{ display: 'block' }">
         <span translate>Your profile has not been reviewed &amp; approved yet.</span>
       </div>
       <hc-notifications></hc-notifications>

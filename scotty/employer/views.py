@@ -416,8 +416,8 @@ class EmployerDashboardController(EmployerController):
         candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
         candidates = DBSession.query(WXPCandidate).options(joinedload("languages"), joinedload("skills"),
                                                            joinedload("work_experience")) \
-            .filter(WXPCandidate.id.in_(candidate_ids)).all()
-        return candidates
+            .filter(WXPCandidate.id.in_(candidate_ids))
+        return run_paginated_query(self.request, candidates)
 
     @view_config(route_name='employer_suggested_candidates', **GET)
     def employer_suggested_candidates(self):

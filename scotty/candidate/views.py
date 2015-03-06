@@ -12,10 +12,11 @@ from scotty.candidate.services import set_preferred_locations, set_languages_on_
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     set_candidate_education, get_candidate_newsfeed, \
     TP_EDITABLES, set_candidate_work_experience
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_, func, TEXT, cast
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import joinedload, joinedload_all
-from scotty.models.meta import DBSession
+from sqlalchemy.orm import joinedload, joinedload_all, aliased
+from scotty.models.meta import DBSession, GUID
 from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
     CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure
@@ -250,6 +251,7 @@ class CandidateViewController(CandidateController):
         skills = params.get('skills')
         locations = params.get('locations')
         role = params.get('role')
+        name = params.get('name')
         salary = params.get('salary')
         status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
 
@@ -278,6 +280,24 @@ class CandidateViewController(CandidateController):
             if role:
                 role = get_by_name_or_raise(Role, role)
                 query = query.filter(TargetPosition.role_id == role.id)
+
+        if name and self.request.employer_id:
+            name = name.lower()
+            employer_ids = func.array_agg(Offer.employer_id, type_=ARRAY(TEXT)).label('employer_ids')
+            offer_query = DBSession.query(Offer.candidate_id, employer_ids).filter(Offer.accepted != None)\
+                .group_by(Offer.candidate_id).subquery()
+            query = query.outerjoin(offer_query, offer_query.c.candidate_id == Candidate.id).filter(
+                or_(cast(Candidate.id, TEXT).startswith(name),
+                    and_(
+                        or_(func.lower(Candidate.first_name).startswith(name),
+                            func.lower(Candidate.last_name).startswith(name)),
+                        or_(
+                            offer_query.c.employer_ids.any(str(self.request.employer_id)),
+                            Candidate.anonymous == False
+                        )
+                    )
+                )
+            )
 
         query = query.group_by(Candidate.id)
 
@@ -561,7 +581,8 @@ class CandidateOfferController(CandidateController):
 
 class CandidatePasswordController(RootController):
     def send_email(self, candidate):
-        self.request.emailer.send_candidate_pwdforgot(candidate.lang, candidate.email, candidate.first_name, candidate.pwdforgot_token)
+        self.request.emailer.send_candidate_pwdforgot(candidate.lang, candidate.email, candidate.first_name,
+                                                      candidate.pwdforgot_token)
 
     @view_config(route_name='candidate_requestpassword', permission=NO_PERMISSION_REQUIRED, **POST)
     def requestpassword(self):
