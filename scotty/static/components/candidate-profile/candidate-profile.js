@@ -182,6 +182,8 @@ define(function(require) {
         });
       },
       save: function(model, form, user) {
+        var offset = model.dob.getTimezoneOffset() / 60;
+        model.dob.setHours(-offset);
         return user.updateData(model);
       }
     });
