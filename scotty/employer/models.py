@@ -256,7 +256,6 @@ class Employer(Base, JsonSerialisable):
         result['locale'] = self.locale
 
         display = get_request_role(request, self.id)
-        result.update(json_encoder(self, request, display))
         if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
             result['invite_token'] = self.invite_token
             result['invite_sent'] = self.invite_sent
