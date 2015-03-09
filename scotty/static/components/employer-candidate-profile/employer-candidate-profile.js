@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/element-candidate-status/element-candidate-status');
   require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var fn = require('tools/fn');
@@ -47,7 +48,6 @@ define(function(require) {
         var offers = result[0];
         setOffers(offers);
         setSkills(data.skills);
-        candidateStatus(offers, data);
         generateTimeline($scope.workExperience);
         $scope.preferredLocations = parsePreferredLocations(data.preferred_location);
 
@@ -65,17 +65,6 @@ define(function(require) {
 
     function translate() {
       $scope.lang = i18n.getCurrent();
-    }
-
-    function candidateStatus(offers, data) {
-      var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-      $scope.status = data.status === 'sleeping' ?
-        'sleeping' :
-        (offers.reduce(function(summary, value) {
-          if (finalStatus.indexOf(value.status) !== -1) return;
-          if (value.status === 'CONTRACT_SIGNED') return 'hired';
-          return summary || 'reviewing';
-        }, null) || 'searching');
     }
 
     function generateTimeline(experience) {
@@ -113,6 +102,7 @@ define(function(require) {
     }
 
     function setOffers(offers) {
+      $scope.allOffers = offers;
       $scope.offers = offers
         .map(fn.get('data'))
         .sort(function(a, b) { return b.annual_salary - a.annual_salary })
