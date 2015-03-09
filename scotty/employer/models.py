@@ -246,7 +246,6 @@ class Employer(Base, JsonSerialisable):
 
     def __json__(self, request):
         result = self.to_json(request)
-        result.update(json_encoder(self, request))
         result['contact_salutation'] = self.contact_salutation
         result['company_type'] = self.company_type
         result['status'] = self.status
@@ -257,6 +256,7 @@ class Employer(Base, JsonSerialisable):
         result['locale'] = self.locale
 
         display = get_request_role(request, self.id)
+        result.update(json_encoder(self, request, display))
         if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
             result['invite_token'] = self.invite_token
             result['invite_sent'] = self.invite_sent
