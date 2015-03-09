@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('components/admin-directive-search/admin-directive-search');
+  require('components/element-candidate-status/element-candidate-status');
   require('components/directive-candidate/directive-candidate');
   var module = require('app-module');
 

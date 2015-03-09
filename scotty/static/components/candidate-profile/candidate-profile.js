@@ -5,6 +5,7 @@ define(function(require) {
   require('components/directive-education-form/directive-education-form');
   require('components/directive-languages-form/directive-languages-form');
   require('components/directive-skills-form/directive-skills-form');
+  require('components/element-candidate-status/element-candidate-status');
   require('components/partial-candidate-pic/partial-candidate-pic');
 
   var _ = require('underscore');
@@ -276,6 +277,7 @@ define(function(require) {
 
     function refresh() {
       return Session.getUser().then(function(user) {
+        $scope.candidate = user;
         return $q.all([
           user.getData(),
           user.getTargetPosition(),
@@ -287,6 +289,7 @@ define(function(require) {
         ]);
       }).then(function(data) {
         var user = data[0];
+        $scope.allOffers = data[2];
         $scope.offers = data[2]
           .sort(function(a, b) { return b.data.annual_salary - a.data.annual_salary })
           .slice(0, 3);
@@ -314,18 +317,6 @@ define(function(require) {
           eu_work_visa: user.eu_work_visa
         };
         $scope.ready = true;
-
-        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        if (user.candidate_has_been_hired)
-          $scope.status = 'hired';
-        else if (user.status === 'sleeping')
-          $scope.status = 'sleeping';
-        else
-          $scope.status = $scope.offers.reduce(function(summary, value) {
-            if (finalStatus.indexOf(value.status) !== -1) return;
-            if (value.status === 'CONTRACT_SIGNED') return 'hired';
-            return summary || 'reviewing';
-          }, null) || 'searching';
 
         function translate() {
           $scope.lang = i18n.getCurrent();
