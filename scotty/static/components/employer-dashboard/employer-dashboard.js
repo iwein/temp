@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('components/directive-candidate/directive-candidate');
   require('components/directive-offer/directive-offer');
+  require('components/element-preferred-location/element-preferred-location');
   require('components/partial-employer-newsitem/partial-employer-newsitem');
   var _ = require('underscore');
   var fn = require('tools/fn');
