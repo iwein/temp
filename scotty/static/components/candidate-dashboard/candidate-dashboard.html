@@ -44,6 +44,7 @@
                       <input type="text"
                         class="form-control"
                         placeholder="{{ 'City or Municipality' | translate }}"
+                        autocomplete="off"
                         ng-disabled="!terms.length"
                         ng-model="locationText"
                         ng-blur="setLocation(locationText)"

@@ -79,6 +79,7 @@
                placeholder="{{ 'City' | translate }}"
                name="city"
                class="form-control"
+               autocomplete="off"
                ng-required="true"
                ng-disabled="hcDisabled || !model.address_city.country_iso"
                ng-model="model.address_city.city"

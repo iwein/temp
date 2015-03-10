@@ -258,6 +258,7 @@
                        placeholder="{{ 'City' | translate }}"
                        name="city"
                        class="form-control mrg-btm"
+                       autocomplete="off"
                        required
                        ng-disabled="hcDisabled || !contact.data.location.country_iso"
                        ng-model="contact.data.location.city"
