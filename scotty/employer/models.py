@@ -246,6 +246,8 @@ class Employer(Base, JsonSerialisable):
 
     def __json__(self, request):
         result = self.to_json(request)
+        display = get_request_role(request, self.id)
+        result.update(json_encoder(self, request))
 
         result['contact_salutation'] = self.contact_salutation
         result['company_type'] = self.company_type
@@ -256,8 +258,6 @@ class Employer(Base, JsonSerialisable):
         result['is_approved'] = self.approved is not None
         result['locale'] = self.locale
 
-        display = get_request_role(request, self.id)
-        result.update(json_encoder(self, request, display))
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist
