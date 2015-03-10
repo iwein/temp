@@ -15,7 +15,7 @@ from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Sal
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
 from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
-    DISPLAY_PRIVATE
+    DISPLAY_PRIVATE, ADMIN
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime, BigInteger, \
     or_
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -117,7 +117,7 @@ class Employer(Base, JsonSerialisable):
     pwdforgot_sent = Column(DateTime, info=PRIVATE)
     invite_token = Column(GUID, info=PRIVATE)
     invite_sent = Column(DateTime, info=PRIVATE)
-    created = Column(DateTime, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now, info=PRIVATE)
     last_login = Column(DateTime, info=PRIVATE)
     last_active = Column(DateTime, info=PRIVATE)
     agreedTos = Column(DateTime)
@@ -187,7 +187,7 @@ class Employer(Base, JsonSerialisable):
     pictures = relationship(EmployerPicture, backref='employer', order_by=EmployerPicture.position,
                             collection_class=ordering_list('position'))
 
-    admin_comment = Column(Text)
+    admin_comment = Column(Text, info=ADMIN)
 
     @property
     def password(self):
@@ -246,6 +246,7 @@ class Employer(Base, JsonSerialisable):
 
     def __json__(self, request):
         result = self.to_json(request)
+
         result['contact_salutation'] = self.contact_salutation
         result['company_type'] = self.company_type
         result['status'] = self.status
@@ -256,11 +257,7 @@ class Employer(Base, JsonSerialisable):
         result['locale'] = self.locale
 
         display = get_request_role(request, self.id)
-        if DISPLAY_ADMIN in display or DISPLAY_PRIVATE in display:
-            result['invite_token'] = self.invite_token
-            result['invite_sent'] = self.invite_sent
-            result['email'] = self.email
-            result['admin_comment'] = self.admin_comment
+        result.update(json_encoder(self, request, display))
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist
@@ -296,16 +293,6 @@ class EmbeddedEmployer(Employer):
                 "image_video_url": self.image_video_url,
                 "fb_url": self.fb_url,
                 "linkedin_url": self.linkedin_url}
-
-
-class FullEmployer(Employer):
-    def __json__(self, request):
-        result = super(FullEmployer, self).__json__(request)
-        result['invite_token'] = self.invite_token
-        result['invite_sent'] = self.invite_sent
-        result['email'] = self.email
-        result['admin_comment'] = self.admin_comment
-        return result
 
 
 def sort_by_location(query, order_func):
