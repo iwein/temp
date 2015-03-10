@@ -23,7 +23,7 @@
         });
 
         function update(value) {
-          if (value)
+          if (value != null)
             scope.status = calculateStatus();
         }
 
