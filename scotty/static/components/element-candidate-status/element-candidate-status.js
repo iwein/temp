@@ -1,4 +1,4 @@
-define(function(require) {
+  define(function(require) {
   'use strict';
   var fn = require('tools/fn');
   var module = require('app-module');
@@ -15,13 +15,16 @@ define(function(require) {
         var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
         scope.$watch('offers.length', update);
         scope.$watch('offerList.length', update);
-        scope.$watch('candidate.status', update);
 
-        if (!scope.offers)
-          scope.candidate.getOffers().then(fn.setTo('offerList', scope));
+        scope.$watch('candidate.status', function(value) {
+          update(value);
+          if (scope.candidate && !scope.offers)
+            scope.candidate.getOffers().then(fn.setTo('offerList', scope));
+        });
 
-        function update() {
-          scope.status = calculateStatus();
+        function update(value) {
+          if (value != null)
+            scope.status = calculateStatus();
         }
 
         function isFinalStatus(status) {

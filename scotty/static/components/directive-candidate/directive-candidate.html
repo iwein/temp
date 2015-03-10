@@ -4,10 +4,10 @@
       <i class="fa fa-map-marker gray-light"></i>
       {{ model._data.location.city }}, {{ model._data.location.country_iso }}
     </div>
-    <span clas="name-no-link">
+    <span class="name-no-link">
       {{ model._data.first_name }} {{ model._data.last_name }}
     </span>
-    <span clas="id-container">
+    <span class="id-container">
       / {{ model.id }}
     </span>
     <a class="link-profile link-search-show fl-rg" ui-sref="candidate({ id: model._data.id })" translate>View profile</a>
@@ -17,12 +17,12 @@
   <div class="body row">
     <div class="col-sm-4 picture-container">
       <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
-      <span clas="name-no-link">
+      <span class="name-no-link">
         {{ model._data.first_name }} {{ model._data.last_name }}
       </span>
       <div class="location target-position">
         <i class="fa fa-map-marker gray-light"></i>
-        {{ targetPosition.location.city }}, {{ targetPosition.location.country_iso }}
+        <hc-preferred-location candidate="model"></hc-preferred-location>
       </div>
     </div>
     <div class="col-sm-8">

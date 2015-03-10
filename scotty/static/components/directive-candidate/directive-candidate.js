@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/element-preferred-location/element-preferred-location');
   require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var angular = require('angular');
