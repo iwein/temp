@@ -1,9 +1,15 @@
 <div class="offer-list-item-small">
   <header>
-    <div class="location">
+    <div class="location current">
       <i class="fa fa-map-marker gray-light"></i>
       {{ model._data.location.city }}, {{ model._data.location.country_iso }}
     </div>
+    <span clas="name-no-link">
+      {{ model._data.first_name }} {{ model._data.last_name }}
+    </span>
+    <span clas="id-container">
+      / {{ model.id }}
+    </span>
     <a class="link-profile link-search-show fl-rg" ui-sref="candidate({ id: model._data.id })" translate>View profile</a>
     <div class="clearfix"></div>
   </header>
@@ -14,6 +20,10 @@
       <span clas="name-no-link">
         {{ model._data.first_name }} {{ model._data.last_name }}
       </span>
+      <div class="location target-position">
+        <i class="fa fa-map-marker gray-light"></i>
+        {{ targetPosition.location.city }}, {{ targetPosition.location.country_iso }}
+      </div>
     </div>
     <div class="col-sm-8">
       <a class="link-profile link-name" ui-sref="candidate({ id: model._data.id })">
