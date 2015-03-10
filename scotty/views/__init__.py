@@ -155,7 +155,6 @@ def add_last_activity_updater(event):
             request.add_finished_callback(update(e))
 
 
-
 def includeme(config):
     config.add_route('home', '/')
     config.add_route('refer', '/api/v1/refer')
