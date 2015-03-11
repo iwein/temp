@@ -623,3 +623,40 @@ ul.bulleted {
   margin-top:10px;
   > li {margin-bottom: 5px;}
 }
+
+.invite-page {
+  text-align: center;
+  h1 { color: #e45c18 }
+
+  .invite-row {
+    .clearfix();
+    padding: 15px 0;
+
+    &:nth-child(odd) > div {
+      text-align: right;
+      float: right;
+    }
+    &:nth-child(even) > div {
+      text-align: left;
+      float: left;
+    }
+  }
+
+  .content {
+    margin: 0 30px;
+    max-width: 60%;
+  }
+
+  .icon(@url) {
+    background-image: url(@url);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 128px;
+    width: 128px;
+  }
+  .icon-first     { .icon('../../resources/icon-invite-first.png'); }
+  .icon-friends   { .icon('../../resources/icon-invite-friends.png'); }
+  .icon-check     { .icon('../../resources/icon-invite-check.png'); }
+  .icon-handshake { .icon('../../resources/icon-invite-handshake.png'); }
+  .icon-smile     { .icon('../../resources/icon-invite-smile.png'); }
+}
