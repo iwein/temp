@@ -1,10 +1,5 @@
 hc-candidate {
   .body-small { display: none; }
-  header .name-no-link { display: none }
-  .location.target-position { display: none }
-  .link-profile.link-search-show  { display: none; }
-  .link-profile.link-name         { display: none; }
-  .name-no-link                   { display: inline; }
   header { margin-bottom: 5px; }
 
   &:last-child .offer-list-item-small {
@@ -12,18 +7,6 @@ hc-candidate {
     padding-bottom: 0;
     margin-bottom: 0;
   }
-}
-
-hc-candidate[hc-link-profile] {
-  .link-profile.link-search-show  { display: inline; }
-  .link-profile.link-name         { display: none; }
-  .name-no-link                   { display: inline; }
-}
-
-hc-candidate[hc-link-name] {
-  .link-profile.link-search-show  { display: none; }
-  .link-profile.link-name         { display: inline; }
-  .name-no-link                   { display: none; }
 }
 
 hc-candidate[hc-small] {

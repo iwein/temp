@@ -1,31 +1,21 @@
 <div class="offer-list-item-small">
   <header>
-    <div class="location current">
-      <i class="fa fa-map-marker gray-light"></i>
-      {{ model._data.location.city }}, {{ model._data.location.country_iso }}
-    </div>
-    <span class="name-no-link">
+    <span class="name">
       {{ model._data.first_name }} {{ model._data.last_name }}
     </span>
-    <a class="link-profile link-search-show fl-rg" ui-sref="candidate({ id: model._data.id })" translate>View profile</a>
+    <a class="link-profile fl-rg" ui-sref="candidate({ id: model._data.id })" translate>View profile</a>
     <div class="clearfix"></div>
   </header>
 
   <div class="body row">
     <div class="col-sm-4 picture-container">
       <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
-      <span class="name-no-link">
-        {{ model._data.first_name }} {{ model._data.last_name }}
-      </span>
-      <div class="location target-position">
+      <div class="location">
         <i class="fa fa-map-marker gray-light"></i>
         <hc-preferred-location candidate="model"></hc-preferred-location>
       </div>
     </div>
     <div class="col-sm-8">
-      <a class="link-profile link-name" ui-sref="candidate({ id: model._data.id })">
-        {{ model._data.first_name }} {{ model._data.last_name }}
-      </a>
       <div class="offer-list-item-small-title">{{ currentPosition.role }} @ {{ currentPosition.company }}</div>
       <div class="offer-list-item-small-price">
         <i class="fa fa-euro gray-light"></i>
@@ -54,7 +44,7 @@
         <hc-candidate-pic picture-url="model._data.picture_url" classes="img-wrap mrg-btm-small"></hc-candidate-pic>
       </div>
       <div class="col-sm-8">
-        <a class="link-profile link-name" ui-sref="candidate({ id: model._data.id })">
+        <a class="link-profile" ui-sref="candidate({ id: model._data.id })">
           {{ model._data.first_name }} {{ model._data.last_name }}
         </a>
         <div class="offer-list-item-small-title">{{ currentPosition.role }} @ {{ currentPosition.company }}</div>
