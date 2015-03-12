@@ -32,7 +32,9 @@ class VersionControl(object):
 
 
 class Project(object):
-    def __init__(self, root, project_root, console_script='paster', cmd_args=None, environment_extras=None, is_webserver=False):
+    def __init__(self, root, project_root, console_script='paster', cmd_args=None, environment_extras=None, is_webserver=False,
+                 jsconf=None):
+        self.jsconf = jsconf
         self.root = root
         self.project_root = project_root
         self.console_script = console_script

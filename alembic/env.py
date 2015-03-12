@@ -57,7 +57,7 @@ def run_migrations_online():
         name, value = url.split(':', 1)
         settings['sqlalchemy.url'] = os.environ[value.strip()]
 
-    engine = engine_from_config(settings, prefix='sqlalchemy.', poolclass=pool.NullPool)
+    engine = engine_from_config(config.get_section('app:api'), prefix='sqlalchemy.', poolclass=pool.NullPool)
 
     def include_object(object, name, type_, reflected, compare_to):
         IGNORE_TABLES = ['spatial_ref_sys', 'unified_login']
