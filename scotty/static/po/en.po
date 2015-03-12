@@ -181,8 +181,8 @@ msgid ""
 "link> started their job with you!"
 msgstr ""
 
-#: apps/common/footer.html:45 apps/index/template_de.html:107
-msgid "And get a bonus of more than 1.010,10€"
+#: apps/common/footer.html:45
+msgid "And get a bonus of 1.010,10€"
 msgstr ""
 
 #: components/employer-profile/employer-profile.html:119
@@ -1080,7 +1080,7 @@ msgstr ""
 msgid "Invalid invitation token."
 msgstr ""
 
-#: apps/common/footer.html:44 apps/index/template_de.html:106
+#: apps/common/footer.html:44
 msgid "Invite a friend"
 msgstr ""
 

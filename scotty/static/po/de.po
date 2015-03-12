@@ -213,7 +213,7 @@ msgstr ""
 "Großartig! <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-"
 "link> hat angefangen bei Ihnen zu arbeiten!"
 
-#: apps/common/footer.html:45 apps/index/template_de.html:107
+#: apps/common/footer.html:45
 msgid "And get a bonus of 1.010,10€"
 msgstr "Und bekomme einen Bonus von 1.010,10€"
 
@@ -1173,7 +1173,7 @@ msgstr "Für dieses Angebot interviewt."
 msgid "Invalid invitation token."
 msgstr "Ungültiger Einladungs-Code"
 
-#: apps/common/footer.html:44 apps/index/template_de.html:106
+#: apps/common/footer.html:44
 msgid "Invite a friend"
 msgstr "Lade einen Freund ein"
 
