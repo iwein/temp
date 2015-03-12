@@ -49,6 +49,9 @@
 .banner-imprint {
   background-image: url(../resources/bg-imprint.jpg);
 }
+.banner-invite {
+  background-image: url(../resources/bg-login.jpg);
+}
 .banner-index-employer {
   background-image: url(../resources/bg-index-employer.jpg);
 }
@@ -412,7 +415,7 @@
     margin: 0 auto 10px auto;
     color: @static-text-color;
   }
-  button {
+  .button {
     background: @green;
     color: @white;
     font-size: @static-font-size-base;
@@ -420,7 +423,7 @@
     text-align: center;
     height: 35px;
     width: 180px;
-    padding: 0 30px;
+    padding: 7px 30px;
     display: block;
     margin:0 auto;
     &:hover {
@@ -624,39 +627,37 @@ ul.bulleted {
   > li {margin-bottom: 5px;}
 }
 
+.banner-invite {
+  h2 { text-transform: uppercase; }
+}
+
 .invite-page {
-  text-align: center;
-  h1 { color: #e45c18 }
+  .container-static { padding-top: 30px; }
 
   .invite-row {
-    .clearfix();
+    margin: 0 -15px;
     padding: 15px 0;
+    .content { margin: 0 30px }
+  }
 
-    &:nth-child(odd) > div {
-      text-align: right;
-      float: right;
+  form {
+    clear: both;
+    padding-top: 60px;
+    .form-control {
+      border-color: #197185;
     }
-    &:nth-child(even) > div {
-      text-align: left;
-      float: left;
+    textarea {
+      height: 160px;
     }
   }
 
-  .content {
-    margin: 0 30px;
-    max-width: 60%;
-  }
-
-  .icon(@url) {
-    background-image: url(@url);
+  .icon-speaker {
+    background-image: url(../../resources/invite.png);
     background-repeat: no-repeat;
     background-position: center;
+    margin: -30px 30px 0 -30px;
     height: 128px;
     width: 128px;
+    float: left;
   }
-  .icon-first     { .icon('../../resources/icon-invite-first.png'); }
-  .icon-friends   { .icon('../../resources/icon-invite-friends.png'); }
-  .icon-check     { .icon('../../resources/icon-invite-check.png'); }
-  .icon-handshake { .icon('../../resources/icon-invite-handshake.png'); }
-  .icon-smile     { .icon('../../resources/icon-invite-smile.png'); }
 }
