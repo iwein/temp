@@ -1,0 +1,37 @@
+[supervisord]
+logfile = %(here)s/logs/supervisor.log
+loglevel = info
+pidfile = %(here)s/run/supervisord.pid
+directory = %(here)s/code
+
+[unix_http_server]
+file = %(here)s/run/supervisord.sock
+chown = www-data:www-data
+chmod = 0770
+
+[supervisorctl]
+serverurl = unix:///%(here)s/run/supervisord.sock
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+
+{% for proc_name in process_groups %}
+[program:{{ proc_name }}]
+{% if is_webserver %}
+command=%(here)s/venv/bin/paster serve --server-name={{ proc_name }}_%(process_num)02d  %(here)s/code/config.ini
+{% else %}
+command=%(here)s/venv/bin/{{ console_script }} -f %(here)s/code/config.ini --dc={{ dc }} --totaldc={{ totaldc }} --proc=%(process_num)02d --totalprocs={{ numprocs }} {{ cmd_args }}
+{% endif %}
+process_name = {{ proc_name }}_%(process_num)02d
+numprocs={{ numprocs }}
+autostart=true
+startretries={{ retries }}
+startsecs = 6
+autorestart=unexpected
+exitcodes=0,2
+user = {{ USER }}
+environment=PYTHONPATH='{{ env_path }}/code/current/{{ project_part }}'
+redirect_stderr = true
+stdout_logfile = %(here)s/logs/web_{{ proc_name }}_%(process_num)02d.log
+{% endfor %}
