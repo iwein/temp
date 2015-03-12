@@ -132,7 +132,13 @@
           total="totalResults"
           load="search($params)">
 
-          <div class="search-response">{{ totalResults }} candidates found</div>
+          <div class="search-response"
+            translate-n="totalResults"
+            translate-plural="{{$count}} candidates found"
+            translate>
+            One candidates found
+          </div>
+
           <hc-candidate
             ng-repeat="candidate in searchResults"
             ng-model="candidate"
