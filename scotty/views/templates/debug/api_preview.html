@@ -1,0 +1,84 @@
+<%inherit file="debug.html"/>
+
+<%block name="header"></%block>
+<%def name="title()">Api Preview (returned fields depend on API KEY)</%def>
+<%def name="tests()">
+<script>
+  var tests = [
+    {'sectionTitle': "Get Candidates"},
+    {'url':'/api/v1/candidates', 'title': 'list candidates', extract: function(resp, extr){return {'candidateId': resp.data[0].id}}},
+    {'url':function(resp, extr){ return '/api/v1/candidates/'+extr.candidateId; }, 'title': 'get candidate'},
+    {'url':function(resp, extr){ return '/api/v1/candidates/'+extr.candidateId+'/skills'; },
+      'title': 'get candidate skills'},
+    {'url':function(resp, extr){ return '/api/v1/candidates/'+extr.candidateId+'/languages'; },
+      'title': 'get candidate languages'},
+    {'url':function(resp, extr){ return '/api/v1/candidates/'+extr.candidateId+'/work_experience'; },
+      'title': 'get candidate work experience'},
+    {'url':function(resp, extr){ return '/api/v1/candidates/'+extr.candidateId+'/education'; },
+      'title': 'get candidate education'},
+    {'url':function(resp, extr){ return '/api/v1/candidates/'+extr.candidateId+'/offers'; },
+      'title': 'get candidate offers'},
+
+    {'sectionTitle': "Get Employers"},
+    {'url':'/api/v1/employers', 'title': 'list employers', extract: function(resp, extr){return {'employerId': resp.data[0].id}}},
+    {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId; },
+      'title': 'get employer'},
+    {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId+'/offices'; },
+      'title': 'get employer offices'},
+    {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId+'/pictures'; },
+      'title': 'get employer pictures'},
+    {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId+'/offers'; },
+      'title': 'get employer offers'},
+
+
+
+    {'sectionTitle': "Get Configuration Values"},
+    {'url':'/api/v1/config/locales', 'title': 'locales'},
+    {'url':'/api/v1/config/seniority', 'title': 'seniority'},
+    {'url':'/api/v1/config/salutations', 'title': 'salutations'},
+    {'url':'/api/v1/config/company_types', 'title': 'company_types'},
+    {'url':'/api/v1/config/skill_levels', 'title': 'skill_levels'},
+    {'url':'/api/v1/config/proficiencies', 'title': 'proficiencies'},
+    {'url':'/api/v1/config/travelwillingness', 'title': 'travelwillingness'},
+    {'url':'/api/v1/config/traffic_sources', 'title': 'traffic_sources'},
+    {'url':'/api/v1/config/rejectionreasons', 'title': 'rejectionreasons'},
+    {'url':'/api/v1/config/withdrawalreasons', 'title': 'withdrawalreasons'},
+    {'url':'/api/v1/config/degrees', 'title': 'degrees'},
+    {'url':'/api/v1/config/degrees?1=mas', 'title': 'degrees-search'},
+    {'url':'/api/v1/config/benefits', 'title': 'benefits'},
+    {'url':'/api/v1/config/benefits?q=cof', 'title': 'benefits-search'},
+    {'url':'/api/v1/config/courses', 'title': 'courses'},
+    {'url':'/api/v1/config/courses?q=alg', 'title': 'course-search'},
+    {'url':'/api/v1/config/languages?offset=450&limit=50', 'title': 'languages'},
+    {'url':'/api/v1/config/languages?q=rit', 'title': 'language-search'},
+    {'url':'/api/v1/config/languages/featured', 'title': 'language-featured'},
+    {'url':'/api/v1/config/skills', 'title': 'skills'},
+    {'url':'/api/v1/config/skills?q=en', 'title': 'skills-search'},
+    {'url':'/api/v1/config/skills/featured', 'title': 'skills-featured'},
+    {'url':'/api/v1/config/roles', 'title': 'roles'},
+    {'url':'/api/v1/config/roles?q=an', 'title': 'roles-search'},
+    {'url':'/api/v1/config/roles/featured', 'title': 'roles-featured'},
+    {'url':'/api/v1/config/job_titles', 'title': 'job_titles'},
+    {'url':'/api/v1/config/job_titles?q=an', 'title': 'job_titles-search'},
+
+    {'url':'/api/v1/config/institutions?limit=5', 'title': 'institutions'},
+    {'url':'/api/v1/config/institutions?limit=5&q=an', 'title': 'institutions-search'},
+
+    {'url':'/api/v1/config/companies?limit=5', 'title': 'companies'},
+    {'url':'/api/v1/config/companies?limit=5&q=an', 'title': 'companies-search'},
+
+    {'url':'/api/v1/config/countries?limit=5', 'title': 'countries-list'},
+    {'url':'/api/v1/config/countries?q=ger&limit=5', 'title': 'countries-search'},
+
+    {'url':'/api/v1/config/locations?limit=5', 'title': 'locations-list'},
+    {'url':'/api/v1/config/locations?q=Berl&limit=5', 'title': 'locations-search'},
+    {'url':'/api/v1/config/locations?q=Berl, DE&limit=5', 'title': 'locations-combined-city-ciso'},
+    {'url':'/api/v1/config/locations?q=Berl&limit=5&country_iso=US', 'title': 'locations-search-with-ciso-US'},
+    {'url':'/api/v1/config/locations/featured', 'title': 'locations-featured'},
+
+
+  ];
+
+  $(function(){getTestRunner(tests)(0, {});})
+</script>
+</%def>
