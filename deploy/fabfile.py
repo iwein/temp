@@ -12,7 +12,8 @@ from fabric.decorators import task
 from fabric.state import env
 
 
-vc = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git", branch='master')
+vc = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git", branch='master',
+                    alt_branches={'demo': 'demo'})
 scotty = Project(root="/server/www/scotty", project_root=".", is_webserver=True, jsconf='app-conf-s3-dev.js')
 
 PROJECTS = {
@@ -107,6 +108,7 @@ def build(version):
     run("mkdir -p %s" % code_path)
     with cd(code_path):
         run("cp -R %s/* ." % repo_path)
+
 
 def switch(version):
     cfg = env['__cfg__']
