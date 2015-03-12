@@ -1403,7 +1403,7 @@ msgid ""
 msgstr ""
 
 #: components/employer-dashboard/employer-dashboard.html:135
-msgid "One candidates found"
+msgid "One candidate found"
 msgid_plural "{{$count}} candidates found"
 msgstr[0] ""
 msgstr[1] ""

@@ -215,7 +215,7 @@ msgstr ""
 
 #: apps/common/footer.html:45 apps/index/template_de.html:107
 msgid "And get a bonus of more than 1.010,10€"
-msgstr ""
+msgstr "Und bekomme einen Bonus von mehr als 1.010,10€"
 
 #: components/employer-profile/employer-profile.html:119
 msgid "Annual Revenue"
@@ -1174,9 +1174,8 @@ msgid "Invalid invitation token."
 msgstr "Ungültiger Einladungs-Code"
 
 #: apps/common/footer.html:44 apps/index/template_de.html:106
-#, fuzzy
 msgid "Invite a friend"
-msgstr "Einladungs-Code"
+msgstr "Lade einen Freund ein"
 
 #: components/candidate-signup-user/candidate-signup-user.html:91
 msgid "Invite code"
@@ -1509,11 +1508,10 @@ msgstr ""
 "Sobald dein Account validiert wurde, kannst du auf der Plattform suchen."
 
 #: components/employer-dashboard/employer-dashboard.html:135
-#, fuzzy
-msgid "One candidates found"
+msgid "One candidate found"
 msgid_plural "{{$count}} candidates found"
-msgstr[0] "Für Sie von uns ausgewählte Kandidaten"
-msgstr[1] "Für Sie von uns ausgewählte Kandidaten"
+msgstr[0] "Einen Kandidaten gefunden"
+msgstr[1] "{{$count}} Kandidaten gefunden"
 
 #: components/employer-signup-basic/employer-signup-basic.html:108
 #: components/employer-signup-benefits/employer-signup-benefits.html:86
