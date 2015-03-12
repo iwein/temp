@@ -1,11 +1,12 @@
 from pyramid.path import AssetResolver
 from pyramid.renderers import render_to_response
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.views import RootController
 
 
 class ApiPreviewController(RootController):
-    @view_config(route_name='api_preview')
+    @view_config(route_name='api_preview', permission=NO_PERMISSION_REQUIRED)
     def api_preview(self):
         params = {k: v for k, v in self.request.params.items()}
         params['email'] = params.get('email', 'catch@hackandcraft.com')
