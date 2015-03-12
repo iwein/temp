@@ -57,3 +57,10 @@ def add_nginx():
         sudo('echo "deb http://nginx.org/packages/mainline/ubuntu/ codename nginx" >> /etc/apt/sources.list.d/nginx.list')
         sudo('echo "deb-src http://nginx.org/packages/mainline/ubuntu/ codename nginx" >> /etc/apt/sources.list.d/nginx.list')
         sudo("sudo apt-get update && sudo apt-get install nginx")
+
+
+@task
+def add_node():
+    sudo("curl -sL https://deb.nodesource.com/setup | sudo bash -")
+    sudo("sudo apt-get install nodejs")
+    sudo("sudo apt-get install build-essential")
