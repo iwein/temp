@@ -52,12 +52,13 @@ def run_migrations_online():
 
     # respect Heroku Environment VAR
     settings = config.get_section(config.config_ini_section)
-    url = settings['sqlalchemy.url']
+    subsettings = config.get_section('app:api')
+    url = subsettings['sqlalchemy.url']
     if url.startswith('__env__'):
         name, value = url.split(':', 1)
-        settings['sqlalchemy.url'] = os.environ[value.strip()]
+        subsettings['sqlalchemy.url'] = os.environ[value.strip()]
 
-    engine = engine_from_config(config.get_section('app:api'), prefix='sqlalchemy.', poolclass=pool.NullPool)
+    engine = engine_from_config(subsettings, prefix='sqlalchemy.', poolclass=pool.NullPool)
 
     def include_object(object, name, type_, reflected, compare_to):
         IGNORE_TABLES = ['spatial_ref_sys', 'unified_login']
