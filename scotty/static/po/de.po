@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:693
@@ -1045,9 +1045,9 @@ msgstr ""
 msgid "HIRED"
 msgstr "EINGESTELLT"
 
-#: components/employer-dashboard/employer-dashboard.html:164
+#: components/employer-dashboard/employer-dashboard.html:170
 msgid "Handpicked Candidates for you"
-msgstr ""
+msgstr "Für Sie von uns ausgewählte Kandidaten"
 
 #: components/candidate-signup-education/candidate-signup-education.html:120
 #: components/candidate-signup-experience/candidate-signup-experience.html:120
@@ -1113,7 +1113,7 @@ msgstr ""
 "Ich habe die <hc-tos-link>4Scotty Nutzungsbedingungen</hc-tos-link> gelesen "
 "und stimme diesen zu."
 
-#: components/employer-dashboard/employer-dashboard.html:174
+#: components/employer-dashboard/employer-dashboard.html:180
 msgid "I'm not interested"
 msgstr "Ich bin nicht interessiert"
 
@@ -1328,7 +1328,7 @@ msgstr "Frau"
 
 #: components/employer-dashboard/employer-dashboard.html:28
 msgid "Name / ID"
-msgstr ""
+msgstr "Name / ID"
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:23
 msgid "Native"
@@ -1363,7 +1363,7 @@ msgstr ""
 msgid "Negotiating contract details"
 msgstr "Vertragsverhandlungen"
 
-#: components/employer-dashboard/employer-dashboard.html:148
+#: components/employer-dashboard/employer-dashboard.html:154
 msgid "New offer requests"
 msgstr "Neue Anfragen von Kandidaten"
 
@@ -1507,6 +1507,13 @@ msgid ""
 "platform."
 msgstr ""
 "Sobald dein Account validiert wurde, kannst du auf der Plattform suchen."
+
+#: components/employer-dashboard/employer-dashboard.html:135
+#, fuzzy
+msgid "One candidates found"
+msgid_plural "{{$count}} candidates found"
+msgstr[0] "Für Sie von uns ausgewählte Kandidaten"
+msgstr[1] "Für Sie von uns ausgewählte Kandidaten"
 
 #: components/employer-signup-basic/employer-signup-basic.html:108
 #: components/employer-signup-benefits/employer-signup-benefits.html:86
@@ -2396,9 +2403,8 @@ msgid "Signup for free"
 msgstr "Kostenlos anmelden"
 
 #: components/employer-dashboard/employer-dashboard.html:91
-#, fuzzy
 msgid "Simple search"
-msgstr "Suchen"
+msgstr "Einfache suche"
 
 #: components/candidate-dashboard/candidate-dashboard.html:30
 #: components/candidate-signup-skills/candidate-signup-skills.html:4
@@ -2492,10 +2498,9 @@ msgstr "Abschicken"
 msgid "Submit offer"
 msgstr "Angebot senden"
 
-#: components/employer-dashboard/employer-dashboard.html:182
-#, fuzzy
+#: components/employer-dashboard/employer-dashboard.html:188
 msgid "Suggested Candidates"
-msgstr "Kandidaten"
+msgstr "Vorgeschlagene Kandidaten"
 
 #: components/candidate-profile/candidate-profile.html:26
 #: components/candidate-profile/candidate-profile.html:692
@@ -2838,8 +2843,7 @@ msgstr ""
 "passendes Unternehmen registriert. Du möchtest nicht warten? Dann probiere "
 "doch unsere Suche nach anderen Technologien und Kenntnissen aus."
 
-#: components/employer-dashboard/employer-dashboard.html:183
-#, fuzzy
+#: components/employer-dashboard/employer-dashboard.html:189
 msgid ""
 "We're sorry. There are no candidates with skills in your tech yet.\n"
 "        We'll notify you as soon as there is a fitting candidate.\n"
@@ -2848,8 +2852,8 @@ msgid ""
 msgstr ""
 "Tut uns leid, es gibt noch keine Kandidaten mit Kenntnissen in Ihren "
 "aktuellen Technologien.\n"
-"                  Wir werden Sie benachrichtigen, sobald sich passende "
-"Kandidaten für Sie anmelden.\n"
+"                  Wir werden Sie benachrichtigen, sobald sich für Sie "
+"passende Kandidaten für anmelden.\n"
 "                  Sie möchten nicht warten? Dann probieren Sie unsere Suche "
 "für andere Technologien/Kenntnisse oder Orte aus"
 
@@ -3448,9 +3452,9 @@ msgstr "du hast dieses Angebot abgelehnt"
 msgid "you withdrew this offer"
 msgstr "du hast dieses Angebot zurückgezogen"
 
-#: components/employer-dashboard/employer-dashboard.html:152
+#: components/employer-dashboard/employer-dashboard.html:158
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
-msgstr "{{ role }} aus {{ city }}"
+msgstr "{{ role }}von {{ city }}, {{ country_iso }}"
 
 #: apps/common/footer.html:48
 msgid "©2015 4Scotty. All Rights Reserved."

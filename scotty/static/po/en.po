@@ -959,7 +959,7 @@ msgstr ""
 msgid "HIRED"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:164
+#: components/employer-dashboard/employer-dashboard.html:170
 msgid "Handpicked Candidates for you"
 msgstr ""
 
@@ -1023,7 +1023,7 @@ msgid ""
 "link>"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:174
+#: components/employer-dashboard/employer-dashboard.html:180
 msgid "I'm not interested"
 msgstr ""
 
@@ -1262,7 +1262,7 @@ msgstr ""
 msgid "Negotiating contract details"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:148
+#: components/employer-dashboard/employer-dashboard.html:154
 msgid "New offer requests"
 msgstr ""
 
@@ -1401,6 +1401,12 @@ msgid ""
 "Once your account has been validated, you will be free to browse the "
 "platform."
 msgstr ""
+
+#: components/employer-dashboard/employer-dashboard.html:135
+msgid "One candidates found"
+msgid_plural "{{$count}} candidates found"
+msgstr[0] ""
+msgstr[1] ""
 
 #: components/employer-signup-basic/employer-signup-basic.html:108
 #: components/employer-signup-benefits/employer-signup-benefits.html:86
@@ -2327,7 +2333,7 @@ msgstr ""
 msgid "Submit offer"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:182
+#: components/employer-dashboard/employer-dashboard.html:188
 msgid "Suggested Candidates"
 msgstr ""
 
@@ -2646,7 +2652,7 @@ msgid ""
 "a try and search our platform for other  technologies/skills or locations."
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:183
+#: components/employer-dashboard/employer-dashboard.html:189
 msgid ""
 "We're sorry. There are no candidates with skills in your tech yet.\n"
 "        We'll notify you as soon as there is a fitting candidate.\n"
@@ -3199,7 +3205,7 @@ msgstr ""
 msgid "you withdrew this offer"
 msgstr ""
 
-#: components/employer-dashboard/employer-dashboard.html:152
+#: components/employer-dashboard/employer-dashboard.html:158
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr ""
 
