@@ -214,8 +214,8 @@ msgstr ""
 "link> hat angefangen bei Ihnen zu arbeiten!"
 
 #: apps/common/footer.html:45 apps/index/template_de.html:107
-msgid "And get a bonus of more than 1.010,10€"
-msgstr "Und bekomme einen Bonus von mehr als 1.010,10€"
+msgid "And get a bonus of 1.010,10€"
+msgstr "Und bekomme einen Bonus von 1.010,10€"
 
 #: components/employer-profile/employer-profile.html:119
 msgid "Annual Revenue"
