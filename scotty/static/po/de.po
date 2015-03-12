@@ -2402,7 +2402,7 @@ msgstr "Kostenlos anmelden"
 
 #: components/employer-dashboard/employer-dashboard.html:91
 msgid "Simple search"
-msgstr "Einfache suche"
+msgstr "Einfache Suche"
 
 #: components/candidate-dashboard/candidate-dashboard.html:30
 #: components/candidate-signup-skills/candidate-signup-skills.html:4
