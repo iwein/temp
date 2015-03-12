@@ -3452,7 +3452,7 @@ msgstr "du hast dieses Angebot zurückgezogen"
 
 #: components/employer-dashboard/employer-dashboard.html:158
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
-msgstr "{{ role }}von {{ city }}, {{ country_iso }}"
+msgstr "{{ role }} aus {{ city }}"
 
 #: apps/common/footer.html:48
 msgid "©2015 4Scotty. All Rights Reserved."
