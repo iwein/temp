@@ -10,8 +10,8 @@ description:
 
 <div class="banner banner-invite">
   <div class="banner-inner">
-    <h1>Invite a friend</h1>
-    <h2>And get a bonus of 1.010,10€</h2>
+    <h1>[MISSING]: Invite a friend</h1>
+    <h2>[MISSING]: And enjoy a bonus</h2>
   </div>
 </div>
 <div class="bg-white invite-page">
@@ -19,13 +19,14 @@ description:
     <div class="invite-row">
       <div class="icon-speaker"></div>
       <div class="content">
-        <p>Du bist vo 4scotty überzeugt? Dann würden wir uns sehr freuen, wenn du deinen Freunden und Kollegen von uns erzählst. Es lohnt sich auch für dich: Sollte ein von dir vermittelter IT-Spezialist hier einen neuen Job finden, zeigen wir uns mit einem Bonus über 1.010,10€ erkenntlich.</p>
+        <p>Du bist von 4Scotty überzeugt? Dann würden wir uns freuen, wenn du deinen Freunden und Kollegen von uns erzählst.
+        Es lohnt sich: Sollte ein von dir vermittelter IT-Profi hier einen neuen Job finden, zeigen wir uns mit einem Bonus über <span>1.010,10 €</span> erkenntlich!</p>
       </div>
     </div>
 
     <div class="message" id="message-referred" style="display: none">
-      <h3>Invite another friend</h3>
-      <a class="go-back" href="/">or back to Scotty</a>
+      <h3>[MISSING]: Invite another friend</h3>
+      <a class="go-back" href="/">[MISSING]: or back to Scotty</a>
     </div>
 
     <div class="message" id="message-not-referred-too-early" style="display: none">
@@ -34,39 +35,39 @@ description:
     <form id="invite-form" class="row">
       <div class="col-sm-6">
         <div class="form-group">
-          <label>Friend's name</label>
+          <label>Name des Freundes(-in)</label>
           <input type="text" name="rcvr_name" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
-          <label>Friend's email address</label>
+          <label>E-Mail Adresse des Freundes(-in)</label>
           <input type="email" name="rcvr_email" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
-          <label>Your name</label>
+          <label>Dein Name</label>
           <input type="text" name="sndr_name" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
-          <label>Your email address</label>
+          <label>Deine Email Adresse</label>
           <input type="email" name="sndr_email" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-12">
         <div class="form-group">
-          <label>Personal message</label>
-          <textarea name="message" class="form-control form-emptiable" required></textarea>
+          <label>Deine pers&ouml;nliche Nachricht</label>
+          <textarea name="message" class="form-control form-emptiable" required>Hey, schon von 4Scotty gehört? Sie versprechen den für Dich am besten passenden IT-Job und beraten Dich kostenfrei dazu. Dann drehen sie den Spieß um und lassen Top-Unternehmen Dir persönliche Angebote zusenden, die Du annehmen oder ablehnen kannst. Sogar ihre Kommission teilen sie mit Dir. Schau einfach mal rein. Vielleicht findest Du hier, wie Du Dich ohne großen Aufwand beruflich verbessern kannst.</textarea>
         </div>
       </div>
 
       <div class="col-sm-7 col-sm-offset-3 submit-section">
         <div class="form-group">
-          <button class="btn btn-primary">Send invitation</button>
-          <a class="go-back" href="/">or back to Scotty</a>
+          <button class="btn btn-primary">Empfehlen</button>
+          <a class="go-back" href="/">[MISSING]: or back to Scotty</a>
         </div>
       </div>
     </form>
@@ -74,35 +75,5 @@ description:
 </div>
 
 <script type="text/javascript">
-  (function() {
-    'use strict';
-    var url = app.api_url + 'v1/refer';
-    var $form = document.getElementById('invite-form');
-
-    $form.addEventListener('submit', function(event) {
-      console.log('asdf');
-      event.preventDefault();
-
-      var fields = [].slice.call($form.querySelectorAll('input,textarea'));
-      var data = fields.reduce(function(data, item) {
-        data[item.name] = item.value;
-        return data;
-      }, { lang: 'de' });
-
-      app.POST(url, data, success);
-    });
-
-    function success(xhr) {
-      var resp = JSON.parse(xhr.responseText);
-      app.display(document.getElementById('message-' + resp.message));
-
-      if (resp.success){
-        var fields = [].slice.call($form.querySelectorAll('input.form-emptiable'));
-        fields.forEach(function(item) { item.value = '' });
-        fields[0].focus();
-      }
-
-      $('.alert-container').affix({ offset: { top: 100 }});
-    }
-  })();
+  app.inviteFriend('invite-form');
 </script>

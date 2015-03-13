@@ -38,4 +38,36 @@
       element.style.display = 'none';
     }
   })();
+
+  (function() {
+    app.inviteFriend = function(formId) {
+      var url = app.api_url + 'v1/refer';
+      var $form = document.getElementById(formId);
+
+      $form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var fields = [].slice.call($form.querySelectorAll('input,textarea'));
+        var data = fields.reduce(function(data, item) {
+          data[item.name] = item.value;
+          return data;
+        }, { lang: 'de' });
+
+        app.POST(url, data, success);
+      });
+
+      function success(xhr) {
+        var resp = JSON.parse(xhr.responseText);
+        app.display(document.getElementById('message-' + resp.message));
+
+        if (resp.success){
+          var fields = [].slice.call($form.querySelectorAll('input.form-emptiable'));
+          fields.forEach(function(item) { item.value = '' });
+          fields[0].focus();
+        }
+
+        $('.alert-container').affix({ offset: { top: 100 }});
+      }
+    };
+  })();
 </script>
