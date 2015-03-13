@@ -192,27 +192,7 @@ description: The best fitting IT jobs for you. Get valuable guidance for your ca
       </form>
 
       <script type="text/javascript">
-        (function() {
-          'use strict';
-          var url = app.api_url + 'v1/refer';
-          var $form = document.getElementById('recommend-form');
-          function success(xhr){
-            var resp = JSON.parse(xhr.responseText);
-            app.display(document.getElementById('message-'+resp.message));
-            if(resp.success){
-              var i, inputs = $form.querySelectorAll('input.form-emptiable');
-              for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
-              $form.querySelectorAll('input.form-emptiable')[0].focus();
-            }
-            $('.alert-container').affix({offset: {top: 100}});
-          }
-          $form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            var data = {lang: 'en'}, i, inputs = $form.querySelectorAll('input,textarea');
-            for (i = 0; i < inputs.length; ++i) {var elem = inputs[i];data[elem.name] = elem.value;}
-            app.POST(url, data, success);
-          });
-        })();
+        app.inviteFriend('recommend-form', 'en');
       </script>
     </div>
   </div>

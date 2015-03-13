@@ -1,5 +1,7 @@
 <script>
   (function() {
+    'use strict';
+
     window.app = {
       api_url: '{{ api_url }}',
       POST: POST,
@@ -40,7 +42,9 @@
   })();
 
   (function() {
-    app.inviteFriend = function(formId) {
+    'use strict';
+
+    app.inviteFriend = function(formId, lang) {
       var url = app.api_url + 'v1/refer';
       var $form = document.getElementById(formId);
 
@@ -51,7 +55,7 @@
         var data = fields.reduce(function(data, item) {
           data[item.name] = item.value;
           return data;
-        }, { lang: 'de' });
+        }, { lang: lang });
 
         app.POST(url, data, success);
       });
