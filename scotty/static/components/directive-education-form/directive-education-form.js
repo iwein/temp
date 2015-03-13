@@ -2,7 +2,6 @@ define(function(require) {
   'use strict';
   require('session');
   var _ = require('underscore');
-  var fn = require('tools/fn');
   var Date = require('tools/date');
   var nameAttr = require('tools/name-attr');
   var getModel = require('tools/get-model');
@@ -52,9 +51,11 @@ define(function(require) {
           var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
           nameAttr(ctrl, 'hcEducationForm', $scope, $attrs);
 
-          return ConfigAPI.degrees()
-            .then(fn.setTo('degrees', $scope))
-            .then(function() { setModel(model) });
+          return ConfigAPI.featuredDegrees().then(function(degrees) {
+            $scope.degrees = degrees.slice();
+            $scope.degrees.push('Other');
+            setModel(model);
+          });
         }
 
         function save() {
