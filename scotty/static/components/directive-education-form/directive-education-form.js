@@ -18,7 +18,7 @@ define(function(require) {
         hcShowEmpty: '=',
         hcDisabled: '=',
       },
-      controller: function($scope, $parse, $attrs, $q, i18n, ConfigAPI, Session) {
+      controller: function($scope, $parse, $attrs, $q, ConfigAPI, Session) {
         _.extend($scope, {
           searchInstitutions: ConfigAPI.institutions,
           searchCourses: ConfigAPI.courses,
@@ -70,7 +70,7 @@ define(function(require) {
 
         function updateDegree() {
           var degree = $scope.selectedDegree;
-          if (degree === i18n.gettext('Other'))
+          if (degree === 'Other')
             degree = $scope.otherDegree;
 
           $scope.model.degree = degree;
@@ -99,7 +99,7 @@ define(function(require) {
 
           if (degree) {
             if ($scope.degrees.indexOf(degree) === -1) {
-              $scope.selectedDegree = i18n.gettext('Other');
+              $scope.selectedDegree = 'Other';
               $scope.otherDegree = degree;
             } else {
               $scope.selectedDegree = degree;
