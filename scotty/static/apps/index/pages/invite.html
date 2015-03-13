@@ -23,37 +23,86 @@ description:
       </div>
     </div>
 
-    <form class="row">
+    <div class="message" id="message-referred" style="display: none">
+      <h3>Invite another friend</h3>
+      <a class="go-back" href="/">or back to Scotty</a>
+    </div>
+
+    <div class="message" id="message-not-referred-too-early" style="display: none">
+    </div>
+
+    <form id="invite-form" class="row">
       <div class="col-sm-6">
         <div class="form-group">
           <label>Friend's name</label>
-          <input type="text" class="form-control">
+          <input type="text" name="rcvr_name" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <label>Friend's email address</label>
-          <input type="email" class="form-control">
+          <input type="email" name="rcvr_email" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <label>Your name</label>
-          <input type="text" class="form-control">
+          <input type="text" name="sndr_name" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <label>Your email address</label>
-          <input type="email" class="form-control">
+          <input type="email" name="sndr_email" class="form-control form-emptiable" required>
         </div>
       </div>
       <div class="col-sm-12">
         <div class="form-group">
           <label>Personal message</label>
-          <textarea class="form-control"></textarea>
+          <textarea name="message" class="form-control form-emptiable" required></textarea>
+        </div>
+      </div>
+
+      <div class="col-sm-7 col-sm-offset-3 submit-section">
+        <div class="form-group">
+          <button class="btn btn-primary">Send invitation</button>
+          <a class="go-back" href="/">or back to Scotty</a>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<script type="text/javascript">
+  (function() {
+    'use strict';
+    var url = app.api_url + 'v1/refer';
+    var $form = document.getElementById('invite-form');
+
+    $form.addEventListener('submit', function(event) {
+      console.log('asdf');
+      event.preventDefault();
+
+      var fields = [].slice.call($form.querySelectorAll('input,textarea'));
+      var data = fields.reduce(function(data, item) {
+        data[item.name] = item.value;
+        return data;
+      }, { lang: 'de' });
+
+      app.POST(url, data, success);
+    });
+
+    function success(xhr) {
+      var resp = JSON.parse(xhr.responseText);
+      app.display(document.getElementById('message-' + resp.message));
+
+      if (resp.success){
+        var fields = [].slice.call($form.querySelectorAll('input.form-emptiable'));
+        fields.forEach(function(item) { item.value = '' });
+        fields[0].focus();
+      }
+
+      $('.alert-container').affix({ offset: { top: 100 }});
+    }
+  })();
+</script>
