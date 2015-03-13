@@ -13,7 +13,7 @@ from sqlalchemy.orm import relationship, foreign
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN, DISPLAY_ALWAYS, \
     DISPLAY_PRIVATE, get_request_role, DISPLAY_ADMIN
-from scotty.offer.models import CandidateOffer, Offer
+from scotty.offer.models import CandidateOffer, Offer, OFFER_STATUS_ACTIVE_KEY
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation, Locale
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
@@ -482,6 +482,10 @@ class Candidate(Base, JsonSerialisable):
             result['is_approved'] = self.status.name in [CandidateStatus.ACTIVE, CandidateStatus.SLEEPING]
             result['is_activated'] = self.activated is not None
 
+            result['pending_offers'] = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
+                                                                        *Offer.by_status(OFFER_STATUS_ACTIVE_KEY)).count()
+
+
         obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
         result.update(json_encoder(self, request, display, obfuscator))
         return result
@@ -525,8 +529,8 @@ class TargetPosition(Base):
 
 
 def sort_by_preferred_location(query, order_func):
-    return query.outerjoin(TargetPosition).outerjoin(PreferredLocation)\
-        .outerjoin(City, City.id == PreferredLocation.city_id)\
+    return query.outerjoin(TargetPosition).outerjoin(PreferredLocation) \
+        .outerjoin(City, City.id == PreferredLocation.city_id) \
         .order_by(order_func(City.country_iso), order_func(City.name), order_func(PreferredLocation.country_iso))
 
 
