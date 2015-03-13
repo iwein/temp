@@ -12,8 +12,9 @@ from fabric.decorators import task
 from fabric.state import env
 
 
-vc = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git", branch='master')
-scotty = Project(root="/server/www/scotty", project_root=".", is_webserver=True, jsconf='app-conf-s3-dev.js')
+vc = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git", branch='master',
+                    alt_branches={'demo': 'demo'})
+scotty = Project(root="/server/www/scotty", project_root=".", is_webserver=True)
 
 PROJECTS = {
     'scotty': DeploymentConfig(scotty, SupervisorConfig(['p1'], '1'), vc,
@@ -100,13 +101,14 @@ def build(version):
     code_path = cfg.project.code_path(envname, version)
     repo_path = cfg.project.repo_path(envname)
     with cd('%s/scotty/static/' % repo_path):
-        run('cp config/%s config/config.js' % cfg.project.jsconf)
+        run('cp config/app-conf-s3-%s.js config/config.js' % envname)
         run("npm install")
         run("bower install")
         run("grunt build")
     run("mkdir -p %s" % code_path)
     with cd(code_path):
         run("cp -R %s/* ." % repo_path)
+
 
 def switch(version):
     cfg = env['__cfg__']
