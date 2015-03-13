@@ -43,6 +43,10 @@ module.exports = function(grunt) {
   if (configModule)
     grunt.config.set('requirejs.options.paths.conf', configModule);
 
+
+  grunt.config.set('replace.footer-links.options.patterns.0.match',
+    /ng-href="[^"]+"/g);
+
   var apps = [
     'admin',
     'candidate',
@@ -79,6 +83,7 @@ module.exports = function(grunt) {
 
   grunt.renameTask('build-index', 'build-index-internal');
   grunt.registerTask('build-index', [
+    'replace:footer-links',
     'metalsmith:static-pages',
     'build-index-internal',
     'clean:pages-folder'
