@@ -22,6 +22,7 @@ define(function(require) {
         _.extend($scope, {
           searchInstitutions: ConfigAPI.institutions,
           searchCourses: ConfigAPI.courses,
+          updateDegree: updateDegree,
           submit: submit,
           currentYear: Date.now().getFullYear(),
           loading: false,
@@ -52,8 +53,7 @@ define(function(require) {
           nameAttr(ctrl, 'hcEducationForm', $scope, $attrs);
 
           return ConfigAPI.featuredDegrees().then(function(degrees) {
-            $scope.degrees = degrees.slice();
-            $scope.degrees.push('Other');
+            $scope.degrees = degrees;
             setModel(model);
           });
         }
@@ -66,6 +66,14 @@ define(function(require) {
               return user.addEducation($scope.model);
             });
           });
+        }
+
+        function updateDegree() {
+          var degree = $scope.selectedDegree;
+          if (degree === i18n.gettext('Other'))
+            degree = $scope.otherDegree;
+
+          $scope.model.degree = degree;
         }
 
         function reset() {
@@ -84,6 +92,19 @@ define(function(require) {
           $scope.model = model;
           $scope.current = model.start && !model.end;
           $scope.not_completed_degree = model.start && !model.degree;
+
+          var degree = model.degree;
+          $scope.selectedDegree = '';
+          $scope.otherDegree = '';
+
+          if (degree) {
+            if ($scope.degrees.indexOf(degree) === -1) {
+              $scope.selectedDegree = i18n.gettext('Other');
+              $scope.otherDegree = degree;
+            } else {
+              $scope.selectedDegree = degree;
+            }
+          }
         }
       },
     };

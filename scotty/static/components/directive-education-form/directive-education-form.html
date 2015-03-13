@@ -101,16 +101,29 @@
       <div class="row mrg-btm">
         <label class="col-sm-3" translate>Degree</label>
         <div class="col-sm-9">
-          <div>
-            <select class="form-control"
-                    name="degree"
-                    ng-disabled="hcDisabled || not_completed_degree"
-                    ng-required="hcRequired && !not_completed_degree"
-                    ng-model="model.degree"
-                    ng-options="degree for degree in degrees">
-              <option value="" translate>Select a Degree...</option>
-            </select>
-          </div>
+          <select class="form-control"
+                  name="degree"
+                  ng-disabled="hcDisabled || not_completed_degree"
+                  ng-required="hcRequired && !not_completed_degree"
+                  ng-model="selectedDegree"
+                  ng-change="updateDegree()">
+            <option value="" translate>Select a Degree...</option>
+            <option ng-repeat="degree in degrees">{{ degree }}</option>
+            <option translate>Other</option>
+          </select>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 mrg-btm mrg-top"
+          ng-show="!not_completed_degree && selectedDegree === 'Other'">
+          <input type="text"
+            class="form-control"
+            name="other_degree"
+            placeholder="Type your degree"
+            ng-disabled="hcDisabled"
+            ng-required="!not_completed_degree && selectedDegree === 'Other'"
+            ng-model="otherDegree"
+            ng-change="updateDegree()">
+        </div>
+        <div class="col-sm-9 col-sm-offset-3">
           <div class="check-wrap">
             <label>
               <input type="checkbox"
@@ -121,6 +134,8 @@
               <translate>Did not complete degree.</translate>
             </label>
           </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3">
           <div class="form-error" ng-show="form.degree.$dirty && form.degree.$invalid">
             <span ng-show="form.degree.$error.required" translate>
               Please select a degree or check "Did not complete degree".
