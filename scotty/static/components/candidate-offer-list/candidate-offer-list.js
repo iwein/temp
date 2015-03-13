@@ -9,7 +9,7 @@ define(function(require) {
     Loader.page(true);
 
     Permission.requireSignup().then(function() {
-      Session.getUser().then(function(user) {
+      Session.refreshUser().then(function(user) {
 
         $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;
         if($scope.candidate_has_been_hired){

@@ -37,8 +37,9 @@
           <a ui-sref="dashboard" translate>Home</a>
         </li>
         <li ng-show="session.user" ui-sref-active="active">
-          <!-- TODO display implementing notifications -->
-          <!--div class="notifications">1</div-->
+          <div class="notifications" ng-show="session.user._data.pending_offers">
+            {{ session.user._data.pending_offers }}
+          </div>
           <a ui-sref="offer-list" translate>Offers</a>
         </li>
         <li ng-show="session.user" ui-sref-active="active">
