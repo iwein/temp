@@ -56,11 +56,18 @@ define(function(require) {
     module.run(function($templateCache, $rootScope, i18n) {
       $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
       $templateCache.put('footer.html', require('text!../common/footer.html'));
+
       $rootScope.translate = i18n.gettext;
+      $rootScope.staticUrl = staticUrl;
       i18n.setLanguage(localStorage.scotty_lang || 'de');
       i18n.onChange(function(lang) {
+        $rootScope.lang = lang;
         localStorage.scotty_lang = lang;
       });
+
+      function staticUrl() {
+        return $rootScope.lang === 'en' ? '../en' : '..';
+      }
     });
 
     module.factory('toaster', function(Notifier, gettext) {
