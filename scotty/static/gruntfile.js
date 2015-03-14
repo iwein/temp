@@ -111,6 +111,7 @@ module.exports = function(grunt) {
     'protractor',
   ]);
   grunt.registerTask('dev:static-pages', [
+    'replace:footer-links',
     'metalsmith:static-pages',
     'copy:static-pages',
     'clean:pages-folder',

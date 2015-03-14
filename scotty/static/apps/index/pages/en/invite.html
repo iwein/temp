@@ -8,6 +8,18 @@ description:
 ---
 
 
+<div class="alert-container" data-spy="affix" data-offset-top="60">
+  <div id="message-referred" class="alert alert-success not-visible">
+    Your recommendation has been sent.
+  </div>
+  <div id="message-not-referred-too-early" class="alert alert-danger not-visible">
+    You have already sent a recommendation to this email address within the last 24 hours. Please try again later.
+  </div>
+  <div id="message-not-referred-too-many" class="alert alert-danger not-visible">
+    You have sent too many recommendations within the last 24 hours. Please try again later.
+  </div>
+</div>
+
 <div class="banner banner-invite">
   <div class="banner-inner">
     <h1>Invite a friend</h1>
@@ -23,12 +35,9 @@ description:
       </div>
     </div>
 
-    <div class="message" id="message-referred" style="display: none">
+    <div class="message" id="on-success" style="display: none">
       <h3>Invite another friend</h3>
       <a class="go-back" href="/">or back to Scotty</a>
-    </div>
-
-    <div class="message" id="message-not-referred-too-early" style="display: none">
     </div>
 
     <form id="invite-form" class="row">
@@ -74,5 +83,7 @@ description:
 </div>
 
 <script type="text/javascript">
-  app.inviteFriend('invite-form', 'en');
+  app.inviteFriend('invite-form', 'en', function() {
+    document.getElementById('on-success').style.display = 'block';
+  });
 </script>

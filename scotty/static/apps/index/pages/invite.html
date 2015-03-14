@@ -8,6 +8,18 @@ description:
 ---
 
 
+<div class="alert-container">
+  <div id="message-referred" class="alert alert-success not-visible">
+    Ihre Empfehlung wurde versandt!
+  </div>
+  <div id="message-not-referred-too-early" class="alert alert-danger not-visible">
+    Sie haben innerhalb der letzten 24 Stunden bereits eine Einladung an diese Adresse versandt.
+  </div>
+  <div id="message-not-referred-too-many" class="alert alert-danger not-visible">
+    Sie haben innerhalb der letzten 24 Stunden zuviele Einladungen verschickt. Bitte versuchen Sie es morgen wieder.
+  </div>
+</div>
+
 <div class="banner banner-invite">
   <div class="banner-inner">
     <h1>Lade einen Freund ein</h1>
@@ -24,12 +36,9 @@ description:
       </div>
     </div>
 
-    <div class="message" id="message-referred" style="display: none">
+    <div class="message" id="on-success" style="display: none">
       <h3>Lade noch einen Freund ein</h3>
       <a class="go-back" href="/">oder zur&uuml;ck zur Startseite</a>
-    </div>
-
-    <div class="message" id="message-not-referred-too-early" style="display: none">
     </div>
 
     <form id="invite-form" class="row">
@@ -75,5 +84,7 @@ description:
 </div>
 
 <script type="text/javascript">
-  app.inviteFriend('invite-form', 'de');
+  app.inviteFriend('invite-form', 'de', function() {
+    document.getElementById('on-success').style.display = 'block';
+  });
 </script>

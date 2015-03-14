@@ -44,7 +44,7 @@
   (function() {
     'use strict';
 
-    app.inviteFriend = function(formId, lang) {
+    app.inviteFriend = function(formId, lang, callback) {
       var url = app.api_url + 'v1/refer';
       var $form = document.getElementById(formId);
 
@@ -68,6 +68,8 @@
           var fields = [].slice.call($form.querySelectorAll('input.form-emptiable'));
           fields.forEach(function(item) { item.value = '' });
           fields[0].focus();
+          if (callback)
+            callback();
         }
 
         $('.alert-container').affix({ offset: { top: 100 }});
