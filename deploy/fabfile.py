@@ -105,6 +105,15 @@ def build(version):
         run("npm install")
         run("bower install")
         run("grunt build")
+
+    with cd('%s/code' % cfg.project.get_root(envname)):
+        fname = run("readlink current")
+        ls_output = run('ls .')
+        files = ls_output.split()
+        for f in files:
+            if f not in [fname, 'current', 'config.ini']:
+                run("rm -rf %s" % f)
+
     run("mkdir -p %s" % code_path)
     with cd(code_path):
         run("cp -R %s/* ." % repo_path)
@@ -119,11 +128,10 @@ def switch(version):
         # STATIC_DEPS=true for lxml together with libxml2
         # run("%s/pip install -U -r requires_install.txt" % cfg.project.python_path(envname))
         run("%s/python setup.py develop" % cfg.project.python_path(envname))
-    with cd(cfg.project.get_root(envname)):
-        with cd("code"):
-            run("cp %s/configs/config_%s.ini ./config.ini" % (cfg.project.repo_path(envname), envname))
-            run("rm current;ln -s {} current".format(version))
-            run('%s/alembic -c ./config.ini upgrade head' % cfg.project.python_path(envname))
+    with cd('%s/code' % cfg.project.get_root(envname)):
+        run("cp %s/configs/config_%s.ini ./config.ini" % (cfg.project.repo_path(envname), envname))
+        run("mv current prev;ln -s {} current".format(version))
+        run('%s/alembic -c ./config.ini upgrade head' % cfg.project.python_path(envname))
     restart()
 
 

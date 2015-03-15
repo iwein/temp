@@ -40,7 +40,7 @@ define(function(require) {
   }
 
   return function basicConf(module) {
-    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
+    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider, $analyticsProvider) {
       $httpProvider.defaults.withCredentials = true;
       cfpLoadingBarProvider.includeSpinner = false;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
@@ -51,7 +51,16 @@ define(function(require) {
           $delegate(exception, cause);
         };
       });
+
+      $analyticsProvider.settings.ga.additionalAccountNames = $analyticsProvider.settings.ga.additionalAccountNames || [];
+      angular.forEach(conf.additional_accounts, function (account){
+        window.ga('create', account.ga_id, 'auto',  {'name': account.name});
+        $analyticsProvider.settings.ga.additionalAccountNames.push(account.name);
+      });
+
+
     });
+
 
     module.run(function($templateCache, $rootScope, i18n) {
       $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
