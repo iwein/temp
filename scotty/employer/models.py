@@ -247,7 +247,7 @@ class Employer(Base, JsonSerialisable):
     def __json__(self, request):
         result = self.to_json(request)
         display = get_request_role(request, self.id)
-        result.update(json_encoder(self, request))
+        result.update(json_encoder(self, request, display))
 
         result['contact_salutation'] = self.contact_salutation
         result['company_type'] = self.company_type
