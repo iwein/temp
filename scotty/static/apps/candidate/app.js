@@ -6,10 +6,26 @@ define(function(require) {
   var _ = require('underscore');
   var profileState = require('components/candidate-profile/candidate-profile');
   var module = require('app-module');
+  var conf = require('conf');
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
     $analyticsProvider.prefix = '/candidate';
+    if (window.ga) {
+      window.ga('create', conf.ga_id, 'auto');
+      window.ga('require', 'linkid');
+      window.ga('require', 'displayfeatures');
+      window.ga('require', 'displayfeatures');
+      window.ga('send', 'pageview');
+      window.ga('set', 'anonymizeIp', true);
+      $analyticsProvider.settings.ga.additionalAccountNames =
+        $analyticsProvider.settings.ga.additionalAccountNames || [];
+      angular.forEach(conf.additional_accounts, function (account) {
+        window.ga('create', account.ga_id, 'auto', {'name': account.name});
+        $analyticsProvider.settings.ga.additionalAccountNames.push(account.name);
+      });
+    }
+
     $urlRouterProvider.otherwise('/dashboard/');
 
     $stateProvider
@@ -30,7 +46,7 @@ define(function(require) {
       .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
       .state('signup.profile', require('components/candidate-signup-profile/candidate-signup-profile'))
       .state('signup.approve', require('components/candidate-signup-approve/candidate-signup-approve'))
-      ;
+    ;
   });
 
   module.run(function($window, $templateCache, $rootScope, Session) {

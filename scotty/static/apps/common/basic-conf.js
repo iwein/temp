@@ -25,22 +25,13 @@ define(function(require) {
   require('./translations');
   var conf = require('conf');
 
-  if (window.ga) {
-    window.ga('create', conf.ga_id, 'auto');
-    window.ga('require', 'linkid');
-    window.ga('require', 'displayfeatures');
-    window.ga('require', 'displayfeatures');
-    window.ga('send', 'pageview');
-    window.ga('set', 'anonymizeIp', true);
-  }
-
   function raygun(exception) {
     window.Raygun.send(exception);
     console.info('RAYGUN REPORTED:', exception.message, exception);
   }
 
   return function basicConf(module) {
-    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider, $analyticsProvider) {
+    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
       $httpProvider.defaults.withCredentials = true;
       cfpLoadingBarProvider.includeSpinner = false;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
@@ -51,15 +42,6 @@ define(function(require) {
           $delegate(exception, cause);
         };
       });
-
-      if (window.ga) {
-        $analyticsProvider.settings.ga.additionalAccountNames = $analyticsProvider.settings.ga.additionalAccountNames || [];
-        angular.forEach(conf.additional_accounts, function (account) {
-          window.ga('create', account.ga_id, 'auto', {'name': account.name});
-          $analyticsProvider.settings.ga.additionalAccountNames.push(account.name);
-        });
-      }
-
     });
 
 
