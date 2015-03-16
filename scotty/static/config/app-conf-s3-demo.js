@@ -16,7 +16,7 @@
     'api_url': '/api/',
     'support_email': 'service@4scotty.com',
     'ga_id': 'UA-47319201-3',
-    'additional_accounts': [{'ga_id': 'UA-60775991-2', 'name': 'scotty-check'}],
+    'additional_accounts': [{'ga_id': 'UA-60775991-2', 'name': 'scottyCheck'}],
     'raygun_apikey': 'tqrimMzbMSZOd6ndSOmJNw=='
   };
 });
