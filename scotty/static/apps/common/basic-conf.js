@@ -52,12 +52,13 @@ define(function(require) {
         };
       });
 
-      $analyticsProvider.settings.ga.additionalAccountNames = $analyticsProvider.settings.ga.additionalAccountNames || [];
-      angular.forEach(conf.additional_accounts, function (account){
-        window.ga('create', account.ga_id, 'auto',  {'name': account.name});
-        $analyticsProvider.settings.ga.additionalAccountNames.push(account.name);
-      });
-
+      if (window.ga) {
+        $analyticsProvider.settings.ga.additionalAccountNames = $analyticsProvider.settings.ga.additionalAccountNames || [];
+        angular.forEach(conf.additional_accounts, function (account) {
+          window.ga('create', account.ga_id, 'auto', {'name': account.name});
+          $analyticsProvider.settings.ga.additionalAccountNames.push(account.name);
+        });
+      }
 
     });
 
