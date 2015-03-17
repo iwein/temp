@@ -119,21 +119,6 @@ def notfound(exc, request):
     return HTTPNotFound(exc.message)
 
 
-@view_config(route_name='marksafari', permission=NO_PERMISSION_REQUIRED)
-def marksafari(request):
-    response = HTTPFound(location=request.POST.get('url') or request.referer)
-    response.set_cookie('safari', value='marked', max_age=31536000)  # max_age = year
-    return response
-
-
-@view_config(route_name='ismarked', permission=NO_PERMISSION_REQUIRED)
-def ismarked(request):
-    cb = request.GET.get('cb')
-    resp = json.dumps({'marked': request.cookies.get('safari') == 'marked'})
-    response = Response('%s(%s);' % (cb, resp), headers={"Content-Type": "application/javascript"})
-    return response
-
-
 @subscriber(BeforeRender)
 def add_last_activity_updater(event):
     """
@@ -158,8 +143,6 @@ def add_last_activity_updater(event):
 def includeme(config):
     config.add_route('home', '/')
     config.add_route('refer', '/api/v1/refer')
-    config.add_route('marksafari', '/api/v1/marksafari')
-    config.add_route('ismarked', '/api/v1/ismarked')
     config.add_route('contact', '/api/v1/contact')
 
     config.include("scotty.views.debug", route_prefix='/debug')

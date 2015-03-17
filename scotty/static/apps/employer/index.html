@@ -46,28 +46,6 @@
   data-grid-gutterwidth="30px"
   data-grid-nbcols="12">
 
-<!-- build:js -->
-<script src="../../config/config.js"></script>
-<!-- endbuild -->
-<script>
-  (function(_apiurl, ua) {
-    var apiurl = window.config ? window.config.api_url : _apiurl;
-    if(!~ua.indexOf('safari/')||!!~ua.indexOf('chrome'))return;
-    function post(path, params, method){method = method || "post";
-      var f = document.createElement("form"), s = 'setAttribute';f[s]("method", method);f[s]("action", path);
-      for (var key in params) {if (params.hasOwnProperty(key)) {
-        var hf = document.createElement("input");hf[s]("type", "hidden");hf[s]("name", key);hf[s]("value", params[key]);f.appendChild(hf);
-      }}document.body.appendChild(f);f.submit();}
-     window.__safari_mark__ = function(resp){
-       if(!resp.marked)post(apiurl+'v1/marksafari', {'url': window.location.href});
-     };
-    (function(){
-      var scr=document.createElement('script');scr.type='text/javascript';scr.async=true;
-      scr.src=apiurl+'v1/ismarked?cb=cb=__safari_mark__';
-      var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(scr,s)})();
-  })('@@APIURL', navigator.userAgent.toLowerCase());
-</script>
-
 <div class="spinner-container" ng-show="showSpinner">
   <div class="spinner"></div>
 </div>
