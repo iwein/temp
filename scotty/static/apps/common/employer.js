@@ -100,7 +100,7 @@ define(function(require) {
       var api = this._api;
       return api.get(this._url() + '/suggested/candidates' + this._sufix, params).then(function(response) {
         response.data.forEach(function(data) {
-          data.candidate = new Candidate(api, data.candidate.id, data.candidate)
+          data.candidate = new Candidate(api, data.candidate.id, data.candidate);
         });
         return response;
       });
