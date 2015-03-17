@@ -46,29 +46,6 @@
   data-grid-gutterwidth="30px"
   data-grid-nbcols="12">
 
-<!-- build:js -->
-<script src="../../config/config.js"></script>
-<!-- endbuild -->
-<script>
-  (function(_apiurl, ua) {
-    var apiurl = window.config ? window.config.api_url : _apiurl;
-    if(!~ua.indexOf('safari/')||!!~ua.indexOf('chrome'))return;
-    function post(path, params, method){method = method || "post";
-      var f = document.createElement("form"), s = 'setAttribute';f[s]("method", method);f[s]("action", path);
-      for (var key in params) {if (params.hasOwnProperty(key)) {
-        var hf = document.createElement("input");hf[s]("type", "hidden");hf[s]("name", key);hf[s]("value", params[key]);f.appendChild(hf);
-      }}document.body.appendChild(f);f.submit();}
-     window.__safari_mark__ = function(resp){
-       if(!resp.marked)post(apiurl+'v1/marksafari', {'url': window.location.href});
-     };
-    (function(){
-      var scr=document.createElement('script');scr.type='text/javascript';scr.async=true;
-      scr.src=apiurl+'v1/ismarked?cb=cb=__safari_mark__';
-      var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(scr,s)})();
-  })('@@APIURL', navigator.userAgent.toLowerCase());
-</script>
-
-
 <div class="spinner-container" ng-show="showSpinner">
   <div class="spinner"></div>
 </div>
@@ -130,5 +107,32 @@ var google_remarketing_only = true;
 <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/990844894/?value=0&amp;guid=ON&amp;script=0"/>
 </div>
 </noscript>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter29086365 = new Ya.Metrika({id:29086365,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>
