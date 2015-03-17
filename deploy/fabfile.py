@@ -14,11 +14,16 @@ from fabric.state import env
 
 vc = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git", branch='master',
                     alt_branches={'demo': 'demo'})
+
 scotty = Project(root="/server/www/scotty", project_root=".", is_webserver=True)
+
+vcProd = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git", branch='production')
 
 PROJECTS = {
     'scotty': DeploymentConfig(scotty, SupervisorConfig(['p1'], '1'), vc,
-                               HostConfig(["ec2-54-93-207-115.eu-central-1.compute.amazonaws.com"]))
+                               HostConfig(["ec2-54-93-207-115.eu-central-1.compute.amazonaws.com"])),
+    'scotty-prod': DeploymentConfig(scotty, SupervisorConfig(['p1'], '1'), vcProd,
+                                    HostConfig(["ec2-54-93-97-177.eu-central-1.compute.amazonaws.com"]))
 }
 
 
