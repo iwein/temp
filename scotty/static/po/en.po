@@ -45,7 +45,7 @@ msgid ""
 "            upfront, or 2% of the annual salary per month for 12 months."
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:108
+#: components/candidate-offer/candidate-offer.js:112
 msgid ""
 "<h2>Congratulation to your new position!</h2>\n"
 "Your profile will be on sleep!"
@@ -340,10 +340,6 @@ msgstr ""
 msgid "Blog URL (Starting with  http://...)"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:1
-msgid "Breakfasts"
-msgstr ""
-
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
@@ -440,7 +436,7 @@ msgstr ""
 msgid "Candidates"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:2
+#: tmp/db-tokens/benefits.js:1
 msgid "Child Care Services"
 msgstr ""
 
@@ -452,10 +448,6 @@ msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:46
 msgid "City or Municipality"
-msgstr ""
-
-#: tmp/db-tokens/benefits.js:3
-msgid "Coffee"
 msgstr ""
 
 #: components/candidate-signup-education/candidate-signup-education.html:138
@@ -475,7 +467,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:4
+#: tmp/db-tokens/benefits.js:2
 msgid "Company Cars"
 msgstr ""
 
@@ -508,7 +500,7 @@ msgstr ""
 msgid "Company Types"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:5
+#: tmp/db-tokens/benefits.js:3
 msgid "Company pension scheme"
 msgstr ""
 
@@ -611,7 +603,7 @@ msgstr ""
 msgid "Contract was signed"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:6
+#: tmp/db-tokens/benefits.js:4
 msgid "Contributions to capital formation"
 msgstr ""
 
@@ -688,7 +680,7 @@ msgstr ""
 msgid "Development methodology"
 msgstr ""
 
-#: components/directive-education-form/directive-education-form.html:121
+#: components/directive-education-form/directive-education-form.html:134
 msgid "Did not complete degree."
 msgstr ""
 
@@ -713,10 +705,6 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:44
 msgid "Does your revenue really exceed &euro;9223372036854775808 per year?"
-msgstr ""
-
-#: tmp/db-tokens/benefits.js:7
-msgid "Dogs Allowed"
 msgstr ""
 
 #: components/candidate-signup-user/candidate-signup-user.html:148
@@ -903,11 +891,11 @@ msgstr ""
 msgid "Founding year"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:8
+#: tmp/db-tokens/benefits.js:5
 msgid "Free Beverages"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:9
+#: tmp/db-tokens/benefits.js:6
 msgid "Free Fruits"
 msgstr ""
 
@@ -1005,7 +993,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:10
+#: tmp/db-tokens/benefits.js:7
 msgid "Home office acceptance"
 msgstr ""
 
@@ -1141,7 +1129,7 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:11
+#: tmp/db-tokens/benefits.js:8
 msgid "Life and disability insurance"
 msgstr ""
 
@@ -1196,10 +1184,6 @@ msgstr ""
 
 #: tools/months.js:11
 msgid "March"
-msgstr ""
-
-#: tmp/db-tokens/benefits.js:12
-msgid "Massages"
 msgstr ""
 
 #: tools/months.js:13
@@ -1362,7 +1346,7 @@ msgstr ""
 msgid "Offer was withdrawn"
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:72
+#: components/candidate-offer/candidate-offer.js:73
 #: components/employer-offer/employer-offer.js:72
 msgid "Offer {{ status }}"
 msgstr ""
@@ -1372,7 +1356,7 @@ msgstr ""
 msgid "Offered annual salary"
 msgstr ""
 
-#: apps/candidate/navbar.html:42 apps/employer/navbar.html:41
+#: apps/candidate/navbar.html:43 apps/employer/navbar.html:41
 #: components/candidate-dashboard/candidate-dashboard.html:131
 #: components/candidate-offer-list/candidate-offer-list.html:7
 #: components/candidate-profile/candidate-profile.html:459
@@ -1421,6 +1405,7 @@ msgstr ""
 
 #: components/candidate-signup-target/candidate-signup-target.html:158
 #: components/candidate-signup-target/candidate-signup-target.html:58
+#: components/directive-education-form/directive-education-form.html:112
 #: tmp/db-tokens/rejectionreasons.js:7 tmp/db-tokens/withdrawalreasons.js:5
 msgid "Other"
 msgstr ""
@@ -1923,7 +1908,7 @@ msgstr ""
 msgid "Please select"
 msgstr ""
 
-#: components/directive-education-form/directive-education-form.html:125
+#: components/directive-education-form/directive-education-form.html:140
 msgid "Please select a degree or check \"Did not complete degree\"."
 msgstr ""
 
@@ -2012,7 +1997,7 @@ msgstr ""
 msgid "Product or Project Management"
 msgstr ""
 
-#: apps/candidate/navbar.html:45 apps/employer/navbar.html:44
+#: apps/candidate/navbar.html:46 apps/employer/navbar.html:44
 msgid "Profile"
 msgstr ""
 
@@ -2021,7 +2006,7 @@ msgstr ""
 msgid "Profile picture"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:13
+#: tmp/db-tokens/benefits.js:9
 msgid "Public Transport Tickets"
 msgstr ""
 
@@ -2058,12 +2043,8 @@ msgstr ""
 msgid "Reject"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:14
+#: tmp/db-tokens/benefits.js:10
 msgid "Relocation expenses"
-msgstr ""
-
-#: tmp/db-tokens/benefits.js:15
-msgid "Remote Work"
 msgstr ""
 
 #: components/directive-office/directive-office.html:33
@@ -2211,7 +2192,7 @@ msgstr ""
 msgid "Select Level..."
 msgstr ""
 
-#: components/directive-education-form/directive-education-form.html:111
+#: components/directive-education-form/directive-education-form.html:110
 msgid "Select a Degree..."
 msgstr ""
 
@@ -2261,7 +2242,7 @@ msgstr ""
 msgid "Sorry, there are no candidates matching your criteria"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:16
+#: tmp/db-tokens/benefits.js:11
 msgid "Sport and health services"
 msgstr ""
 
@@ -2269,7 +2250,7 @@ msgstr ""
 msgid "Stackoverflow URL (Starting with  http://...)"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:17
+#: tmp/db-tokens/benefits.js:12
 msgid "Staff restaurant or food subsidies"
 msgstr ""
 
@@ -2314,7 +2295,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:18
+#: tmp/db-tokens/benefits.js:13
 msgid "Stock option program"
 msgstr ""
 
@@ -2802,11 +2783,11 @@ msgstr ""
 msgid "You did it"
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:52
+#: components/candidate-offer/candidate-offer.js:53
 msgid "You have already accepted another offer!"
 msgstr ""
 
-#: components/candidate-offer/candidate-offer.js:51
+#: components/candidate-offer/candidate-offer.js:52
 msgid "You have already accepted this offer!"
 msgstr ""
 
@@ -2910,7 +2891,7 @@ msgid ""
 "Your password has been updated. You can now login with your new password"
 msgstr ""
 
-#: apps/candidate/index.html:84 apps/employer/index.html:83
+#: apps/candidate/index.html:61 apps/employer/index.html:61
 msgid "Your profile has not been reviewed &amp; approved yet."
 msgstr ""
 
