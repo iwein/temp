@@ -29,6 +29,7 @@
     ],
     "js": [
       "apps/admin/**/*.js",
+      "<%= files.apps.common %>",
       "<%= files.tools.js %>",
       "<%= files.components.js %>"
     ],
@@ -49,6 +50,7 @@
     ],
     "js": [
       "apps/candidate/**/*.js",
+      "<%= files.apps.common %>",
       "<%= files.tools.js %>",
       "<%= files.components.js %>"
     ],
@@ -69,6 +71,7 @@
     ],
     "js": [
       "apps/employer/**/*.js",
+      "<%= files.apps.common %>",
       "<%= files.tools.js %>",
       "<%= files.components.js %>"
     ],
@@ -106,6 +109,10 @@
   "apps": {
     "html": "apps/**/*.html",
     "folder": "apps/",
+    "common": [
+      "apps/common/**/*.js",
+      "!apps/common/translations.js"
+    ],
     "out": {
       "folder": "dist/"
     },
