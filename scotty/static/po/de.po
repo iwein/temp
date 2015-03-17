@@ -119,9 +119,14 @@ msgstr "Weitere"
 msgid "About us"
 msgstr "Über uns"
 
-#: components/candidate-offer/candidate-offer.html:124
+#: apps/common/offer.js:11 components/candidate-offer/candidate-offer.html:124
 msgid "Accept"
 msgstr "Annehmen"
+
+#: apps/common/offer.js:9
+#, fuzzy
+msgid "Active"
+msgstr "Muttersprachlich"
 
 #: components/candidate-signup-education/candidate-signup-education.html:70
 #: components/candidate-signup-experience/candidate-signup-experience.html:71
@@ -651,7 +656,12 @@ msgstr "Kontaktiere uns"
 msgid "Continue"
 msgstr "Weiter"
 
-#: components/candidate-offer/candidate-offer.html:171
+#: apps/common/offer.js:13
+#, fuzzy
+msgid "Contract Negotiating"
+msgstr "Kontakt Position"
+
+#: apps/common/offer.js:14 components/candidate-offer/candidate-offer.html:171
 #: components/employer-offer/employer-offer.html:163
 msgid "Contract Signed"
 msgstr "Vertrag unterzeichnet"
@@ -894,6 +904,11 @@ msgstr "Gehaltswunsch & Mobilität"
 #: components/candidate-signup-skills/candidate-signup-skills.html:31
 msgid "Expert"
 msgstr "Experte"
+
+#: apps/common/offer.js:16
+#, fuzzy
+msgid "Expired"
+msgstr "eingestellt"
 
 #: components/employer-create-offer/employer-create-offer.html:199
 msgid ""
@@ -1150,6 +1165,11 @@ msgstr "Interviewanfrage gelöscht"
 
 #: components/candidate-employer-profile/candidate-employer-profile.js:78
 msgid "Interview requested"
+msgstr "Interview angefragt"
+
+#: apps/common/offer.js:12
+#, fuzzy
+msgid "Interviewed"
 msgstr "Interview angefragt"
 
 #: components/directive-offer/directive-offer.html:37
@@ -2206,6 +2226,11 @@ msgstr "Interviewprozess"
 msgid "Reject"
 msgstr "Ablehnen"
 
+#: apps/common/offer.js:10
+#, fuzzy
+msgid "Rejected"
+msgstr "Ablehnen"
+
 #: tmp/db-tokens/benefits.js:10
 msgid "Relocation expenses"
 msgstr "Umzugskosten"
@@ -2404,6 +2429,10 @@ msgstr "Software-Entwicklung"
 #: components/employer-dashboard/employer-dashboard.html:123
 msgid "Sorry, there are no candidates matching your criteria"
 msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
+
+#: apps/common/basic-conf.js:72
+msgid "Sorry, unknown error occurred, if this error persists please contact"
+msgstr ""
 
 #: tmp/db-tokens/benefits.js:11
 msgid "Sport and health services"
@@ -2935,6 +2964,11 @@ msgstr ""
 msgid "Withdraw"
 msgstr "Zurückziehen"
 
+#: apps/common/offer.js:15
+#, fuzzy
+msgid "Withdrawn"
+msgstr "Zurückziehen"
+
 #: components/candidate-signup-experience/candidate-signup-experience.html:4
 #: components/candidate-signup/candidate-signup.html:41
 #: components/candidate-signup/candidate-signup.html:46
@@ -3071,9 +3105,21 @@ msgstr "Du musst zur Registrierung mindestens 16 Jahre alt sein."
 msgid "You must type the same password on both fields."
 msgstr "Die Passwörter müssen in beiden Feldern übereinstimmen."
 
+#: apps/common/permission.js:53
+msgid "You need be approved to see this page."
+msgstr ""
+
+#: apps/common/permission.js:44
+msgid "You need complete signup process to see this page."
+msgstr ""
+
 #: components/candidate-signup-user/candidate-signup-user.html:114
 msgid "You need to agree to the terms to signup"
 msgstr "Du musst den Nutzungsbedingungen zustimmen, um dich anzumelden."
+
+#: apps/common/permission.js:27
+msgid "You need to be logged in to see this page"
+msgstr ""
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:28
 msgid "You professionally master the language in both written and spoken word."
@@ -3511,9 +3557,6 @@ msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
 #~ msgid "Your profile is public"
 #~ msgstr "Dein Profil ist öffentlich"
-
-#~ msgid "hired"
-#~ msgstr "eingestellt"
 
 #~ msgid "reviewing"
 #~ msgstr "überprüfe"
