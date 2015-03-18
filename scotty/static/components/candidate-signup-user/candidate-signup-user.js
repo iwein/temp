@@ -57,13 +57,11 @@ define(function(require) {
 
     function submit() {
       if (!$scope.formSignupUser.$valid)return;
-      var id = localStorage.getItem('scotty:user_id');
       $scope.loading = true;
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
 
-      return Session.createUser(id, $scope.model).then(function(user) {
-        localStorage.removeItem('scotty:user_id');
+      return Session.signup($scope.model).then(function(user) {
         if (importedData)
           return user.updateData(importedData);
       }).then(function() {
