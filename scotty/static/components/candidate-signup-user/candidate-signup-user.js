@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('components/element-connectors-buttons/element-connectors-buttons');
-  var _ = require('underscore');
   var module = require('app-module');
 
   module.directive('hcTosLink', function() {
@@ -13,43 +12,13 @@ define(function(require) {
     };
   });
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, i18n,
-                                                        Loader, ConfigAPI, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, i18n, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
     $scope.errorEmailAlreadyRegistered = false;
-    Loader.page(true);
-    var importedData;
 
-    Session.getConnectors().getData().then(function(data) {
-      if (data)
-        setDataFromNetworks(data);
-    }).finally(function() {
-      Loader.page(false);
-    });
-
-
-    function setDataFromNetworks(data) {
-      $scope.imported = true;
-      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
-      importedData = _.pick(data, 'dob', 'picture_url');
-
-      var city = data.contact_city;
-      var country = data.contact_country_iso;
-      if (!city || !country)
-        return;
-
-      return ConfigAPI.isValidCity(city, country).then(function(isValid) {
-        if (isValid) {
-          importedData.location = {
-            country_iso: data.contact_country_iso,
-            city: data.contact_city,
-          };
-        }
-      });
-    }
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;
@@ -62,10 +31,8 @@ define(function(require) {
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
 
-      return Session.createUser(id, $scope.model).then(function(user) {
+      return Session.createUser(id, $scope.model).then(function() {
         localStorage.removeItem('scotty:user_id');
-        if (importedData)
-          return user.updateData(importedData);
       }).then(function() {
         return $scope.signup.nextStep();
       }).catch(function(request) {
