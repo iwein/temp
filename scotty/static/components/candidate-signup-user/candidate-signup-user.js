@@ -8,7 +8,7 @@ define(function(require) {
       restrict: 'E',
       transclude: true,
       template: '<a class="link" style="text-decoration: underline;" ' +
-        'href="../en/terms-candidate.html" target="_blank" ng-transclude></a>',
+        'href="/en/terms-candidate.html" target="_blank" ng-transclude></a>',
     };
   });
 

@@ -33,7 +33,8 @@ define(function(require) {
   }
 
   return function basicConf(module) {
-    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
+    module.config(function($provide, $locationProvider, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
+      $locationProvider.html5Mode(true);
       $httpProvider.defaults.withCredentials = true;
       cfpLoadingBarProvider.includeSpinner = false;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
@@ -60,7 +61,7 @@ define(function(require) {
       });
 
       function staticUrl() {
-        return $rootScope.lang === 'en' ? '../en' : '..';
+        return $rootScope.lang === 'en' ? '/en' : '/';
       }
     });
 

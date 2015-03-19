@@ -12,7 +12,7 @@ define(function(require) {
 
     function invalid() {
       toaster.error('Invalid reset token');
-      window.location = '../login.html';
+      window.location = '/login.html';
     }
 
     Session.valdiateResetToken(token).then(function(isValid) {
@@ -37,7 +37,7 @@ define(function(require) {
       Session.resetPassword(token, password)
         .then(function() {
           toaster.success(i18n.gettext('Your password has been updated. You can now login with your new password'));
-          window.location = '../login.html';
+          window.location = '/login.html';
         })
         .catch(toaster.defaultError)
         .finally(function() {

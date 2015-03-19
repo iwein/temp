@@ -57,7 +57,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $window.location = '../index.html';
+        $window.location = '/';
       });
     };
   });
