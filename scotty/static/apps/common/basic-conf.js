@@ -1,3 +1,5 @@
+/*globals console */
+
 define(function(require) {
   'use strict';
   require('moment-de');

@@ -50,7 +50,7 @@ msgstr ""
 "Bruttojahresgehalts\n"
 "            oder monatlich 2% des Bruttojahresgehalts über 12 Monate."
 
-#: components/candidate-offer/candidate-offer.js:108
+#: components/candidate-offer/candidate-offer.js:112
 msgid ""
 "<h2>Congratulation to your new position!</h2>\n"
 "Your profile will be on sleep!"
@@ -119,9 +119,14 @@ msgstr "Weitere"
 msgid "About us"
 msgstr "Über uns"
 
-#: components/candidate-offer/candidate-offer.html:124
+#: apps/common/offer.js:11 components/candidate-offer/candidate-offer.html:124
 msgid "Accept"
 msgstr "Annehmen"
+
+#: apps/common/offer.js:9
+#, fuzzy
+msgid "Active"
+msgstr "Muttersprachlich"
 
 #: components/candidate-signup-education/candidate-signup-education.html:70
 #: components/candidate-signup-experience/candidate-signup-experience.html:71
@@ -383,10 +388,6 @@ msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
 msgid "Blog URL (Starting with  http://...)"
 msgstr "Blog (beginnend mit http://...)"
 
-#: tmp/db-tokens/benefits.js:1
-msgid "Breakfasts"
-msgstr "Frühstück"
-
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
@@ -494,7 +495,7 @@ msgstr "Candidate Advocate"
 msgid "Candidates"
 msgstr "Kandidaten"
 
-#: tmp/db-tokens/benefits.js:2
+#: tmp/db-tokens/benefits.js:1
 msgid "Child Care Services"
 msgstr "Kinderbetreuung"
 
@@ -507,10 +508,6 @@ msgstr "Stadt"
 #: components/candidate-dashboard/candidate-dashboard.html:46
 msgid "City or Municipality"
 msgstr "Stadt oder Region"
-
-#: tmp/db-tokens/benefits.js:3
-msgid "Coffee"
-msgstr "Kaffee"
 
 #: components/candidate-signup-education/candidate-signup-education.html:138
 #: components/candidate-signup-experience/candidate-signup-experience.html:140
@@ -531,7 +528,7 @@ msgstr ""
 msgid "Company"
 msgstr "Firmenname"
 
-#: tmp/db-tokens/benefits.js:4
+#: tmp/db-tokens/benefits.js:2
 msgid "Company Cars"
 msgstr "Firmenwagen"
 
@@ -564,7 +561,7 @@ msgstr "Typ"
 msgid "Company Types"
 msgstr "Unternehmenstypen"
 
-#: tmp/db-tokens/benefits.js:5
+#: tmp/db-tokens/benefits.js:3
 msgid "Company pension scheme"
 msgstr "Betriebliche Altersvorsorge"
 
@@ -659,7 +656,12 @@ msgstr "Kontaktiere uns"
 msgid "Continue"
 msgstr "Weiter"
 
-#: components/candidate-offer/candidate-offer.html:171
+#: apps/common/offer.js:13
+#, fuzzy
+msgid "Contract Negotiating"
+msgstr "Kontakt Position"
+
+#: apps/common/offer.js:14 components/candidate-offer/candidate-offer.html:171
 #: components/employer-offer/employer-offer.html:163
 msgid "Contract Signed"
 msgstr "Vertrag unterzeichnet"
@@ -668,7 +670,7 @@ msgstr "Vertrag unterzeichnet"
 msgid "Contract was signed"
 msgstr "Vertrag wurde unterzeichnet"
 
-#: tmp/db-tokens/benefits.js:6
+#: tmp/db-tokens/benefits.js:4
 msgid "Contributions to capital formation"
 msgstr "Vermögenswirksame Leistungen"
 
@@ -745,7 +747,7 @@ msgstr "Beschreiben Sie den Interview- und Onboarding-Prozess"
 msgid "Development methodology"
 msgstr "Entwicklungsmethoden"
 
-#: components/directive-education-form/directive-education-form.html:121
+#: components/directive-education-form/directive-education-form.html:134
 msgid "Did not complete degree."
 msgstr "Ohne Abschluss."
 
@@ -779,10 +781,6 @@ msgid "Does your revenue really exceed &euro;9223372036854775808 per year?"
 msgstr ""
 "Ist der Umsatz Ihres Unternehmens tatsächlich höher als "
 "&euro;9223372036854775808 pro Jahr?"
-
-#: tmp/db-tokens/benefits.js:7
-msgid "Dogs Allowed"
-msgstr "Hunde erlaubt"
 
 #: components/candidate-signup-user/candidate-signup-user.html:148
 msgid "Don't have an invite code?"
@@ -907,6 +905,11 @@ msgstr "Gehaltswunsch & Mobilität"
 msgid "Expert"
 msgstr "Experte"
 
+#: apps/common/offer.js:16
+#, fuzzy
+msgid "Expired"
+msgstr "eingestellt"
+
 #: components/employer-create-offer/employer-create-offer.html:199
 msgid ""
 "Extend an offer to the candidate, they cannot refuse. It's not always only "
@@ -981,11 +984,11 @@ msgstr "Funding Betrag kann nicht größer als 100.000.000 sein"
 msgid "Founding year"
 msgstr "Gründungsjahr"
 
-#: tmp/db-tokens/benefits.js:8
+#: tmp/db-tokens/benefits.js:5
 msgid "Free Beverages"
 msgstr "Freie Getränke"
 
-#: tmp/db-tokens/benefits.js:9
+#: tmp/db-tokens/benefits.js:6
 msgid "Free Fruits"
 msgstr "kostenlose Früchte"
 
@@ -1093,7 +1096,7 @@ msgstr "Interviewprozess"
 msgid "Home"
 msgstr "Startseite"
 
-#: tmp/db-tokens/benefits.js:10
+#: tmp/db-tokens/benefits.js:7
 msgid "Home office acceptance"
 msgstr "Home Office Regelung"
 
@@ -1162,6 +1165,11 @@ msgstr "Interviewanfrage gelöscht"
 
 #: components/candidate-employer-profile/candidate-employer-profile.js:78
 msgid "Interview requested"
+msgstr "Interview angefragt"
+
+#: apps/common/offer.js:12
+#, fuzzy
+msgid "Interviewed"
 msgstr "Interview angefragt"
 
 #: components/directive-offer/directive-offer.html:37
@@ -1234,7 +1242,7 @@ msgstr "Nachname"
 msgid "Last name"
 msgstr "Nachname"
 
-#: tmp/db-tokens/benefits.js:11
+#: tmp/db-tokens/benefits.js:8
 msgid "Life and disability insurance"
 msgstr "Unfallversicherung"
 
@@ -1290,10 +1298,6 @@ msgstr "Angebot machen"
 #: tools/months.js:11
 msgid "March"
 msgstr "März"
-
-#: tmp/db-tokens/benefits.js:12
-msgid "Massages"
-msgstr "Massagen"
 
 #: tools/months.js:13
 msgid "May"
@@ -1464,7 +1468,7 @@ msgstr "Angebot wurde abgelehnt"
 msgid "Offer was withdrawn"
 msgstr "Angebot wurde zurückgezogen"
 
-#: components/candidate-offer/candidate-offer.js:72
+#: components/candidate-offer/candidate-offer.js:73
 #: components/employer-offer/employer-offer.js:72
 msgid "Offer {{ status }}"
 msgstr "Angebot {{ status }}"
@@ -1474,7 +1478,7 @@ msgstr "Angebot {{ status }}"
 msgid "Offered annual salary"
 msgstr "Angebot Jahresgehalt"
 
-#: apps/candidate/navbar.html:42 apps/employer/navbar.html:41
+#: apps/candidate/navbar.html:43 apps/employer/navbar.html:41
 #: components/candidate-dashboard/candidate-dashboard.html:131
 #: components/candidate-offer-list/candidate-offer-list.html:7
 #: components/candidate-profile/candidate-profile.html:459
@@ -1526,6 +1530,7 @@ msgstr "Rein erfolgsbassiert"
 
 #: components/candidate-signup-target/candidate-signup-target.html:158
 #: components/candidate-signup-target/candidate-signup-target.html:58
+#: components/directive-education-form/directive-education-form.html:112
 #: tmp/db-tokens/rejectionreasons.js:7 tmp/db-tokens/withdrawalreasons.js:5
 msgid "Other"
 msgstr "Andere"
@@ -2082,7 +2087,7 @@ msgstr ""
 msgid "Please select"
 msgstr "Bitte auswählen"
 
-#: components/directive-education-form/directive-education-form.html:125
+#: components/directive-education-form/directive-education-form.html:140
 msgid "Please select a degree or check \"Did not complete degree\"."
 msgstr "Bitte Abschluss oder \"ohne Abschluss\" auswählen."
 
@@ -2175,7 +2180,7 @@ msgstr "Datenschutz"
 msgid "Product or Project Management"
 msgstr "Produkt- oder Projektmanagement"
 
-#: apps/candidate/navbar.html:45 apps/employer/navbar.html:44
+#: apps/candidate/navbar.html:46 apps/employer/navbar.html:44
 msgid "Profile"
 msgstr "Profil"
 
@@ -2184,7 +2189,7 @@ msgstr "Profil"
 msgid "Profile picture"
 msgstr "Profilbild"
 
-#: tmp/db-tokens/benefits.js:13
+#: tmp/db-tokens/benefits.js:9
 msgid "Public Transport Tickets"
 msgstr "Jobticket"
 
@@ -2221,13 +2226,14 @@ msgstr "Interviewprozess"
 msgid "Reject"
 msgstr "Ablehnen"
 
-#: tmp/db-tokens/benefits.js:14
+#: apps/common/offer.js:10
+#, fuzzy
+msgid "Rejected"
+msgstr "Ablehnen"
+
+#: tmp/db-tokens/benefits.js:10
 msgid "Relocation expenses"
 msgstr "Umzugskosten"
-
-#: tmp/db-tokens/benefits.js:15
-msgid "Remote Work"
-msgstr "Remote arbeiten"
 
 #: components/directive-office/directive-office.html:33
 msgid "Remove"
@@ -2374,7 +2380,7 @@ msgstr "Auswählen"
 msgid "Select Level..."
 msgstr "Level auswählen"
 
-#: components/directive-education-form/directive-education-form.html:111
+#: components/directive-education-form/directive-education-form.html:110
 msgid "Select a Degree..."
 msgstr "Abschluss auswählen"
 
@@ -2424,7 +2430,11 @@ msgstr "Software-Entwicklung"
 msgid "Sorry, there are no candidates matching your criteria"
 msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
 
-#: tmp/db-tokens/benefits.js:16
+#: apps/common/basic-conf.js:72
+msgid "Sorry, unknown error occurred, if this error persists please contact"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:11
 msgid "Sport and health services"
 msgstr "Sportangebote"
 
@@ -2432,7 +2442,7 @@ msgstr "Sportangebote"
 msgid "Stackoverflow URL (Starting with  http://...)"
 msgstr "Stackoverflow (beginnend mit http://...)"
 
-#: tmp/db-tokens/benefits.js:17
+#: tmp/db-tokens/benefits.js:12
 msgid "Staff restaurant or food subsidies"
 msgstr "Kantine oder Essenszuschüsse"
 
@@ -2477,7 +2487,7 @@ msgstr "Statische Seiten"
 msgid "Status"
 msgstr "Status"
 
-#: tmp/db-tokens/benefits.js:18
+#: tmp/db-tokens/benefits.js:13
 msgid "Stock option program"
 msgstr "Unternehmensbeteiligung"
 
@@ -2954,6 +2964,11 @@ msgstr ""
 msgid "Withdraw"
 msgstr "Zurückziehen"
 
+#: apps/common/offer.js:15
+#, fuzzy
+msgid "Withdrawn"
+msgstr "Zurückziehen"
+
 #: components/candidate-signup-experience/candidate-signup-experience.html:4
 #: components/candidate-signup/candidate-signup.html:41
 #: components/candidate-signup/candidate-signup.html:46
@@ -3023,11 +3038,11 @@ msgstr "Du kannst dich in dieser Sprache verbal grundlegend verständigen."
 msgid "You did it"
 msgstr "Du hast es geschafft."
 
-#: components/candidate-offer/candidate-offer.js:52
+#: components/candidate-offer/candidate-offer.js:53
 msgid "You have already accepted another offer!"
 msgstr "Du hast schon ein anderes Angebot angenommen!"
 
-#: components/candidate-offer/candidate-offer.js:51
+#: components/candidate-offer/candidate-offer.js:52
 msgid "You have already accepted this offer!"
 msgstr "Du hast dieses Angebot schon angenommen!"
 
@@ -3090,9 +3105,21 @@ msgstr "Du musst zur Registrierung mindestens 16 Jahre alt sein."
 msgid "You must type the same password on both fields."
 msgstr "Die Passwörter müssen in beiden Feldern übereinstimmen."
 
+#: apps/common/permission.js:53
+msgid "You need be approved to see this page."
+msgstr ""
+
+#: apps/common/permission.js:44
+msgid "You need complete signup process to see this page."
+msgstr ""
+
 #: components/candidate-signup-user/candidate-signup-user.html:114
 msgid "You need to agree to the terms to signup"
 msgstr "Du musst den Nutzungsbedingungen zustimmen, um dich anzumelden."
+
+#: apps/common/permission.js:27
+msgid "You need to be logged in to see this page"
+msgstr ""
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:28
 msgid "You professionally master the language in both written and spoken word."
@@ -3149,7 +3176,7 @@ msgstr ""
 "Dein Passwort wurde erneuert. Du kannst dich nun mit deinem neuen Passwort "
 "anmelden."
 
-#: apps/candidate/index.html:84 apps/employer/index.html:83
+#: apps/candidate/index.html:61 apps/employer/index.html:61
 msgid "Your profile has not been reviewed &amp; approved yet."
 msgstr "Dein Profil wurde noch nicht geprüft &amp; bestätigt."
 
@@ -3458,6 +3485,21 @@ msgstr "{{ role }} aus {{ city }}"
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
+#~ msgid "Breakfasts"
+#~ msgstr "Frühstück"
+
+#~ msgid "Coffee"
+#~ msgstr "Kaffee"
+
+#~ msgid "Dogs Allowed"
+#~ msgstr "Hunde erlaubt"
+
+#~ msgid "Massages"
+#~ msgstr "Massagen"
+
+#~ msgid "Remote Work"
+#~ msgstr "Remote arbeiten"
+
 #~ msgid "Newsletter"
 #~ msgstr "Newsletter"
 
@@ -3515,9 +3557,6 @@ msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
 #~ msgid "Your profile is public"
 #~ msgstr "Dein Profil ist öffentlich"
-
-#~ msgid "hired"
-#~ msgstr "eingestellt"
 
 #~ msgid "reviewing"
 #~ msgstr "überprüfe"
