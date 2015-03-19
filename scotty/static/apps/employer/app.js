@@ -10,11 +10,9 @@ define(function(require) {
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
-    $analyticsProvider.prefix = '/employer';
     if (window.ga) {
       window.ga('create', conf.ga_id, 'auto');
       window.ga('require', 'linkid');
-      window.ga('require', 'displayfeatures');
       window.ga('require', 'displayfeatures');
       window.ga('send', 'pageview');
       window.ga('set', 'anonymizeIp', true);
