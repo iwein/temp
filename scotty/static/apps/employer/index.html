@@ -16,14 +16,8 @@
   <script src="//cdn.raygun.io/raygun4js/raygun.min.js"></script>
   <script>
     Raygun.init('tqrimMzbMSZOd6ndSOmJNw==', {
-      excludedHostnames: ['localhost'],
-    }).attach().withCustomData(function() {
-      return {
-        portal: 'employer',
-        fullUrl: document.location.toString(),
-        hash: document.location.hash,
-      };
-    });
+      excludedHostnames: [ 'localhost', '\.dev' ],
+    }).attach();
   </script>
   <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
 
