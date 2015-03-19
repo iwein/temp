@@ -404,12 +404,13 @@ class CandidateTargetPositionController(CandidateController):
     def get(self):
         return self.candidate.target_position
 
-    @view_config(route_name='target_position', **PUT)
+    @view_config(route_name='candidate', **POST)
     def create(self):
         candidate = self.candidate
         params = PreSignupRequest().deserialize(self.request.json)
         target = params['target_position']
         tp = TargetPosition(candidate_id = candidate.id, minimum_salary=target['minimum_salary'], role=target['role'], skills=target['skills'])
+        DBSession.add(tp)
         pl = set_preferred_locations(candidate.id, params['preferred_locations'])
         return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
 
