@@ -34,7 +34,7 @@ def employer_from_login(params):
 
 
 EMPLOYER_OFFICE = [
-    ('contact_first_name', ID,),
+    ('contact_first_name', ID),
     ('contact_last_name', ID),
     ('contact_phone', ID),
     ('contact_email', ID),

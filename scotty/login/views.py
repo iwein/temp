@@ -19,7 +19,7 @@ __author__ = 'martin'
 def includeme(config):
     config.add_route('login', 'login')
     config.add_route('requestpassword', 'requestpassword')
-    config.add_route('resetpassword', 'resetpassword/{toke866247n}')
+    config.add_route('resetpassword', 'resetpassword/{token}')
 
 
 def get_login(email=None, pwd=None, token=None, raise_404=True):

@@ -17,7 +17,7 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all, aliased
 from scotty.models.meta import DBSession, GUID
-from scotty.candidate.models import Candidate, Education, WorkExperience, FullCandidate, CandidateOffer, \
+from scotty.candidate.models import Candidate, Education, WorkExperience, WXPCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
     CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure
 from scotty.models.tools import update
@@ -82,7 +82,7 @@ def includeme(config):
 
 
 class CandidateController(RootController):
-    model_cls = FullCandidate
+    model_cls = WXPCandidate
 
     @reify
     def is_me(self):
@@ -114,31 +114,9 @@ class CandidateController(RootController):
         return candidate_id == session_candidate_id or self.candidate and candidate_id == 'me'
 
     @view_config(route_name='candidates', permission=NO_PERMISSION_REQUIRED, **POST)
-    def create_targetposition(self):
-        params = PreSignupRequest().deserialize(self.request.json)
-
-        target = params['target_position']
-        tp = TargetPosition(minimum_salary=target['minimum_salary'], role=target['role'], skills=target['skills'])
-        DBSession.add(tp)
-        DBSession.flush()
-
-        pl = set_preferred_locations(tp.candidate_id, params['preferred_locations'])
-
-        # temp candidate, just for serialisation
-        return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
-
-    @view_config(route_name='candidate', permission=NO_PERMISSION_REQUIRED, **POST)
     def signup_email(self):
         params = SignupRequest().deserialize(self.request.json)
-        candidate_id = self.request.matchdict["candidate_id"]
-        tp = DBSession.query(TargetPosition).get(candidate_id)
-        candidate = DBSession.query(Candidate).get(candidate_id)
-        if not tp:
-            raise HTTPBadRequest('Unknown ID, no target position saved for ID')
-        if candidate:
-            raise HTTPBadRequest('Candidate already signed up')
-        candidate_id = tp.candidate_id
-        candidate = candidate_from_signup(candidate_id, params)
+        candidate = candidate_from_signup(params)
 
         try:
             DBSession.add(candidate)
@@ -264,7 +242,7 @@ class CandidateViewController(CandidateController):
                 .filter(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == None)
 
         if locations:
-            query = query.join(PreferredLocation, Candidate.id == PreferredLocation.target_position_candidate_id)
+            query = query.join(PreferredLocation, Candidate.id == PreferredLocation.candidate_id)
 
             country_filter = set([c['country_iso'] for c in locations])
             city_filter = [and_(City.name == loc['city'], City.country_iso == loc['country_iso']) for loc in locations]
@@ -284,7 +262,7 @@ class CandidateViewController(CandidateController):
         if name and self.request.employer_id:
             name = name.lower()
             employer_ids = func.array_agg(Offer.employer_id, type_=ARRAY(TEXT)).label('employer_ids')
-            offer_query = DBSession.query(Offer.candidate_id, employer_ids).filter(Offer.accepted != None)\
+            offer_query = DBSession.query(Offer.candidate_id, employer_ids).filter(Offer.accepted != None) \
                 .group_by(Offer.candidate_id).subquery()
             query = query.outerjoin(offer_query, offer_query.c.candidate_id == Candidate.id).filter(
                 or_(cast(Candidate.id, TEXT).startswith(name),
@@ -426,9 +404,20 @@ class CandidateTargetPositionController(CandidateController):
     def get(self):
         return self.candidate.target_position
 
+    @view_config(route_name='candidate', **POST)
+    def create(self):
+        candidate = self.candidate
+        params = PreSignupRequest().deserialize(self.request.json)
+        target = params['target_position']
+        tp = TargetPosition(candidate_id = candidate.id, minimum_salary=target['minimum_salary'], role=target['role'], skills=target['skills'])
+        DBSession.add(tp)
+        pl = set_preferred_locations(candidate.id, params['preferred_locations'])
+        return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
+
     @view_config(route_name='target_position', **POST)
     def edit(self):
-        return update(self.candidate.target_position, self.request.json, TP_EDITABLES)
+        candidate = self.candidate
+        return update(candidate.target_position, self.request.json, TP_EDITABLES)
 
 
 class CandidateBookmarkController(CandidateController):
