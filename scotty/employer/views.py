@@ -274,7 +274,7 @@ class EmployerOfficeController(EmployerController):
 
     @view_config(route_name='employer_office', **PUT)
     def edit(self):
-        return update(self.office, self.request.json, EMPLOYER_OFFICE)
+        return update(self.office, self.request.json, dict(EMPLOYER_OFFICE))
 
     @view_config(route_name='employer_office', **DELETE)
     def delete(self):
