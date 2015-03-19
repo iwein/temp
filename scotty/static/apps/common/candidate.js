@@ -155,6 +155,10 @@ define(function(require) {
       });
     },
 
+    setSignupData: function(model) {
+      return this._api.post(this._url(), model);
+    },
+
     dispose: function() {
       // TODO
     },
