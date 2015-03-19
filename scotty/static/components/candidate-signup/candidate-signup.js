@@ -4,14 +4,8 @@ define(function(require) {
 
 
   var validStates = {
-    'start': [
-      'signup.target',
-      'signup.user',
-    ],
-    'target_position': [
-      'signup.target',
-      'signup.user',
-    ],
+    'start': [ 'signup.user' ],
+    'target_position': [ 'signup.target' ],
     'work_experience': [ 'signup.experience' ],
     'education': [ 'signup.education' ],
     'skills': [ 'signup.skills' ],
@@ -20,8 +14,8 @@ define(function(require) {
     'end': [ 'signup-complete' ]
   };
   var order = [
-    'signup.target',
     'signup.user',
+    'signup.target',
     'signup.experience',
     'signup.education',
     'signup.skills',
@@ -39,17 +33,8 @@ define(function(require) {
     Session.getConnectors().getConnected();
 
     // Create and invoke controller
-    require('tools/signup-controller')('candidate', order, validStates, validateStep)
+    require('tools/signup-controller')('candidate', order, validStates)
       .call(this, $scope, $state, Session);
-
-    function validateStep(name) {
-      if (name === 'signup.user' && !targetPositionStored())
-        return 'signup.target';
-    }
-
-    function targetPositionStored() {
-      return localStorage.getItem('scotty:user_id') !== null;
-    }
   });
 
 

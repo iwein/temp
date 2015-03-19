@@ -83,14 +83,16 @@ define(function(require) {
       $scope.loading = true;
       Loader.add('signup-target-saving');
 
-      var model = {
-        preferred_locations: $scope.model.preferred_locations,
-        target_position: _.omit($scope.model, 'preferred_locations', 'featuredSkills')
-      };
-      model.target_position.skills = (model.target_position.skills || []).concat($scope.model.featuredSkills || []);
+      var preferred_locations = $scope.model.preferred_locations;
+      var target_position = _.omit($scope.model, 'preferred_locations', 'featuredSkills');
+      target_position.skills = (target_position.skills || []).concat($scope.model.featuredSkills || []);
 
-      Session.signup(model).then(function(id) {
-        localStorage.setItem('scotty:user_id', id);
+      Session.getUser().then(function(user) {
+        return $q.all([
+          user.setTargetPosition(target_position),
+          user.setPreferredLocations(preferred_locations),
+        ]);
+      }).then(function() {
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 400 && request.data.errors) {
