@@ -30,7 +30,7 @@ define(function(require) {
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
 
-      return Session.signup($scope.model).then(function(user) {
+      return Session.signup($scope.model).then(function() {
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409) {

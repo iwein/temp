@@ -17,20 +17,20 @@
       </div>
       <ol class="list-unstyled sidenav bg-white row">
         <li ng-class="{
-          active: signup.atStep('signup.target'),
-          unactive: signup.afterStep('signup.target'),
-        }" ng-class="{  }">
-          <span class="ico-can-signup ico-can-signup_tar"></span>
-          <translate>Target position</translate>
-          <i class="fa fa-check green" ng-if="signup.afterStep('signup.target')"></i>
-        </li>
-        <li ng-class="{
           active: signup.atStep('signup.user'),
           unactive: signup.afterStep('signup.user'),
         }">
           <span class="ico-can-signup ico-can-signup_free"></span>
           <translate>Free Sign up</translate>
           <i class="fa fa-check green" ng-if="signup.afterStep('signup.user')"></i>
+        </li>
+        <li ng-class="{
+          active: signup.atStep('signup.target'),
+          unactive: signup.afterStep('signup.target'),
+        }" ng-class="{  }">
+          <span class="ico-can-signup ico-can-signup_tar"></span>
+          <translate>Target position</translate>
+          <i class="fa fa-check green" ng-if="signup.afterStep('signup.target')"></i>
         </li>
         <li ng-class="{
           active: signup.atStep('signup.experience'),

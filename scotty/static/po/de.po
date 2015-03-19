@@ -62,21 +62,21 @@ msgstr ""
 #, fuzzy
 msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
-"click <a href=\"/employer/#/signup\"><b>here</b></a>!"
+"click <a href=\"/employer/signup\"><b>here</b></a>!"
 msgstr ""
 "<h2>Melde dich als IT-Experte an und finde deine Wunschposition</"
-"h2>Unternehmen registrieren sich bitte <a href=\"/employer/#/signup"
+"h2>Unternehmen registrieren sich bitte <a href=\"/employer/signup"
 "\"><b>hier! </b></a>"
 
 #: components/employer-signup-start/employer-signup-start.js:27
 #, fuzzy
 msgid ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
-"are looking to be get hired, click <a href=\"/candidate/#/signup\"><b>here</"
+"are looking to be get hired, click <a href=\"/candidate/signup\"><b>here</"
 "b></a>!"
 msgstr ""
 "<h2>Registrieren Sie sich als Arbeitgeber und gewinnen Sie die besten IT-"
-"Talente!</h2>Als IT-Experte melde dich bitte <a href=\"/candidate/#/signup"
+"Talente!</h2>Als IT-Experte melde dich bitte <a href=\"/candidate/signup"
 "\"><b>hier </b></a>an!"
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:15
