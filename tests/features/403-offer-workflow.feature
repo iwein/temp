@@ -1,4 +1,4 @@
-Feature: Candidate request offer
+Feature: Offer workflow
   This feature describes a candidate asking an employer for a offer
 
   Background:

@@ -1,4 +1,4 @@
-Feature: Employer sign up process
+Feature: Employer search feature
   This feature describes a employer searching for candidates
 
   Background:
