@@ -107,7 +107,7 @@ def add_employer_offer(employer, params):
         from city 
         where id=:city_id
         ) cg
-        where target_position_candidate_id =  :candidate_id
+        where candidate_id =  :candidate_id
         and (ST_Distance(cg.g, city.geog) < 50000 or cpl.country_iso = cg.country_iso)
         limit 100;
     """), {'candidate_id': candidate_id, 'city_id': location.id})
