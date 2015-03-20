@@ -87,7 +87,7 @@ define(function(require) {
           return localStorage.mockEmail.replace('%D%', localStorage.mockEmailCounter++);
         });
         setValue('input[type=password]', '123123123');
-        setValue('input[type=number]', random.bind(null, 1900, 2100));
+        setValue('input[type=number]', random.bind(null, 1900, 2014));
         setValue('input[type=dotted-integer]', random.bind(null, 18000, 100001));
         setValue('input[type=url]', document.location.toString());
         setValue('input[type=tel]', function() {
