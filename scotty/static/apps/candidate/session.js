@@ -126,10 +126,6 @@ define(function(require) {
       });
     },
 
-    createUser: function(id, data) {
-      return this._api.post('/candidates/' + id, data).then(this._setUser);
-    },
-
     getSignupStage: function() {
       return this._api.get('/candidates/me/signup_stage').catch(function(request) {
         if (request.status === 403)

@@ -8,7 +8,7 @@ define(function(require) {
       restrict: 'E',
       transclude: true,
       template: '<a class="link" style="text-decoration: underline;" ' +
-        'href="../en/terms-candidate.html" target="_blank" ng-transclude></a>',
+        'href="/en/terms-candidate.html" target="_blank" ng-transclude></a>',
     };
   });
 
@@ -26,14 +26,11 @@ define(function(require) {
 
     function submit() {
       if (!$scope.formSignupUser.$valid)return;
-      var id = localStorage.getItem('scotty:user_id');
       $scope.loading = true;
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
 
-      return Session.createUser(id, $scope.model).then(function() {
-        localStorage.removeItem('scotty:user_id');
-      }).then(function() {
+      return Session.signup($scope.model).then(function() {
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409) {

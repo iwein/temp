@@ -10,11 +10,9 @@ define(function(require) {
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
-    $analyticsProvider.prefix = '/candidate';
     if (window.ga) {
       window.ga('create', conf.ga_id, 'auto');
       window.ga('require', 'linkid');
-      window.ga('require', 'displayfeatures');
       window.ga('require', 'displayfeatures');
       window.ga('send', 'pageview');
       window.ga('set', 'anonymizeIp', true);
@@ -57,7 +55,7 @@ define(function(require) {
     $rootScope.session = Session;
     $rootScope.logout = function() {
       Session.logout().then(function() {
-        $window.location = '../index.html';
+        $window.location = '/';
       });
     };
   });

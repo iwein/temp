@@ -25,7 +25,7 @@ define(function(require) {
       return this._session.checkSession().then(function(hasSession) {
         if (hasSession) return true;
         this._alert.warning(this._i18n.gettext('You need to be logged in to see this page'));
-        window.location = '../login.html';
+        window.location = '/login.html';
         throw new LoginRequiredError('Login required');
       }.bind(this), function(error) {
         this._alert.defaultError();

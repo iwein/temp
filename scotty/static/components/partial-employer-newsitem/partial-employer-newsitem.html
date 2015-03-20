@@ -27,7 +27,7 @@
       You signed a contract with <hc-candidate-link ng-model="entry.candidate"></hc-candidate-link> They will start soon!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_PENDING'" translate>
-      You agreed to the <a href="../terms-of-service.html">terms and conditions</a>!
+      You agreed to the <a ng-href="{{ staticUrl() }}/terms-of-service.html">terms and conditions</a>!
     </div>
     <div class="note" ng-if="entry.name === 'PROFILE_LIVE'" translate>
       Congrats! Your account was approved! Welcome to Scotty!
