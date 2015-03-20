@@ -121,9 +121,9 @@ define(function(require) {
     },
 
     signup: function(data) {
-      return this._api.post('/candidates/', data).then(function(response) {
-        return response.id;
-      });
+      return this._api.post('/candidates/', data).then(function() {
+        return this.refreshUser();
+      }.bind(this));
     },
 
     getSignupStage: function() {

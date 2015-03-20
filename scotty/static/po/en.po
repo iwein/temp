@@ -51,7 +51,7 @@ msgid ""
 "Your profile will be on sleep!"
 msgstr ""
 
-#: components/candidate-signup-target/candidate-signup-target.js:40
+#: components/candidate-signup-user/candidate-signup-user.js:29
 #, fuzzy
 msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
@@ -68,8 +68,7 @@ msgid ""
 "b></a>!"
 msgstr ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
-"are an IT-Professional, click <a href=\"/candidate/signup\"><b>here</b></"
-"a>!"
+"are an IT-Professional, click <a href=\"/candidate/signup\"><b>here</b></a>!"
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:15
 msgid ""
@@ -915,7 +914,7 @@ msgstr ""
 msgid "Free Fruits"
 msgstr ""
 
-#: components/candidate-signup/candidate-signup.html:32
+#: components/candidate-signup/candidate-signup.html:24
 msgid "Free Sign up"
 msgstr ""
 
@@ -2360,7 +2359,7 @@ msgstr ""
 
 #: components/candidate-profile/candidate-profile.html:649
 #: components/candidate-profile/candidate-profile.html:677
-#: components/candidate-signup/candidate-signup.html:24
+#: components/candidate-signup/candidate-signup.html:32
 #: components/employer-candidate-profile/employer-candidate-profile.html:110
 msgid "Target position"
 msgstr ""
@@ -2540,7 +2539,7 @@ msgstr ""
 msgid "University or Institution"
 msgstr ""
 
-#: components/candidate-signup-user/candidate-signup-user.js:46
+#: components/candidate-signup-user/candidate-signup-user.js:59
 msgid "Unknown invite code"
 msgstr ""
 
@@ -2933,7 +2932,7 @@ msgid ""
 "Your password has been updated. You can now login with your new password"
 msgstr ""
 
-#: apps/candidate/index.html:62 apps/employer/index.html:62
+#: apps/candidate/index.html:56 apps/employer/index.html:56
 msgid "Your profile has not been reviewed &amp; approved yet."
 msgstr ""
 
