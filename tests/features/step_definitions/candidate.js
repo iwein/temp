@@ -28,6 +28,9 @@ stepDefinitions(function(scenario) {
 
     return this.storeRequest(AJAX.post('/candidates/', data)).then(function(response) {
       var id = response.id;
+      vars.candidate_id = id;
+      console.log('Created candidate:', id);
+
       return AJAX.post('/candidates/' + id, {
         target_position: {
           'role': 'System Administration',
@@ -39,10 +42,6 @@ stepDefinitions(function(scenario) {
           'BR': ['Uberlândia']
         }
       });
-    }).then(function(response) {
-      vars.candidate_id = response.id;
-      console.log('Created candidate:', vars.candidate_id);
-      return response;
     });
   }
 
