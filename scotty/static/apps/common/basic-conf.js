@@ -61,7 +61,7 @@ define(function(require) {
       });
 
       function staticUrl() {
-        return $rootScope.lang === 'en' ? '/en' : '/';
+        return $rootScope.lang === 'en' ? '/en' : '';
       }
     });
 
