@@ -23,7 +23,7 @@ stepDefinitions(function(scenario) {
         'city': 'Berlin',
         'country_iso': 'DE'
       },
-      'benefits': ['Coffee', 'Massages'],
+      'benefits': ['Company Cars', 'Free Fruits'],
       'technologies': ['PHP', 'Python'],
       'role': 'Senior Artchitect',
       'annual_salary': 50000,
