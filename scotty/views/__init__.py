@@ -119,43 +119,34 @@ def notfound(exc, request):
     return HTTPNotFound(exc.message)
 
 
-@view_config(route_name='marksafari', permission=NO_PERMISSION_REQUIRED)
-def marksafari(request):
-    response = HTTPFound(location=request.POST.get('url') or request.referer)
-    response.set_cookie('safari', value='marked', max_age=31536000)  # max_age = year
-    return response
-
-
-@view_config(route_name='ismarked', permission=NO_PERMISSION_REQUIRED)
-def ismarked(request):
-    cb = request.GET.get('cb')
-    resp = json.dumps({'marked': request.cookies.get('safari') == 'marked'})
-    response = Response('%s(%s);' % (cb, resp), headers={"Content-Type": "application/javascript"})
-    return response
-
-
 @subscriber(BeforeRender)
 def add_last_activity_updater(event):
     """
     Update last activity, i.e. endpoint called
     """
+    def update(entity):
+        def inner_update(request):
+            entity.last_active = datetime.now()
+        return inner_update
+
     request = event['request']
     if request and request.candidate_id:
         c = DBSession.query(Candidate).get(request.candidate_id)
-        if c: c.last_active = datetime.now()
+        if c:
+            request.add_finished_callback(update(c))
     if request and request.employer_id:
         e = DBSession.query(Employer).get(request.employer_id)
-        if e: e.last_active = datetime.now()
+        if e:
+            request.add_finished_callback(update(e))
 
 
 def includeme(config):
     config.add_route('home', '/')
     config.add_route('refer', '/api/v1/refer')
-    config.add_route('marksafari', '/api/v1/marksafari')
-    config.add_route('ismarked', '/api/v1/ismarked')
     config.add_route('contact', '/api/v1/contact')
 
     config.include("scotty.views.debug", route_prefix='/debug')
+    config.include("scotty.views.api_preview")
     config.add_notfound_view(notfound, append_slash=True)
 
     config.include("scotty.login.views", route_prefix='/api/v1')

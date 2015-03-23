@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/element-candidate-status/element-candidate-status');
   require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var fn = require('tools/fn');
@@ -47,9 +48,7 @@ define(function(require) {
         var offers = result[0];
         setOffers(offers);
         setSkills(data.skills);
-        candidateStatus(offers, data);
         generateTimeline($scope.workExperience);
-        $scope.preferredLocations = parsePreferredLocations(data.preferred_location);
 
         _.extend($scope, {
           cities: data.preferred_location,
@@ -67,17 +66,6 @@ define(function(require) {
       $scope.lang = i18n.getCurrent();
     }
 
-    function candidateStatus(offers, data) {
-      var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-      $scope.status = data.status === 'sleeping' ?
-        'sleeping' :
-        (offers.reduce(function(summary, value) {
-          if (finalStatus.indexOf(value.status) !== -1) return;
-          if (value.status === 'CONTRACT_SIGNED') return 'hired';
-          return summary || 'reviewing';
-        }, null) || 'searching');
-    }
-
     function generateTimeline(experience) {
       var total = 0;
       var timeline = experience.map(function(entry) {
@@ -90,6 +78,8 @@ define(function(require) {
           duration: duration,
           role: entry.role
         };
+      }).filter(function(entry) {
+        return entry.duration !== 0;
       });
       timeline.forEach(function(entry) {
         entry.percent = 100 / total * entry.duration;
@@ -100,17 +90,8 @@ define(function(require) {
       });
     }
 
-    function parsePreferredLocations(locations) {
-      if (!locations) return i18n.gettext('Not specified');
-
-      return Object.keys(locations).map(function(country) {
-        var cities = locations[country];
-        var text = cities.length ? cities.join(', ') : i18n.gettext('Anywhere');
-        return text + ' ' + country;
-      }).join(' - ');
-    }
-
     function setOffers(offers) {
+      $scope.allOffers = offers;
       $scope.offers = offers
         .map(fn.get('data'))
         .sort(function(a, b) { return b.annual_salary - a.annual_salary })

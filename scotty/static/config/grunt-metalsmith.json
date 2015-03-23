@@ -21,7 +21,7 @@
           "directory": "apps/index",
           "helpers": {},
           "partials": {
-            "footer": "../common/footer",
+            "footer": "../../tmp/footer",
             "headscripts": "partials/headscripts",
             "footscripts": "partials/footscripts"
           }

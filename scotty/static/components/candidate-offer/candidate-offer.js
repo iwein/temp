@@ -20,6 +20,7 @@ define(function(require) {
       ready: false,
     });
     this.onStatusChange = onStatusChange;
+    var refreshUser = Session.refreshUser.bind(Session);
     var email;
 
     return onLoad();
@@ -88,6 +89,7 @@ define(function(require) {
       Loader.add('offer-accept');
       return offer.accept(model)
         .then(toggleForm.bind(null, 'accept'))
+        .then(refreshUser)
         .finally(function() { Loader.remove('offer-accept') });
     }
 
@@ -95,6 +97,7 @@ define(function(require) {
       Loader.add('offer-reject');
       return offer.reject(form)
         .then(toggleForm.bind(null, 'reject'))
+        .then(refreshUser)
         .finally(function() { Loader.remove('offer-reject') });
     }
 
@@ -103,6 +106,7 @@ define(function(require) {
       Loader.add('offer-sign');
       return offer.sign(model)
         .then(toggleForm.bind(null, 'sign'))
+        .then(refreshUser)
         .finally(function() {
           toaster.success(
             i18n.gettext('<h2>Congratulation to your new position!</h2>\nYour profile will be on sleep!'),

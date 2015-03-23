@@ -20,5 +20,12 @@
       "src": "<%= files.employer.out.html %>",
       "dest": "<%= files.employer.out.html %>"}
     ]
+  },
+  "footer-links": {
+    "options": { "patterns": [ { "match": "TO_BE_DEFINED", "replacement": "" } ] },
+    "files": [{
+      "src": "apps/common/footer.html",
+      "dest": "tmp/footer.html"
+    }]
   }
 }

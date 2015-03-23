@@ -10,7 +10,7 @@ from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden, HTTPBadRequest, 
 from pyramid.view import view_config
 from scotty.models.meta import DBSession
 from scotty.configuration.models import WithdrawalReason
-from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, FullEmployer, EmployerPicture, \
+from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, EmployerPicture, \
     SuggestedCandidate
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
@@ -66,7 +66,7 @@ class EmployerInviteController(RootController):
     @reify
     def invited_employer(self):
         token = self.request.matchdict['token']
-        employer = DBSession.query(FullEmployer).filter(FullEmployer.invite_token == token).first()
+        employer = DBSession.query(Employer).filter(Employer.invite_token == token).first()
         if not employer:
             raise HTTPNotFound("Unknown Invite Token: %s" % token)
         return employer
@@ -84,7 +84,7 @@ class EmployerInviteController(RootController):
 
 
 class EmployerController(RootController):
-    employer_cls = FullEmployer
+    employer_cls = Employer
 
     @reify
     def employer(self):
@@ -274,7 +274,7 @@ class EmployerOfficeController(EmployerController):
 
     @view_config(route_name='employer_office', **PUT)
     def edit(self):
-        return update(self.office, self.request.json, EMPLOYER_OFFICE)
+        return update(self.office, self.request.json, dict(EMPLOYER_OFFICE))
 
     @view_config(route_name='employer_office', **DELETE)
     def delete(self):
@@ -416,8 +416,8 @@ class EmployerDashboardController(EmployerController):
         candidate_ids = get_employer_suggested_candidate_ids(self.employer.id)
         candidates = DBSession.query(WXPCandidate).options(joinedload("languages"), joinedload("skills"),
                                                            joinedload("work_experience")) \
-            .filter(WXPCandidate.id.in_(candidate_ids)).all()
-        return candidates
+            .filter(WXPCandidate.id.in_(candidate_ids))
+        return run_paginated_query(self.request, candidates)
 
     @view_config(route_name='employer_suggested_candidates', **GET)
     def employer_suggested_candidates(self):

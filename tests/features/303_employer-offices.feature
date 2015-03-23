@@ -1,4 +1,4 @@
-Feature: Employer sign up process
+Feature: Employer sign up process - offices step
   This feature describes a employer moving though signup process
 
   Background:

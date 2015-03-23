@@ -1,10 +1,10 @@
 define(function(require) {
   'use strict';
+  require('components/element-preferred-location/element-preferred-location');
   require('components/partial-candidate-pic/partial-candidate-pic');
   var _ = require('underscore');
   var angular = require('angular');
   var Date = require('tools/date');
-  var booleanAttrs = require('tools/boolean-attrs');
   var module = require('app-module');
 
   function calcExperience(experience) {
@@ -29,15 +29,13 @@ define(function(require) {
         model: '=ngModel',
         hcHide: '@'
       },
-      link: function(scope, elem, attr) {
+      link: function(scope) {
         try {
           scope.hide = angular.fromJson(scope.hcHide || '{}');
         } catch (err) {
           throw new Error('Invalid JSON at hc-hide attribute. ' +
             'Remember to use angular\'s expression {{ { key: "value" } }}');
         }
-
-        booleanAttrs(scope, attr, [ 'hcLinkProfile' ]);
 
         scope.$watch('model', function(model) {
           var data = model._data || model;

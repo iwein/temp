@@ -20,13 +20,13 @@ description: The best fitting IT jobs for you. Get valuable guidance for your ca
   </div>
 </div>
 
-<div class="banner">
+<div class="banner banner-index">
   <div class="banner-inner">
     <h1>Companies pitching to you</h1>
     <h2>for IT jobs that match  your tech skills</h2>
   </div>
   <div class="text-center">
-    <a class="sign sign-padded" href="../candidate/#/signup">sign up</a>
+    <a class="sign sign-padded" href="/candidate/signup">sign up</a>
   </div>
 </div>
 <div class="bg-white">
@@ -91,7 +91,7 @@ description: The best fitting IT jobs for you. Get valuable guidance for your ca
         Beam me up, 4Scotty!
       </p>
       <p class="text-center">
-        <a class="sign sign-padded" href="../candidate/#/signup">sign up</a>
+        <a class="sign sign-padded" href="/candidate/signup">sign up</a>
       </p>
     </div>
   </div>
@@ -150,7 +150,7 @@ description: The best fitting IT jobs for you. Get valuable guidance for your ca
   <div class="fav">
     <h2 class="static-big-title text-center caps">HELP A FRIEND AND YOURSELF</h2>
     <p>
-      Small presents keep a friendship alive! Has 4Scotty convinced you? Then we’d be grateful if you tell your friends and colleagues about us. It will pay off if one of your recommendations finds a new job on 4Scotty, then we will show our thanks with a <span class="orange">€ 1,010.01</span> bonus!
+      Small presents keep a friendship alive! Has 4Scotty convinced you? Then we’d be grateful if you tell your friends and colleagues about us. It will pay off if one of your recommendations finds a new job on 4Scotty, then we will show our thanks with a <span class="orange">€ 1,010.10</span> bonus!
     </p>
     <div class="form-wrap-static form-wrap-static-home">
       <form id="recommend-form" method="POST">
@@ -192,27 +192,7 @@ description: The best fitting IT jobs for you. Get valuable guidance for your ca
       </form>
 
       <script type="text/javascript">
-        (function() {
-          'use strict';
-          var url = app.api_url + 'v1/refer';
-          var $form = document.getElementById('recommend-form');
-          function success(xhr){
-            var resp = JSON.parse(xhr.responseText);
-            app.display(document.getElementById('message-'+resp.message));
-            if(resp.success){
-              var i, inputs = $form.querySelectorAll('input.form-emptiable');
-              for (i = 0; i < inputs.length; ++i) inputs[i].value = '';
-              $form.querySelectorAll('input.form-emptiable')[0].focus();
-            }
-            $('.alert-container').affix({offset: {top: 100}});
-          }
-          $form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            var data = {lang: 'en'}, i, inputs = $form.querySelectorAll('input,textarea');
-            for (i = 0; i < inputs.length; ++i) {var elem = inputs[i];data[elem.name] = elem.value;}
-            app.POST(url, data, success);
-          });
-        })();
+        app.inviteFriend('recommend-form', 'en');
       </script>
     </div>
   </div>

@@ -5,8 +5,8 @@ from scotty.models.tools import ID
 from scotty.services import hash_pwd
 from sqlalchemy.orm import joinedload_all
 from scotty.models.meta import DBSession
-from scotty.candidate.models import FullCandidate, CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, PreferredLocation
+from scotty.candidate.models import CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
+    WorkExperience, Education, PreferredLocation, WXPCandidate
 from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role, Locale
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_lookup, get_or_create_named_lookup, get_location_by_name_or_raise
@@ -14,11 +14,11 @@ from scotty.offer.models import NewsfeedOffer
 from scotty.services.pagingservice import Pager
 
 
-def candidate_from_signup(candidate_id, params):
+def candidate_from_signup(params):
     status = get_by_name_or_raise(CandidateStatus, CandidateStatus.PENDING)
-    candidate = FullCandidate(id=candidate_id, email=params['email'], first_name=params['first_name'],
-                              last_name=params['last_name'], locale= params.get('locale'),
-                              status=status, invite_code=params.get('invite_code'))
+    candidate = Candidate(email=params['email'], first_name=params['first_name'],
+                          last_name=params['last_name'], locale= params.get('locale'),
+                          status=status, invite_code=params.get('invite_code'))
     candidate.password = params['pwd']
     return candidate
 
@@ -39,7 +39,7 @@ TP_EDITABLES = {'minimum_salary': ID, 'role': lambda v: get_by_name_or_create(Ro
 def candidate_from_login(params):
     email = params['email']
     pwd = hash_pwd(params['pwd'])
-    candidate = DBSession.query(FullCandidate).filter(Candidate.email == email, Candidate.pwd == pwd) \
+    candidate = DBSession.query(WXPCandidate).filter(Candidate.email == email, Candidate.pwd == pwd) \
         .join(CandidateStatus).filter(CandidateStatus.name.notin_([CandidateStatus.DELETED,
                                                                    CandidateStatus.SUSPENDED])).first()
     return candidate
@@ -97,9 +97,9 @@ def set_candidate_work_experience(candidate_id, params):
 
 
 def set_preferred_locations(candidate_id, locations):
-    DBSession.query(PreferredLocation).filter(PreferredLocation.target_position_candidate_id == candidate_id).delete()
+    DBSession.query(PreferredLocation).filter(PreferredLocation.candidate_id == candidate_id).delete()
     for loc in locations:
-        loc.target_position_candidate_id = candidate_id
+        loc.candidate_id = candidate_id
     DBSession.add_all(locations)
     DBSession.flush()
     return locations
@@ -109,10 +109,10 @@ def set_languages_on_candidate(candidate, params):
     if not isinstance(params, list):
         raise HTTPBadRequest("Must submit list of languages as root level.")
     language_lookup = get_or_raise_named_lookup(Language, [p['language'] for p in params],
-                                                    require_uniqueness=False)
+                                                require_uniqueness=False)
 
     proficiency_lookup = get_or_raise_named_lookup(Proficiency, [p['proficiency'] for p in params],
-                                                       require_uniqueness=False)
+                                                   require_uniqueness=False)
     DBSession.query(CandidateLanguage).filter(CandidateLanguage.candidate_id == candidate.id).delete()
     languages = []
     duplicates = set()
@@ -133,7 +133,7 @@ def set_skills_on_candidate(candidate, params):
         raise HTTPBadRequest("Must submit list of skills as root level.")
     skill_lookup = get_or_create_named_lookup(Skill, [p['skill'] for p in params])
     level_lookup = get_or_raise_named_lookup(SkillLevel, [p['level'] for p in params if p.get('level')],
-                                                 require_uniqueness=False)
+                                             require_uniqueness=False)
 
     DBSession.query(CandidateSkill).filter(CandidateSkill.candidate_id == candidate.id).delete()
     skills = []

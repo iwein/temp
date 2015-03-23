@@ -1,0 +1,17 @@
+<span class="component-candidate-status">
+  <span ng-if="status === 'searching'">
+    <span class="iconParent blue-link"><i class="fa fa-binoculars"></i></span>
+    <span translate>searching</span>
+  </span>
+  <span ng-if="status === 'reviewing'">
+    <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
+    <span translate>reviewing offer</span>
+  </span>
+  <span ng-if="status === 'sleeping'">
+    <span class="green smbd" translate>SLEEPING</span>
+  </span>
+  <span ng-if="status === 'hired'">
+    <span class="green smbd" translate>HIRED</span>
+  </span>
+  <span ng-if="!status" class="spinner"></span>
+</span>

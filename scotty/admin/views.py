@@ -14,7 +14,6 @@ from scotty.models.tools import json_encoder, add_sorting, distinct_counter, upd
 from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES, \
     SerializableBookmark
 from scotty.employer.models import Employer, EMPLOYER_SORTABLES, CandidateSuggestedTo, SuggestedCandidate
-from scotty.models import FullEmployer
 from scotty.admin.services import invite_employer
 from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.views import RootController
@@ -177,18 +176,18 @@ class AdminController(RootController):
     @view_config(route_name='admin_employer_by_status', permission=ADMIN_PERM, **GET)
     def admin_employer_by_status(self):
         status = self.request.matchdict['status']
-        query = DBSession.query(FullEmployer).filter(*FullEmployer.by_status(status))
+        query = DBSession.query(Employer).filter(*Employer.by_status(status))
 
         searchterm = self.request.params.get('q')
         if searchterm is not None:
-            query = query.filter(func.lower(FullEmployer.company_name).contains(func.lower(searchterm)))
+            query = query.filter(func.lower(Employer.company_name).contains(func.lower(searchterm)))
 
         return run_paginated_query(self.request, query)
 
     @view_config(route_name='admin_employer_approve', permission=ADMIN_PERM, **GET)
     def admin_employer_approve(self):
         employer_id = self.request.matchdict['employer_id']
-        employer = DBSession.query(FullEmployer).get(employer_id)
+        employer = DBSession.query(Employer).get(employer_id)
         if not employer:
             raise HTTPNotFound("Unknown Employer ID")
         employer.approved = datetime.now()
@@ -228,7 +227,8 @@ class AdminController(RootController):
         basequery = DBSession.query(SearchResultCandidate) \
             .options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                      joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                     joinedload_all('target_position.preferred_locations'))
+                     joinedload('preferred_locations'),
+                     joinedload('target_position'))
         if status:
             status = get_by_name_or_raise(CandidateStatus, status)
             basequery = basequery.filter(Candidate.status == status)

@@ -14,7 +14,7 @@ define(function(require) {
   }
 
   function format(value) {
-    value = value ? value.toString() : '';
+    value = value != null ? value.toString() : '';
     if (!INTEGER.test(value))
       value = value.replace(NON_DIGIT, '');
 

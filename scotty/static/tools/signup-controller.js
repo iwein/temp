@@ -1,8 +1,7 @@
 define(function() {
   'use strict';
   // component parameter is for debug only
-  return function config(component, order, validStates, extraValidation) {
-    extraValidation = extraValidation || function(name) { return name };
+  return function config(component, order, validStates) {
 
     return function Controller($scope, $state, Session) {
       var validated = null;
@@ -52,7 +51,7 @@ define(function() {
           if (valid.indexOf(name) === -1)
             name = allowPrevSteps(name, valid[0]);
 
-          validated = extraValidation(name) || name;
+          validated = name;
           $scope.ready = true;
           $state.go(validated);
         });

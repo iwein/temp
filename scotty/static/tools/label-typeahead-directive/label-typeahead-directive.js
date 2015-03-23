@@ -30,6 +30,7 @@ define(function(require) {
         var data = [];
         var rendered = [];
         var hasRender = 'hcRender' in $attrs;
+        var iteration = 0;
         $scope.hcRender = hasRender ? $scope.hcRender : noRender;
 
         $scope.hcAllowNew = 'hcAllowNew' in $attrs;
@@ -84,7 +85,9 @@ define(function(require) {
         }
 
         function getSource(input) {
+          var current = ++iteration;
           return $q.when($scope.hcSource({ $viewValue: input })).then(function(result) {
+            if (iteration !== current) return;
             data = result;
             rendered = hasRender ? result.map(render) : result;
             return rendered;

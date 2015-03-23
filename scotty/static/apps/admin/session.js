@@ -20,13 +20,13 @@ define(function(require) {
     getLoginAsEmployerLink: function(employer) {
       if (!employer) return '';
       return this._api.root() + '/admin/sudo/employer/' + employer.id + this.getParams +
-        '&furl=' + document.location.origin + document.location.pathname + '../employer';
+        '&furl=' + document.location.origin + '/employer';
     },
 
     getLoginAsCandidateLink: function(candidate) {
       if (!candidate) return '';
       return this._api.root() + '/admin/sudo/candidate/' + candidate.id + this.getParams +
-        '&furl=' + document.location.origin + document.location.pathname + '../candidate';
+        '&furl=' + document.location.origin + '/candidate';
     },
 
     inviteEmployer: function(model) {
@@ -154,6 +154,11 @@ define(function(require) {
 
     removeRecommendation: function(candidate, employer) {
       return this._api.delete(this._suggestionUrl(candidate), { id: employer.id });
+    },
+
+    sendRecommendationEmail: function(candidate, employer) {
+      var url = '/admin/candidates/' + candidate.id + '/send_suggestion' + this.getParams;
+      return this._api.post(url, { id: employer.id });
     },
   };
 

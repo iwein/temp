@@ -64,6 +64,7 @@ define(function(require) {
     withdrawReasons: cached('withdrawalreasons'),
     featuredRoles: cached('roles/featured'),
     degrees: cached('degrees'),
+    featuredDegrees: cached('degrees/featured'),
     locales: cached('locales'),
     travelWillingness: cached('travelwillingness'),
     featuredSkills: cached('skills/featured'),

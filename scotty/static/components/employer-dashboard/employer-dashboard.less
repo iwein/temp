@@ -1,7 +1,83 @@
+@import "../directive-candidate/directive-candidate.less";
+
 .component-employer-dashboard {
+  padding-bottom: 30px;
+
   .not-interested {
     display: block;
     cursor: pointer;
     margin-top: 10px;
+  }
+
+  .search-box-title {
+    border-bottom: 1px solid #b5b5b5;
+    font-family: Lato, sans-serif;
+    font-weight: lighter;
+    padding-bottom: 17px;
+    margin-bottom: 32px;
+    font-size: 38px;
+    color: #056d81;
+
+    .fa-search {
+      font-weight: lighter;
+      color: #e95813;
+    }
+  }
+
+  .search-box {
+    .box() {
+      border: 1px solid #077183;
+      font-size: 13px;
+    }
+
+    input[type="text"] {
+      .box();
+      padding: 10px 20px;
+    }
+
+    select {
+      .box();
+      padding: 0 20px;
+    }
+
+    .input-group {
+      .box();
+      :last-child { border-left: 1px solid #077183; }
+    }
+
+    .btn-no-bg {
+      border: none;
+      font-size: 13px;
+    }
+  }
+
+  .search-results {
+    .search-response,
+    .offer-list-item-small-title {
+      color: #696969;
+    }
+
+    .img-wrap { border: 1px solid #696969; }
+    .offer-list-item-small { border-bottom: 1px solid #696969; }
+  }
+
+  .panel {
+    border: 0;
+
+    .panel-heading {
+      color: white;
+      padding-top: 5px;
+      padding-bottom: 4px;
+      border-radius: 0px;
+    }
+    .panel-body,
+    .list-group-item {
+      border-radius: 0px !important;
+      background-color: #e3e3e3;
+    }
+
+    &.relevant .panel-heading { background-color: #b5b5b5; }
+    &.new-offers .panel-heading { background-color: #e55c18; }
+    &.handpicked .panel-heading { background-color: #077184; }
   }
 }

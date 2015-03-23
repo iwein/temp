@@ -51,7 +51,7 @@
                 {{ candidate._data.email }}
                 <small ng-if="!candidate._data.activated">(unconfirmed)</small>
               </td>
-              <td><b>{{ candidate._data.status }}</b></td>
+              <td><hc-candidate-status candidate="candidate"></hc-candidate-status></td>
               <td>{{ candidate._data.target_position.role }}</td>
               <td>{{ candidate._data.target_position.minimum_salary }}</td>
               <td>{{ candidate.preferred_location }}</td>

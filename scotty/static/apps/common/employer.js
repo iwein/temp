@@ -89,17 +89,18 @@ define(function(require) {
     getRelevantCandidates: function() {
       var api = this._api;
       return api.get(this._url() + '/relevant/candidates' + this._sufix).then(function(response) {
-        return response.map(function(data) {
+        response.data = response.data.map(function(data) {
           return new Candidate(api, data.id, data);
         });
+        return response;
       });
     },
 
-    getSuggestedCandidates: function() {
+    getSuggestedCandidates: function(params) {
       var api = this._api;
-      return api.get(this._url() + '/suggested/candidates' + this._sufix).then(function(response) {
+      return api.get(this._url() + '/suggested/candidates' + this._sufix, params).then(function(response) {
         response.data.forEach(function(data) {
-          data.candidate = new Candidate(api, data.candidate.id, data.candidate)
+          data.candidate = new Candidate(api, data.candidate.id, data.candidate);
         });
         return response;
       });

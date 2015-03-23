@@ -2,6 +2,7 @@ define(function(require) {
   'use strict';
   require('components/directive-candidate/directive-candidate');
   require('components/directive-offer/directive-offer');
+  require('components/element-preferred-location/element-preferred-location');
   require('components/partial-employer-newsitem/partial-employer-newsitem');
   var _ = require('underscore');
   var fn = require('tools/fn');
@@ -11,13 +12,10 @@ define(function(require) {
 
   // jshint maxparams:8
   module.controller('DashboardCtrl', function($scope, $q, $sce, toaster, Loader, ConfigAPI, RequireSignup, Session) {
-    _.extend(this, {
-      searchSkills: ConfigAPI.skills,
-      setLocation: setLocation,
-    });
     _.extend($scope, {
       locationToText: ConfigAPI.locationToText,
       searchCities: ConfigAPI.locations,
+      searchSkills: ConfigAPI.skills,
       updateLocations: updateLocations,
       isAdvancedSearch: isAdvancedSearch,
       setAdvancedSearch: setAdvancedSearch,
@@ -29,7 +27,7 @@ define(function(require) {
       terms: {},
       ready: false,
     });
-    var advancedSearch = false;
+    var advancedSearch = true;
 
     return onLoad();
 
@@ -42,9 +40,11 @@ define(function(require) {
         return $q.all([
           user.getTimeline().then(fn.setTo('news', $scope)),
           user.getOffers().then(fn.setTo('offers', $scope)),
-          user.getRelevantCandidates().then(fn.setTo('relevant', $scope)),
+          user.getRelevantCandidates()
+            .then(fn.get('data'))
+            .then(fn.setTo('relevant', $scope)),
           user.getCandidates().then(fn.setTo('candidates', $scope)),
-          user.getSuggestedCandidates().then(function(response) {
+          user.getSuggestedCandidates({ limit: 3 }).then(function(response) {
             $scope.suggested = response.data;
           }),
         ]);
@@ -93,11 +93,6 @@ define(function(require) {
       }
     }
 
-    function setLocation(text) {
-      $scope.location = ConfigAPI.getLocationFromText(text || $scope.locationText);
-      return executeSearch();
-    }
-
     function isAdvancedSearch() {
       return advancedSearch;
     }
@@ -107,6 +102,7 @@ define(function(require) {
     }
 
     function resetSearch() {
+      $scope.totalResults = null;
       $scope.searchCandidates = [];
       $scope.searchResults = [];
       $scope.pages = [];
@@ -172,7 +168,6 @@ define(function(require) {
     url: '/dashboard/',
     template: require('text!./employer-dashboard.html'),
     controller: 'DashboardCtrl',
-    controllerAs: 'dashboard',
     resolve: {
       /*@ngInject*/
       RequireSignup: function(Permission) {

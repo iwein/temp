@@ -4,20 +4,7 @@
 <div class="status-wrap">
   <div class="status">
     <span><translate>Status</translate>: </span>
-        <span ng-show="status === 'searching'">
-          <span class="iconParent blue-link"><i class="fa fa-binoculars"></i></span>
-          <span translate>searching</span>
-        </span>
-        <span ng-show="status === 'reviewing'">
-          <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
-          <span translate>reviewing offers</span>
-        </span>
-        <span ng-show="status === 'sleeping'">
-          <span class="green smbd" translate>SLEEPING</span>
-        </span>
-        <span ng-show="status === 'hired'">
-          <span class="green smbd" translate>HIRED</span>
-        </span>
+    <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
   </div>
 </div>
 
@@ -34,7 +21,10 @@
       <div class="padd-vert">
         <div class="box-title box-title_left mrg-btm gray-darker" translate>Expectation</div>
         <div> <span class="iconParent"><i class="fa fa-euro orange"></i></span>{{ targetPosition.minimum_salary | dottedInteger }}</div>
-        <div> <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>{{ preferredLocations }}</div>
+        <div>
+          <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
+          <hc-preferred-location candidate="candidate"></hc-preferred-location>
+        </div>
       </div>
     </div>
 

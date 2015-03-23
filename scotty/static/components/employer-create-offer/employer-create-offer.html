@@ -87,6 +87,7 @@
                          class="form-control"
                          required
                          placeholder="{{ 'Where is the role based.' | translate }}"
+                         autocomplete="off"
                          ng-disabled="loading"
                          ng-model="locationText"
                          ng-blur="setLocation(locationText)"
@@ -117,6 +118,7 @@
               <input type="text"
                      class="form-control"
                      name="role"
+                     autocomplete="off"
                      required
                      ng-disabled="loading"
                      ng-model="model.role"

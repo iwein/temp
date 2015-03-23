@@ -1,4 +1,4 @@
-Feature: Candidate request offer
+Feature: Employer creates offer
   This feature describes a candidate asking an employer for a offer
 
   Background:

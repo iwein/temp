@@ -4,8 +4,6 @@
     <div class="col-sm-12">
       <h2 class="signup-title" translate>Signup for free</h2>
 
-      <hc-connectors-buttons ng-show="!imported"></hc-connectors-buttons>
-
       <div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">
         <div class="form-group required">
           <label class="col-sm-3" translate>First Name</label>
@@ -64,7 +62,7 @@
             </span>
             <span ng-show="errorEmailAlreadyRegistered">
               <translate>Email already registered.</translate>
-              <a href="../forgot-password.html" translate>Forgot your password?</a>
+              <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
             </span>
           </div>
         </div>

@@ -1,210 +1,206 @@
-<div class="component-employer-dashboard" ng-show="ready">
-  <div class="inner">
-    <div class="status-wrap"></div>
+<div class="component-employer-dashboard row" ng-show="ready">
+  <div class="col-sm-3">
+    <div class="row timeline-head">
+      <div class="col-sm-2 no-padd-right">
+        <div class="dot"><i class="fa fa-circle"></i></div>
+      </div>
+      <div class="col-sm-10 date">{{ today | momentDate }}</div>
+    </div>
+
     <div class="row">
-      <div class="col-sm-3">
-        <div class="row timeline-head">
-          <div class="col-sm-2 no-padd-right">
-            <div class="dot"><i class="fa fa-circle"></i></div>
-          </div>
-          <div class="col-sm-10 date">{{ today | momentDate }}</div>
-        </div>
-
-        <div class="row">
-          <div class="timeline">
-            <div class="gray-bar"></div>
-            <div class="timeline-start"></div>
-          </div>
-        </div>
-        <hc-employer-newsitem class="row timeline-item" entry="entry" ng-repeat="entry in news"></hc-employer-newsitem>
+      <div class="timeline">
+        <div class="gray-bar"></div>
+        <div class="timeline-start"></div>
       </div>
+    </div>
+    <hc-employer-newsitem class="row timeline-item" entry="entry" ng-repeat="entry in news"></hc-employer-newsitem>
+  </div>
 
-      <div class="col-sm-6">
-        <div class="row">
-          <div class="col-sm-12 bg-gray-light mrg-btm" ng-class="{ 'no-results': !searchResults.length }">
-            <div class="search-box">
-              <h4 class="search-box-title" translate>Search for candidates</h4>
-              <form class="row" ng-show="isAdvancedSearch()">
-                <div class="col-sm-6">
-                  <div class="search-label" translate>Role / Target position</div>
-                  <div class="no-padd-left">
-                    <select class="form-control"
-                            name="country"
-                            ng-disabled="loading"
-                            ng-model="terms.role"
-                            ng-options="role for role in featuredRoles">
-                      <option value="" translate>Select...</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="search-label" translate>Skills</div>
-                  <div class="no-padd-left">
-                    <hc-label-typeahead
-                      placeholder="{{ 'Skills' | translate }}"
-                      ng-model="terms.skills"
-                      hc-source="dashboard.searchSkills($viewValue)">
-                    </hc-label-typeahead>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="search-label no-padd-left" translate>Location</div>
-                  <div class="no-padd-left">
-                    <hc-label-typeahead
-                      name="cities"
-                      placeholder="{{ 'Type a city...' | translate }}"
-                      ng-disabled="loading"
-                      ng-model="terms.locations"
-                      hc-render="locationToText($entry)"
-                      hc-source="searchCities($viewValue)">
-                    </hc-label-typeahead>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="search-label" translate>Salary</div>
-                  <div class="no-padd-left">
-                    <div class="input-group">
-                      <span class="input-group-addon">€</span>
-                      <input type="dotted-integer"
-                             class="form-control"
-                             name="salary"
-                             ng-disabled="loading"
-                             ng-model="terms.salary">
-                      <span class="input-group-addon">.00</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="buttons-wrap mrg-top">
-                    <button type="button" class="fl-rg btn bg-green" ng-click="search()" translate>
-                      Search
-                    </button>
-                    <button type="button" class="fl-rg btn-no-bg" ng-click="setAdvancedSearch(false)">
-                      <translate>Go back to general search</translate>
-                      <i class="fa fa-angle-up"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
-              <form class="row" ng-show="!isAdvancedSearch()">
-                <div class="col-sm-12">
-                  <div class="no-padd-left">
-                    <input type="text"
-                           class="form-control"
-                           placeholder="{{ 'Search by NAME or SKILL' | translate }}"
-                           name="general"
-                           ng-model="simpleSearchTerms"
-                           ng-keydown="onKeyDown($event)">
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="buttons-wrap mrg-top">
-                    <button type="button" class="fl-rg btn bg-green" ng-click="search()" translate>
-                      Search
-                    </button>
-                    <button type="button" class="fl-rg btn-no-bg" ng-click="setAdvancedSearch(true)">
-                      <translate>Search for target position / role</translate>
-                      <i class="fa fa-angle-down"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="search-results" ng-show="searchResults.length">
-              <div class="search-border"></div>
-              <div class="spinner" ng-show="loading"></div>
-              <div class="offer-list" ng-show="!loading">
-                <hc-pagination
-                  items-per-page="{{ resultsPerPage }}"
-                  total="totalResults"
-                  load="search($params)">
+  <div class="col-sm-6">
+    <div class="search-box">
+      <h4 class="search-box-title">
+        <i class="fa fa-search"></i>
+        <translate>Search for candidates</translate>
+      </h4>
 
-                  <div class="search-response">{{ totalResults }} candidates found</div>
-                  <hc-candidate
-                    ng-repeat="candidate in searchResults"
-                    ng-model="candidate"
-                    hc-link-profile="true">
-                  </hc-candidate>
-                </hc-pagination>
-              </div>
-            </div>
-            <!--end item-->
+      <form class="row" ng-show="isAdvancedSearch()">
+        <div class="col-sm-12">
+          <div class="search-label" translate>Name / ID</div>
+          <div class="no-padd-left">
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   ng-disabled="loading"
+                   ng-model="terms.name">
           </div>
-
-
-          <div class="col-sm-12 bg-white" ng-show="suggested.length">
-            <h2 class="main-title" translate>HANDPICKED CANDIDATES FOR YOU</h2>
-            <h3 class="main-subtitle pad-all-15" translate>
-              These candidates are recommended by your 4Scotty AccountManager based on your current search priorities
-            </h3>
-
-            <div ng-show="!suggested.length" class="pad-btm-15 pad-lft-15" translate>
-              Sorry, there are no candidates matching your criteria
-            </div>
-            <div>
-              <div class="offer-list" ng-show="suggested.length">
-                <hc-candidate ng-repeat="suggestion in suggested" ng-model="suggestion.candidate" hc-link-profile>
-                  <a class="not-interested" ng-click="notInterested(suggestion, $index)">
-                    <i class="fa fa-ban"></i>
-                    <translate>I'm not interested</translate>
-                  </a>
-                </hc-candidate>
-              </div>
-              <div ng-hide="suggested.length" class="offer-list col-sm-12 mrg-btm-30">
-                <div class="col-sm-12" translate>
-                  We're sorry. There are no candidates with skills in your tech yet.
-                  We'll notify you as soon as there is a fitting candidate.
-                  Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
-                </div>
-              </div>
-            </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="search-label" translate>Role / Target position</div>
+          <div class="no-padd-left">
+            <select class="form-control"
+                    name="country"
+                    ng-disabled="loading"
+                    ng-model="terms.role"
+                    ng-options="role for role in featuredRoles">
+              <option value="" translate>Select...</option>
+            </select>
           </div>
-
-          <div class="col-sm-12 bg-white">
-            <h2 class="main-title" translate>SUGGESTED CANDIDATES</h2>
-            <h3 class="main-subtitle pad-all-15" translate>Top candidates fitting to your company's Profile!</h3>
-
-            <div ng-show="!relevant.length" class="pad-btm-15 pad-lft-15" translate>
-              Sorry, there are no candidates matching your criteria
-            </div>
-            <div>
-              <div class="offer-list" ng-show="relevant.length">
-                <hc-candidate
-                  ng-repeat="candidate in relevant"
-                  ng-model="candidate"
-                  hc-link-profile>
-                </hc-candidate>
-              </div>
-              <div ng-hide="relevant.length" class="offer-list col-sm-12 mrg-btm-30">
-                <div class="col-sm-12" translate>
-                  We're sorry. There are no candidates with skills in your tech yet.
-                  We'll notify you as soon as there is a fitting candidate.
-                  Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
-                </div>
-              </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="search-label" translate>Skills</div>
+          <div class="no-padd-left">
+            <hc-label-typeahead
+              ng-model="terms.skills"
+              hc-source="searchSkills($viewValue)">
+            </hc-label-typeahead>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="search-label no-padd-left" translate>Location</div>
+          <div class="no-padd-left">
+            <hc-label-typeahead
+              name="cities"
+              placeholder="{{ 'Type a city...' | translate }}"
+              ng-disabled="loading"
+              ng-model="terms.locations"
+              hc-render="locationToText($entry)"
+              hc-source="searchCities($viewValue)">
+            </hc-label-typeahead>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="search-label" translate>Salary</div>
+          <div class="no-padd-left">
+            <div class="input-group">
+              <span class="input-group-addon">€</span>
+              <input type="dotted-integer"
+                     class="form-control"
+                     name="salary"
+                     ng-disabled="loading"
+                     ng-model="terms.salary">
+              <span class="input-group-addon">.00</span>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-3 bg-gray-lighter3 border-box padd-vert" ng-show="candidates.length">
-        <div class="box-title box-title_left mrg-btm orange" translate>New offer requests</div>
-        <div ng-repeat="candidate in candidates">
-          <div class="bld">
-            <a ui-sref="candidate({ id: candidate._data.id })">
-              {{ candidate._data.first_name }}, {{ candidate._data.last_name }}
-            </a>
+        <div class="col-sm-12">
+          <div class="buttons-wrap mrg-top">
+            <button type="button" class="fl-rg btn bg-green" ng-click="search()" translate>
+              Search
+            </button>
+            <button type="button" class="fl-rg btn-no-bg" ng-click="setAdvancedSearch(false)">
+              <translate>Simple search</translate>
+              <i class="fa fa-angle-up"></i>
+            </button>
           </div>
-          <div class="mrg-btm-small">
-            <hc-scope values="{
-              role: candidate.position.role,
-              city: candidate._data.location.city,
-              country_iso: candidate._data.location.country_iso,
+        </div>
+      </form>
+
+      <form class="row" ng-show="!isAdvancedSearch()">
+        <div class="col-sm-12">
+          <div class="no-padd-left">
+            <input type="text"
+                   class="form-control"
+                   placeholder="{{ 'Search by NAME or SKILL' | translate }}"
+                   name="general"
+                   ng-model="simpleSearchTerms"
+                   ng-keydown="onKeyDown($event)">
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="buttons-wrap mrg-top">
+            <button type="button" class="fl-rg btn bg-green" ng-click="search()" translate>
+              Search
+            </button>
+            <button type="button" class="fl-rg btn-no-bg" ng-click="setAdvancedSearch(true)">
+              <translate>Search for target position / role</translate>
+              <i class="fa fa-angle-down"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-sm-12" ng-show="totalResults === 0" translate>
+      Sorry, there are no candidates matching your criteria
+    </div>
+
+    <div class="search-results" ng-show="searchResults.length">
+      <div class="spinner" ng-show="loading"></div>
+      <div class="offer-list" ng-show="!loading">
+        <hc-pagination
+          items-per-page="{{ resultsPerPage }}"
+          total="totalResults"
+          load="search($params)">
+
+          <div class="search-response"
+            translate-n="totalResults"
+            translate-plural="{{$count}} candidates found"
+            translate>
+            One candidate found
+          </div>
+
+          <hc-candidate
+            ng-repeat="candidate in searchResults"
+            ng-model="candidate"
+            hc-link-profile="true">
+          </hc-candidate>
+        </hc-pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+    <div class="panel new-offers" ng-show="candidates.length">
+      <div class="panel-heading" translate>New offer requests</div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="candidate in candidates">
+          <hc-candidate-link class="bld" ng-model="candidate._data"></hc-candidate-link>
+          <div class="mrg-btm-small" hc-scope="{
+            role: candidate.position.role,
+            city: candidate._data.location.city,
+            country_iso: candidate._data.location.country_iso,
             }" translate>
-              {{ role }} from {{ city }}, {{ country_iso }}
-            </hc-scope>
+            {{ role }} from {{ city }}, {{ country_iso }}
           </div>
-        </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel handpicked" ng-show="suggested.length">
+      <div class="panel-heading" translate>Handpicked Candidates for you</div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-show="suggested.length">
+          <hc-candidate
+            ng-repeat="suggestion in suggested"
+            ng-model="suggestion.candidate"
+            hc-link-name
+            hc-small>
+            <a class="not-interested" ng-click="notInterested(suggestion, $index)">
+              <i class="fa fa-ban"></i>
+              <translate>I'm not interested</translate>
+            </a>
+          </hc-candidate>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel relevant">
+      <div class="panel-heading" translate>Suggested Candidates</div>
+      <div class="panel-body" ng-hide="relevant.length" translate>
+        We're sorry. There are no candidates with skills in your tech yet.
+        We'll notify you as soon as there is a fitting candidate.
+        Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
       </div>
+      <ul class="list-group" ng-show="relevant.length">
+        <li class="list-group-item">
+          <hc-candidate
+            ng-repeat="candidate in relevant"
+            ng-model="candidate"
+            hc-link-name
+            hc-small>
+          </hc-candidate>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

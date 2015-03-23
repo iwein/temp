@@ -1,0 +1,91 @@
+---
+template: template.html
+path: /en/invite.html
+modified: 2015-03-12
+lang: en
+title: Invite a friend
+description:
+---
+
+
+<div class="alert-container" data-spy="affix" data-offset-top="60">
+  <div id="message-referred" class="alert alert-success not-visible">
+    Your recommendation has been sent.
+  </div>
+  <div id="message-not-referred-too-early" class="alert alert-danger not-visible">
+    You have already sent a recommendation to this email address within the last 24 hours. Please try again later.
+  </div>
+  <div id="message-not-referred-too-many" class="alert alert-danger not-visible">
+    You have sent too many recommendations within the last 24 hours. Please try again later.
+  </div>
+</div>
+
+<div class="banner banner-invite">
+  <div class="banner-inner">
+    <h1>Invite a friend</h1>
+    <h2>And enjoy a bonus</h2>
+  </div>
+</div>
+<div class="bg-white invite-page">
+  <div class="container container-static">
+    <div class="invite-row">
+      <div class="icon-speaker"></div>
+      <div class="content">
+        <p>Has 4Scotty convinced you? Then we’d be grateful if you tell your friends and colleagues about us. It will pay off if one of your recommendations finds a new job on 4Scotty, then we will show our thanks with a <span class="orange">€ 1,010.10</span> bonus!</p>
+      </div>
+    </div>
+
+    <div class="message" id="on-success" style="display: none">
+      <h3>Invite another friend</h3>
+      <span class="go-back">or </span>
+      <a class="go-back" href="/en">back to Scotty</a>
+    </div>
+
+    <form id="invite-form" class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Friend's name</label>
+          <input type="text" name="rcvr_name" class="form-control form-emptiable" required>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Friend's email address</label>
+          <input type="email" name="rcvr_email" class="form-control form-emptiable" required>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" name="sndr_name" class="form-control form-emptiable" required>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Your email address</label>
+          <input type="email" name="sndr_email" class="form-control form-emptiable" required>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label>Personal message</label>
+          <textarea name="message" class="form-control form-emptiable" required>Hey, ever heard of 4Scotty? They promise the best fitting IT-Job and even provide free coaching. Then 4Scotty turns the tables by letting top companies send you personalized job offers, which you can accept or reject. They even share their commission with you. Just have a look. Maybe you find an easy way how you can develop yourself professionally.</textarea>
+        </div>
+      </div>
+
+      <div class="col-sm-7 col-sm-offset-3 submit-section">
+        <div class="form-group">
+          <button class="btn btn-primary">Send invitation</button>
+          <span class="go-back">or </span>
+          <a class="go-back" href="/en">back to Scotty</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  app.inviteFriend('invite-form', 'en', function() {
+    document.getElementById('on-success').style.display = 'block';
+  });
+</script>

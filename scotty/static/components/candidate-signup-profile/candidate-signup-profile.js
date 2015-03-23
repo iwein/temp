@@ -48,6 +48,7 @@ define(function(require) {
       var month = $scope.dobMonth;
       var day = $scope.dobDay;
       var monthIndex = $scope.months.indexOf(month);
+      $scope.model.dob = null;
       $scope.errorTooYoung = false;
       $scope.errorInvalidDate = false;
 
@@ -97,6 +98,13 @@ define(function(require) {
 
       if ($scope.errorNoLocation) {
         $scope.form.location.$dirty = true;
+        return;
+      }
+
+      if (!$scope.model.dob) {
+        $scope.form.dobYear.$dirty = true;
+        $scope.form.dobMonth.$dirty = true;
+        $scope.form.dobDay.$dirty = true;
         return;
       }
 

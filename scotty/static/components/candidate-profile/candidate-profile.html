@@ -143,9 +143,8 @@
                       <input type="checkbox"
                              ng-disabled="loading || salary.data.other"
                              ng-model="salary.data.germany"
-                             ng-change="updateLocations()"
-                             translate>
-                      Anywhere in germany
+                             ng-change="updateLocations()">
+                      <translate>Anywhere in Germany</translate>
                     </label>
                   </div>
                   <div ng-repeat="location in featuredLocations">
@@ -219,7 +218,7 @@
               </div>
               <div>
                 <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
-                {{ preferredLocations }}
+                <hc-preferred-location candidate="candidate"></hc-preferred-location>
               </div>
             </div>
           </div>
@@ -259,6 +258,7 @@
                        placeholder="{{ 'City' | translate }}"
                        name="city"
                        class="form-control mrg-btm"
+                       autocomplete="off"
                        required
                        ng-disabled="hcDisabled || !contact.data.location.country_iso"
                        ng-model="contact.data.location.city"
@@ -768,20 +768,7 @@
           <div class="col-sm-4 bg-white user-desc">
             <div class="fl-rg pad-20">
               <span><translate>Status</translate>: </span>
-              <span ng-show="status === 'searching'">
-                <span class="iconParent blue-link"><i class="fa fa-binoculars"></i></span>
-                <span translate>searching</span>
-              </span>
-              <span ng-show="status === 'reviewing'">
-                <span class="iconParent blue-link"><i class="fa fa-search"></i></span>
-                <span translate>reviewing offer</span>
-              </span>
-              <span ng-show="status === 'sleeping'">
-                <span class="green smbd" translate>SLEEPING</span>
-              </span>
-              <span ng-show="status === 'hired'">
-                <span class="green smbd" translate>HIRED</span>
-              </span>
+              <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
               <div>
                 <span class="fl-rg">
                   <translate>Privacy</translate>:

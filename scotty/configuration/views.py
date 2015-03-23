@@ -24,6 +24,7 @@ def includeme(config):
     config.add_route('configuration_list_rejectionreasons', 'rejectionreasons')
     config.add_route('configuration_list_withdrawalreasons', 'withdrawalreasons')
     config.add_route('configuration_list_degrees', 'degrees')
+    config.add_route('configuration_list_featured_degrees', 'degrees/featured')
     config.add_route('configuration_list_courses', 'courses')
     config.add_route('configuration_list_benefits', 'benefits')
     config.add_route('configuration_list_languages', 'languages')
@@ -98,6 +99,11 @@ class ConfigurationController(RootController):
     def degrees(self):
         return listing_request(self.request, Degree, self.request.params.get("q"), ignorecase=True, order_field=func
                                .length(Degree.name))
+
+    @view_config(route_name='configuration_list_featured_degrees', permission=NO_PERMISSION_REQUIRED)
+    def featureddegrees(self):
+        return list_featured(self.request, Degree)
+
 
     @view_config(route_name='configuration_list_courses', permission=NO_PERMISSION_REQUIRED)
     def courses(self):

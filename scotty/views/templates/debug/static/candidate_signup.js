@@ -1,14 +1,16 @@
 
 var CANDIDATE_SIGNUP = function (email, ignoreResult){
   return [
-    {url: '/api/v1/candidates/', title: 'signup-target_position',
+
+    {url:'/api/v1/candidates/', title: 'candidate-email-signup', ignoreResult: ignoreResult,
+      data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd", agreedTos: true},
+      extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
+    {url: '/api/v1/candidates/me', title: 'signup-target_position',
       data: {
         'target_position': {"role":"Quality Assurance", "skills": ["Python", "PHP"], minimum_salary: 40000},
         'preferred_locations': {DE: ['Berlin']}
-      }, extract:   function(r, extr){return {candidateId: r.id}}},
-    {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId}, title: 'candidate-email-signup', ignoreResult: ignoreResult,
-      data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd", agreedTos: true},
-      extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
+      }},
+
     {url:function(r, extr){ return '/api/v1/candidates/activate/'+extr.actToken;}, ignoreResult:ignoreResult, title: 'candidate-activation'},
     {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login', ignoreResult:ignoreResult,
       data: {"email": email, pwd:"welcomepwd"}
@@ -19,10 +21,11 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
 
 var CANDIDATE_COMPLETE_PROFILE = function(email, ignoreResult) {
   return [
-    {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'create-target_position',
-      data: {"company_types": ["startup", "top500"], "role":"Quality Assurance", 'skills': ["Python", "PHP"], relocate: false,
-        travel_willingness:'<10%', minimum_salary: 100000}, ignoreResult:ignoreResult,
-      extract:   function(r, extr){return {target_positionId: r.id}}},
+    {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'EDIT-target_position',
+      data: {"company_types": ["startup", "top500"],
+        "role":"Quality Assurance",
+        'skills': ["Python", "PHP"], relocate: false,
+        travel_willingness:'<10%', minimum_salary: 100000}, ignoreResult:ignoreResult},
 
     {url: function(r, extr){return '/api/v1/candidates/me/languages'}, ignoreResult:ignoreResult,
       title: 'set-languages-1', method:'PUT', data: [

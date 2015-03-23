@@ -6,14 +6,14 @@ from datetime import datetime
 from scotty.auth.provider import EMPLOYER
 from scotty.services import hash_pwd
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Boolean, Table, CheckConstraint, \
-    UniqueConstraint, DateTime, func, and_, or_, BigInteger
+    UniqueConstraint, DateTime, func, and_, or_, BigInteger, select, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship, foreign
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.tools import json_encoder, PUBLIC, PRIVATE, JsonSerialisable, ADMIN, DISPLAY_ALWAYS, \
     DISPLAY_PRIVATE, get_request_role, DISPLAY_ADMIN
-from scotty.offer.models import CandidateOffer, Offer
+from scotty.offer.models import CandidateOffer, Offer, OFFER_STATUS_ACTIVE_KEY
 from scotty.configuration.models import Country, City, TrafficSource, Skill, SkillLevel, Degree, Institution, Company, \
     Role, Language, Proficiency, Course, Salutation, Locale
 from scotty.models.meta import Base, NamedModel, GUID, DBSession
@@ -188,14 +188,14 @@ class CandidateEmployerBlacklist(Base):
 class PreferredLocation(Base):
     __tablename__ = 'candidate_preferred_location'
     __table_args__ = (
-        UniqueConstraint('target_position_candidate_id', 'country_iso',
+        UniqueConstraint('candidate_id', 'country_iso',
                          name='candidate_preferred_location_country_unique'),
-        UniqueConstraint('target_position_candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
+        UniqueConstraint('candidate_id', 'city_id', name='candidate_preferred_location_city_unique'),
         CheckConstraint('country_iso ISNULL and city_id NOTNULL or country_iso NOTNULL and city_id ISNULL',
                         name='candidate_preferred_location_has_some_fk'), )
     id = Column(Integer, primary_key=True)
 
-    target_position_candidate_id = Column(GUID, ForeignKey('target_position.candidate_id'))
+    candidate_id = Column(GUID, ForeignKey('candidate.id'))
     country_iso = Column(String(2), ForeignKey(Country.iso), nullable=True)
     city_id = Column(Integer, ForeignKey('city.id'), nullable=True)
     city = relationship(City, lazy='joined')
@@ -257,10 +257,24 @@ def locations_to_structure(locations, resolve_countries=False):
     return results
 
 
+class TargetPosition(Base):
+    __tablename__ = 'target_position'
+
+    candidate_id = Column(GUID, ForeignKey("candidate.id"), primary_key=True)
+    created = Column(DateTime, nullable=False, default=datetime.now)
+    minimum_salary = Column(BigInteger, nullable=False)
+    role_id = Column(Integer, ForeignKey('role.id'), nullable=False)
+    role = relationship(Role)
+    skills = relationship(Skill, secondary=target_position_skills)
+
+    def __json__(self, request):
+        return {'skills': self.skills, 'role': self.role, 'minimum_salary': self.minimum_salary}
+
+
 class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
 
-    id = Column(GUID, ForeignKey('target_position.candidate_id'), primary_key=True, info=PUBLIC)
+    id = Column(GUID, default=uuid4, primary_key=True, info=PUBLIC)
     created = Column(DateTime, nullable=False, default=datetime.now)
     last_login = Column(DateTime, info=PRIVATE)
     last_active = Column(DateTime, info=PRIVATE)
@@ -316,6 +330,8 @@ class Candidate(Base, JsonSerialisable):
     status_id = Column(Integer, ForeignKey(CandidateStatus.id), nullable=False)
     status = relationship(CandidateStatus)
 
+    target_position = relationship(TargetPosition, backref='candidate', cascade='all, delete, delete-orphan',
+                                   uselist=False)
     skills = relationship(CandidateSkill, backref='candidate', cascade='all, delete, delete-orphan')
     education = relationship(Education, backref='candidate', cascade='all, delete, delete-orphan',
                              order_by=Education.start.desc())
@@ -325,6 +341,8 @@ class Candidate(Base, JsonSerialisable):
     work_experience = relationship(WorkExperience, backref='candidate', cascade='all, delete, delete-orphan',
                                    order_by=WorkExperience.start.desc())
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
+
+    preferred_locations = relationship(PreferredLocation)
 
     bookmarked_employers = association_proxy('bookmarks', 'employer')
     blacklisted_employers = association_proxy('blacklist', 'employer')
@@ -363,7 +381,6 @@ class Candidate(Base, JsonSerialisable):
         return [Candidate.status_id != status.id]
 
 
-
     @property
     def highest_level_skills(self):
         skills = sorted(self.skills, key=attrgetter('level_id'), reverse=True)
@@ -393,7 +410,7 @@ class Candidate(Base, JsonSerialisable):
         generator = self.SUMMARY_GENERATOR[self.lang]
 
         skills = self.highest_level_skills
-        locs = self.preferred_locations
+        locs = self.preferred_location
 
         if skills and self.target_position and locs:
             locations = []
@@ -420,9 +437,8 @@ class Candidate(Base, JsonSerialisable):
             return generator['EMPTY']
 
     @property
-    def preferred_locations(self):
-        return locations_to_structure(self.target_position.preferred_locations, resolve_countries=False)
-    preferred_location = preferred_locations
+    def preferred_location(self):
+        return locations_to_structure(self.preferred_locations, resolve_countries=False)
 
     def obfuscate_result(self, result):
         result['first_name'] = ''
@@ -482,6 +498,10 @@ class Candidate(Base, JsonSerialisable):
             result['is_approved'] = self.status.name in [CandidateStatus.ACTIVE, CandidateStatus.SLEEPING]
             result['is_activated'] = self.activated is not None
 
+            result['pending_offers'] = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
+                                                                        *Offer.by_status(
+                                                                            OFFER_STATUS_ACTIVE_KEY)).count()
+
         obfuscator = self.obfuscate_result if self.anonymous and display == [DISPLAY_ALWAYS] else None
         result.update(json_encoder(self, request, display, obfuscator))
         return result
@@ -504,29 +524,9 @@ class WXPCandidate(Candidate):
         return result
 
 
-FullCandidate = WXPCandidate
-
-
-class TargetPosition(Base):
-    __tablename__ = 'target_position'
-
-    candidate_id = Column(GUID, default=uuid4, primary_key=True)
-    created = Column(DateTime, nullable=False, default=datetime.now)
-    minimum_salary = Column(BigInteger, nullable=False)
-    role_id = Column(Integer, ForeignKey('role.id'), nullable=False)
-    role = relationship(Role)
-    skills = relationship(Skill, secondary=target_position_skills)
-
-    candidate = relationship(Candidate, backref='target_position', cascade='all, delete, delete-orphan')
-    preferred_locations = relationship(PreferredLocation)
-
-    def __json__(self, request):
-        return {'skills': self.skills, 'role': self.role, 'minimum_salary': self.minimum_salary}
-
-
 def sort_by_preferred_location(query, order_func):
-    return query.outerjoin(TargetPosition).outerjoin(PreferredLocation)\
-        .outerjoin(City, City.id == PreferredLocation.city_id)\
+    return query.outerjoin(TargetPosition).outerjoin(PreferredLocation) \
+        .outerjoin(City, City.id == PreferredLocation.city_id) \
         .order_by(order_func(City.country_iso), order_func(City.name), order_func(PreferredLocation.country_iso))
 
 
@@ -538,12 +538,12 @@ def sort_by_target_position_role(query, order_func):
     return query.join(TargetPosition).join(Role).order_by(order_func(Role.name))
 
 
-CANDIDATE_SORTABLES =  {'id': Candidate.id,
-                        'created': Candidate.created,
-                        'name': [Candidate.first_name, Candidate.last_name],
-                        'first_name': Candidate.first_name,
-                        'last_name': Candidate.last_name,
-                        'email': Candidate.email,
-                        'minimum_salary': sort_by_salary,
-                        'target_position_role': sort_by_target_position_role,
-                        'preferred_location': sort_by_preferred_location}
+CANDIDATE_SORTABLES = {'id': Candidate.id,
+                       'created': Candidate.created,
+                       'name': [Candidate.first_name, Candidate.last_name],
+                       'first_name': Candidate.first_name,
+                       'last_name': Candidate.last_name,
+                       'email': Candidate.email,
+                       'minimum_salary': sort_by_salary,
+                       'target_position_role': sort_by_target_position_role,
+                       'preferred_location': sort_by_preferred_location}

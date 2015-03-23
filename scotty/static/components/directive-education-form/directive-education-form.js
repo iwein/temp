@@ -2,7 +2,6 @@ define(function(require) {
   'use strict';
   require('session');
   var _ = require('underscore');
-  var fn = require('tools/fn');
   var Date = require('tools/date');
   var nameAttr = require('tools/name-attr');
   var getModel = require('tools/get-model');
@@ -19,10 +18,11 @@ define(function(require) {
         hcShowEmpty: '=',
         hcDisabled: '=',
       },
-      controller: function($scope, $parse, $attrs, $q, i18n, ConfigAPI, Session) {
+      controller: function($scope, $parse, $attrs, $q, ConfigAPI, Session) {
         _.extend($scope, {
           searchInstitutions: ConfigAPI.institutions,
           searchCourses: ConfigAPI.courses,
+          updateDegree: updateDegree,
           submit: submit,
           currentYear: Date.now().getFullYear(),
           loading: false,
@@ -52,9 +52,10 @@ define(function(require) {
           var model = $attrs.ngModel ? getModel($parse($attrs.ngModel), $scope) : {};
           nameAttr(ctrl, 'hcEducationForm', $scope, $attrs);
 
-          return ConfigAPI.degrees()
-            .then(fn.setTo('degrees', $scope))
-            .then(function() { setModel(model) });
+          return ConfigAPI.featuredDegrees().then(function(degrees) {
+            $scope.degrees = degrees;
+            setModel(model);
+          });
         }
 
         function save() {
@@ -65,6 +66,14 @@ define(function(require) {
               return user.addEducation($scope.model);
             });
           });
+        }
+
+        function updateDegree() {
+          var degree = $scope.selectedDegree;
+          if (degree === 'Other')
+            degree = $scope.otherDegree;
+
+          $scope.model.degree = degree;
         }
 
         function reset() {
@@ -83,6 +92,19 @@ define(function(require) {
           $scope.model = model;
           $scope.current = model.start && !model.end;
           $scope.not_completed_degree = model.start && !model.degree;
+
+          var degree = model.degree;
+          $scope.selectedDegree = '';
+          $scope.otherDegree = '';
+
+          if (degree) {
+            if ($scope.degrees.indexOf(degree) === -1) {
+              $scope.selectedDegree = 'Other';
+              $scope.otherDegree = degree;
+            } else {
+              $scope.selectedDegree = degree;
+            }
+          }
         }
       },
     };

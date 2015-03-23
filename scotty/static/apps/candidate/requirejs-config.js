@@ -19,8 +19,8 @@ requirejs.config({
     'angular-loading-bar': 'bower_components/angular-loading-bar/build/loading-bar',
     'angular-bootstrap-lightbox': 'bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
-    'angulartics': 'bower_components/angulartics/dist/angulartics.min',
-    'angulartics-ga': 'tools/angulartics-ga',
+    'angulartics': 'bower_components/angulartics/src/angulartics',
+    'angulartics-ga': 'bower_components/angulartics/src/angulartics-ga',
 
     // aliases
     'conf': 'config/config',

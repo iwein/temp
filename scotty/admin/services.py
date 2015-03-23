@@ -1,14 +1,14 @@
 from datetime import datetime
 from uuid import uuid4
-from scotty.configuration.models import Salutation, CompanyType
 
-from scotty.employer.models import FullEmployer
+from scotty.configuration.models import Salutation
+from scotty.employer.models import Employer
 from scotty.models.common import get_by_name_or_raise
 from scotty.models.meta import DBSession
 
 
 def invite_employer(params):
-    employer = FullEmployer(
+    employer = Employer(
         company_name=params['company_name'],
         contact_first_name=params['contact_first_name'],
         contact_last_name=params['contact_last_name'],

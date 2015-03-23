@@ -1,5 +1,7 @@
 <script>
   (function() {
+    'use strict';
+
     window.app = {
       api_url: '{{ api_url }}',
       POST: POST,
@@ -37,5 +39,41 @@
     function hide(element) {
       element.style.display = 'none';
     }
+  })();
+
+  (function() {
+    'use strict';
+
+    app.inviteFriend = function(formId, lang, callback) {
+      var url = app.api_url + 'v1/refer';
+      var $form = document.getElementById(formId);
+
+      $form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var fields = [].slice.call($form.querySelectorAll('input,textarea'));
+        var data = fields.reduce(function(data, item) {
+          data[item.name] = item.value;
+          return data;
+        }, { lang: lang });
+
+        app.POST(url, data, success);
+      });
+
+      function success(xhr) {
+        var resp = JSON.parse(xhr.responseText);
+        app.display(document.getElementById('message-' + resp.message));
+
+        if (resp.success){
+          var fields = [].slice.call($form.querySelectorAll('input.form-emptiable'));
+          fields.forEach(function(item) { item.value = '' });
+          fields[0].focus();
+          if (callback)
+            callback();
+        }
+
+        $('.alert-container').affix({ offset: { top: 100 }});
+      }
+    };
   })();
 </script>

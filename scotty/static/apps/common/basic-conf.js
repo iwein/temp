@@ -1,3 +1,5 @@
+/*globals console */
+
 define(function(require) {
   'use strict';
   require('moment-de');
@@ -25,22 +27,14 @@ define(function(require) {
   require('./translations');
   var conf = require('conf');
 
-  if (window.ga) {
-    window.ga('create', conf.ga_id, 'auto');
-    window.ga('require', 'linkid');
-    window.ga('require', 'displayfeatures');
-    window.ga('require', 'displayfeatures');
-    window.ga('send', 'pageview');
-    window.ga('set', 'anonymizeIp', true);
-  }
-
   function raygun(exception) {
     window.Raygun.send(exception);
     console.info('RAYGUN REPORTED:', exception.message, exception);
   }
 
   return function basicConf(module) {
-    module.config(function($provide, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
+    module.config(function($provide, $locationProvider, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
+      $locationProvider.html5Mode(true);
       $httpProvider.defaults.withCredentials = true;
       cfpLoadingBarProvider.includeSpinner = false;
       LightboxProvider.templateUrl = 'lightbox-custom.html';
@@ -53,14 +47,22 @@ define(function(require) {
       });
     });
 
+
     module.run(function($templateCache, $rootScope, i18n) {
       $templateCache.put('lightbox-custom.html', require('text!../../tools/lightbox-custom.html'));
       $templateCache.put('footer.html', require('text!../common/footer.html'));
+
       $rootScope.translate = i18n.gettext;
+      $rootScope.staticUrl = staticUrl;
       i18n.setLanguage(localStorage.scotty_lang || 'de');
       i18n.onChange(function(lang) {
+        $rootScope.lang = lang;
         localStorage.scotty_lang = lang;
       });
+
+      function staticUrl() {
+        return $rootScope.lang === 'en' ? '/en' : '';
+      }
     });
 
     module.factory('toaster', function(Notifier, gettext) {

@@ -95,13 +95,12 @@ define(function(require) {
       return Session.getUser().then(function(user) {
         return user.getEducation();
       }).then(function(stored) {
-        if (!stored || !stored.length)
-          return Session.getConnectors().getEducation();
-
-        stored.forEach(fn.set('import', true));
-        return stored;
+        if (stored && stored.length)
+          return stored;
+        return Session.getConnectors().getEducation();
       }).then(function(result) {
         $scope.list = result || [];
+        $scope.list.forEach(fn.set('import', true));
         updateImports();
 
         if (!$scope.list.length)

@@ -14,13 +14,13 @@
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- build:css build.css -->
-  <link rel="stylesheet/less" href="index/styles.less">
+  <link rel="stylesheet/less" href="/apps/index/styles.less">
   <script>less = {
     env: "development",
     logLevel: 1
   };
   </script>
-  <script src="../bower_components/less/dist/less-1.7.0.js"></script>
+  <script src="/bower_components/less/dist/less-1.7.0.js"></script>
   <!-- endbuild -->
   {{> headscripts}}
 </head>
@@ -37,18 +37,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./" title="Scotty"></a>
+          <a class="navbar-brand" href="/" title="Scotty"></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="./">Für IT-Spezialisten</a></li>
-            <li><a href="./index-employer.html">Für Unternehmen</a></li>
-            <li><a href="./about-us.html">Über uns</a></li>
-            <li><a href="./contact.html">Kontakt</a></li>
-            <li><a href="./login.html" class="login-home">Login</a></li>
+            <li><a href="/">Für IT-Spezialisten</a></li>
+            <li><a href="/index-employer.html">Für Unternehmen</a></li>
+            <li><a href="/about-us.html">Über uns</a></li>
+            <li><a href="/contact.html">Kontakt</a></li>
+            <li><a href="/login.html" class="login-home">Login</a></li>
             <li>
-              <a href="./en/">
+              <a href="/en/">
                 EN <i class="fa fa-angle-down hidden"></i>
               </a>
             </li>
@@ -80,19 +80,19 @@
 
         <div class="foot-item">
           <h5>BEREICHE</h5>
-          <div><a href="./">Für IT-Spezialisten</a></div>
-          <div><a href="./index-employer.html">Für Unternehmen</a></div>
-          <div><a href="./about-us.html">Über uns</a></div>
-          <div><a href="./contact.html">Kontakt & Support</a></div>
-          <div><a href="./login.html">Login</a></div>
+          <div><a href="/">Für IT-Spezialisten</a></div>
+          <div><a href="/index-employer.html">Für Unternehmen</a></div>
+          <div><a href="/about-us.html">Über uns</a></div>
+          <div><a href="/contact.html">Kontakt & Support</a></div>
+          <div><a href="/login.html">Login</a></div>
         </div>
         <div class="foot-item">
           <h5>MEHR</h5>
-          <div><a href="./about-us.html#jobs-at-scotty">Jobs @ 4Scotty</a></div>
-          <div><a href="./imprint.html#data-protection">Datenschutz</a></div>
-          <div><a href="./about-us.html#team-at-scotty">Team</a></div>
-          <div><a href="./imprint.html">Impressum</a></div>
-          <div><a href="./terms-employer.html">AGB f&uuml;r Unternehmen</a></div>
+          <div><a href="/about-us.html#jobs-at-scotty">Jobs @ 4Scotty</a></div>
+          <div><a href="/imprint.html#data-protection">Datenschutz</a></div>
+          <div><a href="/about-us.html#team-at-scotty">Team</a></div>
+          <div><a href="/imprint.html">Impressum</a></div>
+          <div><a href="/terms-employer.html">AGB f&uuml;r Unternehmen</a></div>
         </div>
 
         <div class="foot-item social-items">
@@ -101,16 +101,10 @@
           <a class="social-item" target="_blank" href="https://www.linkedin.com/company/6555357?trk=tyah&trkInfo=tarId%3A1420083028260%2Ctas%3A4scott%2Cidx%3A1-1-1"><i class="fa fa-linkedin "></i></a>
           <a class="social-item" target="_blank" href="https://www.xing.com/companies/4scottygmbh?keyword=4scotty%20gmbh"><i class="fa fa-xing "></i></a>
         </div>
-        <div class="foot-item">
-          <form action="//4scotty.us9.list-manage.com/subscribe/post?u=02e9e7b8821cddaaf17a2db18&amp;id=70fbcff623"
-                method="POST" class="validate" target="_blank">
-            <h5 class="text-center">Newsletter</h5>
-            <input type="text" name="NAME" placeholder="Name" required>
-            <input type="email" name="EMAIL" placeholder="e-mail" required>
-            <button>Submit</button>
-            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-            <div style="position: absolute; left: -5000px;"><input type="text" name="b_02e9e7b8821cddaaf17a2db18_70fbcff623" tabindex="-1" value=""></div>
-          </form>
+        <div class="foot-item invite-friend">
+          <div class="icon"></div>
+          <a class="button" href="/invite.html">Lade einen Freund ein</a>
+          <p>Und bekomme einen Bonus von 1.010,10€</p>
         </div>
       </div>
       <p class="copyright">© 2014/15  – 4Scotty GmbH – Alle Rechte vorbehalten.</p>
@@ -119,12 +113,12 @@
 </div>
 
 <!-- build:js jquery.min.js -->
-<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- endbuild -->
 <!-- build:js bootstrap.min.js -->
-<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- endbuild -->
-<script type="text/javascript">localStorage.scotty_lang='de'</script>;
+<script type="text/javascript">localStorage.scotty_lang='de';</script>
 {{> footscripts}}
 </body>
 </html>

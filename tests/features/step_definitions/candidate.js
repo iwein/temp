@@ -15,35 +15,33 @@ stepDefinitions(function(scenario) {
     var vars = this.vars;
     vars.candidate_name = 'test-candidate-' + this.guid();
     vars.candidate_email = this.generateEmail();
+    var data = {
+      'email': vars.candidate_email,
+      'pwd': 'Überfall',
+      'first_name': vars.candidate_name,
+      'last_name': 'Bayley',
+      'agreedTos': true,
+    };
 
-    return this.storeRequest(AJAX.post('/candidates/', {
-      target_position: {
-        'role': 'System Administration',
-        'skills': ['Python', 'PHP'],
-        'minimum_salary': 40000
-      },
-      preferred_locations: {
-        'DE': ['Berlin','Leipzig','Hamburg'],
-        'BR': ['Uberlândia']
-      }
-    }).then(function(response) {
-      var id = response.responseJSON.id;
-      var data = {
-        'email': vars.candidate_email,
-        'pwd': 'Überfall',
-        'first_name': vars.candidate_name,
-        'last_name': 'Bayley',
-        'agreedTos': true,
-      };
+    if (modifier)
+      data = modifier(vars, data);
 
-      if (modifier)
-        data = modifier(vars, data);
+    return this.storeRequest(AJAX.post('/candidates/', data)).then(function(response) {
+      var id = response.id;
+      vars.candidate_id = id;
+      console.log('Created candidate:', id);
 
-      return AJAX.post('/candidates/' + id, data);
-    })).then(function(response) {
-      vars.candidate_id = response.id;
-      console.log('Created candidate:', vars.candidate_id);
-      return response;
+      return AJAX.post('/candidates/' + id, {
+        target_position: {
+          'role': 'System Administration',
+          'skills': ['Python', 'PHP'],
+          'minimum_salary': 40000
+        },
+        preferred_locations: {
+          'DE': ['Berlin','Leipzig','Hamburg'],
+          'BR': ['Uberlândia']
+        }
+      });
     });
   }
 

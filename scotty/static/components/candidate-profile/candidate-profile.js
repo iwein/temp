@@ -5,6 +5,8 @@ define(function(require) {
   require('components/directive-education-form/directive-education-form');
   require('components/directive-languages-form/directive-languages-form');
   require('components/directive-skills-form/directive-skills-form');
+  require('components/element-preferred-location/element-preferred-location');
+  require('components/element-candidate-status/element-candidate-status');
   require('components/partial-candidate-pic/partial-candidate-pic');
 
   var _ = require('underscore');
@@ -103,7 +105,6 @@ define(function(require) {
         ]).then(function(result) {
           $scope.user = result[0];
           $scope.targetPosition.data = result[1];
-          $scope.preferredLocations = parsePreferredLocations(result[0].preferred_location);
           return {
             locations: result[0].preferred_location,
             salary: result[1].minimum_salary
@@ -182,6 +183,8 @@ define(function(require) {
         });
       },
       save: function(model, form, user) {
+        var offset = model.dob.getTimezoneOffset() / 60;
+        model.dob.setHours(-offset);
         return user.updateData(model);
       }
     });
@@ -251,6 +254,8 @@ define(function(require) {
               duration: duration,
               role: entry.role
             };
+          }).filter(function(entry) {
+            return entry.duration !== 0;
           });
           timeline.forEach(function(entry) {
             entry.percent = 100 / total * entry.duration;
@@ -272,6 +277,7 @@ define(function(require) {
 
     function refresh() {
       return Session.getUser().then(function(user) {
+        $scope.candidate = user;
         return $q.all([
           user.getData(),
           user.getTargetPosition(),
@@ -283,6 +289,7 @@ define(function(require) {
         ]);
       }).then(function(data) {
         var user = data[0];
+        $scope.allOffers = data[2];
         $scope.offers = data[2]
           .sort(function(a, b) { return b.data.annual_salary - a.data.annual_salary })
           .slice(0, 3);
@@ -298,7 +305,6 @@ define(function(require) {
         $scope.summary.data = user.summary;
         $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
-        $scope.preferredLocations = parsePreferredLocations(user.preferred_location);
         $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
         $scope.contact.data = PICK_CONTACT_DATA_FIELDS(user);
         $scope.salary.data = {
@@ -310,18 +316,6 @@ define(function(require) {
           eu_work_visa: user.eu_work_visa
         };
         $scope.ready = true;
-
-        var finalStatus = [ 'REJECTED', 'WITHDRAWN' ];
-        if (user.candidate_has_been_hired)
-          $scope.status = 'hired';
-        else if (user.status === 'sleeping')
-          $scope.status = 'sleeping';
-        else
-          $scope.status = $scope.offers.reduce(function(summary, value) {
-            if (finalStatus.indexOf(value.status) !== -1) return;
-            if (value.status === 'CONTRACT_SIGNED') return 'hired';
-            return summary || 'reviewing';
-          }, null) || 'searching';
 
         function translate() {
           $scope.lang = i18n.getCurrent();
@@ -408,16 +402,6 @@ define(function(require) {
       });
     }
 
-
-    function parsePreferredLocations(locations) {
-      if (!locations) return i18n.gettext('Not specified');
-
-      return Object.keys(locations).map(function(country) {
-        var cities = locations[country];
-        var text = cities.length ? cities.join(', ') : i18n.gettext('Anywhere');
-        return text + ' ' + country;
-      }).join(' - ');
-    }
 
     function toCheckboxModel(key) {
       return function(data) {

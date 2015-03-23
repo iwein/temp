@@ -18,31 +18,30 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
 
       {url:'/api/v1/candidates/', title: 'candidate-signup-empty', data: {}, expectedErrors:[400]},
 
-      {url:'/api/v1/candidates/', title: 'candidate-signup-empty-location', data: {preferred_locations: {}},
-        expectedErrors:[400]},
-
-      {url:'/api/v1/candidates/', title: 'candidate-signup-error-location', data: {
-        preferred_locations: {NEWfoundLand: ["fangtASIA"]}}, expectedErrors:[400]},
-
-
-      {url:'/api/v1/candidates/', title: 'candidate-signup-with-invite',
-        data: {target_position: {}, preferred_locations: {}}, expectedErrors:[400]},
-
       {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-create-invite-code',
         data: {code: inviteCode, description: "Baylays invite code TEST"}},
 
 
       {title: 'Signup - First Target Position & Preferred Location'},
-      {url: '/api/v1/candidates/', title: 'signup-target_position',
-        data: {
-          'target_position': {"role":"Software Development", "skills": ["Python", "PHP"], minimum_salary: 100000},
-          'preferred_locations': {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}
-        },
-        extract:   function(r, extr){return {candidateId: r.id}}},
+
+      {url:'/api/v1/candidates/', title: 'candidate-email-signup-with-invite',
+        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode, agreedTos: true},
+        extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
+      {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'candidate-TP-empty-location',
+        method: 'PUT', data: {preferred_locations: {}}, expectedErrors:[400]},
+      {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'candidate-TP-error-location',
+        method: 'PUT', data: {preferred_locations: {NEWfoundLand: ["fangtASIA"]}}, expectedErrors:[400]},
+      {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'candidate-TP-empty-all',
+        method: 'PUT', data: {target_position: {}, preferred_locations: {}}, expectedErrors:[400]},
+      {url: function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'signup-target_position',
+        method:"PUT", data: {
+        'target_position': {"role":"Software Development", "skills": ["Python", "PHP"], minimum_salary: 100000},
+        'preferred_locations': {DE: ['Berlin', 'Leipzig', 'Hamburg'], BR: ['Uberlândia']}
+      }
+      },
       {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition', expectedErrors: [403]},
       {title: 'Signup - Second Email & Password'},
-      {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId}, title: 'candidate-email-signup-with-invite',
-        data: {first_name: 'Bob', last_name: "Bayley", "email": tmpemail, pwd:"welcomepwd", 'invite_code':inviteCode, agreedTos: true}},
+
       {url: function(r, extr){return '/api/v1/candidates/me?apikey=${apikey}'}, title: 'candidate-with-invite-delete', method:"DELETE"},
       {url:'/api/v1/admin/invite_codes?apikey=${apikey}', title: 'admin-show-invite-codes'},
 
@@ -346,7 +345,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
         {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
         {url: '/api/v1/login', data: {"email": email, pwd:"helloworld"}, title: 'unified-login'},
         {url: function(r, extr){return '/api/v1/candidates/logout'}, title: 'candidate-logout'},
-        //{url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'?apikey=${apikey}'}, title: 'candidate-delete', method:"DELETE"},
+        {url: function(r, extr){return '/api/v1/candidates/'+extr.candidateId+'?apikey=${apikey}'}, title: 'candidate-delete', method:"DELETE"},
         {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login-after-delete',
           data: {"email": email, pwd:"helloworld"}, expectedErrors:[404]
         },

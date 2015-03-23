@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
   require('components/element-connectors-buttons/element-connectors-buttons');
-  var _ = require('underscore');
   var module = require('app-module');
 
   module.directive('hcTosLink', function() {
@@ -9,47 +8,33 @@ define(function(require) {
       restrict: 'E',
       transclude: true,
       template: '<a class="link" style="text-decoration: underline;" ' +
-        'href="../en/terms-candidate.html" target="_blank" ng-transclude></a>',
+        'href="/en/terms-candidate.html" target="_blank" ng-transclude></a>',
     };
   });
 
-  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, i18n,
-                                                        Loader, ConfigAPI, Session) {
+  module.controller('CandidateSignupUserCtrl', function($scope, $q, $state, toaster, i18n, Loader, ConfigAPI, Session) {
     this.onEmailChange = onEmailChange;
     this.submit = submit;
     $scope.loading = false;
     $scope.model = {};
     $scope.errorEmailAlreadyRegistered = false;
-    Loader.page(true);
-    var importedData;
 
-    Session.getConnectors().getData().then(function(data) {
-      if (data)
-        setDataFromNetworks(data);
-    }).finally(function() {
-      Loader.page(false);
-    });
+    return onLoad();
 
+    function onLoad() {
+      // HACK: we have to do this in order to have a live translation & register the token
+      // It's critical that `message` and `.gettext` argument have EXACTLY the same content.
+      var message = '<h2>Sign up as IT professional and get hired!</h2>' +
+          'If you are an employer, click <a href="/employer/signup"><b>here</b></a>!';
+      i18n.gettext('<h2>Sign up as IT professional and get hired!</h2>' +
+          'If you are an employer, click <a href="/employer/signup"><b>here</b></a>!');
 
-    function setDataFromNetworks(data) {
-      $scope.imported = true;
-      _.extend($scope.model, _.pick(data, 'first_name', 'last_name', 'email'));
-      importedData = _.pick(data, 'dob', 'picture_url');
-
-      var city = data.contact_city;
-      var country = data.contact_country_iso;
-      if (!city || !country)
-        return;
-
-      return ConfigAPI.isValidCity(city, country).then(function(isValid) {
-        if (isValid) {
-          importedData.location = {
-            country_iso: data.contact_country_iso,
-            city: data.contact_city,
-          };
-        }
+      toaster.show('alert banner-message', '<translate>' + message + '</translate>', {
+        html: true,
+        untilStateChange: true
       });
     }
+
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;
@@ -57,16 +42,11 @@ define(function(require) {
 
     function submit() {
       if (!$scope.formSignupUser.$valid)return;
-      var id = localStorage.getItem('scotty:user_id');
       $scope.loading = true;
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
 
-      return Session.createUser(id, $scope.model).then(function(user) {
-        localStorage.removeItem('scotty:user_id');
-        if (importedData)
-          return user.updateData(importedData);
-      }).then(function() {
+      return Session.signup($scope.model).then(function() {
         return $scope.signup.nextStep();
       }).catch(function(request) {
         if (request.status === 409) {

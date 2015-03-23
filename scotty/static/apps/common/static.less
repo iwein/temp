@@ -27,7 +27,7 @@
 .banner {
   min-height: 480px;
   padding: 1px;
-  background-image: url(../candidate/resources/images/bg-home.jpg);
+  //background-image: url(../candidate/resources/images/bg-home.jpg);
   background-repeat: no-repeat;
   background-position: center center;
   -webkit-background-size: cover;
@@ -37,14 +37,29 @@
   width: 100%;
   padding-top: 1px;
 }
-.banner-about {
-  background-image: url(../candidate/resources/images/bg-about.jpg);
+.banner-about-us {
+  background-image: url(../resources/bg-about-us.jpg);
 }
-.banner-support {
-  background-image: url(../index/resources/mainimagedesksupport3.jpg);
+.banner-contact {
+  background-image: url(../resources/bg-contact.jpg);
+}
+.banner-forgot-password {
+  background-image: url(../resources/bg-forgot-password.jpg);
 }
 .banner-imprint {
-  background-image: url(../index/resources/mainimagescreen.jpg);
+  background-image: url(../resources/bg-imprint.jpg);
+}
+.banner-invite {
+  background-image: url(../resources/bg-login.jpg);
+}
+.banner-index-employer {
+  background-image: url(../resources/bg-index-employer.jpg);
+}
+.banner-index {
+  background-image: url(../resources/bg-index.jpg);
+}
+.banner-login {
+  background-image: url(../resources/bg-login.jpg);
 }
 
 .banner-inner {
@@ -109,7 +124,7 @@
     clear: both
   }
 }
-.banner-login {
+.banner-small {
   padding: 15px;
   text-align: left;
   h3 {
@@ -400,18 +415,18 @@
     margin: 0 auto 10px auto;
     color: @static-text-color;
   }
-  button {
+  .button {
     background: @green;
     color: @white;
     font-size: @static-font-size-base;
     text-transform: uppercase;
     text-align: center;
-    height: 35px;
     width: 180px;
-    padding: 0 30px;
+    padding: 7px 30px;
     display: block;
     margin:0 auto;
     &:hover {
+      text-decoration: none;
       background: @green-dark
     }
   }
@@ -610,4 +625,66 @@ ul.bulleted {
   list-style-type: disc;
   margin-top:10px;
   > li {margin-bottom: 5px;}
+}
+
+.banner-invite {
+  h2 { text-transform: uppercase; }
+}
+
+.invite-page {
+  .container-static { padding-top: 30px; }
+
+  .invite-row {
+    margin: 0 -15px 20px;
+    padding: 15px 0;
+    .content { margin: 0 30px }
+  }
+
+  .message {
+    clear: both;
+    h3 {
+      color: #e15d12;
+      display: inline-block;
+    }
+  }
+
+  .go-back {
+    margin-left: 15px;
+    font-weight: bolder;
+    color: #696969;
+  }
+  a.go-back {
+    text-decoration: underline;
+  }
+
+  form {
+    clear: both;
+    padding-top: 30px;
+    .form-control {
+      border-color: #197185;
+    }
+    textarea {
+      height: 160px;
+    }
+    .submit-section {
+      margin-top: 50px;
+      button {
+        background-color: #e15c11;
+        text-transform: uppercase;
+        font-weight: bolder;
+        padding: 7px 50px;
+        font-size: 24px;
+      }
+    }
+  }
+
+  .icon-speaker {
+    background-image: url(../../resources/invite.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -30px 30px 0 -30px;
+    height: 128px;
+    width: 128px;
+    float: left;
+  }
 }

@@ -13,6 +13,7 @@
             <input type="text"
                    class="form-control"
                    name="companyName"
+                   autocomplete="off"
                    ng-required="true"
                    ng-disabled="loading || invited"
                    ng-model="model.company_name"
@@ -131,7 +132,7 @@
             </span>
             <span ng-show="errorEmailAlreadyRegistered">
               <translate>Email already registered.</translate>
-              <a href="../forgot-password.html" translate>Forgot your password?</a>
+              <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
             </span>
           </div>
         </div>
