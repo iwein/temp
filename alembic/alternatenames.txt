@@ -1,0 +1,15 @@
+create table alternatename (
+         alternatenameId  int,
+         geonameid          int,
+         isoLanguage        varchar(7),
+         alternateName     varchar(200),
+         isPreferredName      boolean,
+         isShortName    boolean,
+         isColloquial    boolean,
+         isHistoric    boolean
+);
+
+copy alternatename  (alternatenameid,geonameid,isoLanguage,alternateName,isPreferredName,isShortName,isColloquial,isHistoric) 
+from 'd:\_projects\winascotty\alternateNames.txt' null as '';
+
+COPY alternames  FROM  'd:\_projects\winascotty\alternateNames.txt' DELIMITER
