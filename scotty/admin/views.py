@@ -227,7 +227,8 @@ class AdminController(RootController):
         basequery = DBSession.query(SearchResultCandidate) \
             .options(joinedload_all('languages.language'), joinedload_all('languages.proficiency'),
                      joinedload_all('skills.skill'), joinedload_all('skills.level'),
-                     joinedload_all('target_position.preferred_locations'))
+                     joinedload('preferred_locations'),
+                     joinedload('target_position'))
         if status:
             status = get_by_name_or_raise(CandidateStatus, status)
             basequery = basequery.filter(Candidate.status == status)
