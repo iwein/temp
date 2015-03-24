@@ -63,9 +63,8 @@ msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
 "click <a href=\"/employer/signup\"><b>here</b></a>!"
 msgstr ""
-"<h2>Melde dich als IT-Experte an und finde deine Wunschposition</"
-"h2>Unternehmen registrieren sich bitte <a href=\"/employer/signup\"><b>hier! "
-"</b></a>"
+"<h2>Melde dich an und lass Dich mit Job-Angeboten umwerben!</h2>Unternehmen "
+"registrieren sich bitte <a href=\"/employer/signup\"><b>hier! </b></a>"
 
 #: components/employer-signup-start/employer-signup-start.js:27
 msgid ""
@@ -2428,6 +2427,8 @@ msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
 #: apps/common/basic-conf.js:75
 msgid "Sorry, unknown error occurred, if this error persists please contact"
 msgstr ""
+"Entschuldigung, ein unbekannter Fehler ist aufgreten. Falls der Fehler "
+"besteht kontaktieren Sie bitte"
 
 #: tmp/db-tokens/benefits.js:11
 msgid "Sport and health services"
@@ -3101,11 +3102,12 @@ msgstr "Die Passwörter müssen in beiden Feldern übereinstimmen."
 
 #: apps/common/permission.js:53
 msgid "You need be approved to see this page."
-msgstr ""
+msgstr "Ihr Profil muss bestätigt sein, um diese Seite zu sehen."
 
 #: apps/common/permission.js:44
 msgid "You need complete signup process to see this page."
 msgstr ""
+"Sie müssen den Anmeldungsprozess vervollständigen, um diese Seite zu sehen"
 
 #: components/candidate-signup-user/candidate-signup-user.html:112
 msgid "You need to agree to the terms to signup"
@@ -3113,7 +3115,7 @@ msgstr "Du musst den Nutzungsbedingungen zustimmen, um dich anzumelden."
 
 #: apps/common/permission.js:27
 msgid "You need to be logged in to see this page"
-msgstr ""
+msgstr "Sie müssen eingeloggt sein, um diese Seite zu sehen."
 
 #: components/candidate-signup-languages/candidate-signup-languages.html:28
 msgid "You professionally master the language in both written and spoken word."

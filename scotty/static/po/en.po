@@ -52,7 +52,6 @@ msgid ""
 msgstr ""
 
 #: components/candidate-signup-user/candidate-signup-user.js:29
-#, fuzzy
 msgid ""
 "<h2>Sign up as IT professional and get hired!</h2>If you are an employer, "
 "click <a href=\"/employer/signup\"><b>here</b></a>!"
@@ -61,7 +60,6 @@ msgstr ""
 "an employer, click <a href=\"/employer/signup\"><b>here</b></a>!"
 
 #: components/employer-signup-start/employer-signup-start.js:27
-#, fuzzy
 msgid ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
 "are looking to be get hired, click <a href=\"/candidate/signup\"><b>here</"
