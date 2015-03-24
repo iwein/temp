@@ -43,7 +43,7 @@ define(function(require) {
     ConfigAPI.countries({ limit: 500 })
       .then(fn.setTo('countries', $scope));
 
-    Permission.requireSignup()
+    Permission.requireLogged()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 
@@ -309,10 +309,10 @@ define(function(require) {
         $scope.contact.data = PICK_CONTACT_DATA_FIELDS(user);
         $scope.salary.data = {
           locations: user.preferred_location,
-          salary: data[1].minimum_salary
+          salary: data[1] && data[1].minimum_salary
         };
         $scope.dob.data = {
-          dob: Date.parse(user.dob),
+          dob: user.dob && Date.parse(user.dob),
           eu_work_visa: user.eu_work_visa
         };
         $scope.ready = true;
