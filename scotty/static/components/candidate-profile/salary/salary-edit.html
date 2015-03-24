@@ -1,0 +1,115 @@
+<button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
+  <i class="fa fa-pencil"></i>
+</button>
+
+<form ng-submit="save(data)">
+  <button class="close-button" ng-click="close()">
+    <i class="fa fa-close"></i>
+  </button>
+
+  <div class="form-group">
+    <label>
+      <span class="question-title" translate>Annual Salary</span>
+      <div class="question">
+        <span>?</span>
+        <div class="tooltip-wrap">
+          <div class="tooltip-arrow"></div>
+          <div class="tooltip-text" translate>
+            Do not set your salary too high, as it will block employers to send you interesting offers, that have a slightly lower nominal salary but huge other benefits.
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </label>
+
+    <input type="dotted-integer"
+      class="form-control"
+      name="salary"
+      required
+      ng-disabled="loading"
+      ng-model="data.salary"
+      ng-change="onSalaryChange()">
+
+    <div class="red error" ng-show="errorSalaryTooHigh" translate>This seems to be too high</div>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="question-title" translate>Locations</span>
+      <div class="question">
+        <span>?</span>
+        <div class="tooltip-wrap">
+          <div class="tooltip-arrow"></div>
+          <div class="tooltip-text" translate>
+            We currently focus our efforts on the 3 listed locations. Feel free to name any other city in Germany so we know where to focus in the future.
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </label>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          ng-disabled="loading || other"
+          ng-model="germany"
+          ng-change="updateLocations()">
+        <translate>Anywhere in Germany</translate>
+      </label>
+    </div>
+
+    <div class="checkbox" ng-repeat="location in featured">
+      <label>
+        <input type="checkbox"
+          ng-disabled="loading || germany"
+          ng-model="location.selected"
+          ng-change="updateLocations()">
+        {{ location.value.city }}, {{ location.value.country_iso }}
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          name="location-radio"
+          ng-disabled="loading || germany"
+          ng-required="errorLocationRequired"
+          ng-model="other"
+          ng-change="updateLocations()">
+        <translate>Other</translate>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <hc-label-typeahead
+        name="cities"
+        placeholder="{{ 'Type a city...' | translate }}"
+        ng-show="other"
+        ng-disabled="loading"
+        ng-model="list"
+        hc-required="other"
+        hc-render="locationToText($entry)"
+        hc-source="searchCities($viewValue)"
+        on-change="updateLocations()">
+      </hc-label-typeahead>
+    </div>
+
+    <div class="buttons-wrap">
+      <button type="submit"
+              class="fl-rg bg-green btn-small mrg-lft-small"
+              ng-disabled="loading"
+              translate>
+        Save
+      </button>
+      <button type="button"
+              class="fl-rg bg-gray-lighter2 btn-small"
+              ng-click="close()"
+              ng-disabled="loading"
+              translate>
+        Cancel
+      </button>
+    </div>
+
+    <div class="clearfix"></div>
+  </div>
+</form>

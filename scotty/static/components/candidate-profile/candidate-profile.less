@@ -1,1 +1,81 @@
 @import "../element-candidate-status/element-candidate-status.less";
+@import "./avatar/avatar-edit.less";
+@import "./salary/salary-edit.less";
+
+
+.component-candidate-profile {
+  .edit-button { display: none }
+  &.editing .edit-button { display: block }
+  &.editing.form-open .edit-button { display: none }
+
+  #button-edit-profile { display: block }
+  &.editing #button-edit-profile { display: none }
+
+  #button-finish-edit { display: none }
+  &.editing #button-finish-edit { display: block }
+  &.editing.form-open .edit-button { display: none }
+
+  form { display: none }
+
+  section {
+    .row();
+    position: relative;
+    border: 1px solid white;
+    padding: @generic-padding;
+    margin-bottom: @generic-padding
+  }
+
+  .box-title {
+    .row();
+    padding: 0 @generic-padding @generic-padding;
+  }
+
+  .icon-parent {
+    display: inline-block;
+    margin: 2px;
+  }
+
+  .floating-button() {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+
+  .close-button {
+    .floating-button();
+  }
+
+  .edit-button.pencil-edit {
+    .floating-button();
+    font-size: 16px !important;
+    color: @blue-link;
+
+    &[disabled] {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.65;
+      filter: alpha(opacity=65);
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+
+  .status {
+    padding-top: @generic-padding-small;
+    padding-bottom: @generic-padding-small;
+    .iconParent { margin-left: 5px }
+  }
+
+  .avatar-section {
+    padding: 0;
+  }
+
+
+  &.editing-avatar {
+    hc-candidate-avatar, [hc-candidate-avatar] { display: none }
+  }
+  &.editing-salary {
+    hc-candidate-salary, [hc-candidate-salary] { display: none }
+  }
+}

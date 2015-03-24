@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var promiseHelper = require('tools/promise-helper');
   var Offer = require('./offer');
   var levels = {
     'null': 0,
@@ -34,6 +35,17 @@ define(function(require) {
     this._data = data;
     this._sufix = sufix || '';
     if (data) this._sortSkills();
+
+    promiseHelper.cacheMethods(this, [
+      'getData',
+      'getExperience',
+      'getEducation',
+      'getBookmarks',
+      'getTargetPosition',
+      'getNewsFeed',
+      'getSuggestedCompanies',
+      'getOffers',
+    ]);
   }
 
   Candidate.prototype = {
@@ -58,10 +70,6 @@ define(function(require) {
     },
 
     getData: function() {
-      return this.refreshData();
-    },
-
-    refreshData: function() {
       return this._api.get(this._url() + this._sufix).then(function(response) {
         this._data = response;
         this.id = response.id;
@@ -72,6 +80,10 @@ define(function(require) {
           return this.dispose();
         throw request;
       }.bind(this));
+    },
+
+    refreshData: function() {
+      return this.getData();
     },
 
     setPhoto: function(photo) {
