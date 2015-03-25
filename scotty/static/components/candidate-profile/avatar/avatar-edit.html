@@ -4,6 +4,7 @@
 
 <form class="bg-gray-lighter3" ng-submit="save(data)">
   <h5 class="edit-title" translate>Profile picture</h5>
+
   <div>
     <div class="uploadFile">
       <span translate>Select</span>
@@ -19,22 +20,13 @@
     <div class="upload-text" translate>Upload a photo at least 235 px wide.</div>
     <div class="clearfix"></div>
   </div>
+
   <div class="avatar-preview" ng-style="{
     'background-image': 'url(' + (selectedPicture[0] || parser.get(model)) + ')'
   }"></div>
+
   <div class="buttons-wrap">
-    <button type="button"
-            class="fl-lf bg-gray-lighter2 btn-small"
-            ng-click="close()"
-            ng-disabled="loading"
-            translate>
-      Cancel
-    </button>
-    <button type="submit"
-            class="fl-lf bg-green btn-small mrg-lft-small"
-            ng-disabled="loading"
-            translate>
-      Save
-    </button>
+    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
+    <button type="submit" ng-disabled="loading" translate>Save</button>
   </div>
 </form>

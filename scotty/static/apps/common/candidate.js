@@ -65,21 +65,28 @@ define(function(require) {
       });
     },
 
+    _setUser: function(response) {
+      if (this.getData.setCache)
+        this.getData.setCache.call(this, response);
+
+      this._data = response;
+      this.id = response.id;
+      this._sortSkills();
+      return response;
+    },
+
     updateData: function(model) {
-      return this._api.put(this._url() + this._sufix, model);
+      return this._api.put(this._url() + this._sufix, model)
+        .then(this._setUser.bind(this));
     },
 
     getData: function() {
-      return this._api.get(this._url() + this._sufix).then(function(response) {
-        this._data = response;
-        this.id = response.id;
-        this._sortSkills();
-        return response;
-      }.bind(this), function(request) {
-        if (request.status === 403)
-          return this.dispose();
-        throw request;
-      }.bind(this));
+      return this._api.get(this._url() + this._sufix)
+        .then(this._setUser.bind(this), function(request) {
+          if (request.status === 403)
+            return this.dispose();
+          throw request;
+        }.bind(this));
     },
 
     refreshData: function() {

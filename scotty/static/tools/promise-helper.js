@@ -38,11 +38,14 @@ define(function() {
     cachedName = cachedName || (method + 'Cached');
     var original = object[method];
     var functions = getSyncVersion(original);
+    var substitute = functions.substitute;
 
+    substitute.original = original;
+    substitute.restore = restore;
+    substitute.setCache = functions.setCache;
     object[cachedName] = functions.cached;
-    object[method] = functions.substitute;
-    object[method].original = original;
-    object[method].restore = restore;
+    object[method] = substitute;
+    object.$revision = 0;
 
     function restore() {
       object[method] = original;
@@ -54,19 +57,24 @@ define(function() {
 
     return {
       substitute: substitute,
+      setCache: setCache,
       cached: cached,
     };
 
     function substitute() {
       // jshint validthis:true
-      return fn.apply(this, arguments).then(function(value) {
-        cache = value;
-        return value;
-      });
+      return fn.apply(this, arguments).then(setCache.bind(this));
     }
 
     function cached() {
       return cache;
+    }
+
+    function setCache(value) {
+      // jshint validthis:true
+      this.$revision++;
+      cache = value;
+      return value;
     }
   }
 });

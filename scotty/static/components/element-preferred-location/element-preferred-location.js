@@ -13,7 +13,13 @@ define(function(require) {
         scope.$watch('candidate', function(candidate) {
           if (!candidate) return;
           var location = candidate._data.preferred_location;
-          scope.preferred_location = parsePreferredLocations(location);
+
+          i18n.onChange(update);
+          update();
+
+          function update() {
+            scope.preferred_location = parsePreferredLocations(location);
+          }
         });
       }
     };

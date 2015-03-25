@@ -31,7 +31,6 @@ define(function(require) {
           searchCities: ConfigAPI.locations,
           updateLocations: updateLocations,
           onSalaryChange: onSalaryChange,
-          parser: parser,
           close: close,
           edit: edit,
           save: save,
@@ -47,10 +46,9 @@ define(function(require) {
 
         function save() {
           scope.loading = true;
-          return parser.set(scope.model, scope.data).then(function() {
-            scope.loading = false;
-            return close();
-          });
+          return parser.set(scope.model, scope.data)
+            .then(close)
+            .finally(function() { scope.loading = false });
         }
 
         function onSalaryChange() {
@@ -58,6 +56,8 @@ define(function(require) {
         }
 
         function updateLocations() {
+          if (!scope.data) return;
+
           var locations = {};
           var add = addLocation.bind(null, locations);
           scope.errorLocationRequired = false;

@@ -1,0 +1,115 @@
+<button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
+  <i class="fa fa-pencil"></i>
+</button>
+
+<form ng-submit="save(data)">
+  <button class="close-button" ng-click="close()">
+    <i class="fa fa-close"></i>
+  </button>
+
+  <div class="form-group">
+    <label translate>Address</label>
+
+    <input type="text"
+      class="form-control"
+      placeholder="{{ 'Address Line 1' | translate }}"
+      ng-disabled="loading"
+      ng-model="data.contact_line1">
+
+    <input type="text"
+      class="form-control"
+      placeholder="{{ 'Address Line 2' | translate }}"
+      ng-disabled="loading"
+      ng-model="data.contact_line2">
+
+    <input type="text"
+      class="form-control"
+      placeholder="{{ 'Zip code' | translate }}"
+      maxlength="20"
+      ng-disabled="loading"
+      ng-model="data.contact_zipcode">
+
+    <input type="text"
+      name="location"
+      class="form-control"
+      placeholder="{{ 'Location' | translate }}"
+      autocomplete="off"
+      ng-disabled="loading"
+      ng-model="locationText"
+      ng-blur="setLocation(locationText)"
+      typeahead-on-select="setLocation(locationText)"
+      typeahead="location for location in searchLocations($viewValue)"
+      hc-typeahead-loader>
+  </div>
+
+  <!--
+  <div class="form-group">
+    <label translate>Email Address</label>
+
+    <input type="email"
+      class="form-control"
+      name="contact_email"
+      required
+      ng-disabled="loading"
+      ng-model="data.email">
+  </div>
+  -->
+
+  <div class="form-group">
+    <label translate>Phone</label>
+
+    <input type="tel"
+      class="form-control"
+      name="contact_phone"
+      pattern="^\+?[0-9 /()-]+$"
+      ng-pattern="/^\+?[0-9 -/()]+$/"
+      ng-disabled="loading"
+      ng-model="data.contact_phone">
+  </div>
+
+  <div class="form-group web-profiles">
+    <label translate>Web profiles</label>
+
+    <div class="row">
+      <div class="col-sm-2">
+        <i class="fa fa-github"></i>
+      </div>
+      <div class="col-sm-10">
+        <input type="url"
+          class="form-control"
+          name="github"
+          ng-disabled="loading"
+          ng-model="data.github_url">
+      </div>
+
+      <div class="col-sm-2">
+        <i class="fa fa-stack-overflow"></i>
+      </div>
+      <div class="col-sm-10">
+        <input type="url"
+          class="form-control"
+          name="stackoverflow"
+          ng-disabled="loading"
+          ng-model="data.stackoverflow_url">
+      </div>
+
+      <div class="col-sm-2">
+        <i class="fa fa-globe"></i>
+      </div>
+      <div class="col-sm-10">
+        <input type="url"
+          class="form-control"
+          name="blog_url"
+          ng-disabled="loading"
+          ng-model="data.blog_url">
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons-wrap">
+    <button type="submit" ng-disabled="loading" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
+  </div>
+
+  <div class="clearfix"></div>
+</form>

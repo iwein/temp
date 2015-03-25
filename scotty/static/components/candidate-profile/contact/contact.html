@@ -1,0 +1,25 @@
+<div class="box-title">
+  <translate>Contact</translate>
+
+  <a ng-show="data.github_url" ng-href="{{ data.github_url }}">
+    <i class="fa fa-github"></i>
+  </a>
+  <a ng-show="data.stackoverflow_url" ng-href="{{ data.stackoverflow_url }}">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  <a ng-show="data.blog_url" ng-href="{{ data.blog_url }}">
+    <i class="fa fa-globe"></i>
+  </a>
+</div>
+
+<div class="email">
+  <a ng-href="mailto:{{ data.email }}">
+    <span class="icon-parent"><i class="fa fa-envelope orange"></i></span>
+    {{ data.email }}
+  </a>
+</div>
+
+<div class="phone" ng-show="data.contact_phone">
+  <span class="icon-parent"><i class="fa fa-mobile orange font-22"></i></span>
+  {{ data.contact_phone }}
+</div>

@@ -1,6 +1,9 @@
 @import "../element-candidate-status/element-candidate-status.less";
+@import "./availability/availability-edit.less";
 @import "./avatar/avatar-edit.less";
-@import "./salary/salary-edit.less";
+@import "./contact/contact-edit.less";
+@import "./contact/contact.less";
+//@import "./salary/salary-edit.less";
 
 
 .component-candidate-profile {
@@ -22,12 +25,27 @@
     position: relative;
     border: 1px solid white;
     padding: @generic-padding;
-    margin-bottom: @generic-padding
+    margin-bottom: @generic-padding;
+
+    &:nth-child(odd) { .bg-gray-light() }
+    &:nth-child(even) { .gray-darker() }
   }
+
+  form > .buttons-wrap > button {
+    .btn-small();
+    float: right;
+    margin-left: @generic-padding;
+    &[type=submit] { .bg-green() }
+    &[type=button] { .bg-gray-lighter2() }
+  }
+
 
   .box-title {
     .row();
     padding: 0 @generic-padding @generic-padding;
+  }
+  &.editing .box-title {
+    padding-right: 35px;
   }
 
   .icon-parent {
@@ -74,8 +92,37 @@
 
   &.editing-avatar {
     hc-candidate-avatar, [hc-candidate-avatar] { display: none }
+    hc-candidate-avatar-edit, [hc-candidate-avatar-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-contact {
+    hc-candidate-contact, [hc-candidate-contact] { display: none }
+    hc-candidate-contact-edit, [hc-candidate-contact-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
   }
   &.editing-salary {
     hc-candidate-salary, [hc-candidate-salary] { display: none }
+    hc-candidate-salary-edit, [hc-candidate-salary-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-birthdate {
+    hc-candidate-birthdate, [hc-candidate-birthdate] { display: none }
+    hc-candidate-birthdate-edit, [hc-candidate-birthdate-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-availability {
+    hc-candidate-availability, [hc-candidate-availability] { display: none }
+    hc-candidate-availability-edit, [hc-candidate-availability-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
   }
 }

@@ -1,11 +1,12 @@
-<div class="box-title gray-darker" translate>Expectation</div>
+<div class="box-title" translate>Expectation</div>
 
 <div>
   <span class="icon-parent"><i class="fa fa-euro orange"></i></span>
-  {{ parser.get(model).salary | dottedInteger }}
+  <span ng-if="data.salary">{{ data.salary | dottedInteger }}</span>
+  <span ng-if="!data.salary" translate>Not specified</span>
 </div>
 
-<div class="entry">
+<div>
   <span class="icon-parent"><i class="fa fa-location-arrow orange"></i></span>
   <hc-preferred-location candidate="model"></hc-preferred-location>
 </div>

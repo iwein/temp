@@ -1,12 +1,12 @@
 define(function(require) {
   'use strict';
-  var parser = require('./salary-parser');
+  var parser = require('./birthdate-parser');
   var module = require('app-module');
 
 
-  module.directive('hcCandidateSalary', function() {
+  module.directive('hcCandidateBirthdate', function() {
     return {
-      template: require('text!./salary.html'),
+      template: require('text!./birthdate.html'),
       scope: { model: '=' },
       link: function(scope) {
         scope.$watch('model.$revision', function() {
@@ -16,3 +16,4 @@ define(function(require) {
     };
   });
 });
+

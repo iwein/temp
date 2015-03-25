@@ -6,8 +6,15 @@ define(function(require) {
   require('components/directive-skills-form/directive-skills-form');
   require('components/element-preferred-location/element-preferred-location');
   require('components/element-candidate-status/element-candidate-status');
+  require('./availability/availability');
+  require('./availability/availability-edit');
   require('./avatar/avatar');
   require('./avatar/avatar-edit');
+  require('./birthdate/birthdate');
+  require('./birthdate/birthdate-edit');
+  require('./contact/contact');
+  require('./contact/contact-edit');
+  require('./offers/offers');
   require('./salary/salary');
   require('./salary/salary-edit');
 
@@ -70,12 +77,6 @@ define(function(require) {
     Loader.page(true);
 
 
-    var PICK_CONTACT_DATA_FIELDS = function(obj){
-      return _.pick(obj, 'contact_line1', 'contact_line2', 'contact_phone',
-        'contact_skype', 'contact_zipcode', 'email', 'github_url',
-        'location', 'pob', 'stackoverflow_url', 'blog_url');
-    };
-
     ConfigAPI.featuredLocations()
       .then(toCheckboxModel('featuredLocations'));
     ConfigAPI.featuredRoles()
@@ -126,17 +127,6 @@ define(function(require) {
         return user.updateData(model);
       }
     });
-    $scope.contact = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return PICK_CONTACT_DATA_FIELDS(data);
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData(model);
-      }
-    });
     $scope.targetPosition = form({
       source: function(user) {
         return user.getTargetPosition();
@@ -154,33 +144,6 @@ define(function(require) {
       },
       save: function(model, form, user) {
         return user.updateData({ summary: model });
-      }
-    });
-    $scope.dob = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return {
-            dob: Date.parse(data.dob),
-            eu_work_visa: data.eu_work_visa,
-          };
-        });
-      },
-      save: function(model, form, user) {
-        var offset = model.dob.getTimezoneOffset() / 60;
-        model.dob.setHours(-offset);
-        return user.updateData(model);
-      }
-    });
-    $scope.availability = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.availability;
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData({ availability: model });
       }
     });
 
@@ -276,11 +239,6 @@ define(function(require) {
         $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
         $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
-        $scope.contact.data = PICK_CONTACT_DATA_FIELDS(user);
-        $scope.dob.data = {
-          dob: user.dob && Date.parse(user.dob),
-          eu_work_visa: user.eu_work_visa
-        };
         $scope.ready = true;
 
         function translate() {
