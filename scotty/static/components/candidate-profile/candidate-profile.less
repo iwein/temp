@@ -1,1 +1,188 @@
 @import "../element-candidate-status/element-candidate-status.less";
+@import "./availability/availability-edit.less";
+@import "./avatar/avatar-edit.less";
+@import "./contact/contact-edit.less";
+@import "./contact/contact.less";
+@import "./cv/cv-edit.less";
+@import "./languages/languages-edit.less";
+
+
+.component-candidate-profile {
+  .edit-button { display: none }
+  &.editing .edit-button { display: block }
+  &.editing.form-open .edit-button { display: none }
+
+  #button-edit-profile { display: block }
+  &.editing #button-edit-profile { display: none }
+
+  #button-finish-edit { display: none }
+  &.editing #button-finish-edit { display: block }
+  &.editing.form-open .edit-button { display: none }
+
+  form { display: none }
+  section { position: relative };
+  .edit-button.pencil-edit { .floating-button() }
+
+  .sidebar {
+    .avatar-section { padding: 0 }
+
+    .box-title {
+      .row();
+      padding: 0 @generic-padding @generic-padding;
+    }
+    &.editing .box-title { padding-right: 35px }
+
+    section {
+      .row();
+      border: 1px solid white;
+      padding: @generic-padding;
+      margin-bottom: @generic-padding;
+
+      &:nth-child(odd) { .bg-gray-light() }
+      &:nth-child(even) { .gray-darker() }
+    }
+  }
+
+  .header {
+    background: @white;
+    padding: @generic-padding * 2;
+    .pencil-edit { top: -@generic-padding-small }
+    .close-button { top: -@generic-padding-small }
+  }
+
+  form > .buttons-wrap > button {
+    .btn-small();
+    float: right;
+    margin-left: @generic-padding;
+    &[type=submit] { .bg-green() }
+    &[type=button] { .bg-gray-lighter2() }
+  }
+
+
+  .icon-parent {
+    display: inline-block;
+    margin: 2px;
+  }
+
+  .floating-button() {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+
+  .close-button {
+    .floating-button();
+  }
+
+  .edit-button.pencil-edit {
+    font-size: 16px !important;
+    color: @blue-link;
+
+    &[disabled] {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.65;
+      filter: alpha(opacity=65);
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+
+  .status {
+    padding-top: @generic-padding-small;
+    padding-bottom: @generic-padding-small;
+    .iconParent { margin-left: 5px }
+  }
+
+  .main-title {
+    padding: 0;
+    margin: 0;
+    padding-bottom: @generic-padding;
+    margin-bottom: @generic-padding;
+  }
+
+
+  .status-section,
+  .privacy-section {
+    text-align: right;
+  }
+
+  &.editing-availability {
+    [hc-candidate-availability] { display: none }
+    [hc-candidate-availability-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-avatar {
+    [hc-candidate-avatar] { display: none }
+    [hc-candidate-avatar-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-birthdate {
+    [hc-candidate-birthdate] { display: none }
+    [hc-candidate-birthdate-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-contact {
+    [hc-candidate-contact] { display: none }
+    [hc-candidate-contact-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-cv {
+    [hc-candidate-cv] { display: none }
+    [hc-candidate-cv-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-languages {
+    [hc-candidate-languages] { display: none }
+    [hc-candidate-languages-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-name {
+    [hc-candidate-name] { display: none }
+    [hc-candidate-name-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-privacy {
+    [hc-candidate-privacy] { display: none }
+    [hc-candidate-privacy-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-salary {
+    [hc-candidate-salary] { display: none }
+    [hc-candidate-salary-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-summary {
+    [hc-candidate-summary] { display: none }
+    [hc-candidate-summary-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-target {
+    [hc-candidate-target] { display: none }
+    [hc-candidate-target-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+}

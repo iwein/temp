@@ -1,13 +1,33 @@
 define(function(require) {
   'use strict';
-  require('tools/file-upload/amazon');
   require('components/directive-experience-form/directive-experience-form');
   require('components/directive-education-form/directive-education-form');
-  require('components/directive-languages-form/directive-languages-form');
   require('components/directive-skills-form/directive-skills-form');
   require('components/element-preferred-location/element-preferred-location');
   require('components/element-candidate-status/element-candidate-status');
-  require('components/partial-candidate-pic/partial-candidate-pic');
+  require('./availability/availability');
+  require('./availability/availability-edit');
+  require('./avatar/avatar');
+  require('./avatar/avatar-edit');
+  require('./birthdate/birthdate');
+  require('./birthdate/birthdate-edit');
+  require('./contact/contact');
+  require('./contact/contact-edit');
+  require('./cv/cv');
+  require('./cv/cv-edit');
+  require('./languages/languages');
+  require('./languages/languages-edit');
+  require('./name/name');
+  require('./name/name-edit');
+  require('./offers/offers');
+  require('./privacy/privacy');
+  require('./privacy/privacy-edit');
+  require('./salary/salary');
+  require('./salary/salary-edit');
+  require('./summary/summary');
+  require('./summary/summary-edit');
+  require('./target/target');
+  require('./target/target-edit');
 
   var _ = require('underscore');
   var fn = require('tools/fn');
@@ -18,23 +38,55 @@ define(function(require) {
   module.controller('ProfileCtrl', function($scope, $q, $state, toaster, i18n,
                                             Amazon, Loader, ConfigAPI, Permission, Session) {
 
-    this.edit = function() { $scope.isEditing = true };
-    this.stopEdit = function() { $scope.isEditing = false };
+    var ctrl = this;
+    _.extend(this, {
+      edit: edit,
+      stopEdit: stopEdit,
+      openForm: openForm,
+      closeForm: closeForm,
+      update: update,
+      isFormOpen: false,
+    });
+
+    onLoad();
+
+
+    function onLoad() {
+
+    }
+
+    function edit() {
+      $scope.isEditing = true;
+    }
+
+    function stopEdit() {
+      $scope.isEditing = false;
+      closeForm();
+    }
+
+    function openForm(id) {
+      $scope.editClass = 'editing-' + id;
+      ctrl.isFormOpen = true;
+    }
+
+    function closeForm() {
+      $scope.editClass = '';
+      ctrl.isFormOpen = false;
+    }
+
+    function update() {
+      return refresh();
+    }
+
+
+
     $scope.locationToText = ConfigAPI.locationToText;
     $scope.searchCities = ConfigAPI.locations;
-    $scope.onSalaryChange = onSalaryChange;
-    $scope.updateLocations = updateLocations;
     $scope.sendCompletion = sendCompletion;
     $scope.isEditing = false;
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
 
-
-    var PICK_CONTACT_DATA_FIELDS = function(obj){
-      return _.pick(obj, 'contact_line1', 'contact_line2', 'contact_phone',
-        'contact_skype', 'contact_zipcode', 'email', 'github_url',
-        'location', 'pob', 'stackoverflow_url', 'blog_url');
-    };
 
     ConfigAPI.featuredLocations()
       .then(toCheckboxModel('featuredLocations'));
@@ -75,84 +127,6 @@ define(function(require) {
         return user.updateData(model);
       }
     });
-    $scope.name = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return _.pick(data, 'first_name', 'last_name');
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData(model);
-      }
-    });
-    $scope.contact = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return PICK_CONTACT_DATA_FIELDS(data);
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData(model);
-      }
-    });
-    $scope.salary = form({
-      source: function(user) {
-        return $q.all([
-          user.getData(),
-          user.getTargetPosition(),
-        ]).then(function(result) {
-          $scope.user = result[0];
-          $scope.targetPosition.data = result[1];
-          return {
-            locations: result[0].preferred_location,
-            salary: result[1].minimum_salary
-          };
-        });
-      },
-      save: function(model, form, user) {
-        $scope.targetPosition.data.minimum_salary = model.salary;
-        return $q.all([
-          user.setPreferredLocations(model.locations),
-          user.setTargetPosition($scope.targetPosition.data),
-        ]);
-      },
-      edit: function(data) {
-        $scope.salary.data.germany = false;
-        $scope.salary.data.other = false;
-
-        var locations = JSON.parse(JSON.stringify(data.locations));
-        if (!locations)
-          return;
-
-        if (locations.DE && !locations.DE.length) {
-          $scope.salary.data.germany = true;
-          return;
-        }
-
-        $scope.featuredLocations.forEach(function(entry) {
-          var country = entry.value.country_iso;
-          var city = entry.value.city;
-          var index = (locations[country] || []).indexOf(city);
-          entry.selected = index !== -1;
-          if (entry.selected)
-            locations[country].splice(index, 1);
-        });
-
-        var cities = Object.keys(locations).reduce(function(sum, country) {
-          return sum.concat(locations[country].map(function(city) {
-            return {
-              city: city,
-              country_iso: country,
-            };
-          }));
-        }, []);
-
-        $scope.salary.data.other = !!cities.length;
-        $scope.preferred_locations = cities;
-      }
-    });
     $scope.targetPosition = form({
       source: function(user) {
         return user.getTargetPosition();
@@ -172,46 +146,6 @@ define(function(require) {
         return user.updateData({ summary: model });
       }
     });
-    $scope.dob = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return {
-            dob: Date.parse(data.dob),
-            eu_work_visa: data.eu_work_visa,
-          };
-        });
-      },
-      save: function(model, form, user) {
-        var offset = model.dob.getTimezoneOffset() / 60;
-        model.dob.setHours(-offset);
-        return user.updateData(model);
-      }
-    });
-    $scope.availability = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.availability;
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData({ availability: model });
-      }
-    });
-    $scope.picture = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.picture_url;
-        });
-      },
-      save: function(model, form, user) {
-        return Amazon.upload(model[0], 'users', Session.id()).then(function(url) {
-          return user.setPhoto(url + '?nocache=' + Date.timestamp());
-        });
-      }
-    });
 
     function refreshSkills(skills){
       var leveledSkills = skills.filter(fn.get('level'));
@@ -229,14 +163,6 @@ define(function(require) {
           $scope.user = data;
           refreshSkills(data.skills);
           return data.skills;
-        });
-      }
-    });
-    $scope.languages = formDirective({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.languages;
         });
       }
     });
@@ -300,21 +226,9 @@ define(function(require) {
         refreshSkills(user.skills);
 
         $scope.privacy.data = _.pick(user, 'anonymous', 'sleeping');
-        $scope.languages.data = user.languages;
-        $scope.picture.data = user.picture_url;
         $scope.summary.data = user.summary;
         $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
-        $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
-        $scope.contact.data = PICK_CONTACT_DATA_FIELDS(user);
-        $scope.salary.data = {
-          locations: user.preferred_location,
-          salary: data[1] && data[1].minimum_salary
-        };
-        $scope.dob.data = {
-          dob: user.dob && Date.parse(user.dob),
-          eu_work_visa: user.eu_work_visa
-        };
         $scope.ready = true;
 
         function translate() {
@@ -409,36 +323,6 @@ define(function(require) {
           return { value: type };
         });
       };
-    }
-
-    function onSalaryChange() {
-      $scope.errorSalaryTooHigh = $scope.salary.data.salary > 99000000;
-    }
-
-    function addLocation(locations, entry) {
-      if (!locations[entry.country_iso])
-        locations[entry.country_iso] = [ entry.city ];
-      else
-        locations[entry.country_iso].push(entry.city);
-    }
-    function updateLocations() {
-      var locations = {};
-      var add = addLocation.bind(null, locations);
-      $scope.errorLocationRequired = false;
-      $scope.salary.data.locations = locations;
-
-      $scope.featuredLocations
-        .filter(fn.get('selected'))
-        .map(fn.get('value'))
-        .forEach(add);
-
-      if ($scope.salary.data.germany)
-        locations.DE = [];
-
-      if ($scope.salary.data.other) {
-        $scope.preferred_locations.forEach(add);
-        $scope.errorLocationRequired = !Object.keys(locations).length;
-      }
     }
   });
 
