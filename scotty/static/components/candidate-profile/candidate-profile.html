@@ -46,23 +46,23 @@
   <div class="row" ng-if="candidate">
     <div class="col-sm-3 sidebar">
       <section class="avatar-section">
-        <div hc-candidate-avatar-edit model="candidate"></div>
         <div hc-candidate-avatar model="candidate"></div>
+        <div hc-candidate-avatar-edit model="candidate"></div>
       </section>
 
       <section class="salary-section">
-        <div hc-candidate-salary-edit model="candidate"></div>
         <div hc-candidate-salary model="candidate"></div>
+        <div hc-candidate-salary-edit model="candidate"></div>
       </section>
 
       <section class="contact-section">
-        <div hc-candidate-contact-edit model="candidate"></div>
         <div hc-candidate-contact model="candidate"></div>
+        <div hc-candidate-contact-edit model="candidate"></div>
       </section>
 
       <section class="birthdate-section">
-        <div hc-candidate-birthdate-edit model="candidate"></div>
         <div hc-candidate-birthdate model="candidate"></div>
+        <div hc-candidate-birthdate-edit model="candidate"></div>
       </section>
 
       <!-- TODO: Check when offer flow is fixed
@@ -72,13 +72,13 @@
       -->
 
       <section class="availability-section">
-        <div hc-candidate-availability-edit model="candidate"></div>
         <div hc-candidate-availability model="candidate"></div>
+        <div hc-candidate-availability-edit model="candidate"></div>
       </section>
 
       <section class="languages-section">
-        <div hc-candidate-languages-edit model="candidate"></div>
         <div hc-candidate-languages model="candidate"></div>
+        <div hc-candidate-languages-edit model="candidate"></div>
       </section>
     </div>
 
@@ -86,51 +86,52 @@
       <div class="row header">
         <div class="col-sm-8">
           <section class="name-section">
-            <div hc-candidate-name-edit model="candidate"></div>
             <div hc-candidate-name model="candidate"></div>
+            <div hc-candidate-name-edit model="candidate"></div>
           </section>
 
           <section class="target-section">
-            <div hc-candidate-target-edit model="candidate"></div>
             <div hc-candidate-target model="candidate"></div>
+            <div hc-candidate-target-edit model="candidate"></div>
           </section>
 
           <section class="summary-section">
-            <div hc-candidate-summary-edit model="candidate"></div>
             <div hc-candidate-summary model="candidate"></div>
+            <div hc-candidate-summary-edit model="candidate"></div>
           </section>
 
           <section class="cv-section">
-            <div hc-candidate-cv-edit model="candidate"></div>
             <div hc-candidate-cv model="candidate"></div>
+            <div hc-candidate-cv-edit model="candidate"></div>
           </section>
         </div>
 
         <div class="col-sm-4">
           <section class="status-section">
-            <div hc-candidate-status model="candidate"></div>
+            <span><translate>Status</translate>: </span>
+            <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
           </section>
 
           <section class="privacy-section">
-            <div hc-candidate-privacy-edit model="candidate"></div>
             <div hc-candidate-privacy model="candidate"></div>
+            <div hc-candidate-privacy-edit model="candidate"></div>
           </section>
         </div>
       </div>
 
       <section class="skills-section">
-        <div hc-candidate-skills-edit model="candidate"></div>
         <div hc-candidate-skills model="candidate"></div>
+        <div hc-candidate-skills-edit model="candidate"></div>
       </section>
 
       <section class="experience-section">
-        <div hc-candidate-experience-edit model="candidate"></div>
         <div hc-candidate-experience model="candidate"></div>
+        <div hc-candidate-experience-edit model="candidate"></div>
       </section>
 
       <section class="education-section">
-        <div hc-candidate-education-edit model="candidate"></div>
         <div hc-candidate-education model="candidate"></div>
+        <div hc-candidate-education-edit model="candidate"></div>
       </section>
     </div>
 
@@ -141,233 +142,6 @@
 
   <div class="col-sm-9">
     <div class="row bg-white  mrg-btm">
-      <div class="col-sm-8 ">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="user-desc">
-              <div>
-                <div class="edit-main-title" ng-show="name.editing">
-                  <button class="add-panel-close" ng-click="name.close()"><i class="fa fa-close"></i></button>
-                  <form class="edit-form" ng-submit="name.save(name.data)">
-                    <div class="row mrg-btm">
-                      <div class="col-sm-6">
-                        <h5 class="edit-title" translate>First name</h5>
-                        <input type="text" class="form-control" ng-model="name.data.first_name">
-                      </div>
-                      <div class="col-sm-6">
-                        <h5 class="edit-title" translate>Last name</h5>
-                        <input type="text" class="form-control" ng-model="name.data.last_name">
-                      </div>
-                    </div>
-                    <div class="buttons-wrap">
-                      <button type="submit"
-                              class="fl-rg bg-green btn-small mrg-lft-small"
-                              ng-disabled="loading"
-                              translate>
-                        Save
-                      </button>
-                      <button type="button"
-                              class="fl-rg bg-gray-lighter2 btn-small"
-                              ng-click="name.close()"
-                              ng-disabled="loading"
-                              translate>
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                  <div class="clearfix"></div>
-                </div>
-                <h2 class="main-title" ng-show="!name.editing">{{ user.first_name }} {{ user.last_name }}
-                  <button type="submit"
-                          class="btn-edit-sub no-fl"
-                          ng-show="isEditing"
-                          ng-disabled="loading || formOpen"
-                          ng-click="name.edit()">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                </h2>
-                <div class="edit-main-title" ng-show="privacy.editing">
-                  <button class="add-panel-close" ng-click="privacy.close()"><i class="fa fa-close"></i></button>
-                  <form class="edit-form" ng-submit="privacy.save(privacy.data)">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" ng-model="privacy.data.anonymous">
-                        <translate>Hide my name and picture from employers until i accepted their offer.</translate>
-                      </label>
-                    </div>
-                    <!-- FEATURE PROFILE SLEEP DISABLED
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" ng-model="privacy.data.sleeping">
-                        <translate>Put my profile to sleep so it will not be shown on search and can't receive any offers</translate>
-                      </label>
-                    </div>
-                    -->
-                    <div class="buttons-wrap">
-                      <button type="submit"
-                              class="fl-rg bg-green btn-small mrg-lft-small"
-                              ng-disabled="loading"
-                              translate>
-                        Save
-                      </button>
-                      <button type="button"
-                              class="fl-rg bg-gray-lighter2 btn-small"
-                              ng-click="privacy.close()"
-                              ng-disabled="loading"
-                              translate>
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-              <div class="emp-off-desc">
-                <!-- Edit target position div (remove class hidden to display)-->
-                <div class="edit-tarpos" ng-show="targetPosition.editing">
-                  <div class="">
-                    <button class="add-panel-close" ng-click="targetPosition.close()"><i class="fa fa-close"></i></button>
-                    <h5 class="edit-title" translate>Target position</h5>
-                    <form class="edit-form" ng-submit="targetPosition.save(targetPosition.data)">
-                      <select class="form-control mrg-btm"
-                              ng-disabled="loading"
-                              ng-model="targetPosition.data.role"
-                              ng-options="role as translate(role) for role in featuredRoles">
-                      </select>
-                      <div class="buttons-wrap">
-                        <button type="submit"
-                                class="fl-rg bg-green btn-small mrg-lft-small"
-                                ng-disabled="loading"
-                                translate>
-                          Save
-                        </button>
-                        <button type="button"
-                                class="fl-rg bg-gray-lighter2 btn-small"
-                                ng-click="targetPosition.close()"
-                                ng-disabled="loading"
-                                translate>
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-                <!-- END target position div -->
-                <h3 class="main-subtitle" ng-hide="targetPosition.editing">
-                  <translate>Target position</translate>:
-                  <span>{{ targetPosition.data.role | translate }}</span>
-                  <button type="submit"
-                          class="btn-edit-sub no-fl"
-                          ng-show="isEditing"
-                          ng-disabled="loading || formOpen"
-                          ng-click="targetPosition.edit()">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                </h3>
-                <div>
-                  <!-- Summary box (remove class hidden to display)-->
-                  <div class="edit-summary" ng-show="summary.editing">
-                    <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
-                    <h5 class="edit-title">
-                      <translate>Summary</translate>
-                      <span translate translate-n="250 - summary.data.length" translate-plural="{{$count}} characters left">1 character left</span>
-                    </h5>
-                    <div>
-                      <form class="edit-form" ng-submit="summary.save(summary.data)">
-                        <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
-                        <div class="buttons-wrap">
-                          <button type="submit"
-                                  class="fl-rg bg-green btn-small mrg-lft-small"
-                                  ng-disabled="loading || summary.data.length > 250"
-                                  translate>
-                            Save
-                          </button>
-                          <button type="button"
-                                  class="fl-rg bg-gray-lighter2 btn-small"
-                                  ng-click="summary.close()"
-                                  ng-disabled="loading"
-                                  translate>
-                            Cancel
-                          </button>
-                        </div>
-                        <div class="clearfix"></div>
-                      </form>
-
-                    </div>
-                  </div>
-                  <!-- END summary box -->
-                  <p ng-hide="summary.editing">
-                    {{ summary.data }}
-                    <button type="submit"
-                      class="btn-edit-sub no-fl"
-                      ng-show="isEditing"
-                      ng-disabled="loading || formOpen"
-                      ng-click="summary.edit()">
-                    <i class="fa fa-pencil"></i>
-                  </button></p>
-                </div>
-
-                <div class="mrg-btm-small" ng-show="user.cv_upload_url">
-                  <a ng-href="{{ user.cv_upload_url }}" translate>Download CV</a>
-                </div>
-                <div class="mrg-btm-small" ng-show="isEditing">
-                  <span ng-show="cv.data" translate>Update your CV</span>
-                  <span ng-show="!cv.data" translate>Upload CV</span>
-                  <button type="submit"
-                          class="btn-edit-sub no-fl"
-                          ng-show="isEditing"
-                          ng-disabled="loading || formOpen"
-                          ng-click="cv.edit()">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                  <div ng-show="cv.editing" ng-disabled="loading || formOpen">
-                    <div class="uploadFile">
-                      <span translate>Select file</span>
-                      <input type="file"
-                             name="photo"
-                             accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                             ng-disabled="hcDisabled"
-                             ng-model="cv_file"
-                             hc-file-select="cv.save($files)">
-                    </div>
-                    <button type="button"
-                            class="bg-gray-lighter2 btn-small"
-                            ng-click="cv.close()"
-                            ng-disabled="loading"
-                            translate>
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-4 bg-white user-desc">
-        <div class="fl-rg pad-20">
-          <span><translate>Status</translate>: </span>
-          <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
-          <div>
-            <span class="fl-rg">
-              <translate>Privacy</translate>:
-              <i ng-show="user.anonymous" class="fa fa-eye-slash"
-                title="{{ 'Your profile name and picture cannot be seen by employers unless you have accepted their job-offer.' | translate }}"></i>
-              <i ng-hide="user.anonymous" class="fa fa-eye"
-                title="{{ 'Your profile name and picture is immediately public to companies.' | translate }}"></i>
-              <button type="submit"
-                      class="btn-edit-sub no-fl"
-                      ng-show="isEditing"
-                      ng-disabled="loading || formOpen"
-                      ng-click="privacy.edit()">
-                <i class="fa fa-pencil"></i>
-              </button>
-            </span>
-          </div>
-        </div>
-      </div>
       <div class="col-sm-12">
         <div class="row">
           <div class="wrap-form-skills bg-gray-lighter3" ng-if="isEditing && skills.editing">

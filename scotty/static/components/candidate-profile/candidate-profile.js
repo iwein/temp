@@ -13,11 +13,21 @@ define(function(require) {
   require('./birthdate/birthdate-edit');
   require('./contact/contact');
   require('./contact/contact-edit');
+  require('./cv/cv');
+  require('./cv/cv-edit');
   require('./languages/languages');
   require('./languages/languages-edit');
+  require('./name/name');
+  require('./name/name-edit');
   require('./offers/offers');
+  require('./privacy/privacy');
+  require('./privacy/privacy-edit');
   require('./salary/salary');
   require('./salary/salary-edit');
+  require('./summary/summary');
+  require('./summary/summary-edit');
+  require('./target/target');
+  require('./target/target-edit');
 
   var _ = require('underscore');
   var fn = require('tools/fn');
@@ -111,17 +121,6 @@ define(function(require) {
         return user.getData().then(function(data) {
           $scope.user = data;
           return _.pick(data, 'anonymous', 'sleeping');
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData(model);
-      }
-    });
-    $scope.name = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return _.pick(data, 'first_name', 'last_name');
         });
       },
       save: function(model, form, user) {
@@ -230,7 +229,6 @@ define(function(require) {
         $scope.summary.data = user.summary;
         $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
-        $scope.name.data = _.pick(user, 'first_name', 'last_name', 'anonymous');
         $scope.ready = true;
 
         function translate() {

@@ -3,6 +3,7 @@
 @import "./avatar/avatar-edit.less";
 @import "./contact/contact-edit.less";
 @import "./contact/contact.less";
+@import "./cv/cv-edit.less";
 @import "./languages/languages-edit.less";
 
 
@@ -19,10 +20,11 @@
   &.editing.form-open .edit-button { display: none }
 
   form { display: none }
+  section { position: relative };
+  .edit-button.pencil-edit { .floating-button() }
 
   .sidebar {
     .avatar-section { padding: 0 }
-    .edit-button.pencil-edit { .floating-button() }
 
     .box-title {
       .row();
@@ -32,7 +34,6 @@
 
     section {
       .row();
-      position: relative;
       border: 1px solid white;
       padding: @generic-padding;
       margin-bottom: @generic-padding;
@@ -42,16 +43,19 @@
     }
   }
 
+  .header {
+    background: @white;
+    padding: @generic-padding * 2;
+    .pencil-edit { top: -@generic-padding-small }
+    .close-button { top: -@generic-padding-small }
+  }
+
   form > .buttons-wrap > button {
     .btn-small();
     float: right;
     margin-left: @generic-padding;
     &[type=submit] { .bg-green() }
     &[type=button] { .bg-gray-lighter2() }
-  }
-
-  .header {
-    background: @white;
   }
 
 
@@ -91,46 +95,92 @@
     .iconParent { margin-left: 5px }
   }
 
+  .main-title {
+    padding: 0;
+    margin: 0;
+    padding-bottom: @generic-padding;
+    margin-bottom: @generic-padding;
+  }
 
 
+  .status-section,
+  .privacy-section {
+    text-align: right;
+  }
+
+  &.editing-availability {
+    [hc-candidate-availability] { display: none }
+    [hc-candidate-availability-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
   &.editing-avatar {
-    hc-candidate-avatar, [hc-candidate-avatar] { display: none }
-    hc-candidate-avatar-edit, [hc-candidate-avatar-edit] {
-      .edit-button { display: none }
-      form { display: block }
-    }
-  }
-  &.editing-contact {
-    hc-candidate-contact, [hc-candidate-contact] { display: none }
-    hc-candidate-contact-edit, [hc-candidate-contact-edit] {
-      .edit-button { display: none }
-      form { display: block }
-    }
-  }
-  &.editing-salary {
-    hc-candidate-salary, [hc-candidate-salary] { display: none }
-    hc-candidate-salary-edit, [hc-candidate-salary-edit] {
+    [hc-candidate-avatar] { display: none }
+    [hc-candidate-avatar-edit] {
       .edit-button { display: none }
       form { display: block }
     }
   }
   &.editing-birthdate {
-    hc-candidate-birthdate, [hc-candidate-birthdate] { display: none }
-    hc-candidate-birthdate-edit, [hc-candidate-birthdate-edit] {
+    [hc-candidate-birthdate] { display: none }
+    [hc-candidate-birthdate-edit] {
       .edit-button { display: none }
       form { display: block }
     }
   }
-  &.editing-availability {
-    hc-candidate-availability, [hc-candidate-availability] { display: none }
-    hc-candidate-availability-edit, [hc-candidate-availability-edit] {
+  &.editing-contact {
+    [hc-candidate-contact] { display: none }
+    [hc-candidate-contact-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-cv {
+    [hc-candidate-cv] { display: none }
+    [hc-candidate-cv-edit] {
       .edit-button { display: none }
       form { display: block }
     }
   }
   &.editing-languages {
-    hc-candidate-languages, [hc-candidate-languages] { display: none }
-    hc-candidate-languages-edit, [hc-candidate-languages-edit] {
+    [hc-candidate-languages] { display: none }
+    [hc-candidate-languages-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-name {
+    [hc-candidate-name] { display: none }
+    [hc-candidate-name-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-privacy {
+    [hc-candidate-privacy] { display: none }
+    [hc-candidate-privacy-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-salary {
+    [hc-candidate-salary] { display: none }
+    [hc-candidate-salary-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-summary {
+    [hc-candidate-summary] { display: none }
+    [hc-candidate-summary-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-target {
+    [hc-candidate-target] { display: none }
+    [hc-candidate-target-edit] {
       .edit-button { display: none }
       form { display: block }
     }
