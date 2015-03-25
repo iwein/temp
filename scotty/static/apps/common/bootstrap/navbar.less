@@ -426,6 +426,13 @@
       font-family: @font-family-headings;
       font-weight: 400;
       padding: 0 22px 0;
+      @media(min-width: @grid-float-breakpoint){
+        padding: 0 6px 0;
+      }
+      @media(min-width: @screen-md-min){
+        padding: 0 22px 0;
+      }
+
     }
     > li > a {
       color: @navbar-default-link-color;
