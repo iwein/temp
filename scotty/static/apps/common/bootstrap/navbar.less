@@ -411,6 +411,13 @@
     color: @navbar-default-color;
   }
 
+  .navbar-collapse{
+    &.collapse.in, &.collapsing {
+      position: absolute;
+      width:100%;
+      background: rgba(255,255,255,.96);
+    }
+  }
   .navbar-nav {
     > li {
       color: @navbar-default-link-color;
@@ -418,7 +425,7 @@
       text-transform: uppercase;
       font-family: @font-family-headings;
       font-weight: 400;
-      padding: 20px 22px 0;
+      padding: 0 22px 0;
     }
     > li > a {
       color: @navbar-default-link-color;
@@ -426,7 +433,8 @@
       text-transform: uppercase;
       font-family: @font-family-headings;
       font-weight: 400;
-      padding: 0;
+      padding: 20px 0 0;
+      border-bottom: 1px solid transparent;
       &:hover {
         border-bottom: 1px solid @blue;
       }
