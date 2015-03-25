@@ -3,7 +3,7 @@
 @import "./avatar/avatar-edit.less";
 @import "./contact/contact-edit.less";
 @import "./contact/contact.less";
-//@import "./salary/salary-edit.less";
+@import "./languages/languages-edit.less";
 
 
 .component-candidate-profile {
@@ -20,33 +20,40 @@
 
   form { display: none }
 
-  section {
-    .row();
-    position: relative;
-    border: 1px solid white;
-    padding: @generic-padding;
-    margin-bottom: @generic-padding;
+  .sidebar {
+    .avatar-section { padding: 0 }
+    .edit-button.pencil-edit { .floating-button() }
 
-    &:nth-child(odd) { .bg-gray-light() }
-    &:nth-child(even) { .gray-darker() }
+    .box-title {
+      .row();
+      padding: 0 @generic-padding @generic-padding;
+    }
+    &.editing .box-title { padding-right: 35px }
+
+    section {
+      .row();
+      position: relative;
+      border: 1px solid white;
+      padding: @generic-padding;
+      margin-bottom: @generic-padding;
+
+      &:nth-child(odd) { .bg-gray-light() }
+      &:nth-child(even) { .gray-darker() }
+    }
   }
 
   form > .buttons-wrap > button {
     .btn-small();
     float: right;
     margin-left: @generic-padding;
-    &[type=submit] { .bg-green() }
-    &[type=button] { .bg-gray-lighter2() }
+    &[type=submit] { .bg-green() }
+    &[type=button] { .bg-gray-lighter2() }
   }
 
+  .header {
+    background: @white;
+  }
 
-  .box-title {
-    .row();
-    padding: 0 @generic-padding @generic-padding;
-  }
-  &.editing .box-title {
-    padding-right: 35px;
-  }
 
   .icon-parent {
     display: inline-block;
@@ -65,7 +72,6 @@
   }
 
   .edit-button.pencil-edit {
-    .floating-button();
     font-size: 16px !important;
     color: @blue-link;
 
@@ -85,9 +91,6 @@
     .iconParent { margin-left: 5px }
   }
 
-  .avatar-section {
-    padding: 0;
-  }
 
 
   &.editing-avatar {
@@ -121,6 +124,13 @@
   &.editing-availability {
     hc-candidate-availability, [hc-candidate-availability] { display: none }
     hc-candidate-availability-edit, [hc-candidate-availability-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-languages {
+    hc-candidate-languages, [hc-candidate-languages] { display: none }
+    hc-candidate-languages-edit, [hc-candidate-languages-edit] {
       .edit-button { display: none }
       form { display: block }
     }

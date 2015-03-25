@@ -2,7 +2,6 @@ define(function(require) {
   'use strict';
   require('components/directive-experience-form/directive-experience-form');
   require('components/directive-education-form/directive-education-form');
-  require('components/directive-languages-form/directive-languages-form');
   require('components/directive-skills-form/directive-skills-form');
   require('components/element-preferred-location/element-preferred-location');
   require('components/element-candidate-status/element-candidate-status');
@@ -14,6 +13,8 @@ define(function(require) {
   require('./birthdate/birthdate-edit');
   require('./contact/contact');
   require('./contact/contact-edit');
+  require('./languages/languages');
+  require('./languages/languages-edit');
   require('./offers/offers');
   require('./salary/salary');
   require('./salary/salary-edit');
@@ -166,14 +167,6 @@ define(function(require) {
         });
       }
     });
-    $scope.languages = formDirective({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.languages;
-        });
-      }
-    });
     var experience = $scope.experience = listForm({
       source: function(user) {
         return user.getExperience().then(function(list) {
@@ -234,7 +227,6 @@ define(function(require) {
         refreshSkills(user.skills);
 
         $scope.privacy.data = _.pick(user, 'anonymous', 'sleeping');
-        $scope.languages.data = user.languages;
         $scope.summary.data = user.summary;
         $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
