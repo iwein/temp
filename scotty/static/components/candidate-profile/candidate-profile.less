@@ -5,50 +5,14 @@
 @import "./contact/contact.less";
 @import "./cv/cv-edit.less";
 @import "./languages/languages-edit.less";
+@import "./skills/skills-edit.less";
+@import "./skills/skills.less";
 
 
 .component-candidate-profile {
-  .edit-button { display: none }
-  &.editing .edit-button { display: block }
-  &.editing.form-open .edit-button { display: none }
-
-  #button-edit-profile { display: block }
-  &.editing #button-edit-profile { display: none }
-
-  #button-finish-edit { display: none }
-  &.editing #button-finish-edit { display: block }
-  &.editing.form-open .edit-button { display: none }
 
   form { display: none }
   section { position: relative };
-  .edit-button.pencil-edit { .floating-button() }
-
-  .sidebar {
-    .avatar-section { padding: 0 }
-
-    .box-title {
-      .row();
-      padding: 0 @generic-padding @generic-padding;
-    }
-    &.editing .box-title { padding-right: 35px }
-
-    section {
-      .row();
-      border: 1px solid white;
-      padding: @generic-padding;
-      margin-bottom: @generic-padding;
-
-      &:nth-child(odd) { .bg-gray-light() }
-      &:nth-child(even) { .gray-darker() }
-    }
-  }
-
-  .header {
-    background: @white;
-    padding: @generic-padding * 2;
-    .pencil-edit { top: -@generic-padding-small }
-    .close-button { top: -@generic-padding-small }
-  }
 
   form > .buttons-wrap > button {
     .btn-small();
@@ -64,18 +28,14 @@
     margin: 2px;
   }
 
-  .floating-button() {
+  .floating-button(@top, @right) {
     position: absolute;
-    right: 15px;
-    top: 15px;
+    right: @right;
+    top: @top;
     z-index: 2;
   }
 
-  .close-button {
-    .floating-button();
-  }
-
-  .edit-button.pencil-edit {
+  .pencil-edit {
     font-size: 16px !important;
     color: @blue-link;
 
@@ -89,10 +49,46 @@
     }
   }
 
+  .sidebar {
+    .avatar-section { padding: 0 }
+    .pencil-edit, .close-button {
+      .floating-button(@generic-padding, @generic-padding);
+    }
+
+    .box-title {
+      .row();
+      padding: 0 @generic-padding @generic-padding;
+    }
+    &.editing .box-title { padding-right: 35px }
+
+    section {
+      .row();
+      border: 1px solid white;
+      padding: @generic-padding;
+      margin-bottom: @generic-padding;
+      &:nth-child(odd) { .bg-gray-light() }
+      &:nth-child(even) { .gray-darker() }
+    }
+  }
+
+  .header {
+    background: @white;
+    padding: @generic-padding * 2;
+
+    .pencil-edit, .close-button {
+      .floating-button(0, 0);
+    }
+
+    .status-section,
+    .privacy-section {
+      text-align: right;
+    }
+  }
+
   .status {
     padding-top: @generic-padding-small;
     padding-bottom: @generic-padding-small;
-    .iconParent { margin-left: 5px }
+    .iconParent { margin-left: @generic-padding-small }
   }
 
   .main-title {
@@ -101,13 +97,40 @@
     padding-bottom: @generic-padding;
     margin-bottom: @generic-padding;
   }
-
-
-  .status-section,
-  .privacy-section {
-    text-align: right;
+  .main-subtitle {
+    margin-bottom: 0;
   }
 
+  .target-section,
+  .summary-section {
+    margin-bottom: @generic-padding;
+  }
+  .skills-section {
+    padding-top: @generic-padding * 2;
+    padding-bottom: @generic-padding * 2;
+    .pencil-edit, .close-button {
+      .floating-button(0, @generic-padding);
+    }
+  }
+  &.editing-skills .skills-section {
+    .bg-gray-lighter3();
+  }
+
+  &.editing [hc-candidate-privacy] {
+    margin-right: 20px;
+  }
+
+
+  .edit-button { display: none }
+  &.editing .edit-button { display: block }
+  &.editing.form-open .edit-button { display: none }
+  #button-edit-profile { display: block }
+  &.editing #button-edit-profile { display: none }
+  #button-finish-edit { display: none }
+  &.editing #button-finish-edit { display: block }
+  &.editing.form-open .edit-button { display: none }
+
+  // TODO: Use a less mixin
   &.editing-availability {
     [hc-candidate-availability] { display: none }
     [hc-candidate-availability-edit] {
@@ -167,6 +190,13 @@
   &.editing-salary {
     [hc-candidate-salary] { display: none }
     [hc-candidate-salary-edit] {
+      .edit-button { display: none }
+      form { display: block }
+    }
+  }
+  &.editing-skills {
+    [hc-candidate-skills] { display: none }
+    [hc-candidate-skills-edit] {
       .edit-button { display: none }
       form { display: block }
     }

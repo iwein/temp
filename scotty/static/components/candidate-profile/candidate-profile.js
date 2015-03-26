@@ -2,7 +2,6 @@ define(function(require) {
   'use strict';
   require('components/directive-experience-form/directive-experience-form');
   require('components/directive-education-form/directive-education-form');
-  require('components/directive-skills-form/directive-skills-form');
   require('components/element-preferred-location/element-preferred-location');
   require('components/element-candidate-status/element-candidate-status');
   require('./availability/availability');
@@ -24,6 +23,8 @@ define(function(require) {
   require('./privacy/privacy-edit');
   require('./salary/salary');
   require('./salary/salary-edit');
+  require('./skills/skills');
+  require('./skills/skills-edit');
   require('./summary/summary');
   require('./summary/summary-edit');
   require('./target/target');
@@ -87,65 +88,10 @@ define(function(require) {
     $scope.starValues = [ null, 'basic', 'advanced', 'expert' ];
     Loader.page(true);
 
-
-    ConfigAPI.featuredLocations()
-      .then(toCheckboxModel('featuredLocations'));
-    ConfigAPI.featuredRoles()
-      .then(fn.setTo('featuredRoles', $scope));
-    ConfigAPI.countries({ limit: 500 })
-      .then(fn.setTo('countries', $scope));
-
     Permission.requireLogged()
       .then(refresh)
       .finally(function() { Loader.page(false) });
 
-
-    $scope.cv = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.cv_upload_url;
-        });
-      },
-      save: function(files) {
-        if (!files || !files.length) return;
-        return Session.getUser().then(function(user) {
-          return Amazon.upload(files[0], 'cv', Session.id())
-            .then(user.setCVUrl.bind(user))
-            .then(toaster.success.bind(toaster, i18n.gettext('CV Uploaded')));
-        }.bind(this));
-      },
-    });
-    $scope.privacy = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return _.pick(data, 'anonymous', 'sleeping');
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData(model);
-      }
-    });
-    $scope.targetPosition = form({
-      source: function(user) {
-        return user.getTargetPosition();
-      },
-      save: function(model, form, user) {
-        return user.setTargetPosition(model);
-      }
-    });
-    $scope.summary = form({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          return data.summary;
-        });
-      },
-      save: function(model, form, user) {
-        return user.updateData({ summary: model });
-      }
-    });
 
     function refreshSkills(skills){
       var leveledSkills = skills.filter(fn.get('level'));
@@ -221,13 +167,8 @@ define(function(require) {
           .slice(0, 3);
 
         $scope.highestDegree = data[3];
-        $scope.targetPosition.data = data[1];
         $scope.skills.data = user.skills;
         refreshSkills(user.skills);
-
-        $scope.privacy.data = _.pick(user, 'anonymous', 'sleeping');
-        $scope.summary.data = user.summary;
-        $scope.cv.data = user.cv_upload_url;
         $scope.user = user;
         $scope.ready = true;
 
@@ -314,15 +255,6 @@ define(function(require) {
           $scope.formOpen = false;
         }
       });
-    }
-
-
-    function toCheckboxModel(key) {
-      return function(data) {
-        $scope[key] = data.map(function(type) {
-          return { value: type };
-        });
-      };
     }
   });
 
