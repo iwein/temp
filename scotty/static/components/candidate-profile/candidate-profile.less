@@ -157,19 +157,17 @@
     margin-right: 20px;
   }
 
-  .target-section.empty ~ .summary-section {
+  &:not(.editing) .target-section.empty ~ .summary-section {
     display: none;
   }
 
 
   .edit-button { display: none }
   &.editing .edit-button { display: block }
-  &.editing.form-open .edit-button { display: none }
   #button-edit-profile { display: block }
   &.editing #button-edit-profile { display: none }
   #button-finish-edit { display: none }
   &.editing #button-finish-edit { display: block }
-  &.editing.form-open .edit-button { display: none }
 
   // TODO: Use a less mixin
   &.editing-availability {
