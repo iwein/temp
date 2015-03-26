@@ -21,6 +21,7 @@ define(function(require) {
         _.extend(scope, {
           formContainer: {},
           editable: 'hcEditable' in attr,
+          isEmpty: isEmpty,
           close: close,
           edit: edit,
           save: save,
@@ -29,8 +30,13 @@ define(function(require) {
 
         scope.$watch('model.$revision', function() {
           scope.data = update(scope.model.getExperienceCached());
+          elem.parent()[isEmpty() ? 'addClass' : 'removeClass']('empty');
         });
 
+
+        function isEmpty() {
+          return !(scope.data && scope.data.length);
+        }
 
         function add() {
           scope.formContainer.form.reset();

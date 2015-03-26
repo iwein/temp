@@ -85,12 +85,15 @@ define(function(require) {
     }
 
     function openForm(id) {
+      edit();
       $scope.editClass = 'editing-' + id;
+      $scope.isFormOpen = true;
       ctrl.isFormOpen = true;
     }
 
     function closeForm() {
       $scope.editClass = '';
+      $scope.isFormOpen = false;
       ctrl.isFormOpen = false;
     }
   });

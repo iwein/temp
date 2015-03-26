@@ -1,12 +1,17 @@
 @import "../element-candidate-status/element-candidate-status.less";
 @import "./availability/availability-edit.less";
 @import "./avatar/avatar-edit.less";
+@import "./birthdate/birthdate-edit.less";
 @import "./contact/contact-edit.less";
 @import "./contact/contact.less";
 @import "./cv/cv-edit.less";
+@import "./education/education.less";
+@import "./experience/experience.less";
 @import "./languages/languages-edit.less";
+@import "./salary/salary-edit.less";
 @import "./skills/skills-edit.less";
 @import "./skills/skills.less";
+@import "./target/target-edit.less";
 
 
 .component-candidate-profile {
@@ -101,6 +106,33 @@
     margin-bottom: 0;
   }
 
+  .add-now {
+    .smbd();
+    display: none;
+    color: white;
+    background: #e37334;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: @generic-padding;
+    left: @generic-padding;
+    padding: 10px 40px;
+  }
+  .empty .add-now { display: block }
+  .target-section .add-now {
+    top: 35px;
+    left: 0;
+    bottom: auto;
+  }
+  .skills-section .add-now { bottom: 0 };
+  .skills-section,
+  .experience-section,
+  .education-section {
+    .add-now { left: @generic-padding * 2 }
+  }
+  .skills-section .empty {
+    padding-left: @generic-padding * 2
+  }
+
   .target-section,
   .summary-section {
     margin-bottom: @generic-padding;
@@ -123,6 +155,10 @@
 
   &.editing [hc-candidate-privacy] {
     margin-right: 20px;
+  }
+
+  .target-section.empty ~ .summary-section {
+    display: none;
   }
 
 

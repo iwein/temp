@@ -1,7 +1,6 @@
-<div>
+<div ng-if="data.dob">
   <span class="icon-parent"><i class="fa fa-birthday-cake orange"></i></span>
-  <span ng-if="data.dob"><translate>Age</translate> {{ data.dob | yearsAgo }}</span>
-  <span ng-if="!data.dob" translate>Not specified</span>
+  <translate>Age</translate> {{ data.dob | yearsAgo }}
 </div>
 <div>
   <span class="icon-parent"><i class="fa orange" ng-class="{
