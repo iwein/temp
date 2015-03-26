@@ -5,8 +5,8 @@ define(function(require) {
   var angular = require('angular');
   var _ = require('underscore');
   var profileState = require('components/candidate-profile/candidate-profile');
-  var module = require('app-module');
   var conf = require('conf');
+  var module = require('app-module');
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {

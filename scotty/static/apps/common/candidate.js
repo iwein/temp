@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var promiseHelper = require('tools/promise-helper');
   var Offer = require('./offer');
   var levels = {
     'null': 0,
@@ -34,6 +35,17 @@ define(function(require) {
     this._data = data;
     this._sufix = sufix || '';
     if (data) this._sortSkills();
+
+    promiseHelper.cacheMethods(this, [
+      'getData',
+      'getExperience',
+      'getEducation',
+      'getBookmarks',
+      'getTargetPosition',
+      'getNewsFeed',
+      'getSuggestedCompanies',
+      'getOffers',
+    ]);
   }
 
   Candidate.prototype = {
@@ -53,25 +65,32 @@ define(function(require) {
       });
     },
 
+    _setUser: function(response) {
+      if (this.getData.setCache)
+        this.getData.setCache.call(this, response);
+
+      this._data = response;
+      this.id = response.id;
+      this._sortSkills();
+      return response;
+    },
+
     updateData: function(model) {
-      return this._api.put(this._url() + this._sufix, model);
+      return this._api.put(this._url() + this._sufix, model)
+        .then(this._setUser.bind(this));
     },
 
     getData: function() {
-      return this.refreshData();
+      return this._api.get(this._url() + this._sufix)
+        .then(this._setUser.bind(this), function(request) {
+          if (request.status === 403)
+            return this.dispose();
+          throw request;
+        }.bind(this));
     },
 
     refreshData: function() {
-      return this._api.get(this._url() + this._sufix).then(function(response) {
-        this._data = response;
-        this.id = response.id;
-        this._sortSkills();
-        return response;
-      }.bind(this), function(request) {
-        if (request.status === 403)
-          return this.dispose();
-        throw request;
-      }.bind(this));
+      return this.getData();
     },
 
     setPhoto: function(photo) {

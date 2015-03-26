@@ -18,6 +18,10 @@ define(function() {
   }
 
   function parse(value) {
+    var index = value.indexOf('T');
+    if (index !== -1)
+      value = value.substr(0, index);
+
     return new Date(value.replace(/-/g, '/'));
   }
 
