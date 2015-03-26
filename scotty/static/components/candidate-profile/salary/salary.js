@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/element-preferred-location/element-preferred-location');
   var parser = require('./salary-parser');
   var module = require('app-module');
 

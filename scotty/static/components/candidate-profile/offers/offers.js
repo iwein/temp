@@ -9,6 +9,12 @@ define(function(require) {
       scope: { model: '=' },
       link: function() {
         // TODO
+
+        /*
+        $scope.offers = data[2]
+          .sort(function(a, b) { return b.data.annual_salary - a.data.annual_salary })
+          .slice(0, 3);
+        */
       }
     };
   });
