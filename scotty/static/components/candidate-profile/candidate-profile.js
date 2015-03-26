@@ -31,7 +31,6 @@ define(function(require) {
   require('./target/target-edit');
 
   var _ = require('underscore');
-  var fn = require('tools/fn');
   var Date = require('tools/date');
   var module = require('app-module');
 
@@ -93,25 +92,6 @@ define(function(require) {
       .finally(function() { Loader.page(false) });
 
 
-    function refreshSkills(skills){
-      var leveledSkills = skills.filter(fn.get('level'));
-      var unleveledSkills = skills.filter(fn.not(fn.get('level')));
-      $scope.leveledSkills = leveledSkills.slice(0, 9);
-      $scope.unleveledSkills = leveledSkills.slice(9)
-        .concat(unleveledSkills)
-        .map(fn.get('skill'))
-        .join(', ');
-    }
-
-    $scope.skills = formDirective({
-      source: function(user) {
-        return user.getData().then(function(data) {
-          $scope.user = data;
-          refreshSkills(data.skills);
-          return data.skills;
-        });
-      }
-    });
     var experience = $scope.experience = listForm({
       source: function(user) {
         return user.getExperience().then(function(list) {
@@ -167,8 +147,6 @@ define(function(require) {
           .slice(0, 3);
 
         $scope.highestDegree = data[3];
-        $scope.skills.data = user.skills;
-        refreshSkills(user.skills);
         $scope.user = user;
         $scope.ready = true;
 
