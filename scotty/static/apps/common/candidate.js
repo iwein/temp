@@ -29,12 +29,9 @@ define(function(require) {
 
 
   function Candidate(api, id, data, sufix) {
-    this.id = data ? data.id : null;
     this.key = id || 'me';
     this._api = api;
-    this._data = data;
     this._sufix = sufix || '';
-    if (data) this._sortSkills();
 
     promiseHelper.cacheMethods(this, [
       'getData',
@@ -46,6 +43,9 @@ define(function(require) {
       'getSuggestedCompanies',
       'getOffers',
     ]);
+
+    if (data)
+      this._setUser(data);
   }
 
   Candidate.prototype = {
