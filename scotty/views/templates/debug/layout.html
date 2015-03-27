@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Scotty</title>
+  <title>${self.title()}</title>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css">
 
@@ -98,3 +98,5 @@ ${self.content()}
 
 </body>
 </html>
+
+<%def name="title()">Scotty</%def>
