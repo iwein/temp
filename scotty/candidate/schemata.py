@@ -38,14 +38,14 @@ class PreferredLocationRequest(MappingSchema):
     locations = SchemaNode(PreferredLocationType(min_length=1))
 
 
-class TargetPosition(MappingSchema):
+class TargetPositionSchema(MappingSchema):
     role = SchemaNode(DBChoiceValue(Role))
     minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=BIGINT_RANGE))
     skills = SchemaNode(DBListValues(Skill, create_unknown=True, min_length=1))
 
 
 class PreSignupRequest(MappingSchema):
-    target_position = TargetPosition()
+    target_position = TargetPositionSchema()
     preferred_locations = SchemaNode(PreferredLocationType(min_length=1))
 
 
