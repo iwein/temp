@@ -7,7 +7,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateSalaryEdit', function(ConfigAPI) {
+  module.directive('hcCandidateSalaryEdit', function(toaster, ConfigAPI) {
     var featuredLocations = [];
     ConfigAPI.featuredLocations().then(function(response) {
       featuredLocations = response;
@@ -48,6 +48,7 @@ define(function(require) {
           scope.loading = true;
           return parser.set(scope.model, scope.data)
             .then(close)
+            .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
 

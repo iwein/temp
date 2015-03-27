@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateLanguagesEdit', function(ConfigAPI) {
+  module.directive('hcCandidateLanguagesEdit', function(toaster, ConfigAPI) {
     var proficiencies = ConfigAPI.proficiencies();
     var featured = [];
     ConfigAPI.featuredLanguages().then(function(response) {
@@ -60,6 +60,7 @@ define(function(require) {
           var data = scope.data.slice(0, -1);
           return parser.set(scope.model, data)
             .then(close)
+            .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
 

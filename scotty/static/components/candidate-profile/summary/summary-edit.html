@@ -2,7 +2,7 @@
   <i class="fa fa-pencil"></i>
 </button>
 
-<form ng-submit="save(data)">
+<form name="form" ng-submit="save(data)">
   <button class="close-button" ng-click="close()">
     <i class="fa fa-close"></i>
   </button>
@@ -12,7 +12,11 @@
       <translate>Summary</translate> -
       <span translate translate-n="250 - data.length" translate-plural="{{$count}} characters left">1 character left</span>
     </label>
-    <textarea class="form-control" required ng-model="data"></textarea>
+    <textarea name="summary" class="form-control" required ng-model="data"></textarea>
+
+    <div class="validation-errors" ng-show="form.summary.$dirty">
+      <div ng-show="form.summary.$error.required" translate>Please insert your summary.</div>
+    </div>
   </div>
 
   <div class="buttons-wrap">

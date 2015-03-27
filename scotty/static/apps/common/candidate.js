@@ -116,7 +116,7 @@ define(function(require) {
     deleteBookmark: deleteHelper('bookmarks'),
 
     getTargetPosition: getHelper('target_position'),
-    setTargetPosition: setHelper('target_position', 'post'),
+    setTargetPosition: setHelper('target_position', 'put'),
 
     setPreferredLocations: setHelper('preferred_locations', 'put'),
     setSkills: setHelper('skills', 'put'),

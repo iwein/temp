@@ -5,7 +5,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateContactEdit', function(ConfigAPI) {
+  module.directive('hcCandidateContactEdit', function(toaster, ConfigAPI) {
     return {
       template: require('text!./contact-edit.html'),
       scope: { model: '=', },
@@ -29,6 +29,7 @@ define(function(require) {
 
         function setLocation(text) {
           scope.data.location = ConfigAPI.getLocationFromText(text);
+          scope.errorNoLocation = text && !scope.data.location;
         }
 
         function edit() {
@@ -42,9 +43,13 @@ define(function(require) {
         }
 
         function save() {
+          if (scope.errorNoLocation)
+            return;
+
           scope.loading = true;
           return parser.set(scope.model, scope.data)
             .then(close)
+            .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
       }

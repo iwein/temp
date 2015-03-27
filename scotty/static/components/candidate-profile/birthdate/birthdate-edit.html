@@ -8,19 +8,76 @@
   Add now
 </button>
 
-<form ng-submit="save(data)">
+<form name="form" ng-submit="save(data)">
   <button class="close-button" ng-click="close()">
     <i class="fa fa-close"></i>
   </button>
 
   <div class="form-group">
     <label translate>Birthday</label>
-    <input type="date"
-      class="form-control"
-      placeholder="{{ 'YYYY-MM-DD' | translate }}"
-      name="birth"
-      ng-disabled="loading"
-      ng-model="data.dob">
+
+    <div class="row">
+      <div class="col-sm-4">
+        <input type="number"
+          class="form-control"
+          name="dobDay"
+          placeholder="{{ 'Day' | translate }}"
+          ng-min="1"
+          ng-max="31"
+          required
+          ng-disabled="loading"
+          ng-model="dobDay"
+          ng-change="updateDob()">
+      </div>
+
+      <div class="col-sm-4">
+        <select class="form-control"
+          name="dobMonth"
+          required
+          ng-disabled="loading"
+          ng-model="dobMonth"
+          ng-options="month for month in months"
+          ng-change="updateDob()">
+          <option value="" translate>Month</option>
+        </select>
+      </div>
+
+      <div class="col-sm-4">
+        <input type="number"
+          class="form-control"
+          name="dobYear"
+          placeholder="{{ 'Year' | translate }}"
+          required
+          ng-min="1900"
+          ng-disabled="loading"
+          ng-model="dobYear"
+          ng-change="updateDob()">
+        </div>
+      </div>
+    </div>
+
+    <div class="validation-errors" ng-show="form.dobDay.$dirty">
+      <div ng-show="form.dobDay.$error.number" translate>Please insert a number.</div>
+      <div ng-show="form.dobDay.$error.required" translate>Please introduce your day of birth.</div>
+      <div ng-show="form.dobDay.$error.min" translate>Birth day must be bigger than 1.</div>
+      <div ng-show="form.dobDay.$error.max" translate>Birth day can't be bigger than 31.</div>
+    </div>
+
+    <div class="validation-errors" ng-show="form.dobMonth.$dirty">
+      <div ng-show="form.dobMonth.$error.required" translate>Please introduce your month of birth.</div>
+    </div>
+
+    <div class="validation-errors" ng-show="form.dobYear.$dirty">
+      <div ng-show="form.dobYear.$error.number" translate>Please insert a number.</div>
+      <div ng-show="form.dobYear.$error.required" translate>Please introduce your year of birth.</div>
+      <div ng-show="form.dobYear.$error.min" translate>Start year must be after 1900.</div>
+      <div ng-show="form.dobYear.$error.max" translate>Start year must be in the past.</div>
+    </div>
+
+    <div class="validation-errors-error" ng-show="form.dobYear.$dirty && form.dobMonth.$dirty && form.dobDay.$dirty">
+      <div ng-show="errorTooYoung && !errorInvalidDate" translate>You must be at least 16 years old to register.</div>
+      <div ng-show="errorInvalidDate" translate>The date is not a valid date</div>
+    </div>
   </div>
 
   <div class="form-group">

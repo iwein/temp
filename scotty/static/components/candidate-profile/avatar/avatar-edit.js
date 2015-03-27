@@ -8,7 +8,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateAvatarEdit', function(Amazon) {
+  module.directive('hcCandidateAvatarEdit', function(toaster, Amazon) {
     return {
       template: require('text!./avatar-edit.html'),
       scope: { model: '=', },
@@ -38,6 +38,7 @@ define(function(require) {
           scope.loading = true;
           return parser.set(scope.model, Amazon, scope.data[0])
             .then(close)
+            .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
       }

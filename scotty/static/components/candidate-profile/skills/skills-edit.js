@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateSkillsEdit', function(ConfigAPI) {
+  module.directive('hcCandidateSkillsEdit', function(toaster, ConfigAPI) {
     var levels = ConfigAPI.skillLevels();
 
     return {
@@ -54,6 +54,7 @@ define(function(require) {
 
           return parser.set(scope.model, data)
             .then(close)
+            .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
 

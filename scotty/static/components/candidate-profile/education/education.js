@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateEducation', function() {
+  module.directive('hcCandidateEducation', function(toaster) {
     return {
       template: require('text!./education.html'),
       scope: { model: '=' },
@@ -54,6 +54,7 @@ define(function(require) {
           return form.save()
             .then(scope.model.getEducation.bind(scope.model))
             .then(close)
+            .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
       }

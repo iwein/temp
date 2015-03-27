@@ -8,19 +8,24 @@
   Add now
 </button>
 
-<form ng-submit="save(data)">
+<form name="form" ng-submit="save(data)">
   <button class="close-button" ng-click="close()">
     <i class="fa fa-close"></i>
   </button>
 
   <div class="form-group">
     <label translate>Target position</label>
-    <select class="form-control mrg-btm"
+    <select name="role"
+      class="form-control mrg-btm"
       ng-disabled="loading"
       ng-model="data"
       ng-options="role as $root.translate(role) for role in featuredRoles">
       <option>Select...</option>
     </select>
+
+    <div class="validation-errors" ng-show="form.role.$dirty">
+      <div ng-show="form.role.$error.required" translate>Please select a target role.</div>
+    </div>
   </div>
 
   <div class="buttons-wrap">
