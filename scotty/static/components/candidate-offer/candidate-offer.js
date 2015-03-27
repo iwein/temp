@@ -10,7 +10,7 @@ define(function(require) {
 
   // jshint maxparams:9
   module.controller('OfferCtrl', function($scope, $sce, toaster, i18n,
-                                          Loader, ConfigAPI, Session, RequireSignup, offer) {
+                                          Loader, ConfigAPI, Session, RequireLogged, offer) {
     _.extend($scope, {
       toggleForm: toggleForm,
       accept: accept,
@@ -125,8 +125,8 @@ define(function(require) {
     controllerAs: 'offerDetail',
     resolve: {
       /*@ngInject*/
-      RequireSignup: function(Permission) {
-        return Permission.requireSignup();
+      RequireLogged: function(Permission) {
+        return Permission.requireLogged();
       },
       /*@ngInject*/
       offer: function($stateParams, Session) {

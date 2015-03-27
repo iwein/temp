@@ -8,7 +8,7 @@ define(function(require) {
                                               Loader, ConfigAPI, Permission, Session) {
     Loader.page(true);
 
-    Permission.requireSignup().then(function() {
+    Permission.requireLogged().then(function() {
       Session.refreshUser().then(function(user) {
 
         $scope.candidate_has_been_hired = user._data.candidate_has_been_hired;

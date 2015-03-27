@@ -14,7 +14,7 @@ define(function(require) {
     $scope.ready = false;
 
 
-    Permission.requireSignup().then(function() {
+    Permission.requireLogged().then(function() {
       this.toogleBookmark = toogleBookmark;
       $scope.toggle = toggle;
       $scope.id = $state.params.id;
