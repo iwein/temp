@@ -408,12 +408,16 @@ class CandidateTargetPositionController(CandidateController):
     @view_config(route_name='target_position', **PUT)
     def edit(self):
         candidate = self.candidate
+        params = TargetPositionSchema().deserialize(self.request.json)
         if not candidate.target_position:
-            tp = TargetPosition(candidate_id=candidate.id)
+            tp = TargetPosition(candidate_id=candidate.id, **params)
             DBSession.add(tp)
+            DBSession.flush()
         else:
             tp = candidate.target_position
-        return update(tp, self.request.json, TP_EDITABLES)
+            for k, v in params.items():
+                setattr(tp, k, v)
+        return tp
 
 
 class CandidateBookmarkController(CandidateController):
