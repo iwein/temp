@@ -21,7 +21,7 @@ define(function(require) {
     var resultsPerPage = 10;
     Loader.page(true);
 
-    Permission.requireSignup().then(function() {
+    Permission.requireLogged().then(function() {
       $scope.ready = true;
       return Session.getUser();
     }).then(function(user) {
