@@ -7,7 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
 from scotty.candidate.schemata import PreSignupRequest, SignupRequest, WorkExperienceRequest, \
-    ListWorkExperienceRequest, EducationRequest, ListEducationRequest, PreferredLocationRequest
+    ListWorkExperienceRequest, EducationRequest, ListEducationRequest, PreferredLocationRequest, TargetPositionSchema
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     set_candidate_education, get_candidate_newsfeed, \
@@ -404,16 +404,14 @@ class CandidateTargetPositionController(CandidateController):
     def get(self):
         return self.candidate.target_position
 
-    @view_config(route_name='candidate', **POST)
+    @view_config(route_name='target_position', **PUT)
     def create(self):
         candidate = self.candidate
-        params = PreSignupRequest().deserialize(self.request.json)
-        target = params['target_position']
+        target = TargetPositionSchema().deserialize(self.request.json)
         tp = TargetPosition(candidate_id=candidate.id, minimum_salary=target['minimum_salary'], role=target['role'],
                             skills=target['skills'])
         DBSession.add(tp)
-        pl = set_preferred_locations(candidate.id, params['preferred_locations'])
-        return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
+        return tp
 
     @view_config(route_name='target_position', **POST)
     def edit(self):

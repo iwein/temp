@@ -1,5 +1,6 @@
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.candidate.models import CandidateStatus
+from scotty.offer.models import OfferStatusWorkflow
 from sqlalchemy import func
 
 from pyramid.view import view_config
@@ -21,6 +22,7 @@ def includeme(config):
     config.add_route('configuration_list_proficiencies', 'proficiencies')
     config.add_route('configuration_list_travel_willingness', 'travelwillingness')
     config.add_route('configuration_list_traffic_sources', 'traffic_sources')
+    config.add_route('configuration_list_offerstatuses', 'offerstatuses')
     config.add_route('configuration_list_rejectionreasons', 'rejectionreasons')
     config.add_route('configuration_list_withdrawalreasons', 'withdrawalreasons')
     config.add_route('configuration_list_degrees', 'degrees')
@@ -80,6 +82,13 @@ class ConfigurationController(RootController):
     @view_config(route_name='configuration_list_traffic_sources', permission=NO_PERMISSION_REQUIRED)
     def traffic_sources(self):
         return listing_request(self.request, TrafficSource, order_field=TrafficSource.id)
+
+
+    @view_config(route_name='configuration_list_offerstatuses', permission=NO_PERMISSION_REQUIRED)
+    def offerstatuses(self):
+        count = len(OfferStatusWorkflow.statuses)
+        return {"pagination": {"total": count, "offset": 0, "count": count},
+                "data": [os.key for os in OfferStatusWorkflow.statuses]}
 
     @view_config(route_name='configuration_list_rejectionreasons', permission=NO_PERMISSION_REQUIRED)
     def rejectionreasons(self):
