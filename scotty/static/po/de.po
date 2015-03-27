@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/candidate-profile.html:693
@@ -216,7 +216,7 @@ msgstr ""
 "Großartig! <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-"
 "link> hat angefangen bei Ihnen zu arbeiten!"
 
-#: apps/common/footer.html:45
+#: apps/common/footer.html:46
 msgid "And get a bonus of 1.010,10€"
 msgstr "Und bekomme einen Bonus von 1.010,10€"
 
@@ -1056,8 +1056,6 @@ msgstr "Für Sie von uns ausgewählte Kandidaten"
 #: components/candidate-signup-profile/candidate-signup-profile.html:218
 #: components/candidate-signup-skills/candidate-signup-skills.html:19
 #: components/candidate-signup-target/candidate-signup-target.html:200
-#: components/candidate-signup-user/candidate-signup-user.html:132
-#: components/employer-create-offer/employer-create-offer.html:197
 #: components/employer-signup-basic/employer-signup-basic.html:92
 #: components/employer-signup-benefits/employer-signup-benefits.html:64
 #: components/employer-signup-facts/employer-signup-facts.html:185
@@ -1178,7 +1176,7 @@ msgstr "Für dieses Angebot interviewt."
 msgid "Invalid invitation token."
 msgstr "Ungültiger Einladungs-Code"
 
-#: apps/common/footer.html:44
+#: apps/common/footer.html:45
 msgid "Invite a friend"
 msgstr "Lade einen Freund ein"
 
@@ -1444,6 +1442,10 @@ msgstr "Angebotsdetails"
 #: components/directive-offer/directive-offer.html:5
 msgid "Offer No."
 msgstr "Angebotsnummer"
+
+#: components/employer-create-offer/employer-create-offer.html:197
+msgid "Offer a Job"
+msgstr "Ein Angebot machen"
 
 #: components/directive-offer/directive-offer.html:58
 msgid "Offer has expired"
@@ -3029,6 +3031,10 @@ msgid ""
 "You can express yourself in the language with limited working proficiency."
 msgstr "Du kannst dich in dieser Sprache verbal grundlegend verständigen."
 
+#: components/candidate-signup-user/candidate-signup-user.html:132
+msgid "You can only win"
+msgstr "Du kannst nur gewinnen"
+
 #: components/candidate-signup-approve/candidate-signup-approve.html:4
 msgid "You did it"
 msgstr "Du hast es geschafft."
@@ -3477,7 +3483,7 @@ msgstr "du hast dieses Angebot zurückgezogen"
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr "{{ role }} aus {{ city }}"
 
-#: apps/common/footer.html:48
+#: apps/common/footer.html:49
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
