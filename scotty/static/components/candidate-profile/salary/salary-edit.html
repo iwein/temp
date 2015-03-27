@@ -1,6 +1,12 @@
 <button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
   <i class="fa fa-pencil"></i>
 </button>
+<button type="button"
+  class="add-now"
+  ng-if="!profile.isFormOpen"
+  ng-click="edit()">
+  Add now
+</button>
 
 <form ng-submit="save(data)">
   <button class="close-button" ng-click="close()">

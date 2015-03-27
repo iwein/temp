@@ -12,7 +12,7 @@ define(function(require) {
     return {
       template: require('text!./skills.html'),
       scope: { model: '=' },
-      link: function(scope) {
+      link: function(scope, elem) {
         levels.then(function(result) {
           scope.starValues = [ null ].concat(result);
           scope.ready = true;
@@ -20,7 +20,12 @@ define(function(require) {
 
         scope.$watch('model.$revision', function() {
           _.extend(scope, sortSkills(parser.get(scope.model)));
+          elem.parent()[isEmpty() ? 'addClass' : 'removeClass']('empty');
         });
+
+        function isEmpty() {
+          return !(scope.data && scope.data.length);
+        }
       }
     };
 

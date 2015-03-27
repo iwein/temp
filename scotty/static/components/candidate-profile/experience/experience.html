@@ -1,3 +1,10 @@
+<button type="button"
+  class="add-now"
+  ng-if="!profile.isFormOpen"
+  ng-click="add()">
+  Add now
+</button>
+
 <div class="row">
   <div class="job-bar">
     <div class="job-bar-item" ng-repeat="entry in timeline"
