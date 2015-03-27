@@ -30,6 +30,17 @@
     {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId+'/offers?apikey=${apikey}'; },
       'title': 'get employer offers'},
 
+    {'sectionTitle': "Get Offers"},
+
+    {url: '/api/v1/admin/offers?apikey=${apikey}', title: 'get-all-offers'},
+    {url: '/api/v1/config/offerstatuses?apikey=${apikey}', title: 'get-offerstatuses'},
+    {url: '/api/v1/admin/offers?status=ACTIVE&apikey=${apikey}', title: 'get-active-offers'},
+    {url: '/api/v1/admin/offers?status=ACCEPTED&apikey=${apikey}', title: 'get-accepted-offers'},
+
+
+    {'sectionTitle': "Get Offerrequests"},
+    {url: '/api/v1/admin/offerrequests?apikey=${apikey}', title: 'get-offerrequests'},
+
 
 
     {'sectionTitle': "Get Configuration Values"},
