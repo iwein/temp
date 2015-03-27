@@ -20,7 +20,11 @@
       'title': 'get candidate offers'},
 
     {'sectionTitle': "Get Employers"},
-    {'url':'/api/v1/employers?apikey=${apikey}', 'title': 'list employers', extract: function(resp, extr){return {'employerId': resp.data[0].id}}},
+    {'url':'/api/v1/employers?apikey=${apikey}&limit=1', 'title': 'list employers',
+      extract: function(resp, extr){
+        return {'employerId': resp.data[0].id}
+      }
+    },
     {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId + '?apikey=${apikey}'; },
       'title': 'get employer'},
     {'url':function(resp, extr){ return '/api/v1/employers/'+extr.employerId+'/offices?apikey=${apikey}'; },
