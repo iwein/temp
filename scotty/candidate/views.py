@@ -408,7 +408,7 @@ class CandidateTargetPositionController(CandidateController):
     @view_config(route_name='target_position', **PUT)
     def edit(self):
         candidate = self.candidate
-        if not candidate.target_position
+        if not candidate.target_position:
             tp = TargetPosition(candidate_id=candidate.id)
             DBSession.add(tp)
         else:
