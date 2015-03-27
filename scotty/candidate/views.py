@@ -182,7 +182,8 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_profile_completion', **GET)
     def profile_completion(self):
         candidate = self.candidate
-        workflow = {'active': candidate.activated is not None, 'ordering': ['summary', 'availability'],
+        workflow = {'active': candidate.activated is not None,
+                    'ordering': ['target_position', 'social_connect'],
                     'summary': bool(candidate.summary), 'availability': bool(candidate.availability)}
         return workflow
 
@@ -405,18 +406,14 @@ class CandidateTargetPositionController(CandidateController):
         return self.candidate.target_position
 
     @view_config(route_name='target_position', **PUT)
-    def create(self):
-        candidate = self.candidate
-        target = TargetPositionSchema().deserialize(self.request.json)
-        tp = TargetPosition(candidate_id=candidate.id, minimum_salary=target['minimum_salary'], role=target['role'],
-                            skills=target['skills'])
-        DBSession.add(tp)
-        return tp
-
-    @view_config(route_name='target_position', **POST)
     def edit(self):
         candidate = self.candidate
-        return update(candidate.target_position, self.request.json, TP_EDITABLES)
+        if not candidate.target_position
+            tp = TargetPosition(candidate_id=candidate.id)
+            DBSession.add(tp)
+        else:
+            tp = candidate.target_position
+        return update(tp, self.request.json, TP_EDITABLES)
 
 
 class CandidateBookmarkController(CandidateController):

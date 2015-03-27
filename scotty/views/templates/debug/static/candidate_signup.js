@@ -19,7 +19,7 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
 
 var CANDIDATE_COMPLETE_PROFILE = function(email, ignoreResult) {
   return [
-    {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'EDIT-target_position',
+    {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'EDIT-target_position', method:"PUT",
       data: {"company_types": ["startup", "top500"],
         "role":"Quality Assurance",
         'skills': ["Python", "PHP"], relocate: false,
