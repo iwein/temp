@@ -40,7 +40,7 @@ define(function(require) {
     }, function(error) {
       fn();
       throw error;
-    })
+    });
   };
 
 

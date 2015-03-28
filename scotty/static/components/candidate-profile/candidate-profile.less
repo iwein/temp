@@ -31,8 +31,6 @@
     margin: @generic-padding-small 0 !important
   }
 
-
-
   .icon-parent {
     display: inline-block;
     margin: 2px;
@@ -92,6 +90,18 @@
     .status-section,
     .privacy-section {
       text-align: right;
+    }
+  }
+
+  .profile-completion {
+    .row();
+    .bg-gray-light();
+    section {
+      padding: @generic-padding;
+      .form-group > label:nth-child(1) {
+        .question-title();
+        float: none;
+      }
     }
   }
 

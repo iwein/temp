@@ -7,6 +7,8 @@ define(function(require) {
   require('./avatar/avatar-edit');
   require('./birthdate/birthdate');
   require('./birthdate/birthdate-edit');
+  require('./completion-social/completion-social');
+  require('./completion-target/completion-target');
   require('./contact/contact');
   require('./contact/contact-edit');
   require('./cv/cv');
@@ -44,33 +46,63 @@ define(function(require) {
       isEditing: false,
     });
     _.extend($scope, {
+      getCompletionStep: getCompletionStep,
       isEditing: false,
     });
 
-    onLoad();
+    return onLoad();
 
 
     function onLoad() {
-      Permission.requireLogged().then(function refresh() {
+      return Permission.requireLogged().then(function refresh() {
         return Session.getUser();
       }).then(function(user) {
         $scope.candidate = user;
-        user.getExperience();
-        user.getEducation();
-        user.getOffers().then(function(offers) {
-          $scope.allOffers = offers;
-        });
-
-        function translate() {
-          $scope.lang = i18n.getCurrent();
-        }
         i18n.onChange(translate);
         translate();
 
+        $scope.$watch('candidate.$revision', function() {
+          $scope.completion = getCompletionStep();
+        });
+
+        return Promise.all([
+          user.getTargetPosition(),
+          user.getExperience(),
+          user.getEducation(),
+          user.getOffers().then(function(offers) {
+            $scope.allOffers = offers;
+          }),
+        ]);
+      }).then(function() {
         $scope.ready = true;
       }).finally(function() {
         Loader.page(false);
       });
+    }
+
+    function translate() {
+      $scope.lang = i18n.getCurrent();
+    }
+
+    function getCompletionStep() {
+      var targetPosition = $scope.candidate.getTargetPositionCached();
+      var hasTargetPosition = (
+        targetPosition &&
+        targetPosition.role &&
+        targetPosition.minimum_salary &&
+        targetPosition.skills.length
+      );
+      if (!hasTargetPosition)
+        return 'target';
+
+      var education = $scope.candidate.getEducationCached();
+      var experience = $scope.candidate.getExperienceCached();
+      var hasExperienceEducation = (
+        education && education.length &&
+        experience && experience.length
+      );
+      if (!hasExperienceEducation)
+        return 'social';
     }
 
     function edit() {

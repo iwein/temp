@@ -1,7 +1,17 @@
-<div class="component-candidate-profile {{ editClass }}" ng-show="ready" ng-class="{
+<div class="component-candidate-profile {{ editClass }}" ng-if="ready" ng-class="{
   'form-open': isFormOpen,
   editing: isEditing,
 }">
+
+  <div class="profile-completion" ng-show="completion && !isEditing">
+    <section class="completion-target-section" ng-if="completion === 'target'">
+      <div hc-candidate-completion-target model="candidate"></div>
+    </section>
+
+    <section class="completion-social-section" ng-if="completion === 'social'">
+      <div hc-candidate-completion-social model="candidate"></div>
+    </section>
+  </div>
 
   <div class="status">
     <button id="button-edit-profile" class="fl-rg btn-edit" ng-click="profile.edit()">
@@ -13,34 +23,6 @@
       <translate>Finish editing</translate>
     </button>
     <div class="clearfix"></div>
-  </div>
-
-  <div class="profile-workflow hidden" ng-if="!isEditing && completionStage">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <form ng-show="completionStage === 'summary'" ng-submit="sendCompletion(completion)">
-          <div class="form-group required">
-            <label translate>Summary</label>
-            <textarea class="form-control" required ng-model="completion.summary">
-            </textarea>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary" translate>Submit</button>
-          </div>
-        </form>
-
-        <form ng-show="completionStage === 'availability'" ng-submit="sendCompletion(completion)">
-          <div class="form-group required">
-            <label translate>Availability</label>
-            <textarea class="form-control" required ng-model="completion.availability">
-            </textarea>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary" translate>Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </div>
 
   <div class="row" ng-if="candidate">
