@@ -216,7 +216,7 @@ msgstr ""
 "Großartig! <hc-candidate-link ng-model=\"entry.candidate\"></hc-candidate-"
 "link> hat angefangen bei Ihnen zu arbeiten!"
 
-#: apps/common/footer.html:46
+#: apps/common/footer.html:47
 msgid "And get a bonus of 1.010,10€"
 msgstr "Und bekomme einen Bonus von 1.010,10€"
 
@@ -386,6 +386,10 @@ msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
 msgid "Blog URL (Starting with  http://...)"
 msgstr "Blog (beginnend mit http://...)"
 
+#: tmp/db-tokens/benefits.js:1
+msgid "Breakfasts"
+msgstr "Frühstück"
+
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
@@ -493,7 +497,7 @@ msgstr "Candidate Advocate"
 msgid "Candidates"
 msgstr "Kandidaten"
 
-#: tmp/db-tokens/benefits.js:1
+#: tmp/db-tokens/benefits.js:2
 msgid "Child Care Services"
 msgstr "Kinderbetreuung"
 
@@ -506,6 +510,10 @@ msgstr "Stadt"
 #: components/candidate-dashboard/candidate-dashboard.html:46
 msgid "City or Municipality"
 msgstr "Stadt oder Region"
+
+#: tmp/db-tokens/benefits.js:3
+msgid "Coffee"
+msgstr "Kaffee"
 
 #: components/candidate-signup-education/candidate-signup-education.html:138
 #: components/candidate-signup-experience/candidate-signup-experience.html:142
@@ -526,7 +534,7 @@ msgstr ""
 msgid "Company"
 msgstr "Firmenname"
 
-#: tmp/db-tokens/benefits.js:2
+#: tmp/db-tokens/benefits.js:4
 msgid "Company Cars"
 msgstr "Firmenwagen"
 
@@ -559,7 +567,7 @@ msgstr "Typ"
 msgid "Company Types"
 msgstr "Unternehmenstypen"
 
-#: tmp/db-tokens/benefits.js:3
+#: tmp/db-tokens/benefits.js:5
 msgid "Company pension scheme"
 msgstr "Betriebliche Altersvorsorge"
 
@@ -589,7 +597,7 @@ msgid "Congrats! Your account was approved! Welcome to Scotty!"
 msgstr ""
 "Glückwunsch! Dein Account wurde freigeschaltet! Willkommen bei 4Scotty!"
 
-#: apps/common/footer.html:37
+#: apps/common/footer.html:38
 msgid "Connect"
 msgstr "Verbinden"
 
@@ -667,7 +675,7 @@ msgstr "Vertrag unterzeichnet"
 msgid "Contract was signed"
 msgstr "Vertrag wurde unterzeichnet"
 
-#: tmp/db-tokens/benefits.js:4
+#: tmp/db-tokens/benefits.js:6
 msgid "Contributions to capital formation"
 msgstr "Vermögenswirksame Leistungen"
 
@@ -778,6 +786,10 @@ msgid "Does your revenue really exceed &euro;9223372036854775808 per year?"
 msgstr ""
 "Ist der Umsatz Ihres Unternehmens tatsächlich höher als "
 "&euro;9223372036854775808 pro Jahr?"
+
+#: tmp/db-tokens/benefits.js:7
+msgid "Dogs Allowed"
+msgstr "Hunde erlaubt"
 
 #: components/candidate-signup-user/candidate-signup-user.html:146
 msgid "Don't have an invite code?"
@@ -982,11 +994,11 @@ msgstr "Funding Betrag kann nicht größer als 100.000.000 sein"
 msgid "Founding year"
 msgstr "Gründungsjahr"
 
-#: tmp/db-tokens/benefits.js:5
+#: tmp/db-tokens/benefits.js:8
 msgid "Free Beverages"
 msgstr "Freie Getränke"
 
-#: tmp/db-tokens/benefits.js:6
+#: tmp/db-tokens/benefits.js:9
 msgid "Free Fruits"
 msgstr "kostenlose Früchte"
 
@@ -1092,7 +1104,7 @@ msgstr "Interviewprozess"
 msgid "Home"
 msgstr "Startseite"
 
-#: tmp/db-tokens/benefits.js:7
+#: tmp/db-tokens/benefits.js:10
 msgid "Home office acceptance"
 msgstr "Home Office Regelung"
 
@@ -1237,7 +1249,7 @@ msgstr "Nachname"
 msgid "Last name"
 msgstr "Nachname"
 
-#: tmp/db-tokens/benefits.js:8
+#: tmp/db-tokens/benefits.js:11
 msgid "Life and disability insurance"
 msgstr "Unfallversicherung"
 
@@ -1294,6 +1306,10 @@ msgstr "Angebot machen"
 msgid "March"
 msgstr "März"
 
+#: tmp/db-tokens/benefits.js:12
+msgid "Massages"
+msgstr "Massagen"
+
 #: tools/months.js:13
 msgid "May"
 msgstr "Mai"
@@ -1321,6 +1337,10 @@ msgid "Mr"
 msgstr "Herr"
 
 #: tmp/db-tokens/salutations.js:2
+msgid "Mrs"
+msgstr "Frau"
+
+#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
 msgstr "Frau"
 
@@ -2161,6 +2181,10 @@ msgstr ""
 msgid "Position / title"
 msgstr "Position / Titel"
 
+#: apps/common/footer.html:33
+msgid "Press Resources"
+msgstr "Pressematerial"
+
 #: components/candidate-profile/candidate-profile.html:774
 msgid "Privacy"
 msgstr "Privatssphäre"
@@ -2188,7 +2212,7 @@ msgstr "Profil"
 msgid "Profile picture"
 msgstr "Profilbild"
 
-#: tmp/db-tokens/benefits.js:9
+#: tmp/db-tokens/benefits.js:13
 msgid "Public Transport Tickets"
 msgstr "Jobticket"
 
@@ -2229,9 +2253,13 @@ msgstr "Ablehnen"
 msgid "Rejected"
 msgstr "Ablehnen"
 
-#: tmp/db-tokens/benefits.js:10
+#: tmp/db-tokens/benefits.js:14
 msgid "Relocation expenses"
 msgstr "Umzugskosten"
+
+#: tmp/db-tokens/benefits.js:15
+msgid "Remote Work"
+msgstr "Remote arbeiten"
 
 #: components/directive-office/directive-office.html:33
 msgid "Remove"
@@ -2432,7 +2460,7 @@ msgstr ""
 "Entschuldigung, ein unbekannter Fehler ist aufgreten. Falls der Fehler "
 "besteht kontaktieren Sie bitte"
 
-#: tmp/db-tokens/benefits.js:11
+#: tmp/db-tokens/benefits.js:16
 msgid "Sport and health services"
 msgstr "Sportangebote"
 
@@ -2440,7 +2468,7 @@ msgstr "Sportangebote"
 msgid "Stackoverflow URL (Starting with  http://...)"
 msgstr "Stackoverflow (beginnend mit http://...)"
 
-#: tmp/db-tokens/benefits.js:12
+#: tmp/db-tokens/benefits.js:17
 msgid "Staff restaurant or food subsidies"
 msgstr "Kantine oder Essenszuschüsse"
 
@@ -2485,7 +2513,7 @@ msgstr "Statische Seiten"
 msgid "Status"
 msgstr "Status"
 
-#: tmp/db-tokens/benefits.js:13
+#: tmp/db-tokens/benefits.js:18
 msgid "Stock option program"
 msgstr "Unternehmensbeteiligung"
 
@@ -3487,29 +3515,11 @@ msgstr "{{ role }} aus {{ city }}"
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
-#~ msgid "Breakfasts"
-#~ msgstr "Frühstück"
-
-#~ msgid "Coffee"
-#~ msgstr "Kaffee"
-
-#~ msgid "Dogs Allowed"
-#~ msgstr "Hunde erlaubt"
-
-#~ msgid "Massages"
-#~ msgstr "Massagen"
-
-#~ msgid "Remote Work"
-#~ msgstr "Remote arbeiten"
-
 #~ msgid "Newsletter"
 #~ msgstr "Newsletter"
 
 #~ msgid "reviewing offers"
 #~ msgstr "prüft Job-Angebote"
-
-#~ msgid "Mrs"
-#~ msgstr "Frau"
 
 #~ msgid "Go back to general search"
 #~ msgstr "Zurück zur allgemeinen Suche"
