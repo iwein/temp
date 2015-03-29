@@ -184,7 +184,7 @@ msgid ""
 "link> started their job with you!"
 msgstr ""
 
-#: apps/common/footer.html:45
+#: apps/common/footer.html:47
 msgid "And get a bonus of 1.010,10€"
 msgstr ""
 
@@ -343,6 +343,10 @@ msgstr ""
 msgid "Blog URL (Starting with  http://...)"
 msgstr ""
 
+#: tmp/db-tokens/benefits.js:1
+msgid "Breakfasts"
+msgstr ""
+
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
@@ -439,7 +443,7 @@ msgstr ""
 msgid "Candidates"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:1
+#: tmp/db-tokens/benefits.js:2
 msgid "Child Care Services"
 msgstr ""
 
@@ -451,6 +455,10 @@ msgstr ""
 
 #: components/candidate-dashboard/candidate-dashboard.html:46
 msgid "City or Municipality"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:3
+msgid "Coffee"
 msgstr ""
 
 #: components/candidate-signup-education/candidate-signup-education.html:138
@@ -470,7 +478,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:2
+#: tmp/db-tokens/benefits.js:4
 msgid "Company Cars"
 msgstr ""
 
@@ -503,7 +511,7 @@ msgstr ""
 msgid "Company Types"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:3
+#: tmp/db-tokens/benefits.js:5
 msgid "Company pension scheme"
 msgstr ""
 
@@ -532,7 +540,7 @@ msgstr ""
 msgid "Congrats! Your account was approved! Welcome to Scotty!"
 msgstr ""
 
-#: apps/common/footer.html:37
+#: apps/common/footer.html:38
 msgid "Connect"
 msgstr ""
 
@@ -610,7 +618,7 @@ msgstr ""
 msgid "Contract was signed"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:4
+#: tmp/db-tokens/benefits.js:6
 msgid "Contributions to capital formation"
 msgstr ""
 
@@ -712,6 +720,10 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:44
 msgid "Does your revenue really exceed &euro;9223372036854775808 per year?"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:7
+msgid "Dogs Allowed"
 msgstr ""
 
 #: components/candidate-signup-user/candidate-signup-user.html:146
@@ -904,11 +916,11 @@ msgstr ""
 msgid "Founding year"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:5
+#: tmp/db-tokens/benefits.js:8
 msgid "Free Beverages"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:6
+#: tmp/db-tokens/benefits.js:9
 msgid "Free Fruits"
 msgstr ""
 
@@ -1006,7 +1018,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:7
+#: tmp/db-tokens/benefits.js:10
 msgid "Home office acceptance"
 msgstr ""
 
@@ -1085,7 +1097,7 @@ msgstr ""
 msgid "Invalid invitation token."
 msgstr ""
 
-#: apps/common/footer.html:44
+#: apps/common/footer.html:46
 msgid "Invite a friend"
 msgstr ""
 
@@ -1146,7 +1158,7 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:8
+#: tmp/db-tokens/benefits.js:11
 msgid "Life and disability insurance"
 msgstr ""
 
@@ -1203,6 +1215,10 @@ msgstr ""
 msgid "March"
 msgstr ""
 
+#: tmp/db-tokens/benefits.js:12
+msgid "Massages"
+msgstr ""
+
 #: tools/months.js:13
 msgid "May"
 msgstr ""
@@ -1230,6 +1246,10 @@ msgid "Mr"
 msgstr ""
 
 #: tmp/db-tokens/salutations.js:2
+msgid "Mrs"
+msgstr ""
+
+#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
 msgstr ""
 
@@ -1996,6 +2016,10 @@ msgstr ""
 msgid "Position / title"
 msgstr ""
 
+#: apps/common/footer.html:33
+msgid "Press Resources"
+msgstr ""
+
 #: components/candidate-profile/candidate-profile.html:774
 msgid "Privacy"
 msgstr ""
@@ -2023,7 +2047,7 @@ msgstr ""
 msgid "Profile picture"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:9
+#: tmp/db-tokens/benefits.js:13
 msgid "Public Transport Tickets"
 msgstr ""
 
@@ -2064,8 +2088,12 @@ msgstr ""
 msgid "Rejected"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:10
+#: tmp/db-tokens/benefits.js:14
 msgid "Relocation expenses"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:15
+msgid "Remote Work"
 msgstr ""
 
 #: components/directive-office/directive-office.html:33
@@ -2265,7 +2293,7 @@ msgstr ""
 msgid "Sorry, unknown error occurred, if this error persists please contact"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:11
+#: tmp/db-tokens/benefits.js:16
 msgid "Sport and health services"
 msgstr ""
 
@@ -2273,7 +2301,7 @@ msgstr ""
 msgid "Stackoverflow URL (Starting with  http://...)"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:12
+#: tmp/db-tokens/benefits.js:17
 msgid "Staff restaurant or food subsidies"
 msgstr ""
 
@@ -2318,7 +2346,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:13
+#: tmp/db-tokens/benefits.js:18
 msgid "Stock option program"
 msgstr ""
 
@@ -3229,6 +3257,6 @@ msgstr ""
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr ""
 
-#: apps/common/footer.html:48
+#: apps/common/footer.html:50
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr ""
