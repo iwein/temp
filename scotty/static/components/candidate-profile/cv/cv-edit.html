@@ -1,11 +1,11 @@
-<span class="edit-button" ng-if="cv.data" translate>Update your CV</span>
-<span class="edit-button" ng-if="!cv.data" translate>Upload CV</span>
+<span class="edit-button" ng-if="data" translate>Update your CV</span>
+<span class="edit-button" ng-if="!data" translate>Upload CV</span>
 
 <button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
   <i class="fa fa-pencil"></i>
 </button>
 
-<form ng-submit="save(data)" hc-validations-on-submit>
+<form>
   <button class="close-button" ng-click="close()">
     <i class="fa fa-close"></i>
   </button>
@@ -14,11 +14,11 @@
     <div class="uploadFile">
       <span translate>Select file</span>
       <input type="file"
-        name="photo"
+        name="cv"
         accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ng-disabled="hcDisabled"
-        ng-model="cv_file"
-        hc-file-select="cv.save($files)">
+        ng-disabled="loading"
+        ng-model="data"
+        hc-file-select="save($files)">
     </div>
     <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
   </div>
