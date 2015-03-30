@@ -56,7 +56,7 @@
         ng-disabled="loading"
         ng-model="data.role"
         ng-options="role as $root.translate(role) for role in featuredRoles">
-        <option>Select...</option>
+        <option value="">Select...</option>
       </select>
 
       <div class="validation-errors" ng-show="form.role.$dirty">
