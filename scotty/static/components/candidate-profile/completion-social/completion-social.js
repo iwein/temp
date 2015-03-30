@@ -1,6 +1,6 @@
 define(function(require) {
   'use strict';
-  require('components/element-connectors-buttons/element-connectors-buttons')
+  require('components/element-connectors-buttons/element-connectors-buttons');
   var module = require('app-module');
 
 
@@ -11,7 +11,7 @@ define(function(require) {
       link: function(scope) {
         var connectors = Session.getConnectors();
         var candidate = scope.model;
-        var experience = candidate.getExperienceCached()
+        var experience = candidate.getExperienceCached();
         var education = candidate.getEducationCached();
         var hasExperience = experience && experience.length;
         var hasEducation = education && education.length;
@@ -32,10 +32,10 @@ define(function(require) {
               hasEducation = true;
               return candidate.getEducation();
             });
-          }))
+          }));
         }
 
-        Promise.all(promises).then(function(result) {
+        Promise.all(promises).then(function() {
           if (hasExperience && hasEducation)
             scope.imported = true;
           scope.ready = true;
