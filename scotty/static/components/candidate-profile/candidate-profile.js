@@ -50,7 +50,7 @@ define(function(require) {
       isEditing: false,
     });
 
-    return onLoad();
+    onLoad();
 
 
     function onLoad() {
