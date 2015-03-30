@@ -1,4 +1,4 @@
-<form name="form" class="row" ng-submit="save(data)" style="display:block">
+<form name="form" class="row" ng-submit="save(data)" style="display:block" hc-validations-on-submit>
   <div class="col-sm-6">
     <div class="form-group">
       <label>
@@ -38,7 +38,6 @@
         ng-model="data.skills"
         hc-required="!skillSelected"
         hc-source="searchSkills($viewValue)"
-        hc-error-message="{{ 'Please choose at least one skill' | translate }}"
         hc-allow-new>
       </hc-label-typeahead>
 
@@ -53,6 +52,7 @@
       <label translate>Target position</label>
       <select name="role"
         class="form-control mrg-btm"
+        required
         ng-disabled="loading"
         ng-model="data.role"
         ng-options="role as $root.translate(role) for role in featuredRoles">

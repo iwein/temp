@@ -13,20 +13,11 @@ define(function(require) {
       template: require('text!./completion-target.html'),
       scope: { model: '=', },
       link: function(scope) {
-        // For some reason JSHint complains if I move this function to the end
-        function close() {
-          scope.editing = false;
-          return profile.closeForm('target');
-        }
-
-
-        var profile = scope.profile = scope.$parent.profile;
         roles.then(fn.setTo('featuredRoles', scope));
         _.extend(scope, {
+          data: scope.model.getTargetPositionCached(),
           onFeaturedSkillChange: onFeaturedSkillChange,
           searchSkills: ConfigAPI.skills,
-          close: close,
-          edit: edit,
           save: save,
         });
 
@@ -36,12 +27,6 @@ define(function(require) {
           });
         });
 
-
-        function edit() {
-          scope.data = scope.model.getTargetPositionCached();
-          scope.editing = true;
-          return profile.openForm('target');
-        }
 
         function save() {
           var data = _.extend({}, scope.data);
