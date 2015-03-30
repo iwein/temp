@@ -30,7 +30,6 @@ define(function(require) {
           locationToText: ConfigAPI.locationToText,
           searchCities: ConfigAPI.locations,
           updateLocations: updateLocations,
-          onSalaryChange: onSalaryChange,
           close: close,
           edit: edit,
           save: save,
@@ -50,10 +49,6 @@ define(function(require) {
             .then(close)
             .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
-        }
-
-        function onSalaryChange() {
-          scope.errorSalaryTooHigh = scope.data.salary > 99000000;
         }
 
         function updateLocations() {

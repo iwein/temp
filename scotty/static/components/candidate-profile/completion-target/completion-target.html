@@ -79,17 +79,21 @@
         <div class="clearfix"></div>
       </label>
 
-      <input type="dotted-integer"
-        class="form-control"
-        name="salary"
-        required
-        ng-disabled="loading"
-        ng-model="data.minimum_salary"
-        ng-change="onSalaryChange()">
+      <div class="input-group">
+        <span class="input-group-addon">€</span>
+        <input type="dotted-integer"
+          class="form-control"
+          name="salary"
+          required
+          ng-max="99000000"
+          ng-disabled="loading"
+          ng-model="data.minimum_salary">
+        <span class="input-group-addon">.00</span>
+      </div>
 
       <div class="validation-errors" ng-show="form.salary.$dirty">
         <div ng-show="form.salary.$error.required" translate>Please type your minimum expected salary.</div>
-        <div ng-show="errorSalaryTooHigh" translate>This seems to be too high.</div>
+        <div ng-show="form.salary.$error.max" translate>This seems to be too high.</div>
       </div>
     </div>
   </div>
