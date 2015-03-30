@@ -16,8 +16,6 @@ define(function() {
   }
 
   function set(candidate, model) {
-    var offset = model.dob.getTimezoneOffset() / 60;
-    model.dob.setHours(-offset);
     return candidate.updateData(model);
   }
 });
