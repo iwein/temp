@@ -1,7 +1,7 @@
 from datetime import date
 
 from colander import Invalid, SchemaNode, MappingSchema, Int, Range, String, Length, Email, Date, SequenceSchema, \
-    Integer, Boolean, null
+    Integer, Boolean, null, drop
 from scotty.candidate.models import InviteCode, get_locations_from_structure
 from scotty.configuration.models import Role, Skill, Company, Country, Institution, Degree, Course, SkillLevel, Locale
 from scotty.models.meta import BIGINT_RANGE, DEFAULT_LANG
@@ -39,9 +39,9 @@ class PreferredLocationRequest(MappingSchema):
 
 
 class TargetPositionSchema(MappingSchema):
-    role = SchemaNode(DBChoiceValue(Role))
-    minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=BIGINT_RANGE))
-    skills = SchemaNode(DBListValues(Skill, create_unknown=True, min_length=1))
+    role = SchemaNode(DBChoiceValue(Role), missing=drop)
+    minimum_salary = SchemaNode(Int(), validator=Range(min=0, max=BIGINT_RANGE), missing=drop)
+    skills = SchemaNode(DBListValues(Skill, create_unknown=True, min_length=1), missing=drop)
 
 
 class PreSignupRequest(MappingSchema):

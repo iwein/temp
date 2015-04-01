@@ -11,7 +11,10 @@ define(function(require) {
 
     return {
       template: require('text!./completion-target.html'),
-      scope: { model: '=', },
+      scope: {
+        model: '=',
+        onSubmit: '&',
+      },
       link: function(scope) {
         roles.then(fn.setTo('featuredRoles', scope));
         _.extend(scope, {
@@ -39,7 +42,7 @@ define(function(require) {
 
           return scope.model.setTargetPosition(data)
             .then(function() { return scope.model.getTargetPosition() })
-            .then(close)
+            .then(function() { return scope.onSubmit() })
             .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }

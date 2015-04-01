@@ -126,14 +126,6 @@ define(function(require) {
       }.bind(this));
     },
 
-    getSignupStage: function() {
-      return this._api.get('/candidates/me/signup_stage').catch(function(request) {
-        if (request.status === 403)
-          return null;
-        throw request;
-      });
-    },
-
     getCompletionWorkflow: function() {
       return this._api.get('/candidates/me/profile_completion');
     },

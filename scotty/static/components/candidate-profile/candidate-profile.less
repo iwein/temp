@@ -2,6 +2,7 @@
 @import "./availability/availability-edit.less";
 @import "./avatar/avatar-edit.less";
 @import "./birthdate/birthdate-edit.less";
+@import "./completion/completion.less";
 @import "./contact/contact-edit.less";
 @import "./contact/contact.less";
 @import "./cv/cv-edit.less";
@@ -19,7 +20,7 @@
   form { display: none }
   section { position: relative };
 
-  form > .buttons-wrap > button {
+  .buttons-wrap > button {
     .btn-small();
     float: right;
     margin-left: @generic-padding;
@@ -90,18 +91,6 @@
     .status-section,
     .privacy-section {
       text-align: right;
-    }
-  }
-
-  .profile-completion {
-    .row();
-    .bg-gray-light();
-    section {
-      padding: @generic-padding;
-      .form-group > label:nth-child(1) {
-        .question-title();
-        float: none;
-      }
     }
   }
 

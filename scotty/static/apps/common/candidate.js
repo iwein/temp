@@ -34,6 +34,7 @@ define(function(require) {
     this._sufix = sufix || '';
 
     promiseHelper.cacheMethods(this, [
+      'getSignupStage',
       'getData',
       'getExperience',
       'getEducation',
@@ -100,6 +101,8 @@ define(function(require) {
     delete: function() {
       return this._api.delete(this._url() + this._sufix);
     },
+
+    getSignupStage: getHelper('signup_stage'),
 
     getExperience: getHelper('work_experience'),
     setExperience: setHelper('work_experience', 'put'),

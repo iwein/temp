@@ -1,0 +1,20 @@
+<div class="profile-completion col-sm-3">
+  <h3>Profile Strength</h3>
+  <div class="completion-graph">
+
+  </div>
+  <div class="social-networks">
+    <span>Fill the information faster, connect with Linked In and Xing</span>
+    <hc-connectors-buttons ng-show="!imported"></hc-connectors-buttons>
+  </div>
+</div>
+
+<div class="col-sm-9">
+  <section class="completion-target-section" ng-if="step === 'target_position'">
+    <div hc-candidate-completion-target model="model" on-submit="onSubmit()"></div>
+  </section>
+
+  <section class="completion-location-section" ng-if="step === 'preferred_location'">
+    <div hc-completion-location model="model" on-submit="onSubmit()"></div>
+  </section>
+</div>

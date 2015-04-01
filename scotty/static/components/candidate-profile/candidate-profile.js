@@ -7,8 +7,7 @@ define(function(require) {
   require('./avatar/avatar-edit');
   require('./birthdate/birthdate');
   require('./birthdate/birthdate-edit');
-  require('./completion-social/completion-social');
-  require('./completion-target/completion-target');
+  require('./completion/completion');
   require('./contact/contact');
   require('./contact/contact-edit');
   require('./cv/cv');
@@ -66,6 +65,7 @@ define(function(require) {
         });
 
         return Promise.all([
+          user.getSignupStage(),
           user.getTargetPosition(),
           user.getExperience(),
           user.getEducation(),

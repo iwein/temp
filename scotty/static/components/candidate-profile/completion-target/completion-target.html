@@ -1,52 +1,4 @@
-<form name="form" class="row" ng-submit="save(data)" style="display:block" hc-validations-on-submit>
-  <div class="col-sm-6">
-    <div class="form-group">
-      <label>
-        <span class="question-title" translate>Technologies &amp; Skills</span>
-
-        <div class="question">
-          <span>?</span>
-          <div class="tooltip-wrap">
-            <div class="tooltip-arrow"></div>
-            <div class="tooltip-text" translate>
-              Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
-            </div>
-          </div>
-        </div>
-        <div class="clearfix"></div>
-      </label>
-
-      <div class="row">
-        <div class="col-sm-3" ng-repeat="skill in featuredSkills">
-          <label class="form-label">
-            <input type="checkbox"
-              ng-disabled="loading"
-              ng-model="skill.selected"
-              ng-change="onFeaturedSkillChange()">
-            {{ skill.value }}
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label translate>Other</label>
-      <hc-label-typeahead
-        name="skill"
-        placeholder="{{ 'Type a skill and press enter on each one...' | translate }}"
-        ng-disabled="loading"
-        ng-model="data.skills"
-        hc-required="!skillSelected"
-        hc-source="searchSkills($viewValue)"
-        hc-allow-new>
-      </hc-label-typeahead>
-
-      <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.skill.$dirty && form.skill.$invalid">
-        <span ng-show="form.skill.$error.required" translate>Please insert the skills you expect to use.</span>
-      </div>
-    </div>
-  </div>
-
+<form name="form" class="row" ng-submit="save(data)" hc-validations-on-submit>
   <div class="col-sm-6">
     <div class="form-group">
       <label translate>Target position</label>
@@ -96,11 +48,59 @@
         <div ng-show="form.salary.$error.max" translate>This seems to be too high.</div>
       </div>
     </div>
+
+    <div class="buttons-wrap">
+      <button type="submit" ng-disabled="loading" translate>Save</button>
+      <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+    </div>
   </div>
 
-  <div class="buttons-wrap col-sm-6">
-    <button type="submit" ng-disabled="loading" translate>Save</button>
-    <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label>
+        <span class="question-title" translate>Technologies &amp; Skills</span>
+
+        <div class="question">
+          <span>?</span>
+          <div class="tooltip-wrap">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-text" translate>
+              Please choose from the list or write down at least one other technology or skill you've been working with for a relevant period of time.
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </label>
+
+      <div class="row">
+        <div class="col-sm-4" ng-repeat="skill in featuredSkills">
+          <label class="form-label">
+            <input type="checkbox"
+              ng-disabled="loading"
+              ng-model="skill.selected"
+              ng-change="onFeaturedSkillChange()">
+            {{ skill.value }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label translate>Other</label>
+      <hc-label-typeahead
+        name="skill"
+        placeholder="{{ 'Type a skill and press enter on each one...' | translate }}"
+        ng-disabled="loading"
+        ng-model="data.skills"
+        hc-required="!skillSelected"
+        hc-source="searchSkills($viewValue)"
+        hc-allow-new>
+      </hc-label-typeahead>
+
+      <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.skill.$dirty && form.skill.$invalid">
+        <span ng-show="form.skill.$error.required" translate>Please insert the skills you expect to use.</span>
+      </div>
+    </div>
   </div>
 
   <div class="clearfix"></div>

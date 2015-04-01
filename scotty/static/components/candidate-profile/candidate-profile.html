@@ -3,15 +3,7 @@
   editing: isEditing,
 }">
 
-  <div class="profile-completion" ng-show="completion && !isEditing">
-    <section class="completion-target-section" ng-if="completion === 'target'">
-      <div hc-candidate-completion-target model="candidate"></div>
-    </section>
-
-    <section class="completion-social-section" ng-if="completion === 'social'">
-      <div hc-candidate-completion-social model="candidate"></div>
-    </section>
-  </div>
+  <div hc-candidate-completion model="candidate" ng-show="!isFormOpen"></div>
 
   <div class="status">
     <button id="button-edit-profile" class="fl-rg btn-edit" ng-click="profile.edit()">

@@ -262,8 +262,8 @@ class TargetPosition(Base):
 
     candidate_id = Column(GUID, ForeignKey("candidate.id"), primary_key=True)
     created = Column(DateTime, nullable=False, default=datetime.now)
-    minimum_salary = Column(BigInteger, nullable=False)
-    role_id = Column(Integer, ForeignKey('role.id'), nullable=False)
+    minimum_salary = Column(BigInteger)
+    role_id = Column(Integer, ForeignKey('role.id'))
     role = relationship(Role)
     skills = relationship(Skill, secondary=target_position_skills)
 
