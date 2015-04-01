@@ -17,4 +17,8 @@
   <section class="completion-location-section" ng-if="step === 'preferred_location'">
     <div hc-completion-location model="model" on-submit="onSubmit()"></div>
   </section>
+
+  <section class="completion-experience-section" ng-if="step === 'work_experience'">
+    <div hc-completion-experience model="model" on-submit="onSubmit()"></div>
+  </section>
 </div>

@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('../completion-experience/completion-experience');
   require('../completion-location/completion-location');
   require('../completion-target/completion-target');
   var _ = require('underscore');
