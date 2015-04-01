@@ -19,12 +19,13 @@ define(function(require) {
         });
 
         scope.$watch('model.$revision', function() {
-          _.extend(scope, sortSkills(parser.get(scope.model)));
-          elem.parent()[isEmpty() ? 'addClass' : 'removeClass']('empty');
+          var data = parser.get(scope.model);
+          _.extend(scope, sortSkills(data));
+          elem.parent()[isEmpty(data) ? 'addClass' : 'removeClass']('empty');
         });
 
-        function isEmpty() {
-          return !(scope.data && scope.data.length);
+        function isEmpty(data) {
+          return !(data && data.length);
         }
       }
     };
