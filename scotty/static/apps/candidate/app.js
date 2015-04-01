@@ -40,7 +40,7 @@ define(function(require) {
     ;
   });
 
-  module.run(function($window, $templateCache, $rootScope, Session) {
+  module.run(function($window, $location, $templateCache, $rootScope, $analytics, Session) {
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
     Session.getUser();
@@ -50,6 +50,9 @@ define(function(require) {
         $window.location = '/';
       });
     };
+
+    var location = $window.location.pathname;
+    $analytics.settings.pageTracking.basePath = location.substr(0, location.length - $location.url().length);
   });
 
   angular.bootstrap(document, [ 'scotty-candidate' ]);
