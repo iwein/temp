@@ -8,12 +8,11 @@ define(function(require) {
   module.directive('hcCompletionExperience', function(toaster) {
     return {
       template: require('text!./completion-experience.html'),
-      scope: {
-        model: '=',
-        onSubmit: '&',
-      },
-      link: function(scope) {
+      require: '^hcCandidateCompletion',
+      scope: { model: '=' },
+      link: function(scope, elem, attr, ctrl) {
         _.extend(scope, {
+          skip: ctrl.skip,
           save: save,
           data: {},
         });
@@ -22,7 +21,7 @@ define(function(require) {
         function save(model, form) {
           return form.save()
             .then(function() { return scope.model.getExperience() })
-            .then(function() { return scope.onSubmit() })
+            .then(function() { return ctrl.refresh() })
             .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }

@@ -8,12 +8,11 @@ define(function(require) {
   module.directive('hcCompletionLocation', function(toaster) {
     return {
       template: require('text!./completion-location.html'),
-      scope: {
-        model: '=',
-        onSubmit: '&',
-      },
-      link: function(scope) {
+      require: '^hcCandidateCompletion',
+      scope: { model: '=' },
+      link: function(scope, elem, attr, ctrl) {
         _.extend(scope, {
+          skip: ctrl.skip,
           save: save,
           data: {},
         });
@@ -27,7 +26,7 @@ define(function(require) {
         function save() {
           return scope.model.setPreferredLocations(scope.data)
             .then(function() { return scope.model.getData() })
-            .then(function() { return scope.onSubmit() })
+            .then(function() { return ctrl.refresh() })
             .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }

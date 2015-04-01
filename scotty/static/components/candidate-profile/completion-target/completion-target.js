@@ -11,16 +11,15 @@ define(function(require) {
 
     return {
       template: require('text!./completion-target.html'),
-      scope: {
-        model: '=',
-        onSubmit: '&',
-      },
-      link: function(scope) {
+      require: '^hcCandidateCompletion',
+      scope: { model: '=' },
+      link: function(scope, elem, attr, ctrl) {
         roles.then(fn.setTo('featuredRoles', scope));
         _.extend(scope, {
           data: scope.model.getTargetPositionCached(),
           onFeaturedSkillChange: onFeaturedSkillChange,
           searchSkills: ConfigAPI.skills,
+          skip: ctrl.skip,
           save: save,
         });
 
@@ -42,7 +41,7 @@ define(function(require) {
 
           return scope.model.setTargetPosition(data)
             .then(function() { return scope.model.getTargetPosition() })
-            .then(function() { return scope.onSubmit() })
+            .then(function() { return ctrl.refresh() })
             .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
         }
