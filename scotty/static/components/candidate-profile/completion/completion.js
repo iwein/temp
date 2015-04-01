@@ -2,7 +2,9 @@ define(function(require) {
   'use strict';
   require('../completion-experience/completion-experience');
   require('../completion-education/completion-education');
+  require('../completion-languages/completion-languages');
   require('../completion-location/completion-location');
+  require('../completion-skills/completion-skills');
   require('../completion-target/completion-target');
   var _ = require('underscore');
   var module = require('app-module');

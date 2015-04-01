@@ -8,76 +8,8 @@
   Add now
 </button>
 
-<form ng-submit="save(data)" hc-validations-on-submit>
+<div hc-skills-partial model="model" on-save="close()" ng-if="editing">
   <button class="close-button" ng-click="close()">
     <i class="fa fa-close"></i>
   </button>
-
-  <div class="form-group leveled-skills">
-    <p class="helptext">Enter at least three of your core skills and select their level</p>
-
-    <div class="row" ng-repeat="entry in data">
-      <div class="col-sm-7">
-        <input type="text"
-          name="skill{{ $index }}"
-          class="form-control"
-          autocomplete="off"
-          ng-disabled="loading"
-          ng-required="model.length < 4"
-          ng-model="entry.skill"
-          ng-blur="onBlur(entry, $index, $last)"
-          ng-change="onChange(entry, $index, $last)"
-          typeahead="skill for skill in searchSkills($viewValue)"
-          hc-typeahead-loader>
-      </div>
-
-      <div class="col-sm-4">
-        <select
-          name="level{{ $index }}"
-          class="form-control"
-          ng-disabled="loading"
-          ng-required="entry.skill"
-          ng-model="entry.level"
-          ng-change="recheck()"
-          ng-options="level as $root.translate(level) for level in levels">
-          <option value="" translate>Select Level...</option>
-        </select>
-      </div>
-
-      <div class="col-sm-1">
-        <span class="close"
-          ng-if="entry.skill"
-          ng-click="remove($index)">
-          <i class="fa fa-close"></i>
-        </span>
-      </div>
-
-      <!-- TODO: This doesn't work yet -->
-      <div class="form-error" ng-show="
-          formSkills['skill' + $index].$dirty &&
-          formSkills['skill' + $index].$invalid">
-          <span ng-show="formSkills['skill' + $index].$error.required" translate>
-            Please select the skill level.
-          </span>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label translate>List other skills</label>
-    <hc-label-typeahead
-      placeholder="{{ 'Type a skill and press enter after each one...' | translate }}"
-      ng-disabled="loading"
-      ng-model="skills"
-      hc-source="searchSkills($viewValue)"
-      hc-allow-new>
-    </hc-label-typeahead>
-  </div>
-
-  <div class="buttons-wrap">
-    <button type="submit" ng-disabled="loading || !isValid" translate>Save</button>
-    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
-  </div>
-
-  <div class="clearfix"></div>
-</form>
+</div>

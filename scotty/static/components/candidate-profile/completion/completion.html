@@ -11,18 +11,26 @@
 
 <div class="col-sm-9">
   <section class="completion-target-section" ng-if="step === 'target_position'">
-    <div hc-candidate-completion-target model="model" on-submit="onSubmit()"></div>
+    <div hc-candidate-completion-target model="model"></div>
   </section>
 
   <section class="completion-location-section" ng-if="step === 'preferred_location'">
-    <div hc-completion-location model="model" on-submit="onSubmit()"></div>
+    <div hc-completion-location model="model"></div>
   </section>
 
   <section class="completion-experience-section" ng-if="step === 'work_experience'">
-    <div hc-completion-experience model="model" on-submit="onSubmit()"></div>
+    <div hc-completion-experience model="model"></div>
   </section>
 
   <section class="completion-education-section" ng-if="step === 'education'">
-    <div hc-completion-education model="model" on-submit="onSubmit()"></div>
+    <div hc-completion-education model="model"></div>
+  </section>
+
+  <section class="completion-skills-section" ng-if="step === 'skills'">
+    <div hc-completion-skills model="model"></div>
+  </section>
+
+  <section class="completion-languages-section" ng-if="step === 'languages'">
+    <div hc-completion-languages model="model"></div>
   </section>
 </div>
