@@ -3,8 +3,6 @@ define(function(require) {
   require('session');
   require('../common/permission');
   var angular = require('angular');
-  var _ = require('underscore');
-  var profileState = require('components/candidate-profile/candidate-profile');
   var conf = require('conf');
   var module = require('app-module');
   require('../common/basic-conf')(module);
@@ -29,8 +27,8 @@ define(function(require) {
 
     $stateProvider
       .state('dashboard', require('components/candidate-dashboard/candidate-dashboard'))
-      .state('signup-complete', _.extend({}, profileState, { url: '/signup-complete/' }))
-      .state('profile', profileState)
+      .state('signup-complete', require('components/candidate-thanks/candidate-thanks'))
+      .state('profile', require('components/candidate-profile/candidate-profile'))
       .state('activate', require('components/candidate-activate/candidate-activate'))
       .state('reset-password', require('components/shared-reset-password/shared-reset-password'))
       .state('employer', require('components/candidate-employer-profile/candidate-employer-profile'))
