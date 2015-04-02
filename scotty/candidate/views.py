@@ -20,6 +20,7 @@ from scotty.models.meta import DBSession, GUID
 from scotty.candidate.models import Candidate, Education, WorkExperience, WXPCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
     CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure
+from scotty.candidate.completion_ratio import completion_ratio
 from scotty.models.tools import update
 from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
@@ -172,7 +173,14 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.candidate
         workflow = {
-            'ordering': ['target_position', 'preferred_location', 'work_experience', 'education', 'skills', 'languages', 'profile'],
+            'completion': completion_ratio(candidate),
+            'ordering': ['target_position',
+                         'preferred_location',
+                         'work_experience',
+                         'education',
+                         'skills',
+                         'languages',
+                         'profile'],
             'profile': candidate.dob is not None,
             'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
             'target_position': candidate.target_position is not None,
