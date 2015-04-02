@@ -16,7 +16,7 @@ define(function(require) {
         model: '=',
         onSave: '&',
       },
-      link: function(scope) {
+      link: function(scope, elem) {
         levels.then(fn.setTo('levels', scope));
         _.extend(scope, {
           searchSkills: searchSkills,
@@ -60,6 +60,12 @@ define(function(require) {
           scope.isValid = scope.data.length >= 3 && scope.data.every(function(entry) {
             return typeof entry.level === 'string';
           });
+
+          var button = elem[0].querySelector('button[type=submit]');
+          if (scope.isValid)
+            button.removeAttribute('disabled');
+          else
+            button.setAttribute('disabled', 'disabled');
 
           if (scope.data.length > 2)
             scope.data.push({});

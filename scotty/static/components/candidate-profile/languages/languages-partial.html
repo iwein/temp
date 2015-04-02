@@ -1,6 +1,4 @@
 <form ng-submit="save(data)" hc-validations-on-submit>
-  <div ng-transclude></div>
-
   <div class="form-group">
     <label translate>Languages</label>
 
@@ -33,10 +31,6 @@
     </div>
   </div>
 
-  <div class="buttons-wrap">
-    <button type="submit" ng-disabled="loading" translate>Save</button>
-    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
-  </div>
-
+  <div ng-transclude></div>
   <div class="clearfix"></div>
 </form>

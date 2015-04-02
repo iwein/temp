@@ -14,6 +14,7 @@ define(function(require) {
     });
 
     return {
+      transclude: true,
       template: require('text!./languages-partial.html'),
       scope: {
         model: '=',

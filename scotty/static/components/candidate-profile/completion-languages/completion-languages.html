@@ -1,1 +1,6 @@
-<div hc-languages-partial model="model" on-save="saved()"></div>
+<div hc-languages-partial model="model" on-save="saved()">
+  <div class="buttons-wrap">
+    <button type="submit" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+  </div>
+</div>
