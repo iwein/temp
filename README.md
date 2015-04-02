@@ -28,7 +28,7 @@ Password: Helloworld123
 * copy a local.ini config file with proper Postgres Connection Strings, <code>sqlalchemy.url</code>
   * note this is mentioned twice in the config file
 * run <code>alembic -c [CONFIG] upgrade head</code>
-* start the server with <code>paste serve --reload configs/[CONFIG]</code>
+* start the server with <code>paster serve --reload configs/[CONFIG]</code>
 * open a browser on [http://localhost:8080](http://localhost:8080)
 
 ### Pulling Code and Upgrading API

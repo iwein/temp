@@ -1,0 +1,11 @@
+<div class="box-title" translate>Expectation</div>
+
+<div ng-if="data.salary">
+  <span class="icon-parent"><i class="fa fa-euro orange"></i></span>
+  {{ data.salary | dottedInteger }}
+</div>
+
+<div ng-if="data.locations">
+  <span class="icon-parent"><i class="fa fa-location-arrow orange"></i></span>
+  <hc-preferred-location candidate="model"></hc-preferred-location>
+</div>

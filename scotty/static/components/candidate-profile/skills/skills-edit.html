@@ -1,0 +1,20 @@
+<button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
+  <i class="fa fa-pencil"></i>
+</button>
+<a class="add-now"
+  ng-if="!profile.isFormOpen"
+  ng-click="edit()"
+  translate>
+  Add skills
+</a>
+
+<div hc-skills-partial model="model" on-save="close()" ng-if="editing">
+  <button class="close-button" ng-click="close()">
+    <i class="fa fa-close"></i>
+  </button>
+
+  <div class="buttons-wrap">
+    <button type="submit" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
+  </div>
+</div>

@@ -7,7 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from scotty.auth.provider import ADMIN_PERM
 from scotty.candidate.schemata import PreSignupRequest, SignupRequest, WorkExperienceRequest, \
-    ListWorkExperienceRequest, EducationRequest, ListEducationRequest, PreferredLocationRequest
+    ListWorkExperienceRequest, EducationRequest, ListEducationRequest, PreferredLocationRequest, TargetPositionSchema
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     set_candidate_education, get_candidate_newsfeed, \
@@ -20,6 +20,7 @@ from scotty.models.meta import DBSession, GUID
 from scotty.candidate.models import Candidate, Education, WorkExperience, WXPCandidate, CandidateOffer, \
     CandidateBookmarkEmployer, CandidateEmployerBlacklist, CandidateStatus, PreferredLocation, TargetPosition, \
     CandidateSkill, V_CANDIDATE_CURRENT_EMPLOYERS, locations_to_structure
+from scotty.candidate.completion_ratio import completion_ratio
 from scotty.models.tools import update
 from scotty.configuration.models import RejectionReason, Skill, City, Role
 from scotty.employer.models import Employer
@@ -172,17 +173,28 @@ class CandidateController(RootController):
     def signup_stage(self):
         candidate = self.candidate
         workflow = {
-            'ordering': ['target_position', 'work_experience', 'education', 'skills', 'languages', 'profile'],
-            'profile': candidate.dob is not None,
+            'completion': completion_ratio(candidate),
+            'ordering': ['target_position',
+                         'preferred_location',
+                         'work_experience',
+                         'education',
+                         'skills',
+                         'languages',
+                         'dob',
+                         'location'],
+            'location': candidate.location is not None,
+            'dob': candidate.dob is not None,
             'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
             'target_position': candidate.target_position is not None,
+            'preferred_location': bool(candidate.preferred_location),
             'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
         return workflow
 
     @view_config(route_name='candidate_profile_completion', **GET)
     def profile_completion(self):
         candidate = self.candidate
-        workflow = {'active': candidate.activated is not None, 'ordering': ['summary', 'availability'],
+        workflow = {'active': candidate.activated is not None,
+                    'ordering': ['target_position', 'social_connect'],
                     'summary': bool(candidate.summary), 'availability': bool(candidate.availability)}
         return workflow
 
@@ -404,21 +416,19 @@ class CandidateTargetPositionController(CandidateController):
     def get(self):
         return self.candidate.target_position
 
-    @view_config(route_name='candidate', **POST)
-    def create(self):
-        candidate = self.candidate
-        params = PreSignupRequest().deserialize(self.request.json)
-        target = params['target_position']
-        tp = TargetPosition(candidate_id=candidate.id, minimum_salary=target['minimum_salary'], role=target['role'],
-                            skills=target['skills'])
-        DBSession.add(tp)
-        pl = set_preferred_locations(candidate.id, params['preferred_locations'])
-        return {'id': tp.candidate_id, 'target_position': tp, 'preferred_locations': locations_to_structure(pl)}
-
-    @view_config(route_name='target_position', **POST)
+    @view_config(route_name='target_position', **PUT)
     def edit(self):
         candidate = self.candidate
-        return update(candidate.target_position, self.request.json, TP_EDITABLES)
+        params = TargetPositionSchema().deserialize(self.request.json)
+        if not candidate.target_position:
+            tp = TargetPosition(candidate_id=candidate.id, **params)
+            DBSession.add(tp)
+            DBSession.flush()
+        else:
+            tp = candidate.target_position
+            for k, v in params.items():
+                setattr(tp, k, v)
+        return tp
 
 
 class CandidateBookmarkController(CandidateController):

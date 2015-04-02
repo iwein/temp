@@ -3,10 +3,8 @@ define(function(require) {
   require('session');
   require('../common/permission');
   var angular = require('angular');
-  var _ = require('underscore');
-  var profileState = require('components/candidate-profile/candidate-profile');
-  var module = require('app-module');
   var conf = require('conf');
+  var module = require('app-module');
   require('../common/basic-conf')(module);
 
   module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
@@ -29,22 +27,14 @@ define(function(require) {
 
     $stateProvider
       .state('dashboard', require('components/candidate-dashboard/candidate-dashboard'))
-      .state('signup-complete', _.extend({}, profileState, { url: '/signup-complete/' }))
-      .state('profile', profileState)
+      .state('signup-complete', require('components/candidate-thanks/candidate-thanks'))
+      .state('profile', require('components/candidate-profile/candidate-profile'))
       .state('activate', require('components/candidate-activate/candidate-activate'))
       .state('reset-password', require('components/shared-reset-password/shared-reset-password'))
       .state('employer', require('components/candidate-employer-profile/candidate-employer-profile'))
       .state('offer-list', require('components/candidate-offer-list/candidate-offer-list'))
       .state('offer', require('components/candidate-offer/candidate-offer'))
       .state('signup', require('components/candidate-signup/candidate-signup'))
-      .state('signup.target', require('components/candidate-signup-target/candidate-signup-target'))
-      .state('signup.user', require('components/candidate-signup-user/candidate-signup-user'))
-      .state('signup.experience', require('components/candidate-signup-experience/candidate-signup-experience'))
-      .state('signup.skills', require('components/candidate-signup-skills/candidate-signup-skills'))
-      .state('signup.education', require('components/candidate-signup-education/candidate-signup-education'))
-      .state('signup.languages', require('components/candidate-signup-languages/candidate-signup-languages'))
-      .state('signup.profile', require('components/candidate-signup-profile/candidate-signup-profile'))
-      .state('signup.approve', require('components/candidate-signup-approve/candidate-signup-approve'))
     ;
   });
 

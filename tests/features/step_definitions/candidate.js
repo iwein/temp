@@ -30,18 +30,6 @@ stepDefinitions(function(scenario) {
       var id = response.id;
       vars.candidate_id = id;
       console.log('Created candidate:', id);
-
-      return AJAX.post('/candidates/' + id, {
-        target_position: {
-          'role': 'System Administration',
-          'skills': ['Python', 'PHP'],
-          'minimum_salary': 40000
-        },
-        preferred_locations: {
-          'DE': ['Berlin','Leipzig','Hamburg'],
-          'BR': ['Uberlândia']
-        }
-      });
     });
   }
 
@@ -57,7 +45,7 @@ stepDefinitions(function(scenario) {
   scenario.Given(/^I create a complete candidate$/, function() {
     var vars = this.vars;
     return scenario.step(/^I post a new candidate$/).then(function() {
-      return AJAX.post('/candidates/me/target_position', {
+      return AJAX.put('/candidates/me/target_position', {
         'role': 'System Administration',
         'skills': ['Python', 'PHP'],
         'minimum_salary': 40000

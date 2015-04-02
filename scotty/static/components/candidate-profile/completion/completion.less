@@ -1,0 +1,86 @@
+@import "../../element-connectors-buttons/element-connectors-buttons.less";
+@import "../completion-birthdate/completion-birthdate.less";
+@import "../completion-graph/completion-graph.less";
+@import "../completion-languages/completion-languages.less";
+@import "../completion-skills/completion-skills.less";
+
+hc-candidate-completion,
+[hc-candidate-completion] {
+  .row();
+
+  section {
+    .row();
+    color: @white;
+    background: #0a3d54;
+    padding: @generic-padding;
+
+    .close-button {
+      position: absolute;
+      right: @generic-padding;
+      top: 10px;
+    }
+
+    h3 {
+      font-size: 2em;
+      margin-top: 0;
+    }
+
+    h4 {
+      font-size: 1em;
+      margin-bottom: @generic-padding * 2;
+    }
+
+    .form-signup {
+      padding-top: 0;
+    }
+
+    form {
+      display: block;
+    }
+
+    .form-group .question-title {
+      color: #e37334;
+    }
+
+    .form-group > label:nth-child(1) {
+      .question-title();
+      color: #e37334;
+      float: none;
+    }
+  }
+
+  .profile-completion {
+    background-color: white;
+    padding-bottom: @generic-padding;
+  }
+
+  hc-connectors-buttons {
+    margin-top: @generic-padding;
+  }
+
+  [hc-completion-graph] {
+    margin: 30px 5px 5px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 20px;
+  }
+
+  .completion-experience-section,
+  .completion-education-section {
+    form {
+      label {
+        color: white !important;
+      }
+
+      label.col-sm-3,
+      .col-sm-3 > label {
+        color: #e37334 !important;
+      }
+    }
+  }
+
+  .buttons-wrap > button {
+    float: left !important;
+    margin-left: 0 !important;
+    margin-right: 15px;
+  }
+}

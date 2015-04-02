@@ -5,11 +5,9 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
     {url:'/api/v1/candidates/', title: 'candidate-email-signup', ignoreResult: ignoreResult,
       data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd", agreedTos: true},
       extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
-    {url: '/api/v1/candidates/me', title: 'signup-target_position',
-      data: {
-        'target_position': {"role":"Quality Assurance", "skills": ["Python", "PHP"], minimum_salary: 40000},
-        'preferred_locations': {DE: ['Berlin']}
-      }},
+    {url: '/api/v1/candidates/me/target_position', title: 'signup-target_position', method:"PUT",
+      data: {"role":"Quality Assurance", "skills": ["Python", "PHP"], minimum_salary: 40000}
+    },
 
     {url:function(r, extr){ return '/api/v1/candidates/activate/'+extr.actToken;}, ignoreResult:ignoreResult, title: 'candidate-activation'},
     {url: function(r, extr){return '/api/v1/candidates/login'}, title: 'candidate-login', ignoreResult:ignoreResult,
@@ -21,7 +19,7 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
 
 var CANDIDATE_COMPLETE_PROFILE = function(email, ignoreResult) {
   return [
-    {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'EDIT-target_position',
+    {url: function(r, extr){return '/api/v1/candidates/me/target_position'}, title: 'EDIT-target_position', method:"PUT",
       data: {"company_types": ["startup", "top500"],
         "role":"Quality Assurance",
         'skills': ["Python", "PHP"], relocate: false,

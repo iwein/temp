@@ -1,0 +1,39 @@
+<button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
+  <i class="fa fa-pencil"></i>
+</button>
+<a class="add-now"
+  ng-if="!profile.isFormOpen"
+  ng-click="edit()"
+  translate>
+  Add visa information
+</a>
+
+<form name="form" ng-submit="save(data)" hc-validations-on-submit>
+  <button class="close-button" ng-click="close()">
+    <i class="fa fa-close"></i>
+  </button>
+
+  <div class="form-group">
+    <label translate>Birthday</label>
+    <div hc-birthdate-partial model="data.dob"></div>
+  </div>
+
+  <div class="form-group">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          name="eu_work_visa"
+          ng-disabled="loading"
+          ng-model="data.eu_work_visa">
+        <translate>Yes, I've got a work visa for EU</translate>
+      </label>
+    </div>
+  </div>
+
+  <div class="buttons-wrap">
+    <button type="submit" ng-disabled="loading" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
+  </div>
+
+  <div class="clearfix"></div>
+</form>

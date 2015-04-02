@@ -32,6 +32,18 @@ define(function(require) {
     console.info('RAYGUN REPORTED:', exception.message, exception);
   }
 
+
+  Promise.prototype.finally = function(fn) {
+    return this.then(function(value) {
+      fn();
+      return value;
+    }, function(error) {
+      fn();
+      throw error;
+    });
+  };
+
+
   return function basicConf(module) {
     module.config(function($provide, $locationProvider, $httpProvider, LightboxProvider, cfpLoadingBarProvider) {
       $locationProvider.html5Mode(true);

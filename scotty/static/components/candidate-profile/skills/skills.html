@@ -1,0 +1,32 @@
+<div class="row" ng-if="ready">
+  <div class="col-sm-4">
+    <div class="big-title" translate>SKILLS</div>
+    <div class="caption">
+      <div>
+        <translate>expert</translate>
+        <hc-stars hc-value="expert" hc-values="starValues"></hc-stars>
+      </div>
+      <div>
+        <translate>advanced</translate>
+        <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars>
+      </div>
+      <div>
+        <translate>basic</translate>
+        <hc-stars hc-value="basic" hc-values="starValues"></hc-stars>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <div class="row skills-wrap">
+      <div class="col-sm-4" ng-repeat="entry in leveledSkills">
+        <div class="skills-item" title="{{ entry.skill }}">
+          <span>{{ entry.skill }}</span>
+          <hc-stars ng-model="entry.level" hc-values="starValues"></hc-stars>
+        </div>
+      </div>
+      <div class="col-sm-12 skills-others" ng-show="unleveledSkills">
+        <span class="smbd"><translate>Others</translate>:</span> {{ unleveledSkills }}
+      </div>
+    </div>
+  </div>
+</div>

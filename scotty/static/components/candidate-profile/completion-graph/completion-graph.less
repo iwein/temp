@@ -1,0 +1,38 @@
+hc-completion-graph,
+[hc-completion-graph] {
+  @size: 130px;
+  @border: 11px;
+  position: relative;
+
+  .circle {
+    border: @border solid #a5a5a5;
+    border-radius: @size / 2;
+    height: @size;
+    width: @size;
+    position: relative;
+    z-index: 1;
+  }
+
+  .indicator-container {
+    position: absolute;
+    top: @border;
+    right: 0;
+    width: 75%;
+    height: @size - (@border * 2);
+  }
+
+  .indicator {
+    position: relative;
+    border-bottom: 1px solid black;
+  }
+
+  .indicator-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    max-width: 50%;
+    text-align: right;
+  }
+}

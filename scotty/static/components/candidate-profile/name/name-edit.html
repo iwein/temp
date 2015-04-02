@@ -1,0 +1,40 @@
+<button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
+  <i class="fa fa-pencil"></i>
+</button>
+
+<form name="form" ng-submit="save(data)" hc-validations-on-submit>
+  <button class="close-button" ng-click="close()">
+    <i class="fa fa-close"></i>
+  </button>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label translate>First name</label>
+        <input type="text" name="first_name" class="form-control" required ng-model="data.first_name">
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label translate>Last name</label>
+        <input type="text" name="last_name" class="form-control" required ng-model="data.last_name">
+      </div>
+    </div>
+
+    <div class="validation-errors" ng-show="form.first_name.$dirty">
+      <div ng-show="form.first_name.$error.required" translate>Please insert your first name.</div>
+    </div>
+
+    <div class="validation-errors" ng-show="form.last_name.$dirty">
+      <div ng-show="form.last_name.$error.required" translate>Please insert your last name.</div>
+    </div>
+  </div>
+
+  <div class="buttons-wrap">
+    <button type="submit" ng-disabled="loading" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
+  </div>
+
+  <div class="clearfix"></div>
+</form>

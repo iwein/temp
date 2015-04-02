@@ -1,0 +1,13 @@
+<button class="close-button" ng-click="close()">
+  <i class="fa fa-close"></i>
+</button>
+
+<h3>What languages you know?</h3>
+<h4>Choose the languages you speak and the level you have with it.</h4>
+
+<div hc-languages-partial model="model" on-save="saved()">
+  <div class="buttons-wrap">
+    <button type="submit" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+  </div>
+</div>

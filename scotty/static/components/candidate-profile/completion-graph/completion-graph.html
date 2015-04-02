@@ -1,0 +1,13 @@
+<div class="circle" style="
+  background: -webkit-{{bgFormula}};
+  background: -moz-{{bgFormula}};
+  background: -ms-{{bgFormula}};
+  background: -o-{{bgFormula}};
+  background: {{bgFormula}};
+">
+</div>
+<div class="indicator-container">
+  <div class="indicator" ng-style="{ height: (100 - percent) + '%' }">
+    <div class="indicator-text">{{ message }}</div>
+  </div>
+</div>
