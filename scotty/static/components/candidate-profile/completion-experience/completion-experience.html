@@ -1,15 +1,15 @@
-<div class="form-group">
-  <label>Where are you working now?</label>
-  <hc-experience-form
-    hc-container="formContainer"
-    name="form"
-    hc-required="true"
-    hc-disabled="loading"
-    on-submit="save($model, $form)">
+<h3>Where are you working now?</h3>
+<h4>Insert your current workplace or the last position you were working at.</h4>
 
-    <div class="buttons-wrap">
-      <button type="submit" ng-disabled="loading" translate>Save</button>
-      <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
-    </div>
-  </hc-experience-form>
-</div>
+<hc-experience-form
+  hc-container="formContainer"
+  name="form"
+  hc-required="true"
+  hc-disabled="loading"
+  on-submit="save($model, $form)">
+
+  <div class="buttons-wrap">
+    <button type="submit" ng-disabled="loading" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+  </div>
+</hc-experience-form>

@@ -25,7 +25,7 @@ define(function(require) {
 
         function edit() {
           scope.editing = true;
-          return profile.openForm('skills');
+          return profile.openForm('languages');
         }
       }
     };
