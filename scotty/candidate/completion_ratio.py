@@ -86,9 +86,9 @@ def completion_skills(candidate):
 def completion_languages(candidate):
     langs = candidate.languages
     ratio = 0
-    if [l for l in langs if lang.name == 'German']:
+    if [l for l in langs if l.name == 'German']:
         ratio += 5
-    if [l for l in langs if lang.name == 'German']:
+    if [l for l in langs if l.name == 'German']:
         ratio += 5
     return ratio
 
