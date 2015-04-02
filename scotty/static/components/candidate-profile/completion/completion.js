@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('components/element-connectors-buttons/element-connectors-buttons');
   require('../completion-birthdate/completion-birthdate');
   require('../completion-city/completion-city');
   require('../completion-experience/completion-experience');
