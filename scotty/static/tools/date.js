@@ -25,6 +25,18 @@ define(function() {
     return new Date(value.replace(/-/g, '/'));
   }
 
+  function toUtcDate(date) {
+    var copy = new Date(+date);
+    var offset = copy.getTimezoneOffset() / 60;
+    copy.setHours(-offset);
+    return copy;
+  }
+
+  function toStringDate(date) {
+    if (!date) return '';
+    return date.toISOString().split('T')[0];
+  }
+
   function timestamp() {
     return Date.now();
   }
@@ -38,6 +50,8 @@ define(function() {
     now: now,
     epoch: epoch,
     parse: parse,
+    toUtcDate: toUtcDate,
+    toStringDate: toStringDate,
     timestamp: timestamp,
     fromTimestamp: fromTimestamp,
   };

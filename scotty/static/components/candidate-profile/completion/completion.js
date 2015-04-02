@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('../completion-birthdate/completion-birthdate');
   require('../completion-experience/completion-experience');
   require('../completion-education/completion-education');
   require('../completion-languages/completion-languages');

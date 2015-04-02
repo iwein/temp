@@ -10,7 +10,7 @@ define(function() {
   function get(candidate) {
     var data = candidate.getDataCached();
     return {
-      dob: data && data.dob && Date.parse(data.dob),
+      dob: data && data.dob,
       eu_work_visa: data && data.eu_work_visa,
     };
   }
