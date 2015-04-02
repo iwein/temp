@@ -9,7 +9,7 @@ define(function(require) {
       require: '^hcCandidateCompletion',
       scope: { model: '=' },
       link: function(scope) {
-        var bgColor = '#696969';
+        var bgColor = 'white';
 
         i18n.onChange(translate);
         scope.$watch('model.$revision', function() {
