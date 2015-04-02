@@ -84,23 +84,47 @@ def completion_skills(candidate):
 
 
 def completion_languages(candidate):
-    return 0
+    langs = candidate.languages
+    ratio = 0
+    if [l for l in langs if lang.name == 'German']:
+        ratio += 5
+    if [l for l in langs if lang.name == 'German']:
+        ratio += 5
+    return ratio
 
 
 def completion_extended_profile(candidate):
-    return 0
+    ratio = 0
+    if candidate.dob:
+        ratio += .3
+    if candidate.location_id:
+        ratio += .2
+    if candidate.picture_url:
+        ratio += .2
+    if candidate.contact_phone:
+        ratio += .1
+    if candidate.github_url:
+        ratio += .05
+    if candidate.stackoverflow_url:
+        ratio += .05
+    if candidate.blog_url:
+        ratio += .05
+    if candidate.contact_skype:
+        ratio += .05
+    return ratio
 
 
 COMPLETION_CALCULATOR = [
     {'percentage': .10, 'determinant': completion_base_profile},
     {'percentage': .10, 'determinant': completion_target_position},
     {'percentage': .05, 'determinant': completion_preferred_location},
-    {'percentage': .15, 'determinant': completion_work_experience},
-    {'percentage': .15, 'determinant': completion_education},
-    {'percentage': .15, 'determinant': completion_skills},
-    {'percentage': .15, 'determinant': completion_languages},
-    {'percentage': .15, 'determinant': completion_extended_profile}
+    {'percentage': .2, 'determinant': completion_work_experience},
+    {'percentage': .1, 'determinant': completion_education},
+    {'percentage': .1, 'determinant': completion_skills},
+    {'percentage': .1, 'determinant': completion_languages},
+    {'percentage': .25, 'determinant': completion_extended_profile}
 ]
+
 
 assert sum([x['percentage'] for x in COMPLETION_CALCULATOR]) == 1
 
@@ -130,25 +154,25 @@ def completion_ratio(candidate):
     >>> basec = completion_ratio(c)
     >>> c.work_experience = [WorkExperience(company_id=1)]
     >>> completion_ratio(c) - basec
-    0.06
+    0.08000000000000002
 
     >>> c.work_experience[0].role_id = 1
     >>> c.work_experience[0].summary = 'summary'
     >>> c.work_experience[0].start = datetime.now()
     >>> completion_ratio(c) - basec
-    0.14999999999999997
+    0.2
 
     >>> basec = completion_ratio(c)
     >>> c.education = [Education(institution_id=1)]
     >>> completion_ratio(c) - basec
-    0.06
+    0.040000000000000036
 
     >>> c.education[0].course_id = 2
     >>> c.education[0].start = datetime.now()
     >>> c.education[0].end = datetime.now()
     >>> c.education[0].degree_id = 20
     >>> completion_ratio(c) - basec
-    0.15000000000000002
+    0.09999999999999998
 
     >>> c.skills = []
     >>> basec = completion_ratio(c)
