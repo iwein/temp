@@ -16,6 +16,8 @@ define(function(require) {
   }
 
   function set(candidate, model) {
+    if ('location' in model && !model.location)
+      model = _.omit(model, 'location');
     return candidate.updateData(model);
   }
 });
