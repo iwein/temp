@@ -114,6 +114,10 @@ def completion_extended_profile(candidate):
     return ratio
 
 
+def completion_availability(candidate):
+    return 1 if candidate.availability else 0
+
+
 COMPLETION_CALCULATOR = [
     {'percentage': .10, 'determinant': completion_base_profile},
     {'percentage': .10, 'determinant': completion_target_position},
@@ -122,7 +126,8 @@ COMPLETION_CALCULATOR = [
     {'percentage': .1, 'determinant': completion_education},
     {'percentage': .1, 'determinant': completion_skills},
     {'percentage': .1, 'determinant': completion_languages},
-    {'percentage': .25, 'determinant': completion_extended_profile}
+    {'percentage': .20, 'determinant': completion_extended_profile},
+    {'percentage': .05, 'determinant': completion_availability}
 ]
 
 
