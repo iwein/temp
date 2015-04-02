@@ -17,8 +17,16 @@ define(function(require) {
       template: require('text!./completion.html'),
       scope: { model: '=', },
       controller: function($scope) {
+        // For some reason JSHint complains if I move this function to the end
+        function close() {
+          $scope.close = true;
+          update();
+        }
+
+
         _.extend(this, {
           refresh: refresh,
+          close: close,
           skip: skip,
         });
 
@@ -40,6 +48,8 @@ define(function(require) {
         }
 
         function getNextStep(stage) {
+          if ($scope.close) return null;
+
           var order = stage.ordering.slice();
           return order.reverse().reduce(function(result, step) {
             if (ignore.indexOf(step) !== -1) return result;

@@ -13,6 +13,7 @@ define(function(require) {
       link: function(scope, elem, attr, ctrl) {
         _.extend(scope, {
           saved: ctrl.refresh,
+          close: ctrl.close,
           skip: ctrl.skip,
           data: {},
         });

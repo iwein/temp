@@ -1,4 +1,4 @@
-<div class="profile-completion col-sm-3">
+<div class="profile-completion col-sm-3" ng-if="!close">
   <h3>Profile Strength</h3>
   <div class="completion-graph">
 
@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div class="col-sm-9">
+<div class="col-sm-9" ng-if="!close">
   <section class="completion-target-section" ng-if="step === 'target_position'">
     <div hc-candidate-completion-target model="model"></div>
   </section>

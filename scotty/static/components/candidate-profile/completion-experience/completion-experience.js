@@ -12,6 +12,7 @@ define(function(require) {
       scope: { model: '=' },
       link: function(scope, elem, attr, ctrl) {
         _.extend(scope, {
+          close: ctrl.close,
           skip: ctrl.skip,
           save: save,
           data: {},

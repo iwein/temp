@@ -19,6 +19,7 @@ define(function(require) {
           data: scope.model.getTargetPositionCached(),
           onFeaturedSkillChange: onFeaturedSkillChange,
           searchSkills: ConfigAPI.skills,
+          close: ctrl.close,
           skip: ctrl.skip,
           save: save,
         });
