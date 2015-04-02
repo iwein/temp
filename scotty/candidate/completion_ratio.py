@@ -1,5 +1,6 @@
 def completion_base_profile(candidate):
     return 1 if candidate and candidate.email else 0
+from decimal import Decimal, ROUND_DOWN
 
 
 def completion_target_position(candidate):
@@ -26,8 +27,6 @@ def completion_work_experience(candidate):
         return 0
     ratio = 0  # when there is something
 
-    #everything has role and company
-
     company = True
     title = True
     summary = True
@@ -48,11 +47,39 @@ def completion_work_experience(candidate):
         ratio += .2
     return ratio
 
+
 def completion_education(candidate):
-    return 0
+    edu_list = candidate.education
+    if not edu_list:
+        return 0
+    ratio = 0  # when there is something
+
+    institute = True
+    subject = True
+    dates = True
+    degree = True
+    for edu in edu_list:
+        institute = institute and bool(edu.institution_id)
+        subject = subject and bool(edu.course_id)
+        dates = dates and bool(edu.start and edu.end)
+        degree = degree and bool(edu.degree_id)
+
+    if institute:
+        ratio += .4
+    if subject:
+        ratio += .2
+    if dates:
+        ratio += .2
+    if degree:
+        ratio += .2
+    return ratio
 
 
 def completion_skills(candidate):
+    skills = candidate.skills
+    ratio = .5 if len(skills) >= 3 else len(skills) / 10
+    if len([s for s in skills if s.level_id]) >= 3:
+        ratio += .5
     return 0
 
 
@@ -80,34 +107,51 @@ assert sum([x['percentage'] for x in COMPLETION_CALCULATOR]) == 1
 
 def completion_ratio(candidate):
     """
-    >>> from scotty.candidate.models import Candidate, TargetPosition, WorkExperience
+    >>> from scotty.candidate.models import Candidate, TargetPosition, WorkExperience, Education
     >>> from scotty.configuration.models import Skill
     >>> from datetime import datetime
     >>> c = Candidate(email = 'm@m.com')
     >>> completion_ratio(c)
     0.1
 
+    >>> basec = completion_ratio(c)
     >>> c.target_position = TargetPosition(skills = [Skill(name='skill1')])
-    >>> completion_ratio(c)
-    0.133
+    >>> completion_ratio(c) - basec
+    0.033
 
     >>> c.target_position.minimum_salary = 200
-    >>> completion_ratio(c)
-    0.166
+    >>> completion_ratio(c) - basec
+    0.066
 
     >>> c.target_position.role_id = 20
-    >>> completion_ratio(c)
-    0.2
+    >>> completion_ratio(c) - basec
+    0.1
 
+    >>> basec = completion_ratio(c)
     >>> c.work_experience = [WorkExperience(company_id=1)]
-    >>> completion_ratio(c)
-    0.26
+    >>> completion_ratio(c) - basec
+    0.06
 
     >>> c.work_experience[0].role_id = 1
     >>> c.work_experience[0].summary = 'summary'
     >>> c.work_experience[0].start = datetime.now()
-    >>> completion_ratio(c)
-    0.35
+    >>> completion_ratio(c) - basec
+    0.14999999999999997
+
+    >>> basec = completion_ratio(c)
+    >>> c.education = [Education(institution_id=1)]
+    >>> completion_ratio(c) - basec
+    0.06
+
+    >>> c.education[0].course_id = 2
+    >>> c.education[0].start = datetime.now()
+    >>> c.education[0].end = datetime.now()
+    >>> c.education[0].degree_id = 20
+    >>> completion_ratio(c) - basec
+    0.15000000000000002
+
+    >>> c.skills = []
+    >>> basec = completion_ratio(c)
 
     :param candidate:
     :return:
