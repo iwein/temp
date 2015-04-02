@@ -1,4 +1,5 @@
 @import "../completion-birthdate/completion-birthdate.less";
+@import "../completion-graph/completion-graph.less";
 @import "../completion-languages/completion-languages.less";
 @import "../completion-skills/completion-skills.less";
 
@@ -45,6 +46,16 @@ hc-candidate-completion,
       color: #e37334;
       float: none;
     }
+  }
+
+  .profile-completion {
+    background-color: white;
+  }
+
+  [hc-completion-graph] {
+    margin: 30px 5px 5px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 20px;
   }
 
   .completion-experience-section,

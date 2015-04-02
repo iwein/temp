@@ -3,8 +3,9 @@ define(function(require) {
   require('components/element-connectors-buttons/element-connectors-buttons');
   require('../completion-birthdate/completion-birthdate');
   require('../completion-city/completion-city');
-  require('../completion-experience/completion-experience');
   require('../completion-education/completion-education');
+  require('../completion-experience/completion-experience');
+  require('../completion-graph/completion-graph');
   require('../completion-languages/completion-languages');
   require('../completion-location/completion-location');
   require('../completion-skills/completion-skills');
