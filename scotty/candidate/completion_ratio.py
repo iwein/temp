@@ -86,10 +86,10 @@ def completion_skills(candidate):
 def completion_languages(candidate):
     langs = candidate.languages
     ratio = 0
-    if [l for l in langs if l.name == 'German']:
-        ratio += 5
-    if [l for l in langs if l.name == 'German']:
-        ratio += 5
+    if [l for l in langs if l.language and l.language.name == 'German']:
+        ratio += .5
+    if [l for l in langs if l.language and l.language.name == 'English']:
+        ratio += .5
     return ratio
 
 
@@ -131,8 +131,8 @@ assert sum([x['percentage'] for x in COMPLETION_CALCULATOR]) == 1
 
 def completion_ratio(candidate):
     """
-    >>> from scotty.candidate.models import Candidate, TargetPosition, WorkExperience, Education
-    >>> from scotty.configuration.models import Skill
+    >>> from scotty.candidate.models import Candidate, TargetPosition, WorkExperience, Education, CandidateLanguage
+    >>> from scotty.configuration.models import Skill, Language
     >>> from datetime import datetime
     >>> c = Candidate(email = 'm@m.com')
     >>> completion_ratio(c)
@@ -176,6 +176,12 @@ def completion_ratio(candidate):
 
     >>> c.skills = []
     >>> basec = completion_ratio(c)
+
+
+    >>> c.languages.append(CandidateLanguage(language = Language(name = 'English')))
+    >>> c.languages.append(CandidateLanguage(language = Language(name = 'German')))
+    >>> completion_ratio(c) - basec
+    0.09999999999999998
 
     :param candidate:
     :return:
