@@ -34,6 +34,9 @@ define(function(require) {
       document.title = '4Scotty – ' + fullName;
       window.Raygun.setUser(response.id, false, response.email);
 
+      if (window.ga)
+        window.ga('set', { userId: response.id });
+
       if (window.UserVoice && response.email) {
         window.UserVoice.push(['identify', {
           email: response.email,
