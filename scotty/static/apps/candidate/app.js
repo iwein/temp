@@ -49,6 +49,10 @@ define(function(require) {
       });
     };
 
+    $rootScope.$on('$stateChangeSuccess', function(event, state) {
+      $rootScope.currentState = state;
+    });
+
     var location = $window.location.pathname;
     $analytics.settings.pageTracking.basePath = location.substr(0, location.length - $location.url().length);
   });
