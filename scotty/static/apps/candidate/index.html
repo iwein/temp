@@ -44,7 +44,8 @@
 <div class="spinner-container" ng-show="showSpinner">
   <div class="spinner"></div>
 </div>
-<div class="page-wrap">
+
+<div class="page-wrap {{ currentState.name }}">
   <ng-include src="'navbar.html'"></ng-include>
 
   <div id="content">
