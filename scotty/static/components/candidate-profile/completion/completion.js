@@ -14,7 +14,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateCompletion', function() {
+  module.directive('hcCandidateCompletion', function(Session) {
     var ignore = [];
 
     return {
@@ -45,6 +45,7 @@ define(function(require) {
         function update() {
           var stage = $scope.model.getSignupStageCached();
           $scope.step = getNextStep(stage);
+          importSocial();
         }
 
         function refresh() {
@@ -59,6 +60,42 @@ define(function(require) {
             if (ignore.indexOf(step) !== -1) return result;
             return stage[step] === false ? step : result;
           }, null);
+        }
+
+        var importing = false;
+        function importSocial() {
+          if (importing) return;
+
+          var connectors = Session.getConnectors();
+          var candidate = $scope.model;
+          var experience = candidate.getExperienceCached();
+          var education = candidate.getEducationCached();
+          var hasExperience = experience && experience.length;
+          var hasEducation = education && education.length;
+          var promises = [];
+
+          if (!hasExperience) {
+            promises.push(connectors.getExperience().then(function(list) {
+              return list && list.length && candidate.setExperience(list).then(function() {
+                hasExperience = true;
+                return candidate.getExperience();
+              });
+            }));
+          }
+
+          if (!hasEducation) {
+            promises.push(connectors.getEducation().then(function(list) {
+              return list && list.length && candidate.setEducation(list).then(function() {
+                hasEducation = true;
+                return candidate.getEducation();
+              });
+            }));
+          }
+
+          importing = true;
+          Promise.all(promises).then(function() {
+            importing = false;
+          });
         }
       }
     };
