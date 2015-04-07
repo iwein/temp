@@ -124,20 +124,15 @@ def add_last_activity_updater(event):
     """
     Update last activity, i.e. endpoint called
     """
-    def update(entity):
-        def inner_update(request):
-            entity.last_active = datetime.now()
-        return inner_update
-
     request = event['request']
     if request and request.candidate_id:
         c = DBSession.query(Candidate).get(request.candidate_id)
         if c:
-            request.add_finished_callback(update(c))
+            c.last_active = datetime.now()
     if request and request.employer_id:
         e = DBSession.query(Employer).get(request.employer_id)
         if e:
-            request.add_finished_callback(update(e))
+            e.last_active = datetime.now()
 
 
 def includeme(config):
