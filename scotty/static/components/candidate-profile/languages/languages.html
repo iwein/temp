@@ -1,0 +1,6 @@
+<div class="box-title" translate>Languages</div>
+
+<div ng-repeat="entry in data">
+  {{ entry.language }}:
+  <span class="smbd">{{ entry.proficiency | translate }}</span>
+</div>

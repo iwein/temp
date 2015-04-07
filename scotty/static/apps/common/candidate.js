@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var promiseHelper = require('tools/promise-helper');
   var Offer = require('./offer');
   var levels = {
     'null': 0,
@@ -28,12 +29,24 @@ define(function(require) {
 
 
   function Candidate(api, id, data, sufix) {
-    this.id = data ? data.id : null;
     this.key = id || 'me';
     this._api = api;
-    this._data = data;
     this._sufix = sufix || '';
-    if (data) this._sortSkills();
+
+    promiseHelper.cacheMethods(this, [
+      'getSignupStage',
+      'getData',
+      'getExperience',
+      'getEducation',
+      'getBookmarks',
+      'getTargetPosition',
+      'getNewsFeed',
+      'getSuggestedCompanies',
+      'getOffers',
+    ]);
+
+    if (data)
+      this._setUser(data);
   }
 
   Candidate.prototype = {
@@ -53,25 +66,32 @@ define(function(require) {
       });
     },
 
+    _setUser: function(response) {
+      if (this.getData.setCache)
+        this.getData.setCache.call(this, response);
+
+      this._data = response;
+      this.id = response.id;
+      this._sortSkills();
+      return response;
+    },
+
     updateData: function(model) {
-      return this._api.put(this._url() + this._sufix, model);
+      return this._api.put(this._url() + this._sufix, model)
+        .then(this._setUser.bind(this));
     },
 
     getData: function() {
-      return this.refreshData();
+      return this._api.get(this._url() + this._sufix)
+        .then(this._setUser.bind(this), function(request) {
+          if (request.status === 403)
+            return this.dispose();
+          throw request;
+        }.bind(this));
     },
 
     refreshData: function() {
-      return this._api.get(this._url() + this._sufix).then(function(response) {
-        this._data = response;
-        this.id = response.id;
-        this._sortSkills();
-        return response;
-      }.bind(this), function(request) {
-        if (request.status === 403)
-          return this.dispose();
-        throw request;
-      }.bind(this));
+      return this.getData();
     },
 
     setPhoto: function(photo) {
@@ -81,6 +101,8 @@ define(function(require) {
     delete: function() {
       return this._api.delete(this._url() + this._sufix);
     },
+
+    getSignupStage: getHelper('signup_stage'),
 
     getExperience: getHelper('work_experience'),
     setExperience: setHelper('work_experience', 'put'),
@@ -97,7 +119,7 @@ define(function(require) {
     deleteBookmark: deleteHelper('bookmarks'),
 
     getTargetPosition: getHelper('target_position'),
-    setTargetPosition: setHelper('target_position', 'post'),
+    setTargetPosition: setHelper('target_position', 'put'),
 
     setPreferredLocations: setHelper('preferred_locations', 'put'),
     setSkills: setHelper('skills', 'put'),

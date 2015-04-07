@@ -1,0 +1,11 @@
+<div ng-if="data.dob">
+  <span class="icon-parent"><i class="fa fa-birthday-cake orange"></i></span>
+  <translate>Age</translate> {{ data.dob | yearsAgo }}
+</div>
+<div>
+  <span class="icon-parent"><i class="fa orange" ng-class="{
+    'fa-check': data.eu_work_visa,
+    'fa-times': !data.eu_work_visa,
+  }"></i></span>
+  <translate>has a work visa</translate>
+</div>

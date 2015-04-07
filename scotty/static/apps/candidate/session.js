@@ -34,6 +34,9 @@ define(function(require) {
       document.title = '4Scotty – ' + fullName;
       window.Raygun.setUser(response.id, false, response.email);
 
+      if (window.ga)
+        window.ga('set', { userId: response.id });
+
       if (window.UserVoice && response.email) {
         window.UserVoice.push(['identify', {
           email: response.email,
@@ -124,14 +127,6 @@ define(function(require) {
       return this._api.post('/candidates/', data).then(function() {
         return this.refreshUser();
       }.bind(this));
-    },
-
-    getSignupStage: function() {
-      return this._api.get('/candidates/me/signup_stage').catch(function(request) {
-        if (request.status === 403)
-          return null;
-        throw request;
-      });
     },
 
     getCompletionWorkflow: function() {

@@ -4,7 +4,6 @@ define(function(require) {
 
   module.directive('hcCandidatePic', function() {
     return {
-      restrict: 'E',
       scope: {
         pictureUrl: '=',
         classes: '@'

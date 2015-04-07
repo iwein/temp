@@ -6,7 +6,6 @@ define(function(require) {
     return {
       restrict: 'A',
       compile: function(elem, attr) {
-        var element = elem[0];
         var onChange = $parse(attr.hcFileSelector);
 
         function createInput() {
@@ -22,7 +21,9 @@ define(function(require) {
           return input;
         }
 
-        return function postLink(scope) {
+        return function postLink(scope, elem) {
+          var element = elem[0];
+
           element.addEventListener('click', function() {
             var input = createInput();
             input.addEventListener('change', function() {
@@ -39,7 +40,6 @@ define(function(require) {
     return {
       restrict: 'A',
       compile: function(elem, attr) {
-        var element = elem[0];
         var model, onChange;
 
         if (attr.ngModel)
@@ -48,7 +48,9 @@ define(function(require) {
         if (attr.hcFileSelect)
           onChange = $parse(attr.hcFileSelect);
 
-        return function postLink(scope) {
+        return function postLink(scope, elem) {
+          var element = elem[0];
+
           element.addEventListener('change', function() {
             scope.$apply(function() {
               if (model)

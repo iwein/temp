@@ -17,11 +17,11 @@ define(function(require) {
     return {
       restrict: 'A',
       compile: function(elem, attr) {
-        var element = elem[0];
         var model = $parse(attr.hcDataUrl).assign;
         var iteration = 0;
 
-        return function postLink(scope) {
+        return function postLink(scope, elem) {
+          var element = elem[0];
           var thisIteration = ++iteration;
 
           element.addEventListener('change', function() {

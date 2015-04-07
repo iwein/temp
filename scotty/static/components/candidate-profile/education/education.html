@@ -1,0 +1,76 @@
+<a class="add-now"
+  ng-if="!profile.isFormOpen"
+  ng-click="edit()"
+  translate>
+  Add education
+</a>
+
+<h2 class="big-title accordion-main-title">
+  <translate>EDUCATION</translate>
+  <span class="accordion-title-extra">{{ highestDegree }}</span>
+  <button class="add-btn" ng-show="profile.isEditing && !profile.isFormOpen" ng-click="add()">
+    <i class="fa fa-plus"></i> <translate>ADD</translate>
+  </button>
+</h2>
+<div class="accordion-wrap">
+  <!-- Add panel -->
+  <div class="add-panel" ng-if="editable" ng-show="editing === -2">
+    <button class="add-panel-close" ng-click="close()"><i class="fa fa-close"></i></button>
+    <hc-education-form
+      hc-container="formContainer"
+      name="form"
+      hc-required="model.length === 0 || !formContainer.form.isPristine()"
+      hc-disabled="loading"
+      on-submit="save($model, $form, model.length)">
+      <div class="row">
+        <div class="buttons-wrap">
+          <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" translate>save</button>
+          <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="close()" translate>cancel</button>
+        </div>
+      </div>
+    </hc-education-form>
+  </div>
+  <!--End  Add panel -->
+  <div ng-repeat="entry in data">
+    <!-- EDIT panel -->
+    <div class="add-panel edit-panel" ng-if="editing === $index">
+      <button class="add-panel-close" ng-click="close()"><i class="fa fa-close"></i></button>
+      <hc-education-form
+        ng-model="entry"
+        hc-required="true"
+        hc-disabled="loading"
+        on-submit="save($model, $form, $index)">
+
+        <div class="row">
+          <div class="buttons-wrap">
+            <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" translate>save</button>
+            <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="close()" translate>cancel</button>
+          </div>
+        </div>
+      </hc-education-form>
+    </div>
+    <!--End  EDIT panel -->
+
+    <div class="accordion-container">
+      <h3 class="accordion-subtitle">
+        {{ entry.degree }}
+        <span class="accordion-subtitle-extra">{{ entry.course }}</span>
+        <button type="button"
+                ng-if="editable"
+                class="btn-edit-sub no-fl"
+                ng-show="profile.isEditing"
+                ng-disabled="loading || profile.isFormOpen"
+                ng-click="edit(entry, $index)">
+          <i class="fa fa-pencil"></i>
+        </button>
+      </h3>
+      <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
+      <span class="accordion-date">
+        {{ entry.start}} –
+        <span ng-show="entry.end">{{ entry.end }}</span>
+        <span ng-hide="entry.end" translate>today</span>
+        ({{ entry | momentDiff | toMonthsYears }})
+      </span>
+    </div>
+  </div>
+</div>

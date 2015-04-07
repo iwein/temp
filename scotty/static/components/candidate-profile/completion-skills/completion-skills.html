@@ -1,0 +1,13 @@
+<button class="close-button" ng-click="close()">
+  <i class="fa fa-close"></i>
+</button>
+
+<h3>What are you good at?</h3>
+<h4>Add any programming language, software technologies or methodologies you have experience with.</h4>
+
+<div hc-skills-partial model="model" on-save="saved()">
+  <div class="buttons-wrap">
+    <button type="submit" translate>Save</button>
+    <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div ng-if="!close && step">
+  <div class="profile-completion col-sm-3">
+    <h3 translate>Profile Strength</h3>
+    <div hc-completion-graph model="model"></div>
+    <div class="social-networks">
+      <span translate>Fill the information faster, connect with Linked In and Xing</span>
+      <hc-connectors-buttons ng-show="!imported"></hc-connectors-buttons>
+    </div>
+  </div>
+
+  <div class="col-sm-9">
+    <section class="completion-target-section" ng-if="step === 'target_position'">
+      <div hc-candidate-completion-target model="model"></div>
+    </section>
+
+    <section class="completion-location-section" ng-if="step === 'preferred_location'">
+      <div hc-completion-location model="model"></div>
+    </section>
+
+    <section class="completion-experience-section" ng-if="step === 'work_experience'">
+      <div hc-completion-experience model="model"></div>
+    </section>
+
+    <section class="completion-education-section" ng-if="step === 'education'">
+      <div hc-completion-education model="model"></div>
+    </section>
+
+    <section class="completion-skills-section" ng-if="step === 'skills'">
+      <div hc-completion-skills model="model"></div>
+    </section>
+
+    <section class="completion-languages-section" ng-if="step === 'languages'">
+      <div hc-completion-languages model="model"></div>
+    </section>
+
+    <section class="completion-birthdate-section" ng-if="step === 'dob'">
+      <div hc-completion-birthdate model="model"></div>
+    </section>
+
+    <section class="completion-city-section" ng-if="step === 'location'">
+      <div hc-completion-city model="model"></div>
+    </section>
+  </div>
+</div>

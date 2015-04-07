@@ -1,1029 +1,116 @@
-<div class="component-employer-candidate-profile" ng-show="ready">
-  <div class="inner">
+<div class="component-candidate-profile {{ editClass }}" ng-if="ready" ng-class="{
+  'form-open': isFormOpen,
+  editing: isEditing,
+}">
 
-    <div class="status-wrap">
-      <div class="status">
-        <button class="fl-rg btn-edit"
-                ng-show="!isEditing"
-                ng-click="profile.edit()">
-          <i class="fa fa-pencil"></i>
-          <translate>Edit mode</translate>
-        </button>
-        <button class="fl-rg btn-edit"
-                ng-show="isEditing && !formOpen"
-                ng-click="profile.stopEdit()">
-          <i class="fa fa-check"></i>
-          <translate>Finish editing</translate>
-        </button>
-      </div>
+  <div hc-candidate-completion model="candidate" ng-show="!isFormOpen"></div>
+
+  <div class="status">
+    <button id="button-edit-profile" class="fl-rg btn-edit" ng-click="profile.edit()">
+      <i class="fa fa-pencil"></i>
+      <translate>Edit mode</translate>
+    </button>
+    <button id="button-finish-edit" class="fl-rg btn-edit" ng-click="profile.stopEdit()">
+      <i class="fa fa-check"></i>
+      <translate>Finish editing</translate>
+    </button>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="row" ng-if="candidate">
+    <div class="col-sm-3 sidebar">
+      <section class="avatar-section">
+        <div hc-candidate-avatar model="candidate"></div>
+        <div hc-candidate-avatar-edit model="candidate"></div>
+      </section>
+
+      <section class="salary-section">
+        <div hc-candidate-salary model="candidate"></div>
+        <div hc-candidate-salary-edit model="candidate"></div>
+      </section>
+
+      <section class="contact-section">
+        <div hc-candidate-contact model="candidate"></div>
+        <div hc-candidate-contact-edit model="candidate"></div>
+      </section>
+
+      <section class="birthdate-section">
+        <div hc-candidate-birthdate model="candidate"></div>
+        <div hc-candidate-birthdate-edit model="candidate"></div>
+      </section>
+
+      <!-- TODO: Check when offer flow is fixed
+      <section class="offers-section">
+        <div hc-candidate-offers model="candidate"></div>
+      </section>
+      -->
+
+      <section class="availability-section">
+        <div hc-candidate-availability model="candidate"></div>
+        <div hc-candidate-availability-edit model="candidate"></div>
+      </section>
+
+      <section class="languages-section">
+        <div hc-candidate-languages model="candidate"></div>
+        <div hc-candidate-languages-edit model="candidate"></div>
+      </section>
     </div>
 
-    <div class="profile-workflow hidden" ng-if="!isEditing && completionStage">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <form ng-show="completionStage === 'summary'" ng-submit="sendCompletion(completion)">
-            <div class="form-group required">
-              <label translate>Summary</label>
-              <textarea class="form-control" required ng-model="completion.summary">
-              </textarea>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary" translate>Submit</button>
-            </div>
-          </form>
+    <div class="col-sm-9">
+      <div class="row header">
+        <div class="col-sm-8">
+          <section class="name-section">
+            <div hc-candidate-name model="candidate"></div>
+            <div hc-candidate-name-edit model="candidate"></div>
+          </section>
 
-          <form ng-show="completionStage === 'availability'" ng-submit="sendCompletion(completion)">
-            <div class="form-group required">
-              <label translate>Availability</label>
-              <textarea class="form-control" required ng-model="completion.availability">
-              </textarea>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary" translate>Submit</button>
-            </div>
-          </form>
+          <section class="target-section">
+            <div hc-candidate-target model="candidate"></div>
+            <div hc-candidate-target-edit model="candidate"></div>
+          </section>
+
+          <section class="summary-section">
+            <div hc-candidate-summary model="candidate"></div>
+            <div hc-candidate-summary-edit model="candidate"></div>
+          </section>
+
+          <section class="cv-section">
+            <div hc-candidate-cv model="candidate"></div>
+            <div hc-candidate-cv-edit model="candidate"></div>
+          </section>
+        </div>
+
+        <div class="col-sm-4">
+          <section class="status-section">
+            <span><translate>Status</translate>: </span>
+            <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
+          </section>
+
+          <section class="privacy-section">
+            <div hc-candidate-privacy model="candidate"></div>
+            <div hc-candidate-privacy-edit model="candidate"></div>
+          </section>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="row">
-          <div class="col-sm-12 bg-gray-light">
-            <button class="edit-user-pic-btn" ng-show="isEditing && !openForm" ng-click="picture.edit()">
-              <i class="fa fa-camera-retro"></i>
-            </button>
-            <div class="edit-user-pic" ng-show="picture.editing">
-              <form class="bg-gray-lighter3 padd-vert col-sm-12" ng-submit="picture.save(picture.data)">
-                <h5 class="edit-title" translate>Profile picture</h5>
-                <div class="mrg-btm-small">
-                  <div class="uploadFile">
-                    <span translate>Select</span>
-                    <input type="file"
-                           class="mrg-btm"
-                           name="photo"
-                           accept="image/*"
-                           ng-required="true"
-                           ng-disabled="loading"
-                           ng-model="picture.data"
-                           hc-file-select="selectFile($files)"
-                           hc-data-url="selectedPicture">
-                  </div>
-                  <div class="uploadText" translate>Upload a photo at least 235 px wide.</div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="col-sm-6 user-pic-preview mrg-btm-small" ng-style="{'background-image': 'url('+(selectedPicture[0]||user.picture_url)+')'}"></div>
-                <div class="buttons-wrap mrg-btm-small">
-                  <button type="button"
-                          class="fl-lf bg-gray-lighter2 btn-small"
-                          ng-click="picture.close()"
-                          ng-disabled="loading"
-                          translate>
-                    Cancel
-                  </button>
-                  <button type="submit"
-                          class="fl-lf bg-green btn-small mrg-lft-small"
-                          ng-disabled="loading"
-                          translate>
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            <hc-candidate-pic picture-url="user.picture_url"></hc-candidate-pic>
-          </div>
+      <section class="row skills-section">
+        <div class="col-sm-12">
+          <div hc-candidate-skills model="candidate"></div>
+          <div hc-candidate-skills-edit model="candidate"></div>
         </div>
-        <div class="row">
-          <!-- Salary box-->
-          <!-- Edit Salary box (remove class hidden to display)-->
-          <form class="edit-salary mrg-btm" ng-if="salary.editing" ng-submit="salary.save(salary.data)">
-            <button class="add-panel-close" ng-click="salary.close()"><i class="fa fa-close"></i></button>
-            <h5 class="edit-title">
-              <span class="question-title" translate>Annual Salary</span>
-              <div class="question">
-                <span>?</span>
-                <div class="tooltip-wrap">
-                  <div class="tooltip-arrow"></div>
-                  <div class="tooltip-text" translate>
-                    Do not set your salary too high, as it will block employers to send you interesting offers, that have a slightly lower nominal salary but huge other benefits.
-                  </div>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-            </h5>
-            <div class="edit-form mrg-btm">
-              <input type="dotted-integer"
-                     class="form-control mrg-btm-small"
-                     name="salary"
-                     required
-                     ng-disabled="loading"
-                     ng-model="salary.data.salary"
-                     ng-change="onSalaryChange()">
-              <p class="red error" ng-show="errorSalaryTooHigh" translate>This seems to be too high</p>
-            </div>
-            <h5 class="edit-title">
-              <span class="question-title" translate>Locations</span>
-              <div class="question">
-                <span>?</span>
-                <div class="tooltip-wrap">
-                  <div class="tooltip-arrow"></div>
-                  <div class="tooltip-text" translate>
-                    We currently focus our efforts on the 3 listed locations. Feel free to name any other city in Germany so we know where to focus in the future.
-                  </div>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-            </h5>
-            <div class="form-wrap">
-              <div class="row padd-form">
-                <div class="label-wrap col-sm-12">
-                  <div>
-                    <label>
-                      <input type="checkbox"
-                             ng-disabled="loading || salary.data.other"
-                             ng-model="salary.data.germany"
-                             ng-change="updateLocations()">
-                      <translate>Anywhere in Germany</translate>
-                    </label>
-                  </div>
-                  <div ng-repeat="location in featuredLocations">
-                    <label>
-                      <input type="checkbox"
-                             ng-disabled="loading || salary.data.germany"
-                             ng-model="location.selected"
-                             ng-change="updateLocations()">
-                      {{ location.value.city }}, {{ location.value.country_iso }}
-                    </label>
-                  </div>
-                  <div>
-                    <label>
-                      <input type="checkbox"
-                             name="location-radio"
-                             ng-disabled="loading || salary.data.germany"
-                             ng-required="errorLocationRequired"
-                             ng-model="salary.data.other"
-                             ng-change="updateLocations()"
-                             translate>
-                      Other
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="pad-label edit-form">
-                <hc-label-typeahead
-                  name="cities"
-                  placeholder="{{ 'Type a city...' | translate }}"
-                  ng-show="salary.data.other"
-                  ng-disabled="loading"
-                  ng-model="preferred_locations"
-                  hc-required="salary.data.other"
-                  hc-render="locationToText($entry)"
-                  hc-source="searchCities($viewValue)"
-                  on-change="updateLocations()">
-                </hc-label-typeahead>
-              </div>
-              <div class="buttons-wrap">
-                <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading"
-                        translate>
-                  Save
-                </button>
-                <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="salary.close()"
-                        ng-disabled="loading"
-                        translate>
-                  Cancel
-                </button>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-          </form>
-          <!-- End Edit Salary box-->
-          <div class="col-sm-12 border-box mrg-btm" ng-hide="salary.editing">
-            <div class="padd-vert">
-              <button type="submit"
-                      class="btn-edit-sub-skills"
-                      ng-show="isEditing"
-                      ng-disabled="loading || formOpen"
-                      ng-click="salary.edit()">
-                <i class="fa fa-pencil"></i>
-              </button>
-              <div class="box-title box-title_left mrg-btm gray-darker" translate>Expectation</div>
-              <div class="mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-euro orange"></i></span>
-                {{ targetPosition.data.minimum_salary | dottedInteger }}
-              </div>
-              <div>
-                <span class="iconParent"><i class="fa fa-location-arrow orange"></i></span>
-                <hc-preferred-location candidate="candidate"></hc-preferred-location>
-              </div>
-            </div>
-          </div>
+      </section>
 
-          <!--  Contacts box-->
-          <!--  EDIT Contacts box (remove hidden class to display)-->
-          <div class="edit-contacts mrg-btm" ng-show="contact.editing" ng-submit="contact.save(contact.data)">
-            <form class="edit-form">
-              <button class="add-panel-close" ng-click="contact.close()"><i class="fa fa-close"></i></button>
-              <h5 class="edit-title" translate>Address</h5>
-              <div class="">
-                <input type="text"
-                       class="form-control mrg-btm"
-                       placeholder="{{ 'Address Line 1' | translate }}"
-                       ng-disabled="hcDisabled"
-                       ng-model="contact.data.contact_line1">
-                <input type="text"
-                       class="form-control mrg-btm"
-                       placeholder="{{ 'Address Line 2' | translate }}"
-                       ng-disabled="hcDisabled"
-                       ng-model="contact.data.contact_line2">
-                <input type="text"
-                       class="form-control mrg-btm"
-                       placeholder="{{ 'Zip code' | translate }}"
-                       maxlength="20"
-                       ng-disabled="hcDisabled"
-                       ng-model="contact.data.contact_zipcode">
-                <select class="form-control mrg-btm"
-                        name="country"
-                        required
-                        ng-disabled="hcDisabled"
-                        ng-model="contact.data.location.country_iso"
-                        ng-options="country.iso as country.name for country in countries">
-                  <option value="" translate>Country...</option>
-                </select>
-                <input type="text"
-                       placeholder="{{ 'City' | translate }}"
-                       name="city"
-                       class="form-control mrg-btm"
-                       autocomplete="off"
-                       required
-                       ng-disabled="hcDisabled || !contact.data.location.country_iso"
-                       ng-model="contact.data.location.city"
-                       ng-blur="setLocation(contact.data.location.city)"
-                       typeahead-on-select="setLocation(contact.data.location.city)"
-                       typeahead="city for city in searchLocations($viewValue, contact.data.location.country_iso)"
-                       hc-typeahead-loader>
-              </div>
-
-              <!--
-              <h5 class="edit-title">Email Address</h5>
-              <div class="">
-                <input type="email"
-                       class="form-control mrg-btm"
-                       name="contact_email"
-                       required
-                       ng-disabled="hcDisabled"
-                       ng-model="contact.data.email">
-              </div>
-              -->
-
-              <h5 class="edit-title" translate>Phone</h5>
-              <div class="">
-                <input type="tel"
-                       class="form-control mrg-btm"
-                       name="contact_phone"
-                       pattern="^\+?[0-9 /()-]+$"
-                       ng-pattern="/^\+?[0-9 -/()]+$/"
-                       ng-disabled="hcDisabled"
-                       ng-model="contact.data.contact_phone">
-              </div>
-              <h5 class="edit-title" translate>Web profiles</h5>
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="row mrg-btm">
-                    <div class="col-sm-2 no-padd-right text-center">
-                      <i class="fa fa-github ico-edit"></i>
-                    </div>
-                    <div class="col-sm-10">
-                      <input type="url"
-                             class="form-control"
-                             name="github"
-                             ng-disabled="hcDisabled"
-                             ng-model="contact.data.github_url">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-2 no-padd-right text-center">
-                      <i class="fa fa-stack-overflow ico-edit"></i>
-                    </div>
-                    <div class="col-sm-10">
-                      <input type="url"
-                             class="form-control mrg-btm"
-                             name="stackoverflow"
-                             ng-disabled="hcDisabled"
-                             ng-model="contact.data.stackoverflow_url">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-2 no-padd-right text-center">
-                      <i class="fa fa-globe ico-edit"></i>
-                    </div>
-                    <div class="col-sm-10">
-                      <input type="url"
-                             class="form-control mrg-btm"
-                             name="blog_url"
-                             ng-disabled="hcDisabled"
-                             ng-model="contact.data.blog_url">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="buttons-wrap">
-                <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading"
-                        translate>
-                  Save
-                </button>
-                <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="contact.close()"
-                        ng-disabled="loading"
-                        translate>
-                  Cancel
-                </button>
-              </div>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-
-          <!-- END EDIT Contacts box-->
-          <div class="col-sm-12 info bg-gray-light mrg-btm" ng-hide="contact.editing">
-            <button type="submit"
-                    class="btn-edit-sub-skills btn-edit-sub-skills_bot"
-                    ng-show="isEditing"
-                    ng-disabled="loading || formOpen"
-                    ng-click="contact.edit(skills)">
-              <i class="fa fa-pencil"></i>
-            </button>
-            <div class="row">
-              <div class="contacts">
-                <div class="fl-lf">
-                  <span class="box-title box-title_left" href="#" translate>Contact</span>
-                </div>
-                <div class="fl-rg">
-                  <a ng-show="user.github_url" ng-href="{{ user.github_url }}"><i class="fa fa-github"></i></a>
-                  <a ng-show="user.stackoverflow_url" ng-href="{{ user.stackoverflow_url }}"><i class="fa fa-stack-overflow"></i></a>
-                  <a ng-show="user.blog_url" ng-href="{{ user.blog_url }}"><i class="fa fa-globe"></i></a>
-                </div>
-              </div>
-              <div class="padd-vert col-sm-12">
-                <div class="smbd orange mrg-btm-small">
-                  <a ng-href="mailto:{{ contact.data.email }}">
-                    <span class="iconParent"><i class="fa fa-envelope orange"></i></span> {{ contact.data.email }}
-                  </a>
-                </div>
-                <div ng-show="contact.data.contact_phone">
-                  <span class="iconParent"><i class="fa fa-mobile orange font-22"></i></span>
-                  {{ contact.data.contact_phone }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Contacts box-->
-
-
-          <!-- Age Visa box -->
-          <!-- Edit Age Visa box (remove class hidden to display)-->
-          <div class="edit-salary mrg-btm" ng-if="dob.editing" ng-submit="dob.save(dob.data)">
-            <button class="add-panel-close" ng-click="dob.close()"><i class="fa fa-close"></i></button>
-            <h5 class="edit-title" translate>Birthday </h5>
-            <form class="edit-form">
-              <input type="date"
-                     class="form-control mrg-btm"
-                     placeholder="{{ 'YYYY-MM-DD' | translate }}"
-                     name="birth"
-                     required
-                     ng-disabled="hcDisabled"
-                     ng-model="dob.data.dob">
-
-              <div class="label-wrap">
-                <label>
-                  <input type="checkbox"
-                         name="eu_work_visa"
-                         ng-disabled="hcDisabled"
-                         ng-model="dob.data.eu_work_visa">
-                  <translate>Yes, I've got a work visa for EU</translate>
-                  <label>
-              </div>
-              <div class="buttons-wrap">
-                <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading"
-                        translate>
-                  Save
-                </button>
-                <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="dob.close()"
-                        ng-disabled="loading"
-                        translate>
-                  Cancel
-                </button>
-              </div>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-          <!-- End Edit Age Visa box-->
-          <div class="col-sm-12 border-box mrg-btm" ng-hide="dob.editing">
-            <div class="padd-vert">
-              <button type="submit"
-                      class="btn-edit-sub-skills"
-                      ng-show="isEditing"
-                      ng-disabled="loading || formOpen"
-                      ng-click="dob.edit(dob.data)">
-                <i class="fa fa-pencil"></i>
-              </button>
-
-              <div class="mrg-btm-small">
-                <span class="iconParent"><i class="fa fa-birthday-cake orange"></i></span>
-                <translate>Age</translate> {{ user.dob | yearsAgo }}
-              </div>
-              <div>
-                <span class="iconParent"><i class="fa orange" ng-class="{
-                  'fa-check': user.eu_work_visa,
-                  'fa-times': !user.eu_work_visa,
-                }"></i></span>
-                <translate>has a work visa</translate>
-              </div>
-            </div>
-          </div>
-
-          <!-- Offers box -->
-          <div class="col-sm-12 bg-gray-light mrg-btm" ng-show="offers.length">
-            <div class="bg-gray-light row">
-              <div class="offer-box col-sm-12">
-                <div class="box-title box-title_left mrg-btm" translate>Offers</div>
-                <div ng-repeat="offer in offers">
-                  <div class="orange bld"><a ui-sref="offer({ id: offer.id })">
-                    {{ offer.data.employer.company_name }}
-                  </a></div>
-                  <div class="mrg-btm-small">€ {{ offer.data.annual_salary | dottedInteger }}.00</div>
-                </div>
-                <a ui-sref="offer-list" class="fl-rg smbd gray" translate>View all</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Availability box -->
-          <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-avail" ng-if="availability.editing">
-            <button class="add-panel-close" ng-click="availability.close()"><i class="fa fa-close"></i></button>
-            <h5 class="edit-title" translate>Availability</h5>
-            <p class="font-12" translate>Please enter your notice period or when you will be available.</p>
-            <form class="edit-form" ng-submit="availability.save(availability.data)">
-              <textarea class="fw mrg-btm" required ng-model="availability.data"></textarea>
-              <div class="buttons-wrap">
-                <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading"
-                        translate>
-                  Save
-                </button>
-                <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="availability.close()"
-                        ng-disabled="loading"
-                        translate>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-          <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="availability.editing">
-            <div class="box-title box-title_left mrg-btm">
-              <translate>Availability</translate>
-              <button type="submit"
-                      class="btn-edit-sub"
-                      ng-show="isEditing"
-                      ng-disabled="loading || formOpen"
-                      ng-click="availability.edit(availability)">
-                <i class="fa fa-pencil"></i>
-              </button>
-            </div>
-            <p class="gray">
-              <span ng-show="user.availability">{{ user.availability }}</span>
-              <span ng-hide="user.availability" translate>Not specified</span>
-            </p>
-          </div>
-
-          <!-- Languages box -->
-          <div class="col-sm-12 bg-gray-light mrg-btm padd-vert" ng-hide="languages.editing">
-            <div class="box-title box-title_left mrg-btm">
-              <translate>Languages</translate>
-              <button type="submit"
-                      class="btn-edit-sub"
-                      ng-show="isEditing"
-                      ng-disabled="loading || formOpen"
-                      ng-click="languages.edit()">
-                <i class="fa fa-pencil"></i>
-              </button>
-            </div>
-            <div ng-repeat="entry in languages.data">
-              <span class="value gray">
-                {{ entry.language }}:
-                <span class="smbd">{{ entry.proficiency | translate }}</span>
-              </span>
-            </div>
-          </div>
-          <div class="col-sm-12 bg-gray-lighter3 mrg-btm padd-vert edit-lang" ng-if="languages.editing">
-            <button class="add-panel-close" ng-click="languages.close()"><i class="fa fa-close"></i></button>
-            <hc-languages-form
-              ng-model="languages.data"
-              hc-disabled="loading"
-              on-submit="languages.save($model, $form)">
-              <div class="buttons-wrap">
-                <button type="submit"
-                        class="fl-rg bg-green btn-small mrg-lft-small"
-                        ng-disabled="loading"
-                        translate>
-                  Save
-                </button>
-                <button type="button"
-                        class="fl-rg bg-gray-lighter2 btn-small"
-                        ng-click="languages.close()"
-                        ng-disabled="loading"
-                        translate>
-                  Cancel
-                </button>
-              </div>
-            </hc-languages-form>
-          </div>
-          <!-- End Languages box -->
-
-          </div>
-          </div>
-
-
-          <!-- MAIN CONTENT -->
-          <div class="col-sm-9">
-          <div class="row bg-white  mrg-btm">
-          <div class="col-sm-8 ">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="user-desc">
-                  <div>
-                    <div class="edit-main-title" ng-show="name.editing">
-                      <button class="add-panel-close" ng-click="name.close()"><i class="fa fa-close"></i></button>
-                      <form class="edit-form" ng-submit="name.save(name.data)">
-                        <div class="row mrg-btm">
-                          <div class="col-sm-6">
-                            <h5 class="edit-title" translate>First name</h5>
-                            <input type="text" class="form-control" ng-model="name.data.first_name">
-                          </div>
-                          <div class="col-sm-6">
-                            <h5 class="edit-title" translate>Last name</h5>
-                            <input type="text" class="form-control" ng-model="name.data.last_name">
-                          </div>
-                        </div>
-                        <div class="buttons-wrap">
-                          <button type="submit"
-                                  class="fl-rg bg-green btn-small mrg-lft-small"
-                                  ng-disabled="loading"
-                                  translate>
-                            Save
-                          </button>
-                          <button type="button"
-                                  class="fl-rg bg-gray-lighter2 btn-small"
-                                  ng-click="name.close()"
-                                  ng-disabled="loading"
-                                  translate>
-                            Cancel
-                          </button>
-                        </div>
-                      </form>
-                      <div class="clearfix"></div>
-                    </div>
-                    <h2 class="main-title" ng-show="!name.editing">{{ user.first_name }} {{ user.last_name }}
-                      <button type="submit"
-                              class="btn-edit-sub no-fl"
-                              ng-show="isEditing"
-                              ng-disabled="loading || formOpen"
-                              ng-click="name.edit()">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </h2>
-                    <div class="edit-main-title" ng-show="privacy.editing">
-                      <button class="add-panel-close" ng-click="privacy.close()"><i class="fa fa-close"></i></button>
-                      <form class="edit-form" ng-submit="privacy.save(privacy.data)">
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" ng-model="privacy.data.anonymous">
-                            <translate>Hide my name and picture from employers until i accepted their offer.</translate>
-                          </label>
-                        </div>
-                        <!-- FEATURE PROFILE SLEEP DISABLED
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" ng-model="privacy.data.sleeping">
-                            <translate>Put my profile to sleep so it will not be shown on search and can't receive any offers</translate>
-                          </label>
-                        </div>
-                        -->
-                        <div class="buttons-wrap">
-                          <button type="submit"
-                                  class="fl-rg bg-green btn-small mrg-lft-small"
-                                  ng-disabled="loading"
-                                  translate>
-                            Save
-                          </button>
-                          <button type="button"
-                                  class="fl-rg bg-gray-lighter2 btn-small"
-                                  ng-click="privacy.close()"
-                                  ng-disabled="loading"
-                                  translate>
-                            Cancel
-                          </button>
-                        </div>
-                      </form>
-                      <div class="clearfix"></div>
-                    </div>
-                  </div>
-                  <div class="emp-off-desc">
-                    <!-- Edit target position div (remove class hidden to display)-->
-                    <div class="edit-tarpos" ng-show="targetPosition.editing">
-                      <div class="">
-                        <button class="add-panel-close" ng-click="targetPosition.close()"><i class="fa fa-close"></i></button>
-                        <h5 class="edit-title" translate>Target position</h5>
-                        <form class="edit-form" ng-submit="targetPosition.save(targetPosition.data)">
-                          <select class="form-control mrg-btm"
-                                  ng-disabled="loading"
-                                  ng-model="targetPosition.data.role"
-                                  ng-options="role as translate(role) for role in featuredRoles">
-                          </select>
-                          <div class="buttons-wrap">
-                            <button type="submit"
-                                    class="fl-rg bg-green btn-small mrg-lft-small"
-                                    ng-disabled="loading"
-                                    translate>
-                              Save
-                            </button>
-                            <button type="button"
-                                    class="fl-rg bg-gray-lighter2 btn-small"
-                                    ng-click="targetPosition.close()"
-                                    ng-disabled="loading"
-                                    translate>
-                              Cancel
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="clearfix"></div>
-                    </div>
-                    <!-- END target position div -->
-                    <h3 class="main-subtitle" ng-hide="targetPosition.editing">
-                      <translate>Target position</translate>:
-                      <span>{{ targetPosition.data.role | translate }}</span>
-                      <button type="submit"
-                              class="btn-edit-sub no-fl"
-                              ng-show="isEditing"
-                              ng-disabled="loading || formOpen"
-                              ng-click="targetPosition.edit()">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </h3>
-                    <div>
-                      <!-- Summary box (remove class hidden to display)-->
-                      <div class="edit-summary" ng-show="summary.editing">
-                        <button class="add-panel-close" ng-click="summary.close()"><i class="fa fa-close"></i></button>
-                        <h5 class="edit-title">
-                          <translate>Summary</translate>
-                          <span translate translate-n="250 - summary.data.length" translate-plural="{{$count}} characters left">1 character left</span>
-                        </h5>
-                        <div>
-                          <form class="edit-form" ng-submit="summary.save(summary.data)">
-                            <textarea class="fw mrg-btm" ng-model="summary.data"></textarea>
-                            <div class="buttons-wrap">
-                              <button type="submit"
-                                      class="fl-rg bg-green btn-small mrg-lft-small"
-                                      ng-disabled="loading || summary.data.length > 250"
-                                      translate>
-                                Save
-                              </button>
-                              <button type="button"
-                                      class="fl-rg bg-gray-lighter2 btn-small"
-                                      ng-click="summary.close()"
-                                      ng-disabled="loading"
-                                      translate>
-                                Cancel
-                              </button>
-                            </div>
-                            <div class="clearfix"></div>
-                          </form>
-
-                        </div>
-                      </div>
-                      <!-- END summary box -->
-                      <p ng-hide="summary.editing">
-                        {{ summary.data }}
-                        <button type="submit"
-                          class="btn-edit-sub no-fl"
-                          ng-show="isEditing"
-                          ng-disabled="loading || formOpen"
-                          ng-click="summary.edit()">
-                        <i class="fa fa-pencil"></i>
-                      </button></p>
-                    </div>
-
-                    <div class="mrg-btm-small" ng-show="user.cv_upload_url">
-                      <a ng-href="{{ user.cv_upload_url }}" translate>Download CV</a>
-                    </div>
-                    <div class="mrg-btm-small" ng-show="isEditing">
-                      <span ng-show="cv.data" translate>Update your CV</span>
-                      <span ng-show="!cv.data" translate>Upload CV</span>
-                      <button type="submit"
-                              class="btn-edit-sub no-fl"
-                              ng-show="isEditing"
-                              ng-disabled="loading || formOpen"
-                              ng-click="cv.edit()">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                      <div ng-show="cv.editing" ng-disabled="loading || formOpen">
-                        <div class="uploadFile">
-                          <span translate>Select file</span>
-                          <input type="file"
-                                 name="photo"
-                                 accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                 ng-disabled="hcDisabled"
-                                 ng-model="cv_file"
-                                 hc-file-select="cv.save($files)">
-                        </div>
-                        <button type="button"
-                                class="bg-gray-lighter2 btn-small"
-                                ng-click="cv.close()"
-                                ng-disabled="loading"
-                                translate>
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-4 bg-white user-desc">
-            <div class="fl-rg pad-20">
-              <span><translate>Status</translate>: </span>
-              <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
-              <div>
-                <span class="fl-rg">
-                  <translate>Privacy</translate>:
-                  <i ng-show="user.anonymous" class="fa fa-eye-slash"
-                    title="{{ 'Your profile name and picture cannot be seen by employers unless you have accepted their job-offer.' | translate }}"></i>
-                  <i ng-hide="user.anonymous" class="fa fa-eye"
-                    title="{{ 'Your profile name and picture is immediately public to companies.' | translate }}"></i>
-                  <button type="submit"
-                          class="btn-edit-sub no-fl"
-                          ng-show="isEditing"
-                          ng-disabled="loading || formOpen"
-                          ng-click="privacy.edit()">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <div class="row">
-              <div class="wrap-form-skills bg-gray-lighter3" ng-if="isEditing && skills.editing">
-                <button class="add-panel-close" ng-click="skills.close()"><i class="fa fa-close"></i></button>
-                <hc-skills-form
-                  ng-model="skills.data"
-                  hc-disabled="loading"
-                  on-submit="skills.save($model, $form)">
-                  <div class="buttons-wrap">
-                    <button type="submit"
-                            class="fl-rg bg-green btn-small mrg-lft-small"
-                            ng-disabled="loading"
-                            translate>
-                      Save
-                    </button>
-                    <button type="button"
-                            class="fl-rg bg-gray-lighter2 btn-small"
-                            ng-click="skills.close()"
-                            ng-disabled="loading"
-                            translate>
-                      Cancel
-                    </button>
-                  </div>
-                  <div class="clearfix"></div>
-                </hc-skills-form>
-              </div>
-              <div class="border-box clearfix skills-box" ng-hide="isEditing && skills.editing">
-                <button type="submit"
-                        class="btn-edit-sub-skills"
-                        ng-show="isEditing"
-                        ng-disabled="loading || formOpen"
-                        ng-click="skills.edit(skills)">
-                  <i class="fa fa-pencil"></i>
-                </button>
-                <div class="col-sm-4">
-                  <div class="skills-head">
-                    <div class="big-title skills-title" translate>SKILLS</div>
-                    <div class="caption">
-                      <div>
-                        <translate>expert</translate>
-                        <hc-stars hc-value="expert" hc-values="starValues"></hc-stars>
-                      </div>
-                      <div>
-                        <translate>advanced</translate>
-                        <hc-stars hc-value="advanced" hc-values="starValues"></hc-stars>
-                      </div>
-                      <div>
-                        <translate>basic</translate>
-                        <hc-stars hc-value="basic" hc-values="starValues"></hc-stars>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-8">
-                  <div class="skills-wrap row">
-                    <div class="col-sm-4" ng-repeat="entry in leveledSkills">
-                      <div class="skills-item" title="{{ entry.skill }}">
-                        <span>{{ entry.skill }}</span>
-                        <hc-stars ng-model="entry.level" hc-values="starValues"></hc-stars>
-                      </div>
-                    </div>
-                    <div class="col-sm-12" ng-show="unleveledSkills">
-                      <div class="skills-others">
-                        <span class="smbd"><translate>Others</translate>:</span> {{ unleveledSkills }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-
-          <div class="row bg-white">
-            <div class="job-bar">
-              <div class="job-bar-item" ng-repeat="entry in timeline"
-                   style="width: {{ entry.percent }}%"
-                   title="{{ entry.role }} - {{ entry.duration | yearMonth:false:lang }}">
-                <div class="job-bar-item_up" ng-class="{
-                            'bg-gray-light': $even,
-                            'bg-blue-light': $odd,
-                          }">{{ entry.duration | yearMonth:entry.percent:lang }}</div>
-                <div class="job-bar-item_down">{{ entry.percent > 5 && entry.role || '' }}</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row bg-white mrg-btm">
-            <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title">
-                <translate>WORK EXPERIENCE</translate>
-                <span class="accordion-title-extra">{{ totalWorkExperience | toMonthsYears:lang }}</span>
-                <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="experience.add()">
-                  <i class="fa fa-plus"></i> <translate>ADD</translate>
-                </button>
-              </h2>
-              <div class="accordion-wrap">
-                <!-- Add panel -->
-                <div class="add-panel" ng-show="experience.editing === -2">
-                  <button class="add-panel-close" ng-click="experience.close()"><i class="fa fa-close"></i></button>
-                  <hc-experience-form
-                    hc-container="experience"
-                    name="form"
-                    hc-required="model.length === 0 || !experience.form.isPristine()"
-                    hc-disabled="loading"
-                    on-submit="experience.save($model, $form, model.length)">
-
-                    <div class="row">
-                      <div class="buttons-wrap">
-                        <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" translate>save</button>
-                        <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="experience.close()" translate>cancel</button>
-                      </div>
-                    </div>
-                  </hc-experience-form>
-                </div>
-                <!--End  Add panel -->
-                <div ng-repeat="entry in experience.data">
-                  <!-- EDIT panel -->
-                  <div class="add-panel edit-panel" ng-if="experience.editing === $index">
-                    <button class="add-panel-close" ng-click="experience.close()"><i class="fa fa-close"></i></button>
-                    <hc-experience-form
-                      ng-model="entry"
-                      hc-required="true"
-                      hc-disabled="loading"
-                      on-submit="experience.save($model, $form, $index)">
-                      <div class="row">
-                        <div class="buttons-wrap">
-                          <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" translate>save</button>
-                          <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="experience.close()" translate>cancel</button>
-                        </div>
-                      </div>
-                    </hc-experience-form>
-                  </div>
-                  <!--End  EDIT panel -->
-                  <hc-accordion hc-hide-control="!entry.summary && !entry.skills.length" ng-hide="experience.editing === $index">
-                    <h3 class="accordion-subtitle">
-                      {{ entry.role }}
-                      <button type="button"
-                              class="btn-edit-sub no-fl"
-                              ng-show="isEditing"
-                              ng-disabled="loading || formOpen"
-                              ng-click="experience.edit(entry, $index)">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </h3>
-                    <h4 class="accordion-subtitle2">{{ entry.company }}</h4>
-                    <span class="accordion-date">
-                      {{ entry.start | showMonthYear }} –
-                      <span ng-show="entry.end">{{ entry.end | showMonthYear }}</span>
-                      <span ng-hide="entry.end" translate>today</span>
-                      ({{ entry | momentDiff | toMonthsYears }})
-                    </span>
-                    <div class="accordion-text">{{ entry.summary }}</div>
-                    <div class="accordion-text" ng-show="entry.skills.length">
-                      <strong><translate>Technologies/Skills</translate>:</strong>
-                      {{ entry.skills.join(', ') }}
-                    </div>
-                  </hc-accordion>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row bg-white">
-            <div class="col-sm-12">
-              <h2 class="big-title accordion-main-title">
-                <translate>EDUCATION</translate>
-                <span class="accordion-title-extra">{{ highestDegree }}</span>
-                <button class="add-btn" ng-show="isEditing && !formOpen" ng-click="education.add()">
-                  <i class="fa fa-plus"></i> <translate>ADD</translate>
-                </button>
-              </h2>
-              <div class="accordion-wrap">
-                <!-- Add panel -->
-                <div class="add-panel" ng-show="education.editing === -2">
-                  <button class="add-panel-close" ng-click="education.close()"><i class="fa fa-close"></i></button>
-                  <hc-education-form
-                    hc-container="education"
-                    name="form"
-                    hc-required="model.length === 0 || !education.form.isPristine()"
-                    hc-disabled="loading"
-                    on-submit="education.save($model, $form, model.length)">
-                    <div class="row">
-                      <div class="buttons-wrap">
-                        <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" translate>save</button>
-                        <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="education.close()" translate>cancel</button>
-                      </div>
-                    </div>
-                  </hc-education-form>
-                </div>
-                <!--End  Add panel -->
-                <div ng-repeat="entry in education.data">
-                  <!-- EDIT panel -->
-                  <div class="add-panel edit-panel" ng-if="education.editing === $index">
-                    <button class="add-panel-close" ng-click="education.close()"><i class="fa fa-close"></i></button>
-                    <hc-education-form
-                      ng-model="entry"
-                      hc-required="true"
-                      hc-disabled="loading"
-                      on-submit="education.save($model, $form, $index)">
-
-                      <div class="row">
-                        <div class="buttons-wrap">
-                          <button type="submit" class="fl-rg bg-green btn-small mrg-lft-small" translate>save</button>
-                          <button type="button" class="fl-rg bg-gray-lighter2 btn-small" ng-click="education.close()" translate>cancel</button>
-                        </div>
-                      </div>
-                    </hc-education-form>
-                  </div>
-                  <!--End  EDIT panel -->
-
-                  <div class="accordion-container">
-                    <h3 class="accordion-subtitle">
-                      {{ entry.degree }}
-                      <span class="accordion-subtitle-extra">{{ entry.course }}</span>
-                      <button type="button"
-                              class="btn-edit-sub no-fl"
-                              ng-show="isEditing"
-                              ng-disabled="loading || formOpen"
-                              ng-click="education.edit(entry, $index)">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </h3>
-                    <h4 class="accordion-subtitle2">{{ entry.institution }}</h4>
-                    <span class="accordion-date">
-                      {{ entry.start}} –
-                      <span ng-show="entry.end">{{ entry.end }}</span>
-                      <span ng-hide="entry.end" translate>today</span>
-                      ({{ entry | momentDiff | toMonthsYears }})
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <section class="row experience-section">
+        <div class="col-sm-12">
+          <div hc-candidate-experience model="candidate" hc-editable></div>
         </div>
-      </div>
+      </section>
+
+      <section class="row education-section">
+        <div class="col-sm-12">
+          <div hc-candidate-education model="candidate" hc-editable></div>
+        </div>
+      </section>
     </div>
   </div>
 </div>

@@ -1,0 +1,36 @@
+<form ng-submit="save(data)" hc-validations-on-submit>
+  <div class="form-group">
+    <label translate>Languages</label>
+
+    <div class="row" ng-repeat="entry in data">
+
+      <div class="col-sm-6">
+        <input type="text"
+          class="form-control"
+          placeholder="{{ 'Language' | translate }}"
+          autocomplete="off"
+          ng-disabled="loading"
+          ng-required="$first"
+          ng-model="entry.language"
+          ng-blur="onBlur(entry, $index, $last)"
+          ng-change="onChange(entry, $index, $last)"
+          typeahead-on-select="validateLang(entry)"
+          typeahead="language for language in searchLanguages($viewValue)"
+          hc-typeahead-loader>
+      </div>
+
+      <div class="col-sm-6">
+        <select class="form-control"
+          ng-disabled="loading"
+          ng-required="entry.language"
+          ng-model="entry.proficiency"
+          ng-options="proficiency as $root.translate(proficiency) for proficiency in proficiencies">
+          <option value="" translate>Select...</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div ng-transclude></div>
+  <div class="clearfix"></div>
+</form>

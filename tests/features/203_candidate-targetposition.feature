@@ -5,7 +5,7 @@ Feature: Candidate sign up with target position
      Given I post a new candidate
 
   Scenario: Candidate set target position
-      When I post to "/candidates/me/target_position":
+      When I put to "/candidates/me/target_position":
         """
         {
           "role": "System Administration",

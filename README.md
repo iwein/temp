@@ -9,11 +9,9 @@ DEV/CI Environment (continuously deployed):
 
 Demo Environment (updated weekly)
 
-* Frontend: [http://scotty-demo.s3-website-eu-west-1.amazonaws.com/](http://scotty-demo.s3-website-eu-west-1.amazonaws.com/)
-* API: [http://guarded-inlet-9319.herokuapp.com/debug](http://guarded-inlet-9319.herokuapp.com/debug)
+* Frontend/API: [http://demo.scotty.frf.me/](http://demo.scotty.frf.me/)
 
 ### Optimizely
-
 
 email: scotty@hackandcraft.com
 Password: Helloworld123
@@ -28,7 +26,7 @@ Password: Helloworld123
 * copy a local.ini config file with proper Postgres Connection Strings, <code>sqlalchemy.url</code>
   * note this is mentioned twice in the config file
 * run <code>alembic -c [CONFIG] upgrade head</code>
-* start the server with <code>paste serve --reload configs/[CONFIG]</code>
+* start the server with <code>paster serve --reload configs/[CONFIG]</code>
 * open a browser on [http://localhost:8080](http://localhost:8080)
 
 ### Pulling Code and Upgrading API

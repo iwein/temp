@@ -1,0 +1,27 @@
+<span class="edit-button" ng-if="data" translate>Update your CV</span>
+<span class="edit-button" ng-if="!data" translate>Upload CV</span>
+
+<button type="button" class="edit-button pencil-edit" ng-disabled="profile.isFormOpen" ng-click="edit()">
+  <i class="fa fa-pencil"></i>
+</button>
+
+<form>
+  <button class="close-button" ng-click="close()">
+    <i class="fa fa-close"></i>
+  </button>
+
+  <div class="buttons-wrap">
+    <div class="uploadFile">
+      <span translate>Select file</span>
+      <input type="file"
+        name="cv"
+        accept="application/acrobat,application/x-pdf,application/pdf,application/vnd.pdf,text/pdf,text/x-pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ng-disabled="loading"
+        ng-model="data"
+        hc-file-select="save($files)">
+    </div>
+    <button type="button" ng-disabled="loading" ng-click="close()" translate>Cancel</button>
+  </div>
+
+  <div class="clearfix"></div>
+</form>
