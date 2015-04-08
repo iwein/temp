@@ -110,6 +110,12 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
+#: components/candidate-profile/completion-skills/completion-skills.html:6
+msgid ""
+"Add any programming language, software technologies or methodologies you "
+"have experience with."
+msgstr ""
+
 #: components/candidate-profile/availability/availability-edit.html:4
 #, fuzzy
 msgid "Add availability information"
@@ -2572,6 +2578,10 @@ msgstr ""
 
 #: components/candidate-thanks/candidate-thanks.html:4
 msgid "Welcome a board"
+msgstr ""
+
+#: components/candidate-profile/completion-skills/completion-skills.html:5
+msgid "What are you good at?"
 msgstr ""
 
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:5

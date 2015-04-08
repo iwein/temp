@@ -126,6 +126,17 @@ msgstr "Annehmen"
 msgid "Active"
 msgstr "Muttersprachlich"
 
+#: components/candidate-profile/completion-skills/completion-skills.html:6
+#, fuzzy
+msgid ""
+"Add any programming language, software technologies or methodologies you "
+"have experience with."
+msgstr ""
+"Nenne jede Programmiersprache, Software, Technologie oder Methode in der du "
+"Erfahrung hast. Bitte liste nur die Kenntnisse auf, in denen du relevante "
+"Berufserfahrung sammeln konntest. Bitte gib zusätzlich an, auf welchem Level "
+"deine Kenntnisse sind."
+
 #: components/candidate-profile/availability/availability-edit.html:4
 msgid "Add availability information"
 msgstr "Gib an ab wann du Verfügbar bist"
@@ -2753,6 +2764,11 @@ msgstr "Willkommen"
 msgid "Welcome a board"
 msgstr "Willkommen"
 
+#: components/candidate-profile/completion-skills/completion-skills.html:5
+#, fuzzy
+msgid "What are you good at?"
+msgstr "Wie gut sprichst du welche Sprachen?"
+
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:5
 msgid "What is your birth day?"
 msgstr ""
@@ -3324,16 +3340,6 @@ msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
 #~ msgid "Add"
 #~ msgstr "Weitere"
-
-#~ msgid ""
-#~ "Add any programming language, software technologies or methodologies you "
-#~ "have experience with. Please only list the skills with relevant working "
-#~ "experience and define you knowledge level."
-#~ msgstr ""
-#~ "Nenne jede Programmiersprache, Software, Technologie oder Methode in der "
-#~ "du Erfahrung hast. Bitte liste nur die Kenntnisse auf, in denen du "
-#~ "relevante Berufserfahrung sammeln konntest. Bitte gib zusätzlich an, auf "
-#~ "welchem Level deine Kenntnisse sind."
 
 #~ msgid "Advanced"
 #~ msgstr "Fortgeschritten"
