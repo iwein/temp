@@ -2536,6 +2536,11 @@ msgstr "Das erscheint zu hoch."
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
+#: components/candidate-thanks/candidate-thanks.html:19
+#, fuzzy
+msgid "Top companies using 4scotty"
+msgstr "Top Unternehmen die deine Wunschtechnologien nutzen!"
+
 #: components/candidate-dashboard/candidate-dashboard.html:104
 msgid "Top companies using your target tech!"
 msgstr "Top Unternehmen die deine Wunschtechnologien nutzen!"

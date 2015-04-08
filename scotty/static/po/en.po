@@ -2384,6 +2384,10 @@ msgstr ""
 msgid "Toggle navigation"
 msgstr ""
 
+#: components/candidate-thanks/candidate-thanks.html:19
+msgid "Top companies using 4scotty"
+msgstr ""
+
 #: components/candidate-dashboard/candidate-dashboard.html:104
 msgid "Top companies using your target tech!"
 msgstr ""
