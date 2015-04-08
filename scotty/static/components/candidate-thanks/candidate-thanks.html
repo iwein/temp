@@ -6,10 +6,10 @@
     </div>
   </div>
 
-  <p hc-scope="{ email: 'm.schleuthner@4scotty.com' }">
+  <p hc-scope="{ email: session.user._data.email }">
     <span class="message" translate>
-      Bitte schauen Sie in Ihrem Postfach für <a ng-href="{{email}}">{{email}}</a>
-      natch und klicken Sie den Aktivirungslink um Ihre Registrierug zu bestätigen.
+      Please check your email inbox <a ng-href="{{email}}">{{email}}</a>
+      for the 4Scotty welcome email and click the confirmation link in it to confirm your email address.
     </span>
   </p>
 
