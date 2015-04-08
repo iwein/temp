@@ -35,6 +35,53 @@
     margin-top: 30px;
     color: white;
   }
+
+  .companies {
+    h3 {
+      text-transform: uppercase;
+      font-size: 1em;
+      color: #e37334;
+    }
+
+    ul { margin: 0 ~"calc(50% - 560px)" 30px }
+    li {
+      background-position: center center;
+      background-repeat: no-repeat;
+      display: inline-block;
+      margin: 25px;
+      height: 52px;
+    }
+
+    @picturesUrl: "/candidate/resources/images/companies";
+    .rebuy {
+      background: url("@{picturesUrl}/01_reBuyde.png");
+      width: 150px;
+    }
+    .mister-spex {
+      background: url("@{picturesUrl}/02_MisterSpex.png");
+      width: 225px;
+    }
+    .euromicron {
+      background: url("@{picturesUrl}/03_euromicron.png");
+      width: 218px;
+    }
+    .scarosso {
+      background: url("@{picturesUrl}/04_Scarosso.png");
+      width: 213px;
+    }
+    .x-o {
+      background: url("@{picturesUrl}/05_exo.png");
+      width: 68px;
+    }
+    .welsparen {
+      background: url("@{picturesUrl}/06_SavingGlobal.png");
+      width: 266px;
+    }
+    .nolte-lauth {
+      background: url("@{picturesUrl}/07_NolteLauch.png");
+      width: 178px;
+    }
+  }
 }
 
 .signup-complete .container {
