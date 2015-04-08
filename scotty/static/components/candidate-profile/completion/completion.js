@@ -74,11 +74,14 @@ define(function(require) {
           var education = candidate.getEducationCached();
           var hasExperience = experience && experience.length;
           var hasEducation = education && education.length;
+          var isExperienceImported = false;
+          var isEducationImported = false;
           var promises = [];
 
           if (!hasExperience) {
             promises.push(connectors.getExperience().then(function(list) {
               return list && list.length && candidate.setExperience(list).then(function() {
+                isExperienceImported = true;
                 hasExperience = true;
                 return candidate.getExperience();
               });
@@ -88,6 +91,7 @@ define(function(require) {
           if (!hasEducation) {
             promises.push(connectors.getEducation().then(function(list) {
               return list && list.length && candidate.setEducation(list).then(function() {
+                isEducationImported = true;
                 hasEducation = true;
                 return candidate.getEducation();
               });
@@ -95,7 +99,10 @@ define(function(require) {
           }
 
           importing = true;
-          Promise.all(promises).then(function() {
+          return Promise.all(promises).then(function() {
+            if (isExperienceImported || isEducationImported)
+              return refresh();
+          }).then(function() {
             importing = false;
           });
         }
