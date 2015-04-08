@@ -1,4 +1,17 @@
 <div class="component-candidate-thanks">
-  <h1 translate>Thank you</h1>
-  <p translate>You can now access <a ui-sref="profile">your profile</a>.</p>
+  <div class="banner">
+    <div class="banner-inner">
+      <h1 translate>Welcome a board</h1>
+      <h2 translate>Thank you for registering with 4scotty</h2>
+    </div>
+  </div>
+
+  <p hc-scope="{ email: 'm.schleuthner@4scotty.com' }">
+    <span class="message" translate>
+      Bitte schauen Sie in Ihrem Postfach für <a ng-href="{{email}}">{{email}}</a>
+      natch und klicken Sie den Aktivirungslink um Ihre Registrierug zu bestätigen.
+    </span>
+  </p>
+
+  <a class="button" ui-sref="profile">Continue to your profile</a>
 </div>
