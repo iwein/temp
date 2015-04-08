@@ -360,6 +360,14 @@ msgstr "Datum bitte größer, gleich 1."
 msgid "Birthday"
 msgstr "Geburtstag"
 
+#: components/candidate-thanks/candidate-thanks.html:10
+msgid ""
+"Bitte schauen Sie in Ihrem Postfach für <a ng-href=\"{{email}}\">{{email}}</"
+"a>\n"
+"      natch und klicken Sie den Aktivirungslink um Ihre Registrierug zu "
+"bestätigen."
+msgstr ""
+
 #: components/candidate-offer/candidate-offer.html:263
 msgid "Block employer"
 msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
@@ -951,6 +959,14 @@ msgstr "Ich stimme zu:"
 #: components/directive-education-form/directive-education-form.html:82
 msgid "I am still studying there"
 msgstr "Ich studiere hier noch"
+
+#: components/candidate-profile/completion-education/completion-education-further.html:17
+msgid "I have no further education"
+msgstr ""
+
+#: components/candidate-profile/completion-experience/completion-experience-further.html:17
+msgid "I have no further experience"
+msgstr ""
 
 #: components/candidate-signup/candidate-signup.html:127
 msgid ""
@@ -1675,6 +1691,16 @@ msgstr "Bitte geben Sie eine gültige E-Mail Adresse an."
 msgid "Please insert a valid website URL (as copied form a browser window)."
 msgstr "Bitte geben Sie eine gültige Internetadresse an."
 
+#: components/candidate-profile/completion-education/completion-education-further.html:6
+#, fuzzy
+msgid "Please insert any other education level you have."
+msgstr "Bitte gib das Jahr deines Abschlusses an."
+
+#: components/candidate-profile/completion-experience/completion-experience-further.html:6
+#, fuzzy
+msgid "Please insert any other work experience you have."
+msgstr "Bitten geben Sie die Anzahl der Mitarbeiter im Unternehmen an."
+
 #: components/admin-offer-edit/admin-offer-edit.html:97
 #: components/employer-create-offer/employer-create-offer.html:98
 msgid "Please insert the city of the offer."
@@ -1798,6 +1824,11 @@ msgstr "Bitte geben Sie Ihren erwarteten Jahresumsatz an."
 #: components/candidate-profile/name/name-edit.html:26
 #: components/candidate-signup/candidate-signup.html:38
 msgid "Please insert your first name."
+msgstr "Bitte gib deinen Vornamen an."
+
+#: components/candidate-profile/completion-education/completion-education.html:6
+#, fuzzy
+msgid "Please insert your highest education level."
 msgstr "Bitte gib deinen Vornamen an."
 
 #: components/candidate-profile/name/name-edit.html:30
@@ -2133,7 +2164,9 @@ msgstr "Anrede..."
 #: components/candidate-profile/birthdate/birthdate-edit.html:34
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:14
 #: components/candidate-profile/completion-city/completion-city.html:24
+#: components/candidate-profile/completion-education/completion-education-further.html:16
 #: components/candidate-profile/completion-education/completion-education.html:16
+#: components/candidate-profile/completion-experience/completion-experience-further.html:16
 #: components/candidate-profile/completion-experience/completion-experience.html:16
 #: components/candidate-profile/completion-languages/completion-languages.html:10
 #: components/candidate-profile/completion-location/completion-location.html:14
@@ -2450,9 +2483,9 @@ msgstr "AGB für Unternehmen"
 msgid "Terms of services"
 msgstr "Anmeldung abschließen"
 
-#: components/candidate-thanks/candidate-thanks.html:2
-msgid "Thank you"
-msgstr "Vielen Dank"
+#: components/candidate-thanks/candidate-thanks.html:5
+msgid "Thank you for registering with 4scotty"
+msgstr ""
 
 #: components/candidate-activate/candidate-activate.html:5
 msgid "Thanks for activating your account, you can now"
@@ -2682,6 +2715,23 @@ msgstr "Homepage"
 msgid "Welcome"
 msgstr "Willkommen"
 
+#: components/candidate-thanks/candidate-thanks.html:4
+#, fuzzy
+msgid "Welcome a board"
+msgstr "Willkommen"
+
+#: components/candidate-profile/completion-education/completion-education.html:5
+msgid "What is your highest degree?"
+msgstr ""
+
+#: components/candidate-profile/completion-education/completion-education-further.html:5
+msgid "What other education do you have?"
+msgstr ""
+
+#: components/candidate-profile/completion-experience/completion-experience-further.html:5
+msgid "What other work experience do you have?"
+msgstr ""
+
 #: components/employer-signup-mission/employer-signup-mission.html:14
 msgid "When was the company established?"
 msgstr "Wann wurde das Unternehmen gegründet?"
@@ -2796,10 +2846,6 @@ msgstr ""
 msgid "You already have a company with this name starting on the same month."
 msgstr ""
 "Du hast schon ein Unternehmen mit diesem Namen mit dem gleichen Startmonat."
-
-#: components/candidate-thanks/candidate-thanks.html:3
-msgid "You can now access <a ui-sref=\"profile\">your profile</a>."
-msgstr "Hier ist dein <a ui-sref=\"profile\">your profile</a>."
 
 #: components/candidate-signup/candidate-signup.html:150
 msgid "You can only win"
@@ -2932,7 +2978,7 @@ msgstr ""
 "Dein Passwort wurde erneuert. Du kannst dich nun mit deinem neuen Passwort "
 "anmelden."
 
-#: apps/candidate/index.html:56 apps/employer/index.html:56
+#: apps/candidate/index.html:57 apps/employer/index.html:56
 msgid "Your profile has not been reviewed &amp; approved yet."
 msgstr "Dein Profil wurde noch nicht geprüft &amp; bestätigt."
 
@@ -3211,6 +3257,12 @@ msgstr "{{ role }} aus {{ city }}"
 #: apps/common/footer.html:50
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
+
+#~ msgid "Thank you"
+#~ msgstr "Vielen Dank"
+
+#~ msgid "You can now access <a ui-sref=\"profile\">your profile</a>."
+#~ msgstr "Hier ist dein <a ui-sref=\"profile\">your profile</a>."
 
 #~ msgid "Add"
 #~ msgstr "Weitere"
