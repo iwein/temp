@@ -50,6 +50,8 @@ def includeme(config):
     config.add_route('candidate_offer_timeline', '{candidate_id}/offers/{id}/timeline')
     config.add_route('candidate_offer_newsfeed', '{candidate_id}/offers/{id}/newsfeed')
     config.add_route('candidate_signup_stage', '{candidate_id}/signup_stage')
+    config.add_route('candidate_signup_stage_nomore', '{candidate_id}/signup_stage/no_more')
+
     config.add_route('candidate_profile_completion', '{candidate_id}/profile_completion')
     config.add_route('candidate', '{candidate_id}')
     config.add_route('candidate_picture', '{candidate_id}/picture')
@@ -172,6 +174,8 @@ class CandidateController(RootController):
     @view_config(route_name='candidate_signup_stage', **GET)
     def signup_stage(self):
         candidate = self.candidate
+        has_wxp = len(candidate.work_experience) > 0
+        has_edu = len(candidate.education) > 0
         workflow = {
             'completion': completion_ratio(candidate),
             'ordering': ['target_position',
@@ -181,14 +185,31 @@ class CandidateController(RootController):
                          'skills',
                          'languages',
                          'dob',
-                         'location'],
+                         'location',
+                         'further_work_experience',
+                         'further_education'],
             'location': candidate.location is not None,
             'dob': candidate.dob is not None,
             'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
             'target_position': candidate.target_position is not None,
             'preferred_location': bool(candidate.preferred_location),
-            'work_experience': len(candidate.work_experience) > 0, 'education': len(candidate.education) > 0}
+            'work_experience': has_wxp, 'education': has_edu,
+            'additional_work_experience': bool(has_wxp and candidate.no_further_wxp),
+            'additional_education': bool(has_edu and candidate.no_further_edu)}
         return workflow
+
+    @view_config(route_name='candidate_signup_stage_nomore', **POST)
+    def signup_stage_nomore(self):
+        candidate = self.candidate
+        params = self.request.json
+        name = params.get('name')
+
+        lookup = {'work_experience': 'no_further_wxp', 'education': 'no_further_edu'}
+        if name in lookup:
+            setattr(candidate, lookup[name], datetime.now())
+            return self.signup_stage()
+        else:
+            raise HTTPBadRequest(u'Must be one of: %s' % lookup.keys())
 
     @view_config(route_name='candidate_profile_completion', **GET)
     def profile_completion(self):

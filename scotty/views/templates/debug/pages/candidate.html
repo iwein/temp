@@ -54,6 +54,7 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
 
         {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-base'},
 
+
         {url: '/api/v1/candidates/me/picture', title: 'candidate-me-picture',
           data: {url: 'https://media.licdn.com/mpr/mpr/shrink_120_120/p/8/005/02b/072/128f576.jpg'}},
 
@@ -259,6 +260,11 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
           ]
         },
         {url: '/api/v1/candidates/me/education', title: 'LIST-3-education'},
+
+        {title: 'Additional Education & Work experience'},
+        {url: '/api/v1/candidates/me/signup_stage/no_more', data: {'name': 'xyz'}, title: 'candidate-no_additional_false', expectedErrors:[400]},
+        {url: '/api/v1/candidates/me/signup_stage/no_more', data: {'name': 'work_experience'}, title: 'candidate-no_additional_wxp'},
+        {url: '/api/v1/candidates/me/signup_stage/no_more', data: {'name': 'education'}, title: 'candidate-no_additional_edu'},
 
 
 

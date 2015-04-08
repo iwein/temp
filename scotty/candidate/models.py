@@ -284,6 +284,8 @@ class Candidate(Base, JsonSerialisable):
     activation_token = Column(GUID, unique=True, default=uuid4, info=PRIVATE)
     activation_sent = Column(DateTime, info=PRIVATE)
     activated = Column(DateTime, info=PRIVATE)
+    no_further_wxp = Column(DateTime, info=PRIVATE)
+    no_further_edu = Column(DateTime, info=PRIVATE)
 
     email = Column(String(512), nullable=False, unique=True, info=PRIVATE)
     pwd = Column(String(128), nullable=False, info=PRIVATE)
