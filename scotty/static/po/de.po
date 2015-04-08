@@ -459,6 +459,10 @@ msgstr "Kandidaten"
 msgid "Child Care Services"
 msgstr "Kinderbetreuung"
 
+#: components/candidate-profile/completion-languages/completion-languages.html:6
+msgid "Choose the languages you speak and the level you have with it."
+msgstr ""
+
 #: components/directive-experience-form/directive-experience-form.html:41
 #: components/directive-office-form/directive-office-form.html:79
 msgid "City"
@@ -1001,6 +1005,10 @@ msgstr "Zusammengefasst"
 #: tmp/db-tokens/withdrawalreasons.js:1
 msgid "Inappropriate"
 msgstr "Ungeeignet"
+
+#: components/candidate-profile/completion-experience/completion-experience.html:6
+msgid "Insert your current workplace or the last position you were working at."
+msgstr ""
 
 #: tmp/db-tokens/withdrawalreasons.js:3
 msgid "Insufficient Experience"
@@ -1994,6 +2002,11 @@ msgstr ""
 "später. Unternehmen werden deine Kontaktdaten erst sehen, wenn du deren "
 "Angebot akzeptiert hast."
 
+#: components/candidate-profile/completion-city/completion-city.html:6
+#, fuzzy
+msgid "Please type the city you're living currently."
+msgstr "Bitte gib die Stadt deiner Arbeitsstelle an."
+
 #: components/candidate-profile/availability/availability-edit.html:22
 msgid "Please type your availability"
 msgstr "Bitte gib deine Verfügbarkeit an"
@@ -2242,6 +2255,11 @@ msgstr "Abschluss auswählen"
 msgid "Select file"
 msgstr "Datei auswählen"
 
+#: components/candidate-profile/completion-location/completion-location.html:6
+msgid "Select the cities where you are interested to receive offers from."
+msgstr ""
+
+#: components/candidate-profile/completion-target/completion-target.html:18
 #: components/candidate-profile/languages/languages-partial.html:28
 #: components/employer-dashboard/employer-dashboard.html:45
 msgid "Select..."
@@ -2470,6 +2488,12 @@ msgstr ""
 "Kantinenkochs und Ihre fantastischen Weiterbildungsmöglichkeiten nennen "
 "sollten."
 
+#: components/candidate-profile/completion-target/completion-target.html:6
+msgid ""
+"Tell us what tech you want to work with and the minimum you expect to be "
+"paid."
+msgstr ""
+
 #: components/employer-signup-terms/employer-signup-terms.html:7
 msgid "Terms and services"
 msgstr "Anmeldung abschließen"
@@ -2659,6 +2683,10 @@ msgstr ""
 "          Zögern Sie aber nicht uns auch andere Städte Ihres Interesses in "
 "Deutschland zu nennen. Diese nehmen wir gerne für die Zukunft auf."
 
+#: components/candidate-profile/completion-birthdate/completion-birthdate.html:6
+msgid "We need to confirm you're at older than 16."
+msgstr ""
+
 #: components/candidate-signup/candidate-signup.html:185
 msgid ""
 "We will accompany you throughout the entire process. And if you find a new "
@@ -2725,9 +2753,18 @@ msgstr "Willkommen"
 msgid "Welcome a board"
 msgstr "Willkommen"
 
+#: components/candidate-profile/completion-birthdate/completion-birthdate.html:5
+msgid "What is your birth day?"
+msgstr ""
+
 #: components/candidate-profile/completion-education/completion-education.html:5
 msgid "What is your highest degree?"
 msgstr ""
+
+#: components/candidate-profile/completion-languages/completion-languages.html:5
+#, fuzzy
+msgid "What languages you know?"
+msgstr "Wie gut sprichst du welche Sprachen?"
 
 #: components/candidate-profile/completion-education/completion-education-further.html:5
 msgid "What other education do you have?"
@@ -2741,10 +2778,26 @@ msgstr ""
 msgid "When was the company established?"
 msgstr "Wann wurde das Unternehmen gegründet?"
 
+#: components/candidate-profile/completion-experience/completion-experience.html:5
+msgid "Where are you working now?"
+msgstr ""
+
+#: components/candidate-profile/completion-city/completion-city.html:5
+msgid "Where do you live right now?"
+msgstr ""
+
+#: components/candidate-profile/completion-location/completion-location.html:5
+msgid "Where do you want to work at?"
+msgstr ""
+
 #: components/admin-offer-edit/admin-offer-edit.html:88
 #: components/employer-create-offer/employer-create-offer.html:89
 msgid "Where is the role based."
 msgstr "Wo ist der Job zu besetzen."
+
+#: components/candidate-profile/completion-target/completion-target.html:5
+msgid "Where would you like to work?"
+msgstr ""
 
 #: components/employer-signup-basic/employer-signup-basic.html:109
 #: components/employer-signup-benefits/employer-signup-benefits.html:87
@@ -3459,9 +3512,6 @@ msgstr "©2015 4Scotty. Alle Rechte gesichert."
 #~ "Welche Ausbildung hast du durchlaufen? Du brauchst deine Schulausbildung "
 #~ "nicht zu erwähnen, nur den Namen der Universität, Hochschule oder "
 #~ "Ausbildungsinstitution und die Fachrichtung."
-
-#~ msgid "Which languages do you speak and how well?"
-#~ msgstr "Wie gut sprichst du welche Sprachen?"
 
 #~ msgid "You can conduct business in the language."
 #~ msgstr ""

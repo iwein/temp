@@ -418,6 +418,10 @@ msgstr ""
 msgid "Child Care Services"
 msgstr ""
 
+#: components/candidate-profile/completion-languages/completion-languages.html:6
+msgid "Choose the languages you speak and the level you have with it."
+msgstr ""
+
 #: components/directive-experience-form/directive-experience-form.html:41
 #: components/directive-office-form/directive-office-form.html:79
 msgid "City"
@@ -929,6 +933,10 @@ msgstr ""
 
 #: tmp/db-tokens/withdrawalreasons.js:1
 msgid "Inappropriate"
+msgstr ""
+
+#: components/candidate-profile/completion-experience/completion-experience.html:6
+msgid "Insert your current workplace or the last position you were working at."
 msgstr ""
 
 #: tmp/db-tokens/withdrawalreasons.js:3
@@ -1854,6 +1862,10 @@ msgstr ""
 "            Employers will not see your name and contact data until you "
 "accept their offers or decide so at a later point of this sign up."
 
+#: components/candidate-profile/completion-city/completion-city.html:6
+msgid "Please type the city you're living currently."
+msgstr ""
+
 #: components/candidate-profile/availability/availability-edit.html:22
 msgid "Please type your availability"
 msgstr ""
@@ -2099,6 +2111,11 @@ msgstr ""
 msgid "Select file"
 msgstr ""
 
+#: components/candidate-profile/completion-location/completion-location.html:6
+msgid "Select the cities where you are interested to receive offers from."
+msgstr ""
+
+#: components/candidate-profile/completion-target/completion-target.html:18
 #: components/candidate-profile/languages/languages-partial.html:28
 #: components/employer-dashboard/employer-dashboard.html:45
 msgid "Select..."
@@ -2320,6 +2337,12 @@ msgid ""
 "stars and your outstanding training policies!"
 msgstr ""
 
+#: components/candidate-profile/completion-target/completion-target.html:6
+msgid ""
+"Tell us what tech you want to work with and the minimum you expect to be "
+"paid."
+msgstr ""
+
 #: components/employer-signup-terms/employer-signup-terms.html:7
 msgid "Terms and services"
 msgstr ""
@@ -2500,6 +2523,10 @@ msgid ""
 "any other city in Germany so we know where to focus in the future."
 msgstr ""
 
+#: components/candidate-profile/completion-birthdate/completion-birthdate.html:6
+msgid "We need to confirm you're at older than 16."
+msgstr ""
+
 #: components/candidate-signup/candidate-signup.html:185
 msgid ""
 "We will accompany you throughout the entire process. And if you find a new "
@@ -2547,8 +2574,16 @@ msgstr ""
 msgid "Welcome a board"
 msgstr ""
 
+#: components/candidate-profile/completion-birthdate/completion-birthdate.html:5
+msgid "What is your birth day?"
+msgstr ""
+
 #: components/candidate-profile/completion-education/completion-education.html:5
 msgid "What is your highest degree?"
+msgstr ""
+
+#: components/candidate-profile/completion-languages/completion-languages.html:5
+msgid "What languages you know?"
 msgstr ""
 
 #: components/candidate-profile/completion-education/completion-education-further.html:5
@@ -2563,9 +2598,25 @@ msgstr ""
 msgid "When was the company established?"
 msgstr ""
 
+#: components/candidate-profile/completion-experience/completion-experience.html:5
+msgid "Where are you working now?"
+msgstr ""
+
+#: components/candidate-profile/completion-city/completion-city.html:5
+msgid "Where do you live right now?"
+msgstr ""
+
+#: components/candidate-profile/completion-location/completion-location.html:5
+msgid "Where do you want to work at?"
+msgstr ""
+
 #: components/admin-offer-edit/admin-offer-edit.html:88
 #: components/employer-create-offer/employer-create-offer.html:89
 msgid "Where is the role based."
+msgstr ""
+
+#: components/candidate-profile/completion-target/completion-target.html:5
+msgid "Where would you like to work?"
 msgstr ""
 
 #: components/employer-signup-basic/employer-signup-basic.html:109
