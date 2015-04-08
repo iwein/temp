@@ -115,6 +115,8 @@ msgid ""
 "Add any programming language, software technologies or methodologies you "
 "have experience with."
 msgstr ""
+"Add all programming language, software technologies or methodologies you "
+"have significant experience with."
 
 #: components/candidate-profile/availability/availability-edit.html:4
 #, fuzzy
@@ -216,7 +218,7 @@ msgstr ""
 #: components/candidate-profile/completion-target/completion-target.html:28
 #: components/candidate-profile/salary/salary-edit.html:18
 msgid "Annual Salary"
-msgstr ""
+msgstr "Minimum Annual Salary"
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:66
 #: components/employer-profile/employer-profile.html:186
@@ -655,6 +657,9 @@ msgid ""
 "interesting offers, that have a slightly lower nominal salary but huge other "
 "benefits."
 msgstr ""
+"Do not set your minimum salary too high, as it will block employers to send "
+"you interesting offers, that have a slightly lower nominal salary but huge "
+"other benefits."
 
 #: components/employer-signup-mission/employer-signup-mission.html:65
 msgid "Does your number of employees really exceed 990000000?"
@@ -944,6 +949,8 @@ msgstr ""
 #: components/candidate-profile/completion-experience/completion-experience.html:6
 msgid "Insert your current workplace or the last position you were working at."
 msgstr ""
+"Insert your current workplace or the last position you were working at. We "
+"will ensure that your current employer will not see your profile."
 
 #: tmp/db-tokens/withdrawalreasons.js:3
 msgid "Insufficient Experience"
@@ -1445,6 +1452,8 @@ msgid ""
 "Please choose from the list or write down at least one other technology or "
 "skill you've been working with for a relevant period of time."
 msgstr ""
+"Please choose from the list or write down at least one technology or skill "
+"you want to work with in your next job."
 
 #: components/employer-offer/employer-offer.html:220
 msgid "Please define the reason for your withdrawal."
@@ -1714,6 +1723,8 @@ msgstr ""
 #: components/candidate-profile/completion-education/completion-education.html:6
 msgid "Please insert your highest education level."
 msgstr ""
+"Please insert your highest education level. No need to mention your A-"
+"levels, just name University, College or other higher education you recieved."
 
 #: components/candidate-profile/name/name-edit.html:30
 #: components/candidate-signup/candidate-signup.html:56
@@ -1870,7 +1881,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-city/completion-city.html:6
 msgid "Please type the city you're living currently."
-msgstr ""
+msgstr "Please name the city you're currently living in."
 
 #: components/candidate-profile/availability/availability-edit.html:22
 msgid "Please type your availability"
@@ -2347,7 +2358,7 @@ msgstr ""
 msgid ""
 "Tell us what tech you want to work with and the minimum you expect to be "
 "paid."
-msgstr ""
+msgstr "Tell us what interests you as your next professionalt step."
 
 #: components/employer-signup-terms/employer-signup-terms.html:7
 msgid "Terms and services"
@@ -2610,7 +2621,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-experience/completion-experience.html:5
 msgid "Where are you working now?"
-msgstr ""
+msgstr "What is your current job?"
 
 #: components/candidate-profile/completion-city/completion-city.html:5
 msgid "Where do you live right now?"
@@ -2618,7 +2629,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-location/completion-location.html:5
 msgid "Where do you want to work at?"
-msgstr ""
+msgstr "Where do you want to work?"
 
 #: components/admin-offer-edit/admin-offer-edit.html:88
 #: components/employer-create-offer/employer-create-offer.html:89
@@ -2627,7 +2638,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-target/completion-target.html:5
 msgid "Where would you like to work?"
-msgstr ""
+msgstr "Which job would tempt you?"
 
 #: components/employer-signup-basic/employer-signup-basic.html:109
 #: components/employer-signup-benefits/employer-signup-benefits.html:87

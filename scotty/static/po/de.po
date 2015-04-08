@@ -127,15 +127,12 @@ msgid "Active"
 msgstr "Muttersprachlich"
 
 #: components/candidate-profile/completion-skills/completion-skills.html:6
-#, fuzzy
 msgid ""
 "Add any programming language, software technologies or methodologies you "
 "have experience with."
 msgstr ""
-"Nenne jede Programmiersprache, Software, Technologie oder Methode in der du "
-"Erfahrung hast. Bitte liste nur die Kenntnisse auf, in denen du relevante "
-"Berufserfahrung sammeln konntest. Bitte gib zusätzlich an, auf welchem Level "
-"deine Kenntnisse sind."
+"Füge jede Programmiersprache, Sofware und Technologie oder Methodologie mit "
+"der du Erfahrung hast hinzu."
 
 #: components/candidate-profile/availability/availability-edit.html:4
 msgid "Add availability information"
@@ -473,6 +470,7 @@ msgstr "Kinderbetreuung"
 #: components/candidate-profile/completion-languages/completion-languages.html:6
 msgid "Choose the languages you speak and the level you have with it."
 msgstr ""
+"Wähle die Sprachen die du sprichst und gib an wie gut du sie beherrschst."
 
 #: components/directive-experience-form/directive-experience-form.html:41
 #: components/directive-office-form/directive-office-form.html:79
@@ -977,11 +975,11 @@ msgstr "Ich studiere hier noch"
 
 #: components/candidate-profile/completion-education/completion-education-further.html:17
 msgid "I have no further education"
-msgstr ""
+msgstr "Ich habe keine weitere Ausbildung."
 
 #: components/candidate-profile/completion-experience/completion-experience-further.html:17
 msgid "I have no further experience"
-msgstr ""
+msgstr "Ich habe keine weitere Ausbildung."
 
 #: components/candidate-signup/candidate-signup.html:127
 msgid ""
@@ -1020,6 +1018,8 @@ msgstr "Ungeeignet"
 #: components/candidate-profile/completion-experience/completion-experience.html:6
 msgid "Insert your current workplace or the last position you were working at."
 msgstr ""
+"Gib deine letzte Berufsstation oder die letzte Position die du besetzt hast "
+"an."
 
 #: tmp/db-tokens/withdrawalreasons.js:3
 msgid "Insufficient Experience"
@@ -1711,14 +1711,12 @@ msgid "Please insert a valid website URL (as copied form a browser window)."
 msgstr "Bitte geben Sie eine gültige Internetadresse an."
 
 #: components/candidate-profile/completion-education/completion-education-further.html:6
-#, fuzzy
 msgid "Please insert any other education level you have."
-msgstr "Bitte gib das Jahr deines Abschlusses an."
+msgstr "Bitte gib jede andere Ausbildung die du absolviert hast hier an."
 
 #: components/candidate-profile/completion-experience/completion-experience-further.html:6
-#, fuzzy
 msgid "Please insert any other work experience you have."
-msgstr "Bitten geben Sie die Anzahl der Mitarbeiter im Unternehmen an."
+msgstr "Bitte gib jede andere gesammelte Arbeitserfahrung hier an."
 
 #: components/admin-offer-edit/admin-offer-edit.html:97
 #: components/employer-create-offer/employer-create-offer.html:98
@@ -1846,9 +1844,8 @@ msgid "Please insert your first name."
 msgstr "Bitte gib deinen Vornamen an."
 
 #: components/candidate-profile/completion-education/completion-education.html:6
-#, fuzzy
 msgid "Please insert your highest education level."
-msgstr "Bitte gib deinen Vornamen an."
+msgstr "Bitte gib deinen höchsten Abschluss an."
 
 #: components/candidate-profile/name/name-edit.html:30
 #: components/candidate-signup/candidate-signup.html:56
@@ -2014,9 +2011,8 @@ msgstr ""
 "Angebot akzeptiert hast."
 
 #: components/candidate-profile/completion-city/completion-city.html:6
-#, fuzzy
 msgid "Please type the city you're living currently."
-msgstr "Bitte gib die Stadt deiner Arbeitsstelle an."
+msgstr "Bitte gib an in welcher Stadt du gerade lebst."
 
 #: components/candidate-profile/availability/availability-edit.html:22
 msgid "Please type your availability"
@@ -2268,7 +2264,7 @@ msgstr "Datei auswählen"
 
 #: components/candidate-profile/completion-location/completion-location.html:6
 msgid "Select the cities where you are interested to receive offers from."
-msgstr ""
+msgstr "Wähle die Städte aus in denen du gerne arbeiten möchtest."
 
 #: components/candidate-profile/completion-target/completion-target.html:18
 #: components/candidate-profile/languages/languages-partial.html:28
@@ -2503,7 +2499,7 @@ msgstr ""
 msgid ""
 "Tell us what tech you want to work with and the minimum you expect to be "
 "paid."
-msgstr ""
+msgstr "Sag uns wie dein nächster beruflicher Schritt aussehen soll."
 
 #: components/employer-signup-terms/employer-signup-terms.html:7
 msgid "Terms and services"
@@ -2520,7 +2516,7 @@ msgstr "Anmeldung abschließen"
 
 #: components/candidate-thanks/candidate-thanks.html:5
 msgid "Thank you for registering with 4scotty"
-msgstr ""
+msgstr "Danke, dass du dich bei 4Scotty registriert hast"
 
 #: components/candidate-activate/candidate-activate.html:5
 msgid "Thanks for activating your account, you can now"
@@ -2572,9 +2568,8 @@ msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
 #: components/candidate-thanks/candidate-thanks.html:19
-#, fuzzy
 msgid "Top companies using 4scotty"
-msgstr "Top Unternehmen die deine Wunschtechnologien nutzen!"
+msgstr "Top Unternehmen bei 4Scotty"
 
 #: components/candidate-dashboard/candidate-dashboard.html:104
 msgid "Top companies using your target tech!"
@@ -2696,7 +2691,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:6
 msgid "We need to confirm you're at older than 16."
-msgstr ""
+msgstr "Wir müssen bestätigen, dass du älter als 16 bist."
 
 #: components/candidate-signup/candidate-signup.html:185
 msgid ""
@@ -2760,35 +2755,32 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: components/candidate-thanks/candidate-thanks.html:4
-#, fuzzy
 msgid "Welcome a board"
-msgstr "Willkommen"
+msgstr "Willkommen an Board"
 
 #: components/candidate-profile/completion-skills/completion-skills.html:5
-#, fuzzy
 msgid "What are you good at?"
-msgstr "Wie gut sprichst du welche Sprachen?"
+msgstr "Worin bist du gut."
 
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:5
 msgid "What is your birth day?"
-msgstr ""
+msgstr "Wann ist dein Geburtstag?"
 
 #: components/candidate-profile/completion-education/completion-education.html:5
 msgid "What is your highest degree?"
-msgstr ""
+msgstr "Was ist dein höchster Abschluss"
 
 #: components/candidate-profile/completion-languages/completion-languages.html:5
-#, fuzzy
 msgid "What languages you know?"
-msgstr "Wie gut sprichst du welche Sprachen?"
+msgstr "Welche Sprachen sprichst du?"
 
 #: components/candidate-profile/completion-education/completion-education-further.html:5
 msgid "What other education do you have?"
-msgstr ""
+msgstr "Welche andere Ausbildung hast du?"
 
 #: components/candidate-profile/completion-experience/completion-experience-further.html:5
 msgid "What other work experience do you have?"
-msgstr ""
+msgstr "Welche andere Arbeitserfahrung hast du?"
 
 #: components/employer-signup-mission/employer-signup-mission.html:14
 msgid "When was the company established?"
@@ -2796,15 +2788,15 @@ msgstr "Wann wurde das Unternehmen gegründet?"
 
 #: components/candidate-profile/completion-experience/completion-experience.html:5
 msgid "Where are you working now?"
-msgstr ""
+msgstr "Wo arbeitest du gerade?"
 
 #: components/candidate-profile/completion-city/completion-city.html:5
 msgid "Where do you live right now?"
-msgstr ""
+msgstr "Wo lebst du gerade?"
 
 #: components/candidate-profile/completion-location/completion-location.html:5
 msgid "Where do you want to work at?"
-msgstr ""
+msgstr "Wo willst du arbeiten?"
 
 #: components/admin-offer-edit/admin-offer-edit.html:88
 #: components/employer-create-offer/employer-create-offer.html:89
@@ -2813,7 +2805,7 @@ msgstr "Wo ist der Job zu besetzen."
 
 #: components/candidate-profile/completion-target/completion-target.html:5
 msgid "Where would you like to work?"
-msgstr ""
+msgstr "Wo würdest du gerne arbeiten?"
 
 #: components/employer-signup-basic/employer-signup-basic.html:109
 #: components/employer-signup-benefits/employer-signup-benefits.html:87
