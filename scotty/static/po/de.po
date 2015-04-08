@@ -50,6 +50,46 @@ msgstr ""
 "Bruttojahresgehalts\n"
 "            oder monatlich 2% des Bruttojahresgehalts über 12 Monate."
 
+#: components/candidate-profile/completion-languages/completion-languages.html:10
+#, fuzzy
+msgid "<b>Advanced:</b> You can conduct business in the language."
+msgstr "Du kannst dich in der Sprache mündlich und schriftlich gut ausdrücken."
+
+#: components/candidate-profile/completion-skills/completion-skills.html:10
+#, fuzzy
+msgid "<b>Advanced:</b> several years of practical experience"
+msgstr "Mehrere Jahre praktische Erfahrung."
+
+#: components/candidate-profile/completion-skills/completion-skills.html:9
+#, fuzzy
+msgid "<b>Basic:</b> worked with that but not extensively"
+msgstr "Erste Erfahrungen und wenig damit gearbeitet."
+
+#: components/candidate-profile/completion-languages/completion-languages.html:11
+#, fuzzy
+msgid ""
+"<b>Basis:</b> You can express yourself in the language with limited working "
+"proficiency."
+msgstr "Du kannst dich in dieser Sprache verbal grundlegend verständigen."
+
+#: components/candidate-profile/completion-skills/completion-skills.html:11
+#, fuzzy
+msgid ""
+"<b>Expert:</b> in-depth knowledge and comprehensive multi-project experience"
+msgstr "Tiefes Wissen und mehrjährige Erfahrung aus verschiedenen Projekten."
+
+#: components/candidate-profile/completion-languages/completion-languages.html:9
+#, fuzzy
+msgid ""
+"<b>Fluent:</b> You professionally master the language in both written and "
+"spoken word."
+msgstr "Du beherrschst die Sprache in Wort und Schrift."
+
+#: components/candidate-profile/completion-languages/completion-languages.html:8
+#, fuzzy
+msgid "<b>Native:</b> Your first language."
+msgstr "Deine Muttersprache."
+
 #: components/candidate-offer/candidate-offer.js:112
 msgid ""
 "<h2>Congratulation to your new position!</h2>\n"
@@ -108,6 +148,19 @@ msgstr ""
 "<hc-employer-link ng-model=\"entry.employer\"></hc-employer-link> hat sein "
 "Angebot zurück gezogen."
 
+#: components/candidate-profile/completion-languages/completion-languages.html:6
+msgid ""
+"<ul>\n"
+"    <li translate=\"\"><b>Native:</b> Your first language.</li>\n"
+"    <li translate=\"\"><b>Fluent:</b> You professionally master the language "
+"in both written and spoken word.</li>\n"
+"    <li translate=\"\"><b>Advanced:</b> You can conduct business in the "
+"language.</li>\n"
+"    <li translate=\"\"><b>Basis:</b> You can express yourself in the "
+"language with limited working proficiency.</li>\n"
+"  </ul>"
+msgstr ""
+
 #: components/candidate-profile/education/education.html:12
 #: components/candidate-profile/experience/experience.html:28
 #: components/employer-profile/employer-profile.html:252
@@ -125,14 +178,6 @@ msgstr "Annehmen"
 #: apps/common/offer.js:9
 msgid "Active"
 msgstr "Muttersprachlich"
-
-#: components/candidate-profile/completion-skills/completion-skills.html:6
-msgid ""
-"Add any programming language, software technologies or methodologies you "
-"have experience with."
-msgstr ""
-"Füge jede Programmiersprache, Sofware und Technologie oder Methodologie mit "
-"der du Erfahrung hast hinzu."
 
 #: components/candidate-profile/availability/availability-edit.html:4
 msgid "Add availability information"
@@ -368,14 +413,6 @@ msgstr "Datum bitte größer, gleich 1."
 msgid "Birthday"
 msgstr "Geburtstag"
 
-#: components/candidate-thanks/candidate-thanks.html:10
-msgid ""
-"Bitte schauen Sie in Ihrem Postfach für <a ng-href=\"{{email}}\">{{email}}</"
-"a>\n"
-"      natch und klicken Sie den Aktivirungslink um Ihre Registrierug zu "
-"bestätigen."
-msgstr ""
-
 #: components/candidate-offer/candidate-offer.html:263
 msgid "Block employer"
 msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
@@ -466,11 +503,6 @@ msgstr "Kandidaten"
 #: tmp/db-tokens/benefits.js:1
 msgid "Child Care Services"
 msgstr "Kinderbetreuung"
-
-#: components/candidate-profile/completion-languages/completion-languages.html:6
-msgid "Choose the languages you speak and the level you have with it."
-msgstr ""
-"Wähle die Sprachen die du sprichst und gib an wie gut du sie beherrschst."
 
 #: components/directive-experience-form/directive-experience-form.html:41
 #: components/directive-office-form/directive-office-form.html:79
@@ -1515,6 +1547,13 @@ msgstr "Beschreibung"
 msgid "Pictures"
 msgstr "Bilder"
 
+#: components/candidate-thanks/candidate-thanks.html:10
+msgid ""
+"Please check your email inbox <a ng-href=\"{{email}}\">{{email}}</a>\n"
+"      for the 4Scotty welcome email and click the confirmation link in it to "
+"confirm your email address."
+msgstr ""
+
 #: components/partial-candidate-email-confirm-msg/partial-candidate-email-confirm-msg.html:2
 msgid "Please check your inbox and confirm your email address."
 msgstr "Bitte bestätige deine E-Mail Adresse."
@@ -1908,6 +1947,12 @@ msgstr ""
 msgid "Please list the projects you worked on"
 msgstr "Bitte liste deine Projekte auf."
 
+#: components/candidate-profile/completion-skills/completion-skills.html:7
+msgid ""
+"Please only list the skills with relevant working experience and define you "
+"knowledge level."
+msgstr ""
+
 #: components/employer-profile/employer-profile.html:767
 msgid ""
 "Please present some photos of your company, your IT offices, as well as "
@@ -2188,9 +2233,9 @@ msgstr "Anrede..."
 #: components/candidate-profile/completion-education/completion-education.html:16
 #: components/candidate-profile/completion-experience/completion-experience-further.html:16
 #: components/candidate-profile/completion-experience/completion-experience.html:16
-#: components/candidate-profile/completion-languages/completion-languages.html:10
+#: components/candidate-profile/completion-languages/completion-languages.html:17
 #: components/candidate-profile/completion-location/completion-location.html:14
-#: components/candidate-profile/completion-skills/completion-skills.html:10
+#: components/candidate-profile/completion-skills/completion-skills.html:17
 #: components/candidate-profile/completion-target/completion-target.html:60
 #: components/candidate-profile/contact/contact-edit.html:138
 #: components/candidate-profile/languages/languages-edit.html:17
@@ -2301,9 +2346,9 @@ msgstr "Kenntnisse"
 #: components/candidate-profile/completion-city/completion-city.html:25
 #: components/candidate-profile/completion-education/completion-education.html:17
 #: components/candidate-profile/completion-experience/completion-experience.html:17
-#: components/candidate-profile/completion-languages/completion-languages.html:11
+#: components/candidate-profile/completion-languages/completion-languages.html:18
 #: components/candidate-profile/completion-location/completion-location.html:15
-#: components/candidate-profile/completion-skills/completion-skills.html:11
+#: components/candidate-profile/completion-skills/completion-skills.html:18
 #: components/candidate-profile/completion-target/completion-target.html:61
 msgid "Skip"
 msgstr "Überspringen"
@@ -2770,10 +2815,6 @@ msgstr "Wann ist dein Geburtstag?"
 msgid "What is your highest degree?"
 msgstr "Was ist dein höchster Abschluss"
 
-#: components/candidate-profile/completion-languages/completion-languages.html:5
-msgid "What languages you know?"
-msgstr "Welche Sprachen sprichst du?"
-
 #: components/candidate-profile/completion-education/completion-education-further.html:5
 msgid "What other education do you have?"
 msgstr "Welche andere Ausbildung hast du?"
@@ -2822,6 +2863,11 @@ msgstr ""
 "Ob Sie die einmalige Vermittlungsgebühr oder monatliche Raten bevorzugen - "
 "bei 4Scotty zahlen sie nur, wenn sie wirklich einen Kandidaten eingestellt "
 "haben."
+
+#: components/candidate-profile/completion-languages/completion-languages.html:5
+#, fuzzy
+msgid "Which languages do you speak and how well?"
+msgstr "Welche Sprachen sprichst du?"
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:28
 msgid ""
@@ -3324,6 +3370,17 @@ msgstr "{{ role }} aus {{ city }}"
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
 
+#~ msgid ""
+#~ "Add any programming language, software technologies or methodologies you "
+#~ "have experience with."
+#~ msgstr ""
+#~ "Füge jede Programmiersprache, Sofware und Technologie oder Methodologie "
+#~ "mit der du Erfahrung hast hinzu."
+
+#~ msgid "Choose the languages you speak and the level you have with it."
+#~ msgstr ""
+#~ "Wähle die Sprachen die du sprichst und gib an wie gut du sie beherrschst."
+
 #~ msgid "Thank you"
 #~ msgstr "Vielen Dank"
 
@@ -3511,39 +3568,14 @@ msgstr "©2015 4Scotty. Alle Rechte gesichert."
 #~ "nicht zu erwähnen, nur den Namen der Universität, Hochschule oder "
 #~ "Ausbildungsinstitution und die Fachrichtung."
 
-#~ msgid "You can conduct business in the language."
-#~ msgstr ""
-#~ "Du kannst dich in der Sprache mündlich und schriftlich gut ausdrücken."
-
-#~ msgid ""
-#~ "You can express yourself in the language with limited working proficiency."
-#~ msgstr "Du kannst dich in dieser Sprache verbal grundlegend verständigen."
-
 #~ msgid "You did it"
 #~ msgstr "Du hast es geschafft."
-
-#~ msgid ""
-#~ "You professionally master the language in both written and spoken word."
-#~ msgstr "Du beherrschst die Sprache in Wort und Schrift."
 
 #~ msgid "Your Target Position"
 #~ msgstr "Deine Wunschposition"
 
-#~ msgid "Your first language."
-#~ msgstr "Deine Muttersprache."
-
 #~ msgid "current"
 #~ msgstr "heute"
-
-#~ msgid "in-depth knowledge and comprehensive multi-project experience"
-#~ msgstr ""
-#~ "Tiefes Wissen und mehrjährige Erfahrung aus verschiedenen Projekten."
-
-#~ msgid "several years of practical experience"
-#~ msgstr "Mehrere Jahre praktische Erfahrung."
-
-#~ msgid "worked with that but rather short or not extensively"
-#~ msgstr "Erste Erfahrungen und wenig damit gearbeitet."
 
 #~ msgid "Newsletter"
 #~ msgstr "Newsletter"
