@@ -181,6 +181,16 @@ define(function(require) {
       return this._api.post(this._url(), model);
     },
 
+    noFurtherExperience: function() {
+      return this._api.post(this._url() + '/signup_stage/no_more', { name: 'work_experience' })
+        .then(this.getSignupStage.bind(this));
+    },
+
+    noFurtherEducation: function() {
+      return this._api.post(this._url() + '/signup_stage/no_more', { name: 'education' })
+        .then(this.getSignupStage.bind(this));
+    },
+
     dispose: function() {
       // TODO
     },

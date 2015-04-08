@@ -4,7 +4,9 @@ define(function(require) {
   require('../completion-birthdate/completion-birthdate');
   require('../completion-city/completion-city');
   require('../completion-education/completion-education');
+  require('../completion-education/completion-education-further');
   require('../completion-experience/completion-experience');
+  require('../completion-experience/completion-experience-further');
   require('../completion-graph/completion-graph');
   require('../completion-languages/completion-languages');
   require('../completion-location/completion-location');
