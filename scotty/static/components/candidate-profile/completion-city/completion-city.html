@@ -5,19 +5,24 @@
 <h3 translate>Where do you live right now?</h3>
 <h4 translate>Please type the city you're living currently.</h4>
 
-<form ng-submit="save()">
+<form name="form" ng-submit="save()" hc-validations-on-submit>
   <div class="form-group">
     <input type="text"
       name="location"
       class="form-control"
       placeholder="{{ 'Location' | translate }}"
       autocomplete="off"
+      required
       ng-disabled="loading"
       ng-model="locationText"
       ng-blur="setLocation(locationText)"
       typeahead-on-select="setLocation(locationText)"
       typeahead="location for location in searchLocations($viewValue)"
       hc-typeahead-loader>
+
+    <div class="validation-errors" ng-show="form.location.$dirty">
+      <div ng-show="form.location.$error.required" translate>Please select a city.</div>
+    </div>
   </div>
 
   <div class="buttons-wrap">

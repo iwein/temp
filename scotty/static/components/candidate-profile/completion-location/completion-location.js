@@ -18,13 +18,26 @@ define(function(require) {
           data: {},
         });
 
+        scope.$watch('data', function() {
+          scope.errorLocationRequired = false;
+        });
         scope.$watch('model.$revision', function() {
           var data = scope.model.getDataCached();
           scope.data = data && data.preferred_location;
         });
 
 
+        function validate() {
+          var countries = Object.keys(scope.data || {});
+          if (!countries.length)
+            scope.errorLocationRequired = true;
+        }
+
         function save() {
+          validate();
+          if (scope.errorLocationRequired)
+            return;
+
           return scope.model.setPreferredLocations(scope.data)
             .then(function() { return scope.model.getData() })
             .then(function() { return ctrl.refresh() })

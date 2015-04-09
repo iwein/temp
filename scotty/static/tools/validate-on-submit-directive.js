@@ -3,24 +3,42 @@ define(function(require) {
   var module = require('app-module');
 
   module.directive('hcValidationsOnSubmit', function() {
+
+    function makeControlsDirty(component) {
+      var errors = component.$error;
+      var keys = Object.keys(errors);
+      if (!keys.length) return [];
+
+      // it's a field
+      if (errors[keys[0]] === true) {
+        component.$dirty = true;
+        return component;
+      }
+
+      return keys.reduce(function(fields, key) {
+        return fields.concat(errors[key].forEach(makeControlsDirty));
+      }, []);
+    }
+
     return {
       restrict: 'A',
       require: 'form',
       link: function(scope, elem, attr, ctrl) {
         var element = elem[0];
-        element.addEventListener('submit', function() {
+        element.addEventListener('submit', function(event) {
           scope.$apply(function() {
-            var errors = ctrl.$error;
-            var fields = Object.keys(errors).reduce(function(fields, key) {
-              return fields.concat(errors[key]);
-            }, []).reverse();
+            var fields = makeControlsDirty(ctrl).filter(Boolean);
+            var first = fields.filter(function(field) {
+              return field.$name;
+            })[0];
 
-            fields.forEach(function(field) {
-              field.$dirty = true;
-              if (!field.$name) return;
-              var dom = element.querySelector('[name=' + field.$name + ']');
+            if (first) {
+              var dom = element.querySelector('[name=' + first.$name + ']');
               if (dom) dom.focus();
-            });
+            }
+
+            if (fields.length)
+              event.preventDefault();
           });
         });
       }
