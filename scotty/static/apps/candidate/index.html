@@ -49,7 +49,7 @@
   <ng-include src="'navbar.html'"></ng-include>
 
   <div id="content">
-    <div class="message-container">
+    <div class="message-container" ng-show="currentState.name !== 'signup-complete'">
       <div class="alert alert-warning alert-verification"
         style="display: none"
         ng-show="session.user && session.isActivated && !session.isApproved"

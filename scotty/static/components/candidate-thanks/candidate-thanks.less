@@ -8,29 +8,28 @@
   .message {
     display: inline-block;
     font-size: 1.1em;
-    margin-top: 50px;
+    margin: 40px 0 20px;
     width: 400px;
     a { color: black }
   }
 
   .banner {
-    min-height: 352px;
+    min-height: 302px;
+    @media (max-width: 1080px) { .background(112%); }
+    @media (min-width: 1080px) { .background(107%); }
+    @media (min-width: 1200px) { .background(100%); }
+    @media (min-width: 1500px) { .background(87%); }
     .background(@percent) {
       background:
         url(/candidate/resources/images/Dana_Big.png) no-repeat @percent center,
         url(/candidate/resources/images/background.jpg);
     }
-
-    @media (max-width: 1080px) { .background(112%); }
-    @media (min-width: 1080px) { .background(107%); }
-    @media (min-width: 1200px) { .background(100%); }
-    @media (min-width: 1500px) { .background(87%); }
   }
 
   .banner-inner {
     width: 630px;
     height: 127px;
-    margin-top: 102px;
+    margin-top: 87px;
   }
 
   .button {
@@ -38,12 +37,12 @@
     text-transform: uppercase;
     background: #e37334;
     padding: 8px 55px;
-    margin-bottom: 100px;
-    margin-top: 30px;
     color: white;
   }
 
   .companies {
+    margin-top: 50px;
+
     h3 {
       text-transform: uppercase;
       font-size: 1em;
