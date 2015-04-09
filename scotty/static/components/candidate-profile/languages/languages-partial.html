@@ -24,6 +24,7 @@
           ng-disabled="loading"
           ng-required="entry.language"
           ng-model="entry.proficiency"
+          ng-change="validateLang(entry)"
           ng-options="proficiency as $root.translate(proficiency) for proficiency in proficiencies">
           <option value="" translate>Select...</option>
         </select>

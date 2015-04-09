@@ -24,6 +24,9 @@ define(function(require) {
 
 
         function save() {
+          scope.isSubmitted = true;
+          if (!scope.data) return;
+
           return scope.model.updateData({ dob: scope.data })
             .then(function() { return ctrl.refresh() })
             .catch(toaster.defaultError)

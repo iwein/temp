@@ -9,7 +9,7 @@ define(function(require) {
   module.directive('hcBirthdatePartial', function(toaster, i18n) {
     return {
       template: require('text!./birthdate-partial.html'),
-      scope: { model: '=', },
+      scope: { model: '=' },
       link: function(scope) {
         _.extend(scope, {
           updateDob: updateDob,

@@ -25,11 +25,16 @@ define(function(require) {
 
 
         function setLocation(text) {
-          scope.data = ConfigAPI.getLocationFromText(text);
+          scope.data = text && ConfigAPI.getLocationFromText(text);
           scope.errorNoLocation = text && !scope.data;
         }
 
         function save() {
+          if (!scope.data) {
+            scope.locationText = '';
+            return;
+          }
+
           return scope.model.updateData({ location: scope.data })
             .then(function() { return ctrl.refresh() })
             .catch(toaster.defaultError)

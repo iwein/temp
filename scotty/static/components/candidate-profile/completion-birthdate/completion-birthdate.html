@@ -5,7 +5,7 @@
 <h3 translate>What is your birth day?</h3>
 <h4 translate>We need to confirm you're at older than 16.</h4>
 
-<form ng-submit="save()">
+<form ng-submit="save()" hc-validations-on-submit>
   <div class="form-group">
     <div hc-birthdate-partial model="data"></div>
   </div>

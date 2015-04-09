@@ -38,17 +38,18 @@ define(function(require) {
 
         function onLoad() {
           scope.data = parser.get(scope.model);
-          valid = scope.data.map(fn.get('language'));
-          if (!scope.data.length)
-            scope.data = featured.map(function(value) { return { language: value } });
+          if (!scope.data.length) {
+            scope.data = featured
+              .map(function(value) { return { language: value } })
+              .map(validateLang);
+          }
 
+          valid = scope.data.map(fn.get('language'));
           scope.data.push({});
         }
 
         function save() {
-          if (!isValid())
-            return;
-
+          if (!isValid()) return;
           scope.loading = true;
           var data = scope.data.slice(0, -1);
           return parser.set(scope.model, data)
@@ -66,6 +67,7 @@ define(function(require) {
             valid.indexOf(entry.language) === -1 &&
             !ConfigAPI.isValidLanguage(entry.language)
           );
+          return entry;
         }
 
         function onBlur(entry, index, isLast) {

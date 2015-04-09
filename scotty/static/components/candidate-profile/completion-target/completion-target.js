@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('tools/validate-on-submit-directive');
   var _ = require('underscore');
   var fn = require('tools/fn');
   var module = require('app-module');
@@ -32,6 +33,9 @@ define(function(require) {
 
 
         function save() {
+          if (!scope.form.$valid)
+            return;
+
           var data = _.extend({}, scope.data);
           var skills = scope.featuredSkills
             .filter(fn.get('selected'))
