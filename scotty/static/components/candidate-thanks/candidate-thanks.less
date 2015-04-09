@@ -7,14 +7,14 @@
 
   .message {
     display: inline-block;
-    font-size: 1.1em;
-    margin: 40px 0 20px;
-    width: 400px;
+    font-size: 1.7em;
+    margin: 40px 0 35px;
+    width: 660px;
     a { color: black }
   }
 
   .banner {
-    min-height: 302px;
+    min-height: 279px;
     @media (max-width: 1080px) { .background(112%); }
     @media (min-width: 1080px) { .background(107%); }
     @media (min-width: 1200px) { .background(100%); }
@@ -29,63 +29,65 @@
   .banner-inner {
     width: 630px;
     height: 127px;
-    margin-top: 87px;
+    margin-top: 75px;
   }
 
   .button {
     display: inline-block;
     text-transform: uppercase;
     background: #e37334;
-    padding: 8px 55px;
+    padding: 12px 78px;
+    font-size: 1.6em;
     color: white;
   }
 
   .companies {
-    margin-top: 50px;
+    margin-top: 74px;
 
     h3 {
       text-transform: uppercase;
-      font-size: 1em;
+      font-size: 1.5em;
       color: #e37334;
     }
 
-    ul { margin: 0 ~"calc(50% - 560px)" 30px }
+    ul { margin: 0 ~"calc(50% - 360px)" 30px }
     li {
       background-position: center center;
       background-repeat: no-repeat;
+      background-size: 100% 100%;
       display: inline-block;
-      margin: 25px;
-      height: 52px;
+      margin: 18px;
+      height: 33px;
     }
 
     @picturesUrl: "/candidate/resources/images/companies";
     .rebuy {
-      background: url("@{picturesUrl}/01_reBuyde.png");
-      width: 150px;
+      background-image: url("@{picturesUrl}/01_reBuyde.png");
+      width: 105px;
     }
     .mister-spex {
-      background: url("@{picturesUrl}/02_MisterSpex.png");
-      width: 225px;
+      background-image: url("@{picturesUrl}/02_MisterSpex.png");
+      width: 158px;
     }
     .euromicron {
-      background: url("@{picturesUrl}/03_euromicron.png");
-      width: 218px;
+      background-image: url("@{picturesUrl}/03_euromicron.png");
+      width: 153px;
     }
     .scarosso {
-      background: url("@{picturesUrl}/04_Scarosso.png");
-      width: 213px;
+      background-image: url("@{picturesUrl}/04_Scarosso.png");
+      width: 149px;
     }
     .x-o {
-      background: url("@{picturesUrl}/05_exo.png");
-      width: 68px;
+      background-image: url("@{picturesUrl}/05_exo.png");
+      width: 48px;
     }
     .welsparen {
-      background: url("@{picturesUrl}/06_SavingGlobal.png");
-      width: 266px;
+      background-image: url("@{picturesUrl}/06_SavingGlobal.png");
+      width: 186px;
     }
     .nolte-lauth {
-      background: url("@{picturesUrl}/07_NolteLauch.png");
-      width: 178px;
+      background-image: url("@{picturesUrl}/07_NolteLauch.png");
+      width: 125px;
     }
   }
 }
