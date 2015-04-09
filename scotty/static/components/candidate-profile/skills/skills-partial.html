@@ -52,13 +52,16 @@
 
   <div class="form-group">
     <label translate>List other skills</label>
-    <hc-label-typeahead
-      placeholder="{{ 'Type a skill and press enter after each one...' | translate }}"
-      ng-disabled="loading"
-      ng-model="skills"
-      hc-source="searchSkills($viewValue)"
-      hc-allow-new>
-    </hc-label-typeahead>
+    <div class="row">
+      <hc-label-typeahead
+        class="col-sm-11"
+        placeholder="{{ 'Type a skill and press enter after each one...' | translate }}"
+        ng-disabled="loading"
+        ng-model="skills"
+        hc-source="searchSkills($viewValue)"
+        hc-allow-new>
+      </hc-label-typeahead>
+    </div>
   </div>
 
   <div ng-transclude></div>

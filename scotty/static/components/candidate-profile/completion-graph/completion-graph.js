@@ -9,8 +9,6 @@ define(function(require) {
       require: '^hcCandidateCompletion',
       scope: { model: '=' },
       link: function(scope) {
-        var bgColor = 'white';
-
         i18n.onChange(translate);
         scope.$watch('model.$revision', function() {
           var stage = scope.model.getSignupStageCached();
@@ -22,7 +20,6 @@ define(function(require) {
           scope.value = value;
           scope.percent = Math.round(value * 100);
           scope.color = getColor(value);
-          scope.bgFormula = getBgFormula();
           translate();
         }
 
@@ -44,10 +41,6 @@ define(function(require) {
           if (value > 0.33)
             return 'Better then beginner';
           return 'Beginner';
-        }
-
-        function getBgFormula() {
-          return 'linear-gradient(bottom, ' + scope.color + ' ' + scope.percent + '%, ' + bgColor + ' 0)';
         }
       }
     };

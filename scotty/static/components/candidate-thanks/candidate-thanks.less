@@ -14,10 +14,17 @@
   }
 
   .banner {
-    background:
-    url(/candidate/resources/images/Dana_Big.png) no-repeat 80% center,
-    url(/candidate/resources/images/background.jpg);
     min-height: 352px;
+    .background(@percent) {
+      background:
+        url(/candidate/resources/images/Dana_Big.png) no-repeat @percent center,
+        url(/candidate/resources/images/background.jpg);
+    }
+
+    @media (max-width: 1080px) { .background(112%); }
+    @media (min-width: 1080px) { .background(107%); }
+    @media (min-width: 1200px) { .background(100%); }
+    @media (min-width: 1500px) { .background(87%); }
   }
 
   .banner-inner {

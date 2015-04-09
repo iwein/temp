@@ -1,10 +1,9 @@
-<div class="circle" style="
-  background: -webkit-{{bgFormula}};
-  background: -moz-{{bgFormula}};
-  background: -ms-{{bgFormula}};
-  background: -o-{{bgFormula}};
-  background: {{bgFormula}};
-">
+<div class="circle">
+  <div class="background" ng-style="{
+    'margin-top': (100 - percent) + '%',
+    height: percent + '%',
+    background: color,
+  }"></div>
 </div>
 <div class="indicator-container">
   <div class="indicator" ng-style="{ height: (100 - percent) + '%' }">
