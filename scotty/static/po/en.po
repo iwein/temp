@@ -378,6 +378,10 @@ msgstr ""
 msgid "Block employer"
 msgstr ""
 
+#: tmp/db-tokens/benefits.js:1
+msgid "Breakfasts"
+msgstr ""
+
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
@@ -452,7 +456,7 @@ msgstr ""
 msgid "Candidates"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:1
+#: tmp/db-tokens/benefits.js:2
 msgid "Child Care Services"
 msgstr ""
 
@@ -465,6 +469,10 @@ msgstr ""
 msgid "City or Municipality"
 msgstr ""
 
+#: tmp/db-tokens/benefits.js:3
+msgid "Coffee"
+msgstr ""
+
 #: components/candidate-signup/candidate-signup.html:183
 msgid ""
 "Companies only receive your contact details once you have explicitly "
@@ -475,7 +483,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:2
+#: tmp/db-tokens/benefits.js:4
 msgid "Company Cars"
 msgstr ""
 
@@ -508,7 +516,7 @@ msgstr ""
 msgid "Company Types"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:3
+#: tmp/db-tokens/benefits.js:5
 msgid "Company pension scheme"
 msgstr ""
 
@@ -601,7 +609,7 @@ msgstr ""
 msgid "Contract was signed"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:4
+#: tmp/db-tokens/benefits.js:6
 msgid "Contributions to capital formation"
 msgstr ""
 
@@ -693,6 +701,10 @@ msgstr ""
 
 #: components/employer-signup-mission/employer-signup-mission.html:44
 msgid "Does your revenue really exceed &euro;9223372036854775808 per year?"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:7
+msgid "Dogs Allowed"
 msgstr ""
 
 #: components/candidate-signup/candidate-signup.html:164
@@ -843,11 +855,11 @@ msgstr ""
 msgid "Founding year"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:5
+#: tmp/db-tokens/benefits.js:8
 msgid "Free Beverages"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:6
+#: tmp/db-tokens/benefits.js:9
 msgid "Free Fruits"
 msgstr ""
 
@@ -923,7 +935,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:7
+#: tmp/db-tokens/benefits.js:10
 msgid "Home office acceptance"
 msgstr ""
 
@@ -1065,7 +1077,7 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:8
+#: tmp/db-tokens/benefits.js:11
 msgid "Life and disability insurance"
 msgstr ""
 
@@ -1126,6 +1138,10 @@ msgstr ""
 msgid "March"
 msgstr ""
 
+#: tmp/db-tokens/benefits.js:12
+msgid "Massages"
+msgstr ""
+
 #: tools/months.js:13
 msgid "May"
 msgstr ""
@@ -1153,6 +1169,10 @@ msgid "Mr"
 msgstr ""
 
 #: tmp/db-tokens/salutations.js:2
+msgid "Mrs"
+msgstr ""
+
+#: tmp/db-tokens/salutations.js:3
 msgid "Ms"
 msgstr ""
 
@@ -1970,7 +1990,7 @@ msgstr ""
 msgid "Profile picture"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:9
+#: tmp/db-tokens/benefits.js:13
 msgid "Public Transport Tickets"
 msgstr ""
 
@@ -2005,8 +2025,12 @@ msgstr ""
 msgid "Rejected"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:10
+#: tmp/db-tokens/benefits.js:14
 msgid "Relocation expenses"
+msgstr ""
+
+#: tmp/db-tokens/benefits.js:15
+msgid "Remote Work"
 msgstr ""
 
 #: components/directive-office/directive-office.html:33
@@ -2225,11 +2249,11 @@ msgstr ""
 msgid "Sorry, unknown error occurred, if this error persists please contact"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:11
+#: tmp/db-tokens/benefits.js:16
 msgid "Sport and health services"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:12
+#: tmp/db-tokens/benefits.js:17
 msgid "Staff restaurant or food subsidies"
 msgstr ""
 
@@ -2274,7 +2298,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: tmp/db-tokens/benefits.js:13
+#: tmp/db-tokens/benefits.js:18
 msgid "Stock option program"
 msgstr ""
 
