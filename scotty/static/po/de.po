@@ -1548,7 +1548,7 @@ msgid ""
 "to confirm your email address."
 msgstr ""
 "Bitte schau in deiner Email Inbox <a ng-href=\"{{email}}\">{{email}}</a>\n"
-"      nach deiner 4Scotty willkommens Mail und bestätige deine Email-Adresse."
+"      nach deiner 4Scotty Willkommens-Mail und bestätige deine Email-Adresse."
 
 #: components/partial-candidate-email-confirm-msg/partial-candidate-email-confirm-msg.html:2
 msgid "Please check your inbox and confirm your email address."
