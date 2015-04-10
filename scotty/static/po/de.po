@@ -405,7 +405,7 @@ msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
 
 #: apps/common/footer.html:24
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
@@ -630,9 +630,8 @@ msgid "Continue"
 msgstr "Weiter"
 
 #: components/candidate-thanks/candidate-thanks.html:13
-#, fuzzy
 msgid "Continue to your profile"
-msgstr "gehe zu deinem Profil"
+msgstr "Gehe zu deinem Profil"
 
 #: apps/common/offer.js:13
 msgid "Contract Negotiating"
@@ -2003,9 +2002,8 @@ msgid "Please select a city from the menu."
 msgstr "Bitte Eintrag aus dem Menü auswählen."
 
 #: components/candidate-profile/completion-city/completion-city.html:24
-#, fuzzy
 msgid "Please select a city."
-msgstr "Bitte ein Bild auswählen."
+msgstr "Wähle eine Stadt aus."
 
 #: components/directive-education-form/directive-education-form.html:140
 msgid "Please select a degree or check \"Did not complete degree\"."
