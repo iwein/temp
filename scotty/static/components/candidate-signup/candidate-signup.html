@@ -29,15 +29,15 @@
                   <input type="text"
                          class="form-control"
                          name="firstName"
+                         ng-minlength="2"
                          ng-required="true"
                          ng-disabled="loading"
                          ng-model="model.first_name">
                 </div>
 
                 <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
-                  <span ng-show="formSignupUser.firstName.$error.required" translate>
-                    Please insert your first name.
-                  </span>
+                  <span ng-show="formSignupUser.firstName.$error.required" translate>Please insert your first name.</span>
+                  <span ng-show="formSignupUser.firstName.$error.minlength" translate>First name must have at least 2 characters.</span>
                 </div>
               </div>
 
@@ -47,15 +47,15 @@
                   <input type="text"
                          class="form-control"
                          name="lastName"
+                         ng-minlength="2"
                          ng-required="true"
                          ng-disabled="loading"
                          ng-model="model.last_name">
                 </div>
 
                 <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
-                  <span ng-show="formSignupUser.lastName.$error.required" translate>
-                    Please insert your last name.
-                  </span>
+                  <span ng-show="formSignupUser.lastName.$error.required" translate>Please insert your last name.</span>
+                  <span ng-show="formSignupUser.lastName.$error.minlength" translate>Last name must have at least 2 characters.</span>
                 </div>
               </div>
 
@@ -65,6 +65,7 @@
                   <input type="email"
                          class="form-control"
                          name="email"
+                         ng-minlength="6"
                          ng-required="true"
                          ng-disabled="loading"
                          ng-model="model.email"
@@ -72,12 +73,9 @@
                 </div>
 
                 <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
-                  <span ng-show="formSignupUser.email.$error.required" translate>
-                    Please insert your email.
-                  </span>
-                  <span ng-show="formSignupUser.email.$error.email" translate>
-                    Please insert a valid email.
-                  </span>
+                  <span ng-show="formSignupUser.email.$error.required" translate>Please insert your email.</span>
+                  <span ng-show="formSignupUser.email.$error.minlength" translate>Email must have at least 6 characters.</span>
+                  <span ng-show="formSignupUser.email.$error.email" translate>Please insert a valid email.</span>
                   <span ng-show="errorEmailAlreadyRegistered">
                     <translate>Email already registered.</translate>
                     <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
