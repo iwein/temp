@@ -50,44 +50,44 @@ msgstr ""
 "Bruttojahresgehalts\n"
 "            oder monatlich 2% des Bruttojahresgehalts über 12 Monate."
 
-#: components/candidate-profile/completion-languages/completion-languages.html:10
-msgid "<b>Advanced:</b> You can conduct business in the language."
+#: components/candidate-profile/completion-skills/completion-skills.html:18
+msgid "<b>Advanced</b> Several years of practical experience"
+msgstr "<b>Advanced</b> Mehrere Jahre praktischer Erfahrung."
+
+#: components/candidate-profile/completion-languages/completion-languages.html:18
+msgid "<b>Advanced</b> You can conduct business in the language."
 msgstr ""
-"<b>Advanced:</b> Du kannst dich in der Sprache schriftlich und mündlich "
+"<b>Advanced</b> Du kannst dich in der Sprache schriftlich und mündlich "
 "ausdrücken"
 
-#: components/candidate-profile/completion-skills/completion-skills.html:10
-msgid "<b>Advanced:</b> several years of practical experience"
-msgstr "<b>Advanced:</b> Mehrere Jahre praktischer Erfahrung."
+#: components/candidate-profile/completion-skills/completion-skills.html:17
+msgid "<b>Basic</b> Worked with that but not extensively"
+msgstr "<b>Basic</b> schonmal damit gearbeitet aber nicht sehr lange"
 
-#: components/candidate-profile/completion-skills/completion-skills.html:9
-msgid "<b>Basic:</b> worked with that but not extensively"
-msgstr "<b>Basic:</b> schonmal damit gearbeitet aber nicht sehr lange"
-
-#: components/candidate-profile/completion-languages/completion-languages.html:11
+#: components/candidate-profile/completion-languages/completion-languages.html:19
 msgid ""
-"<b>Basis:</b> You can express yourself in the language with limited working "
+"<b>Basis</b> You can express yourself in the language with limited working "
 "proficiency."
 msgstr ""
-"<b>Basis:</b> Du kannst dich in dieser Sprache verbal grundlegend "
+"<b>Basis</b> Du kannst dich in dieser Sprache verbal grundlegend "
 "verständigen."
 
-#: components/candidate-profile/completion-skills/completion-skills.html:11
+#: components/candidate-profile/completion-skills/completion-skills.html:19
 msgid ""
-"<b>Expert:</b> in-depth knowledge and comprehensive multi-project experience"
+"<b>Expert</b> In-depth knowledge and comprehensive multi-project experience"
 msgstr ""
-"<b>Expert:</b> ausführliches Wissen und mehrjährige Erfahrung aus "
+"<b>Expert</b> ausführliches Wissen und mehrjährige Erfahrung aus "
 "verschiedenen Projekten."
 
-#: components/candidate-profile/completion-languages/completion-languages.html:9
+#: components/candidate-profile/completion-languages/completion-languages.html:17
 msgid ""
-"<b>Fluent:</b> You professionally master the language in both written and "
+"<b>Fluent</b> You professionally master the language in both written and "
 "spoken word."
-msgstr "<b>Fluent:</b> Du beherrschst die Sprache in Wort und Schrift."
+msgstr "<b>Fluent</b> Du beherrschst die Sprache in Wort und Schrift."
 
-#: components/candidate-profile/completion-languages/completion-languages.html:8
-msgid "<b>Native:</b> Your first language."
-msgstr "<b>Native:</b> Deine Muttersprache"
+#: components/candidate-profile/completion-languages/completion-languages.html:16
+msgid "<b>Native</b> Your first language."
+msgstr "<b>Native</b> Deine Muttersprache"
 
 #: components/candidate-offer/candidate-offer.js:112
 msgid ""
@@ -146,28 +146,6 @@ msgid ""
 msgstr ""
 "<hc-employer-link ng-model=\"entry.employer\"></hc-employer-link> hat sein "
 "Angebot zurück gezogen."
-
-#: components/candidate-profile/completion-languages/completion-languages.html:6
-msgid ""
-"<ul>\n"
-"    <li translate=\"\"><b>Native:</b> Your first language.</li>\n"
-"    <li translate=\"\"><b>Fluent:</b> You professionally master the language "
-"in both written and spoken word.</li>\n"
-"    <li translate=\"\"><b>Advanced:</b> You can conduct business in the "
-"language.</li>\n"
-"    <li translate=\"\"><b>Basis:</b> You can express yourself in the "
-"language with limited working proficiency.</li>\n"
-"  </ul>"
-msgstr ""
-"<ul>\n"
-"    <li translate=\"\"><b>Muttersprache:</b> Deine Muttersprache</li>\n"
-"    <li translate=\"\"><b>Verhandlungssicher:</b> Du beherrschst die Sprache "
-"in Wort und Schrift</li>\n"
-"    <li translate=\"\"><b>Fortgeschritten:</b> Du kannst dich in der Sprache "
-"schriftlich und mündlich ausdrücken</li>\n"
-"    <li translate=\"\"><b>Grundkenntnisse:</b> Du kannst dich in dieser "
-"Sprache verbal grundlegend verständigen</li>\n"
-"  </ul>"
 
 #: components/candidate-profile/education/education.html:12
 #: components/candidate-profile/experience/experience.html:28
@@ -425,6 +403,10 @@ msgstr "Geburtstag"
 msgid "Block employer"
 msgstr "Keine weiteren Angebote von diesem Arbeitgeber"
 
+#: apps/common/footer.html:24
+msgid "Blog"
+msgstr ""
+
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:26
 msgid ""
 "Brilliant\n"
@@ -647,6 +629,11 @@ msgstr "Kontaktiere uns"
 msgid "Continue"
 msgstr "Weiter"
 
+#: components/candidate-thanks/candidate-thanks.html:13
+#, fuzzy
+msgid "Continue to your profile"
+msgstr "gehe zu deinem Profil"
+
 #: apps/common/offer.js:13
 msgid "Contract Negotiating"
 msgstr "Kontakt Position"
@@ -691,7 +678,7 @@ msgstr "Aktuelle Position"
 msgid "Dashboard"
 msgstr "Übersicht"
 
-#: apps/common/footer.html:29
+#: apps/common/footer.html:30
 msgid "Data Protection"
 msgstr "Datenschutz"
 
@@ -1043,7 +1030,7 @@ msgstr ""
 "das Feld frei, falls du keinen hast und wir werden dich später kontaktieren, "
 "um dein Profil zu verifizieren."
 
-#: apps/common/footer.html:31
+#: apps/common/footer.html:32
 msgid "Imprint"
 msgstr "Impressum"
 
@@ -1112,7 +1099,7 @@ msgstr "Stellenprofil"
 msgid "Job description"
 msgstr "Stellenprofil"
 
-#: apps/common/footer.html:28
+#: apps/common/footer.html:29
 msgid "Jobs @ 4Scotty"
 msgstr "Jobs @ 4Scotty"
 
@@ -1227,7 +1214,7 @@ msgstr "Mission"
 msgid "Month"
 msgstr "Monat"
 
-#: apps/common/footer.html:27
+#: apps/common/footer.html:28
 msgid "More"
 msgstr "Mehr"
 
@@ -1555,11 +1542,11 @@ msgstr "Beschreibung"
 msgid "Pictures"
 msgstr "Bilder"
 
-#: components/candidate-thanks/candidate-thanks.html:10
+#: components/candidate-thanks/candidate-thanks.html:7
 msgid ""
 "Please check your email inbox <a ng-href=\"{{email}}\">{{email}}</a>\n"
-"      for the 4Scotty welcome email and click the confirmation link in it to "
-"confirm your email address."
+"        for the 4Scotty welcome email and click the confirmation link in it "
+"to confirm your email address."
 msgstr ""
 "Bitte schau in deiner Email Inbox <a ng-href=\"{{email}}\">{{email}}</a>\n"
 "      nach deiner 4Scotty willkommens Mail und bestätige deine Email-Adresse."
@@ -1957,7 +1944,7 @@ msgstr ""
 msgid "Please list the projects you worked on"
 msgstr "Bitte liste deine Projekte auf."
 
-#: components/candidate-profile/completion-skills/completion-skills.html:7
+#: components/candidate-profile/completion-skills/completion-skills.html:6
 msgid ""
 "Please only list the skills with relevant working experience and define you "
 "knowledge level."
@@ -2015,6 +2002,11 @@ msgstr "Bitte auswählen"
 msgid "Please select a city from the menu."
 msgstr "Bitte Eintrag aus dem Menü auswählen."
 
+#: components/candidate-profile/completion-city/completion-city.html:24
+#, fuzzy
+msgid "Please select a city."
+msgstr "Bitte ein Bild auswählen."
+
 #: components/directive-education-form/directive-education-form.html:140
 msgid "Please select a degree or check \"Did not complete degree\"."
 msgstr "Bitte Abschluss oder \"ohne Abschluss\" auswählen."
@@ -2042,6 +2034,7 @@ msgstr "Bitte wählen sie eine Wunschposition."
 msgid "Please select at least one company type."
 msgstr "Bitte wählen Sie mindestens einen Unternehmenstyp aus."
 
+#: components/candidate-profile/completion-location/completion-location.html:13
 #: components/candidate-profile/partials/preferred-locations.html:46
 msgid "Please select at least one location."
 msgstr "Bitte wähle mindestens einen Ort auswählen."
@@ -2093,7 +2086,7 @@ msgstr ""
 msgid "Position / title"
 msgstr "Position / Titel"
 
-#: apps/common/footer.html:33
+#: apps/common/footer.html:34
 msgid "Press Resources"
 msgstr "Pressematerial"
 
@@ -2240,14 +2233,14 @@ msgstr "Anrede..."
 #: components/candidate-profile/avatar/avatar-edit.html:30
 #: components/candidate-profile/birthdate/birthdate-edit.html:34
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:14
-#: components/candidate-profile/completion-city/completion-city.html:24
+#: components/candidate-profile/completion-city/completion-city.html:29
 #: components/candidate-profile/completion-education/completion-education-further.html:16
 #: components/candidate-profile/completion-education/completion-education.html:16
 #: components/candidate-profile/completion-experience/completion-experience-further.html:16
 #: components/candidate-profile/completion-experience/completion-experience.html:16
-#: components/candidate-profile/completion-languages/completion-languages.html:17
-#: components/candidate-profile/completion-location/completion-location.html:14
-#: components/candidate-profile/completion-skills/completion-skills.html:17
+#: components/candidate-profile/completion-languages/completion-languages.html:10
+#: components/candidate-profile/completion-location/completion-location.html:18
+#: components/candidate-profile/completion-skills/completion-skills.html:11
 #: components/candidate-profile/completion-target/completion-target.html:60
 #: components/candidate-profile/contact/contact-edit.html:138
 #: components/candidate-profile/languages/languages-edit.html:17
@@ -2324,7 +2317,7 @@ msgid "Select the cities where you are interested to receive offers from."
 msgstr "Wähle die Städte aus in denen du gerne arbeiten möchtest."
 
 #: components/candidate-profile/completion-target/completion-target.html:18
-#: components/candidate-profile/languages/languages-partial.html:28
+#: components/candidate-profile/languages/languages-partial.html:29
 #: components/employer-dashboard/employer-dashboard.html:45
 msgid "Select..."
 msgstr "Auswählen..."
@@ -2355,12 +2348,12 @@ msgid "Skills"
 msgstr "Kenntnisse"
 
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:15
-#: components/candidate-profile/completion-city/completion-city.html:25
+#: components/candidate-profile/completion-city/completion-city.html:30
 #: components/candidate-profile/completion-education/completion-education.html:17
 #: components/candidate-profile/completion-experience/completion-experience.html:17
-#: components/candidate-profile/completion-languages/completion-languages.html:18
-#: components/candidate-profile/completion-location/completion-location.html:15
-#: components/candidate-profile/completion-skills/completion-skills.html:18
+#: components/candidate-profile/completion-languages/completion-languages.html:11
+#: components/candidate-profile/completion-location/completion-location.html:19
+#: components/candidate-profile/completion-skills/completion-skills.html:12
 #: components/candidate-profile/completion-target/completion-target.html:61
 msgid "Skip"
 msgstr "Überspringen"
@@ -2469,7 +2462,7 @@ msgstr "TECHNIK"
 msgid "Target position"
 msgstr "Wunschposition"
 
-#: apps/common/footer.html:30
+#: apps/common/footer.html:31
 msgid "Team"
 msgstr "Team"
 
@@ -2562,7 +2555,7 @@ msgstr "Sag uns wie dein nächster beruflicher Schritt aussehen soll."
 msgid "Terms and services"
 msgstr "Anmeldung abschließen"
 
-#: apps/common/footer.html:32
+#: apps/common/footer.html:33
 msgid "Terms of Service for Companies"
 msgstr "AGB für Unternehmen"
 
@@ -2571,7 +2564,7 @@ msgstr "AGB für Unternehmen"
 msgid "Terms of services"
 msgstr "Anmeldung abschließen"
 
-#: components/candidate-thanks/candidate-thanks.html:5
+#: components/candidate-thanks/candidate-thanks.html:6
 msgid "Thank you for registering with 4scotty"
 msgstr "Danke, dass du dich bei 4Scotty registriert hast"
 
@@ -2624,7 +2617,7 @@ msgstr "Das erscheint zu hoch."
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
-#: components/candidate-thanks/candidate-thanks.html:19
+#: components/candidate-thanks/candidate-thanks.html:16
 msgid "Top companies using 4scotty"
 msgstr "Top Unternehmen bei 4Scotty"
 
@@ -2647,7 +2640,7 @@ msgstr "Weiterbildung"
 msgid "Type a city..."
 msgstr "Stadt eingeben ..."
 
-#: components/candidate-profile/skills/skills-partial.html:56
+#: components/candidate-profile/skills/skills-partial.html:58
 msgid "Type a skill and press enter after each one..."
 msgstr "Kenntnis eingeben und ENTER nach jeder drücken ..."
 
@@ -3380,6 +3373,27 @@ msgstr "{{ role }} aus {{ city }}"
 #: apps/common/footer.html:50
 msgid "©2015 4Scotty. All Rights Reserved."
 msgstr "©2015 4Scotty. Alle Rechte gesichert."
+
+#~ msgid ""
+#~ "<ul>\n"
+#~ "    <li translate=\"\"><b>Native:</b> Your first language.</li>\n"
+#~ "    <li translate=\"\"><b>Fluent:</b> You professionally master the "
+#~ "language in both written and spoken word.</li>\n"
+#~ "    <li translate=\"\"><b>Advanced:</b> You can conduct business in the "
+#~ "language.</li>\n"
+#~ "    <li translate=\"\"><b>Basis:</b> You can express yourself in the "
+#~ "language with limited working proficiency.</li>\n"
+#~ "  </ul>"
+#~ msgstr ""
+#~ "<ul>\n"
+#~ "    <li translate=\"\"><b>Muttersprache:</b> Deine Muttersprache</li>\n"
+#~ "    <li translate=\"\"><b>Verhandlungssicher:</b> Du beherrschst die "
+#~ "Sprache in Wort und Schrift</li>\n"
+#~ "    <li translate=\"\"><b>Fortgeschritten:</b> Du kannst dich in der "
+#~ "Sprache schriftlich und mündlich ausdrücken</li>\n"
+#~ "    <li translate=\"\"><b>Grundkenntnisse:</b> Du kannst dich in dieser "
+#~ "Sprache verbal grundlegend verständigen</li>\n"
+#~ "  </ul>"
 
 #~ msgid ""
 #~ "Add any programming language, software technologies or methodologies you "
