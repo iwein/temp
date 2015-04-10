@@ -51,6 +51,9 @@ define(function(require) {
   });
 
   module.run(function($window, $location, $templateCache, $rootScope, $analytics, Session) {
+    var location = $window.location.pathname;
+    var basePath = location.substr(0, location.length - $location.url().length);
+    $analytics.settings.pageTracking.basePath = basePath;
     $templateCache.put('navbar.html', require('text!./navbar.html'));
 
     $rootScope.session = Session;
@@ -60,8 +63,11 @@ define(function(require) {
       });
     };
 
-    var location = $window.location.pathname;
-    $analytics.settings.pageTracking.basePath = location.substr(0, location.length - $location.url().length);
+    $rootScope.$on('$stateChangeSuccess', function(event, state) {
+      $rootScope.currentState = state;
+      if(window.sessionCamRecorder && window.sessionCamRecorder.createVirtualPageLoad)
+        window.sessionCamRecorder.createVirtualPageLoad(basePath + $location.url());
+    });
   });
 
   angular.bootstrap(document, [ 'scotty-employer' ]);
