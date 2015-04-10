@@ -24,7 +24,7 @@ define(function(require) {
         }
 
         function translate() {
-          scope.message = i18n.gettext(getMessage(scope.value));
+          scope.message = getMessage(scope.value);
         }
 
         function getColor(value) {
@@ -37,10 +37,10 @@ define(function(require) {
 
         function getMessage(value) {
           if (value > 0.66)
-            return 'On your way to pro';
+            return i18n.gettext('On your way to pro');
           if (value > 0.33)
-            return 'Better then beginner';
-          return 'Beginner';
+            return i18n.gettext('Better then beginner');
+          return i18n.gettext('Beginner');
         }
       }
     };

@@ -369,6 +369,10 @@ msgstr "Auf der BLACKLIST"
 msgid "Basic information"
 msgstr "Logo & Web-Seiten"
 
+#: components/candidate-profile/completion-graph/completion-graph.js:43
+msgid "Beginner"
+msgstr ""
+
 #: components/admin-offer-edit/admin-offer-edit.html:180
 #: components/candidate-offer/candidate-offer.html:110
 #: components/employer-create-offer/employer-create-offer.html:181
@@ -386,6 +390,10 @@ msgstr "Zusatzleistungen &amp; Prozess"
 #: tmp/db-tokens/rejectionreasons.js:6
 msgid "Benefits insufficient"
 msgstr "Zusatzleistungen nicht attraktiv"
+
+#: components/candidate-profile/completion-graph/completion-graph.js:42
+msgid "Better then beginner"
+msgstr ""
 
 #: components/candidate-profile/birthdate/birthdate-partial.html:45
 msgid "Birth day can't be bigger than 31."
@@ -1405,6 +1413,10 @@ msgid "On this page you will see the offers that have been made to you so far."
 msgstr ""
 "Auf dieser Seite siehst du alle Angebote, die dir bis jetzt unterbreitet "
 "wurden."
+
+#: components/candidate-profile/completion-graph/completion-graph.js:40
+msgid "On your way to pro"
+msgstr ""
 
 #: components/employer-signup-suggest/employer-signup-suggest.html:5
 msgid ""
