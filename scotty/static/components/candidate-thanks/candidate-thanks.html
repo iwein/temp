@@ -2,16 +2,13 @@
   <div class="banner">
     <div class="banner-inner">
       <h1 translate>Welcome a board</h1>
-      <h2 translate>Thank you for registering with 4scotty</h2>
+      <h2 hc-scope="{ email: session.user._data.email }">
+        <div translate>Thank you for registering with 4scotty</div>
+        <div translate>Please check your email inbox <a ng-href="{{email}}">{{email}}</a>
+        for the 4Scotty welcome email and click the confirmation link in it to confirm your email address.</div>
+      </h2>
     </div>
   </div>
-
-  <p hc-scope="{ email: session.user._data.email }">
-    <span class="message" translate>
-      Please check your email inbox <a ng-href="{{email}}">{{email}}</a>
-      for the 4Scotty welcome email and click the confirmation link in it to confirm your email address.
-    </span>
-  </p>
 
   <a class="button" ui-sref="profile">Continue to your profile</a>
 

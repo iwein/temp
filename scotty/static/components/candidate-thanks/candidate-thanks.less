@@ -1,6 +1,7 @@
 .component-candidate-thanks {
   .make-row();
   text-align: center;
+  min-height: 654px;
 
   h1 { color: black }
   h2 { color: black }
@@ -14,7 +15,8 @@
   }
 
   .banner {
-    min-height: 279px;
+    padding: 35px;
+    min-height: 0;
     @media (max-width: 1080px) { .background(112%); }
     @media (min-width: 1080px) { .background(107%); }
     @media (min-width: 1200px) { .background(100%); }
@@ -28,22 +30,20 @@
 
   .banner-inner {
     width: 630px;
-    height: 127px;
-    margin-top: 75px;
+    margin-top: 0;
   }
 
   .button {
     display: inline-block;
     text-transform: uppercase;
     background: #e37334;
+    margin: 40px 0 20px;
     padding: 12px 78px;
     font-size: 1.6em;
     color: white;
   }
 
   .companies {
-    margin-top: 74px;
-
     h3 {
       text-transform: uppercase;
       font-size: 1.5em;
