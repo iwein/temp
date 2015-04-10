@@ -333,7 +333,7 @@ msgstr "Logo & Web"
 
 #: components/candidate-profile/completion-graph/completion-graph.js:43
 msgid "Beginner"
-msgstr ""
+msgstr "Starting Profile Setup"
 
 #: components/admin-offer-edit/admin-offer-edit.html:180
 #: components/candidate-offer/candidate-offer.html:110
@@ -355,7 +355,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-graph/completion-graph.js:42
 msgid "Better then beginner"
-msgstr ""
+msgstr "Waiting to get more Data"
 
 #: components/candidate-profile/birthdate/birthdate-partial.html:45
 msgid "Birth day can't be bigger than 31."
@@ -1328,7 +1328,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-graph/completion-graph.js:40
 msgid "On your way to pro"
-msgstr ""
+msgstr "Nearly done"
 
 #: components/employer-signup-suggest/employer-signup-suggest.html:5
 msgid ""

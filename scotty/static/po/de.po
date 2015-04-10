@@ -371,7 +371,7 @@ msgstr "Logo & Web-Seiten"
 
 #: components/candidate-profile/completion-graph/completion-graph.js:43
 msgid "Beginner"
-msgstr ""
+msgstr "Beginn Profileingabe"
 
 #: components/admin-offer-edit/admin-offer-edit.html:180
 #: components/candidate-offer/candidate-offer.html:110
@@ -393,7 +393,7 @@ msgstr "Zusatzleistungen nicht attraktiv"
 
 #: components/candidate-profile/completion-graph/completion-graph.js:42
 msgid "Better then beginner"
-msgstr ""
+msgstr "Warten auf mehr Daten"
 
 #: components/candidate-profile/birthdate/birthdate-partial.html:45
 msgid "Birth day can't be bigger than 31."
@@ -794,9 +794,8 @@ msgid "Email already registered."
 msgstr "E-Mail Adresse schon registriert."
 
 #: components/candidate-signup/candidate-signup.html:77
-#, fuzzy
 msgid "Email must have at least 6 characters."
-msgstr "Passwort muss aus mindestens 8 Zeichen bestehen."
+msgstr "Passwort muss aus mindestens 6 Zeichen bestehen."
 
 #: components/employer-signup/employer-signup.html:15
 msgid "Employer Advocate"
@@ -880,9 +879,8 @@ msgid "First name"
 msgstr "Vorname"
 
 #: components/candidate-signup/candidate-signup.html:40
-#, fuzzy
 msgid "First name must have at least 2 characters."
-msgstr "Passwort muss aus mindestens 8 Zeichen bestehen."
+msgstr "Der Vorname muss mindestens aus 2 Zeichen bestehen."
 
 #: apps/common/footer.html:20
 msgid "For Companies"
@@ -1153,9 +1151,8 @@ msgid "Last name"
 msgstr "Nachname"
 
 #: components/candidate-signup/candidate-signup.html:58
-#, fuzzy
 msgid "Last name must have at least 2 characters."
-msgstr "Passwort muss aus mindestens 8 Zeichen bestehen."
+msgstr "Der Nachname muss aus mindestens zwei Zeichen bestehen."
 
 #: tmp/db-tokens/benefits.js:8
 msgid "Life and disability insurance"
@@ -1416,7 +1413,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-graph/completion-graph.js:40
 msgid "On your way to pro"
-msgstr ""
+msgstr "Gute Profilqualität"
 
 #: components/employer-signup-suggest/employer-signup-suggest.html:5
 msgid ""
