@@ -300,6 +300,11 @@ msgstr "Freischaltung"
 msgid "April"
 msgstr "April"
 
+#: components/candidate-profile/education/education.html:47
+#: components/candidate-profile/experience/experience.html:65
+msgid "Are you sure?"
+msgstr ""
+
 #: components/employer-signup-basic/employer-signup-basic.html:107
 #: components/employer-signup-benefits/employer-signup-benefits.html:85
 #: components/employer-signup-facts/employer-signup-facts.html:201
@@ -2536,7 +2541,7 @@ msgstr "Technologien"
 msgid "Technologies not attractive"
 msgstr "Technologien nicht attraktiv"
 
-#: components/candidate-profile/experience/experience.html:92
+#: components/candidate-profile/experience/experience.html:93
 msgid "Technologies/Skills"
 msgstr "Technologien"
 
@@ -3174,9 +3179,9 @@ msgid "basic"
 msgstr "Grundkenntnisse"
 
 #: components/candidate-profile/education/education.html:28
-#: components/candidate-profile/education/education.html:47
+#: components/candidate-profile/education/education.html:48
 #: components/candidate-profile/experience/experience.html:47
-#: components/candidate-profile/experience/experience.html:65
+#: components/candidate-profile/experience/experience.html:66
 msgid "cancel"
 msgstr "abbrechen"
 
@@ -3303,6 +3308,12 @@ msgstr "Angebot unterbreitet"
 msgid "reason"
 msgstr "Grund"
 
+#: components/candidate-profile/education/education.html:47
+#: components/candidate-profile/experience/experience.html:65
+#, fuzzy
+msgid "remove"
+msgstr "Entfernen"
+
 #: components/element-candidate-status/element-candidate-status.html:8
 msgid "reviewing offer"
 msgstr "prüft Job-Angebot"
@@ -3340,8 +3351,8 @@ msgstr "Status"
 msgid "terms of services"
 msgstr "Nutzungsbedingungen"
 
-#: components/candidate-profile/education/education.html:71
-#: components/candidate-profile/experience/experience.html:87
+#: components/candidate-profile/education/education.html:72
+#: components/candidate-profile/experience/experience.html:88
 #: components/employer-candidate-profile/employer-candidate-profile.html:208
 #: components/employer-candidate-profile/employer-candidate-profile.html:237
 msgid "today"
