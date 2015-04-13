@@ -23,6 +23,7 @@ define(function(require) {
           formContainer: {},
           editable: 'hcEditable' in attr,
           isEmpty: isEmpty,
+          remove: remove,
           close: close,
           edit: edit,
           save: save,
@@ -45,17 +46,30 @@ define(function(require) {
           scope.editing = -2;
           return profile.openForm('education');
         }
+
         function edit(model, index) {
           scope.editing = index;
           return profile.openForm('education');
         }
+
+        function remove(model) {
+          return scope.model.deleteEducation(model)
+            .then(refresh)
+            .then(close)
+            .catch(toaster.defaultError);
+        }
+
         function save(model, form) {
           scope.loading = true;
           return form.save()
-            .then(scope.model.getEducation.bind(scope.model))
+            .then(refresh)
             .then(close)
             .catch(toaster.defaultError)
             .finally(function() { scope.loading = false });
+        }
+
+        function refresh() {
+          return scope.model.getEducation(scope.model);
         }
       }
     };
