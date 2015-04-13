@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('tools/confirm-click-directive');
   require('components/directive-experience-form/directive-experience-form');
   var _ = require('underscore');
   var module = require('app-module');

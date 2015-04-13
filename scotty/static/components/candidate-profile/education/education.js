@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  require('tools/confirm-click-directive');
   require('components/directive-education-form/directive-education-form');
   var _ = require('underscore');
   var fn = require('tools/fn');
