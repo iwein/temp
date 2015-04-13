@@ -1,4 +1,4 @@
-Feature: Candidate sign up
+Feature: Candidate sign up with picture
   This feature describes a candidate
 
 

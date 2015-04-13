@@ -54,4 +54,3 @@ Feature: Candidate signup step 'profile'
         """
         { "profile": true }
         """
-
