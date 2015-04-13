@@ -167,7 +167,7 @@ msgstr "Muttersprachlich"
 
 #: components/candidate-profile/availability/availability-edit.html:4
 msgid "Add availability information"
-msgstr "Gib an ab wann du Verfügbar bist"
+msgstr "Gib an ab wann du verfügbar bist"
 
 #: components/candidate-profile/contact/contact-edit.html:4
 msgid "Add contact information"

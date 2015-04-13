@@ -2660,7 +2660,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:5
 msgid "What is your birth day?"
-msgstr ""
+msgstr "What is your birthday?"
 
 #: components/candidate-profile/completion-education/completion-education.html:5
 msgid "What is your highest degree?"
