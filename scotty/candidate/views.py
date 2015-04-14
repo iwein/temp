@@ -34,6 +34,7 @@ from scotty.views import RootController
 from scotty.views.common import POST, GET, DELETE, PUT
 
 
+ADMIN_USER = 'scotty.ADMIN_USER'
 log = logging.getLogger(__name__)
 
 
@@ -331,15 +332,22 @@ class CandidateViewController(CandidateController):
         params = self.request.params
         offset = int(params.get('offset', 0))
         limit = int(params.get('limit', 10))
-        status = params.get('status', CandidateStatus.ACTIVE)
+
+        default_status = CandidateStatus.ACTIVE
+        if ADMIN_USER in self.request.effective_principals:
+            default_status = None
+        status = params.get('status', default_status)
 
         terms = params.get('q', '')
         if terms:
             pager = candidate_fulltext_search(params.get('q', ''), self.request.employer_id, offset, limit)
         else:
             status = get_by_name_or_raise(CandidateStatus, status)
-            query = DBSession.query(Candidate.id).filter(Candidate.status == status).order_by(Candidate.first_name,
-                                                                                              Candidate.last_name)
+            query = DBSession.query(Candidate.id)
+            if status is not None:
+                query = query.filter(Candidate.status == status)
+
+            query = query.order_by(Candidate.first_name, Candidate.last_name)
             pager = PseudoPager(query, offset, limit)
 
         def optimise_query(q):
