@@ -108,7 +108,7 @@ class CandidateController(RootController):
                                                             joinedload_all('work_experience.skills')).get(candidate_id)
         if not candidate:
             self.request.session.invalidate()
-            raise HTTPForbidden("Not logged in.")
+            raise HTTPNotFound("Candidate not found.")
         return candidate
 
     @reify
