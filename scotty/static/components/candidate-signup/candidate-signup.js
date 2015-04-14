@@ -4,6 +4,16 @@ define(function(require) {
   var module = require('app-module');
 
 
+  module.directive('hcTosLink', function() {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<a class="link" style="text-decoration: underline;" ' +
+        'href="{{ staticUrl() }}/terms-candidate.html" target="_blank" ng-transclude></a>',
+    };
+  });
+
+
   module.controller('CandidateSignupCtrl', function($scope, $q, $state, toaster, i18n, Loader, ConfigAPI, Session) {
     _.extend($scope, {
       onEmailChange: onEmailChange,
