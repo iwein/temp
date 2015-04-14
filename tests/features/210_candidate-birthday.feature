@@ -8,7 +8,7 @@ Feature: Candidate signup step 'profile'
       Then The response status should be "200"
        And The response should have:
         """
-        { "profile": false }
+        { "dob": false }
         """
 
   Scenario: Candidate should have no date of birth
@@ -52,5 +52,5 @@ Feature: Candidate signup step 'profile'
       Then The response status should be "200"
        And The response should have:
         """
-        { "profile": true }
+        { "dob": true }
         """
