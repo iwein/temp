@@ -15,7 +15,7 @@ define(function(require) {
         });
 
         function isEmpty() {
-          return !(scope.data && scope.data.contact_line1);
+          return !(scope.data && scope.data.contact_phone);
         }
       }
     };
