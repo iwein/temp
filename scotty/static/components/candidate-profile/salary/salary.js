@@ -12,6 +12,7 @@ define(function(require) {
       link: function(scope, elem) {
         scope.$watch('model.$revision', function() {
           scope.data = parser.get(scope.model);
+          scope.skills = (scope.data.skills || []).join(', ');
           elem.parent()[isEmpty() ? 'addClass' : 'removeClass']('empty');
         });
 

@@ -1,6 +1,7 @@
 define(function(require) {
   'use strict';
   require('../partials/preferred-locations');
+  require('../skills/skills-no-level');
   var _ = require('underscore');
   var parser = require('./salary-parser');
   var module = require('app-module');
@@ -34,6 +35,7 @@ define(function(require) {
 
         function edit() {
           scope.data = parser.get(scope.model);
+          scope.data.locations = scope.data.locations || [];
           scope.editing = true;
           return profile.openForm('salary');
         }

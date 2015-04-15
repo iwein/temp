@@ -14,13 +14,17 @@ define(function() {
     return {
       locations: data && data.preferred_location,
       salary: target && target.minimum_salary,
+      skills: target && target.skills,
     };
   }
 
   function set(candidate, model) {
     return Promise.all([
       candidate.setPreferredLocations(model.locations),
-      candidate.setTargetPosition({ minimum_salary: model.salary }),
+      candidate.setTargetPosition({
+        minimum_salary: model.salary,
+        skills: model.skills,
+      }),
     ]).then(function() {
       return refresh(candidate);
     });
