@@ -67,10 +67,13 @@ define(function(require) {
       $rootScope.translate = i18n.gettext;
       $rootScope.staticUrl = staticUrl;
       i18n.setLanguage(localStorage.scotty_lang || 'de');
-      i18n.onChange(function(lang) {
+      i18n.onChange(updateLang);
+      updateLang(i18n.getCurrent());
+
+      function updateLang(lang) {
         $rootScope.lang = lang;
         localStorage.scotty_lang = lang;
-      });
+      }
 
       function staticUrl() {
         return $rootScope.lang === 'en' ? '/en' : '';

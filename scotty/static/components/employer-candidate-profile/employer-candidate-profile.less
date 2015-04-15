@@ -1,1 +1,23 @@
 @import "../element-candidate-status/element-candidate-status.less";
+@import "../candidate-profile/availability/availability-edit.less";
+@import "../candidate-profile/contact/contact.less";
+@import "../candidate-profile/education/education.less";
+@import "../candidate-profile/experience/experience.less";
+@import "../candidate-profile/languages/languages-edit.less";
+@import "../candidate-profile/salary/salary-edit.less";
+@import "../candidate-profile/skills/skills-edit.less";
+@import "../candidate-profile/skills/skills.less";
+@import "../candidate-profile/target/target-edit.less";
+@import "../candidate-profile/styles.less";
+
+.component-employer-candidate-profile {
+  .status { .clearfix() }
+  .status-section { float: right }
+
+  .add-now {
+    font-family: @font-family-sans-serif !important;
+    color: inherit;
+    cursor: default;
+    text-decoration: none;
+  }
+}

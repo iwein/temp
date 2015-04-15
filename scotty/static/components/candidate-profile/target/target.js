@@ -10,7 +10,7 @@ define(function(require) {
       scope: { model: '=' },
       link: function(scope, elem) {
         scope.$watch('model.$revision', function() {
-          scope.data = parser.get(scope.model);
+          scope.data = parser.get(scope.model) || '';
           elem.parent()[isEmpty() ? 'addClass' : 'removeClass']('empty');
         });
 

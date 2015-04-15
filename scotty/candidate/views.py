@@ -359,7 +359,7 @@ class CandidateViewController(CandidateController):
         return ObjectBuilder(Candidate, joins=optimise_query).serialize(pager)
 
 
-    @view_config(route_name='candidate', **GET)
+    @view_config(route_name='candidate', permission=NO_PERMISSION_REQUIRED, **GET)
     def get(self):
         return self.candidate
 
@@ -374,7 +374,7 @@ class CandidateViewController(CandidateController):
 class CandidateEducationController(CandidateController):
     model_cls = Candidate
 
-    @view_config(route_name='candidate_educations', **GET)
+    @view_config(route_name='candidate_educations', permission=NO_PERMISSION_REQUIRED, **GET)
     def list(self):
         return self.candidate.education
 
@@ -409,7 +409,7 @@ class CandidateEducationController(CandidateController):
 class CandidateWorkExperienceController(CandidateController):
     model_cls = Candidate
 
-    @view_config(route_name='candidate_work_experiences', **GET)
+    @view_config(route_name='candidate_work_experiences', permission=NO_PERMISSION_REQUIRED, **GET)
     def list(self):
         return self.candidate.work_experience
 
@@ -441,7 +441,7 @@ class CandidateWorkExperienceController(CandidateController):
 class CandidateTargetPositionController(CandidateController):
     model_cls = Candidate
 
-    @view_config(route_name='target_position', **GET)
+    @view_config(route_name='target_position', permission=NO_PERMISSION_REQUIRED, **GET)
     def get(self):
         return self.candidate.target_position
 
@@ -518,7 +518,7 @@ class CandidateOfferController(CandidateController):
             raise HTTPForbidden("Offer not for this candidate.")
         return get_offer_newsfeed(offer, employer=offer.employer)
 
-    @view_config(route_name='candidate_offers', **GET)
+    @view_config(route_name='candidate_offers', permission=NO_PERMISSION_REQUIRED, **GET)
     def list(self):
         if self.is_me:
             return self.candidate.offers
