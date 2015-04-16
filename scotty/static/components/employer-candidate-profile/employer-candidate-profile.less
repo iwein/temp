@@ -38,15 +38,27 @@
   }
 
   .public-url {
-    word-break: break-all;
+    .url {
+      float: left;
+      color: gray;
+      width: ~"calc(100% - 44px)";
+      border: 1px solid @blue-link;
+      padding: @generic-padding-small;
+      margin: 0;
+    }
 
     button {
-      .bg-blue-light();
+      float: left;
       color: white;
-      padding: 2px @generic-padding-small;
-      position: absolute;
-      bottom: 1px;
-      right: 1px;
+      background: @blue-link;
+      padding: 4px 10px;
+      margin: 0;
+      &.zeroclipboard-is-hover {
+        background: darken(@blue-link, 5%);
+      }
+      &.zeroclipboard-is-active {
+        background: darken(@blue-link, 10%);
+      }
     }
   }
 }
