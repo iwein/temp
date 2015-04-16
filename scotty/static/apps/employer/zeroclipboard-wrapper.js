@@ -1,4 +1,4 @@
-define(function(require) {
+requirejs([ 'ZeroClipboard' ], function(ZeroClipboard) {
   'use strict';
-  window.ZeroClipboard = require('ZeroClipboard');
+  window.ZeroClipboard = ZeroClipboard;
 });
