@@ -302,7 +302,7 @@ msgstr "April"
 #: components/candidate-profile/education/education.html:47
 #: components/candidate-profile/experience/experience.html:65
 msgid "Are you sure?"
-msgstr ""
+msgstr "Bist du dir sicher?"
 
 #: components/employer-signup-basic/employer-signup-basic.html:107
 #: components/employer-signup-benefits/employer-signup-benefits.html:85
@@ -673,7 +673,7 @@ msgstr "Bequem &amp; zeitsparend"
 
 #: components/employer-candidate-profile/employer-candidate-profile.html:20
 msgid "Copy &amp; Forward to a Colleague"
-msgstr ""
+msgstr "Kopie &amp; an Kollegen weiterleiten"
 
 #: components/directive-office-form/directive-office-form.html:70
 msgid "Country..."
@@ -1376,7 +1376,6 @@ msgid "Offer is accepted"
 msgstr "Angebot wurde angenommen"
 
 #: components/employer-candidate-profile/employer-candidate-profile.html:85
-#, fuzzy
 msgid "Offer made"
 msgstr "Angebot unterbreitet"
 
@@ -3310,7 +3309,6 @@ msgstr "Grund"
 
 #: components/candidate-profile/education/education.html:47
 #: components/candidate-profile/experience/experience.html:65
-#, fuzzy
 msgid "remove"
 msgstr "Entfernen"
 
