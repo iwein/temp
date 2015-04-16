@@ -1,6 +1,6 @@
 <div class="box-title" translate>Expectation</div>
 
-<div ng-if="data.salary">
+<div ng-if="!hideSalary && data.salary">
   <span class="icon-parent"><i class="fa fa-euro orange"></i></span>
   {{ data.salary | dottedInteger }}
 </div>

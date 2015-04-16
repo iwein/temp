@@ -8,7 +8,10 @@ define(function(require) {
   module.directive('hcCandidateSalary', function() {
     return {
       template: require('text!./salary.html'),
-      scope: { model: '=' },
+      scope: {
+        model: '=',
+        hideSalary: '=',
+      },
       link: function(scope, elem) {
         scope.$watch('model.$revision', function() {
           scope.data = parser.get(scope.model);
