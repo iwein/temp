@@ -38,19 +38,15 @@
   }
 
   .public-url {
-    .bg-gray-light();
-    float: left;
-    margin: -@generic-padding-small -@generic-padding;
-    padding: @generic-padding-small @generic-padding;
-    border-left: 1px solid white;
-    color: white;
+    word-break: break-all;
 
     button {
-      .gray-darker();
-      .bg-gray-lighter();
-      margin: -@generic-padding-small (1 - @generic-padding);
+      .bg-blue-light();
+      color: white;
       padding: 2px @generic-padding-small;
-      margin-left: @generic-padding-small;
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
     }
   }
 }
