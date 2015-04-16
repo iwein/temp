@@ -1,9 +1,10 @@
 <div class="component-employer-candidate-profile component-candidate-profile" ng-if="ready">
   <div class="status">
-    <section class="public-url">
-      <span class="icon-parent"><i class="fa fa-share-alt"></i></span>
+    <section class="public-url" ng-show="session.user">
       {{ url }}
-      <button type="button" clip-copy="url">Copy</button>
+      <button type="button" clip-copy="url">
+        <span class="icon-parent"><i class="fa fa-clipboard"></i></span>
+      </button>
     </section>
 
     <section class="status-section">
