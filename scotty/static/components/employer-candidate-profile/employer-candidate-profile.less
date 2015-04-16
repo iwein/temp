@@ -20,4 +20,19 @@
     cursor: default;
     text-decoration: none;
   }
+
+  .offers-section {
+    .bg-gray-light();
+    .make-row();
+
+    [hc-candidate-offers] {
+      .make-sm-column(12);
+      padding: @generic-padding;
+    }
+
+    .box-title {
+      .make-row();
+      padding: 0 @generic-padding @generic-padding;
+    }
+  }
 }

@@ -39,11 +39,9 @@
         <div hc-candidate-birthdate-edit model="candidate"></div>
       </section>
 
-      <!-- TODO: Check when offer flow is fixed
-      <section class="offers-section">
-        <div hc-candidate-offers model="candidate"></div>
+      <section class="offers-section" ng-if="allOffers.length">
+        <div hc-candidate-offers model="candidate" hc-view-all></div>
       </section>
-      -->
 
       <section class="availability-section">
         <div hc-candidate-availability model="candidate"></div>
