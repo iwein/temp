@@ -16,6 +16,8 @@ define(function() {
   }
 
   function set(candidate, model) {
-    return candidate.updateData(model);
+    return candidate.updateData(model).then(function() {
+      return candidate.getSignupStage();
+    });
   }
 });

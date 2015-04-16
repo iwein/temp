@@ -70,7 +70,10 @@ define(function(require) {
         }
 
         function refresh() {
-          return scope.model.getEducation(scope.model);
+          return Promise.all([
+            scope.model.getEducation(),
+            scope.model.getSignupStage(),
+          ]);
         }
       }
     };

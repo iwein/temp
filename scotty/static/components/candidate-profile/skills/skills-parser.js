@@ -14,7 +14,10 @@ define(function() {
 
   function set(candidate, model) {
     return candidate.setSkills(model).then(function() {
-      return candidate.getData();
+      return Promise.all([
+        candidate.getData(),
+        candidate.getSignupStage(),
+      ]);
     });
   }
 });

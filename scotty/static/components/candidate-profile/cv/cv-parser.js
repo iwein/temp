@@ -15,6 +15,8 @@ define(function() {
   function set(candidate, Amazon, model) {
     return Amazon.upload(model, 'cv', candidate.id).then(function(url) {
       return candidate.updateData({ cv_upload_url: url });
+    }).then(function() {
+      return candidate.getSignupStage();
     });
   }
 });

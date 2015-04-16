@@ -34,6 +34,7 @@ define(function() {
     return Promise.all([
       candidate.getData(),
       candidate.getTargetPosition(),
+      candidate.getSignupStage(),
     ]);
   }
 });

@@ -13,6 +13,8 @@ define(function() {
   }
 
   function set(candidate, model) {
-    return candidate.updateData({ summary: model });
+    return candidate.updateData({ summary: model }).then(function() {
+      return candidate.getSignupStage();
+    });
   }
 });

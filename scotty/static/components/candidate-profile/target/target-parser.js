@@ -14,7 +14,10 @@ define(function() {
 
   function set(candidate, model) {
     return candidate.setTargetPosition({ role: model }).then(function() {
-      return candidate.getTargetPosition();
+      return Promise.all([
+        candidate.getTargetPosition(),
+        candidate.getSignupStage(),
+      ]);
     });
   }
 });

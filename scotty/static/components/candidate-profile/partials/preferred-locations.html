@@ -1,47 +1,49 @@
-<div class="checkbox">
-  <label>
-    <input type="checkbox"
-      ng-disabled="loading || other"
-      ng-model="germany"
-      ng-change="updateLocations()">
-    <translate>Anywhere in Germany</translate>
-  </label>
-</div>
+<ng-form name="formPreferredLocations">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"
+        ng-disabled="loading || other"
+        ng-required="errorLocationRequired"
+        ng-model="germany"
+        ng-change="updateLocations()">
+      <translate>Anywhere in Germany</translate>
+    </label>
+  </div>
 
-<div class="checkbox" ng-repeat="location in featured">
-  <label>
-    <input type="checkbox"
-      ng-disabled="loading || germany"
-      ng-model="location.selected"
-      ng-change="updateLocations()">
-    {{ location.value.city }}, {{ location.value.country_iso }}
-  </label>
-</div>
+  <div class="checkbox" ng-repeat="location in featured">
+    <label>
+      <input type="checkbox"
+        ng-disabled="loading || germany"
+        ng-model="location.selected"
+        ng-change="updateLocations()">
+      {{ location.value.city }}, {{ location.value.country_iso }}
+    </label>
+  </div>
 
-<div class="checkbox">
-  <label>
-    <input type="checkbox"
-      name="location-radio"
-      ng-disabled="loading || germany"
-      ng-required="errorLocationRequired"
-      ng-model="other"
-      ng-change="updateLocations()">
-    <translate>Other</translate>
-  </label>
-</div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"
+        name="location-radio"
+        ng-disabled="loading || germany"
+        ng-model="other"
+        ng-change="updateLocations()">
+      <translate>Other</translate>
+    </label>
+  </div>
 
-<hc-label-typeahead
-  name="cities"
-  placeholder="{{ 'Type a city...' | translate }}"
-  ng-show="other"
-  ng-disabled="loading"
-  ng-model="list"
-  hc-required="other"
-  hc-render="locationToText($entry)"
-  hc-source="searchCities($viewValue)"
-  on-change="updateLocations()">
-</hc-label-typeahead>
+  <hc-label-typeahead
+    name="cities"
+    placeholder="{{ 'Type a city...' | translate }}"
+    ng-show="other"
+    ng-disabled="loading || germany"
+    ng-model="list"
+    hc-required="other"
+    hc-render="locationToText($entry)"
+    hc-source="searchCities($viewValue)"
+    on-change="updateLocations()">
+  </hc-label-typeahead>
 
-<div class="validation-errors">
-  <div ng-show="errorLocationRequired" translate>Please select at least one location.</div>
-</div>
+  <div class="validation-errors" ng-show="formPreferredLocations.$dirty">
+    <div ng-show="errorLocationRequired" translate>Please select at least one location.</div>
+  </div>
+</ng-form>

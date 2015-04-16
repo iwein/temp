@@ -68,7 +68,10 @@ define(function(require) {
         }
 
         function refresh() {
-          return scope.model.getExperience(scope.model);
+          return Promise.all([
+            scope.model.getExperience(),
+            scope.model.getSignupStage(),
+          ]);
         }
 
         function update(list) {

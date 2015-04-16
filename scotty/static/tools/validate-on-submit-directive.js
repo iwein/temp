@@ -7,13 +7,12 @@ define(function(require) {
     function makeControlsDirty(component) {
       var errors = component.$error;
       var keys = Object.keys(errors);
+      component.$dirty = true;
       if (!keys.length) return [];
 
       // it's a field
-      if (errors[keys[0]] === true) {
-        component.$dirty = true;
+      if (errors[keys[0]] === true)
         return component;
-      }
 
       return keys.reduce(function(fields, key) {
         return fields.concat(errors[key].forEach(makeControlsDirty));

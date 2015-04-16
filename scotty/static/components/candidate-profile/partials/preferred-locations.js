@@ -23,6 +23,7 @@ define(function(require) {
           locationToText: ConfigAPI.locationToText,
           searchCities: ConfigAPI.locations,
           updateLocations: updateLocations,
+          errorLocationRequired: true,
         });
 
         featuredPromise.then(update);
