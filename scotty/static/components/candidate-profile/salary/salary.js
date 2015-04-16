@@ -20,7 +20,12 @@ define(function(require) {
         });
 
         function isEmpty() {
-          return !(scope.data && (scope.data.locations || scope.data.salary));
+          var data = scope.data;
+          return !(data && (
+            data.locations ||
+            data.salary ||
+            (data.skills && data.skills.length)
+          ));
         }
       }
     };
