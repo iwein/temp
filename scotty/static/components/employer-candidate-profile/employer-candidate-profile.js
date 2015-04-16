@@ -24,7 +24,7 @@ define(function(require) {
   module.controller('CandidateProfileCtrl', function($scope, i18n, Loader, Session, candidate) {
     var data = candidate.getDataCached();
     _.extend($scope, {
-      url: window.location.toString(),
+      url: url,
       data: data,
       candidate: candidate,
       offerSent: data.employer_has_offers,
@@ -59,6 +59,10 @@ define(function(require) {
 
     function translate() {
       $scope.lang = i18n.getCurrent();
+    }
+
+    function url() {
+      return window.location.toString();
     }
   });
 
