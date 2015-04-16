@@ -24,6 +24,7 @@ define(function(require) {
   module.controller('CandidateProfileCtrl', function($scope, i18n, Loader, Session, candidate) {
     var data = candidate.getDataCached();
     _.extend($scope, {
+      url: window.location.toString(),
       data: data,
       candidate: candidate,
       offerSent: data.employer_has_offers,

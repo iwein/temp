@@ -9,7 +9,7 @@ define(function(require) {
   var conf = require('conf');
   require('../common/basic-conf')(module);
 
-  module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider) {
+  module.config(function($stateProvider, $urlRouterProvider, $analyticsProvider, ngClipProvider) {
     if (window.ga) {
       window.ga('create', conf.ga_id, 'auto');
       window.ga('require', 'linkid');
@@ -25,6 +25,7 @@ define(function(require) {
       });
     }
 
+    ngClipProvider.setPath('/employer/resources/ZeroClipboard.swf');
     $urlRouterProvider.otherwise('/dashboard/');
 
     $stateProvider

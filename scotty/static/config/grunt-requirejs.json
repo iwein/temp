@@ -6,11 +6,13 @@
     "out": "<%= files.build.amd %>",
     "paths": {
       "underscore": "bower_components/underscore/underscore-min",
+      "ZeroClipboard": "bower_components/zeroclipboard/dist/ZeroClipboard.min",
       "angular": "bower_components/angular/angular.min",
       "angular-router": "bower_components/angular-ui-router/release/angular-ui-router.min",
       "angular-animate": "bower_components/angular-animate/angular-animate.min",
       "angular-gettext": "bower_components/angular-gettext/dist/angular-gettext.min",
-      "ui.bootstrap": "bower_components/angular-bootstrap/ui-bootstrap-tpls.min"
+      "ui.bootstrap": "bower_components/angular-bootstrap/ui-bootstrap-tpls.min",
+      "ng-clip": "bower_components/ng-clip/dest/ng-clip.min"
     }
   },
 

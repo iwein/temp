@@ -36,4 +36,22 @@
       padding: 0 @generic-padding @generic-padding;
     }
   }
+
+  .public-url {
+    .bg-gray-light();
+    float: left;
+    margin: -@generic-padding-small -@generic-padding;
+    padding: @generic-padding-small @generic-padding;
+    border-left: 1px solid white;
+    color: white;
+
+    button {
+      .gray-darker();
+      .bg-gray-lighter();
+      @padding: @generic-padding-small + 1;
+      margin: -@padding (1 - @generic-padding);
+      padding: @padding @generic-padding;
+      margin-left: @generic-padding-small;
+    }
+  }
 }

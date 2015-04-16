@@ -1,5 +1,11 @@
 <div class="component-employer-candidate-profile component-candidate-profile" ng-if="ready">
   <div class="status">
+    <section class="public-url">
+      <span class="icon-parent"><i class="fa fa-share-alt"></i></span>
+      {{ url }}
+      <button type="button" clip-copy="url">Copy</button>
+    </section>
+
     <section class="status-section">
       <span><translate>Status</translate>: </span>
       <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
