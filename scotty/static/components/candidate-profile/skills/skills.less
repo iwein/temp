@@ -4,4 +4,75 @@ hc-candidate-skills,
     margin-bottom: 10px;
     text-align: center;
   }
+
+  .skills-item {
+    color: @orange;
+    hc-stars {
+      float: left;
+    }
+    span {
+      padding-left: @generic-padding-small;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      width: ~"calc(100% - 60px)";
+    }
+  }
+
+
+
+  // TODO: This is legacy code, check it
+  /* skills box */
+  .skills-head {
+    position: relative;
+    min-height: 110px;
+    padding: 0 15px 0;
+    margin-top: -10px;
+    i {
+      font-size: 12px;
+      margin: 0 2px;
+    }
+    .big-title {
+      margin-bottom: 10px
+    }
+  }
+
+
+  .caption {
+    text-align: right;
+    padding-right: 40px;
+    font-size: 12px;
+  }
+
+  .skills-wrap {
+    font-size: 18px;
+    i {;
+      font-size: 14px;
+      margin: 0 2px;
+    }
+  }
+
+  .skills-item.alg-left {
+    padding-left: 20px;
+    padding-right: 15px;
+    .fa-gear, .fa-rocket {
+      position: absolute;
+      left: 0;
+      top: 5px;
+
+    }
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
+      width: 100%;
+      display:block;
+    }
+  }
+  .skills-others {
+    padding-top: 10px;
+    font-size: 16px;
+    padding-left: 40px;
+  }
 }

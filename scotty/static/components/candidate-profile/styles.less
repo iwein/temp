@@ -60,8 +60,11 @@
       border: 1px solid white;
       padding: @generic-padding;
       margin-bottom: @generic-padding;
-      &:nth-child(odd) { .bg-gray-light() }
       &:nth-child(even) { .gray-darker() }
+      &:nth-child(odd) {
+        .bg-gray-light();
+        color: white;
+      }
     }
   }
 

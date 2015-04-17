@@ -18,10 +18,10 @@
   </div>
   <div class="col-sm-8">
     <div class="row skills-wrap">
-      <div class="col-sm-4" ng-repeat="entry in leveledSkills">
+      <div class="col-sm-6" ng-repeat="entry in leveledSkills">
         <div class="skills-item" title="{{ entry.skill }}">
-          <span>{{ entry.skill }}</span>
           <hc-stars ng-model="entry.level" hc-values="starValues"></hc-stars>
+          <span>{{ entry.skill }}</span>
         </div>
       </div>
       <div class="col-sm-12 skills-others" ng-show="unleveledSkills">
