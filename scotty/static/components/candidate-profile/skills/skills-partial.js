@@ -17,7 +17,6 @@ define(function(require) {
         onSave: '&',
       },
       link: function(scope, elem) {
-        levels.then(fn.setTo('levels', scope));
         _.extend(scope, {
           searchSkills: searchSkills,
           onChange: recheck,
@@ -27,11 +26,13 @@ define(function(require) {
           save: save,
         });
 
-        onLoad();
+        levels.then(onLoad);
 
 
-        function onLoad() {
+        function onLoad(levels) {
           var skills = parser.get(scope.model);
+
+          scope.levels = levels;
           scope.data = skills.filter(fn.get('level'));
           scope.skills = skills
             .filter(fn.not(fn.get('level')))
