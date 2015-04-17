@@ -22,7 +22,6 @@ def candidate_from_signup(params):
     candidate.password = params['pwd']
     return candidate
 
-
 CANDIDATE_EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 'picture_url': ID, 'salutation': ID,
                        'anonymous': ID, 'locale': lambda name: get_by_name_or_raise(Locale, name),
                        'admin_comment': ID, 'contact_line1': ID, 'contact_line2': ID, 'contact_line3': ID,
@@ -30,7 +29,8 @@ CANDIDATE_EDITABLES = {'first_name': ID, 'last_name': ID, 'pob': ID, 'dob': ID, 
                        'location': get_location_by_name_or_raise, 'contact_phone': ID, 'availability': ID,
                        'summary': ID,
                        'github_url': ID, 'stackoverflow_url': ID, 'blog_url': ID, 'contact_skype': ID,
-                       'eu_work_visa': ID, 'cv_upload_url': ID}
+                       'eu_work_visa': ID, 'cv_upload_url': ID, 'email': ID }
+
 
 TP_EDITABLES = {'minimum_salary': ID, 'role': lambda v: get_by_name_or_create(Role, v),
                 'skills': lambda v: get_or_create_named_collection(Skill, v)}

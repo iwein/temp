@@ -163,7 +163,13 @@ class CandidateController(RootController):
 
     @view_config(route_name='candidate', **PUT)
     def edit(self):
-        return update(self.candidate, self.request.json, CANDIDATE_EDITABLES)
+        try:
+            candidate = update(self.candidate, self.request.json, CANDIDATE_EDITABLES)
+            DBSession.flush()
+        except IntegrityError, e:
+            raise HTTPConflict("User already signed up!")
+        return candidate
+
 
     @view_config(route_name='candidate', permission=ADMIN_PERM, **DELETE)
     def delete(self):

@@ -20,12 +20,17 @@ define(function(require) {
         var profile = scope.profile = scope.$parent.profile;
         _.extend(scope, {
           searchLocations: ConfigAPI.locationsText,
+          onEmailChange: onEmailChange,
           setLocation: setLocation,
           close: close,
           edit: edit,
           save: save,
         });
 
+
+        function onEmailChange() {
+          scope.errorEmailAlreadyRegistered = false;
+        }
 
         function setLocation(text) {
           scope.data.location = ConfigAPI.getLocationFromText(text);
@@ -49,7 +54,12 @@ define(function(require) {
           scope.loading = true;
           return parser.set(scope.model, scope.data)
             .then(close)
-            .catch(toaster.defaultError)
+            .catch(function(request) {
+              if (request.status === 409)
+                scope.errorEmailAlreadyRegistered = true;
+              else
+                toaster.defaultError(request);
+            })
             .finally(function() { scope.loading = false });
         }
       }
