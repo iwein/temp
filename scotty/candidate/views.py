@@ -193,16 +193,19 @@ class CandidateController(RootController):
                          'languages',
                          'dob',
                          'location',
+                         'summary',
                          'further_work_experience',
                          'further_education'],
             'location': candidate.location is not None,
             'dob': candidate.dob is not None,
-            'languages': len(candidate.languages) > 0, 'skills': len(candidate.skills) > 0,
+            'languages': len(candidate.languages) > 0,
+            'skills': len(candidate.skills) > 0,
             'target_position': candidate.target_position is not None,
             'preferred_location': bool(candidate.preferred_location),
             'work_experience': has_wxp, 'education': has_edu,
             'further_work_experience': bool(has_wxp and candidate.no_further_wxp),
-            'further_education': bool(has_edu and candidate.no_further_edu)}
+            'further_education': bool(has_edu and candidate.no_further_edu),
+            'summary': candidate.summary is not None}
         return workflow
 
     @view_config(route_name='candidate_signup_stage_nomore', **POST)

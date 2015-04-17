@@ -36,6 +36,10 @@ define(function(require) {
           scope.skills = skills
             .filter(fn.not(fn.get('level')))
             .map(fn.get('skill'));
+
+          if (!skills.length)
+            scope.data = prefill(scope.model);
+
           recheck();
         }
 
@@ -102,6 +106,19 @@ define(function(require) {
           if (!entry.skill)
             remove(index);
           recheck();
+        }
+
+        function prefill(candidate) {
+          var targetPosition = candidate.getTargetPositionCached() || {};
+          var experience = candidate.getExperienceCached() || [];
+
+          var skills = experience.reduce(function(all, entry) {
+            return all.concat(entry.skills);
+          }, targetPosition.skills || []);
+
+          return _.uniq(skills).map(function(skill) {
+            return { skill: skill };
+          });
         }
       }
     };

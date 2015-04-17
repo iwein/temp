@@ -41,6 +41,10 @@
       <div hc-completion-city model="model"></div>
     </section>
 
+    <section class="completion-summary-section" ng-if="step === 'summary'">
+      <div hc-completion-summary model="model"></div>
+    </section>
+
     <section class="completion-experience-further-section" ng-if="step === 'further_work_experience'">
       <div hc-completion-experience-further model="model"></div>
     </section>

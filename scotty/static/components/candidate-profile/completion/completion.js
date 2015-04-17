@@ -11,6 +11,7 @@ define(function(require) {
   require('../completion-languages/completion-languages');
   require('../completion-location/completion-location');
   require('../completion-skills/completion-skills');
+  require('../completion-summary/completion-summary');
   require('../completion-target/completion-target');
   var _ = require('underscore');
   var module = require('app-module');
