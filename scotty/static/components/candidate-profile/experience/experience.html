@@ -88,7 +88,7 @@
         <span ng-hide="entry.end" translate>today</span>
         ({{ entry | momentDiff | toMonthsYears }})
       </span>
-      <div class="accordion-text">{{ entry.summary }}</div>
+      <div class="accordion-text" ng-bind-html="entry.summary_html"></div>
       <div class="accordion-text" ng-show="entry.skills.length">
         <strong><translate>Technologies/Skills</translate>:</strong>
         {{ entry.skills.join(', ') }}

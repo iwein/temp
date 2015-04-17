@@ -19,6 +19,7 @@ requirejs.config({
     'angular-loading-bar': 'bower_components/angular-loading-bar/build/loading-bar',
     'angular-bootstrap-lightbox': 'bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox',
     'ui.bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
+    'textangular': 'bower_components/textAngular/dist/textAngular.min',
     'angulartics': 'bower_components/angulartics/src/angulartics',
     'angulartics-ga': 'bower_components/angulartics/src/angulartics-ga',
 
@@ -43,6 +44,7 @@ requirejs.config({
       'angular-loading-bar',
       'angular-touch',
     ],
+    'textangular': [ 'angular-sanitize' ],
     'apps/common/translations': [ 'angular-gettext' ],
   }
 

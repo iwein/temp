@@ -143,7 +143,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -164,12 +163,12 @@
       <div class="row mrg-btm">
         <label class="col-sm-3" translate>Role description</label>
         <div class="col-sm-9">
-          <textarea class="form-control"
-                    placeholder="{{ 'Please list the projects you worked on' | translate }}"
-                    name="summary"
-                    ng-disabled="hcDisabled"
-                    ng-model="model.summary">
-          </textarea>
+          <text-angular
+            name="description"
+            placeholder="{{ 'Please list the projects you worked on' | translate }}"
+            ng-disabled="hcDisabled"
+            ng-model="model.summary">
+          </text-angular>
         </div>
       </div>
     </div>

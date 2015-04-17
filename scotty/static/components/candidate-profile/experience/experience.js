@@ -6,7 +6,7 @@ define(function(require) {
   var module = require('app-module');
 
 
-  module.directive('hcCandidateExperience', function(toaster) {
+  module.directive('hcCandidateExperience', function($sce, toaster) {
     return {
       template: require('text!./experience.html'),
       scope: { model: '=' },
@@ -98,6 +98,10 @@ define(function(require) {
           scope.totalWorkExperience = total;
           scope.timeline = timeline.sort(function(a, b) {
             return a.start - b.start;
+          });
+
+          list.forEach(function(entry) {
+            entry.summary_html = $sce.trustAsHtml(entry.summary);
           });
 
           return list;
