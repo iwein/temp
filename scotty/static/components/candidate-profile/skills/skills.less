@@ -2,7 +2,17 @@ hc-candidate-skills,
 [hc-candidate-skills] {
   .big-title {
     margin-bottom: 10px;
-    text-align: center;
+    padding-left: @generic-padding * 2;
+  }
+
+  .skills-wrap {
+    font-size: 18px;
+    margin-top: 9px;
+
+    i {
+      font-size: 14px;
+      margin: 0 2px;
+    }
   }
 
   .skills-item {
@@ -18,6 +28,11 @@ hc-candidate-skills,
       display: inline-block;
       width: ~"calc(100% - 60px)";
     }
+  }
+
+  .skills-others {
+    padding-top: 10px;
+    font-size: 16px;
   }
 
 
@@ -45,14 +60,6 @@ hc-candidate-skills,
     font-size: 12px;
   }
 
-  .skills-wrap {
-    font-size: 18px;
-    i {;
-      font-size: 14px;
-      margin: 0 2px;
-    }
-  }
-
   .skills-item.alg-left {
     padding-left: 20px;
     padding-right: 15px;
@@ -69,10 +76,5 @@ hc-candidate-skills,
       width: 100%;
       display:block;
     }
-  }
-  .skills-others {
-    padding-top: 10px;
-    font-size: 16px;
-    padding-left: 40px;
   }
 }
