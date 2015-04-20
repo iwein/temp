@@ -66,8 +66,6 @@ define(function(require) {
 
     $rootScope.$on('$stateChangeSuccess', function(event, state) {
       $rootScope.currentState = state;
-      if(window.sessionCamRecorder && window.sessionCamRecorder.createVirtualPageLoad)
-        window.sessionCamRecorder.createVirtualPageLoad(basePath + $location.url());
     });
   });
 
