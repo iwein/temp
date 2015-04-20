@@ -13,7 +13,7 @@ requires = [
     'pyramid',
     'pyramid_debugtoolbar',
     'pyramid_tm',
-    'SQLAlchemy',
+    'SQLAlchemy>=1.0.0',
     'alembic',
     'colander',
     'transaction',
@@ -25,7 +25,7 @@ requires = [
     'paste', 'pastescript', 'pastedeploy', 'simplejson',
     'beaker', 'pyramid_beaker',
 
-    'psycopg2',
+    'psycopg2>=2.6',
     'mandrill',
     'alembic',
     'httplib2==0.9'
