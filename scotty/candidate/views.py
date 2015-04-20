@@ -461,6 +461,8 @@ class CandidateTargetPositionController(CandidateController):
 
 
 class CandidateBookmarkController(CandidateController):
+    model_cls = Candidate
+
     @view_config(route_name='candidate_bookmarks', **GET)
     def list(self):
         return self.candidate.bookmarked_employers
@@ -472,9 +474,7 @@ class CandidateBookmarkController(CandidateController):
             raise HTTPConflict("Employer already present.")
 
         employer = DBSession.query(Employer).get(employer_id)
-        bm = CandidateBookmarkEmployer(employer=employer)
-        # special treatment, because of sub-classed candidate
-        bm.candidate_id = self.candidate.id
+        bm = CandidateBookmarkEmployer(employer=employer, candidate=self.candidate)
         DBSession.add(bm)
         DBSession.flush()
 
