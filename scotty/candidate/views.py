@@ -203,8 +203,8 @@ class CandidateController(RootController):
             'target_position': candidate.target_position is not None,
             'preferred_location': bool(candidate.preferred_location),
             'work_experience': has_wxp, 'education': has_edu,
-            'further_work_experience': bool(has_wxp and candidate.no_further_wxp),
-            'further_education': bool(has_edu and candidate.no_further_edu),
+            'further_work_experience': candidate.no_further_wxp,
+            'further_education': candidate.no_further_edu,
             'summary': candidate.summary is not None}
         return workflow
 

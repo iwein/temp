@@ -18,15 +18,18 @@ import sqlalchemy as sa
 def delete_value(name):
     op.execute("DELETE FROM role WHERE name='%s'" % name)
 
+
 def insert_value(name):
     delete_value(name)
     op.execute("INSERT INTO role (name, featured_order) VALUES ('%s', (SELECT max(featured_order)+1 FROM role))" % name)
+
 
 def upgrade():
     op.execute("UPDATE role SET name='Software Development (general)' WHERE name='Software Development'")
     insert_value("Front-End Development")
     insert_value("Back-End Development")
     insert_value("Mobile Development")
+
 
 def downgrade():
     pass
