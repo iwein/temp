@@ -25,7 +25,7 @@ requires = [
     'paste', 'pastescript', 'pastedeploy', 'simplejson',
     'beaker', 'pyramid_beaker',
 
-    'psycopg2>2.6',
+    'psycopg2>=2.6',
     'mandrill',
     'alembic',
     'httplib2==0.9'
