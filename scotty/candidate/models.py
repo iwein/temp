@@ -156,7 +156,6 @@ class CandidateLanguage(Base):
 class CandidateBookmarkEmployer(Base):
     __tablename__ = 'candidate_bookmark_employer'
     candidate_id = Column(GUID, ForeignKey('candidate.id'), primary_key=True)
-    candidate = relationship('Candidate', backref='bookmarks')
     employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
     employer = relationship('Employer', backref='candidate_bookmarks')
     created = Column(DateTime, nullable=False, default=datetime.now, server_default=func.now())
@@ -345,7 +344,7 @@ class Candidate(Base, JsonSerialisable):
     offers = relationship(CandidateOffer, backref='candidate', order_by=CandidateOffer.created.desc())
 
     preferred_locations = relationship(PreferredLocation)
-
+    bookmarks = relationship('CandidateBookmarkEmployer', backref='candidate', cascade='all, delete, delete-orphan')
     bookmarked_employers = association_proxy('bookmarks', 'employer')
     blacklisted_employers = association_proxy('blacklist', 'employer')
     invite_code_id = Column(Integer, ForeignKey(InviteCode.id))
