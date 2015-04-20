@@ -838,7 +838,7 @@ msgstr ""
 
 #: components/candidate-profile/salary/salary.html:1
 msgid "Expectation"
-msgstr "Gehalt & Mobilität"
+msgstr "Wunschposition"
 
 #: apps/common/offer.js:16
 msgid "Expired"
