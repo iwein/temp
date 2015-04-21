@@ -27,6 +27,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 
 
+ADMIN_USER = 'scotty.ADMIN_USER'
+
+
 def includeme(config):
     config.add_route('employers_invite', 'invite/{token}')
     config.add_route('employer_login', 'login')
@@ -139,7 +142,10 @@ class EmployerController(RootController):
             pager = get_employers_pager(tags, city_id, employer_name)
             result = ObjectBuilder(Employer, joins=adjust_query).serialize(pager)
         else:
-            basequery = DBSession.query(Employer).filter(*Employer.by_status(APPROVED)).order_by(Employer.company_name)
+            basequery = DBSession.query(Employer)
+            if ADMIN_USER not in self.request.effective_principals:
+                basequery = basequery.filter(*Employer.by_status(APPROVED))
+            basequery = basequery.order_by(Employer.company_name)
             basequery = adjust_query(basequery)
             if employer_name:
                 basequery = basequery.filter(func.lower(Employer.company_name).like(employer_name.lower() + '%'))
