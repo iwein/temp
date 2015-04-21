@@ -1,8 +1,10 @@
 define(function(require) {
   'use strict';
   require('components/element-connectors-buttons/element-connectors-buttons');
+  require('../completion-availability/completion-availability');
   require('../completion-birthdate/completion-birthdate');
   require('../completion-city/completion-city');
+  require('../completion-cv/completion-cv');
   require('../completion-education/completion-education');
   require('../completion-education/completion-education-further');
   require('../completion-experience/completion-experience');
@@ -10,6 +12,7 @@ define(function(require) {
   require('../completion-graph/completion-graph');
   require('../completion-languages/completion-languages');
   require('../completion-location/completion-location');
+  require('../completion-picture/completion-picture');
   require('../completion-skills/completion-skills');
   require('../completion-summary/completion-summary');
   require('../completion-target/completion-target');
@@ -61,7 +64,7 @@ define(function(require) {
           var order = stage.ordering.slice();
           return order.reverse().reduce(function(result, step) {
             if (ignore.indexOf(step) !== -1) return result;
-            return stage[step] === false ? step : result;
+            return stage[step] ? result : step;
           }, null);
         }
 

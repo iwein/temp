@@ -1,3 +1,5 @@
+@import "./avatar-partial.less";
+
 hc-candidate-avatar-edit,
 [hc-candidate-avatar-edit] {
   display: block;
@@ -20,25 +22,8 @@ hc-candidate-avatar-edit,
   }
 
   form {
+    .bg-gray-lighter3();
     padding: @generic-padding;
     display: none;
-  }
-
-  .avatar-preview {
-    background-repeat: no-repeat;
-    background-position: center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    margin: @generic-padding-small 0;
-    height: 110px;
-    width: 110px;
-  }
-
-  .upload-text {
-    font-size: 10px;
-    margin-top: 0;
-    padding-top: 10px;
   }
 }

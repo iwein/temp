@@ -194,6 +194,9 @@ class CandidateController(RootController):
                          'dob',
                          'location',
                          'summary',
+                         'picture',
+                         'availability',
+                         'cv',
                          'further_work_experience',
                          'further_education'],
             'location': candidate.location is not None,
@@ -205,7 +208,10 @@ class CandidateController(RootController):
             'work_experience': has_wxp, 'education': has_edu,
             'further_work_experience': candidate.no_further_wxp,
             'further_education': candidate.no_further_edu,
-            'summary': candidate.summary is not None}
+            'summary': candidate.summary is not None,
+            'picture': candidate.picture_url is not None,
+            'availability': candidate.availability is not None,
+            'cv': candidate.cv_upload_url is not None}
         return workflow
 
     @view_config(route_name='candidate_signup_stage_nomore', **POST)

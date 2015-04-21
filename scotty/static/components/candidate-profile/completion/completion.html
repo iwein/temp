@@ -45,6 +45,18 @@
       <div hc-completion-summary model="model"></div>
     </section>
 
+    <section class="completion-picture-section" ng-if="step === 'picture'">
+      <div hc-completion-picture model="model"></div>
+    </section>
+
+    <section class="completion-availability-section" ng-if="step === 'availability'">
+      <div hc-completion-availability model="model"></div>
+    </section>
+
+    <section class="completion-cv-section" ng-if="step === 'cv'">
+      <div hc-completion-cv model="model"></div>
+    </section>
+
     <section class="completion-experience-further-section" ng-if="step === 'further_work_experience'">
       <div hc-completion-experience-further model="model"></div>
     </section>

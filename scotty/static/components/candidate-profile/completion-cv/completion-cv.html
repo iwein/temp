@@ -1,0 +1,15 @@
+<button class="close-button" ng-click="close()">
+  <i class="fa fa-close"></i>
+</button>
+
+<h3 translate>Do you have a CV to upload?</h3>
+<h4 translate>If you do have a CV in an external format you can upload it here.</h4>
+
+<form>
+  <div class="buttons-wrap">
+    <div hc-cv-partial model="model" on-save="saved()"></div>
+    <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+  </div>
+
+  <div class="clearfix"></div>
+</form>

@@ -1,0 +1,25 @@
+<form ng-submit="save(data)" hc-validations-on-submit>
+  <h5 class="edit-title" translate>Profile picture</h5>
+
+  <div>
+    <div class="uploadFile">
+      <span translate>Select</span>
+      <input type="file"
+        name="photo"
+        accept="image/*"
+        ng-required="true"
+        ng-disabled="loading"
+        ng-model="data"
+        hc-file-select="noop()"
+        hc-data-url="selectedPicture">
+    </div>
+    <div class="upload-text" translate>Upload a photo at least 235 px wide.</div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="avatar-preview" ng-style="{
+    'background-image': 'url(' + (selectedPicture[0] || parser.get(model)) + ')'
+  }"></div>
+
+  <div class="buttons-wrap" ng-transclude></div>
+</form>
