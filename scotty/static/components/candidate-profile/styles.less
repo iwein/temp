@@ -161,6 +161,31 @@
   }
 
 
+  &.completion .header {
+    .main-content { width: 100%; }
+    .profile-completion { display: none }
+  }
+  .header {
+    .clearfix();
+
+    .main-content {
+      float: left;
+      width: ~"calc(100% - 115px)";
+    }
+
+    .profile-completion {
+      float: left;
+      width: 130px;
+      margin-left: @generic-padding;
+
+      h3 {
+        .smbd();
+        margin-top: 0;
+        text-align: center;
+      }
+    }
+  }
+
   .edit-button { display: none }
   &.editing .edit-button { display: block }
   #button-edit-profile { display: block }

@@ -26,7 +26,7 @@ define(function(require) {
     return {
       template: require('text!./completion.html'),
       scope: { model: '=', },
-      controller: function($scope) {
+      controller: function($scope, $element) {
         // For some reason JSHint complains if I move this function to the end
         function close() {
           $scope.close = true;
@@ -50,8 +50,9 @@ define(function(require) {
 
         function update() {
           var stage = $scope.model.getSignupStageCached();
-          $scope.step = getNextStep(stage);
+          var step = $scope.step = getNextStep(stage);
           importSocial();
+          $element.parent()[step ? 'addClass' : 'removeClass']('completion');
         }
 
         function refresh() {

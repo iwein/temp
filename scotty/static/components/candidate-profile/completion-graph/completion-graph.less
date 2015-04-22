@@ -15,26 +15,42 @@ hc-completion-graph,
     overflow: hidden;
   }
 
-  .indicator-container {
-    position: absolute;
-    top: @border;
-    right: 0;
-    width: 75%;
-    height: @size - (@border * 2);
-  }
-
-  .indicator {
-    position: relative;
-    border-bottom: 1px solid black;
-  }
-
   .indicator-text {
-    position: absolute;
-    bottom: 0;
-    right: 0;
     text-transform: uppercase;
-    font-size: 0.9em;
-    max-width: 50%;
-    text-align: right;
+  }
+
+
+  &.small {
+    text-align: center;
+
+    .indicator-text {
+      .smbd();
+      margin-top: @generic-padding * 2;
+    }
+  }
+
+
+  &:not(.small) {
+    .indicator-container {
+      position: absolute;
+      top: @border;
+      right: 0;
+      width: 75%;
+      height: @size - (@border * 2);
+    }
+
+    .indicator {
+      position: relative;
+      border-bottom: 1px solid black;
+    }
+
+    .indicator-text {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      max-width: 50%;
+      text-align: right;
+      font-size: 0.9em;
+    }
   }
 }
