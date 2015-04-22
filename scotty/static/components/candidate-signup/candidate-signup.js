@@ -14,12 +14,17 @@ define(function(require) {
   });
 
 
-  module.controller('CandidateSignupCtrl', function($scope, $q, $state, toaster, i18n, Loader, ConfigAPI, Session) {
+  // jshint maxparams:9
+  module.controller('CandidateSignupCtrl', function($scope, $q, $state, $stateParams,
+    toaster, i18n, Loader, ConfigAPI, Session) {
+
     _.extend($scope, {
       onEmailChange: onEmailChange,
       submit: submit,
       loading: false,
-      model: {},
+      model: {
+        invite_code: $stateParams.inviteCode,
+      },
       errorEmailAlreadyRegistered: false,
     });
 
@@ -78,7 +83,7 @@ define(function(require) {
 
 
   return {
-    url: '/signup',
+    url: '/signup/{inviteCode}',
     template: require('text!./candidate-signup.html'),
     controller: 'CandidateSignupCtrl',
   };

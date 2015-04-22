@@ -95,11 +95,11 @@ msgstr ""
 #: components/employer-signup-start/employer-signup-start.js:27
 msgid ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
-"are looking to be get hired, click <a href=\"/candidate/signup\"><b>here</"
+"are looking to be get hired, click <a href=\"/candidate/signup/\"><b>here</"
 "b></a>!"
 msgstr ""
 "<h2>Sign up as an Employer! Start looking for the best IT talent.</h2>If you "
-"are an IT-Professional, click <a href=\"/candidate/signup\"><b>here</b></a>!"
+"are an IT-Professional, click <a href=\"/candidate/signup/\"><b>here</b></a>!"
 
 #: components/partial-offer-newsitem/partial-employer-offer-newsitem.html:15
 msgid ""

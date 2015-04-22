@@ -14,12 +14,16 @@
       </div>
 
       <div class="form-group">
-      <label>Description</label>
+        <label>Description</label>
 
         <textarea class="form-control"
           name="description"
           ng-model="model.description">
         </textarea>
+      </div>
+
+      <div class="form-group">
+        <a ng-href="/candidate/signup/{{ model.code }}">http://4scotty.com/candidate/signup/{{ model.code }}</a>
       </div>
 
       <div class="form-group">
@@ -41,7 +45,7 @@
         <tbody>
           <tr ng-repeat="entry in vauchers">
             <td>{{ entry.created | timeAgo }}</td>
-            <td>{{ entry.code }}</td>
+            <td><a ng-href="/candidate/signup/{{ entry.code }}">{{ entry.code }}</a></td>
             <td>{{ entry.candidate_count }}</td>
             <!--<td>{{ entry.last_used | timeAgo }}</td>-->
             <td>{{ entry.description }}</td>
