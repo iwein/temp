@@ -25,6 +25,7 @@ define(function(require) {
   require('components/element-candidate-link/element-candidate-link');
   require('components/element-language-selector/element-language-selector');
   require('./translations');
+  var cookies = require('tools/cookies');
   var conf = require('conf');
 
   function raygun(exception) {
@@ -66,13 +67,13 @@ define(function(require) {
 
       $rootScope.translate = i18n.gettext;
       $rootScope.staticUrl = staticUrl;
-      i18n.setLanguage(localStorage.scotty_lang || 'de');
+      i18n.setLanguage(cookies.get('scotty_lang') || 'de');
       i18n.onChange(updateLang);
       updateLang(i18n.getCurrent());
 
       function updateLang(lang) {
         $rootScope.lang = lang;
-        localStorage.scotty_lang = lang;
+        cookies.set('scotty_lang', lang, { path: '/' });
       }
 
       function staticUrl() {
