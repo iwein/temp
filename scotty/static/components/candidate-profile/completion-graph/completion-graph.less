@@ -1,10 +1,8 @@
 hc-completion-graph,
 [hc-completion-graph] {
-  @size: 130px;
-  @border: 11px;
   position: relative;
 
-  .circle {
+  .circle_mixin(@size, @border) {
     border: @border solid #a5a5a5;
     border-radius: @size / 2;
     height: @size;
@@ -23,6 +21,10 @@ hc-completion-graph,
   &.small {
     text-align: center;
 
+    .circle {
+      .circle_mixin(100px, 9px);
+    }
+
     .indicator-text {
       .smbd();
       margin-top: @generic-padding * 2;
@@ -31,6 +33,13 @@ hc-completion-graph,
 
 
   &:not(.small) {
+    @size: 130px;
+    @border: 11px;
+
+    .circle {
+      .circle_mixin(@size, @border);
+    }
+
     .indicator-container {
       position: absolute;
       top: @border;

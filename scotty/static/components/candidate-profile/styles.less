@@ -69,6 +69,7 @@
   }
 
   .header {
+    .make-row();
     background: @white;
     padding: @generic-padding * 2;
 
@@ -166,16 +167,18 @@
     .profile-completion { display: none }
   }
   .header {
+    @indicator-width: 100px;
     .clearfix();
 
     .main-content {
       float: left;
-      width: ~"calc(100% - 115px)";
+      @width: @indicator-width - 15px;
+      width: ~"calc(100% - " @width ~")";
     }
 
     .profile-completion {
       float: left;
-      width: 130px;
+      width: @indicator-width;
       margin-left: @generic-padding;
 
       h3 {
