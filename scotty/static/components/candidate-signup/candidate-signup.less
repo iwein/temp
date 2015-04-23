@@ -1,9 +1,107 @@
 .component-candidate-signup {
-  .signup-form-mixin();
+  margin: 0 -@generic-padding;
+  background: url(/candidate/resources/images/background.jpg) no-repeat center -67px;
+
+  header {
+    text-align: center;
+  }
+
+  .signup-title {
+    color: #e05600;
+    text-transform: uppercase;
+  }
+
+  .dana-column {
+    background: url(/candidate/resources/images/Dana_Big.png) center -10px no-repeat;
+  }
+
+  .contact-me {
+    margin-top: 315px;
+    text-align: center;
+  }
+  .dana-sign { .smbd() }
+
+  .buttons-wrap button {
+    margin: @generic-padding 0 (@generic-padding * 2);
+  }
+
+  .invite-code-box {
+    border: 1px solid white;
+    margin-top: 450px;
+    margin-right: -@generic-padding;
+    .content { padding-top: 0 }
+    & > div {
+      padding: @generic-padding;
+    }
+  }
+
+  .form-container {
+    background: white;
+    margin: 85px 0 (@generic-padding * 2);
+    font-size: 0.9em;
+  }
+
+  form {
+    .bg-gray-lighter();
+    margin-top: @generic-padding * 2;
+    padding: @generic-padding;
+
+
+    .field { .make-sm-column(9) }
+    .checkbox { margin-left: 20px }
+
+    .label {
+      .make-sm-column(3);
+      text-align: left;
+      vertical-align: center;
+      margin-bottom: 0;
+      padding-top: 11px;
+    }
+
+    label {
+      .smbd();
+      color: #197185
+    }
+
+    .validation-errors {
+      .make-sm-column-offset(3);
+      .make-sm-column(9);
+    }
+
+    .form-group {
+      .clearfix();
+      margin: @generic-padding 0;
+    }
+  }
 }
 
-.helpbox {
+.signup ui-view.container {
+  width: auto !important;
 }
+
+
+
+
+
+// TODO: .signup-form-mixin();
+/*
+@media (max-width: 1080px) { .component-candidate-signup { .background(112%) } }
+@media (min-width: 1080px) { .component-candidate-signup { .background(107%) } }
+@media (min-width: 1200px) { .component-candidate-signup { .background(100%) } }
+@media (min-width: 1500px) { .component-candidate-signup { .background(87%) } }
+.background(@percent) {
+  background:
+    url(/candidate/resources/images/Dana_Big.png) no-repeat @percent -10px,
+    url(/candidate/resources/images/background.jpg) no-repeat center -67px;
+}
+
+
+
+
+
+.component-candidate-signup { }
+
+.helpbox { }
 
 .form-signup {
   padding: 30px;
@@ -130,3 +228,5 @@
 }
 
 .component-candidate-signup-target .col-sm-8{ min-height: 600px}
+
+*/

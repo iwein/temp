@@ -1,24 +1,173 @@
-<div class="component-candidate-signup row">
-  <div class="status-wrap"></div>
-  <div class="signup-container">
-    <div class="col-sm-3">
-      <div class="contact-me row">
-        <p hc-scope="{ email: 'service@4scotty.com' }" translate>
-          Please don't hesitate to contact me at
-          <a ng-href="mailto:{{ email }}">{{ email }}</a>
-          or by phone at
-          <span class="number">+49 30-2639389-15</span>,
-          if I can assist you or provide guidance for your next step in IT.
-        </p>
-        <p>
-          <span>Dana Kussatz</span><br/>
-          <translate>Candidate Advocate</translate>
-        </p>
+<div class="component-candidate-signup">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="invite-code-box">
+          <div class="box-title" translate>Don't have an invite code?</div>
+          <div class="content" translate>
+            If you received an invite code, plese enter it here.<br/>Leave the field blank if you didn't have one and we will contact you afterwards to validate your profile.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-container col-sm-6">
+        <header>
+          <h1 class="signup-title" translate>Signup for free</h1>
+          <p translate>Please set up your free profile as IT professiona. We guarantee your data privacy.</p>
+          <p translate>If you are an employer, click <a href="/employer/signup">here</a>!</p>
+        </header>
+
+        <form name="form" class="form-wrap form-signup">
+          <!--<div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">-->
+
+          <div class="form-group required">
+            <label class="label" translate>First Name</label>
+
+            <div class="field">
+              <input type="text"
+                class="form-control"
+                name="first_name"
+                required
+                ng-minlength="2"
+                ng-disabled="loading"
+                ng-model="model.first_name">
+            </div>
+
+            <div class="validation-errors" ng-show="form.first_name.$dirty">
+              <div ng-show="form.first_name.$error.required" translate>Please insert your first name.</div>
+              <div ng-show="form.first_name.$error.minlength" translate>First name must have at least 2 characters.</div>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="label" translate>Last Name</label>
+
+            <div class="field">
+              <input type="text"
+                class="form-control"
+                name="last_name"
+                required
+                ng-minlength="2"
+                ng-disabled="loading"
+                ng-model="model.last_name">
+            </div>
+
+            <div class="validation-errors" ng-show="form.last_name.$dirty">
+              <div ng-show="form.last_name.$error.required" translate>Please insert your last name.</div>
+              <div ng-show="form.last_name.$error.minlength" translate>Last name must have at least 2 characters.</div>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="label" translate>Email</label>
+
+            <div class="field">
+              <input type="email"
+                class="form-control"
+                name="email"
+                required
+                ng-minlength="6"
+                ng-disabled="loading"
+                ng-model="model.email"
+                ng-change="onEmailChange()">
+            </div>
+
+            <div class="validation-errors" ng-show="errorEmailAlreadyRegistered && form.last_name.$dirty">
+              <div ng-show="form.email.$error.required" translate>Please insert your email.</div>
+              <div ng-show="form.email.$error.minlength" translate>Email must have at least 6 characters.</div>
+              <div ng-show="form.email.$error.email" translate>Please insert a valid email.</div>
+              <div ng-show="errorEmailAlreadyRegistered">
+                <translate>Email already registered.</translate>
+                <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="label" translate>Password</label>
+
+            <div class="field">
+              <input type="password"
+                class="form-control"
+                name="pwd"
+                required
+                ng-minlength="8"
+                ng-disabled="loading"
+                ng-model="model.pwd">
+            </div>
+
+            <div class="validation-errors" ng-show="form.pwd.$dirty">
+              <div ng-show="form.pwd.$error.required" translate>Please choose a password.</div>
+              <div ng-show="form.pwd.$error.minlength" translate>Password must have at least 8 characters.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label" translate>Invite code</label>
+
+            <div class="field">
+              <input type="text"
+                class="form-control"
+                name="invite_code"
+                ng-disabled="loading"
+                ng-model="model.invite_code">
+            </div>
+
+            <div class="validation-errors">
+              <div ng-show="errorEmailAlreadyRegistered" translate>Unknown invite code.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="field col-sm-offset-3">
+              <label class="checkbox">
+                <input type="checkbox"
+                  name="agreedTos"
+                  required
+                  ng-disabled="loading"
+                  ng-model="model.agreedTos">
+
+                <translate>I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-link></translate>
+              </label>
+
+              <div class="validation-errors" ng-show="form.agreedTos.$dirty">
+                <div ng-show="form.agreedTos.$error.required" translate>You need to agree to the terms to signup</div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="buttons-wrap">
+          <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading" translate>Continue</button>
+        </div>
+      </div>
+
+      <div class="dana-column col-sm-3">
+        <div class="contact-me">
+          <p hc-scope="{ email: 'service@4scotty.com' }" translate>
+            Please don't hesitate to contact me at
+            <a ng-href="mailto:{{ email }}">{{ email }}</a>
+            or by phone at
+            <span class="number">+49 30-2639389-15</span>,
+            if I can assist you or provide guidance for your next step in IT.
+          </p>
+          <p class="dana-sign">
+            <span>Dana Kussatz</span><br/>
+            <translate>Candidate Advocate</translate>
+          </p>
+        </div>
       </div>
     </div>
+  </div>
+</div>
+
+
+<!--
+  <div class="status-wrap"></div>
+  <div class="signup-container">
     <div class="col-sm-9">
       <div class="row">
-        <form name="formSignupUser" class="col-sm-8 form-horizontal bg-white" ng-submit="submit()" hc-validations-on-submit>
+        <form name="form" class="col-sm-8 form-horizontal bg-white" ng-submit="submit()" hc-validations-on-submit>
           <div class="col-sm-12">
             <h2 class="signup-title" translate>Signup for free</h2>
 
@@ -35,9 +184,9 @@
                          ng-model="model.first_name">
                 </div>
 
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.firstName.$dirty && formSignupUser.firstName.$invalid">
-                  <span ng-show="formSignupUser.firstName.$error.required" translate>Please insert your first name.</span>
-                  <span ng-show="formSignupUser.firstName.$error.minlength" translate>First name must have at least 2 characters.</span>
+                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.firstName.$dirty && form.firstName.$invalid">
+                  <span ng-show="form.firstName.$error.required" translate>Please insert your first name.</span>
+                  <span ng-show="form.firstName.$error.minlength" translate>First name must have at least 2 characters.</span>
                 </div>
               </div>
 
@@ -53,9 +202,9 @@
                          ng-model="model.last_name">
                 </div>
 
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.lastName.$dirty && formSignupUser.lastName.$invalid">
-                  <span ng-show="formSignupUser.lastName.$error.required" translate>Please insert your last name.</span>
-                  <span ng-show="formSignupUser.lastName.$error.minlength" translate>Last name must have at least 2 characters.</span>
+                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.lastName.$dirty && form.lastName.$invalid">
+                  <span ng-show="form.lastName.$error.required" translate>Please insert your last name.</span>
+                  <span ng-show="form.lastName.$error.minlength" translate>Last name must have at least 2 characters.</span>
                 </div>
               </div>
 
@@ -72,10 +221,10 @@
                          ng-change="onEmailChange()">
                 </div>
 
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (formSignupUser.email.$dirty && formSignupUser.email.$invalid)">
-                  <span ng-show="formSignupUser.email.$error.required" translate>Please insert your email.</span>
-                  <span ng-show="formSignupUser.email.$error.minlength" translate>Email must have at least 6 characters.</span>
-                  <span ng-show="formSignupUser.email.$error.email" translate>Please insert a valid email.</span>
+                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (form.email.$dirty && form.email.$invalid)">
+                  <span ng-show="form.email.$error.required" translate>Please insert your email.</span>
+                  <span ng-show="form.email.$error.minlength" translate>Email must have at least 6 characters.</span>
+                  <span ng-show="form.email.$error.email" translate>Please insert a valid email.</span>
                   <span ng-show="errorEmailAlreadyRegistered">
                     <translate>Email already registered.</translate>
                     <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
@@ -95,9 +244,9 @@
                          ng-model="model.pwd">
                 </div>
 
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="formSignupUser.password.$dirty && formSignupUser.password.$invalid">
-                  <span ng-show="formSignupUser.password.$error.required" translate>Please choose a password.</span>
-                  <span ng-show="formSignupUser.password.$error.minlength" translate>Password must have at least 8 characters.</span>
+                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.password.$dirty && form.password.$invalid">
+                  <span ng-show="form.password.$error.required" translate>Please choose a password.</span>
+                  <span ng-show="form.password.$error.minlength" translate>Password must have at least 8 characters.</span>
                 </div>
               </div>
 
@@ -124,8 +273,8 @@
                       >
                     <translate>I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-link></translate>
                   </label>
-                  <div class="form-error" ng-show="formSignupUser.agreedTos.$dirty && formSignupUser.agreedTos.$invalid">
-                    <span ng-show="formSignupUser.agreedTos.$error.required" translate>You need to agree to the terms to signup</span>
+                  <div class="form-error" ng-show="form.agreedTos.$dirty && form.agreedTos.$invalid">
+                    <span ng-show="form.agreedTos.$error.required" translate>You need to agree to the terms to signup</span>
                   </div>
                 </div>
               </div>
@@ -190,3 +339,4 @@
     </div>
   </div>
 </div>
+-->
