@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-3">
-        <div class="invite-code-box">
+        <div class="invite-code-box top">
           <div class="box-title" translate>Don't have an invite code?</div>
           <div class="content" translate>
             If you received an invite code, plese enter it here.<br/>Leave the field blank if you didn't have one and we will contact you afterwards to validate your profile.
@@ -157,186 +157,15 @@
           </p>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-
-<!--
-  <div class="status-wrap"></div>
-  <div class="signup-container">
-    <div class="col-sm-9">
-      <div class="row">
-        <form name="form" class="col-sm-8 form-horizontal bg-white" ng-submit="submit()" hc-validations-on-submit>
-          <div class="col-sm-12">
-            <h2 class="signup-title" translate>Signup for free</h2>
-
-            <div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">
-              <div class="form-group required">
-                <label class="col-sm-3" translate>First Name</label>
-                <div class="col-sm-9">
-                  <input type="text"
-                         class="form-control"
-                         name="firstName"
-                         ng-minlength="2"
-                         ng-required="true"
-                         ng-disabled="loading"
-                         ng-model="model.first_name">
-                </div>
-
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.firstName.$dirty && form.firstName.$invalid">
-                  <span ng-show="form.firstName.$error.required" translate>Please insert your first name.</span>
-                  <span ng-show="form.firstName.$error.minlength" translate>First name must have at least 2 characters.</span>
-                </div>
-              </div>
-
-              <div class="form-group required">
-                <label class="col-sm-3" translate>Last Name</label>
-                <div class="col-sm-9">
-                  <input type="text"
-                         class="form-control"
-                         name="lastName"
-                         ng-minlength="2"
-                         ng-required="true"
-                         ng-disabled="loading"
-                         ng-model="model.last_name">
-                </div>
-
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.lastName.$dirty && form.lastName.$invalid">
-                  <span ng-show="form.lastName.$error.required" translate>Please insert your last name.</span>
-                  <span ng-show="form.lastName.$error.minlength" translate>Last name must have at least 2 characters.</span>
-                </div>
-              </div>
-
-              <div class="form-group required">
-                <label class="col-sm-3" translate>Email</label>
-                <div class="col-sm-9">
-                  <input type="email"
-                         class="form-control"
-                         name="email"
-                         ng-minlength="6"
-                         ng-required="true"
-                         ng-disabled="loading"
-                         ng-model="model.email"
-                         ng-change="onEmailChange()">
-                </div>
-
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="errorEmailAlreadyRegistered || (form.email.$dirty && form.email.$invalid)">
-                  <span ng-show="form.email.$error.required" translate>Please insert your email.</span>
-                  <span ng-show="form.email.$error.minlength" translate>Email must have at least 6 characters.</span>
-                  <span ng-show="form.email.$error.email" translate>Please insert a valid email.</span>
-                  <span ng-show="errorEmailAlreadyRegistered">
-                    <translate>Email already registered.</translate>
-                    <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group required">
-                <label class="col-sm-3" translate>Password</label>
-                <div class="col-sm-9">
-                  <input type="password"
-                         class="form-control"
-                         name="password"
-                         ng-required="true"
-                         ng-minlength="8"
-                         ng-disabled="loading"
-                         ng-model="model.pwd">
-                </div>
-
-                <div class="form-error col-sm-9 col-sm-offset-3" ng-show="form.password.$dirty && form.password.$invalid">
-                  <span ng-show="form.password.$error.required" translate>Please choose a password.</span>
-                  <span ng-show="form.password.$error.minlength" translate>Password must have at least 8 characters.</span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3" translate>Invite code</label>
-                <div class="col-sm-9">
-                  <input type="text"
-                         class="form-control"
-                         name="inviteCode"
-                         ng-disabled="loading"
-                         ng-model="model.invite_code">
-                </div>
-              </div>
-
-              <div class="form-group no-marg-btm">
-                <label class="col-sm-3"></label>
-                <div class="col-sm-9">
-                  <label class="checkbox mrg-lft">
-                    <input type="checkbox"
-                           name="agreedTos"
-                           ng-required="true"
-                           ng-disabled="loading"
-                           ng-model="model.agreedTos"
-                      >
-                    <translate>I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-link></translate>
-                  </label>
-                  <div class="form-error" ng-show="form.agreedTos.$dirty && form.agreedTos.$invalid">
-                    <span ng-show="form.agreedTos.$error.required" translate>You need to agree to the terms to signup</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="buttons-wrap mrg-top mrg-btm-30">
-              <button type="submit"
-                      class="fl-rg bg-green btn-small"
-                      ng-disabled="loading"
-                      translate>
-                Continue
-              </button>
-            </div>
+      <div class="col-sm-3">
+        <div class="invite-code-box bottom">
+          <div class="box-title" translate>Don't have an invite code?</div>
+          <div class="content" translate>
+            If you received an invite code, plese enter it here.<br/>Leave the field blank if you didn't have one and we will contact you afterwards to validate your profile.
           </div>
-        </form>
-
-        <div class="col-sm-4">
-          <div class="bg-gray-lighter2 mrg-btm row">
-            <div class="padd-vert col-sm-12">
-              <div class="box-title box-title_left mrg-btm gray-darker" translate>You can only win</div>
-              <div class="">
-                <p class="mrg-btm" translate>
-                  Please set up your free profile.<br/>
-                  We guarantee your data privacy.<br/>
-                  Employers will not see your name and contact data until you accept their offers or decide so at a later point of this sign up.
-                </p>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="bg-gray-lighter2 mrg-btm row">
-            <div class="padd-vert col-sm-12">
-              <div class="box-title box-title_left mrg-btm gray-darker" translate>Don't have an invite code?</div>
-              <div>
-                <p class="mrg-btm" translate>
-                  If you received an invite code, plese enter it here.<br/>Leave the field blank if you didn't have one and we will contact you afterwards to validate your profile.
-                </p>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row  border-box">
-            <div class="padd-vert col-sm-12">
-              <div class="box-title box-title_left mrg-btm gray-darker" translate>Our Promises</div>
-              <div>
-                <h4 class="orange lt caps font-14 mrg-btm-small" translate>No Spam</h4>
-                <p class="mrg-btm font-12" translate>You’ll only receive job offers that match your profile.</p>
-                <h4 class="orange lt caps font-14 mrg-btm-small" translate>Full disclosure</h4>
-                <p class="mrg-btm font-12" translate>You’ll always find all essential job details about every job offer posted on 4Scotty – including the salary.</p>
-                <h4 class="orange lt caps font-14 mrg-btm-small" translate>Privacy standards</h4>
-                <p class="mrg-btm font-12" translate>Companies only receive your contact details once you have explicitly accepted their offers. Your profile cannot be seen by your current employer.</p>
-                <h4 class="orange lt caps font-14 mrg-btm-small" translate>Quality support</h4>
-                <p class="mrg-btm font-12" translate>We will accompany you throughout the entire process. And if you find a new job, we’ll even share our commission with you.</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
 </div>
--->

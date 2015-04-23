@@ -1,6 +1,25 @@
 .component-candidate-signup {
   margin: 0 -@generic-padding;
-  background: url(/candidate/resources/images/background.jpg) no-repeat center -67px;
+
+
+  @media (max-width: (@screen-sm-min - 1)) {
+    .dana-column { display: none }
+    .invite-code-box.top { display: none }
+    .invite-code-box.bottom { margin-bottom: @generic-padding }
+    .form-container {
+      margin-top: 0 !important;
+      padding-top: @generic-padding;
+    }
+  }
+  @media (min-width: @screen-sm-min) {
+    background: url(/candidate/resources/images/background.jpg) no-repeat center -67px;
+    .invite-code-box.bottom { display: none }
+    .invite-code-box.top {
+      margin-right: -@generic-padding;
+      margin-top: 450px;
+    }
+  }
+
 
   header {
     text-align: center;
@@ -27,8 +46,6 @@
 
   .invite-code-box {
     border: 1px solid white;
-    margin-top: 450px;
-    margin-right: -@generic-padding;
     .content { padding-top: 0 }
     & > div {
       padding: @generic-padding;
@@ -80,153 +97,4 @@
 }
 
 
-
-
-
-// TODO: .signup-form-mixin();
-/*
-@media (max-width: 1080px) { .component-candidate-signup { .background(112%) } }
-@media (min-width: 1080px) { .component-candidate-signup { .background(107%) } }
-@media (min-width: 1200px) { .component-candidate-signup { .background(100%) } }
-@media (min-width: 1500px) { .component-candidate-signup { .background(87%) } }
-.background(@percent) {
-  background:
-    url(/candidate/resources/images/Dana_Big.png) no-repeat @percent -10px,
-    url(/candidate/resources/images/background.jpg) no-repeat center -67px;
-}
-
-
-
-
-
-.component-candidate-signup { }
-
-.helpbox { }
-
-.form-signup {
-  padding: 30px;
-  label.col-sm-3 {
-    padding-top: 10px;
-  }
-}
-
-.signup-title {
-  color: @orange;
-  font-size: 40px;
-  text-transform: uppercase;
-  margin: 30px 0 20px 0;
-}
-
-
-.data-box {
-  color: @text-color;
-  background: @gray-lighter2;
-  padding: 6px;
-}
-
-.ico-can-signup {
-  display: inline-block;
-  background: url(./resources/images/sprite-candidate-signup.png) center 2px no-repeat;
-  width: 17px;
-  height: 20px;
-  float: left;
-  background-size: 17px 185px;
-  margin-right: 15px;
-  margin-top: 10px
-}
-.signup-container li.active .ico-can-signup{
-  background: url(./resources/images/sprite-candidate-signup-white.png) center 2px no-repeat;
-  background-size: 17px 185px;
-}
-
-.ico-can-signup_tar {
-
-}
-
-.ico-can-signup_free {
-  background-position: center  -26px;
-}
-
-.ico-can-signup_work {
-  background-position: center  -55px;
-}
-
-.ico-can-signup_edu {
-  background-position: center  -83px;
-}
-
-.ico-can-signup_skills {
-  background-position: center  -110px;
-}
-
-.ico-can-signup_lang {
-  background-position: center  -140px;
-}
-
-.ico-can-signup_final {
-  background-position: center  -171px;
-}
-
-.signup-container li.active{
-  .ico-can-signup {
-    background-image: url(./resources/images/sprite-candidate-signup-white.png);
-    background-size: 17px 185px;
-  }
-  .ico-can-signup_free {
-    background-position: center  -26px;
-  }
-
-  .ico-can-signup_work {
-    background-position: center  -55px;
-  }
-
-  .ico-can-signup_edu {
-    background-position: center  -83px;
-  }
-
-  .ico-can-signup_skills {
-    background-position: center  -110px;
-  }
-
-  .ico-can-signup_lang {
-    background-position: center  -140px;
-  }
-
-  .ico-can-signup_final {
-    background-position: center  -171px;
-  }
-}
-
-.signup-container li.unactive{
-  .ico-can-signup {
-    background-image: url(./resources/images/sprite-candidate-signup-gray.png);
-    background-size: 17px 185px;
-  }
-  .ico-can-signup_free {
-    background-position: center  -26px;
-  }
-
-  .ico-can-signup_work {
-    background-position: center  -55px;
-  }
-
-  .ico-can-signup_edu {
-    background-position: center  -83px;
-  }
-
-  .ico-can-signup_skills {
-    background-position: center  -110px;
-  }
-
-  .ico-can-signup_lang {
-    background-position: center  -140px;
-  }
-
-  .ico-can-signup_final {
-    background-position: center  -171px;
-  }
-}
-
-.component-candidate-signup-target .col-sm-8{ min-height: 600px}
-
-*/
+// TODO: merge .signup-form-mixin() into employer signup
