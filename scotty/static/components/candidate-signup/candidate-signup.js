@@ -19,6 +19,7 @@ define(function(require) {
     toaster, i18n, Loader, ConfigAPI, Session) {
 
     _.extend($scope, {
+      onInviteCodeChange: onInviteCodeChange,
       onEmailChange: onEmailChange,
       submit: submit,
       loading: false,
@@ -28,19 +29,17 @@ define(function(require) {
       errorEmailAlreadyRegistered: false,
     });
 
-    return onLoad();
-
-    function onLoad() {
-      // TODO
-    }
-
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;
     }
 
+    function onInviteCodeChange() {
+      $scope.errorInvalidInviteCode = false;
+    }
+
     function submit() {
-      if (!$scope.formSignupUser.$valid)return;
+      if (!$scope.form.$valid)return;
       $scope.loading = true;
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
@@ -55,9 +54,9 @@ define(function(require) {
 
         if (request.status === 400 && request.data.errors) {
           if(request.data.errors.invite_code === 'INVALID CHOICE')
-            toaster.error(i18n.gettext('Unknown invite code'));
+            $scope.errorInvalidInviteCode = true;
           else if(request.data.errors.email)
-              $scope.formSignupUser.email.$setValidity('email', false);
+            $scope.form.email.$setValidity('email', false);
           return;
         }
 

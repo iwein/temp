@@ -17,129 +17,130 @@
           <p translate>If you are an employer, click <a href="/employer/signup">here</a>!</p>
         </header>
 
-        <form name="form" class="form-wrap form-signup">
-          <!--<div class="bg-gray-lighter pad-30 mrg-btm form-wrap form-signup">-->
+        <form name="form" class="form-wrap form-signup" ng-submit="submit()" hc-validations-on-submit>
+          <div class="form-background">
+            <div class="form-group required">
+              <label class="label" translate>First Name</label>
 
-          <div class="form-group required">
-            <label class="label" translate>First Name</label>
-
-            <div class="field">
-              <input type="text"
-                class="form-control"
-                name="first_name"
-                required
-                ng-minlength="2"
-                ng-disabled="loading"
-                ng-model="model.first_name">
-            </div>
-
-            <div class="validation-errors" ng-show="form.first_name.$dirty">
-              <div ng-show="form.first_name.$error.required" translate>Please insert your first name.</div>
-              <div ng-show="form.first_name.$error.minlength" translate>First name must have at least 2 characters.</div>
-            </div>
-          </div>
-
-          <div class="form-group required">
-            <label class="label" translate>Last Name</label>
-
-            <div class="field">
-              <input type="text"
-                class="form-control"
-                name="last_name"
-                required
-                ng-minlength="2"
-                ng-disabled="loading"
-                ng-model="model.last_name">
-            </div>
-
-            <div class="validation-errors" ng-show="form.last_name.$dirty">
-              <div ng-show="form.last_name.$error.required" translate>Please insert your last name.</div>
-              <div ng-show="form.last_name.$error.minlength" translate>Last name must have at least 2 characters.</div>
-            </div>
-          </div>
-
-          <div class="form-group required">
-            <label class="label" translate>Email</label>
-
-            <div class="field">
-              <input type="email"
-                class="form-control"
-                name="email"
-                required
-                ng-minlength="6"
-                ng-disabled="loading"
-                ng-model="model.email"
-                ng-change="onEmailChange()">
-            </div>
-
-            <div class="validation-errors" ng-show="errorEmailAlreadyRegistered && form.last_name.$dirty">
-              <div ng-show="form.email.$error.required" translate>Please insert your email.</div>
-              <div ng-show="form.email.$error.minlength" translate>Email must have at least 6 characters.</div>
-              <div ng-show="form.email.$error.email" translate>Please insert a valid email.</div>
-              <div ng-show="errorEmailAlreadyRegistered">
-                <translate>Email already registered.</translate>
-                <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group required">
-            <label class="label" translate>Password</label>
-
-            <div class="field">
-              <input type="password"
-                class="form-control"
-                name="pwd"
-                required
-                ng-minlength="8"
-                ng-disabled="loading"
-                ng-model="model.pwd">
-            </div>
-
-            <div class="validation-errors" ng-show="form.pwd.$dirty">
-              <div ng-show="form.pwd.$error.required" translate>Please choose a password.</div>
-              <div ng-show="form.pwd.$error.minlength" translate>Password must have at least 8 characters.</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="label" translate>Invite code</label>
-
-            <div class="field">
-              <input type="text"
-                class="form-control"
-                name="invite_code"
-                ng-disabled="loading"
-                ng-model="model.invite_code">
-            </div>
-
-            <div class="validation-errors">
-              <div ng-show="errorEmailAlreadyRegistered" translate>Unknown invite code.</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="field col-sm-offset-3">
-              <label class="checkbox">
-                <input type="checkbox"
-                  name="agreedTos"
+              <div class="field">
+                <input type="text"
+                  class="form-control"
+                  name="first_name"
                   required
+                  ng-minlength="2"
                   ng-disabled="loading"
-                  ng-model="model.agreedTos">
+                  ng-model="model.first_name">
+              </div>
 
-                <translate>I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-link></translate>
-              </label>
-
-              <div class="validation-errors" ng-show="form.agreedTos.$dirty">
-                <div ng-show="form.agreedTos.$error.required" translate>You need to agree to the terms to signup</div>
+              <div class="validation-errors" ng-show="form.first_name.$dirty">
+                <div ng-show="form.first_name.$error.required" translate>Please insert your first name.</div>
+                <div ng-show="form.first_name.$error.minlength" translate>First name must have at least 2 characters.</div>
               </div>
             </div>
+
+            <div class="form-group required">
+              <label class="label" translate>Last Name</label>
+
+              <div class="field">
+                <input type="text"
+                  class="form-control"
+                  name="last_name"
+                  required
+                  ng-minlength="2"
+                  ng-disabled="loading"
+                  ng-model="model.last_name">
+              </div>
+
+              <div class="validation-errors" ng-show="form.last_name.$dirty">
+                <div ng-show="form.last_name.$error.required" translate>Please insert your last name.</div>
+                <div ng-show="form.last_name.$error.minlength" translate>Last name must have at least 2 characters.</div>
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label class="label" translate>Email</label>
+
+              <div class="field">
+                <input type="email"
+                  class="form-control"
+                  name="email"
+                  required
+                  ng-minlength="6"
+                  ng-disabled="loading"
+                  ng-model="model.email"
+                  ng-change="onEmailChange()">
+              </div>
+
+              <div class="validation-errors" ng-show="errorEmailAlreadyRegistered && form.last_name.$dirty">
+                <div ng-show="form.email.$error.required" translate>Please insert your email.</div>
+                <div ng-show="form.email.$error.minlength" translate>Email must have at least 6 characters.</div>
+                <div ng-show="form.email.$error.email" translate>Please insert a valid email.</div>
+                <div ng-show="errorEmailAlreadyRegistered">
+                  <translate>Email already registered.</translate>
+                  <a ng-href="{{ staticUrl() }}/forgot-password.html" translate>Forgot your password?</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group required">
+              <label class="label" translate>Password</label>
+
+              <div class="field">
+                <input type="password"
+                  class="form-control"
+                  name="pwd"
+                  required
+                  ng-minlength="8"
+                  ng-disabled="loading"
+                  ng-model="model.pwd">
+              </div>
+
+              <div class="validation-errors" ng-show="form.pwd.$dirty">
+                <div ng-show="form.pwd.$error.required" translate>Please choose a password.</div>
+                <div ng-show="form.pwd.$error.minlength" translate>Password must have at least 8 characters.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="label" translate>Invite code</label>
+
+              <div class="field">
+                <input type="text"
+                  class="form-control"
+                  name="invite_code"
+                  ng-disabled="loading"
+                  ng-model="model.invite_code"
+                  ng-change="onInviteCodeChange()">
+              </div>
+
+              <div class="validation-errors">
+                <div ng-show="errorInvalidInviteCode" translate>Unknown invite code.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="field col-sm-offset-3">
+                <label class="checkbox">
+                  <input type="checkbox"
+                    name="agreedTos"
+                    required
+                    ng-disabled="loading"
+                    ng-model="model.agreedTos">
+
+                  <translate>I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-link></translate>
+                </label>
+
+                <div class="validation-errors" ng-show="form.agreedTos.$dirty">
+                  <div ng-show="form.agreedTos.$error.required" translate>You need to agree to the terms to signup</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="buttons-wrap">
+            <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading" translate>Continue</button>
           </div>
         </form>
-
-        <div class="buttons-wrap">
-          <button type="submit" class="fl-rg bg-green btn-small" ng-disabled="loading" translate>Continue</button>
-        </div>
       </div>
 
       <div class="dana-column col-sm-3">
