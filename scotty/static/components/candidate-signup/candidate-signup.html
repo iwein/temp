@@ -14,7 +14,7 @@
         <header>
           <h1 class="signup-title" translate>Signup for free</h1>
           <p translate>Please set up your free profile as IT professiona. We guarantee your data privacy.</p>
-          <p translate>If you are an employer, click <a href="/employer/signup">here</a>!</p>
+          <p hc-scope="{ url: '/employer/signup' }" translate>If you are an employer, click <a ng-href="{{ url }}">here</a>!</p>
         </header>
 
         <form name="form" class="form-wrap form-signup" ng-submit="submit()" hc-validations-on-submit>
@@ -145,11 +145,14 @@
 
       <div class="dana-column col-sm-3">
         <div class="contact-me">
-          <p hc-scope="{ email: 'service@4scotty.com' }" translate>
+          <p hc-scope="{
+            email: 'service@4scotty.com',
+            number: '+49 30-2639389-15'
+          }" translate>
             Please don't hesitate to contact me at
             <a ng-href="mailto:{{ email }}">{{ email }}</a>
             or by phone at
-            <span class="number">+49 30-2639389-15</span>,
+            <span class="number">{{ number }}</span>,
             if I can assist you or provide guidance for your next step in IT.
           </p>
           <p class="dana-sign">
