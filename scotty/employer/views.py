@@ -320,7 +320,7 @@ class EmployerOfferController(EmployerController):
             .options(joinedload_all('candidate.skills.skill'),
                      joinedload_all('candidate.skills.level'))
         if self.request.params.get('status') == 'active':
-            offers = offers.filter(*Offer.by_active(False))
+            offers = offers.filter(Offer.by_active(False))
         return offers.all()
 
     @view_config(route_name='employer_offers', **POST)

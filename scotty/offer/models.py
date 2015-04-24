@@ -134,7 +134,10 @@ class OfferStatusWorkflow(object):
         # make sure not expired only
         expiry_cutoff = datetime.now() - timedelta(STATUS_EXPIRATION_DAYS)
         # when hired, it cant expire, and should be returned in any case
-        return or_(success_state, and_(func.coalesce(*expiry_cols) > expiry_cutoff, *filter))
+        if includeSigned:
+            return or_(success_state, and_(func.coalesce(*expiry_cols) > expiry_cutoff, *filter))
+        else:
+            return and_(func.coalesce(*expiry_cols) > expiry_cutoff, *filter)
 
     def accept(self, email, phone=None):
         if self.status == self.statuses[0]:
