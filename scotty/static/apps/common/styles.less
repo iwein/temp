@@ -217,8 +217,15 @@ text-angular,
   b { .smbd() }
 }
 
-:not(text-angular, [ng-bind-html]) ul {
+ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+text-angular, [ng-bind-html] {
+  ul {
+    padding-left: 40px;
+    list-style-type: disc;
+  }
 }
