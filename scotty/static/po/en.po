@@ -157,7 +157,7 @@ msgstr ""
 msgid "Add languages"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:799
+#: components/employer-profile/employer-profile.html:851
 msgid "Add more pictures"
 msgstr ""
 
@@ -433,12 +433,13 @@ msgstr ""
 #: components/employer-profile/employer-profile.html:272
 #: components/employer-profile/employer-profile.html:318
 #: components/employer-profile/employer-profile.html:410
-#: components/employer-profile/employer-profile.html:469
 #: components/employer-profile/employer-profile.html:48
-#: components/employer-profile/employer-profile.html:535
-#: components/employer-profile/employer-profile.html:665
-#: components/employer-profile/employer-profile.html:745
-#: components/employer-profile/employer-profile.html:809
+#: components/employer-profile/employer-profile.html:486
+#: components/employer-profile/employer-profile.html:521
+#: components/employer-profile/employer-profile.html:587
+#: components/employer-profile/employer-profile.html:717
+#: components/employer-profile/employer-profile.html:797
+#: components/employer-profile/employer-profile.html:861
 msgid "Cancel"
 msgstr ""
 
@@ -482,6 +483,7 @@ msgid "Company Mission"
 msgstr ""
 
 #: components/directive-experience-form/directive-experience-form.html:6
+#: components/employer-profile/employer-profile.html:456
 #: components/employer-signup-start/employer-signup-start.html:11
 msgid "Company Name"
 msgstr ""
@@ -611,7 +613,7 @@ msgstr ""
 msgid "Convenient &amp; time-saving"
 msgstr ""
 
-#: components/employer-candidate-profile/employer-candidate-profile.html:21
+#: components/candidate-profile/url/url.html:6
 msgid "Copy &amp; Forward to a Colleague"
 msgstr ""
 
@@ -664,8 +666,8 @@ msgid "Describe how you interview and onboard candidates."
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:181
-#: components/employer-profile/employer-profile.html:645
-#: components/employer-profile/employer-profile.html:707
+#: components/employer-profile/employer-profile.html:697
+#: components/employer-profile/employer-profile.html:759
 #: components/employer-signup-facts/employer-signup-facts.html:146
 #: components/employer-signup-facts/employer-signup-facts.html:160
 msgid "Development methodology"
@@ -918,7 +920,7 @@ msgstr ""
 msgid "Hide my name and picture from employers until i accepted their offer."
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:586
+#: components/employer-profile/employer-profile.html:638
 msgid "Hiring Process"
 msgstr ""
 
@@ -927,7 +929,7 @@ msgstr ""
 #: components/candidate-offer/candidate-offer.html:277
 #: components/employer-create-offer/employer-create-offer.html:167
 #: components/employer-offer/employer-offer.html:259
-#: components/employer-profile/employer-profile.html:687
+#: components/employer-profile/employer-profile.html:739
 msgid "Hiring process"
 msgstr ""
 
@@ -1106,7 +1108,7 @@ msgstr ""
 msgid "Life and disability insurance"
 msgstr ""
 
-#: components/employer-candidate-profile/employer-candidate-profile.js:69
+#: components/candidate-profile/url/url.js:23
 msgid "Link copied to clipboard"
 msgstr ""
 
@@ -1158,8 +1160,8 @@ msgstr ""
 msgid "Logo"
 msgstr ""
 
-#: components/employer-candidate-profile/employer-candidate-profile.html:72
-#: components/employer-candidate-profile/employer-candidate-profile.html:84
+#: components/employer-candidate-profile/employer-candidate-profile.html:68
+#: components/employer-candidate-profile/employer-candidate-profile.html:80
 #: components/employer-create-offer/employer-create-offer.html:11
 msgid "Make an offer"
 msgstr ""
@@ -1176,7 +1178,7 @@ msgstr ""
 msgid "Mid Sized Company"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:458
+#: components/employer-profile/employer-profile.html:510
 msgid "Mission"
 msgstr ""
 
@@ -1248,7 +1250,7 @@ msgstr ""
 msgid "No entry selected to add"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:776
+#: components/employer-profile/employer-profile.html:828
 msgid "No photos yet"
 msgstr ""
 
@@ -1256,22 +1258,22 @@ msgstr ""
 #: components/candidate-employer-profile/candidate-employer-profile.html:178
 #: components/candidate-employer-profile/candidate-employer-profile.html:183
 #: components/candidate-employer-profile/candidate-employer-profile.html:194
-#: components/employer-profile/employer-profile.html:689
-#: components/employer-profile/employer-profile.html:694
-#: components/employer-profile/employer-profile.html:699
-#: components/employer-profile/employer-profile.html:704
-#: components/employer-profile/employer-profile.html:709
+#: components/employer-profile/employer-profile.html:741
+#: components/employer-profile/employer-profile.html:746
+#: components/employer-profile/employer-profile.html:751
+#: components/employer-profile/employer-profile.html:756
+#: components/employer-profile/employer-profile.html:761
 msgid "Not defined yet"
 msgstr ""
 
 #: components/element-preferred-location/element-preferred-location.js:28
-#: components/employer-candidate-profile/employer-candidate-profile.html:102
-#: components/employer-candidate-profile/employer-candidate-profile.html:109
-#: components/employer-candidate-profile/employer-candidate-profile.html:26
+#: components/employer-candidate-profile/employer-candidate-profile.html:106
+#: components/employer-candidate-profile/employer-candidate-profile.html:21
+#: components/employer-candidate-profile/employer-candidate-profile.html:34
 #: components/employer-candidate-profile/employer-candidate-profile.html:39
-#: components/employer-candidate-profile/employer-candidate-profile.html:44
-#: components/employer-candidate-profile/employer-candidate-profile.html:57
-#: components/employer-candidate-profile/employer-candidate-profile.html:95
+#: components/employer-candidate-profile/employer-candidate-profile.html:53
+#: components/employer-candidate-profile/employer-candidate-profile.html:92
+#: components/employer-candidate-profile/employer-candidate-profile.html:99
 msgid "Not specified"
 msgstr ""
 
@@ -1316,7 +1318,7 @@ msgstr ""
 msgid "Offer is accepted"
 msgstr ""
 
-#: components/employer-candidate-profile/employer-candidate-profile.html:86
+#: components/employer-candidate-profile/employer-candidate-profile.html:82
 #, fuzzy
 msgid "Offer made"
 msgstr "Job-Offers"
@@ -1464,7 +1466,7 @@ msgstr ""
 msgid "Password must have at least 8 characters."
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:728
+#: components/employer-profile/employer-profile.html:780
 msgid ""
 "Paste a youtube or vimeo video embed-code, describing your company and "
 "company culture.\n"
@@ -1472,7 +1474,7 @@ msgid ""
 "chance they accept your offer."
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:733
+#: components/employer-profile/employer-profile.html:785
 msgid "Paste video embed code here"
 msgstr ""
 
@@ -1496,12 +1498,12 @@ msgstr ""
 msgid "Phone number"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:792
+#: components/employer-profile/employer-profile.html:844
 msgid "Photo description"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:202
-#: components/employer-profile/employer-profile.html:757
+#: components/employer-profile/employer-profile.html:809
 msgid "Pictures"
 msgstr ""
 
@@ -1531,7 +1533,7 @@ msgstr ""
 msgid "Please choose at least one skill"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:524
+#: components/employer-profile/employer-profile.html:576
 msgid "Please choose at least one tag"
 msgstr ""
 
@@ -1568,7 +1570,7 @@ msgid ""
 "Please describe the working devices/ambience, operating system and tools."
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:616
+#: components/employer-profile/employer-profile.html:668
 #: components/employer-signup-facts/employer-signup-facts.html:93
 msgid ""
 "Please describe the working environment in the office of the tech team. E.g. "
@@ -1576,7 +1578,7 @@ msgid ""
 "level, table tennis, kitchen, etc."
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:591
+#: components/employer-profile/employer-profile.html:643
 #: components/employer-signup-benefits/employer-signup-benefits.html:20
 msgid ""
 "Please describe what happens after a candidate has accepted your job offer. "
@@ -1588,7 +1590,7 @@ msgstr ""
 msgid "Please describe your reason"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:650
+#: components/employer-profile/employer-profile.html:702
 #: components/employer-signup-facts/employer-signup-facts.html:151
 msgid ""
 "Please describe your software engineering framework, e.g. if you practice "
@@ -1608,7 +1610,7 @@ msgstr ""
 msgid ""
 "Please don't hesitate to contact me at <a ng-href=\"mailto:"
 "{{ email }}\">{{ email }}</a> or by phone at <span class=\"number"
-"\">{{ number }}</span>, if I can assist you or provide guidance for your "
+"\">{{ number }}</span>, if I can assist you or provide guidance for your "
 "next step in IT."
 msgstr ""
 
@@ -1631,7 +1633,7 @@ msgstr ""
 msgid "Please enter your notice period or when you will be available."
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:633
+#: components/employer-profile/employer-profile.html:685
 #: components/employer-signup-facts/employer-signup-facts.html:122
 msgid ""
 "Please inform how well your tech force gets equipped with computers and "
@@ -1731,6 +1733,7 @@ msgstr ""
 msgid "Please insert the name of the contact person of your company."
 msgstr ""
 
+#: components/employer-profile/employer-profile.html:471
 #: components/employer-signup-start/employer-signup-start.html:26
 msgid "Please insert the name of your company."
 msgstr ""
@@ -1884,7 +1887,7 @@ msgstr ""
 "Please list your skills with relevant work experience here. For your core "
 "skills, please also add your experience level with each."
 
-#: components/employer-profile/employer-profile.html:767
+#: components/employer-profile/employer-profile.html:819
 msgid ""
 "Please present some photos of your company, your IT offices, as well as "
 "kitchen and relaxation areas, your CTO, your tech team and\n"
@@ -2021,7 +2024,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: components/candidate-profile/candidate-profile.html:96
+#: components/candidate-profile/candidate-profile.html:100
 #: components/candidate-profile/completion/completion.html:3
 msgid "Profile Strength"
 msgstr ""
@@ -2174,12 +2177,13 @@ msgstr ""
 #: components/employer-profile/employer-profile.html:266
 #: components/employer-profile/employer-profile.html:312
 #: components/employer-profile/employer-profile.html:404
-#: components/employer-profile/employer-profile.html:463
-#: components/employer-profile/employer-profile.html:529
+#: components/employer-profile/employer-profile.html:480
+#: components/employer-profile/employer-profile.html:515
 #: components/employer-profile/employer-profile.html:55
-#: components/employer-profile/employer-profile.html:662
-#: components/employer-profile/employer-profile.html:742
-#: components/employer-profile/employer-profile.html:806
+#: components/employer-profile/employer-profile.html:581
+#: components/employer-profile/employer-profile.html:714
+#: components/employer-profile/employer-profile.html:794
+#: components/employer-profile/employer-profile.html:858
 msgid "Save"
 msgstr ""
 
@@ -2340,7 +2344,7 @@ msgstr ""
 msgid "Static pages"
 msgstr ""
 
-#: components/candidate-profile/candidate-profile.html:84
+#: components/candidate-profile/candidate-profile.html:88
 #: components/employer-candidate-profile/employer-candidate-profile.html:4
 msgid "Status"
 msgstr ""
@@ -2375,7 +2379,7 @@ msgid "System Administration"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:142
-#: components/employer-profile/employer-profile.html:561
+#: components/employer-profile/employer-profile.html:613
 msgid "TECH"
 msgstr ""
 
@@ -2390,7 +2394,7 @@ msgid "Team"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:144
-#: components/employer-profile/employer-profile.html:563
+#: components/employer-profile/employer-profile.html:615
 msgid "Team size"
 msgstr ""
 
@@ -2401,14 +2405,14 @@ msgid "Tech Facts"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:171
-#: components/employer-profile/employer-profile.html:611
-#: components/employer-profile/employer-profile.html:697
+#: components/employer-profile/employer-profile.html:663
+#: components/employer-profile/employer-profile.html:749
 #: components/employer-signup-facts/employer-signup-facts.html:102
 #: components/employer-signup-facts/employer-signup-facts.html:88
 msgid "Tech team office"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:510
+#: components/employer-profile/employer-profile.html:562
 #: components/employer-signup-facts/employer-signup-facts.html:53
 msgid "Tech team size"
 msgstr ""
@@ -2449,7 +2453,7 @@ msgstr ""
 msgid "Technology"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:518
+#: components/employer-profile/employer-profile.html:570
 #: components/employer-signup-facts/employer-signup-facts.html:71
 msgid "Technology tags"
 msgstr ""
@@ -2517,6 +2521,7 @@ msgstr ""
 msgid "This Site"
 msgstr ""
 
+#: components/employer-profile/employer-profile.html:474
 #: components/employer-signup-start/employer-signup-start.html:29
 msgid "This company name is already registered."
 msgstr ""
@@ -2539,12 +2544,12 @@ msgstr ""
 msgid "Top companies using your target tech!"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:603
+#: components/employer-profile/employer-profile.html:655
 msgid "Training Policy"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:167
-#: components/employer-profile/employer-profile.html:692
+#: components/employer-profile/employer-profile.html:744
 #: components/employer-signup-benefits/employer-signup-benefits.html:40
 msgid "Training policy"
 msgstr ""
@@ -2605,7 +2610,7 @@ msgstr ""
 msgid "Valid characters are: Numbers - / ( )"
 msgstr ""
 
-#: components/employer-profile/employer-profile.html:718
+#: components/employer-profile/employer-profile.html:770
 msgid "Video"
 msgstr ""
 
@@ -2794,8 +2799,8 @@ msgid "Withdrawn"
 msgstr ""
 
 #: components/candidate-employer-profile/candidate-employer-profile.html:176
-#: components/employer-profile/employer-profile.html:628
-#: components/employer-profile/employer-profile.html:702
+#: components/employer-profile/employer-profile.html:680
+#: components/employer-profile/employer-profile.html:754
 #: components/employer-signup-facts/employer-signup-facts.html:117
 msgid "Working Environment"
 msgstr ""
@@ -2936,7 +2941,7 @@ msgid ""
 "\"entry.candidate\"></hc-candidate-link>"
 msgstr ""
 
-#: components/employer-candidate-profile/employer-candidate-profile.html:87
+#: components/employer-candidate-profile/employer-candidate-profile.html:83
 msgid "You were blocked"
 msgstr ""
 
