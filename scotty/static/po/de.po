@@ -490,7 +490,7 @@ msgstr "CTO/CIO (IT Management)"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: components/candidate-signup/candidate-signup.html:160
+#: components/candidate-signup/candidate-signup.html:152
 msgid "Candidate Advocate"
 msgstr "Candidate Advocate"
 
@@ -618,7 +618,7 @@ msgstr "Kontakt Position"
 msgid "Contact us"
 msgstr "Kontaktiere uns"
 
-#: components/candidate-signup/candidate-signup.html:141
+#: components/candidate-signup/candidate-signup.html:139
 #: components/employer-signup-basic/employer-signup-basic.html:79
 #: components/employer-signup-benefits/employer-signup-benefits.html:53
 #: components/employer-signup-facts/employer-signup-facts.html:175
@@ -749,7 +749,7 @@ msgstr ""
 "Ist der Umsatz Ihres Unternehmens tatsächlich höher als "
 "&euro;9223372036854775808 pro Jahr?"
 
-#: components/candidate-signup/candidate-signup.html:167
+#: components/candidate-signup/candidate-signup.html:159
 #: components/candidate-signup/candidate-signup.html:6
 msgid "Don't have an invite code?"
 msgstr "Keinen Einladungs-Code?"
@@ -777,7 +777,7 @@ msgid "Edit offer"
 msgstr "Bearbeiten"
 
 #: components/candidate-profile/contact/contact-edit.html:57
-#: components/candidate-signup/candidate-signup.html:61
+#: components/candidate-signup/candidate-signup.html:59
 #: components/employer-signup-start/employer-signup-start.html:115
 msgid "Email"
 msgstr "E-Mail"
@@ -788,13 +788,13 @@ msgid "Email address"
 msgstr "E-Mail"
 
 #: components/candidate-profile/contact/contact-edit.html:72
-#: components/candidate-signup/candidate-signup.html:79
+#: components/candidate-signup/candidate-signup.html:77
 #: components/employer-signup-start/employer-signup-start.html:134
 msgid "Email already registered."
 msgstr "E-Mail Adresse schon registriert."
 
 #: components/candidate-profile/contact/contact-edit.html:70
-#: components/candidate-signup/candidate-signup.html:76
+#: components/candidate-signup/candidate-signup.html:74
 msgid "Email must have at least 6 characters."
 msgstr "Passwort muss aus mindestens 6 Zeichen bestehen."
 
@@ -868,7 +868,7 @@ msgstr "Fülle das Profil schneller aus und verbinde es mit Xing oder LinkedIn"
 msgid "Finish editing"
 msgstr "Bearbeiten beenden"
 
-#: components/candidate-signup/candidate-signup.html:23
+#: components/candidate-signup/candidate-signup.html:21
 msgid "First Name"
 msgstr "Vorname"
 
@@ -878,7 +878,7 @@ msgstr "Vorname"
 msgid "First name"
 msgstr "Vorname"
 
-#: components/candidate-signup/candidate-signup.html:37
+#: components/candidate-signup/candidate-signup.html:35
 msgid "First name must have at least 2 characters."
 msgstr "Der Vorname muss mindestens aus 2 Zeichen bestehen."
 
@@ -890,7 +890,7 @@ msgstr "Für Unternehmen"
 msgid "For IT professionals"
 msgstr "Für IT-Profis"
 
-#: components/candidate-signup/candidate-signup.html:80
+#: components/candidate-signup/candidate-signup.html:78
 #: components/employer-signup-start/employer-signup-start.html:135
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
@@ -1024,7 +1024,7 @@ msgstr "Ich habe keine weitere Ausbildung."
 msgid "I have no further experience"
 msgstr "Ich habe nirgends sonst gearbeitet."
 
-#: components/candidate-signup/candidate-signup.html:130
+#: components/candidate-signup/candidate-signup.html:128
 msgid ""
 "I have read and agree to the <hc-tos-link>4Scotty terms of services.</hc-tos-"
 "link>"
@@ -1036,7 +1036,7 @@ msgstr ""
 msgid "I'm not interested"
 msgstr "Ich bin nicht interessiert"
 
-#: components/candidate-signup/candidate-signup.html:17
+#: components/candidate-signup/candidate-signup.html:15
 #, fuzzy
 msgid "If you are an employer, click <a ng-href=\"{{ url }}\">here</a>!"
 msgstr ""
@@ -1047,7 +1047,7 @@ msgstr ""
 msgid "If you do have a CV in an external format you can upload it here."
 msgstr ""
 
-#: components/candidate-signup/candidate-signup.html:168
+#: components/candidate-signup/candidate-signup.html:160
 #: components/candidate-signup/candidate-signup.html:7
 msgid ""
 "If you received an invite code, plese enter it here.<br>Leave the field "
@@ -1113,7 +1113,7 @@ msgstr "Ungültiger Einladungs-Code"
 msgid "Invite a friend"
 msgstr "Lade einen Freund ein"
 
-#: components/candidate-signup/candidate-signup.html:105
+#: components/candidate-signup/candidate-signup.html:103
 msgid "Invite code"
 msgstr "Einladungs-Code"
 
@@ -1156,7 +1156,7 @@ msgstr "Sprachen"
 msgid "Large Corporation"
 msgstr "Großes Unternehmen"
 
-#: components/candidate-signup/candidate-signup.html:42
+#: components/candidate-signup/candidate-signup.html:40
 msgid "Last Name"
 msgstr "Nachname"
 
@@ -1166,7 +1166,7 @@ msgstr "Nachname"
 msgid "Last name"
 msgstr "Nachname"
 
-#: components/candidate-signup/candidate-signup.html:56
+#: components/candidate-signup/candidate-signup.html:54
 msgid "Last name must have at least 2 characters."
 msgstr "Der Nachname muss aus mindestens zwei Zeichen bestehen."
 
@@ -1536,13 +1536,13 @@ msgstr ""
 "Unternehmens heraus, um\n"
 " Kandidaten einen Einblick zu geben und Interesse zu wecken."
 
-#: components/candidate-signup/candidate-signup.html:86
+#: components/candidate-signup/candidate-signup.html:84
 #: components/employer-signup-start/employer-signup-start.html:141
 #: components/shared-reset-password/shared-reset-password.html:9
 msgid "Password"
 msgstr "Passwort"
 
-#: components/candidate-signup/candidate-signup.html:100
+#: components/candidate-signup/candidate-signup.html:98
 #: components/employer-signup-start/employer-signup-start.html:154
 msgid "Password must have at least 8 characters."
 msgstr "Passwort muss aus mindestens 8 Zeichen bestehen."
@@ -1609,7 +1609,7 @@ msgstr "Bitte bestätige deine E-Mail Adresse."
 msgid "Please choose a city from the menu."
 msgstr "Bitte wähle eine Stadt aus der Liste."
 
-#: components/candidate-signup/candidate-signup.html:99
+#: components/candidate-signup/candidate-signup.html:97
 #: components/employer-signup-start/employer-signup-start.html:153
 msgid "Please choose a password."
 msgstr "Bitte wähle ein Passwort."
@@ -1695,21 +1695,6 @@ msgstr ""
 "Bitte beschreiben Sie Ihre Vorgehensweise in der Software-Entwicklung, z.B. "
 "Nutzung agiler Methoden wie Scrum oder Kanban."
 
-#: components/candidate-signup/candidate-signup.html:148
-#, fuzzy
-msgid ""
-"Please don't hesitate to contact me at\n"
-"            <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
-"            or by phone at\n"
-"            <span class=\"number\">{{ number }}</span>,\n"
-"            if I can assist you or provide guidance for your next step in IT."
-msgstr ""
-"Du kannst mich gern jederzeit bei Fragen kontaktieren:\n"
-"          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
-"          oder telefonisch unter\n"
-"          <span class=\"number\">+49 30-2639389-15.</span>\n"
-" "
-
 #: components/employer-signup/employer-signup.html:6
 msgid ""
 "Please don't hesitate to contact me at\n"
@@ -1722,6 +1707,20 @@ msgstr ""
 "          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
 "          oder telefonisch unter\n"
 "          <span class=\"number\">+49 30-2639389-15</span>,\n"
+" "
+
+#: components/candidate-signup/candidate-signup.html:146
+#, fuzzy
+msgid ""
+"Please don't hesitate to contact me at <a ng-href=\"mailto:"
+"{{ email }}\">{{ email }}</a> or by phone at <span class=\"number"
+"\">{{ number }}</span>, if I can assist you or provide guidance for your "
+"next step in IT."
+msgstr ""
+"Du kannst mich gern jederzeit bei Fragen kontaktieren:\n"
+"          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
+"          oder telefonisch unter\n"
+"          <span class=\"number\">+49 30-2639389-15.</span>\n"
 " "
 
 #: components/employer-signup-facts/employer-signup-facts.html:80
@@ -1786,7 +1785,7 @@ msgid "Please insert a valid URL."
 msgstr "Bitte geben Sie eine gültige URL an."
 
 #: components/candidate-profile/contact/contact-edit.html:71
-#: components/candidate-signup/candidate-signup.html:77
+#: components/candidate-signup/candidate-signup.html:75
 #: components/employer-signup-start/employer-signup-start.html:130
 msgid "Please insert a valid email."
 msgstr "Bitte geben Sie eine gültige E-Mail Adresse an."
@@ -1919,7 +1918,7 @@ msgstr "Bitte gib für dieses Angebot deine Kontaktdaten an."
 
 #: components/candidate-offer/candidate-offer.html:140
 #: components/candidate-profile/contact/contact-edit.html:69
-#: components/candidate-signup/candidate-signup.html:75
+#: components/candidate-signup/candidate-signup.html:73
 #: components/employer-signup-start/employer-signup-start.html:127
 msgid "Please insert your email."
 msgstr "Bitte gib deine E-Mail Adresse an."
@@ -1929,7 +1928,7 @@ msgid "Please insert your expected annual revenue."
 msgstr "Bitte geben Sie Ihren erwarteten Jahresumsatz an."
 
 #: components/candidate-profile/name/name-edit.html:26
-#: components/candidate-signup/candidate-signup.html:36
+#: components/candidate-signup/candidate-signup.html:34
 msgid "Please insert your first name."
 msgstr "Bitte gib deinen Vornamen an."
 
@@ -1938,7 +1937,7 @@ msgid "Please insert your highest education level."
 msgstr "Bitte gib deinen höchsten Abschluss an."
 
 #: components/candidate-profile/name/name-edit.html:30
-#: components/candidate-signup/candidate-signup.html:55
+#: components/candidate-signup/candidate-signup.html:53
 msgid "Please insert your last name."
 msgstr "Bitte gib deinen Nachnamen an."
 
@@ -2101,7 +2100,7 @@ msgstr "Bitte gib das Level deiner Kenntnisse an."
 msgid "Please select the year your company was founded."
 msgstr "Bitte Gründungsjahr Ihres Unternehmens auswählen."
 
-#: components/candidate-signup/candidate-signup.html:16
+#: components/candidate-signup/candidate-signup.html:14
 msgid ""
 "Please set up your free profile as IT professiona. We guarantee your data "
 "privacy."
@@ -2383,7 +2382,7 @@ msgstr "September"
 msgid "Sign up"
 msgstr "Anmeldung"
 
-#: components/candidate-signup/candidate-signup.html:15
+#: components/candidate-signup/candidate-signup.html:13
 msgid "Signup for free"
 msgstr "Kostenlos anmelden"
 
@@ -2711,7 +2710,7 @@ msgstr "UX/UI Design"
 msgid "University or Institution"
 msgstr "Universität oder Institution"
 
-#: components/candidate-signup/candidate-signup.html:117
+#: components/candidate-signup/candidate-signup.html:115
 #, fuzzy
 msgid "Unknown invite code."
 msgstr "Unbekannter Einladungs-Code"
@@ -3099,7 +3098,7 @@ msgid "You need complete signup process to see this page."
 msgstr ""
 "Sie müssen den Anmeldungsprozess vervollständigen, um diese Seite zu sehen"
 
-#: components/candidate-signup/candidate-signup.html:134
+#: components/candidate-signup/candidate-signup.html:132
 msgid "You need to agree to the terms to signup"
 msgstr "Du musst den Nutzungsbedingungen zustimmen, um dich anzumelden."
 
