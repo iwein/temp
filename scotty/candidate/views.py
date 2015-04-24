@@ -538,7 +538,7 @@ class CandidateOfferController(CandidateController):
         if self.is_me:
             offers = DBSession.query(CandidateOffer).filter(Offer.candidate_id == self.candidate.id)
             if self.request.params.get('status') == 'active':
-                offers = offers.filter(*Offer.by_active(False))
+                offers = offers.filter(Offer.by_active(False))
         else:
             offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active()) \
                 .filter(Offer.candidate_id == self.candidate.id)
