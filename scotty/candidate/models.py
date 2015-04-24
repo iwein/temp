@@ -514,7 +514,15 @@ class EmbeddedCandidate(Candidate):
                   'picture_url': self.picture_url, 'skills': self.skills}
 
         display = get_request_role(request, self.id)
-        do_obfuscate = self.anonymous and display == [DISPLAY_ALWAYS]
+        do_obfuscate = self.anonymous and display == [DISPLAY_ALWAYS] and self.id != request.candidate_id
+
+
+        if EMPLOYER in request.effective_principals:
+            accepted_count = DBSession.query(Offer.id).filter(Offer.candidate_id == self.id,
+                                                              Offer.employer_id == request.employer_id,
+                                                              Offer.has_accepted()).count()
+            do_obfuscate = do_obfuscate and accepted_count == 0
+
         return self.obfuscate_result(result) if do_obfuscate else result
 
 

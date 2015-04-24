@@ -17,7 +17,7 @@ from scotty.employer.services import employer_from_signup, employer_from_login, 
     get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
     set_employer_offices, get_employer_newsfeed, EMPLOYER_OFFICE, EMPLOYER_EDITABLES
 from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_raise
-from scotty.offer.models import InvalidStatusError
+from scotty.offer.models import InvalidStatusError, Offer
 from scotty.offer.services import set_offer_signed, get_offer_newsfeed
 from scotty.services.pagingservice import ObjectBuilder
 from scotty.services.pwd_reset import requestpassword, validatepassword, resetpassword
@@ -318,8 +318,10 @@ class EmployerOfferController(EmployerController):
     def list(self):
         offers = DBSession.query(EmployerOffer).filter(EmployerOffer.employer_id == self.employer.id) \
             .options(joinedload_all('candidate.skills.skill'),
-                     joinedload_all('candidate.skills.level')).all()
-        return offers
+                     joinedload_all('candidate.skills.level'))
+        if self.request.params.get('status') == 'active':
+            offers = offers.filter(*Offer.by_active(False))
+        return offers.all()
 
     @view_config(route_name='employer_offers', **POST)
     def create(self):

@@ -18,7 +18,9 @@ class OfferStatus(object):
         self.col_name = col_name
 
     def __str__(self): return self.key
+
     def __repr__(self): return self.key
+
     def __json__(self, request): return self.key
 
 
@@ -28,7 +30,6 @@ class InvalidStatusError(Exception):
 
 # after this many days, the offer cannot be acted on anymore
 STATUS_EXPIRATION_DAYS = 90
-
 
 OFFER_STATUS_ACTIVE_KEY = 'ACTIVE'
 OFFER_STATUS_ACCEPTED_KEY = 'ACCEPTED'
@@ -41,7 +42,6 @@ OFFER_STATUS_EXPIRED_KEY = 'EXPIRED'
 
 
 class OfferStatusWorkflow(object):
-
     statuses = [OfferStatus(OFFER_STATUS_ACTIVE_KEY, False, 'created'),
                 OfferStatus(OFFER_STATUS_ACCEPTED_KEY, False, 'accepted'),
                 OfferStatus(OFFER_STATUS_INTERVIEW_KEY, False, 'interview'),
@@ -112,6 +112,12 @@ class OfferStatusWorkflow(object):
 
     @classmethod
     def by_active(cls, includeSigned=True):
+        """
+        filter query for active offers only
+
+        :param includeSigned: filter
+        :return: string
+        """
         columns = class_mapper(cls).columns
         filter = []
         expiry_cols = []
@@ -206,7 +212,6 @@ class OfferStatusWorkflow(object):
 offer_skills = Table('offer_skill', Base.metadata, Column('offer_id', GUID, ForeignKey('offer.id'), primary_key=True),
                      Column('skill_id', Integer, ForeignKey('skill.id'), primary_key=True))
 
-
 offer_benefits = Table('offer_benefit', Base.metadata,
                        Column('offer_id', GUID, ForeignKey('offer.id'), primary_key=True),
                        Column('benefit_id', Integer, ForeignKey('benefit.id'), primary_key=True))
@@ -279,6 +284,7 @@ class Offer(Base, OfferStatusWorkflow):
 
 class EmployerOffer(Offer):
     candidate = relationship("EmbeddedCandidate")
+
     def __json__(self, request):
         results = super(EmployerOffer, self).__json__(request)
         results['candidate'] = self.candidate
@@ -287,13 +293,16 @@ class EmployerOffer(Offer):
 
 class CandidateOffer(Offer):
     employer = relationship("EmbeddedEmployer")
+
     def __json__(self, request):
         results = super(CandidateOffer, self).__json__(request)
         results['employer'] = self.employer
         return results
 
+
 class AnonymisedCandidateOffer(Offer):
     employer = relationship("EmbeddedEmployer")
+
     def __json__(self, request):
         results = json_encoder(self, request)
         results['status'] = self.status

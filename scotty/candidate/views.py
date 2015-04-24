@@ -536,11 +536,13 @@ class CandidateOfferController(CandidateController):
     @view_config(route_name='candidate_offers', permission=NO_PERMISSION_REQUIRED, **GET)
     def list(self):
         if self.is_me:
-            return self.candidate.offers
+            offers = DBSession.query(CandidateOffer).filter(Offer.candidate_id == self.candidate.id)
+            if self.request.params.get('status') == 'active':
+                offers = offers.filter(*Offer.by_active(False))
         else:
             offers = DBSession.query(AnonymisedCandidateOffer).filter(NewsfeedOffer.by_active()) \
-                .filter(Offer.candidate_id == self.candidate.id).all()
-            return offers
+                .filter(Offer.candidate_id == self.candidate.id)
+        return offers.all()
 
     @view_config(route_name='candidate_offer', **GET)
     def get(self):
