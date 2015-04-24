@@ -46,45 +46,47 @@
     </div>
 
     <div class="col-sm-9">
-      <div class="row header">
-        <div class="col-sm-8">
-          <section class="name-section">
-            <div hc-candidate-name model="candidate"></div>
-          </section>
+      <div class="header">
+        <div class="header-inner">
+          <div class="col-sm-8">
+            <section class="name-section">
+              <div hc-candidate-name model="candidate"></div>
+            </section>
 
-          <section class="target-section">
-            <div hc-candidate-target model="candidate"></div>
-            <div class="add-now" translate>Not specified</div>
-          </section>
+            <section class="target-section">
+              <div hc-candidate-target model="candidate"></div>
+              <div class="add-now" translate>Not specified</div>
+            </section>
 
-          <section class="summary-section">
-            <div hc-candidate-summary model="candidate"></div>
-          </section>
+            <section class="summary-section">
+              <div hc-candidate-summary model="candidate"></div>
+            </section>
 
-          <section class="cv-section" ng-if="data.employer_has_accepted_offers">
-            <div hc-candidate-cv model="candidate"></div>
-          </section>
-        </div>
+            <section class="cv-section" ng-if="data.employer_has_accepted_offers">
+              <div hc-candidate-cv model="candidate"></div>
+            </section>
+          </div>
 
-        <div class="col-sm-4" ng-if="!session.user">
-          <div class="row">
-            <div class="buttons-wrap mrg">
-              <a ng-href="{{ staticUrl() }}/login.html" class="fw btn bg-green" translate>Make an offer</a>
+          <div class="col-sm-4" ng-if="!session.user">
+            <div class="row">
+              <div class="buttons-wrap mrg">
+                <a ng-href="{{ staticUrl() }}/login.html" class="fw btn bg-green" translate>Make an offer</a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-sm-4" ng-if="session.user">
-          <section class="offers-section">
-            <div hc-candidate-offers model="candidate"></div>
-          </section>
+          <div class="col-sm-4" ng-if="session.user">
+            <section class="offers-section">
+              <div hc-candidate-offers model="candidate"></div>
+            </section>
 
-          <div class="row">
-            <div ng-show="canMakeOffer" class="buttons-wrap mrg">
-              <a ui-sref="create-offer({ id: candidate.id })" class="fw btn bg-green" translate>Make an offer</a>
+            <div class="row">
+              <div ng-show="canMakeOffer" class="buttons-wrap mrg">
+                <a ui-sref="create-offer({ id: candidate.id })" class="fw btn bg-green" translate>Make an offer</a>
+              </div>
+              <span ng-show="!data.candidate_has_been_hired && offerSent" class="fw btn-fake bg-blue-light" translate>Offer made</span>
+              <span ng-show="!offerSent && data.employer_blacklisted" class="fw btn-fake bg-blue-light" translate>You were blocked</span>
             </div>
-            <span ng-show="!data.candidate_has_been_hired && offerSent" class="fw btn-fake bg-blue-light" translate>Offer made</span>
-            <span ng-show="!offerSent && data.employer_blacklisted" class="fw btn-fake bg-blue-light" translate>You were blocked</span>
           </div>
         </div>
       </div>
