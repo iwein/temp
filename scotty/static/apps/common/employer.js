@@ -119,9 +119,11 @@ define(function(require) {
       });
     },
 
-    getOffers: function() {
+    getOffers: function(status) {
       var url = this._url() + '/offers';
-      return this._api.get(url + this._sufix).then(function(offers) {
+      var params = status ? { status: status } : null;
+
+      return this._api.get(url + this._sufix, params).then(function(offers) {
         return offers.map(function(data) {
           return new Offer(this._api, url + '/' + data.id, data, this._sufix);
         }.bind(this));

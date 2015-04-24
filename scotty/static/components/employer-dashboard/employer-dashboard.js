@@ -39,7 +39,7 @@ define(function(require) {
       return Session.getUser().then(function(user) {
         return $q.all([
           user.getTimeline().then(fn.setTo('news', $scope)),
-          user.getOffers().then(fn.setTo('offers', $scope)),
+          user.getOffers('active').then(fn.setTo('offers', $scope)),
           user.getRelevantCandidates()
             .then(fn.get('data'))
             .then(fn.setTo('relevant', $scope)),
