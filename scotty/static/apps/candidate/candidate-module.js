@@ -4,6 +4,7 @@ define(function(require) {
   require('angular-gettext');
   require('angular-bootstrap-lightbox');
   require('ui.bootstrap');
+  require('ng-clip');
   require('textangular');
   require('angulartics-ga');
   var angular = require('angular');
@@ -12,8 +13,9 @@ define(function(require) {
     'gettext',
     'ui.router',
     'ui.bootstrap',
-    'bootstrapLightbox',
+    'ngClipboard',
     'textAngular',
+    'bootstrapLightbox',
     'angulartics',
     'angulartics.google.analytics',
   ]);

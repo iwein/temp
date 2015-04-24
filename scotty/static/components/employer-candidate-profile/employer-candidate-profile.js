@@ -16,6 +16,7 @@ define(function(require) {
   require('../candidate-profile/skills/skills');
   require('../candidate-profile/summary/summary');
   require('../candidate-profile/target/target');
+  require('../candidate-profile/url/url');
   var _ = require('underscore');
   var module = require('app-module');
 
@@ -24,8 +25,6 @@ define(function(require) {
   module.controller('CandidateProfileCtrl', function($scope, toaster, i18n, Loader, Session, candidate) {
     var data = candidate.getDataCached();
     _.extend($scope, {
-      url: url,
-      onUrlCopy: onUrlCopy,
       data: data,
       candidate: candidate,
       offerSent: data.employer_has_offers,
@@ -60,14 +59,6 @@ define(function(require) {
 
     function translate() {
       $scope.lang = i18n.getCurrent();
-    }
-
-    function url() {
-      return window.location.toString();
-    }
-
-    function onUrlCopy() {
-      toaster.success(i18n.gettext('Link copied to clipboard'));
     }
   });
 

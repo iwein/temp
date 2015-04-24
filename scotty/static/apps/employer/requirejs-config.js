@@ -7,11 +7,11 @@ requirejs.config({
   paths: {
     // vendors
     'text': 'bower_components/text/text',
+    'underscore': 'bower_components/underscore/underscore',
     'moment': 'bower_components/moment/moment',
     'moment-de': 'bower_components/moment/locale/de',
-    'underscore': 'bower_components/underscore/underscore',
     'ZeroClipboard': 'bower_components/zeroclipboard/dist/ZeroClipboard',
-    'ZeroClipboard-wrapper': 'apps/employer/zeroclipboard-wrapper',
+    'ZeroClipboard-wrapper': 'apps/common/zeroclipboard-wrapper',
     'angular': 'bower_components/angular/angular',
     'angular-router': 'bower_components/angular-ui-router/release/angular-ui-router',
     'angular-animate': 'bower_components/angular-animate/angular-animate',

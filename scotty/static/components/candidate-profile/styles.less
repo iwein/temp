@@ -159,6 +159,36 @@
     display: none;
   }
 
+
+  .public-url {
+    .url {
+      float: left;
+      color: gray;
+      width: ~"calc(100% - 44px)";
+      border: 1px solid @blue-link;
+      padding: @generic-padding-small;
+      margin: 0;
+    }
+    .helptext {
+      margin-top: @generic-padding-small;
+      margin-left: 2px;
+    }
+
+    button {
+      float: left;
+      color: white;
+      background: @blue-link;
+      padding: 4px 10px;
+      margin: 0;
+      &.zeroclipboard-is-hover {
+        background: darken(@blue-link, 5%);
+      }
+      &.zeroclipboard-is-active {
+        background: darken(@blue-link, 10%);
+      }
+    }
+  }
+
   .target-section,
   .summary-section {
     margin-bottom: @generic-padding;

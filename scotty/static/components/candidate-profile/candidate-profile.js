@@ -29,6 +29,7 @@ define(function(require) {
   require('./summary/summary-edit');
   require('./target/target');
   require('./target/target-edit');
+  require('./url/url');
   var _ = require('underscore');
   var module = require('app-module');
 
