@@ -13,10 +13,11 @@
   <script src="//cdn.raygun.io/raygun4js/raygun.min.js"></script>
   <script>
     Raygun.init('tqrimMzbMSZOd6ndSOmJNw==', {
-      excludedHostnames: [ 'localhost', '\.dev' ],
+      excludedHostnames: [ 'localhost', '\.dev', 'frf\.me' ],
     }).attach();
   </script>
-  <script src="//cdn.jsdelivr.net/polyfills/polyfill.js"></script>
+  <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
+  <script src="/es6-promise.js"></script>
 
   <!-- build:css build.css -->
   <link rel="stylesheet/less" href="/apps/admin/styles.less">
@@ -48,6 +49,7 @@
   <ng-include src="'footer.html'"></ng-include>
 
   <!-- build:js build.js -->
+  <script src="/apps/index/resources/root/es6-promise.js"></script>
   <script src="/bower_components/requirejs/require.js"></script>
   <script src="/apps/admin/requirejs-config.js"></script>
   <!-- endbuild -->

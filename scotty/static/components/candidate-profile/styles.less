@@ -68,10 +68,9 @@
     }
   }
 
-  .header {
-    background: @white;
-    padding: @generic-padding * 2;
 
+  .header {
+    .make-row();
     .pencil-edit, .close-button {
       .floating-button(0, 0);
     }
@@ -80,7 +79,38 @@
     .privacy-section {
       text-align: right;
     }
+
+    border: 1px solid white;
+
+    @indicator-width: 160px;
+    .header-inner {
+      .clearfix();
+      float: left;
+      background: @white;
+      min-height: 235px;
+      padding: (@generic-padding * 2 - 1) (@generic-padding - 1);
+      @width: @indicator-width;
+      width: ~"calc(100% - " @width ~")";
+    }
+
+    .completion-indicator {
+      float: left;
+      width: @indicator-width;
+      padding: @generic-padding (@generic-padding * 2);
+
+      h3 {
+        .smbd();
+        margin-top: 0;
+        text-align: center;
+      }
+    }
   }
+
+  &.completion {
+    .header-inner { width: 100%; }
+    .completion-indicator { display: none }
+  }
+
 
   .uploadFile {
     line-height: 20px;
@@ -125,9 +155,6 @@
   .education-section {
     .add-now { left: @generic-padding * 2 }
   }
-  .skills-section .empty {
-    padding-left: @generic-padding * 2
-  }
   .offers-section.empty {
     display: none;
   }
@@ -142,8 +169,7 @@
     form { display: block }
   }
   .skills-section {
-    padding-top: @generic-padding * 2;
-    padding-bottom: @generic-padding * 2;
+    padding: (@generic-padding * 2) @generic-padding;
     .pencil-edit, .close-button {
       .floating-button(0, @generic-padding);
     }
@@ -159,7 +185,6 @@
   &:not(.editing) .target-section.empty ~ .summary-section {
     display: none;
   }
-
 
   .edit-button { display: none }
   &.editing .edit-button { display: block }

@@ -14,38 +14,32 @@ define(function(require) {
   });
 
 
-  module.controller('CandidateSignupCtrl', function($scope, $q, $state, toaster, i18n, Loader, ConfigAPI, Session) {
+  // jshint maxparams:9
+  module.controller('CandidateSignupCtrl', function($scope, $q, $state, $stateParams,
+    toaster, i18n, Loader, ConfigAPI, Session) {
+
     _.extend($scope, {
+      onInviteCodeChange: onInviteCodeChange,
       onEmailChange: onEmailChange,
       submit: submit,
       loading: false,
-      model: {},
+      model: {
+        invite_code: $stateParams.inviteCode,
+      },
       errorEmailAlreadyRegistered: false,
     });
-
-    return onLoad();
-
-    function onLoad() {
-      // HACK: we have to do this in order to have a live translation & register the token
-      // It's critical that `message` and `.gettext` argument have EXACTLY the same content.
-      var message = '<h2>Sign up as IT professional and get hired!</h2>' +
-          'If you are an employer, click <a href="/employer/signup"><b>here</b></a>!';
-      i18n.gettext('<h2>Sign up as IT professional and get hired!</h2>' +
-          'If you are an employer, click <a href="/employer/signup"><b>here</b></a>!');
-
-      toaster.show('alert banner-message', '<translate>' + message + '</translate>', {
-        html: true,
-        untilStateChange: true
-      });
-    }
 
 
     function onEmailChange() {
       $scope.errorEmailAlreadyRegistered = false;
     }
 
+    function onInviteCodeChange() {
+      $scope.errorInvalidInviteCode = false;
+    }
+
     function submit() {
-      if (!$scope.formSignupUser.$valid)return;
+      if (!$scope.form.$valid)return;
       $scope.loading = true;
       $scope.model.locale = i18n.getCurrent();
       Loader.add('signup-user-saving');
@@ -60,9 +54,9 @@ define(function(require) {
 
         if (request.status === 400 && request.data.errors) {
           if(request.data.errors.invite_code === 'INVALID CHOICE')
-            toaster.error(i18n.gettext('Unknown invite code'));
+            $scope.errorInvalidInviteCode = true;
           else if(request.data.errors.email)
-              $scope.formSignupUser.email.$setValidity('email', false);
+            $scope.form.email.$setValidity('email', false);
           return;
         }
 
@@ -78,7 +72,7 @@ define(function(require) {
 
 
   return {
-    url: '/signup',
+    url: '/signup/{inviteCode}',
     template: require('text!./candidate-signup.html'),
     controller: 'CandidateSignupCtrl',
   };

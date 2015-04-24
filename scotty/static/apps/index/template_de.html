@@ -8,6 +8,12 @@
   <meta name="description" content="{{ description }}">
   <meta name="author" content="4Scotty">
   <title>Scotty - {{ title }}</title>
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="{{ title }}" />
+  <meta property="og:image" content="http://4scotty.com/social_logo.png" />
+  <meta property="og:description" content="{{ description }}" />
+
   <link rel="icon" type="image/png" href="/favicon.ico">
   <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/ad86cd99-af73-48f3-b26d-bec8dd63fa59.css"/>
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
@@ -122,7 +128,7 @@
 <!-- build:js bootstrap.min.js -->
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- endbuild -->
-<script type="text/javascript">localStorage.scotty_lang='de';</script>
+<script type="text/javascript">document.cookie='scotty_lang=de; path=/'</script>
 {{> footscripts}}
 </body>
 </html>

@@ -1,8 +1,10 @@
 define(function(require) {
   'use strict';
   require('components/element-connectors-buttons/element-connectors-buttons');
+  require('../completion-availability/completion-availability');
   require('../completion-birthdate/completion-birthdate');
   require('../completion-city/completion-city');
+  require('../completion-cv/completion-cv');
   require('../completion-education/completion-education');
   require('../completion-education/completion-education-further');
   require('../completion-experience/completion-experience');
@@ -10,6 +12,7 @@ define(function(require) {
   require('../completion-graph/completion-graph');
   require('../completion-languages/completion-languages');
   require('../completion-location/completion-location');
+  require('../completion-picture/completion-picture');
   require('../completion-skills/completion-skills');
   require('../completion-summary/completion-summary');
   require('../completion-target/completion-target');
@@ -23,7 +26,7 @@ define(function(require) {
     return {
       template: require('text!./completion.html'),
       scope: { model: '=', },
-      controller: function($scope) {
+      controller: function($scope, $element) {
         // For some reason JSHint complains if I move this function to the end
         function close() {
           $scope.close = true;
@@ -47,8 +50,9 @@ define(function(require) {
 
         function update() {
           var stage = $scope.model.getSignupStageCached();
-          $scope.step = getNextStep(stage);
+          var step = $scope.step = getNextStep(stage);
           importSocial();
+          $element.parent()[step ? 'addClass' : 'removeClass']('completion');
         }
 
         function refresh() {
@@ -61,7 +65,7 @@ define(function(require) {
           var order = stage.ordering.slice();
           return order.reverse().reduce(function(result, step) {
             if (ignore.indexOf(step) !== -1) return result;
-            return stage[step] === false ? step : result;
+            return stage[step] ? result : step;
           }, null);
         }
 

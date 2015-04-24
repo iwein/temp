@@ -1,0 +1,11 @@
+<button class="close-button" ng-click="close()">
+  <i class="fa fa-close"></i>
+</button>
+
+<h3 translate>Please upload a photo</h3>
+<h4 translate>Profiles with photo are more likely for employers looking for candidates.</h4>
+
+<div hc-avatar-partial model="model" on-save="saved()">
+  <button type="submit" disabled translate>Save</button>
+  <button type="button" ng-disabled="loading" ng-click="skip()" translate>Skip</button>
+</div>

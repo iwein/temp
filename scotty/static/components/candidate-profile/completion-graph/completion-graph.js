@@ -6,7 +6,6 @@ define(function(require) {
   module.directive('hcCompletionGraph', function(toaster, i18n) {
     return {
       template: require('text!./completion-graph.html'),
-      require: '^hcCandidateCompletion',
       scope: { model: '=' },
       link: function(scope) {
         i18n.onChange(translate);

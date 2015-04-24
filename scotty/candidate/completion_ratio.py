@@ -117,6 +117,9 @@ def completion_extended_profile(candidate):
 def completion_availability(candidate):
     return 1 if candidate.availability else 0
 
+def completion_cv(candidate):
+    return 1 if candidate.cv_upload_url else 0
+
 
 COMPLETION_CALCULATOR = [
     {'percentage': .10, 'determinant': completion_base_profile},
@@ -127,7 +130,8 @@ COMPLETION_CALCULATOR = [
     {'percentage': .1, 'determinant': completion_skills},
     {'percentage': .1, 'determinant': completion_languages},
     {'percentage': .20, 'determinant': completion_extended_profile},
-    {'percentage': .05, 'determinant': completion_availability}
+    {'percentage': .025, 'determinant': completion_availability},
+    {'percentage': .025, 'determinant': completion_cv}
 ]
 
 

@@ -55,39 +55,46 @@
     </div>
 
     <div class="col-sm-9">
-      <div class="row header">
-        <div class="col-sm-8">
-          <section class="name-section">
-            <div hc-candidate-name model="candidate"></div>
-            <div hc-candidate-name-edit model="candidate"></div>
-          </section>
+      <div class="header">
+        <div class="header-inner">
+          <div class="col-sm-8">
+            <section class="name-section">
+              <div hc-candidate-name model="candidate"></div>
+              <div hc-candidate-name-edit model="candidate"></div>
+            </section>
 
-          <section class="target-section">
-            <div hc-candidate-target model="candidate"></div>
-            <div hc-candidate-target-edit model="candidate"></div>
-          </section>
+            <section class="target-section">
+              <div hc-candidate-target model="candidate"></div>
+              <div hc-candidate-target-edit model="candidate"></div>
+            </section>
 
-          <section class="summary-section">
-            <div hc-candidate-summary model="candidate"></div>
-            <div hc-candidate-summary-edit model="candidate"></div>
-          </section>
+            <section class="summary-section">
+              <div hc-candidate-summary model="candidate"></div>
+              <div hc-candidate-summary-edit model="candidate"></div>
+            </section>
 
-          <section class="cv-section">
-            <div hc-candidate-cv model="candidate"></div>
-            <div hc-candidate-cv-edit model="candidate"></div>
-          </section>
+            <section class="cv-section">
+              <div hc-candidate-cv model="candidate"></div>
+              <div hc-candidate-cv-edit model="candidate"></div>
+            </section>
+          </div>
+
+          <div class="col-sm-4">
+            <section class="status-section">
+              <span><translate>Status</translate>: </span>
+              <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
+            </section>
+
+            <section class="privacy-section">
+              <div hc-candidate-privacy model="candidate"></div>
+              <div hc-candidate-privacy-edit model="candidate"></div>
+            </section>
+          </div>
         </div>
 
-        <div class="col-sm-4">
-          <section class="status-section">
-            <span><translate>Status</translate>: </span>
-            <hc-candidate-status candidate="candidate" offers="allOffers"></hc-candidate-status>
-          </section>
-
-          <section class="privacy-section">
-            <div hc-candidate-privacy model="candidate"></div>
-            <div hc-candidate-privacy-edit model="candidate"></div>
-          </section>
+        <div class="completion-indicator">
+          <h3 translate>Profile Strength</h3>
+          <div hc-completion-graph class="small" model="candidate"></div>
         </div>
       </div>
 
