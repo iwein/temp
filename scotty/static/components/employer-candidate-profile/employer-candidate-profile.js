@@ -21,10 +21,11 @@ define(function(require) {
 
 
   // jshint maxstatements:35
-  module.controller('CandidateProfileCtrl', function($scope, i18n, Loader, Session, candidate) {
+  module.controller('CandidateProfileCtrl', function($scope, toaster, i18n, Loader, Session, candidate) {
     var data = candidate.getDataCached();
     _.extend($scope, {
       url: url,
+      onUrlCopy: onUrlCopy,
       data: data,
       candidate: candidate,
       offerSent: data.employer_has_offers,
@@ -63,6 +64,10 @@ define(function(require) {
 
     function url() {
       return window.location.toString();
+    }
+
+    function onUrlCopy() {
+      toaster.success(i18n.gettext('Link copied to clipboard'));
     }
   });
 
