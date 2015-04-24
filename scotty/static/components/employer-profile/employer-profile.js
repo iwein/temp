@@ -9,12 +9,13 @@ define(function(require) {
   var module = require('app-module');
 
 
-  // jshint maxparams:10
+  // jshint maxparams:10, maxstatements:50
   module.controller('ProfileCtrl', function($scope, $q, $sce, $state,
     Lightbox, Amazon, Loader, ConfigAPI, Permission, Session) {
 
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
+    $scope.onCompanyChange = onCompanyChange;
     $scope.searchCompanies = ConfigAPI.companies;
     $scope.searchTags = ConfigAPI.skills;
     $scope.slideshow = slideshow;
@@ -40,7 +41,11 @@ define(function(require) {
         return { company_name: data.company_name };
       },
       save: function(model, form, user) {
-        return user.updateData(model);
+        return user.updateData(model).catch(function(request) {
+          if (request.status === 400)
+            $scope.errorCompanyAlreadyRegistered = true;
+          throw request;
+        });
       }
     });
     $scope.summary = formSimple({
@@ -300,6 +305,10 @@ define(function(require) {
           $scope.formOpen = false;
         }
       });
+    }
+
+    function onCompanyChange() {
+      $scope.errorCompanyAlreadyRegistered = false;
     }
 
     function slideshow(index) {

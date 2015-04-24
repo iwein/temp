@@ -467,7 +467,7 @@
                          ng-change="onCompanyChange()">
                 </div>
 
-                <div class="form-error col-lg-9 col-lg-offset-3" ng-show="errorCompanyAlreadyRegistered || formName.companyName.$dirty">
+                <div class="form-error" ng-show="errorCompanyAlreadyRegistered || formName.companyName.$dirty">
                   <span ng-show="formName.companyName.$error.required" translate>
                     Please insert the name of your company.
                   </span>
