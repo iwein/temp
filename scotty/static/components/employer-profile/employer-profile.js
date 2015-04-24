@@ -15,6 +15,7 @@ define(function(require) {
 
     this.edit = function() { $scope.isEditing = true };
     this.stopEdit = function() { $scope.isEditing = false };
+    $scope.searchCompanies = ConfigAPI.companies;
     $scope.searchTags = ConfigAPI.skills;
     $scope.slideshow = slideshow;
     $scope.toggle = toggle;
@@ -33,6 +34,15 @@ define(function(require) {
       .finally(function() { Loader.page(false) });
 
 
+    $scope.name = formSimple({
+      set: function(data) {
+        setData(data);
+        return { company_name: data.company_name };
+      },
+      save: function(model, form, user) {
+        return user.updateData(model);
+      }
+    });
     $scope.summary = formSimple({
       set: function(data) {
         setData(data);
@@ -193,6 +203,7 @@ define(function(require) {
           $scope.pictures.refresh(),
           user.getData().then(function(data) {
             setData(data);
+            $scope.name.set(data);
             $scope.summary.set(data);
             $scope.video.set(data);
             $scope.tech.set(data);
