@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/candidate-profile/summary/summary-edit.html:13
@@ -359,9 +359,8 @@ msgid "BLACKLISTED"
 msgstr "Auf der BLACKLIST"
 
 #: tmp/db-tokens/roles_featured.js:10
-#, fuzzy
 msgid "Back-End Development"
-msgstr "Software-Entwicklung"
+msgstr "Back-End Entwicklung"
 
 #: components/employer-signup-basic/employer-signup-basic.html:4
 #: components/employer-signup/employer-signup.html:34
@@ -737,7 +736,7 @@ msgstr ""
 
 #: components/candidate-profile/completion-cv/completion-cv.html:5
 msgid "Do you have a CV to upload?"
-msgstr ""
+msgstr "Möchtest du einen CV hochladen?"
 
 #: components/employer-signup-mission/employer-signup-mission.html:65
 msgid "Does your number of employees really exceed 990000000?"
@@ -922,9 +921,8 @@ msgid "Free Fruits"
 msgstr "kostenlose Früchte"
 
 #: tmp/db-tokens/roles_featured.js:9
-#, fuzzy
 msgid "Front-End Development"
-msgstr "Software-Entwicklung"
+msgstr "Front-End Entwicklung"
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:31
 msgid ""
@@ -1002,7 +1000,7 @@ msgstr "Interviewprozess"
 
 #: apps/candidate/navbar.html:37 apps/employer/navbar.html:36
 msgid "Home"
-msgstr "Startseite"
+msgstr "Kandidatensuche"
 
 #: tmp/db-tokens/benefits.js:7
 msgid "Home office acceptance"
@@ -1037,15 +1035,14 @@ msgid "I'm not interested"
 msgstr "Ich bin nicht interessiert"
 
 #: components/candidate-signup/candidate-signup.html:15
-#, fuzzy
 msgid "If you are an employer, click <a ng-href=\"{{ url }}\">here</a>!"
 msgstr ""
-"<h2>Melde dich an und lass Dich mit Job-Angeboten umwerben!</h2>Unternehmen "
-"registrieren sich bitte <a href=\"/employer/signup\"><b>hier! </b></a>"
+"Unternehmen registrieren sich bitte <a href=\"/employer/signup\"><b>hier! </"
+"b></a>"
 
 #: components/candidate-profile/completion-cv/completion-cv.html:6
 msgid "If you do have a CV in an external format you can upload it here."
-msgstr ""
+msgstr "Hier kannst du deinen Lebenslauf hochladen."
 
 #: components/candidate-signup/candidate-signup.html:160
 #: components/candidate-signup/candidate-signup.html:7
@@ -1102,7 +1099,7 @@ msgstr "Für dieses Angebot interviewt."
 
 #: components/candidate-profile/completion-summary/completion-summary.html:6
 msgid "Introduce yourself to the companies viewing your profile."
-msgstr ""
+msgstr "Stelle dich kurz den Unternehmen vor, die dein Profil anschauen."
 
 #: components/candidate-activate/candidate-activate.js:15
 #: components/employer-signup-start/employer-signup-start.js:77
@@ -1173,6 +1170,10 @@ msgstr "Der Nachname muss aus mindestens zwei Zeichen bestehen."
 #: tmp/db-tokens/benefits.js:8
 msgid "Life and disability insurance"
 msgstr "Unfallversicherung"
+
+#: components/employer-candidate-profile/employer-candidate-profile.js:69
+msgid "Link copied to clipboard"
+msgstr ""
 
 #: tools/linkedin-connect/linkedin-connect.html:2
 msgid "LinkedIn"
@@ -1245,9 +1246,8 @@ msgid "Mission"
 msgstr "Mission"
 
 #: tmp/db-tokens/roles_featured.js:11
-#, fuzzy
 msgid "Mobile Development"
-msgstr "Software-Entwicklung"
+msgstr "Mobile Entwicklung"
 
 #: components/candidate-profile/birthdate/birthdate-partial.html:23
 #: components/directive-experience-form/directive-experience-form.html:105
@@ -1710,18 +1710,15 @@ msgstr ""
 " "
 
 #: components/candidate-signup/candidate-signup.html:146
-#, fuzzy
 msgid ""
 "Please don't hesitate to contact me at <a ng-href=\"mailto:"
 "{{ email }}\">{{ email }}</a> or by phone at <span class=\"number"
 "\">{{ number }}</span>, if I can assist you or provide guidance for your "
 "next step in IT."
 msgstr ""
-"Du kannst mich gern jederzeit bei Fragen kontaktieren:\n"
-"          <a ng-href=\"mailto:{{ email }}\">{{ email }}</a>\n"
-"          oder telefonisch unter\n"
-"          <span class=\"number\">+49 30-2639389-15.</span>\n"
-" "
+"Du kannst mich gern jederzeit bei Fragen kontaktieren <a ng-href=\"mailto:"
+"{{ email }}\">{{ email }}</a> oder telefonisch unter <span class=\"number\">"
+"+49 30-2639389-15.</span>"
 
 #: components/employer-signup-facts/employer-signup-facts.html:80
 msgid "Please enter at least one technology"
@@ -2105,6 +2102,8 @@ msgid ""
 "Please set up your free profile as IT professiona. We guarantee your data "
 "privacy."
 msgstr ""
+"Bitte erstelle dein kostenloses Profil als IT-Experte. Wir garantieren den "
+"Schutz deiner Daten."
 
 #: components/candidate-profile/completion-city/completion-city.html:6
 msgid "Please type the city you're living currently."
@@ -2121,9 +2120,8 @@ msgid "Please type your minimum expected salary."
 msgstr "Bitte gib deinen Gehaltswunsch p.a. an."
 
 #: components/candidate-profile/completion-picture/completion-picture.html:5
-#, fuzzy
 msgid "Please upload a photo"
-msgstr "Bitte ein Bild auswählen."
+msgstr "Bitte lade ein Bild von dir hoch."
 
 #: components/employer-signup-basic/employer-signup-basic.html:94
 msgid ""
@@ -2167,7 +2165,7 @@ msgstr "Profilbild"
 #: components/candidate-profile/completion-picture/completion-picture.html:6
 msgid ""
 "Profiles with photo are more likely for employers looking for candidates."
-msgstr ""
+msgstr "Profile mit Bild erhöhen stark die Aufmerksamkeit von Unternehmen."
 
 #: tmp/db-tokens/benefits.js:9
 msgid "Public Transport Tickets"
@@ -2415,9 +2413,8 @@ msgid "Skip"
 msgstr "Überspringen"
 
 #: tmp/db-tokens/roles_featured.js:1
-#, fuzzy
 msgid "Software Development (general)"
-msgstr "Software-Entwicklung"
+msgstr "Software-Entwicklung (allgemein)"
 
 #: components/employer-dashboard/employer-dashboard.html:123
 msgid "Sorry, there are no candidates matching your criteria"
@@ -2711,9 +2708,8 @@ msgid "University or Institution"
 msgstr "Universität oder Institution"
 
 #: components/candidate-signup/candidate-signup.html:115
-#, fuzzy
 msgid "Unknown invite code."
-msgstr "Unbekannter Einladungs-Code"
+msgstr "Einladungs-Code unbekannt."
 
 #: components/candidate-profile/cv/cv-edit.html:1
 msgid "Update your CV"
@@ -2864,7 +2860,7 @@ msgstr "Worin bist du gut."
 
 #: components/candidate-profile/completion-summary/completion-summary.html:5
 msgid "What can you say of yourself?"
-msgstr ""
+msgstr "Was kannst du über dich selbst erzählen?"
 
 #: components/candidate-profile/completion-birthdate/completion-birthdate.html:5
 msgid "What is your birth day?"
@@ -2883,9 +2879,8 @@ msgid "What other work experience do you have?"
 msgstr "Welche andere Arbeitserfahrung hast du?"
 
 #: components/candidate-profile/completion-availability/completion-availability.html:5
-#, fuzzy
 msgid "When are you available?"
-msgstr "Bitte gib deine Verfügbarkeit an"
+msgstr "Ab wann bist du verfügbar?"
 
 #: components/employer-signup-mission/employer-signup-mission.html:14
 msgid "When was the company established?"

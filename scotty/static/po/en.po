@@ -1106,6 +1106,10 @@ msgstr ""
 msgid "Life and disability insurance"
 msgstr ""
 
+#: components/employer-candidate-profile/employer-candidate-profile.js:69
+msgid "Link copied to clipboard"
+msgstr ""
+
 #: tools/linkedin-connect/linkedin-connect.html:2
 msgid "LinkedIn"
 msgstr ""
