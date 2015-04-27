@@ -613,8 +613,12 @@ msgstr ""
 msgid "Convenient &amp; time-saving"
 msgstr ""
 
-#: components/candidate-profile/url/url.html:6
-msgid "Copy &amp; Forward to a Colleague"
+#: components/employer-candidate-profile/employer-candidate-profile.html:16
+msgid "Copy & Forward to a Colleague"
+msgstr ""
+
+#: components/candidate-profile/candidate-profile.html:28
+msgid "Copy link & forward your profile"
 msgstr ""
 
 #: components/directive-office-form/directive-office-form.html:70
@@ -1108,7 +1112,7 @@ msgstr ""
 msgid "Life and disability insurance"
 msgstr ""
 
-#: components/candidate-profile/url/url.js:23
+#: components/candidate-profile/url/url.js:26
 msgid "Link copied to clipboard"
 msgstr ""
 

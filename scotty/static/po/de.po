@@ -661,9 +661,13 @@ msgstr "Vermögenswirksame Leistungen"
 msgid "Convenient &amp; time-saving"
 msgstr "Bequem &amp; zeitsparend"
 
-#: components/candidate-profile/url/url.html:6
-msgid "Copy &amp; Forward to a Colleague"
-msgstr "Kopie &amp; an Kollegen weiterleiten"
+#: components/employer-candidate-profile/employer-candidate-profile.html:16
+msgid "Copy & Forward to a Colleague"
+msgstr "Kopie & an Kollegen weiterleiten"
+
+#: components/candidate-profile/candidate-profile.html:28
+msgid "Copy link & forward your profile"
+msgstr "Link kopieren & Profil weiterleiten"
 
 #: components/directive-office-form/directive-office-form.html:70
 msgid "Country..."
@@ -1173,7 +1177,7 @@ msgstr "Der Nachname muss aus mindestens zwei Zeichen bestehen."
 msgid "Life and disability insurance"
 msgstr "Unfallversicherung"
 
-#: components/candidate-profile/url/url.js:23
+#: components/candidate-profile/url/url.js:26
 msgid "Link copied to clipboard"
 msgstr ""
 

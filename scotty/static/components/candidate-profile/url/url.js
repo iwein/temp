@@ -7,7 +7,10 @@ define(function(require) {
   module.directive('hcCandidatePublicUrl', function(toaster, i18n) {
     return {
       template: require('text!./url.html'),
-      scope: { model: '=' },
+      scope: {
+        model: '=',
+        message: '@',
+      },
       link: function(scope) {
         _.extend(scope, {
           url: url,
