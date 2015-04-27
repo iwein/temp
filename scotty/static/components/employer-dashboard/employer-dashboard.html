@@ -150,6 +150,22 @@
   </div>
 
   <div class="col-sm-3">
+    <div class="panel existing-offers" ng-show="candidates.length">
+      <div class="panel-heading" translate>Job offers</div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="offer in offers">
+          <hc-candidate-link class="bld" ng-model="offer.data.candidate"></hc-candidate-link>
+          <div class="mrg-btm-small" hc-scope="{
+            role: offer.data.role,
+            city: offer.data.location.city,
+            country_iso: offer.data.location.country_iso,
+            }" translate>
+            {{ role }} at {{ city }}, {{ country_iso }}
+          </div>
+        </li>
+      </ul>
+    </div>
+
     <div class="panel new-offers" ng-show="candidates.length">
       <div class="panel-heading" translate>New offer requests</div>
       <ul class="list-group">

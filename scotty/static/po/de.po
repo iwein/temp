@@ -968,7 +968,7 @@ msgstr ""
 msgid "HIRED"
 msgstr "EINGESTELLT"
 
-#: components/employer-dashboard/employer-dashboard.html:170
+#: components/employer-dashboard/employer-dashboard.html:186
 msgid "Handpicked Candidates for you"
 msgstr "Für Sie von uns ausgewählte Kandidaten"
 
@@ -1036,7 +1036,7 @@ msgstr ""
 "Ich habe die <hc-tos-link>4Scotty Nutzungsbedingungen</hc-tos-link> gelesen "
 "und stimme diesen zu."
 
-#: components/employer-dashboard/employer-dashboard.html:180
+#: components/employer-dashboard/employer-dashboard.html:196
 msgid "I'm not interested"
 msgstr "Ich bin nicht interessiert"
 
@@ -1133,6 +1133,10 @@ msgstr "Stellenprofil"
 #: components/employer-create-offer/employer-create-offer.html:153
 msgid "Job description"
 msgstr "Stellenprofil"
+
+#: components/employer-dashboard/employer-dashboard.html:154
+msgid "Job offers"
+msgstr "Stellenangebote"
 
 #: apps/common/footer.html:29
 msgid "Jobs @ 4Scotty"
@@ -1306,7 +1310,7 @@ msgstr ""
 msgid "Negotiating contract details"
 msgstr "Vertragsverhandlungen"
 
-#: components/employer-dashboard/employer-dashboard.html:154
+#: components/employer-dashboard/employer-dashboard.html:170
 msgid "New offer requests"
 msgstr "Neue Anfragen von Kandidaten"
 
@@ -2500,7 +2504,7 @@ msgstr "Abschicken"
 msgid "Submit offer"
 msgstr "Angebot senden"
 
-#: components/employer-dashboard/employer-dashboard.html:188
+#: components/employer-dashboard/employer-dashboard.html:204
 msgid "Suggested Candidates"
 msgstr "Vorgeschlagene Kandidaten"
 
@@ -2817,7 +2821,7 @@ msgstr ""
 "passendes Unternehmen registriert. Du möchtest nicht warten? Dann probiere "
 "doch unsere Suche nach anderen Technologien und Kenntnissen aus."
 
-#: components/employer-dashboard/employer-dashboard.html:189
+#: components/employer-dashboard/employer-dashboard.html:205
 msgid ""
 "We're sorry. There are no candidates with skills in your tech yet.\n"
 "        We'll notify you as soon as there is a fitting candidate.\n"
@@ -3408,6 +3412,10 @@ msgid "you withdrew this offer"
 msgstr "du hast dieses Angebot zurückgezogen"
 
 #: components/employer-dashboard/employer-dashboard.html:158
+msgid "{{ role }} at {{ city }}, {{ country_iso }}"
+msgstr "{{ role }} aus {{ city }}"
+
+#: components/employer-dashboard/employer-dashboard.html:174
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
 msgstr "{{ role }} aus {{ city }}"
 
