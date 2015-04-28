@@ -68,8 +68,8 @@ class MandrillEmailer(object):
         log.info('Sending to ADMINS: %s', '/'.join(self.admin_emails))
         self.frontend = settings['frontend.domain']
         self.mandrill = mandrill.Mandrill(apikey)
-        self.employer_dashboard_url = 'http://%s/employer' % self.frontend
-        self.candidate_dashboard_url = 'http://%s/candidate' % self.frontend
+        self.employer_dashboard_url = 'https://%s/employer' % self.frontend
+        self.candidate_dashboard_url = 'https://%s/candidate' % self.frontend
 
         self.on_startup_check()
 
