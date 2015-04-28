@@ -12,9 +12,15 @@ hc-candidate {
 hc-candidate[hc-small] {
   header { display: none }
   .body { display: none }
+  .skills-part { display: none }
   .body-small { display: block }
   .details { font-size: 12px; }
   .img-wrap { min-height: 55px }
+
+  .details {
+    clear: both;
+    & > .col-sm-6 { float: right }
+  }
 
   .req-list-title {
     color: #b2b2b2;
@@ -22,6 +28,8 @@ hc-candidate[hc-small] {
   }
 
   .offer-list-item-small {
+    border: none;
+    padding-bottom: 0;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
@@ -29,6 +37,6 @@ hc-candidate[hc-small] {
   .offer-list-item-small-title {
     text-transform: none;
     font-size: 14px;
-    color: #20717e;
+    color: #696969;
   }
 }

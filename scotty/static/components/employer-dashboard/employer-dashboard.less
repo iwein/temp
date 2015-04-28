@@ -3,6 +3,40 @@
 .component-employer-dashboard {
   padding-bottom: 30px;
 
+  .search-section {
+    background: white;
+  }
+
+  .form-save-search {
+    background: #bbbbbb;
+    padding: @generic-padding;
+    margin: @generic-padding;
+    margin-bottom: @generic-padding * 2;
+
+    .buttons-wrap > button {
+      .btn-small();
+      float: right;
+      margin-left: @generic-padding;
+      &.btn-submit { .bg-green() }
+      &.btn-cancel { .bg-gray-lighter2() }
+    }
+  }
+
+  .timeline-container {
+    position: relative;
+    .timeline { left: -5px }
+  }
+
+  .search-entry {
+    cursor: pointer;
+  }
+
+  .save-search {
+    font-size: 0.7em;
+    // Disabled feature
+    display: none !important;
+  }
+
   .not-interested {
     display: block;
     cursor: pointer;
@@ -76,9 +110,9 @@
       background-color: #e3e3e3;
     }
 
-    &.relevant .panel-heading { background-color: #b5b5b5; }
+    &.relevant .panel-heading { background-color: #0097b2; }
     &.existing-offers .panel-heading { background-color: #077184; }
     &.new-offers .panel-heading { background-color: #e55c18; }
-    &.handpicked .panel-heading { background-color: #077184; }
+    &.handpicked .panel-heading { background-color: #077083; }
   }
 }

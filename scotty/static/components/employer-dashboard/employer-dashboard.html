@@ -1,22 +1,54 @@
 <div class="component-employer-dashboard row" ng-show="ready">
   <div class="col-sm-3">
-    <div class="row timeline-head">
-      <div class="col-sm-2 no-padd-right">
-        <div class="dot"><i class="fa fa-circle"></i></div>
-      </div>
-      <div class="col-sm-10 date">{{ today | momentDate }}</div>
+    <div class="panel new-offers" ng-show="candidates.length">
+      <div class="panel-heading" translate>New offer requests</div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="candidate in candidates">
+          <hc-candidate-link class="bld" ng-model="candidate._data"></hc-candidate-link>
+          <div class="mrg-btm-small" hc-scope="{
+            role: candidate.position.role,
+            city: candidate._data.location.city,
+            country_iso: candidate._data.location.country_iso,
+            }" translate>
+            {{ role }} from {{ city }}, {{ country_iso }}
+          </div>
+        </li>
+      </ul>
     </div>
 
-    <div class="row">
-      <div class="timeline">
-        <div class="gray-bar"></div>
-        <div class="timeline-start"></div>
+    <div class="panel new-offers" ng-show="searches.length">
+      <div class="panel-heading" translate>Saved search robots</div>
+      <div class="panel-body">
+        <p translate>Get informed by email about new candidates meeting your saved search criteria.</p>
+
+        <ul>
+          <li class="search-entry" ng-repeat="search in searches">
+            <a ng-click="loadSearch(search)">{{ search.key }}</a>
+            <i class="fa fa-times" ng-click="removeSearch(search)"></i>
+          </li>
+        </ul>
       </div>
     </div>
-    <hc-employer-newsitem class="row timeline-item" entry="entry" ng-repeat="entry in news"></hc-employer-newsitem>
+
+    <div class="timeline-container">
+      <div class="row timeline-head">
+        <div class="col-sm-2 no-padd-right">
+          <div class="dot"><i class="fa fa-circle"></i></div>
+        </div>
+        <div class="col-sm-10 date">{{ today | momentDate }}</div>
+      </div>
+
+      <div class="row">
+        <div class="timeline">
+          <div class="gray-bar"></div>
+          <div class="timeline-start"></div>
+        </div>
+      </div>
+      <hc-employer-newsitem class="row timeline-item" entry="entry" ng-repeat="entry in news"></hc-employer-newsitem>
+    </div>
   </div>
 
-  <div class="col-sm-6">
+  <div class="col-sm-6 search-section">
     <div class="search-box">
       <h4 class="search-box-title">
         <i class="fa fa-search"></i>
@@ -132,12 +164,35 @@
           total="totalResults"
           load="search($params)">
 
-          <div class="search-response"
-            translate-n="totalResults"
-            translate-plural="{{$count}} candidates found"
-            translate>
-            One candidate found
+          <div class="search-response">
+            <span translate-n="totalResults"
+              translate-plural="{{$count}} candidates found"
+              translate>
+              One candidate found
+            </span>
+            <a class="save-search"
+              ng-show="!flags.showSaveForm"
+              ng-click="flags.showSaveForm = true"
+              translate>
+              Save search
+            </a>
           </div>
+
+          <form name="saveSearchForm" class="form-save-search" ng-if="flags.showSaveForm" ng-submit="saveSearch(saveSearchName)">
+            <div class="form-group">
+              <label><translate>Name</translate>:</label>
+
+              <input type="text"
+                class="form-control"
+                required
+                ng-model="saveSearchName">
+            </div>
+
+            <div class="buttons-wrap">
+              <button type="submit" class="btn-submit" translate>Save</button>
+              <button type="button" class="btn-cancel" ng-click="flags.showSaveForm = false" translate>Cancel</button>
+            </div>
+          </form>
 
           <hc-candidate
             ng-repeat="candidate in searchResults"
@@ -166,22 +221,6 @@
       </ul>
     </div>
 
-    <div class="panel new-offers" ng-show="candidates.length">
-      <div class="panel-heading" translate>New offer requests</div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="candidate in candidates">
-          <hc-candidate-link class="bld" ng-model="candidate._data"></hc-candidate-link>
-          <div class="mrg-btm-small" hc-scope="{
-            role: candidate.position.role,
-            city: candidate._data.location.city,
-            country_iso: candidate._data.location.country_iso,
-            }" translate>
-            {{ role }} from {{ city }}, {{ country_iso }}
-          </div>
-        </li>
-      </ul>
-    </div>
-
     <div class="panel handpicked" ng-show="suggested.length">
       <div class="panel-heading" translate>Handpicked Candidates for you</div>
       <ul class="list-group">
@@ -189,6 +228,7 @@
           <hc-candidate
             ng-repeat="suggestion in suggested"
             ng-model="suggestion.candidate"
+            hc-hide="{{ { skills: true } }}"
             hc-link-name
             hc-small>
             <a class="not-interested" ng-click="notInterested(suggestion, $index)">
@@ -207,16 +247,15 @@
         We'll notify you as soon as there is a fitting candidate.
         Don't want to wait? Then give it a try and search our platform for other technologies/skills or locations.
       </div>
-      <ul class="list-group" ng-show="relevant.length">
-        <li class="list-group-item">
-          <hc-candidate
-            ng-repeat="candidate in relevant"
-            ng-model="candidate"
-            hc-link-name
-            hc-small>
-          </hc-candidate>
-        </li>
-      </ul>
+      <div class="panel-body" ng-show="relevant.length">
+        <hc-candidate
+          ng-repeat="candidate in relevant"
+          ng-model="candidate"
+          hc-hide="{{ { skills: true } }}"
+          hc-link-name
+          hc-small>
+        </hc-candidate>
+      </div>
     </div>
   </div>
 </div>

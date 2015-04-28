@@ -10,6 +10,7 @@ define(function(require) {
     this._api = api;
     this._data = data;
     this._sufix = sufix || '';
+    this._searches = [];
 
     this.isBookmarked = data.bookmarked_by_candidate;
   }
@@ -48,6 +49,22 @@ define(function(require) {
 
     delete: function() {
       return this._api.delete(this._url() + this._sufix);
+    },
+
+    getSearches: function() {
+      var searches = this._searches;
+      return new Promise(function(resolve) { resolve(searches) });
+    },
+    addSearch: function(search) {
+      var searches = this._searches;
+      searches.push(search);
+      return new Promise(function(resolve) { resolve(searches) });
+    },
+    removeSearch: function(search) {
+      var searches = this._searches;
+      var index = searches.indexOf(search);
+      searches.splice(index, 1);
+      return new Promise(function(resolve) { resolve(searches) });
     },
 
     listOffices: function() {

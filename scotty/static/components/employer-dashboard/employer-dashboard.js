@@ -20,11 +20,15 @@ define(function(require) {
       isAdvancedSearch: isAdvancedSearch,
       setAdvancedSearch: setAdvancedSearch,
       notInterested: notInterested,
+      removeSearch: removeSearch,
+      saveSearch: saveSearch,
+      loadSearch: loadSearch,
       search: executeSearch,
       onKeyDown: onKeyDown,
       today: Date.now(),
       resultsPerPage: 10,
       terms: {},
+      flags: {},
       ready: false,
     });
     var advancedSearch = true;
@@ -40,6 +44,7 @@ define(function(require) {
         return $q.all([
           user.getTimeline().then(fn.setTo('news', $scope)),
           user.getOffers('active').then(fn.setTo('offers', $scope)),
+          user.getSearches().then(fn.setTo('searches', $scope)),
           user.getRelevantCandidates()
             .then(fn.get('data'))
             .then(fn.setTo('relevant', $scope)),
@@ -64,6 +69,39 @@ define(function(require) {
       }).finally(function() {
         Loader.page(false);
       });
+    }
+
+    function saveSearch(name) {
+      var data = {
+        advanced: $scope.isAdvancedSearch(),
+        key: name,
+      };
+      var terms = data.advanced ? $scope.terms : { q: $scope.simpleSearchTerms };
+      $scope.flags.showSaveForm = false;
+      $scope.saveSearchName = '';
+
+      return Session.getUser().then(function(user) {
+        return user.addSearch(_.extend(data, terms));
+      }).then(fn.setTo('searches', $scope));
+    }
+
+    function removeSearch(search) {
+      return Session.getUser().then(function(user) {
+        return user.removeSearch(search);
+      }).then(fn.setTo('searches', $scope));
+    }
+
+    function loadSearch(search) {
+      setAdvancedSearch(search.advanced);
+
+      if (!isAdvancedSearch()) {
+        $scope.simpleSearchTerms = search.q;
+        return;
+      }
+
+      var keys = [ 'name', 'role', 'skills', 'locations', 'salary' ];
+      _.extend($scope.terms, _.pick(search, keys));
+      executeSearch();
     }
 
     function addLocation(locations, entry) {
