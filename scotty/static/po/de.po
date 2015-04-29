@@ -1329,7 +1329,10 @@ msgid "New offer requests"
 msgstr "Neue Anfragen von Kandidaten"
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:13
-msgid "Nicely done, you are now live and can start receiving great offers"
+#, fuzzy
+msgid ""
+"Nicely done, once you complete your profile your profile you can start "
+"receiveing offers."
 msgstr ""
 "Gut gemacht, du bist jetzt freigeschaltet und wirst bald interessante "
 "Angebote erhalten."
@@ -3181,14 +3184,6 @@ msgstr ""
 "Dein Passwort wurde erneuert. Du kannst dich nun mit deinem neuen Passwort "
 "anmelden."
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
-msgid ""
-"Your profile is done, just waiting for you to click the activation link in "
-"your inbox."
-msgstr ""
-"Dein Profil ist vollständig, du musst nur noch den Aktivierungslink in der "
-"Bestätigungs-E-Mail klicken."
-
 #: components/candidate-profile/privacy/privacy.html:3
 msgid ""
 "Your profile name and picture cannot be seen by employers unless you have "
@@ -3200,6 +3195,15 @@ msgstr ""
 #: components/candidate-profile/privacy/privacy.html:5
 msgid "Your profile name and picture is immediately public to companies."
 msgstr "Dein Profilname und dein Bild sind sofort für Unternehmen zu sehen."
+
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
+#, fuzzy
+msgid ""
+"Your welcome yo Scotty, you can now fulfill your profile and remember to "
+"click the activation link in your inbox."
+msgstr ""
+"Dein Profil ist vollständig, du musst nur noch den Aktivierungslink in der "
+"Bestätigungs-E-Mail klicken."
 
 #: components/candidate-profile/contact/contact-edit.html:34
 #: components/directive-office-form/directive-office-form.html:49

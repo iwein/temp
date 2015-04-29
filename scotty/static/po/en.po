@@ -1255,7 +1255,9 @@ msgid "New offer requests"
 msgstr ""
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:13
-msgid "Nicely done, you are now live and can start receiving great offers"
+msgid ""
+"Nicely done, once you complete your profile your profile you can start "
+"receiveing offers."
 msgstr ""
 
 #: components/employer-profile/employer-profile.html:433
@@ -2983,12 +2985,6 @@ msgid ""
 "Your password has been updated. You can now login with your new password"
 msgstr ""
 
-#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
-msgid ""
-"Your profile is done, just waiting for you to click the activation link in "
-"your inbox."
-msgstr ""
-
 #: components/candidate-profile/privacy/privacy.html:3
 msgid ""
 "Your profile name and picture cannot be seen by employers unless you have "
@@ -2997,6 +2993,12 @@ msgstr ""
 
 #: components/candidate-profile/privacy/privacy.html:5
 msgid "Your profile name and picture is immediately public to companies."
+msgstr ""
+
+#: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
+msgid ""
+"Your welcome yo Scotty, you can now fulfill your profile and remember to "
+"click the activation link in your inbox."
 msgstr ""
 
 #: components/candidate-profile/contact/contact-edit.html:34
