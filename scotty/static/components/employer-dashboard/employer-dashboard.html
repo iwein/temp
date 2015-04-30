@@ -16,7 +16,7 @@
       </ul>
     </div>
 
-    <div class="panel new-offers" ng-show="searches.length">
+    <div class="panel saved-searches" ng-show="searches.length">
       <div class="panel-heading" translate>Saved search robots</div>
       <div class="panel-body">
         <p translate>Get informed by email about new candidates meeting your saved search criteria.</p>
@@ -170,12 +170,12 @@
               translate>
               One candidate found
             </span>
-            <a class="save-search"
+            <button class="save-search"
               ng-show="!flags.showSaveForm"
               ng-click="flags.showSaveForm = true"
               translate>
               Save search
-            </a>
+            </buttons>
           </div>
 
           <form name="saveSearchForm" class="form-save-search" ng-if="flags.showSaveForm" ng-submit="saveSearch(saveSearchName)">
