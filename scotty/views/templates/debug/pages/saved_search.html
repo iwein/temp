@@ -1,0 +1,43 @@
+<%inherit file="../debug.html"/>
+
+<%def name="title()">Employer</%def>
+<%def name="scripts()">
+<script src="/debug/static/employer_signup.js"></script>
+</%def>
+
+<%def name="tests()">
+<script>
+  var email = '${email.replace('@', "+employer-'+guid()+'@")|n}',
+    tests = EMPLOYER_SIGNUP(email).concat([
+      {url: '/api/v1/employers/me/signup_stage', title: 'employer-edit-workflow-stage-post5', method: 'GET'},
+      {url: '/api/v1/employers/me/saved_searches', title: 'list-saved-searches-1'},
+      {url: '/api/v1/employers/me/saved_searches', title: 'create-saved-search-1',
+        data: {
+          name: ' SAVED SEARCH 1 - ONLY THE BEST! ',
+          terms: {'name': 'nepomuk'}
+        },
+        extract: function(resp, extr){return {searchId: resp.id}}
+      },
+      {url: '/api/v1/employers/me/saved_searches', title: 'list-saved-searches-2'},
+      {url: function(resp, extr) {return '/api/v1/employers/me/saved_searches/' + extr.searchId;},
+        title: 'delete-saved-search-1', method: 'DELETE'},
+      {url: '/api/v1/employers/me/saved_searches', title: 'list-saved-searches-3'},
+      {url: '/api/v1/employers/me/saved_searches', title: 'create-saved-search-1',
+        data: {
+          name: ' SAVED SEARCH 2 - ONLY THE BEST! ',
+          terms: {pleaseDontDoThis: true, isThisAGoodIdea: false, willWeDoItAgain: false,
+            lastTimeThisWasAGoodIdea: new Date(1900, 1, 2),
+            skills : ['I', 'got', 'no', 'skills', 'to', 'speak', 'of']
+          }
+        },
+        extract: function(resp, extr){return {searchId: resp.id}}
+      },
+      {url: '/api/v1/employers/me/saved_searches', title: 'list-saved-searches-4'},
+
+    ]);
+
+  $(function () {
+    getTestRunner(tests)(0, {});
+  })
+</script>
+</%def>
