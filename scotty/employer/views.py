@@ -11,7 +11,7 @@ from pyramid.view import view_config
 from scotty.models.meta import DBSession
 from scotty.configuration.models import WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, EmployerPicture, \
-    SuggestedCandidate
+    SuggestedCandidate, EmployerSavedSearch
 from scotty.candidate.models import WXPCandidate
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
@@ -43,7 +43,6 @@ def includeme(config):
     config.add_route('employer_relevant_candidates', '{employer_id}/relevant/candidates')
     config.add_route('employer_suggested_candidates', '{employer_id}/suggested/candidates')
 
-
     config.add_route('employer_newsfeed', '{employer_id}/newsfeed')
     config.add_route('employer_signup_stage', '{employer_id}/signup_stage')
     config.add_route('employer_apply', '{employer_id}/apply')
@@ -62,6 +61,10 @@ def includeme(config):
     config.add_route('employer_offer_status', '{employer_id}/offers/{offer_id}/status')
     config.add_route('employer_offer_timeline', '{employer_id}/offers/{offer_id}/timeline')
     config.add_route('employer_offer_newsfeed', '{employer_id}/offers/{offer_id}/newsfeed')
+
+    config.add_route('employer_saved_searches', '{employer_id}/saved_searches')
+    config.add_route('employer_saved_search', '{employer_id}/saved_searches/{search_id}')
+
     config.scan()
 
 
@@ -297,7 +300,7 @@ class EmployerOfferController(EmployerController):
         offer_id = self.request.matchdict["offer_id"]
         offer = DBSession.query(EmployerOffer).get(offer_id)
         if not offer:
-            raise HTTPNotFound("Unknown Candidate ID")
+            raise HTTPNotFound("Unknown Offer ID")
         elif offer.employer_id != self.employer.id:
             raise HTTPForbidden("Offer not for this employer.")
         return offer
@@ -444,3 +447,47 @@ class EmployerDashboardController(EmployerController):
         if suggestion:
             suggestion.employer_not_interested = datetime.now()
         return {'success': True}
+
+
+class EmployerSavedSearchController(EmployerController):
+    @reify
+    def saved_search(self):
+        search_id = self.request.matchdict["search_id"]
+        search = DBSession.query(EmployerSavedSearch).get(search_id)
+        if not search:
+            raise HTTPNotFound("Unknown Saved Search ID")
+        elif search.employer_id != self.employer.id:
+            raise HTTPForbidden("Search not for this employer.")
+        return search
+
+    @view_config(route_name='employer_saved_searches', **GET)
+    def list(self):
+        query = DBSession.query(EmployerSavedSearch).filter(EmployerSavedSearch.employer_id == self.employer.id)
+        return run_paginated_query(self.request, query)
+
+    @view_config(route_name='employer_saved_searches', **POST)
+    def create(self):
+        search = EmployerSavedSearch(employer_id=self.employer.id)
+        params = self.request.json
+
+        try:
+            search.name = params['name']
+            search.terms = params['terms']
+        except KeyError:
+            raise HTTPBadRequest('missing parameter')
+        DBSession.add(search)
+        DBSession.flush()
+        return search
+
+    @view_config(route_name='employer_saved_search', **GET)
+    def get(self):
+        return self.saved_search
+
+    @view_config(route_name='employer_saved_search', **PUT)
+    def edit(self):
+        raise NotImplementedError()
+
+    @view_config(route_name='employer_saved_search', **DELETE)
+    def delete(self):
+        DBSession.delete(self.saved_search)
+        return {"status": "success"}

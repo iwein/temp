@@ -1,21 +1,18 @@
 from datetime import datetime
-import hashlib
 from uuid import uuid4
 
+from sqlalchemy.dialects.postgresql import JSON
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.auth.provider import CANDIDATE
 from scotty.candidate.models import CandidateEmployerBlacklist, CandidateBookmarkEmployer
 from scotty.models import get_by_name_or_raise
 from scotty.services import hash_pwd
-from scotty.tools import split_strip
 from sqlalchemy.ext.associationproxy import association_proxy
 from scotty.configuration.models import City, TrafficSource, Skill, Benefit, Salutation, OfficeType, CompanyType, \
-    Locale, \
-    Country
+    Locale
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.meta import Base, GUID, DBSession
-from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, DISPLAY_ADMIN, \
-    DISPLAY_PRIVATE, ADMIN
+from scotty.models.tools import PUBLIC, PRIVATE, json_encoder, JsonSerialisable, get_request_role, ADMIN
 from sqlalchemy import Column, Text, String, Integer, ForeignKey, CheckConstraint, Boolean, Table, DateTime, BigInteger, \
     or_
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -108,6 +105,23 @@ class EmployerPicture(Base):
         return {'url': self.url, 'description': self.description, 'created': self.created, 'id': self.id}
 
 
+class EmployerSavedSearch(Base):
+    __tablename__ = 'employer_savedsearch'
+    id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
+    employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
+    created = Column(DateTime, nullable=False, default=datetime.now)
+    name = Column(String(512), info=PUBLIC)
+    terms = Column(JSON)
+
+    def __json__(self, request):
+        return {
+            'created': self.created,
+            'id': self.id,
+            'name': self.name,
+            'terms': self.terms
+        }
+
+
 class Employer(Base, JsonSerialisable):
     __tablename__ = 'employer'
     __name_field__ = 'company_name'
@@ -181,6 +195,7 @@ class Employer(Base, JsonSerialisable):
 
     interested_candidates = association_proxy('candidate_bookmarks', 'candidate')
     suggested_candidates = association_proxy('candidate_suggestions', 'candidate')
+    saved_searches = relationship(EmployerSavedSearch, backref='employer')
 
     offices = relationship(Office, backref='employer', cascade='all, delete, delete-orphan', info=PUBLIC)
     offers = relationship(EmployerOffer, backref='employer', order_by=EmployerOffer.created.desc())
@@ -257,7 +272,6 @@ class Employer(Base, JsonSerialisable):
         result['tech_tags'] = self.tech_tags
         result['is_approved'] = self.approved is not None
         result['locale'] = self.locale
-
 
         if CANDIDATE in request.effective_principals:
             cebl = CandidateEmployerBlacklist
