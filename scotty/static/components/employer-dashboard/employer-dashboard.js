@@ -73,34 +73,36 @@ define(function(require) {
 
     function saveSearch(name) {
       var data = {
-        advanced: $scope.isAdvancedSearch(),
-        key: name,
+        name: name,
+        advanced: isAdvancedSearch(),
+        terms: isAdvancedSearch() ? $scope.terms : { q: $scope.simpleSearchTerms },
       };
-      var terms = data.advanced ? $scope.terms : { q: $scope.simpleSearchTerms };
       $scope.flags.showSaveForm = false;
       $scope.saveSearchName = '';
 
       return Session.getUser().then(function(user) {
-        return user.addSearch(_.extend(data, terms));
+        return user.addSearch(data).then(function() {
+          return user.getSearches();
+        });
       }).then(fn.setTo('searches', $scope));
     }
 
     function removeSearch(search) {
       return Session.getUser().then(function(user) {
-        return user.removeSearch(search);
+        return user.removeSearch(search).then(function() {
+          return user.getSearches();
+        });
       }).then(fn.setTo('searches', $scope));
     }
 
     function loadSearch(search) {
       setAdvancedSearch(search.advanced);
 
-      if (!isAdvancedSearch()) {
-        $scope.simpleSearchTerms = search.q;
-        return;
-      }
+      if (isAdvancedSearch())
+        $scope.terms = search.terms;
+      else
+        $scope.simpleSearchTerms = search.terms.q;
 
-      var keys = [ 'name', 'role', 'skills', 'locations', 'salary' ];
-      _.extend($scope.terms, _.pick(search, keys));
       executeSearch();
     }
 
