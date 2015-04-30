@@ -68,8 +68,10 @@ class MandrillEmailer(object):
         log.info('Sending to ADMINS: %s', '/'.join(self.admin_emails))
         self.frontend = settings['frontend.domain']
         self.mandrill = mandrill.Mandrill(apikey)
-        self.employer_dashboard_url = 'https://%s/employer' % self.frontend
-        self.candidate_dashboard_url = 'https://%s/candidate' % self.frontend
+
+        self.http_scheme = 'https' if settings.get('frontend.ssl') == 'true' else 'http'
+        self.employer_dashboard_url = '%s://%s/employer' % (self.http_scheme, self.frontend)
+        self.candidate_dashboard_url = '%s://%s/candidate' % (self.http_scheme, self.frontend)
 
         self.on_startup_check()
 
@@ -138,7 +140,7 @@ class MandrillEmailer(object):
 
     @register_i18n_template('candidate-confirm-email', de='candidate-confirm-email-de')
     def send_candidate_welcome(self, candidate):
-        url = 'https://%s/candidate/activate/%s' % (self.frontend, candidate.activation_token)
+        url = '%s/activate/%s' % (self.candidate_dashboard_url, candidate.activation_token)
         return self.send_email_to_candidate({'to': [{'email': candidate.email, 'name': candidate.first_name}],
                                              'global_merge_vars': [
                                                  {'content': candidate.first_name, 'name': 'first_name'},
@@ -152,7 +154,7 @@ class MandrillEmailer(object):
 
     @register_i18n_template('candidate-pwd-reset', de='candidate-pwd-reset-de')
     def send_candidate_pwdforgot(self, email, first_name, reset_token):
-        url = 'https://%s/candidate/reset-password/%s' % (self.frontend, reset_token)
+        url = '%s/reset-password/%s' % (self.candidate_dashboard_url, reset_token)
         return self.send_email_to_candidate({'to': [{'email': email, 'name': first_name}],
                                              'global_merge_vars': [
                                                  {'content': first_name, 'name': 'first_name'},
@@ -160,7 +162,7 @@ class MandrillEmailer(object):
 
     @register_i18n_template('candidate-received-offer', de='candidate-received-offer-de')
     def send_candidate_received_offer(self, email, personal_message, candidate_name, company_name, offer_id):
-        url = 'https://%s/candidate/offer/%s' % (self.frontend, offer_id)
+        url = '%s/offer/%s' % (self.candidate_dashboard_url, offer_id)
         return self.send_email_to_candidate({'to': [{'email': email, 'name': candidate_name}],
                                              'global_merge_vars': [
                                                  {'content': candidate_name, 'name': 'candidate_name'},
@@ -170,7 +172,7 @@ class MandrillEmailer(object):
 
     @register_i18n_template('candidate-hired-and-sleep', de='candidate-hired-and-sleep-de')
     def send_candidate_hired_email(self, offer, candidate, employer):
-        url = 'https://%s/candidate/offer/%s' % (self.frontend, offer.id)
+        url = '%s/offer/%s' % (self.candidate_dashboard_url, offer.id)
         return self.send_email_to_candidate({'to': [{'email': candidate.email, 'name': candidate.full_name}],
                                              'global_merge_vars': [
                                                  {'content': candidate.first_name, 'name': 'first_name'},
@@ -185,7 +187,7 @@ class MandrillEmailer(object):
 
     @register_i18n_template('employer-invite', de='employer-invite-de')
     def send_employer_invite(self, email, contact_name, company_name, invite_token):
-        url = 'https://%s/employer/signup/start/%s' % (self.frontend, invite_token)
+        url = '%s/signup/start/%s' % (self.employer_dashboard_url, invite_token)
         return self.send_email_to_employer({'to': [{'email': email, 'name': contact_name}],
                                             'global_merge_vars': [
                                                 {'content': contact_name, 'name': 'contact_name'},
@@ -208,7 +210,7 @@ class MandrillEmailer(object):
 
     @register_i18n_template('employer-pwd-reset', de='employer-pwd-reset-de')
     def send_employer_pwdforgot(self, email, contact_name, company_name, reset_token):
-        url = 'https://%s/employer/reset-password/%s' % (self.frontend, reset_token)
+        url = '%s/reset-password/%s' % (self.employer_dashboard_url, reset_token)
         return self.send_email_to_employer({'to': [{'email': email, 'name': contact_name}],
                                             'global_merge_vars': [
                                                 {'content': contact_name, 'name': 'contact_name'},
@@ -218,7 +220,7 @@ class MandrillEmailer(object):
     @register_i18n_template('employer-received-job-offer-request', de='employer-received-job-offer-request-de')
     def send_employer_offer_requested(self, company_email, contact_name, company_name, candidate_name,
                                       candidate_id):
-        url = 'https://%s/employer/candidate/%s' % (self.frontend, candidate_id)
+        url = '%s/candidate/%s' % (self.employer_dashboard_url, candidate_id)
         return self.send, {'to': [{'email': company_email, 'name': contact_name}],
                            'global_merge_vars': [
                                {'content': contact_name, 'name': 'contact_name'},
@@ -230,7 +232,7 @@ class MandrillEmailer(object):
     @register_i18n_template('employer-new-candidate-suggested', de='employer-new-candidate-suggested-de')
     def send_employer_new_suggested_candidate(self, company_email, contact_name, company_name, candidate_name,
                                       candidate_id):
-        url = 'https://%s/employer/candidate/%s' % (self.frontend, candidate_id)
+        url = '%s/candidate/%s' % (self.employer_dashboard_url, candidate_id)
         return self.send, {'to': [{'email': company_email, 'name': contact_name}],
                            'global_merge_vars': [
                                {'content': contact_name, 'name': 'contact_name'},
@@ -239,9 +241,6 @@ class MandrillEmailer(object):
                                {'content': candidate_name, 'name': 'candidate_name'},
                                {'content': url, 'name': 'candidate_url'}]}
 
-
-
-
     def send_employer_offer(self,
                             email,
                             candidate_name,
@@ -249,8 +248,8 @@ class MandrillEmailer(object):
                             company_name,
                             offer_id,
                             candidate_id, **kwargs):
-        offer_url = 'https://%s/employer/offer/%s' % (self.frontend, offer_id)
-        candidate_url = 'https://%s/employer/candidate/%s' % (self.frontend, candidate_id)
+        offer_url = '%s/offer/%s' % (self.employer_dashboard_url, offer_id)
+        candidate_url = '%s/candidate/%s' % (self.employer_dashboard_url, candidate_id)
 
         gvars = [
             {'content': candidate_name, 'name': 'candidate_name'},
@@ -276,8 +275,8 @@ class MandrillEmailer(object):
 
     @register_i18n_template('employer-candidate-accepted-other-offer', de='employer-candidate-accepted-other-offer-de')
     def send_employers_offer_rejected(self, offer, candidate, employers, rejection_reason):
-        offer_url = 'https://%s/employer/offer/%s' % (self.frontend, offer.id)
-        candidate_url = 'https://%s/employer/candidate/%s' % (self.frontend, candidate.id)
+        offer_url = '%s/offer/%s' % (self.employer_dashboard_url, offer.id)
+        candidate_url = '%s/candidate/%s' % (self.employer_dashboard_url, candidate.id)
         return self.send, {'to': [{'email': e.email, 'name': e.company_name, 'type': 'bcc'} for e in employers],
                            'merge_vars': [
                                {'rcpt': e.email, 'vars': [{'content': e.contact_name, 'name': 'contact_name'},
@@ -302,7 +301,8 @@ class MandrillEmailer(object):
 
     @register_template('admin-candidate-hired')
     def send_admin_candidate_hired_email(self, candidate_name, contact_name, company_name, offer_id):
-        url = 'https://%s/admin/offer/%s' % (self.frontend, offer_id)
+
+        url = '%s://%s/admin/offer/%s' % (self.http_scheme, self.frontend, offer_id)
         return self.send, {'to': [{'email': email, 'name': 'Admin'} for email in self.admin_emails],
                            'global_merge_vars': [
                                {'content': contact_name, 'name': 'contact_name'},
