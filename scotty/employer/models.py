@@ -110,6 +110,7 @@ class EmployerSavedSearch(Base):
     id = Column(GUID, primary_key=True, default=uuid4, info=PUBLIC)
     employer_id = Column(GUID, ForeignKey('employer.id'), nullable=False)
     created = Column(DateTime, nullable=False, default=datetime.now)
+    advanced = Column(Boolean)
     name = Column(String(512), info=PUBLIC)
     terms = Column(JSON)
 
@@ -118,7 +119,8 @@ class EmployerSavedSearch(Base):
             'created': self.created,
             'id': self.id,
             'name': self.name,
-            'terms': self.terms
+            'terms': self.terms,
+            'advanced': self.advanced
         }
 
 

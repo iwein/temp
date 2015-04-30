@@ -473,6 +473,7 @@ class EmployerSavedSearchController(EmployerController):
         try:
             search.name = params['name']
             search.terms = params['terms']
+            search.advanced = params['advanced']
         except KeyError:
             raise HTTPBadRequest('missing parameter')
         DBSession.add(search)
