@@ -64,22 +64,23 @@ def login_post(context, request):
     login_obj, cls = get_login(email=email, pwd=pwd, raise_404=not redirect)
 
     if login_obj is None:
-        raise HTTPFound(location=(request.referer or '/') + '#unknown')
+        return HTTPFound(location=(request.referer or '/') + '#unknown')
     else:
         user = DBSession.query(cls).filter(cls.email == email, cls.pwd == pwd).filter(*cls.not_deleted()).first()
         if user and user.can_login:
             user.last_login = datetime.now()
+            DBSession.flush()
             request.session['%s_id' % login_obj.table_name] = user.id
 
             if redirect:
                 if login_obj.table_name == 'candidate':
-                    raise HTTPFound(request.emailer.candidate_dashboard_url)
+                    return HTTPFound(request.emailer.candidate_dashboard_url)
                 else:
-                    raise HTTPFound(request.emailer.employer_dashboard_url)
+                    return HTTPFound(request.emailer.employer_dashboard_url)
 
             return {'preferred': login_obj.table_name, 'id': user.id}
         else:
-            raise HTTPFound(location=(request.referer or '/') + '#unknown')
+            return HTTPFound(location=(request.referer or '/') + '#unknown')
 
 
 class PasswordController(RootController):

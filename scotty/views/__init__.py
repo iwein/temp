@@ -109,10 +109,10 @@ def contact(request):
     name = request.params.get('name')
     message = request.params.get('message')
     if not (name and email and message):
-        HTTPFound(location=request.referer or '/')
+        return HTTPFound(location=request.referer or '/')
     else:
         request.emailer.send_contact_request(email, name, message)
-    raise HTTPFound(location=(request.referer or '/') + '#contacted')
+    return HTTPFound(location=(request.referer or '/') + '#contacted')
 
 
 def notfound(exc, request):

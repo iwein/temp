@@ -274,7 +274,7 @@ class Candidate(Base, JsonSerialisable):
     __tablename__ = 'candidate'
 
     id = Column(GUID, default=uuid4, primary_key=True, info=PUBLIC)
-    created = Column(DateTime, nullable=False, default=datetime.now)
+    created = Column(DateTime, nullable=False, default=datetime.now, info=PRIVATE)
     last_login = Column(DateTime, info=PRIVATE)
     last_active = Column(DateTime, info=PRIVATE)
     anonymous = Column(Boolean, default=False, nullable=False, info=PUBLIC)

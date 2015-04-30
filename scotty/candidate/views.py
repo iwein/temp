@@ -383,7 +383,7 @@ class CandidateViewController(CandidateController):
         if self.request.params.get('redirect') == 'false':
             return {'url': self.candidate.picture_url}
         else:
-            raise HTTPFound(location=self.candidate.picture_url)
+            return HTTPFound(location=self.candidate.picture_url)
 
 
 class CandidateEducationController(CandidateController):
