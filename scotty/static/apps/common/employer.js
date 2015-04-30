@@ -1,5 +1,6 @@
 define(function(require) {
   'use strict';
+  var fn = require('tools/fn');
   var Candidate = require('./candidate');
   var Offer = require('./offer');
 
@@ -10,8 +11,6 @@ define(function(require) {
     this._api = api;
     this._data = data;
     this._sufix = sufix || '';
-    this._searches = [];
-
     this.isBookmarked = data.bookmarked_by_candidate;
   }
 
@@ -52,19 +51,13 @@ define(function(require) {
     },
 
     getSearches: function() {
-      var searches = this._searches;
-      return new Promise(function(resolve) { resolve(searches) });
+      return this._api.get(this._url() + '/saved_searches').then(fn.get('data'));
     },
     addSearch: function(search) {
-      var searches = this._searches;
-      searches.push(search);
-      return new Promise(function(resolve) { resolve(searches) });
+      return this._api.post(this._url() + '/saved_searches', search);
     },
     removeSearch: function(search) {
-      var searches = this._searches;
-      var index = searches.indexOf(search);
-      searches.splice(index, 1);
-      return new Promise(function(resolve) { resolve(searches) });
+      return this._api.delete(this._url() + '/saved_searches/' + search.id);
     },
 
     listOffices: function() {
