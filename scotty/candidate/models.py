@@ -199,6 +199,8 @@ class PreferredLocation(Base):
     city_id = Column(Integer, ForeignKey('city.id'), nullable=True)
     city = relationship(City, lazy='joined')
 
+    country = relationship(Country)
+
     def __repr__(self):
         return '<%s: country:%s city:%s>' % (self.__class__.__name__, self.country_iso, self.city_id)
 

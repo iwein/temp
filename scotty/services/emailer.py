@@ -241,6 +241,19 @@ class MandrillEmailer(object):
                                {'content': candidate_name, 'name': 'candidate_name'},
                                {'content': url, 'name': 'candidate_url'}]}
 
+    @register_i18n_template('employer-new-candidate-search-match', de='employer-new-candidate-search-match-de')
+    def send_employer_new_candidate_search_match(self, company_email, contact_name, company_name, candidate_name,
+                                                 candidate_id, search_name):
+        url = '%s/candidate/%s' % (self.employer_root_url, candidate_id)
+        return self.send, {'to': [{'email': company_email, 'name': contact_name}],
+                           'global_merge_vars': [
+                               {'content': contact_name, 'name': 'contact_name'},
+                               {'content': company_name, 'name': 'company_name'},
+                               {'content': company_email, 'name': 'company_email'},
+                               {'content': candidate_name, 'name': 'candidate_name'},
+                               {'content': search_name, 'name': 'search_name'},
+                               {'content': url, 'name': 'candidate_url'}]}
+
     def send_employer_offer(self,
                             email,
                             candidate_name,
@@ -257,7 +270,7 @@ class MandrillEmailer(object):
             {'content': company_name, 'name': 'company_name'},
             {'content': offer_url, 'name': 'offer_url'},
             {'content': candidate_url, 'name': 'candidate_url'}]
-        gvars.extend([{'content': v, 'name': k} for k,v in kwargs.items()])
+        gvars.extend([{'content': v, 'name': k} for k, v in kwargs.items()])
 
         return self.send, {'to': [{'email': email, 'name': candidate_name}], 'global_merge_vars': gvars}
 
