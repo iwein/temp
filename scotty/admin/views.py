@@ -14,7 +14,7 @@ from scotty.models.tools import json_encoder, add_sorting, distinct_counter, upd
 from scotty.candidate.models import Candidate, InviteCode, CandidateStatus, CandidateSkill, CANDIDATE_SORTABLES, \
     SerializableBookmark
 from scotty.employer.models import Employer, EMPLOYER_SORTABLES, CandidateSuggestedTo, SuggestedCandidate
-from scotty.admin.services import invite_employer
+from scotty.admin.services import invite_employer, admin_check_saved_searches_for_candidate
 from scotty.offer.models import FullOffer, InvalidStatusError
 from scotty.views import RootController
 from scotty.views.common import POST, run_paginated_query, GET, PUT, DELETE
@@ -205,6 +205,9 @@ class AdminController(RootController):
 
         if self.request.matched_route.name == 'admin_candidate_approve':
             self.request.emailer.send_candidate_approved(candidate.lang, candidate)
+
+        admin_check_saved_searches_for_candidate(candidate, self.request.emailer)
+
         return candidate
 
     @view_config(route_name='admin_candidate_sleep', permission=ADMIN_PERM, **GET)
@@ -367,7 +370,6 @@ class AdminOfferController(RootController):
 
 
 class AdminCandidateSuggestuinsController(RootController):
-
     @view_config(route_name='admin_candidate_suggestions', permission=ADMIN_PERM, **GET)
     def get_admin_candidate_suggestions(self):
         candidate_id = self.request.matchdict['candidate_id']

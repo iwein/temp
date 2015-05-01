@@ -11,7 +11,7 @@ from scotty.candidate.schemata import PreSignupRequest, SignupRequest, WorkExper
 from scotty.candidate.services import set_preferred_locations, set_languages_on_candidate, set_skills_on_candidate, \
     candidate_from_login, CANDIDATE_EDITABLES, candidate_from_signup, candidate_fulltext_search, \
     set_candidate_education, get_candidate_newsfeed, \
-    TP_EDITABLES, set_candidate_work_experience
+    TP_EDITABLES, set_candidate_work_experience, get_advanced_search_query
 from sqlalchemy import or_, and_, func, TEXT, cast
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.exc import IntegrityError
@@ -275,63 +275,9 @@ class CandidateViewController(CandidateController):
 
         offset = int(self.request.params.get('offset', 0))
         limit = int(self.request.params.get('limit', 10))
-        skills = params.get('skills')
-        locations = params.get('locations')
-        role = params.get('role')
-        name = params.get('name')
-        salary = params.get('salary')
         status = get_by_name_or_raise(CandidateStatus, self.request.params.get('status', CandidateStatus.ACTIVE))
 
-        query = DBSession.query(Candidate.id).filter(Candidate.status == status)
-
-        if self.request.employer_id:
-            query = query.outerjoin(V_CANDIDATE_CURRENT_EMPLOYERS,
-                                    and_(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == Candidate.id,
-                                         V_CANDIDATE_CURRENT_EMPLOYERS.c.employer_id == self.request.employer_id)) \
-                .filter(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == None)
-
-        if locations:
-            query = query.join(PreferredLocation, Candidate.id == PreferredLocation.candidate_id)
-
-            country_filter = set([c['country_iso'] for c in locations])
-            city_filter = [and_(City.name == loc['city'], City.country_iso == loc['country_iso']) for loc in locations]
-            city_ids = DBSession.query(City.id).filter(or_(*city_filter)).all()
-
-            query = query.filter(or_(PreferredLocation.city_id.in_(city_ids),
-                                     PreferredLocation.country_iso.in_(country_filter)))
-
-        if salary or role:
-            query = query.join(TargetPosition)
-            if salary:
-                query = query.filter(TargetPosition.minimum_salary <= salary)
-            if role:
-                role = get_by_name_or_raise(Role, role)
-                query = query.filter(TargetPosition.role_id == role.id)
-
-        if name and self.request.employer_id:
-            name = name.lower()
-            employer_ids = func.array_agg(Offer.employer_id, type_=ARRAY(TEXT)).label('employer_ids')
-            offer_query = DBSession.query(Offer.candidate_id, employer_ids).filter(Offer.accepted != None) \
-                .group_by(Offer.candidate_id).subquery()
-            query = query.outerjoin(offer_query, offer_query.c.candidate_id == Candidate.id).filter(
-                or_(cast(Candidate.id, TEXT).startswith(name),
-                    and_(
-                        or_(func.lower(Candidate.first_name).startswith(name),
-                            func.lower(Candidate.last_name).startswith(name)),
-                        or_(
-                            offer_query.c.employer_ids.any(str(self.request.employer_id)),
-                            Candidate.anonymous == False
-                        )
-                    )
-                )
-            )
-
-        query = query.group_by(Candidate.id)
-
-        if skills:
-            query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills)) \
-                .having(func.count(Skill.name) == len(skills))
-
+        query = get_advanced_search_query(self.request.employer_id, params, status)
         pager = PseudoPager(query, offset, limit)
 
         def optimise_query(q):

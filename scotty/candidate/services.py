@@ -1,17 +1,20 @@
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from pyramid.httpexceptions import HTTPBadRequest
 from scotty.models.tools import ID
 from scotty.services import hash_pwd
+from sqlalchemy import cast, TEXT, func
 from sqlalchemy.orm import joinedload_all
 from scotty.models.meta import DBSession
 from scotty.candidate.models import CandidateStatus, CandidateSkill, Candidate, CandidateLanguage, \
-    WorkExperience, Education, PreferredLocation, WXPCandidate
-from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role, Locale
+    WorkExperience, Education, PreferredLocation, WXPCandidate, V_CANDIDATE_CURRENT_EMPLOYERS, TargetPosition
+from scotty.configuration.models import Skill, SkillLevel, Language, Proficiency, Role, Locale, City
 from scotty.models.common import get_by_name_or_raise, get_by_name_or_create, get_or_create_named_collection, \
     get_or_raise_named_lookup, get_or_create_named_lookup, get_location_by_name_or_raise
-from scotty.offer.models import NewsfeedOffer
-from scotty.services.pagingservice import Pager
+from scotty.offer.models import NewsfeedOffer, Offer
+from scotty.services.pagingservice import Pager, ObjectBuilder, PseudoPager
+from sqlalchemy.sql.elements import and_, or_
 
 
 def candidate_from_signup(params):
@@ -209,3 +212,62 @@ def get_candidate_newsfeed(c):
 
     events_with_recency = filter(lambda x: x.get('recency'), events)
     return sorted(events_with_recency, key=lambda k: k['recency'])
+
+
+def get_advanced_search_query(employer_id, params, status):
+    skills = params.get('skills')
+    locations = params.get('locations')
+    role = params.get('role')
+    name = params.get('name')
+    salary = params.get('salary')
+
+    query = DBSession.query(Candidate.id).filter(Candidate.status == status)
+
+    if employer_id:
+        query = query.outerjoin(V_CANDIDATE_CURRENT_EMPLOYERS,
+                                and_(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == Candidate.id,
+                                     V_CANDIDATE_CURRENT_EMPLOYERS.c.employer_id == employer_id)) \
+            .filter(V_CANDIDATE_CURRENT_EMPLOYERS.c.candidate_id == None)
+
+    if locations:
+        query = query.join(PreferredLocation, Candidate.id == PreferredLocation.candidate_id)
+
+        country_filter = set([c['country_iso'] for c in locations])
+        city_filter = [and_(City.name == loc['city'], City.country_iso == loc['country_iso']) for loc in locations]
+        city_ids = DBSession.query(City.id).filter(or_(*city_filter)).all()
+
+        query = query.filter(or_(PreferredLocation.city_id.in_(city_ids),
+                                 PreferredLocation.country_iso.in_(country_filter)))
+
+    if salary or role:
+        query = query.join(TargetPosition)
+        if salary:
+            query = query.filter(TargetPosition.minimum_salary <= salary)
+        if role:
+            role = get_by_name_or_raise(Role, role)
+            query = query.filter(TargetPosition.role_id == role.id)
+
+    if name and employer_id:
+        name = name.lower()
+        employer_ids = func.array_agg(Offer.employer_id, type_=ARRAY(TEXT)).label('employer_ids')
+        offer_query = DBSession.query(Offer.candidate_id, employer_ids).filter(Offer.accepted != None) \
+            .group_by(Offer.candidate_id).subquery()
+        query = query.outerjoin(offer_query, offer_query.c.candidate_id == Candidate.id).filter(
+            or_(cast(Candidate.id, TEXT).startswith(name),
+                and_(
+                    or_(func.lower(Candidate.first_name).startswith(name),
+                        func.lower(Candidate.last_name).startswith(name)),
+                    or_(
+                        offer_query.c.employer_ids.any(str(employer_id)),
+                        Candidate.anonymous == False
+                    )
+                )
+            )
+        )
+
+    query = query.group_by(Candidate.id)
+
+    if skills:
+        query = query.join(CandidateSkill).join(Skill).filter(Skill.name.in_(skills)) \
+            .having(func.count(Skill.name) == len(skills))
+    return query

@@ -74,9 +74,9 @@ def login_post(context, request):
 
             if redirect:
                 if login_obj.table_name == 'candidate':
-                    return HTTPFound(request.emailer.candidate_dashboard_url)
+                    return HTTPFound(request.emailer.candidate_root_url)
                 else:
-                    return HTTPFound(request.emailer.employer_dashboard_url)
+                    return HTTPFound(request.emailer.employer_root_url)
 
             return {'preferred': login_obj.table_name, 'id': user.id}
         else:

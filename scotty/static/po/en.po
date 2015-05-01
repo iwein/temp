@@ -1259,6 +1259,7 @@ msgid ""
 "Nicely done, once you complete your profile your profile you can start "
 "receiveing offers."
 msgstr ""
+"Nicely done, once you complete your profile you can start receiveing offers."
 
 #: components/employer-profile/employer-profile.html:433
 msgid "No Benefits defined yet."
@@ -3000,6 +3001,8 @@ msgid ""
 "Your welcome yo Scotty, you can now fulfill your profile and remember to "
 "click the activation link in your inbox."
 msgstr ""
+"We welcome you to 4Scotty, you can now complete four profile but please "
+"rember to confirm your Emailaddress."
 
 #: components/candidate-profile/contact/contact-edit.html:34
 #: components/directive-office-form/directive-office-form.html:49
