@@ -12,6 +12,7 @@ define(function(require) {
     'OFFER_SIGNED': 'news-ico-offer-signed',
     'OFFER_START_DATE': 'news-ico-offer-start-date',
     'BOOKMARKED_EMPLOYER': 'news-ico-offer-bookmarked-employer',
+    'BOOKMARKED': 'news-ico-offer-bookmarked-employer',
     'OFFER_SENT': 'news-ico-offer-received'
   };
 
