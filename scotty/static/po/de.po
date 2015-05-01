@@ -932,11 +932,12 @@ msgid "Front-End Development"
 msgstr "Front-End Entwicklung"
 
 #: components/employer-dashboard/employer-dashboard.html:22
-#, fuzzy
 msgid ""
 "Get informed by email about new candidates meeting your saved search "
 "criteria."
-msgstr "Schade, kein Kandidat entspricht Ihren Kriterien"
+msgstr ""
+"Lassen Sie sich durch eine Mail über neue Kandidaten, die Ihren Kriterien "
+"entsprechen informieren."
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:31
 msgid ""
@@ -1143,9 +1144,8 @@ msgid "Job description"
 msgstr "Stellenprofil"
 
 #: components/employer-dashboard/employer-dashboard.html:209
-#, fuzzy
 msgid "Job offers"
-msgstr "Angebot senden"
+msgstr "Job Angebote"
 
 #: apps/common/footer.html:29
 msgid "Jobs @ 4Scotty"
@@ -1192,7 +1192,7 @@ msgstr "Unfallversicherung"
 
 #: components/candidate-profile/url/url.js:26
 msgid "Link copied to clipboard"
-msgstr ""
+msgstr "Link ist im Zwischenspeicher"
 
 #: tools/linkedin-connect/linkedin-connect.html:2
 msgid "LinkedIn"
@@ -1287,7 +1287,6 @@ msgid "Ms"
 msgstr "Frau"
 
 #: components/employer-dashboard/employer-dashboard.html:183
-#, fuzzy
 msgid "Name"
 msgstr "Nachname"
 
@@ -1329,13 +1328,12 @@ msgid "New offer requests"
 msgstr "Neue Anfragen von Kandidaten"
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:13
-#, fuzzy
 msgid ""
 "Nicely done, once you complete your profile your profile you can start "
 "receiveing offers."
 msgstr ""
-"Gut gemacht, du bist jetzt freigeschaltet und wirst bald interessante "
-"Angebote erhalten."
+"Gut gemacht, sobald du dein Profil vervollständigt hast kannst du Angebote "
+"bekommen."
 
 #: components/employer-profile/employer-profile.html:433
 msgid "No Benefits defined yet."
@@ -2349,9 +2347,8 @@ msgid "Save and add another"
 msgstr "Speichern und weitere hinzufügen"
 
 #: components/employer-dashboard/employer-dashboard.html:173
-#, fuzzy
 msgid "Save search"
-msgstr "Einfache Suche"
+msgstr "Speicher Suche"
 
 #: components/directive-offices/directive-offices.html:35
 msgid "Saved"
@@ -2359,7 +2356,7 @@ msgstr "Gespeichert"
 
 #: components/employer-dashboard/employer-dashboard.html:20
 msgid "Saved search robots"
-msgstr ""
+msgstr "Gespeicherte Suchaufträge"
 
 #: components/candidate-dashboard/candidate-dashboard.html:71
 #: components/employer-dashboard/employer-dashboard.html:119
@@ -3197,13 +3194,12 @@ msgid "Your profile name and picture is immediately public to companies."
 msgstr "Dein Profilname und dein Bild sind sofort für Unternehmen zu sehen."
 
 #: components/partial-candidate-newsitem/partial-candidate-newsitem.html:10
-#, fuzzy
 msgid ""
 "Your welcome yo Scotty, you can now fulfill your profile and remember to "
 "click the activation link in your inbox."
 msgstr ""
-"Dein Profil ist vollständig, du musst nur noch den Aktivierungslink in der "
-"Bestätigungs-E-Mail klicken."
+"Wir heißen dich bei 4Scotty willkommen, du kannst jetzt dein Profil "
+"ausfüllen aber denk daran dein Mailpostfach zu bestätigen."
 
 #: components/candidate-profile/contact/contact-edit.html:34
 #: components/directive-office-form/directive-office-form.html:49
@@ -3444,9 +3440,8 @@ msgid "you withdrew this offer"
 msgstr "du hast dieses Angebot zurückgezogen"
 
 #: components/employer-dashboard/employer-dashboard.html:213
-#, fuzzy
 msgid "{{ role }} at {{ city }}, {{ country_iso }}"
-msgstr "{{ role }} aus {{ city }}"
+msgstr "{{ role }} aus {{ city }}, {{ country_iso }}"
 
 #: components/employer-dashboard/employer-dashboard.html:8
 msgid "{{ role }} from {{ city }}, {{ country_iso }}"
