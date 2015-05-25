@@ -6,7 +6,7 @@ var CANDIDATE_SIGNUP = function (email, ignoreResult){
       data: {first_name: 'Bob', last_name: "Bayley", "email": email, pwd:"welcomepwd", agreedTos: true},
       extract:   function(r, extr){return {candidateId: r.id, actToken: r.activation_token}}},
     {url: '/api/v1/candidates/me/target_position', title: 'signup-target_position', method:"PUT",
-      data: {"role":"Quality Assurance", "skills": ["Python", "PHP"], minimum_salary: 40000}
+      data: {"role":"Software Development (general)", "skills": ["Python", "PHP"], minimum_salary: 40000}
     },
 
     {url:function(r, extr){ return '/api/v1/candidates/activate/'+extr.actToken;}, ignoreResult:ignoreResult, title: 'candidate-activation'},
