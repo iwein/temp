@@ -10,7 +10,14 @@
   <div class="form-group">
     <label>
       <translate>Summary</translate> -
-      <span translate translate-n="250 - data.length" translate-plural="{{$count}} characters left">1 character left</span>
+      <span class="red" ng-show="data.length > 250">Too many character</span>
+      <span
+        ng-show="data.length <= 250"
+        translate
+        translate-n="250 - data.length"
+        translate-plural="{{$count}} characters left">
+        1 character left
+      </span>
     </label>
     <textarea name="summary" class="form-control" required ng-model="data"></textarea>
 

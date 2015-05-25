@@ -86,8 +86,8 @@ define(function(require) {
       }
     });
     $scope.company = formSimple({
-      fields: ['website', 'founding_year', 'revenue_pa', 'funding_amount',
-        'no_of_employees', 'cto_blog', 'cto_twitter'],
+      fields: ['email', 'website', 'founding_year', 'revenue_pa',
+        'funding_amount', 'no_of_employees', 'cto_blog', 'cto_twitter'],
       set: function(data) {
         setData(data);
         $scope.missionDirty = false;
