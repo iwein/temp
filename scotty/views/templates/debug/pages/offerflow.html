@@ -53,6 +53,7 @@ tests = tests
   .concat(CANDIDATE_COMPLETE_PROFILE(cand_email))
   .concat(
   [
+
     {'title': 'Bookmarking'},
     {url:'/api/v1/candidates/me/bookmarks', title: 'candidates-bookmark-1',
       data: function(r, extr){
@@ -62,6 +63,10 @@ tests = tests
 
     {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interested/candidates'},
       title: 'employer-interested-candidates'},
+    {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interested/'+extr.candidateId;},
+      method:"DELETE", title: 'employer-reject-interested-candidate'},
+    {url:function(r, extr){ return '/api/v1/employers/'+extr.employerId+'/interested/candidates'},
+      title: 'employer-interested-candidates-after-reject'},
 
     {url: '/api/v1/employers/me/newsfeed', title: 'employer-newsfeed-with-bookmarks'},
 
