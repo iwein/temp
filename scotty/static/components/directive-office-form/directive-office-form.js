@@ -23,7 +23,6 @@ define(function(require) {
       template: require('text!./directive-office-form.html'),
       controller: function($scope, $attrs, $q, ConfigAPI, Session) {
         $scope.searchLocations = searchLocations;
-        $scope.setLocation = setLocation;
         $scope.submit = submit;
         this.isPristine = isPristine;
         this.setModel = setModel;
@@ -58,7 +57,6 @@ define(function(require) {
           if ($scope.formOffice) {
             $scope.formOffice.$setPristine();
             $timeout(function() {
-              $scope.errorInvalidCity = false;
               var error = $scope.formOffice.$error;
               Object.keys(error).forEach(function(key) {
                 error[key].forEach(function(field) {
@@ -89,7 +87,7 @@ define(function(require) {
         }
 
         function submit() {
-          if (!$scope.formOffice.$valid || $scope.errorInvalidCity) return;
+          if (!$scope.formOffice.$valid) return;
 
           Object.keys($scope.model).forEach(function(key) {
             if (!$scope.model[key])
@@ -115,12 +113,6 @@ define(function(require) {
             citiesCache = locations.map(fn.get('city'));
             return citiesCache;
           });
-        }
-
-        function setLocation(city) {
-          $scope.errorInvalidCity = citiesCache.indexOf(city) === -1;
-          if ($scope.errorInvalidCity)
-            $scope.model.address_city.city = '';
         }
       },
     };

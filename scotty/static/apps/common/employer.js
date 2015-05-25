@@ -124,7 +124,7 @@ define(function(require) {
       var api = this._api;
       return api.get(this._url() + '/interested/candidates' + this._sufix).then(function(response) {
         return response.map(function(data) {
-          return new Candidate(api, data.id, data);
+          return new Candidate(api, data.id, data.candidate);
         });
       });
     },
