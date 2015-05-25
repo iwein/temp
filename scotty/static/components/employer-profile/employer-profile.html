@@ -67,6 +67,14 @@
 <div class="edit-salary mrg-btm" ng-show="company.editing">
   <form name="formCompany" class="edit-form" ng-submit="company.save(company.data)">
     <button class="add-panel-close" ng-click="company.close()"><i class="fa fa-close"></i></button>
+    <h5 class="edit-title" translate>Email</h5>
+    <div>
+      <input type="email"
+             class="form-control mrg-btm"
+             name="email"
+             ng-disabled="loading"
+             ng-model="company.data.email">
+    </div>
     <h5 class="edit-title" translate>Website</h5>
     <div>
       <input type="url"
@@ -176,6 +184,9 @@
           ng-click="company.edit()">
     <i class="fa fa-pencil"></i>
   </button>
+  <p class="smbd" ng-show="data.email">
+    <translate>Email</translate> {{ data.email }}
+  </p>
   <p class="smbd" ng-show="data.founding_year">
     <translate>Founded in</translate> {{ data.founding_year }}
   </p>
