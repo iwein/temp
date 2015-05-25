@@ -132,7 +132,7 @@ def add_employer_offer(employer, params):
     return o
 
 
-EMPLOYER_EDITABLES = {'company_name': ID, 'website': ID, 'address_line1': ID, 'address_line2': ID, 'address_line3': ID,
+EMPLOYER_EDITABLES = {'email': ID, 'company_name': ID, 'website': ID, 'address_line1': ID, 'address_line2': ID, 'address_line3': ID,
                       'address_zipcode': ID, 'address_city': get_location_by_name_or_raise, 'contact_first_name': ID,
                       'contact_last_name': ID, 'logo_url': ID, 'fb_url': ID, 'linkedin_url': ID, 'image_video_url': ID,
                       'mission_text': ID, 'culture_text': ID, 'vision_text': ID, 'founding_year': ID, 'revenue_pa': ID,
