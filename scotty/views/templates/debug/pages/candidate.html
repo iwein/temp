@@ -30,11 +30,11 @@ var tmpemail = '${email.replace('@', "+candidate-'+guid()+'@")|n}',
       {url:function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'candidate-TP-empty-location',
         method: 'PUT', data: {}, expectedErrors:[400]},
       {url: function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'signup-target_position',
-        method:"PUT", data: {"role":"Software Development", "skills": ["Python", "PHP"], minimum_salary: 100000}
+        method:"PUT", data: {"role":"Software Development (general)", "skills": ["Python", "PHP"], minimum_salary: 100000}
       },
 
       {url: function(r, extr){return '/api/v1/candidates/' + extr.candidateId+'/target_position'}, title: 'edit-target_position',
-        method:"PUT", data: {"role":"Software Development", "skills": ["Python", "Java"], minimum_salary: 9999}
+        method:"PUT", data: {"role":"Software Development (general)", "skills": ["Python", "Java"], minimum_salary: 9999}
       },
 
       {url: '/api/v1/candidates/me/signup_stage', title: 'candidate-stage-TargetPosition', expectedErrors: [403]},

@@ -159,6 +159,7 @@ class CandidateBookmarkEmployer(Base):
     employer_id = Column(GUID, ForeignKey('employer.id'), primary_key=True)
     employer = relationship('Employer', backref='candidate_bookmarks')
     created = Column(DateTime, nullable=False, default=datetime.now, server_default=func.now())
+    rejected = Column(DateTime, info=PRIVATE)
 
     def __init__(self, candidate=None, employer=None):
         self.candidate = candidate
@@ -168,6 +169,10 @@ class CandidateBookmarkEmployer(Base):
 class SerializableBookmark(CandidateBookmarkEmployer):
     def __json__(self, request):
         return {'candidate': self.candidate, 'employer': self.employer, 'created': self.created}
+
+class SerializableEmpBookmark(CandidateBookmarkEmployer):
+    def __json__(self, request):
+        return {'candidate': self.candidate, 'created': self.created}
 
 
 class CandidateEmployerBlacklist(Base):

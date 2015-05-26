@@ -12,7 +12,7 @@ from scotty.models.meta import DBSession
 from scotty.configuration.models import WithdrawalReason
 from scotty.employer.models import Employer, Office, APPLIED, APPROVED, EmployerOffer, EmployerPicture, \
     SuggestedCandidate, EmployerSavedSearch
-from scotty.candidate.models import WXPCandidate
+from scotty.candidate.models import WXPCandidate, CandidateBookmarkEmployer, SerializableEmpBookmark
 from scotty.employer.services import employer_from_signup, employer_from_login, add_employer_office, \
     get_employer_suggested_candidate_ids, add_employer_offer, get_employers_pager, \
     set_employer_offices, get_employer_newsfeed, EMPLOYER_OFFICE, EMPLOYER_EDITABLES
@@ -40,6 +40,7 @@ def includeme(config):
     config.add_route('employers', '')
     config.add_route('employer', '{employer_id}')
     config.add_route('employer_interested_candidates', '{employer_id}/interested/candidates')
+    config.add_route('employer_interested_reject', '{employer_id}/interested/{candidate_id}')
     config.add_route('employer_relevant_candidates', '{employer_id}/relevant/candidates')
     config.add_route('employer_suggested_candidates', '{employer_id}/suggested/candidates')
 
@@ -417,7 +418,21 @@ class EmployerDashboardController(EmployerController):
 
     @view_config(route_name='employer_interested_candidates', **GET)
     def employer_interested_candidates(self):
-        return self.employer.interested_candidates
+        bm = DBSession.query(SerializableEmpBookmark) \
+            .filter(SerializableEmpBookmark.employer_id == self.employer.id,
+                    SerializableEmpBookmark.rejected == None) \
+            .order_by(SerializableEmpBookmark.created.desc())
+        return bm.all()
+
+    @view_config(route_name='employer_interested_reject', **DELETE)
+    def employer_interested_reject(self):
+        candidate_id = self.request.matchdict['candidate_id']
+        bm = DBSession.query(CandidateBookmarkEmployer).filter(CandidateBookmarkEmployer.employer_id == self.employer.id,
+                                                               CandidateBookmarkEmployer.candidate_id == candidate_id).first()
+        if not bm:
+            return HTTPNotFound("Bookmark not found")
+        bm.rejected=datetime.now()
+        return {'success': True}
 
     @view_config(route_name='employer_relevant_candidates', **GET)
     def employer_relevant_candidates(self):
