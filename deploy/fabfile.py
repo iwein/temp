@@ -21,7 +21,7 @@ vcProd = VersionControl(repository="git@github.com:HarryMcCarney/winascotty.git"
 
 PROJECTS = {
     'scotty': DeploymentConfig(scotty, SupervisorConfig(['p1'], '1'), vc,
-                               HostConfig(["ec2-52-28-20-121.eu-central-1.compute.amazonaws.com"])),
+                               HostConfig(["ec2-52-28-123-16.eu-central-1.compute.amazonaws.com"])),
     'scotty-prod': DeploymentConfig(scotty, SupervisorConfig(['p1'], '1'), vcProd,
                                     HostConfig(["ec2-54-93-97-177.eu-central-1.compute.amazonaws.com"]))
 }
