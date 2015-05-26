@@ -83,14 +83,11 @@
                ng-required="true"
                ng-disabled="hcDisabled || !model.address_city.country_iso"
                ng-model="model.address_city.city"
-               ng-blur="setLocation(model.address_city.city)"
-               typeahead-on-select="setLocation(model.address_city.city)"
                typeahead="city for city in searchLocations($viewValue, model.address_city.country_iso)"
                hc-typeahead-loader>
 
-        <div class="form-error" ng-show="errorInvalidCity || (formOffice.city.$dirty && formOffice.city.$invalid)">
+        <div class="form-error" ng-show="formOffice.city.$dirty && formOffice.city.$invalid">
           <span ng-show="formOffice.city.$error.required" translate>Please insert the city you worked in.</span>
-          <span ng-show="errorInvalidCity" translate>Please choose a city from the menu.</span>
         </div>
       </div>
     </div>
