@@ -13,7 +13,7 @@ from scotty.configuration.models import TrafficSource, Skill, Benefit, Role, Sal
 from scotty.employer.models import Employer, Office
 from scotty.offer.models import EmployerOffer, Offer
 from scotty.models.common import get_location_by_name_or_raise, get_by_name_or_create, \
-    get_or_create_named_collection, get_by_name_or_raise, get_or_raise_named_collection
+    get_or_create_named_collection, get_by_name_or_raise, get_or_raise_named_collection, get_location_by_name_or_create
 from scotty.services.pagingservice import Pager
 from sqlalchemy.orm import joinedload
 
@@ -44,7 +44,7 @@ EMPLOYER_OFFICE = [
     ('address_line2', ID),
     ('address_line3', ID),
     ('address_zipcode', ID),
-    ('address_city', get_location_by_name_or_raise),
+    ('address_city', get_location_by_name_or_create),
     ('contact_salutation', lambda name: get_by_name_or_raise(Salutation, name))
 ]
 

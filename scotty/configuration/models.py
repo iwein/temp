@@ -164,6 +164,7 @@ class City(Base):
     longitude = Column(Numeric)
     latitude = Column(Numeric)
     featured_order = Column(Integer)
+    user_created = Column(Boolean(), default=False)
 
     def __json__(self, request):
         return {'city': self.name, 'country_iso': self.country_iso}

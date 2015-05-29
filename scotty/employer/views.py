@@ -26,7 +26,6 @@ from scotty.views.common import POST, GET, DELETE, PUT, run_paginated_query
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, joinedload_all
 
-
 ADMIN_USER = 'scotty.ADMIN_USER'
 
 
@@ -396,7 +395,6 @@ class EmployerPasswordController(RootController):
         resend = bool(self.request.json.get('resend'))
         return requestpassword(Employer, email, resend, self.send_email)
 
-
     @view_config(route_name='employer_resetpassword', permission=NO_PERMISSION_REQUIRED, **GET)
     def validatepassword(self):
         token = self.request.matchdict['token']
@@ -427,11 +425,12 @@ class EmployerDashboardController(EmployerController):
     @view_config(route_name='employer_interested_reject', **DELETE)
     def employer_interested_reject(self):
         candidate_id = self.request.matchdict['candidate_id']
-        bm = DBSession.query(CandidateBookmarkEmployer).filter(CandidateBookmarkEmployer.employer_id == self.employer.id,
-                                                               CandidateBookmarkEmployer.candidate_id == candidate_id).first()
+        bm = DBSession.query(CandidateBookmarkEmployer).filter(
+            CandidateBookmarkEmployer.employer_id == self.employer.id,
+            CandidateBookmarkEmployer.candidate_id == candidate_id).first()
         if not bm:
             return HTTPNotFound("Bookmark not found")
-        bm.rejected=datetime.now()
+        bm.rejected = datetime.now()
         return {'success': True}
 
     @view_config(route_name='employer_relevant_candidates', **GET)
