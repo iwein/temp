@@ -125,16 +125,17 @@ def add_last_activity_updater(event):
     Update last activity, i.e. endpoint called
     """
     request = event['request']
-    if request and request.candidate_id:
-        c = DBSession.query(Candidate).get(request.candidate_id)
-        if c:
-            c.last_active = datetime.now()
-            DBSession.flush()
-    if request and request.employer_id:
-        e = DBSession.query(Employer).get(request.employer_id)
-        if e:
-            e.last_active = datetime.now()
-            DBSession.flush()
+    if request and request.log_activity:
+        if request.candidate_id:
+            c = DBSession.query(Candidate).get(request.candidate_id)
+            if c:
+                c.last_active = datetime.now()
+                DBSession.flush()
+        if request.employer_id:
+            e = DBSession.query(Employer).get(request.employer_id)
+            if e:
+                e.last_active = datetime.now()
+                DBSession.flush()
 
 
 def includeme(config):
