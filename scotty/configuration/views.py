@@ -50,7 +50,6 @@ class ConfigurationController(RootController):
     def locale(self):
         return listing_request(self.request, Locale, order_field=Locale.id)
 
-
     @view_config(route_name='configuration_list_seniority', permission=NO_PERMISSION_REQUIRED)
     def seniority(self):
         return listing_request(self.request, Seniority, order_field=Seniority.id)
@@ -83,7 +82,6 @@ class ConfigurationController(RootController):
     def traffic_sources(self):
         return listing_request(self.request, TrafficSource, order_field=TrafficSource.id)
 
-
     @view_config(route_name='configuration_list_offerstatuses', permission=NO_PERMISSION_REQUIRED)
     def offerstatuses(self):
         count = len(OfferStatusWorkflow.statuses)
@@ -113,7 +111,6 @@ class ConfigurationController(RootController):
     def featureddegrees(self):
         return list_featured(self.request, Degree)
 
-
     @view_config(route_name='configuration_list_courses', permission=NO_PERMISSION_REQUIRED)
     def courses(self):
         return listing_request(self.request, Course, self.request.params.get("q"), ignorecase=True, order_field=func
@@ -138,12 +135,15 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_job_titles', permission=NO_PERMISSION_REQUIRED)
     def job_titles(self):
-        return listing_request(self.request, JobTitle, self.request.params.get("q"), ignorecase=True, order_field
-        =func.length(JobTitle.name))
+        return listing_request(self.request, JobTitle,
+                               self.request.params.get("q"),
+                               ignorecase=True,
+                               order_field=func.length(JobTitle.name))
 
     @view_config(route_name='configuration_list_roles', permission=NO_PERMISSION_REQUIRED)
     def roles(self):
-        return listing_request(self.request, Role, self.request.params.get("q"), ignorecase=True, order_field=func.length(Role.name))
+        return listing_request(self.request, Role, self.request.params.get("q"), ignorecase=True,
+                               order_field=func.length(Role.name))
 
     @view_config(route_name='configuration_list_featured_roles', permission=NO_PERMISSION_REQUIRED)
     def featured_roles(self):
@@ -151,11 +151,13 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_institutions', permission=NO_PERMISSION_REQUIRED)
     def institutions(self):
-        return listing_request(self.request, Institution, self.request.params.get("q"), ignorecase=True, order_field=func.length(Institution.name))
+        return listing_request(self.request, Institution, self.request.params.get("q"), ignorecase=True,
+                               order_field=func.length(Institution.name))
 
     @view_config(route_name='configuration_list_companies', permission=NO_PERMISSION_REQUIRED)
     def companies(self):
-        return listing_request(self.request, Company, self.request.params.get("q"), ignorecase=True, order_field=func.length(Company.name))
+        return listing_request(self.request, Company, self.request.params.get("q"), ignorecase=True,
+                               order_field=func.length(Company.name))
 
     @view_config(route_name='configuration_list_countries', permission=NO_PERMISSION_REQUIRED)
     def countries(self):
@@ -164,7 +166,7 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_locations', permission=NO_PERMISSION_REQUIRED)
     def locations(self):
-        basequery = DBSession.query(City).options(joinedload('country'))
+        basequery = DBSession.query(City).options(joinedload('country')).filter(City.user_created != True)
 
         city_name = self.request.params.get("q")
         country_iso = None

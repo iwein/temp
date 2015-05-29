@@ -80,6 +80,9 @@ class CORS(object):
         return headers
 
 
+def log_activity(request):
+    return request.cookies.get('__admin__') != 'true'
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -113,6 +116,8 @@ def main(global_config, **settings):
     config.add_renderer(None, jsonRenderer)
     config.add_view_predicate('content_type', ContentTypePredicate)
 
+
+    config.add_request_method(log_activity, 'log_activity', reify=True)
     config.add_request_method(emailer_factory(settings), 'emailer', reify=True)
     config.add_request_method(get_candidate_id, 'candidate_id', property=True)
     config.add_request_method(get_employer_id, 'employer_id', property=True)

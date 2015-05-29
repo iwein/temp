@@ -38,7 +38,7 @@ def get_location_by_name_or_create(location):
     city = DBSession.query(City).filter(City.name == location['city'], City.country_iso == location['country_iso'
                                                                                                     '']).first()
     if not city:
-        city = City(name=location['city'], country_iso=location['city'])
+        city = City(name=location['city'], country_iso=location['country_iso'], user_created=True)
         DBSession.add(city)
     return city
 

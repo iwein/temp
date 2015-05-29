@@ -144,8 +144,9 @@ class AdminController(RootController):
         location = self.request.params.get('furl')
         if not location:
             location = 'http://%s/employer' % self.request.frontend_domain
-
-        raise HTTPFound(location=location)
+        response = HTTPFound(location=location)
+        response.set_cookie('__admin__', value='true') # max_age = year
+        return response
 
     @view_config(route_name='admin_sudo_candidate', permission=ADMIN_PERM, **GET)
     def sudo_candidate(self):
@@ -159,8 +160,9 @@ class AdminController(RootController):
         location = self.request.params.get('furl')
         if not location:
             location = 'http://%s/candidate' % self.request.frontend_domain
-
-        raise HTTPFound(location=location)
+        response = HTTPFound(location=location)
+        response.set_cookie('__admin__', value='true') # max_age = year
+        return response
 
     @view_config(route_name='admin_employer', permission=ADMIN_PERM, **POST)
     def invite(self):
