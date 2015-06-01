@@ -49,6 +49,17 @@ and then
 
 * run <code>alembic -c [CONFIG] upgrade head</code>
 
+#### install postgres
+
+To install postgres python drivers, youll need postgres headers installed.
+If you are setting up a new DB make sure to install the POSTGIS extension.
+You can just run
+
+     CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+     CREATE EXTENSION IF NOT EXISTS postgis;
+     CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+
+
 #####Install psycopg2 on windows
 
 See:
