@@ -19,6 +19,7 @@ define(function(require) {
       updateLocations: updateLocations,
       isAdvancedSearch: isAdvancedSearch,
       setAdvancedSearch: setAdvancedSearch,
+      rejectRequest: rejectRequest,
       notInterested: notInterested,
       removeSearch: removeSearch,
       saveSearch: saveSearch,
@@ -192,6 +193,14 @@ define(function(require) {
     function onKeyDown(event) {
       if (event.keyCode === 13)
         executeSearch();
+    }
+
+    function rejectRequest(candidate, index) {
+      return Session.getUser().then(function(user) {
+        return user.rejectRequest(candidate);
+      }).then(function() {
+        $scope.candidates.splice(index, 1);
+      });
     }
 
     function notInterested(suggestion, index) {

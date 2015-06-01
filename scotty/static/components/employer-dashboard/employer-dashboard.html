@@ -9,8 +9,16 @@
             role: candidate.position.role,
             city: candidate._data.location.city,
             country_iso: candidate._data.location.country_iso,
-            }" translate>
-            {{ role }} from {{ city }}, {{ country_iso }}
+          }">
+            <div>{{ role }} from {{ city }}, {{ country_iso }}</div>
+            <a class="not-interested" ng-hide="confirmReject" ng-click="confirmReject = true">
+              <i class="fa fa-ban"></i>
+              <translate>I'm not interested</translate>
+            </a>
+            <a class="not-interested" ng-show="confirmReject" ng-click="rejectRequest(candidate, $index)">
+              <i class="fa fa-ban"></i>
+              <translate>Are you sure?</translate>
+            </a>
           </div>
         </li>
       </ul>
