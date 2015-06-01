@@ -49,7 +49,7 @@ and then
 
 * run <code>alembic -c [CONFIG] upgrade head</code>
 
-#### install postgres
+####Installing postgres
 
 To install postgres python drivers, youll need postgres headers installed.
 If you are setting up a new DB make sure to install the POSTGIS extension.
