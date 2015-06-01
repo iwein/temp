@@ -7,7 +7,7 @@ define(function(require) {
 
   function Employer(api, id, data, sufix) {
     this.id = data ? data.id : null;
-    this.key = id || 'me';
+    this.key = id || 'me';
     this._api = api;
     this._data = data;
     this._sufix = sufix || '';
@@ -116,6 +116,10 @@ define(function(require) {
       });
     },
 
+    rejectRequest: function(candidate) {
+      return this._api.delete(this._url() + '/interested/' + candidate.id);
+    },
+
     notInterested: function(suggestion) {
       return this._api.delete(this._url() + '/suggested/candidates', { id: suggestion.candidate.id });
     },
@@ -154,9 +158,7 @@ define(function(require) {
       }.bind(this));
     },
 
-    dispose: function() {
-      // TODO
-    },
+    dispose: function() { },
   };
 
 
