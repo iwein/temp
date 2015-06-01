@@ -1,4 +1,0 @@
-#!/bin/bash
-python setup.py develop
-alembic -c configs/production.ini upgrade head
-NEW_RELIC_CONFIG_FILE=configs/newrelic.ini newrelic-admin run-program python runapp.py
