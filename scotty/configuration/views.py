@@ -1,3 +1,4 @@
+from operator import methodcaller
 from pyramid.security import NO_PERMISSION_REQUIRED
 from scotty.candidate.models import CandidateStatus
 from scotty.offer.models import OfferStatusWorkflow
@@ -104,8 +105,9 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_degrees', permission=NO_PERMISSION_REQUIRED)
     def degrees(self):
+        qmodifier = methodcaller('filter', Degree.user_created != True)
         return listing_request(self.request, Degree, self.request.params.get("q"), ignorecase=True, order_field=func
-                               .length(Degree.name))
+                               .length(Degree.name), qmodifier=qmodifier)
 
     @view_config(route_name='configuration_list_featured_degrees', permission=NO_PERMISSION_REQUIRED)
     def featureddegrees(self):
@@ -113,8 +115,9 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_courses', permission=NO_PERMISSION_REQUIRED)
     def courses(self):
+        qmodifier = methodcaller('filter', Course.user_created != True)
         return listing_request(self.request, Course, self.request.params.get("q"), ignorecase=True, order_field=func
-                               .length(Course.name))
+                               .length(Course.name), qmodifier=qmodifier)
 
     @view_config(route_name='configuration_list_languages', permission=NO_PERMISSION_REQUIRED)
     def languages(self):
@@ -126,8 +129,9 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_skills', permission=NO_PERMISSION_REQUIRED)
     def skills(self):
+        qmodifier = methodcaller('filter', Skill.user_created != True)
         return listing_request(self.request, Skill, self.request.params.get("q"), ignorecase=True, order_field=func
-                               .length(Skill.name))
+                               .length(Skill.name), qmodifier=qmodifier)
 
     @view_config(route_name='configuration_list_featured_skills', permission=NO_PERMISSION_REQUIRED)
     def featured_skills(self):
@@ -142,8 +146,9 @@ class ConfigurationController(RootController):
 
     @view_config(route_name='configuration_list_roles', permission=NO_PERMISSION_REQUIRED)
     def roles(self):
+        qmodifier = methodcaller('filter', Role.user_created != True)
         return listing_request(self.request, Role, self.request.params.get("q"), ignorecase=True,
-                               order_field=func.length(Role.name))
+                               order_field=func.length(Role.name), qmodifier=qmodifier)
 
     @view_config(route_name='configuration_list_featured_roles', permission=NO_PERMISSION_REQUIRED)
     def featured_roles(self):

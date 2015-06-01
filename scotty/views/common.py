@@ -17,7 +17,7 @@ def run_paginated_query(request, basequery, serializer=list,  counter=methodcall
             "data": results}
 
 
-def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_field=None):
+def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_field=None, qmodifier=None):
     basequery = DBSession.query(DbCls)
     name_field = getattr(DbCls, DbCls.__name_field__)
 
@@ -27,6 +27,8 @@ def listing_request(request, DbCls, searchterm=None, ignorecase=False, order_fie
         else:
             filter_by = name_field.contains(searchterm)
         basequery = basequery.filter(filter_by)
+    if qmodifier is not None:
+        basequery = qmodifier(basequery)
 
     return run_paginated_query(request, basequery.order_by(order_field if order_field is not None else name_field))
 

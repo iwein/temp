@@ -96,12 +96,14 @@ class Degree(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
     featured_order = Column(Integer)
+    user_created = Column(Boolean(), default=False)
 
 
 class Course(Base, NamedModel):
     __tablename__ = 'course'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
+    user_created = Column(Boolean(), default=False)
 
 
 class Skill(Base, NamedModel):
@@ -109,6 +111,7 @@ class Skill(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
     featured_order = Column(Integer)
+    user_created = Column(Boolean(), default=False)
 
 
 class Language(Base, NamedModel):
@@ -124,6 +127,7 @@ class Role(Base, NamedModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
     featured_order = Column(Integer)
+    user_created = Column(Boolean(), default=False)
 
 
 class JobTitle(Base, NamedModel):

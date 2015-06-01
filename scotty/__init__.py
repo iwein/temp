@@ -17,9 +17,7 @@ from scotty.predicates import ContentTypePredicate
 from scotty.services.emailer import emailer_factory
 from sqlalchemy import engine_from_config
 
-
 log = logging.getLogger(__name__)
-
 
 from scotty.models.meta import (DBSession, Base)
 
@@ -76,12 +74,14 @@ class CORS(object):
         headers.append(('Access-Control-Allow-Headers', self.headers))
         headers.append(('Access-Control-Allow-Credentials', 'true'))
         headers.append(('Access-Control-Max-Age', '1728000'))
-        headers.append(('P3P', 'CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo CNT COM INT NAV ONL PHY PRE PUR UNI"'))
+        headers.append(('P3P',
+                        'CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo CNT COM INT NAV ONL PHY PRE PUR UNI"'))
         return headers
 
 
 def log_activity(request):
     return request.cookies.get('__admin__') != 'true'
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -115,7 +115,6 @@ def main(global_config, **settings):
     config.add_renderer('json', jsonRenderer)
     config.add_renderer(None, jsonRenderer)
     config.add_view_predicate('content_type', ContentTypePredicate)
-
 
     config.add_request_method(log_activity, 'log_activity', reify=True)
     config.add_request_method(emailer_factory(settings), 'emailer', reify=True)
