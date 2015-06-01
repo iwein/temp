@@ -56,7 +56,7 @@ class SocialResource(RootSocialResource):
 def redirect_view(context, request):
     context.start_process(request)
     params = {'response_type': "code", 'client_id': SETTINGS['apikey'], 'state': request.session.get_csrf_token(),
-              'scope': 'r_basicprofile r_emailaddress r_network r_fullprofile r_contactinfo w_messages',
+              'scope': 'r_basicprofile r_emailaddress',
               'redirect_uri': request.route_url('api_connect_linkedin_cb')}
     raise HTTPFound(location="{}?{}".format(context.getCodeEndpoint, urllib.urlencode(params)))
 
