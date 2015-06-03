@@ -284,6 +284,10 @@
   background-image: url(../candidate/resources/images/ico-flame.png);
 }
 
+.ico-reliability {
+  background-image: url(../candidate/resources/images/ico-reliability.png);
+}
+
 .ico-people{
   background-image: url(../candidate/resources/images/ico-people.png);
 }
@@ -788,13 +792,36 @@ ul.bulleted {
   background-position: 107px 113px;
 }
 
+.em-pc-ico-num {
+  background-image: url("../index/resources/numbers-sprite.png");
+  width: 107px;
+  height: 113px;
+  margin: auto;
+}
+
+.em-pc-ico-num.pc-ico-num1 {
+  background-position: 0 0;
+}
+
+.em-pc-ico-num.pc-ico-num2 {
+  background-position: 108px 0;
+}
+
+.em-pc-ico-num3 {
+  background-position: 0 113px;
+}
+
+.em-pc-ico-num4{
+  background-position: 107px 113px;
+}
+
 h3.pc-how {
   text-align: center;
   color: #e15c10;
   text-transform: uppercase;
   font-size: 40px;
   margin: 0;
-  padding: 0 0 60px 0;
+  padding: 50px 0 10px 0;
   text-align: center;
   background-color: #fff;
 }
@@ -820,10 +847,51 @@ h3.pc-how {
   height: 100px;
   background-size: contain;
   width: 800px;
-  height: 315px
+  height: 315px;
+  @media(max-width: 992px) {
+    width: 600px;
+    height: 236px;
+  }
+  @media(max-width: 768px) {
+    width: 380px;
+    height: 150px;
+  }
+}
+
+.pc-twosuccess-img {
+  background-image: url("../index/resources/market-value2.jpg");
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  width: 800px;
+  height: 315px;
+  @media(max-width: 992px) {
+    width: 600px;
+    height: 236px;
+  }
+  @media(max-width: 768px) {
+    width: 380px;
+    height: 150px;
+  }
+}
+
+.performance.pc-performance {
+  background-color: #f7f7f7;
+}
+
+.pc-comments {
+  font-size: 40px;
 }
 
 .pc-fav {
   background-color: #f8f8f8;
 }
 
+.pc-bg-gray-lighter {
+  background-color: #f7f7f7;
+}
+
+.sign.sign-padded.pc-sign {
+  margin: 50px auto 0;
+}
