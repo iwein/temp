@@ -37,6 +37,8 @@ module.exports = function(grunt) {
     protractor_webdriver: grunt.file.readJSON('config/grunt-protractor_webdriver.json'),
   });
 
+  grunt.loadNpmTasks('grunt-serve');
+
   grunt.task.loadTasks('./tasks');
   require('load-grunt-tasks')(grunt);
   grunt.config.set('jshint.options.reporter', require('jshint-stylish'));
@@ -123,6 +125,10 @@ module.exports = function(grunt) {
     'test:unit',
     'test:e2e',
   ]);
+
+  grunt.registerTask('hello', 'My test task.', function() {
+        grunt.log.writeln('Hello world');
+    });
 
   grunt.registerTask('i18n:extract', [
     'clean:pages',
