@@ -90,7 +90,6 @@
 }
 .banner-inner-about {
   max-width: 880px;
-  margin-top: 200px;
 }
 
 .banner-inner-small {
@@ -220,7 +219,7 @@
 .how {
   max-width: 920px;
   margin: 0px auto;
-  padding: 60px 15px 50px;
+  padding: 60px 15px 0;
   > .row {
     padding-bottom: 30px
   }
@@ -538,7 +537,7 @@ img.grayscale:hover{
 }
 .people-behind {
   text-align: center;
-  padding: 20px 0 60px
+  padding: 50px 0 60px
 }
 .people-behind-item {
   max-width: 320px;
@@ -768,6 +767,7 @@ ul.bulleted {
   left: 0px; 
   position: relative; 
   top: 0px;
+  margin-top: 70px;
 }
 
 .pc-ico-num {
@@ -842,27 +842,31 @@ h3.pc-how {
 }
 .pc-check-value-img {
   background-image: url(../resources/market-value.jpg);
+  background-repeat: no-repeat;
   margin: auto;
-  width: 100px;
-  height: 100px;
-  background-size: contain;
+  background-size: 100% 100%;
   width: 800px;
   height: 315px;
   @media(max-width: 992px) {
-    width: 600px;
-    height: 236px;
+    width: 700px;
+    height: 275px;
   }
   @media(max-width: 768px) {
-    width: 380px;
-    height: 150px;
+    width: 440px;
+    height: 173px;
+  }
+  @media(max-width: 480px) {
+    width: 300px;
+    height: 118px;
   }
 }
 .pc-twosuccess-img {
   background-image: url(../resources/market-value2.jpg);
+  background-repeat: no-repeat;
   margin: auto;
   width: 100px;
   height: 100px;
-  background-size: contain;
+  background-size: cover;
   width: 800px;
   height: 315px;
   @media(max-width: 992px) {
@@ -870,7 +874,7 @@ h3.pc-how {
     height: 236px;
   }
   @media(max-width: 768px) {
-    width: 380px;
+    width: 320px;
     height: 150px;
   }
 }
@@ -900,6 +904,28 @@ h1.pc-top-header {
   font-size: 36px;
 }
 
-.pc-check {
-  margin-top: 20px;
+.sign.sign-padded.pc-check {
+  font-size:20px;
+  margin-top:60px
+}
+
+.video-wraper {
+  max-width:720px; 
+  max-height:405px; 
+  margin:auto;
+  margin-bottom: 20px;
+}
+
+.pc-how {
+  font-size: 35px; 
+  font-weight: 100; 
+  text-align: center; 
+  padding: 10px; 
+  margin: 50px; 
+  border-spacing: 0px; 
+  color: rgb(10, 61, 84);
+}
+
+.btm-padding {
+  padding-bottom: 20px;
 }
