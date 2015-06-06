@@ -35,9 +35,11 @@ module.exports = function(grunt) {
     karma: grunt.file.readJSON('config/grunt-karma.json'),
     protractor: grunt.file.readJSON('config/grunt-protractor.json'),
     protractor_webdriver: grunt.file.readJSON('config/grunt-protractor_webdriver.json'),
+    
   });
 
   grunt.loadNpmTasks('grunt-serve');
+  grunt.loadNpmTasks('grunt-http-server');
 
   grunt.task.loadTasks('./tasks');
   require('load-grunt-tasks')(grunt);
