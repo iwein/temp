@@ -46,7 +46,6 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-serve');
-  grunt.loadNpmTasks('grunt-http-server');
 
   grunt.task.loadTasks('./tasks');
   require('load-grunt-tasks')(grunt);
