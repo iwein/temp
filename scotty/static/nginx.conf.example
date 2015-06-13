@@ -1,0 +1,27 @@
+server {
+
+  listen 80;
+  server_name scotty.dev;
+
+  charset utf-8;
+
+  # @FIXME update this path with yours
+  set $host_path "{{ABSOLUTE_PATH_TO_PROJECT_SOURCE}}";
+
+  # Path for static files
+  root $host_path/dist;
+
+  expires -1;
+
+  # opt-in to the future
+  add_header "X-UA-Compatible" "IE=Edge,chrome=1";
+
+  location / {
+    index  index.html;
+  }
+
+  location /api {
+  #@FIXME update this with the url where you have the api running
+    proxy_pass http://127.0.0.1:3000;
+  }
+}
