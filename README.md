@@ -86,6 +86,22 @@ No build process required for development.
 For production dependencies should be installed with `npm install`.
 Build process is executed with `grunt build`
 
+#### Running the application locally ####
+
+To watch the application on a local server configure nginx to serve the static resources, api (and dynamic routes, how?)
+
+* `cp nginx.conf.example nginx.conf`
+* fix the FIXME's
+* `brew install nginx`
+* include the project's nginx.conf in your main nginx conf
+* * find where the config is by using `nginx -t`
+* * edit that file so it ends with `include <path-to-your-conf> ; }`
+* put `127.0.0.1       scotty.dev` in /etc/hosts
+
+If you're running multiple projects, it is fine to use a wildcard in the include statement so that you don't have to 
+update the main nginx conf all the time.
+
+
 #### Unbuild
 
 To return to development mode after build two commands are required:
